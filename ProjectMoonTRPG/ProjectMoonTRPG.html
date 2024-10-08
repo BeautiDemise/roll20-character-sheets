@@ -10852,44 +10852,44 @@ const triggerOptions = [
 
 /* Contains details on the available AutoEffect options and which AutoEffects have access to them */
 const autoEffectOptions = {
-	"Silent":			{All},
-	"Target":			{CustomMessage, Require, Consume, Reset, Proc, Pause},
-	"Scaling":			{Require, Consume},
-	"IgnoreFailure":	{Require, Consume},
-	"this round":		{Gain, Inflict, Give},
-	"next round":		{Gain, Inflict, Give},
-	"this combat":		{Speed},
-	"CheckSuccess":		{CustomMessage},
-	"CheckFailure":		{CustomMessage},
-	"CheckIgnore":		{CustomMessage}
+	"Silent":			{"All"},
+	"Target":			{"CustomMessage", "Require", "Consume", "Reset", "Proc", "Pause"},
+	"Scaling":			{"Require", "Consume"},
+	"IgnoreFailure":	{"Require", "Consume"},
+	"this round":		{"Gain", "Inflict", "Give"},
+	"next round":		{"Gain", "Inflict", "Give"},
+	"this combat":		{"Speed"},
+	"CheckSuccess":		{"CustomMessage"},
+	"CheckFailure":		{"CustomMessage"},
+	"CheckIgnore":		{"CustomMessage"}
 }
 
 /* Contains details on the format of all AutoEffects. Used for validating user-written AutoScripts */
 // Has the following format: 
-//	 valueFormat: One of "string", "number", or false. If false the AutoEffect has no value
-//	 targetFormat: Array of valid targets. Can include groups of targets like "#Ailment", "#Bar", "#BarDamage" and "#BarTemp", and individual targets like "HP" and "Light"
+//	 value: One of "string", "number", or false. If false the AutoEffect has no value
+//	 target: Array of valid targets. Can include groups of targets like "#Ailment", "#Bar", "#BarDamage" and "#BarTemp", and individual targets like "HP" and "Light"
 //	   if false the AutoEffect has no target
 //	 other: Unique AutoEffect properties, ex. the percentage mode, reverse position of value and target etc.
 const autoEffectFormats = {
-	"CustomMessage":	{valueFormat:"string", targetFormat:false, 		  other:false},
-	"Require":			{valueFormat:"number", targetFormat:["#Ailment", "#Bar", "#BarDamage"],	other:{percent}},
-	"Consume":			{valueFormat:"number", targetFormat:["#Ailment", "#Bar"],				other:false},
-	"Reset":			{valueFormat:false,    targetFormat:false, 		  other:false},
-	"Gain":				{valueFormat:"number", targetFormat:["#Ailment"], other:false},
+	"CustomMessage":	{value:"string", 	target:false, 					other:false},
+	"Require":			{value:"number", 	target:["#Ailment", "#Bar", "#BarDamage"],	other:{percent}},
+	"Consume":			{value:"number", 	target:["#Ailment", "#Bar"],	other:false},
+	"Reset":			{value:false,    	target:false, 					other:false},
+	"Gain":				{value:"number", 	target:["#Ailment"],			other:false},
 	"Inflict":			{copy: "Gain"},
 	"Give":				{copy: "Gain"},
-	"Set":				{valueFormat:"number", targetFormat:["#Bar"], 	  other:false},
-	"Add":				{valueFormat:"number", targetFormat:["#Bar", "#BarTemp"], 	  			other:{negativeValue}},
-	"Multi":			{valueFormat:"number", targetFormat:["#Bar"], 	  other:false},
-	"DicePower":		{valueFormat:"number", targetFormat:false,		  other:{negativeValue}},
+	"Set":				{value:"number", 	target:["#Bar"], 	  			other:false},
+	"Add":				{value:"number",	target:["#Bar", "#BarTemp"], 	other:{negativeValue}},
+	"Multi":			{value:"number", 	target:["#Bar"], 	  			other:false},
+	"DicePower":		{value:"number", 	target:false,		  			other:{negativeValue}},
 	"DiceMax":			{copy: "DicePower"},
 	"DiceCount":		{copy: "DicePower"},
-	"BaseDamage":		{valueFormat:"number", targetFormat:["HP", "ST"], other:{negativeValue, targetOptional}},
-	"FlatDamage":		{valueFormat:"number", targetFormat:["#Bar"],     other:{negativeValue}},
-	"Proc":				{valueFormat:false,    valueFormat:["#Ailment"],  other:false},
-	"Pause":			{valueFormat:"number", valueFormat:["#Ailment"],  other:false},
-	"ChallengeRoll":	{valueFormat:"number", valueFormat:["#Stat"],     other:{reverse}}, // has reverse position of value and target. Just swap the values of the variables
-	"Speed":			{valueFormat:"number", targetFormat:false}  // has a target which is partially also an option... 
+	"BaseDamage":		{value:"number", 	target:["HP", "ST"], 			other:{negativeValue, targetOptional}},
+	"FlatDamage":		{value:"number", 	target:["#Bar"],     			other:{negativeValue}},
+	"Proc":				{value:false,    	target:["#Ailment"],  			other:false},
+	"Pause":			{value:"number", 	target:["#Ailment"],  			other:false},
+	"ChallengeRoll":	{value:"number", 	target:["#Stat"],     			other:{reverse}}, // has reverse position of value and target. Just swap the values of the variables
+	"Speed":			{value:"number", 	target:false,					other:{duration}}  // has a target which is partially also an option... 
 }																	// ...it may just be better to not have it have a value and instead have an unique option
 /* --- Sheet Constants end --- */
 
@@ -17732,103 +17732,66 @@ function cleanAutoScript(AutoScript) {
 function validateAutoScript(inputAutoScript, ailmentList, barList, barDamageList) {
 	
 	let errorMessageList = {}
+	let error = false;
+	let AutoScript = inputAutoScript; // Copy of AutoScript. May be modified as values are validated
 
-	/* Helper functions */
-	const autoEffectError = (error, AutoEffect) => {
-		let errorType = getTranslationByKeyCustom(error, errorData[errorType] + "-type")
-		let errorMessage = `${autoEffectToString(AutoEffect)} - ${getTranslationByKeyCustom(error, errorData[errorType] + "-message")}`;
+	/* Helper function and data for error handling */
+	const errorData = {
+		"Invalid AutoEffect": "autoeffect-error-invalid",
+	}
+	const autoEffectError = (errorCode, AutoEffect, errorInserts) => {
+		let errorType = getTranslationByKeyCustom(errorCode, errorData[errorType] + "-type")
+		let errorMessage = `${autoEffectToString(AutoEffect)} - ${getTranslationByKeyCustom(errorCode, errorData[errorType] + "-message")}`;
 
-		if (errorMessageList[errorType] != undefined) {
-			errorMessageList[errorType] += "\n" + errorMessage;
-		} else {
-			errorMessageList[errorType] = errorMessage;
+		for (const [match, insert] of Object.entries(errorInserts)) {
+			errorMessage.replaceAll(match, insert);
 		}
 		
-
-
-		let {errorType, errorMessage, error} = autoEffectErrorMessage(langErrorType, langErrorMessage, AutoEffect);
+		errorMessageList[errorType] = (errorMessageList[errorType]) ? "\n" + errorMessage : errorMessage;
+		error = true;
 	}
 
 
-
-	/* Handle errors. Continues executing AutoEffects for the sake of finding additional errors, */
-			/*  but does not apply any changes to attributes */
-			if (tempOutput.hasOwnProperty("error") || returnValues.error == true) {
-				
-				
-				if (returnValues.error != true) {
-					returnValues.error = tempOutput.error;
-				}
-				output = {};
-				return;
-			}
-
-
-
-
-
-	/* Creates a copy of the AutoScript. May be modified as values are validated */
-	let AutoScript = inputAutoScript;
+	/* Validate each AutoEffect in the AutoScript */
 	inputAutoScript.forEach(AutoEffect => {
 
 		/* Get AutoEffect format values */
 		let effectName = AutoEffect[0][0];
-		let effectValues = autoEffectFormats[effectName];
+		let effectFormat = autoEffectFormats[effectName];
+		
+		
+		if (effectFormat.valueFormat) {
+
+		}
+		
+		
+		
+		let effectValue = "aa";
 	
 	
 	
-	
+		let test = {"Require": {valueFormat:"number", targetFormat:["#Ailment", "#Bar", "#BarDamage"], other:{percent}}}
+
+
+
 	
 		/* Test: Valid AutoEffect name */
 		if (!effectName in autoEffectFormats) {
-			autoEffectError("Invalid AutoEffect");
+			autoEffectError("Invalid AutoEffect", AutoEffect, {"[NAME]":effectName});
 		}
-		tempOutput = autoEffectErrorMessage(getTranslationByKeyCustom("Invalid AutoEffect", "autoeffect-error-invalid"), `${effectName} is not a valid AutoEffect`, AutoEffect[0]);
 	
+		/* Test: Valid options for AutoEffect */
 	
 	
 	
 	
 	});
 
-	
-	
-	
-	
 
 
 
-	const errorData = {
-		"Invalid AutoEffect": ["autoeffect-error-invalid", ]
-	}
 
 	
-
-
-
-
-	// inserts
-	"[NAME]"
-
-
-
-	// New translations
-	"autoeffect-error-invalid-type":"Invalid AutoEffect"
-	"autoeffect-error-invalid-message":"[NAME] is not a valid AutoEffect"
-
-
-
-
-	/* Whispers an error message to the user detailing an AutoEffect error */
-	function autoEffectErrorMessage(errorType, errorString, AutoEffect) {
-		AutoEffect = autoEffectToString(AutoEffect).replace("Unknown: ","");
-		errorMessage = `${AutoEffect} - ${errorString}`;
-	return { errorType: errorType, errorMessage: errorMessage, error: true};
-}
-
-
-
-	{}"Require": {valueFormat:"number", targetFormat:["#Ailment", "#Bar", "#BarDamage"], other:{percent}}
 
 	let value = "differs";
 	let target = "differs";
@@ -17849,7 +17812,7 @@ function validateAutoScript(inputAutoScript, ailmentList, barList, barDamageList
 
 
 
-	autoEffectFormats
+	let formats = autoEffectFormats;
 
 	
 
@@ -17858,8 +17821,7 @@ function validateAutoScript(inputAutoScript, ailmentList, barList, barDamageList
 
 
 
-// AutoEffect executor
-default: tempOutput = autoEffectErrorMessage("Invalid AutoEffect", `${AutoEffect[0][0].replace("Unknown: ","")} is not a valid AutoEffect`, AutoEffect[0]);
+
 // CustomMessage
 if (AutoEffect.length > 2) { AutoEffect.slice(2).forEach(option => { if (!["#checksuccess", "#checkfailure", "#checkignore", "target", "silent"].includes(option.toLowerCase())) { return autoEffectErrorMessage("Invalid Option", `Option "${option}" is not a valid option`, AutoEffect); } }); }
 // Require
@@ -17911,7 +17873,8 @@ if (AutoEffect.length > 3) { AutoEffect.slice(3).forEach(option => { if (!(["sil
 
 
 
-
+	// Checklist:
+	// Delete the old autoEffectErrorMessage() function
 
 
 
@@ -18474,7 +18437,6 @@ function autoEffectAilment(AutoEffect, ailmentList, scaling, settingLimbusStyle,
 		case "Gain": autoEffectVariant = "Gain"; break;
 		case "Inflict": autoEffectVariant = "Inflict"; break;
 		case "Give": autoEffectVariant = "Give"; break;
-		default: return autoEffectErrorMessage("Invalid AutoEffect", `${AutoEffect[0]} is not a valid AutoEffect`, AutoEffect);
 	}
 
 	/* Handle scaling */
@@ -18679,7 +18641,6 @@ function autoEffectDice(AutoEffect, scaling) {
 		case "DicePower": autoEffectVariant = "dicePower"; break;
 		case "DiceMax": autoEffectVariant = "diceMax"; break;
 		case "DiceCount": autoEffectVariant = "diceCount"; break;
-		default: return autoEffectErrorMessage("Invalid AutoEffect", `${AutoEffect[0]} is not a valid AutoEffect`, AutoEffect);
 	}
 	
 	/* Handle scaling */
@@ -18786,7 +18747,6 @@ function autoEffectDamage(AutoEffect, barList, scaling) {
 	switch (AutoEffect[0]) {
 		case "BaseDamage": autoEffectVariant = "baseDamage"; break;
 		case "FlatDamage": autoEffectVariant = "flatDamage"; break;
-		default: return autoEffectErrorMessage("Invalid AutoEffect", `${AutoEffect[0]} is not a valid AutoEffect`, AutoEffect);
 	}
 
 	/* Handle scaling */
