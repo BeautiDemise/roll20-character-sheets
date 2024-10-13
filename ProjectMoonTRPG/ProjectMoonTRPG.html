@@ -145,9 +145,9 @@
 	<button type="action" class="darkInput closeAutoScriptButton" name="act_closeAutoScriptEdit" data-i18n-title="autoscript-close-editor" title="Save and close AutoScript Editor"></button>
 	<label for="autoScriptInput" style="margin-left: 5px;" data-i18n="autoscript-editor">AutoScript Editor</label>
 	<input type="text" class="autoScriptEditorTarget darkBG" name="attr_autoScriptEditorTarget" readonly>
-	<textarea id="autoScriptInput" name="attr_autoScriptEditorInput"></textarea>
-	<textarea type="text" class="autoScriptStylingStorage" name="attr_autoScriptStyling" hidden="true"></textarea>
-	<textarea type="text" class="autoScriptStylingStorage" name="attr_autoScriptStylingDefault" hidden="true"></textarea>
+	<textarea spellcheck="false" id="autoScriptInput" name="attr_autoScriptEditorInput"></textarea>
+	<textarea spellcheck="false" type="text" class="autoScriptStylingStorage" name="attr_autoScriptStyling" hidden="true"></textarea>
+	<textarea spellcheck="false" type="text" class="autoScriptStylingStorage" name="attr_autoScriptStylingDefault" hidden="true"></textarea>
 </div>
 
 
@@ -10562,7 +10562,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
   </select>
 
 <div>
- <textarea name="attr_ailMessage" data-i18n="message-custom-placeholder" value="[CHAR]: [DIFF] damage from [AIL]">[CHAR]: [DIFF] damage from [AIL]</textarea>
+<textarea spellcheck="false" name="attr_ailMessage" data-i18n="message-custom-placeholder" value="[CHAR]: [DIFF] damage from [AIL]">[CHAR]: [DIFF] damage from [AIL]</textarea>
 </div>
 
 </div>
@@ -10832,7 +10832,7 @@ const ailmentNames = [
 const barNames = ["HP", "ST", "SP", "Light"]
 const barNamesFull = ["Health", "StagRes", "Sanity", "Light"]
 const barNamesTemp = ["THP", "TST"]
-const statNames = ["Instinct", "Wisdom", "Justice", "Charm", "Insight", "Temperance"]
+const statNames = ["Fortitude", "Instinct", "Prudence", "Wisdom", "Justice", "Charm", "Insight", "Temperance"]
 
 const autoEffectTriggers = [
 	"Combat start", "Round start",								// Turn order
@@ -10843,25 +10843,28 @@ const autoEffectTriggers = [
 ]
 
 /* Contains details on the available conditional and trigger  options */
-const conditionalOptions = [
-	"Section"
-]
+const conditionalOptions = {
+	"Section":			["All"],
+	"IgnoreFailure":	["Require", "Consume"]
+}
 const triggerOptions = [
 	"First round"
 ]
 
 /* Contains details on the available AutoEffect options and which AutoEffects have access to them */
 const autoEffectOptions = {
-	"Silent":			{"All"},
-	"Target":			{"CustomMessage", "Require", "Consume", "Reset", "Proc", "Pause"},
-	"Scaling":			{"Require", "Consume"},
-	"IgnoreFailure":	{"Require", "Consume"},
-	"this round":		{"Gain", "Inflict", "Give"},
-	"next round":		{"Gain", "Inflict", "Give"},
-	"this combat":		{"Speed"},
-	"CheckSuccess":		{"CustomMessage"},
-	"CheckFailure":		{"CustomMessage"},
-	"CheckIgnore":		{"CustomMessage"}
+	"Silent":			["All", "-Reset", "-CustomMessage"],
+	"Target":			["CustomMessage", "Require", "Consume", "Reset", "Proc", "Pause"],
+	"Scaling":			["Require", "Consume"],
+	"IgnoreFailure":	["Require", "Consume"],
+	"Round":			["Gain", "Inflict", "Give"],
+	"Duration":			["Speed"],
+	"CheckResult":		["CustomMessage"]
+}
+const autoEffectOptionsExtra = {
+	"CheckSuccess":		["CustomMessage"],
+	"CheckFailure":		["CustomMessage"],
+	"CheckIgnore":		["CustomMessage"]
 }
 
 /* Contains details on the format of all AutoEffects. Used for validating user-written AutoScripts */
@@ -10871,25 +10874,25 @@ const autoEffectOptions = {
 //	   if false the AutoEffect has no target
 //	 other: Unique AutoEffect properties, ex. the percentage mode, reverse position of value and target etc.
 const autoEffectFormats = {
-	"CustomMessage":	{value:"string", 	target:false, 					other:false},
-	"Require":			{value:"number", 	target:["#Ailment", "#Bar", "#BarDamage"],	other:{percent}},
-	"Consume":			{value:"number", 	target:["#Ailment", "#Bar"],	other:false},
-	"Reset":			{value:false,    	target:false, 					other:false},
-	"Gain":				{value:"number", 	target:["#Ailment"],			other:false},
+	"CustomMessage":	{value:"string", 	target:false},
+	"Require":			{value:"number", 	target:["#Ailment", "#Bar", "#BarDamage"], 	percentageValue:true},
+	"Consume":			{value:"number", 	target:["#Ailment", "#Bar"]},
+	"Reset":			{value:false,    	target:false},
+	"Gain":				{value:"number", 	target:["#Ailment"]},
 	"Inflict":			{copy: "Gain"},
 	"Give":				{copy: "Gain"},
-	"Set":				{value:"number", 	target:["#Bar"], 	  			other:false},
-	"Add":				{value:"number",	target:["#Bar", "#BarTemp"], 	other:{negativeValue}},
-	"Multi":			{value:"number", 	target:["#Bar"], 	  			other:false},
-	"DicePower":		{value:"number", 	target:false,		  			other:{negativeValue}},
+	"Set":				{value:"number", 	target:["#Bar"]},
+	"Add":				{value:"number",	target:["#Bar", "#BarTemp"], 				negativeValue:true},
+	"Multi":			{value:"number", 	target:["#Bar"]},
+	"DicePower":		{value:"number", 	target:false,								negativeValue:true},
 	"DiceMax":			{copy: "DicePower"},
 	"DiceCount":		{copy: "DicePower"},
-	"BaseDamage":		{value:"number", 	target:["HP", "ST"], 			other:{negativeValue, targetOptional}},
-	"FlatDamage":		{value:"number", 	target:["#Bar"],     			other:{negativeValue}},
-	"Proc":				{value:false,    	target:["#Ailment"],  			other:false},
-	"Pause":			{value:"number", 	target:["#Ailment"],  			other:false},
-	"ChallengeRoll":	{value:"number", 	target:["#Stat"],     			other:{reverse}}, // has reverse position of value and target. Just swap the values of the variables
-	"Speed":			{value:"number", 	target:false,					other:{duration}}  // has a target which is partially also an option... 
+	"BaseDamage":		{value:"number", 	target:["#Bar"],							negativeValue:true, targetOptional:true},
+	"FlatDamage":		{value:"number", 	target:["#Bar"],							negativeValue:true},
+	"Proc":				{value:false,    	target:["#Ailment"]},
+	"Pause":			{value:"number", 	target:["#Ailment"]},
+	"ChallengeRoll":	{value:"number", 	target:["#Stat"],							reverse:true}, // has reverse position of value and target. Just swap the values of the variables
+	"Speed":			{value:"number", 	target:false,								duration:true}  // has a target which is partially also an option... 
 }																	// ...it may just be better to not have it have a value and instead have an unique option
 /* --- Sheet Constants end --- */
 
@@ -17311,9 +17314,6 @@ async function AutoScriptMain(inputAutoScript, triggerType="None", collect="true
 	/* Convert AutoScript to an array */
 	AutoScript = parseAutoScript(AutoScript);
 
-	/* Translates AutoEffect names, bars and ailments to English */
-	AutoScript = translateAutoScriptToEnglish(AutoScript);
-
 	/* Validates AutoEffect formats. Returns any errors that are encountered */
 	[AutoScript, errorMessageList] = validateAutoScript(AutoScript, ailmentList, barList, barDamageList);
 	if (errorMessageList != {}) { returnValues.error == true }
@@ -17733,57 +17733,161 @@ function validateAutoScript(inputAutoScript, ailmentList, barList, barDamageList
 	
 	let errorMessageList = {}
 	let error = false;
-	let AutoScript = inputAutoScript; // Copy of AutoScript. May be modified as values are validated
+	let outputAutoScript = [];
 
-	/* Helper function and data for error handling */
+	/* Helper functions and data */
 	const errorData = {
-		"Invalid AutoEffect": "autoeffect-error-invalid",
+		"Invalid AutoEffect": "autoeffect-error-invalid-name",
+		"Invalid Value": "autoeffect-error-invalid-value",
+		"Invalid Target": "autoeffect-error-invalid-target",
+		"Invalid Format": "autoeffect-error-invalid-format",
 	}
 	const autoEffectError = (errorCode, AutoEffect, errorInserts) => {
-		let errorType = getTranslationByKeyCustom(errorCode, errorData[errorType] + "-type")
+		log({errorCode, AutoEffect, errorInserts})
+		let errorType = getTranslationByKeyCustom(errorCode, errorData[errorCode] + "-type")
 		let errorMessage = `${autoEffectToString(AutoEffect)} - ${getTranslationByKeyCustom(errorCode, errorData[errorType] + "-message")}`;
 
-		for (const [match, insert] of Object.entries(errorInserts)) {
-			errorMessage.replaceAll(match, insert);
+		for (let [match, insert] of Object.entries(errorInserts)) {
+			if (insert == "") { match = ` ${match}`; }
+			errorMessage = errorMessage.replaceAll(match, insert);
 		}
 		
 		errorMessageList[errorType] = (errorMessageList[errorType]) ? "\n" + errorMessage : errorMessage;
 		error = true;
+	}
+	const getAutoEffectOptions = (effectName, optionsList) => {
+		let options = {};
+		for (const [option, effects] of Object.entries(optionsList)) {
+			if (effects.includes(effectName) || (effects.includes("All") && !effects.includes(`-${effectName}`))) {
+				options[option] = true;
+			}
+		}
+		return options;
+	}
+	const optionsToString = (options) => {
+		let optionsString = "";
+		for (let [option, value] of Object.entries(options)) {
+			option = getTranslationByKeyCustom(option, `autoeffect-option-${option.toLowerCase()}`)
+			optionsString += (optionsString == "") ? `#${option}` : ` #${option}`;
+		}
+		return optionsString;
+	}
+	const targetsToString = (effectTarget) => {
+		let targetString = "";
+		effectTarget.forEach(target => {
+			let wordDivider = " " + getTranslationByKeyCustom("or", "autoeffect-error-target-or");
+			if (effectTarget.length != effectTarget.indexOf(target)+1) { wordDivider = ","; }
+
+			target = target.replace("#","");
+			target = getTranslationByKeyCustom(target, `autoeffect-error-target-${target.toLowerCase()}`)
+			targetString += (targetString == "") ? target : `${wordDivider} ${target}`;
+		});
+		return targetString;
 	}
 
 
 	/* Validate each AutoEffect in the AutoScript */
 	inputAutoScript.forEach(AutoEffect => {
 
-		/* Get AutoEffect format values */
-		let effectName = AutoEffect[0][0];
+		/* Translates AutoEffect names, bars and ailments to English. Stores untranslated values for error messages */
+		let langAutoEffect = AutoEffect;
+		AutoEffect = translateAutoEffectToEnglish(AutoEffect);
+		
+
+		/* Get AutoEffect format and name */
+		let [effectName, langEffectName] = [AutoEffect[0][0], langAutoEffect[0][0]];
 		let effectFormat = autoEffectFormats[effectName];
-		
-		
-		if (effectFormat.valueFormat) {
-
+		if (effectFormat.copy) {
+			effectFormat = autoEffectFormats[effectFormat.copy];
 		}
-		
-		
-		
-		let effectValue = "aa";
-	
-	
-	
-		let test = {"Require": {valueFormat:"number", targetFormat:["#Ailment", "#Bar", "#BarDamage"], other:{percent}}}
 
-
-
-	
-		/* Test: Valid AutoEffect name */
+		/* Test: Valid name */
 		if (!effectName in autoEffectFormats) {
-			autoEffectError("Invalid AutoEffect", AutoEffect, {"[NAME]":effectName});
+			autoEffectError("Invalid AutoEffect", AutoEffect[0], {"[NAME]":langEffectName}); return;
 		}
+
+
+		/* Get AutoEffect value, target and options */
+		let valueIndex = targetIndex = optionIndex = false;
+		if (effectFormat.value && effectFormat.target) {
+			if (effectFormat.reverse) {
+				valueIndex = 2; targetIndex = 1; optionIndex = 3;
+			} else {
+				valueIndex = 1; targetIndex = 2; optionIndex = 3;
+			}
+		} else if (effectFormat.value) {
+			valueIndex = 1; optionIndex = 2;
+		} else if (effectFormat.target) {
+			targetIndex = 1; optionIndex = 2;
+		}
+		let [effectValue, langEffectValue] = (valueIndex) ? [AutoEffect[0][valueIndex], langAutoEffect[0][valueIndex]] : [false, ""];
+		let [effectTarget, langEffectTarget] = (targetIndex) ? [AutoEffect[0][targetIndex], langAutoEffect[0][targetIndex]] : [false, ""];
+		let [effectOptions, langEffectOptions] = [AutoEffect[0].slice(optionIndex), langAutoEffect[0].slice(optionIndex)];
+		let validOptions = getAutoEffectOptions(effectName, autoEffectOptions);
+		let validConOptions = getAutoEffectOptions(effectName, conditionalOptions);
+		let [langValidOptions, langValidConOptions] = [optionsToString(validOptions), optionsToString(validConOptions)];
+		let langPercent = "";
+		let targetList = false;
+
+		/* Test: Valid value */
+		switch (effectFormat.value) {
+			case "number":
+				if (effectFormat.percentageValue) {
+					effectValue = effectValue.replace("%","");
+					effectFormat.percentageValue = "Active";
+					langPercent = getTranslationByKeyCustom("or percentage", "autoeffect-error-value-percent");
+				}
+				effectValue = parseFloat(effectValue);
+				if (effectFormat.negativeValue) {
+					effectValue = Math.abs(effectValue);
+				}
+				if (isNaN(effectValue)) {
+					autoEffectError("Invalid Value", AutoEffect[0], {"[NUM]":langEffectValue,"[PERCENT]":langPercent}); return;
+				} break;
+			case "string":
+				if (effectValue.indexOf('"') == 0 && effectValue.lastIndexOf('"') == 0) {
+					autoEffectError("Invalid Format", AutoEffect[0], {
+						"[NAME]":langEffectName,
+						"[NUM]":getTranslationByKeyCustom('"Format"', "autoeffect-error-value-format"),
+						"[TARGET]":langEffectTarget,
+						"[OPTIONS]":langValidOptions
+					}); return;
+				} break;
+		}
+
+		/* Test: Valid target */
+		if (effectFormat.target) {
+			let compareList = []
+			if (effectFormat.target.includes("#Ailment")) { if (effectTarget in ailmentList) { targetList = "ailmentList"; } }
+			if (effectFormat.target.includes("#Bar")) { if (effectTarget in barList) { targetList = "barList"; } }
+			if (effectFormat.target.includes("#BarDamage")) { if (effectTarget in barDamageList) { targetList = "barDamageList"; } }
+			if (effectFormat.target.includes("#Stat")) { if (statNames.includes(effectTarget)) { targetList = true; } }
+			if (effectFormat.target.includes("#BarTemp")) { if (barNamesTemp.includes(effectTarget)) { targetList = "barList"; } }
+
+			if (!targetList) {
+				autoEffectError("Invalid Target", AutoEffect[0], {
+					"[TARGETS]":targetsToString(effectFormat.target),
+					"[TARGET]":langEffectTarget
+				});
+			}
+		}
+
+		/* Test: Valid options */
 	
-		/* Test: Valid options for AutoEffect */
-	
-	
-	
+
+		// Quick test loggers
+		console.log("AutoEffect: " + autoEffectToString(AutoEffect[0]));
+		if (effectFormat.value) { console.log("Value: " + effectValue); }
+		if (effectFormat.target) { console.log("Target: " + effectTarget); }
+		if (effectOptions.length) { console.log("Options: ", effectOptions); }
+		console.log("---------------");
+
+		if (Object.keys(errorMessageList).length) {
+			console.log(errorMessageList)
+		}
+
+		// Store new AutoEffect
+		outputAutoScript.push(AutoEffect);
 	
 	});
 
@@ -17796,9 +17900,8 @@ function validateAutoScript(inputAutoScript, ailmentList, barList, barDamageList
 	let value = "differs";
 	let target = "differs";
 	let options = "differs";
-	let conditionals = AutoScript.slice(1); // Loop across these at some point to check for any options
-	conditionalOptions
-	let length = AutoScript[0].length;
+	//let conditionals = AutoScript.slice(1); // Loop across these at some point to check for any options
+	//let length = AutoScript[0].length;
 	let minLength = "differs"; // could also be gotten by setting the base to 1, then increasing it by 1 for each of value and target
 	let maxLength = minLength + Object.keys(options).length;
 
@@ -17821,36 +17924,36 @@ function validateAutoScript(inputAutoScript, ailmentList, barList, barDamageList
 
 
 
-
+/*
 // CustomMessage
 if (AutoEffect.length > 2) { AutoEffect.slice(2).forEach(option => { if (!["#checksuccess", "#checkfailure", "#checkignore", "target", "silent"].includes(option.toLowerCase())) { return autoEffectErrorMessage("Invalid Option", `Option "${option}" is not a valid option`, AutoEffect); } }); }
 // Require
 if (AutoEffect.length < 3 || AutoEffect.length > 6) { return autoEffectErrorMessage("Format Error", `Expected format: (Require N #Ailment/#Bar/#BarDamage #Scaling(optional) #Target(optional) #Silent(optional))`, AutoEffect); }
 if (AutoEffect.length > 3) { AutoEffect.slice(3).forEach(option => { if (!(["scaling", "silent", "target"].includes(option.toLowerCase()) || (/(scaling[0-9]+)/ig).test(option))) { returnValues = autoEffectErrorMessage("Invalid Option", `Option "${option}" is not a valid option`, AutoEffect); } }); }
-/* Consume */
+// Consume
 if (AutoEffect.length < 3 || AutoEffect.length > 6) { return autoEffectErrorMessage("Format Error", `Expected format: (Consume N #Ailment/#Bar #Scaling(optional) #Target(optional) #Silent(optional))`, AutoEffect); }
 if (AutoEffect.length > 3) { AutoEffect.slice(3).forEach(option => { if (!(["scaling", "silent", "target"].includes(option.toLowerCase()) || (/(scaling[0-9]+)/ig).test(option))) { returnValues = autoEffectErrorMessage("Invalid Option", `Option "${option}" is not a valid option`, AutoEffect); } }); }
-/* Gain, Inflict, Give */
+// Gain, Inflict, Give
 if (AutoEffect.length < 3 || AutoEffect.length > 6) { return autoEffectErrorMessage("Format Error", `Expected format: (${autoEffectVariant} N #Ailment #Round(optional) #Silent(optional))`, AutoEffect); }
 if (AutoEffect.length > 3) { AutoEffect.slice(3).forEach(option => { if (!["this", "next", "thisround", "nextround", "thisturn", "nextturn", "turn", "round", "silent"].includes(option.toLowerCase())) { returnValues = autoEffectErrorMessage("Invalid Option", `Option "${option}" is not a valid option`, AutoEffect); } }); }
-/* Set */
+// Set
 if (AutoEffect.length < 3 || AutoEffect.length > 4) { return autoEffectErrorMessage("Format Error", `Expected format: (Set N #Bar #Silent(optional))`, AutoEffect); }
 if (AutoEffect.length > 3) { if (AutoEffect[3].toLowerCase() != "silent") { return autoEffectErrorMessage("Invalid Option", `Option "${AutoEffect[3]}" is not a valid option`, AutoEffect); } }
-/* Add */
+// Add
 if (AutoEffect.length < 3 || AutoEffect.length > 4) { return autoEffectErrorMessage("Format Error", `Expected format: (Add N #Bar #Silent(optional))`, AutoEffect); }
 if (AutoEffect.length > 3) { if (AutoEffect[3].toLowerCase() != "silent") { return autoEffectErrorMessage("Invalid Option", `Option "${AutoEffect[3]}" is not a valid option`, AutoEffect); } }
-/* Multi */
+// Multi
 if (AutoEffect.length < 3 || AutoEffect.length > 4) { return autoEffectErrorMessage("Format Error", `Expected format: (Multi N #Bar #Silent(optional))`, AutoEffect); }
 if (AutoEffect.length > 3) { if (AutoEffect[3].toLowerCase() != "silent") { return autoEffectErrorMessage("Invalid Option", `Option "${AutoEffect[3]}" is not a valid option`, AutoEffect); } }
-/* DicePower, DiceMax, DiceCount */
+// DicePower, DiceMax, DiceCount
 if (AutoEffect.length < 2 || AutoEffect.length > 3) { return autoEffectErrorMessage("Format Error", `Expected format: (${capitalize(autoEffectVariant)} N #Silent(optional))`, AutoEffect); }
 if (AutoEffect.length > 2) { if (AutoEffect[2].toLowerCase() != "silent") { return autoEffectErrorMessage("Invalid Option", `Option "${AutoEffect[2]}" is not a valid option`, AutoEffect); } }
-/* ChallengeRoll */
+// ChallengeRoll
 if (AutoEffect.length < 3 || AutoEffect.length > 3 ) { return autoEffectErrorMessage("Format Error", `Expected format: (ChallengeRoll #Stat N #Silent(optional))`, AutoEffect); }
 if (AutoEffect.length > 3) { if (AutoEffect[3].toLowerCase() != "silent") { return autoEffectErrorMessage("Invalid Option", `Option "${AutoEffect[3]}" is not a valid option`, AutoEffect); } }
-/* Speed */
+// Speed
 if (AutoEffect.length < 3 || AutoEffect.length > 5) { return autoEffectErrorMessage("Format Error", `Expected format: (Speed N #Duration #Silent(optional))`, AutoEffect); }
-/* BaseDamage */
+// BaseDamage
 if (autoEffectVariant == "baseDamage") {
 	if (AutoEffect.length < 2 || AutoEffect.length > 4) { return autoEffectErrorMessage("Format Error", `Expected format: (${autoEffectVariant} N #Bar(optional) #Silent(optional))`, AutoEffect); }
 	if (AutoEffect.length > 2) { AutoEffect.slice(2).forEach(option => { if (!["hp", "st", "silent"].includes(option.toLowerCase())) { returnValues = autoEffectErrorMessage("Invalid Option", `Option "${AutoEffect[2]}" is not a valid option`, AutoEffect); } }); }
@@ -17858,13 +17961,13 @@ if (autoEffectVariant == "baseDamage") {
 	if (AutoEffect.length < 3 || AutoEffect.length > 4) { return autoEffectErrorMessage("Format Error", `Expected format: (${autoEffectVariant} N #Bar #Silent(optional))`, AutoEffect); }
 	if (AutoEffect.length > 3) { if (AutoEffect[3].toLowerCase() != "silent") { return autoEffectErrorMessage("Invalid Option", `Option "${AutoEffect[3]}" is not a valid option`, AutoEffect); } }
 }
-/* Proc */
+// Proc
 if (AutoEffect.length < 2 || AutoEffect.length > 4) { return autoEffectErrorMessage("Format Error", `Expected format: (Proc #Ailment #Target(optional) #Silent(optional))`, AutoEffect); }
 if (AutoEffect.length > 2) { AutoEffect.slice(2).forEach(option => { if (!(["silent", "target"].includes(option.toLowerCase()))) { returnValues = autoEffectErrorMessage("Invalid Option", `Option "${option}" is not a valid option`, AutoEffect); } }); }
-/* Pause */
+// Pause
 if (AutoEffect.length < 3 || AutoEffect.length > 5) { return autoEffectErrorMessage("Format Error", `Expected format: (Pause N #Ailment #Target(optional) #Silent(optional))`, AutoEffect); }
 if (AutoEffect.length > 3) { AutoEffect.slice(3).forEach(option => { if (!(["silent", "target"].includes(option.toLowerCase()))) { returnValues = autoEffectErrorMessage("Invalid Option", `Option "${option}" is not a valid option`, AutoEffect); } }); }
-
+*/
 
 
 
@@ -17945,8 +18048,14 @@ function parseAutoScript(inputAutoScript, mode="normal") {
 						lastCommaIndex = AutoEffectArray[0].lastIndexOf(",");
 					}
 					
-					/* Store the message format. Remove the surrounding quotes */
-					let messageFormat = AutoEffectArray[0].match(/"(.*)"/g)[0].slice(1,-1);
+					/* Store the message format. Remove the surrounding quotes if the format is valid */
+					let messageFormat = AutoEffectArray[0].match(/"(.*)"/g);
+					if (messageFormat != null) {
+						messageFormat = messageFormat[0].slice(1,-1)
+					} else {
+						console.log(AutoEffectArray[0].substr(AutoEffectArray[0].indexOf(" ") + 1))
+						messageFormat = AutoEffectArray[0].substr(AutoEffectArray[0].indexOf(" ") + 1);
+					}
 					AutoEffectArray[0] = AutoEffectArray[0].replace(messageFormat,"£").trim();
 					AutoEffectArray[0] = AutoEffectArray[0].split(/\s+/);
 					AutoEffectArray[0][1] = messageFormat;
@@ -17965,41 +18074,40 @@ function parseAutoScript(inputAutoScript, mode="normal") {
 	return AutoScriptArray;
 }
 
-function translateAutoScriptToEnglish(AutoScript) {
-	for (let i = 0; i < AutoScript.length; i++) {
-		/* Translate AutoEffect names */
-		AutoScript[i][0][0] = getAutoEffectFromTranslation(AutoScript[i][0][0]);
+function translateAutoEffectToEnglish(AutoEffect) {
 	
-		/* Translate Ailments and Bars */
-		switch (AutoScript[i][0][0]) {
-			case "Reset": case "CustomMessage": case "DicePower": case "DiceMax": case "DiceCount": case "BaseDamage": break;
-			case "Require": case "Consume": AutoScript[i][0][2] = getAilmentOrBarFromTranslation(AutoScript[i][0][2]); break;
-			case "Gain": case "Inflict": case "Give": case "Pause": AutoScript[i][0][2] = getAilmentFromTranslation(AutoScript[i][0][2]); break;
-			case "Set": case "Add": case "Multi": case "FlatDamage": AutoScript[i][0][2] = getBarFromTranslation(AutoScript[i][0][2]); break;
-			case "ChallengeRoll": AutoScript[i][0][1] = getStatFromTranslation(AutoScript[i][0][1]); break;
-			case "Proc": AutoScript[i][0][1] = getAilmentFromTranslation(AutoScript[i][0][1]); break;
-			default: console.error("Translation error with AutoEffect name " + AutoScript[i][0][0]);
-		}
+	/* Translate AutoEffect names */
+	AutoEffect[0][0] = getAutoEffectFromTranslation(AutoEffect[0][0]);
 
-		/* Translate Options */
-		for (let j = 1; j < AutoScript[i][0].length; j++) {
-			if(getOptionFromTranslation(AutoScript[i][0][j]) != "Unknown: " + AutoScript[i][0][j]) {
-				AutoScript[i][0][j] = getOptionFromTranslation(AutoScript[i][0][j]);
-			}
-		}
-
-		/* Translate conditional options */
-		/*let langButtonOption = getTranslationByKeyCustom("#Button", "autoeffect-option-button");
-		let langMessageOption = getTranslationByKeyCustom("#Message", "autoeffect-option-message");
-		let langMessageButtonOption = getTranslationByKeyCustom("#MessageButton", "autoeffect-option-messagebutton");
-
-		for (let k = 1; k < AutoScript[i].length; k++) {
-			AutoScript[i][k] = AutoScript[i][k].replace(langButtonOption,"#Button");
-			AutoScript[i][k] = AutoScript[i][k].replace(langMessageOption,"#Message");
-			AutoScript[i][k] = AutoScript[i][k].replace(langMessageButtonOption,"#MessageButton");
-		}*/
+	/* Translate Ailments and Bars */
+	switch (AutoEffect[0][0]) {
+		case "Reset": case "CustomMessage": case "DicePower": case "DiceMax": case "DiceCount": case "BaseDamage": break;
+		case "Require": case "Consume": AutoEffect[0][2] = getAilmentOrBarFromTranslation(AutoEffect[0][2]); break;
+		case "Gain": case "Inflict": case "Give": case "Pause": AutoEffect[0][2] = getAilmentFromTranslation(AutoEffect[0][2]); break;
+		case "Set": case "Add": case "Multi": case "FlatDamage": AutoEffect[0][2] = getBarFromTranslation(AutoEffect[0][2]); break;
+		case "ChallengeRoll": AutoEffect[0][1] = getStatFromTranslation(AutoEffect[0][1]); break;
+		case "Proc": AutoEffect[0][1] = getAilmentFromTranslation(AutoEffect[0][1]); break;
+		default: console.error("Translation error with AutoEffect name " + AutoEffect[0][0]);
 	}
-	return AutoScript;
+
+	/* Translate Options */
+	for (let j = 1; j < AutoEffect[0].length; j++) {
+		if(getOptionFromTranslation(AutoEffect[0][j]) != "Unknown: " + AutoEffect[0][j]) {
+			AutoEffect[0][j] = getOptionFromTranslation(AutoEffect[0][j]);
+		}
+	}
+
+	/* Translate conditional options */
+	/*let langButtonOption = getTranslationByKeyCustom("#Button", "autoeffect-option-button");
+	let langMessageOption = getTranslationByKeyCustom("#Message", "autoeffect-option-message");
+	let langMessageButtonOption = getTranslationByKeyCustom("#MessageButton", "autoeffect-option-messagebutton");
+
+	for (let k = 1; k < AutoEffect.length; k++) {
+		AutoEffect[k] = AutoEffect[k].replace(langButtonOption,"#Button");
+		AutoEffect[k] = AutoEffect[k].replace(langMessageOption,"#Message");
+		AutoEffect[k] = AutoEffect[k].replace(langMessageButtonOption,"#MessageButton");
+	}*/
+	return AutoEffect;
 }
 
 function parseAutoScriptStyling(AutoScriptStyling) {
@@ -18155,7 +18263,7 @@ function autoEffectTranslateMessage(message) {
 /* Converts an AutoEffect from an array back into its string form */
 function autoEffectToString(AutoEffect) {
 	/* Add back in the surrounding quotes for CustomMessage formats */
-	if (AutoEffect[0] == "CustomMessage" && !(/^".+"$/).test(AutoEffect[1])) {
+	if (AutoEffect[0] == "CustomMessage" && !(/^".+/).test(AutoEffect[1]) && !(/.+"$/).test(AutoEffect[1])) {
 		AutoEffect[1] = '"' + AutoEffect[1] + '"';
 	}
 	return "(" + AutoEffect.join(" ") + ")";
@@ -20356,7 +20464,7 @@ function getStatFromTranslation(inputStat) {
 }
 
 function getOptionFromTranslation(inputOption) {
-	let translatedOption = Object.keys(autoEffectOptions).find(option => {
+	let translatedOption = Object.keys({...autoEffectOptions, ...autoEffectOptionsExtra}).find(option => {
 		return getTranslationByKey(`autoeffect-option-${option.toLowerCase().replace(" ","").replace("#","")}`) == inputOption;
 	});
 	return (translatedOption) ? translatedOption : "Unknown: " + inputOption;
