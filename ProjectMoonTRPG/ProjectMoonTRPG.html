@@ -10861,10 +10861,11 @@ const autoEffectOptions = {
 	"Duration":			["Speed"],
 	"CheckResult":		["CustomMessage"]
 }
-const autoEffectOptionsExtra = {
-	"CheckSuccess":		["CustomMessage"],
-	"CheckFailure":		["CustomMessage"],
-	"CheckIgnore":		["CustomMessage"]
+const autoEffectOptionsExpand = {
+	"CheckResult":		["CheckSuccess", "CheckFailure", "CheckIgnore"],
+	"Round":			["This", "Next", "Round", "Turn"],
+	"Duration":			["This", "Next", "Round", "Turn", "Combat"],
+	"Scaling":			["Scaling", "ScalingN"],
 }
 
 /* Contains details on the format of all AutoEffects. Used for validating user-written AutoScripts */
@@ -10891,9 +10892,9 @@ const autoEffectFormats = {
 	"FlatDamage":		{value:"number", 	target:["#Bar"],							negativeValue:true},
 	"Proc":				{value:false,    	target:["#Ailment"]},
 	"Pause":			{value:"number", 	target:["#Ailment"]},
-	"ChallengeRoll":	{value:"number", 	target:["#Stat"],							reverse:true}, // has reverse position of value and target. Just swap the values of the variables
-	"Speed":			{value:"number", 	target:false,								duration:true}  // has a target which is partially also an option... 
-}																	// ...it may just be better to not have it have a value and instead have an unique option
+	"ChallengeRoll":	{value:"number", 	target:["#Stat"],							reverse:true},
+	"Speed":			{value:"number", 	target:false,								duration:true}
+}
 /* --- Sheet Constants end --- */
 
 
@@ -17295,7 +17296,7 @@ async function AutoScriptMain(inputAutoScript, triggerType="None", collect="true
 			collectedAutoScripts += values[`${autoScript}`].match(/\[([#][^]+[#])\]/g);
 		}
 	});
-	collectedAutoScripts = parseAutoScript(collectedAutoScripts, "nested");
+	collectedAutoScripts = autoScriptToArray(collectedAutoScripts, "nested");
 
 
 	/* Append any collected AutoScripts with a relevant trigger */
@@ -17311,11 +17312,8 @@ async function AutoScriptMain(inputAutoScript, triggerType="None", collect="true
 		}
 	});
 
-	/* Convert AutoScript to an array */
-	AutoScript = parseAutoScript(AutoScript);
-
-	/* Validates AutoEffect formats. Returns any errors that are encountered */
-	[AutoScript, errorMessageList] = validateAutoScript(AutoScript, ailmentList, barList, barDamageList);
+	/* Validates AutoEffect formats and returns an array of effects to be executed. Also returns any errors that were encountered during parsing */
+	[AutoScript, errorMessageList] = parseAutoScript(AutoScript, ailmentList, barList, barDamageList);
 	if (errorMessageList != {}) { returnValues.error == true }
 
 
@@ -17324,9 +17322,6 @@ async function AutoScriptMain(inputAutoScript, triggerType="None", collect="true
 
 	/* Execute each AutoEffect in the AutoScript */
 	AutoScript.forEach(AutoEffect => {
-	if (AutoEffect == undefined) {
-		return;
-	}
 
 	/* Handle conditionals */
 	if (AutoEffect.length > 1) {
@@ -17729,7 +17724,7 @@ function cleanAutoScript(AutoScript) {
 /* Validates an AutoScript is correctly formated */
 /* returns an AutoScript in array form with its options and conditionals sorted into lists */
 /* returns a list of errors encountered while validating the AutoScript */
-function validateAutoScript(inputAutoScript, ailmentList, barList, barDamageList) {
+function parseAutoScript(inputAutoScript, ailmentList, barList, barDamageList) {
 	
 	let errorMessageList = {}
 	let error = false;
@@ -17741,9 +17736,11 @@ function validateAutoScript(inputAutoScript, ailmentList, barList, barDamageList
 		"Invalid Value": "autoeffect-error-invalid-value",
 		"Invalid Target": "autoeffect-error-invalid-target",
 		"Invalid Format": "autoeffect-error-invalid-format",
+		"Invalid Option": "autoeffect-error-invalid-option",
+		"Invalid Round": "autoeffect-error-invalid-round",
+		"Invalid Duration": "autoeffect-error-invalid-duration",
 	}
-	const autoEffectError = (errorCode, AutoEffect, errorInserts) => {
-		log({errorCode, AutoEffect, errorInserts})
+	const autoEffectError = (errorCode, AutoEffect, errorInserts={}) => {
 		let errorType = getTranslationByKeyCustom(errorCode, errorData[errorCode] + "-type")
 		let errorMessage = `${autoEffectToString(AutoEffect)} - ${getTranslationByKeyCustom(errorCode, errorData[errorType] + "-message")}`;
 
@@ -17752,14 +17749,18 @@ function validateAutoScript(inputAutoScript, ailmentList, barList, barDamageList
 			errorMessage = errorMessage.replaceAll(match, insert);
 		}
 		
-		errorMessageList[errorType] = (errorMessageList[errorType]) ? "\n" + errorMessage : errorMessage;
+		errorMessageList[errorType] = (errorMessageList[errorType]) ? errorMessageList[errorType] + "\n" + errorMessage : errorMessage;
 		error = true;
 	}
-	const getAutoEffectOptions = (effectName, optionsList) => {
+	const getAutoEffectOptions = (effectName, optionsList, expand=false) => {
 		let options = {};
 		for (const [option, effects] of Object.entries(optionsList)) {
 			if (effects.includes(effectName) || (effects.includes("All") && !effects.includes(`-${effectName}`))) {
-				options[option] = true;
+				if (option in autoEffectOptionsExpand && expand) {
+					options = {...options, ...autoEffectOptionsExpand[option].reduce((rows, o) => Object.assign(rows, {[o]:true}), {})}
+				} else {
+					options[option] = true;
+				}
 			}
 		}
 		return options;
@@ -17785,60 +17786,59 @@ function validateAutoScript(inputAutoScript, ailmentList, barList, barDamageList
 		return targetString;
 	}
 
+	/* Convert AutoScript to an array */
+	inputAutoScript = autoScriptToArray(inputAutoScript);
 
 	/* Validate each AutoEffect in the AutoScript */
 	inputAutoScript.forEach(AutoEffect => {
 
-		/* Translates AutoEffect names, bars and ailments to English. Stores untranslated values for error messages */
-		let langAutoEffect = AutoEffect;
-		AutoEffect = translateAutoEffectToEnglish(AutoEffect);
+		/* Get AutoEffect name */
+		let [effectName, langEffectName] = [getAutoEffectFromTranslation(AutoEffect[0][0]), AutoEffect[0][0]];
 		
-
-		/* Get AutoEffect format and name */
-		let [effectName, langEffectName] = [AutoEffect[0][0], langAutoEffect[0][0]];
-		let effectFormat = autoEffectFormats[effectName];
-		if (effectFormat.copy) {
-			effectFormat = autoEffectFormats[effectFormat.copy];
-		}
-
 		/* Test: Valid name */
 		if (!effectName in autoEffectFormats) {
 			autoEffectError("Invalid AutoEffect", AutoEffect[0], {"[NAME]":langEffectName}); return;
 		}
-
+		
+		/* Get the AutoEffect format */
+		let effectFormat = autoEffectFormats[effectName];
+		if (effectFormat.copy) {
+			effectFormat = autoEffectFormats[effectFormat.copy];
+		}
+		let valueIndex = targetIndex = optionIndex = 0;
+		if (effectFormat.value) { valueIndex = 1; }
+		if (effectFormat.target) { targetIndex = valueIndex + 1; }
+		if (effectFormat.reverse) { valueIndex++; targetIndex--; }
+		optionIndex = Math.max(valueIndex, targetIndex) + 1;
+		if (effectFormat.targetOptional && AutoEffect[0][valueIndex] == "undefined") { targetIndex = 0; optionIndex--;}
+		let [validOptions, langValidOptions] = [getAutoEffectOptions(effectName, autoEffectOptions, "expand"), optionsToString(getAutoEffectOptions(effectName, autoEffectOptions))];
+		let [validConOptions, langValidConOptions] = [getAutoEffectOptions(effectName, conditionalOptions, "expand"), optionsToString(getAutoEffectOptions(effectName, conditionalOptions))];
+		
+		/* Translates AutoEffect names, bars and ailments to English. Stores untranslated values for error messages */
+		let langAutoEffect = AutoEffect;
+		AutoEffect = translateAutoEffectToEnglish(AutoEffect, effectFormat.target, validOptions, validConOptions, targetIndex, optionIndex);
+		
 
 		/* Get AutoEffect value, target and options */
-		let valueIndex = targetIndex = optionIndex = false;
-		if (effectFormat.value && effectFormat.target) {
-			if (effectFormat.reverse) {
-				valueIndex = 2; targetIndex = 1; optionIndex = 3;
-			} else {
-				valueIndex = 1; targetIndex = 2; optionIndex = 3;
-			}
-		} else if (effectFormat.value) {
-			valueIndex = 1; optionIndex = 2;
-		} else if (effectFormat.target) {
-			targetIndex = 1; optionIndex = 2;
-		}
 		let [effectValue, langEffectValue] = (valueIndex) ? [AutoEffect[0][valueIndex], langAutoEffect[0][valueIndex]] : [false, ""];
 		let [effectTarget, langEffectTarget] = (targetIndex) ? [AutoEffect[0][targetIndex], langAutoEffect[0][targetIndex]] : [false, ""];
 		let [effectOptions, langEffectOptions] = [AutoEffect[0].slice(optionIndex), langAutoEffect[0].slice(optionIndex)];
-		let validOptions = getAutoEffectOptions(effectName, autoEffectOptions);
-		let validConOptions = getAutoEffectOptions(effectName, conditionalOptions);
-		let [langValidOptions, langValidConOptions] = [optionsToString(validOptions), optionsToString(validConOptions)];
+		let [effectConditionals, langEffectConditionals] = [AutoEffect.slice(1), langAutoEffect.slice(1)];
 		let langPercent = "";
 		let targetList = false;
+		let options = {}
+		let conOptions = {}
 
 		/* Test: Valid value */
 		switch (effectFormat.value) {
 			case "number":
-				if (effectFormat.percentageValue) {
+				if (effectFormat.percentageValue) { // Handle percentage values
 					effectValue = effectValue.replace("%","");
-					effectFormat.percentageValue = "Active";
+					options.percentageValue = true;
 					langPercent = getTranslationByKeyCustom("or percentage", "autoeffect-error-value-percent");
 				}
-				effectValue = parseFloat(effectValue);
-				if (effectFormat.negativeValue) {
+				effectValue = parseFloat(effectValue); // Get values as floats. The number rounded down before use
+				if (!effectFormat.negativeValue) { // Handle negative values
 					effectValue = Math.abs(effectValue);
 				}
 				if (isNaN(effectValue)) {
@@ -17854,45 +17854,114 @@ function validateAutoScript(inputAutoScript, ailmentList, barList, barDamageList
 					}); return;
 				} break;
 		}
+		
 
 		/* Test: Valid target */
 		if (effectFormat.target) {
-			let compareList = []
-			if (effectFormat.target.includes("#Ailment")) { if (effectTarget in ailmentList) { targetList = "ailmentList"; } }
-			if (effectFormat.target.includes("#Bar")) { if (effectTarget in barList) { targetList = "barList"; } }
-			if (effectFormat.target.includes("#BarDamage")) { if (effectTarget in barDamageList) { targetList = "barDamageList"; } }
-			if (effectFormat.target.includes("#Stat")) { if (statNames.includes(effectTarget)) { targetList = true; } }
-			if (effectFormat.target.includes("#BarTemp")) { if (barNamesTemp.includes(effectTarget)) { targetList = "barList"; } }
+			if (effectFormat.target.includes("#Ailment") && effectTarget in ailmentList) { targetList = "ailmentList"; }
+			if (effectFormat.target.includes("#Bar") && effectTarget in barList) { targetList = "barList"; }
+			if (effectFormat.target.includes("#BarDamage") && effectTarget in barDamageList) { targetList = "barDamageList"; }
+			if (effectFormat.target.includes("#Stat") && statNames.includes(effectTarget)) { targetList = true; }
+			if (effectFormat.target.includes("#BarTemp") && barNamesTemp.includes(effectTarget)) { targetList = "barList"; }
 
 			if (!targetList) {
-				autoEffectError("Invalid Target", AutoEffect[0], {
-					"[TARGETS]":targetsToString(effectFormat.target),
-					"[TARGET]":langEffectTarget
-				});
+				if (effectFormat.targetOptional) { // Handle effects with an optional target (ex. BaseDamage)
+					if (effectTarget != "undefined") {
+						effectOptions.push(effectTarget);
+					}
+				} else {
+					autoEffectError("Invalid Target", AutoEffect[0], {"[TARGETS]":targetsToString(effectFormat.target),"[TARGET]":langEffectTarget});
+				}
 			}
 		}
 
 		/* Test: Valid options */
+		if (effectOptions.length > 0) {
+			for (let i = 0; i < effectOptions.length; i++) {
+				let newOption = capitalize(effectOptions[i].replace("#",""));
+				if (autoEffectOptionsExpand["CheckResult"].includes(newOption)) { // Handle the "CheckResult" option
+					options.CheckResult = newOption.toLowerCase().replace("check","");
+				}
+				else if (autoEffectOptionsExpand["Round"].includes(newOption)) { // Handle the "Round" option
+					options.Round = (options.Round) ? options.Round : false;
+					if (newOption == "This" || newOption == "Next") {
+						options.Round = newOption.toLowerCase();
+					}
+					if (!options.Round) { autoEffectError("Invalid Round", AutoEffect[0]); }
+				}
+				else if (autoEffectOptionsExpand["Duration"].includes(newOption)) { // Handle the "Duration" option
+					options.Round = (options.Round) ? options.Round : false;
+					if (newOption == "combat") {
+						options.Duration = "Combat";
+					}
+					else if (options.Duration != "Combat" && (newOption == "This" || newOption == "Next")) {
+						options.Duration = newOption.toLowerCase();
+					}
+					if (!options.Duration) { autoEffectError("Invalid Duration", AutoEffect[0]); }
+				}
+				else if ((/(\d+)/).test(newOption) && newOption.replace(/(\d+)/, "N") in validOptions) { // Handle options using N (ex. ScalingN)
+					let optionN = parseInt(newOption.match(/(\d+)/g)[0]);
+					newOption = newOption.replace(optionN, "");
+					options[newOption] = optionN;
+				} else {
+					options[newOption] = true; // Sets option to true if no other value is provided
+				}
+				
+				if (!(newOption in validOptions || `#${newOption}` in validOptions)) {
+					autoEffectError("Invalid Option", AutoEffect[0], {
+						"[NAME]":langEffectName,
+						"[OPTION]":langEffectOptions[i],
+						"[OPTIONS]":langValidOptions.replaceAll(" ", ", ")
+					});
+				}
+			}
+		}
+
+		/* Test: Valid conditional options */
+		if (effectConditionals.length > 0 && Object.keys(validConOptions).length > 0) {
+			effectConditionals.forEach(conditional => {
+				let newConOptions = {}
+				if (conditional.includes("#Section") && "Section" in validConOptions) { // Handle the "Section" option
+					conditional = conditional.replaceAll(/(#Section)/ig,"").trim();
+					newConOptions.Section = true;
+				}
+				if ((options.IgnoreFailure || conditional.includes("#IgnoreFailure")) && "IgnoreFailure" in validConOptions) { // Handle the "IgnoreFailure" option (is also accepted as a normal option)
+					conditional = conditional.replaceAll(/(#IgnoreFailure)/ig,"").trim();
+					newConOptions.IgnoreFailure = true;
+				}
+				if (Object.keys(newConOptions).length > 0) {
+					for (const [option, value] of Object.entries(newConOptions)) {
+						conOptions[conditional] = {...conOptions[conditional], [option]: value};
+					}
+				} else {
+					conOptions[conditional] = true;
+				} 
+			});
+		}
+		
+
+		/* Test: Valid format / length */
+		let effectLengthMin = optionIndex;
+		let effectLengthMax = optionIndex + validOptions.length;
+		if (AutoEffect.length < effectLengthMin || AutoEffect.length > effectLengthMax) {}
 	
 
 		// Quick test loggers
 		console.log("AutoEffect: " + autoEffectToString(AutoEffect[0]));
 		if (effectFormat.value) { console.log("Value: " + effectValue); }
-		if (effectFormat.target) { console.log("Target: " + effectTarget); }
-		if (effectOptions.length) { console.log("Options: ", effectOptions); }
+		if (effectFormat.target) { console.log("Target: " + effectTarget + " | " + targetList); }
+		if (effectOptions.length) { console.log("Options: ", options); }
+		if (effectConditionals.length) { console.log("Con options: ", conOptions); }
 		console.log("---------------");
-
-		if (Object.keys(errorMessageList).length) {
-			console.log(errorMessageList)
-		}
 
 		// Store new AutoEffect
 		outputAutoScript.push(AutoEffect);
 	
 	});
 
-
-
+	if (Object.keys(errorMessageList).length) {
+		console.log(errorMessageList)
+	}
 
 
 	
@@ -17924,60 +17993,11 @@ function validateAutoScript(inputAutoScript, ailmentList, barList, barDamageList
 
 
 
-/*
-// CustomMessage
-if (AutoEffect.length > 2) { AutoEffect.slice(2).forEach(option => { if (!["#checksuccess", "#checkfailure", "#checkignore", "target", "silent"].includes(option.toLowerCase())) { return autoEffectErrorMessage("Invalid Option", `Option "${option}" is not a valid option`, AutoEffect); } }); }
-// Require
-if (AutoEffect.length < 3 || AutoEffect.length > 6) { return autoEffectErrorMessage("Format Error", `Expected format: (Require N #Ailment/#Bar/#BarDamage #Scaling(optional) #Target(optional) #Silent(optional))`, AutoEffect); }
-if (AutoEffect.length > 3) { AutoEffect.slice(3).forEach(option => { if (!(["scaling", "silent", "target"].includes(option.toLowerCase()) || (/(scaling[0-9]+)/ig).test(option))) { returnValues = autoEffectErrorMessage("Invalid Option", `Option "${option}" is not a valid option`, AutoEffect); } }); }
-// Consume
-if (AutoEffect.length < 3 || AutoEffect.length > 6) { return autoEffectErrorMessage("Format Error", `Expected format: (Consume N #Ailment/#Bar #Scaling(optional) #Target(optional) #Silent(optional))`, AutoEffect); }
-if (AutoEffect.length > 3) { AutoEffect.slice(3).forEach(option => { if (!(["scaling", "silent", "target"].includes(option.toLowerCase()) || (/(scaling[0-9]+)/ig).test(option))) { returnValues = autoEffectErrorMessage("Invalid Option", `Option "${option}" is not a valid option`, AutoEffect); } }); }
-// Gain, Inflict, Give
-if (AutoEffect.length < 3 || AutoEffect.length > 6) { return autoEffectErrorMessage("Format Error", `Expected format: (${autoEffectVariant} N #Ailment #Round(optional) #Silent(optional))`, AutoEffect); }
-if (AutoEffect.length > 3) { AutoEffect.slice(3).forEach(option => { if (!["this", "next", "thisround", "nextround", "thisturn", "nextturn", "turn", "round", "silent"].includes(option.toLowerCase())) { returnValues = autoEffectErrorMessage("Invalid Option", `Option "${option}" is not a valid option`, AutoEffect); } }); }
-// Set
-if (AutoEffect.length < 3 || AutoEffect.length > 4) { return autoEffectErrorMessage("Format Error", `Expected format: (Set N #Bar #Silent(optional))`, AutoEffect); }
-if (AutoEffect.length > 3) { if (AutoEffect[3].toLowerCase() != "silent") { return autoEffectErrorMessage("Invalid Option", `Option "${AutoEffect[3]}" is not a valid option`, AutoEffect); } }
-// Add
-if (AutoEffect.length < 3 || AutoEffect.length > 4) { return autoEffectErrorMessage("Format Error", `Expected format: (Add N #Bar #Silent(optional))`, AutoEffect); }
-if (AutoEffect.length > 3) { if (AutoEffect[3].toLowerCase() != "silent") { return autoEffectErrorMessage("Invalid Option", `Option "${AutoEffect[3]}" is not a valid option`, AutoEffect); } }
-// Multi
-if (AutoEffect.length < 3 || AutoEffect.length > 4) { return autoEffectErrorMessage("Format Error", `Expected format: (Multi N #Bar #Silent(optional))`, AutoEffect); }
-if (AutoEffect.length > 3) { if (AutoEffect[3].toLowerCase() != "silent") { return autoEffectErrorMessage("Invalid Option", `Option "${AutoEffect[3]}" is not a valid option`, AutoEffect); } }
-// DicePower, DiceMax, DiceCount
-if (AutoEffect.length < 2 || AutoEffect.length > 3) { return autoEffectErrorMessage("Format Error", `Expected format: (${capitalize(autoEffectVariant)} N #Silent(optional))`, AutoEffect); }
-if (AutoEffect.length > 2) { if (AutoEffect[2].toLowerCase() != "silent") { return autoEffectErrorMessage("Invalid Option", `Option "${AutoEffect[2]}" is not a valid option`, AutoEffect); } }
-// ChallengeRoll
-if (AutoEffect.length < 3 || AutoEffect.length > 3 ) { return autoEffectErrorMessage("Format Error", `Expected format: (ChallengeRoll #Stat N #Silent(optional))`, AutoEffect); }
-if (AutoEffect.length > 3) { if (AutoEffect[3].toLowerCase() != "silent") { return autoEffectErrorMessage("Invalid Option", `Option "${AutoEffect[3]}" is not a valid option`, AutoEffect); } }
-// Speed
-if (AutoEffect.length < 3 || AutoEffect.length > 5) { return autoEffectErrorMessage("Format Error", `Expected format: (Speed N #Duration #Silent(optional))`, AutoEffect); }
-// BaseDamage
-if (autoEffectVariant == "baseDamage") {
-	if (AutoEffect.length < 2 || AutoEffect.length > 4) { return autoEffectErrorMessage("Format Error", `Expected format: (${autoEffectVariant} N #Bar(optional) #Silent(optional))`, AutoEffect); }
-	if (AutoEffect.length > 2) { AutoEffect.slice(2).forEach(option => { if (!["hp", "st", "silent"].includes(option.toLowerCase())) { returnValues = autoEffectErrorMessage("Invalid Option", `Option "${AutoEffect[2]}" is not a valid option`, AutoEffect); } }); }
-} else {
-	if (AutoEffect.length < 3 || AutoEffect.length > 4) { return autoEffectErrorMessage("Format Error", `Expected format: (${autoEffectVariant} N #Bar #Silent(optional))`, AutoEffect); }
-	if (AutoEffect.length > 3) { if (AutoEffect[3].toLowerCase() != "silent") { return autoEffectErrorMessage("Invalid Option", `Option "${AutoEffect[3]}" is not a valid option`, AutoEffect); } }
-}
-// Proc
-if (AutoEffect.length < 2 || AutoEffect.length > 4) { return autoEffectErrorMessage("Format Error", `Expected format: (Proc #Ailment #Target(optional) #Silent(optional))`, AutoEffect); }
-if (AutoEffect.length > 2) { AutoEffect.slice(2).forEach(option => { if (!(["silent", "target"].includes(option.toLowerCase()))) { returnValues = autoEffectErrorMessage("Invalid Option", `Option "${option}" is not a valid option`, AutoEffect); } }); }
-// Pause
-if (AutoEffect.length < 3 || AutoEffect.length > 5) { return autoEffectErrorMessage("Format Error", `Expected format: (Pause N #Ailment #Target(optional) #Silent(optional))`, AutoEffect); }
-if (AutoEffect.length > 3) { AutoEffect.slice(3).forEach(option => { if (!(["silent", "target"].includes(option.toLowerCase()))) { returnValues = autoEffectErrorMessage("Invalid Option", `Option "${option}" is not a valid option`, AutoEffect); } }); }
-*/
-
-
-
-
-
-
 
 
 	// Checklist:
 	// Delete the old autoEffectErrorMessage() function
+	// Add variable check. Check that any variables used in math are included in the default variable list or have been generated by a previous effect
 
 
 
@@ -17992,10 +18012,10 @@ if (AutoEffect.length > 3) { AutoEffect.slice(3).forEach(option => { if (!(["sil
 /* mode: normal is for strings of type (AutoEffect...) (AutoEffect...) ... */
 /*	 each AutoEffect returns an array in the format [[name, value, target, option1, option2, ...], conditional1, conditional2, ...] */
 /*	 some AutoEffects do not return a value or target */
-/*	 options and conditionals are processed further in validateAutoScript() */
+/*	 options and conditionals are processed further in parseAutoScript() */
 /* mode: nested is for strings of type [#Offensive, (AutoEffect...) ... #] [#Round start, (AutoEffect...) ... ] */
 /*   each Trigger returns an array in the format [trigger, (AutoEffect...)] */
-function parseAutoScript(inputAutoScript, mode="normal") {
+function autoScriptToArray(inputAutoScript, mode="normal") {
 	let AutoScript = inputAutoScript;
 	let AutoEffect = "";
 	let AutoEffectArray = [];
@@ -18053,7 +18073,6 @@ function parseAutoScript(inputAutoScript, mode="normal") {
 					if (messageFormat != null) {
 						messageFormat = messageFormat[0].slice(1,-1)
 					} else {
-						console.log(AutoEffectArray[0].substr(AutoEffectArray[0].indexOf(" ") + 1))
 						messageFormat = AutoEffectArray[0].substr(AutoEffectArray[0].indexOf(" ") + 1);
 					}
 					AutoEffectArray[0] = AutoEffectArray[0].replace(messageFormat,"£").trim();
@@ -18064,6 +18083,7 @@ function parseAutoScript(inputAutoScript, mode="normal") {
 					AutoEffectArray[0] = AutoEffectArray[0].split(/\s+/);
 				}
 			}
+			AutoEffectArray = AutoEffectArray.map(e => (typeof e == "string") ? e.trim() : e);
 			AutoScriptArray.push(AutoEffectArray);
 		} else {
 			break;
@@ -18074,26 +18094,47 @@ function parseAutoScript(inputAutoScript, mode="normal") {
 	return AutoScriptArray;
 }
 
-function translateAutoEffectToEnglish(AutoEffect) {
+function translateAutoEffectToEnglish(AutoEffect, validTargets, validOptions, validConOptions, targetIndex, optionIndex) {
 	
 	/* Translate AutoEffect names */
 	AutoEffect[0][0] = getAutoEffectFromTranslation(AutoEffect[0][0]);
 
 	/* Translate Ailments and Bars */
-	switch (AutoEffect[0][0]) {
-		case "Reset": case "CustomMessage": case "DicePower": case "DiceMax": case "DiceCount": case "BaseDamage": break;
-		case "Require": case "Consume": AutoEffect[0][2] = getAilmentOrBarFromTranslation(AutoEffect[0][2]); break;
-		case "Gain": case "Inflict": case "Give": case "Pause": AutoEffect[0][2] = getAilmentFromTranslation(AutoEffect[0][2]); break;
-		case "Set": case "Add": case "Multi": case "FlatDamage": AutoEffect[0][2] = getBarFromTranslation(AutoEffect[0][2]); break;
-		case "ChallengeRoll": AutoEffect[0][1] = getStatFromTranslation(AutoEffect[0][1]); break;
-		case "Proc": AutoEffect[0][1] = getAilmentFromTranslation(AutoEffect[0][1]); break;
-		default: console.error("Translation error with AutoEffect name " + AutoEffect[0][0]);
+	if (validTargets) {
+		if (validTargets.includes("#Ailment") && validTargets.some(target => (target.includes("#Bar")))) {
+			AutoEffect[0][targetIndex] = getAilmentOrBarFromTranslation(AutoEffect[0][targetIndex]);
+		}
+		else if (validTargets.includes("#Ailment")) {
+			AutoEffect[0][targetIndex] = getAilmentFromTranslation(AutoEffect[0][targetIndex]);
+		}
+		else if (validTargets.some(target => (target.includes("#Bar")))) {
+			AutoEffect[0][targetIndex] = getBarFromTranslation(AutoEffect[0][targetIndex]);
+		}
+		else if (validTargets.includes("#Stat")) {
+			AutoEffect[0][targetIndex] = getStatFromTranslation(AutoEffect[0][targetIndex]);
+		} else {
+			console.error("Translation error with AutoEffect name " + AutoEffect[0][0]);
+		}
+	}
+	
+	/* Translate Options */
+	if (Object.keys(validOptions).length > 0) {
+		for (let j = optionIndex; j < AutoEffect[0].length; j++) {
+			if (getOptionFromTranslation(AutoEffect[0][j], "Unknown") != "Unknown" + AutoEffect[0][j]) {
+				AutoEffect[0][j] = getOptionFromTranslation(AutoEffect[0][j]);
+			}
+		}
 	}
 
-	/* Translate Options */
-	for (let j = 1; j < AutoEffect[0].length; j++) {
-		if(getOptionFromTranslation(AutoEffect[0][j]) != "Unknown: " + AutoEffect[0][j]) {
-			AutoEffect[0][j] = getOptionFromTranslation(AutoEffect[0][j]);
+	/* Translate Conditional Options */
+	if (Object.keys(validConOptions).length > 0) {
+		for (let k = 1; k < AutoEffect.length; k++) {
+			for (const option of Object.keys(validConOptions)) {
+				let translatedOption = "#" + getConOptionFromTranslation(option);
+				if (translatedOption) {
+					AutoEffect[k].replace(translatedOption, "#" + option);
+				}
+			}
 		}
 	}
 
@@ -18262,6 +18303,9 @@ function autoEffectTranslateMessage(message) {
 
 /* Converts an AutoEffect from an array back into its string form */
 function autoEffectToString(AutoEffect) {
+	/* Removes any undefined AutoEffect values */
+	AutoEffect = AutoEffect.filter(e => e != "undefined");
+
 	/* Add back in the surrounding quotes for CustomMessage formats */
 	if (AutoEffect[0] == "CustomMessage" && !(/^".+/).test(AutoEffect[1]) && !(/.+"$/).test(AutoEffect[1])) {
 		AutoEffect[1] = '"' + AutoEffect[1] + '"';
@@ -20418,28 +20462,28 @@ function getTranslationByKeyCustom(base, key) {
 }
 
 /* Translation: Get text in English */
-function getAutoEffectFromTranslation(inputAutoEffect) {
+function getAutoEffectFromTranslation(inputAutoEffect, errorString="") {
 	let translatedName = Object.keys(autoEffectFormats).find(name => {
 		return getTranslationByKey(`autoeffect-${name.toLowerCase()}`) == inputAutoEffect;
 	});
-	return (translatedName) ? translatedName : "Unknown: " + inputAutoEffect;
+	return (translatedName) ? translatedName : errorString + inputAutoEffect;
 }
 
-function getTriggerFromTranslation(inputTrigger) {
+function getTriggerFromTranslation(inputTrigger, errorString="") {
 	let translatedTrigger = autoEffectTriggers.find(trigger => {
 		return getTranslationByKey(`autoeffect-trigger-${trigger.toLowerCase().replace(" ","")}`) == inputTrigger;
 	});
-	return (translatedTrigger) ? translatedTrigger : "Unknown: " + inputTrigger;
+	return (translatedTrigger) ? translatedTrigger : errorString + inputTrigger;
 }
 
-function getAilmentFromTranslation(inputAilment) {
+function getAilmentFromTranslation(inputAilment, errorString="") {
 	let translatedAilment = ailmentNames.find(ailment => {
 		return getTranslationByKey(`ailments-${ailment.toLowerCase().replace("stagger","stg")}`).replace(" ","") == inputAilment;
 	});
-	return (translatedAilment) ? translatedAilment : inputAilment; // Is presumably a custom ailment
+	return (translatedAilment) ? translatedAilment : errorString + inputAilment; // Is presumably a custom ailment if no translation can be found
 }
 
-function getBarFromTranslation(inputBar) {
+function getBarFromTranslation(inputBar, errorString="") {
 	for (let i = 0; i < 4; i++) {
 		let translationString = (barNames[i] != "Light") ? `bar-${barNamesFull[i].toLowerCase()}-shortened` : "bar-light";
 		if (getTranslationByKey(translationString) == inputBar) { return barNames[i] }
@@ -20447,27 +20491,46 @@ function getBarFromTranslation(inputBar) {
 	}
 	if (getTranslationByKey("bar-health-temp-shortest") == inputBar) { return "THP" }
 	if (getTranslationByKey("bar-stagres-temp-shortest") == inputBar) { return "TST" }
-	return "Unknown: " + inputBar;
+	return errorString + inputBar;
 }
 
 function getAilmentOrBarFromTranslation(input) {
-	if (getBarFromTranslation(input) != "Unknown: " + input) { return getBarFromTranslation(input); }
+	if (getBarFromTranslation(input, "Unknown") != "Unknown" + input) { return getBarFromTranslation(input); }
 	return getAilmentFromTranslation(input);
 }
 
-function getStatFromTranslation(inputStat) {
+function getStatFromTranslation(inputStat, errorString="") {
 	let translatedStat = statNames.find(stat => {
 		stat.toLowerCase().replace("instinct","fortitude").replace("wisdom","prudence");
 		return getTranslationByKey(`stats-${stat}`) == inputStat;
 	})
-	return (translatedStat) ? translatedStat : "Unknown: " + inputStat;
+	return (translatedStat) ? translatedStat : errorString + inputStat;
 }
 
-function getOptionFromTranslation(inputOption) {
-	let translatedOption = Object.keys({...autoEffectOptions, ...autoEffectOptionsExtra}).find(option => {
-		return getTranslationByKey(`autoeffect-option-${option.toLowerCase().replace(" ","").replace("#","")}`) == inputOption;
+function getOptionFromTranslation(inputOption, errorString="") {
+	let validOptions = Object.keys(autoEffectOptions);
+	let optionN = ""
+	if ((/(\d+)/).test(inputOption)) {
+		optionN = inputOption.match(/(\d+)/)[0];
+		inputOption = inputOption.replace(optionN,"");
+	}
+	validOptions.forEach(option => {
+		if (option in autoEffectOptionsExpand) {
+			validOptions = [...validOptions.filter(o => o != option), ...autoEffectOptionsExpand[option]];
+		}
 	});
-	return (translatedOption) ? translatedOption : "Unknown: " + inputOption;
+	let translatedOption = validOptions.find(option => {
+		return getTranslationByKey(`autoeffect-option-${option.toLowerCase().replaceAll(" ","").replaceAll("#","")}`).toLowerCase() == inputOption.toLowerCase();
+	});
+	return (translatedOption) ? translatedOption + optionN : errorString + inputOption + optionN;
+}
+
+function getConOptionFromTranslation(inputOption, errorString="") {
+	let validOptions = Object.keys(conditionalOptions);
+	let translatedOption = validOptions.find(option => {
+		return getTranslationByKey(`autoeffect-option-${option.toLowerCase().replaceAll(" ","").replaceAll("#","")}`).toLowerCase() == inputOption.toLowerCase();
+	});
+	return (translatedOption) ? translatedOption : errorString + inputOption;
 }
 
 
@@ -20481,7 +20544,7 @@ function capitalize(string) {
 function log(...args) {
 	var callFunction = "unknown";
 	(new Error().stack.split('\n').slice(2)).every(call => {
-		var functionName = call.slice(6).match(/\w+/)[0];
+		var functionName = call.slice(6).match(/\w+/)[0]; 
 		if (functionName != "eval") {
 			callFunction = functionName;
 			return false;
