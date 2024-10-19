@@ -14417,21 +14417,25 @@ on('clicked:rollCombat', (info) => {
 	resetConditionals();
 	AutoScriptMain(AutoScript, triggerType, "true", "false", autoScriptOverrideList, function(returnValues) {
 	
+
+	console.log(returnValues)
 	/* Action buttons */
 	let buttonList = [];
 	let giveButtonList = [];
 	let damageAutoScript = "";
-	for (const [buttonKey, buttonValue] of Object.entries(returnValues.actionButtons)) {
-		switch (buttonKey) {
-			case "Apply Damage":
-				if (basetype != "Attack") {
-					buttonList.push(generateActionButton(buttonKey, getIcon("icons","damage"), "red", "actionButtonDamage", {AutoScript: buttonValue, targetTokenId: targettokenid})); break;
-				} else {
-					damageAutoScript = buttonValue;
-				}; break;
-			case "autoInflict": buttonList.push(generateActionButton(buttonKey, getIcon("icons","lose"), "purple", "actionButtonInflict", {AutoScript: buttonValue, targetTokenId: targettokenid})); break;
-			case "autoGive": giveButtonList.push(generateActionButton(buttonKey, getIcon("icons","win"), "blue", "actionButtonGive", buttonValue, "selected")); break;
-			default: 
+	if (returnValues.actionButtons) {
+		for (const [buttonKey, buttonValue] of Object.entries(returnValues.actionButtons)) {
+			switch (buttonKey) {
+				case "Apply Damage":
+					if (basetype != "Attack") {
+						buttonList.push(generateActionButton(buttonKey, getIcon("icons","damage"), "red", "actionButtonDamage", {AutoScript: buttonValue, targetTokenId: targettokenid})); break;
+					} else {
+						damageAutoScript = buttonValue;
+					}; break;
+				case "autoInflict": buttonList.push(generateActionButton(buttonKey, getIcon("icons","lose"), "purple", "actionButtonInflict", {AutoScript: buttonValue, targetTokenId: targettokenid})); break;
+				case "autoGive": giveButtonList.push(generateActionButton(buttonKey, getIcon("icons","win"), "blue", "actionButtonGive", buttonValue, "selected")); break;
+				default: 
+			}
 		}
 	}
 
@@ -17343,20 +17347,15 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 
 	/* Create conditional buttons */
 	let conditionalAlert = "";
-	for (const [buttonName, buttonAutoScript] of Object.entries(conditionalButtonList)) {
+	for (const [buttonName, buttonValues] of Object.entries(conditionalButtonList)) {
 		/* Checks if any checks failed and the button should not be displayed */
-		if (buttonAutoScript.indexOf("#Do not display#") != -1) { continue; }
+		if (buttonValues.doNotDisplay) { continue; }
 		
-		let iconFolder = "icons";
-		let iconName = "gear";
-		let iconColor = "green"; 
-		if (stylingList[buttonName]) {
-			[iconFolder, iconName, iconColor] = stylingList[buttonName];
-			if (!["green","blue","red","orange","yellow","purple","black"].includes(iconColor)) { iconColor = "green"; }
-		}
-		createConditionalButton(buttonName, buttonAutoScript, iconFolder, iconName, iconColor);
-		if (conditionalAlert != "") { conditionalAlert += ", "}
-		conditionalAlert += buttonName;
+		let [iconFolder, iconName, iconColor] = stylingList[buttonName] || ["icons", "gear", "green"];
+		if (!["green","blue","red","orange","yellow","purple","black"].includes(iconColor)) { iconColor = "green"; }
+
+		createConditionalButton(buttonName, buttonValues.AutoScript, iconFolder, iconName, iconColor);
+		conditionalAlert += (conditionalAlert != "") ? ", " + buttonName : buttonName;
 	}
 	if (conditionalAlert != "" && settingConditionalButtonReminder != "true") {
 		outputMessage += `<div class="autoeffectEntry">${getIcon("icons","whisper","false","class=autoEffectImage")}<b>Created conditional buttons:</b><br> ${conditionalAlert}</div>`
@@ -17364,56 +17363,34 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 
 	/* Message handling */
 	/* Standard messages print as a generic "AutoEffects" section and include all unconditional effects */
-	if (errorMessageList == {} && outputMessage != "") {
+	if (Object.keys(errorMessageList).length == 0 && outputMessage != "") {
 		if (sendMessage == "false") {
 			returnValues.message = autoEffectSection("AutoEffects", outputMessage, settingCollapseSections);
 		}
 	}
 
-	console.log(stylingList)
-
 	/* Conditional section handling */
 	/* One conditional message section is printed for each conditional in the AutoScript */
 	for (const [conditionName, conditionMessage] of Object.entries(conditionalSectionList)) {
-		let iconFolder = "icons";
-		let iconName = "gear";
-		let iconColor = "#85a874"; 
-		if (stylingList[conditionName]) {
-			[iconFolder, iconName, iconColor] = stylingList[conditionName];
-		}
-		
-		if (returnValues.message == undefined) {
-			returnValues.message = autoEffectSection(conditionName, conditionMessage, settingCollapseSections, iconFolder, iconName, getColor(iconColor));
-		} else {
-			returnValues.message += autoEffectSection(conditionName, conditionMessage, settingCollapseSections, iconFolder, iconName, getColor(iconColor));
-		}
+		let [iconFolder, iconName, iconColor] = stylingList[conditionName] || ["icons", "gear", "#85a874"];
+		modifyProp(returnValues, message, autoEffectSection(conditionName, conditionMessage, settingCollapseSections, iconFolder, iconName, getColor(iconColor)));
 	}
 
-	/* Error handling  */
-	if (errorMessageList != {}) {
+	/* Error handling */
+	if (Object.keys(errorMessageList).length > 0) {
 		resetConditionals();
 		
 		/* Error message */
 		for (const [errorType, errorMessage] of Object.entries(errorMessageList)) {
-			if (errorType)
-			if (returnValues.message == undefined) {
-				returnValues.message = autoEffectSection(errorType, errorMessage, settingCollapseSections, "icons", "exit", getColor("Red"));
-			} else {
-				returnValues.message += autoEffectSection(errorType, errorMessage, settingCollapseSections, "icons", "exit", getColor("Red"));
-			}
+			modifyProp(returnValues, message, autoEffectSection(errorType, errorMessage, settingCollapseSections, "icons", "exit", getColor("Red")));
 		}
 	}
 
 	/* If a message is to be sent, print all unconditional and conditional sections in one chat message. Attach any action buttons that exist for the AutoScript */
-	if (settingMuteMessage != "true" && sendMessage == "true" && !((outputMessage == undefined || outputMessage == "") && returnValues.message == "")) {
+	if (settingMuteMessage != "true" && sendMessage == "true" && (outputMessage != "" || returnValues.message != "")) {
 		
 		/* Get AutoScript styling */
-		let iconFolder = "icons";
-		let iconName = "gear";
-		let iconColor = "#85a874"; 
-		if (stylingList[messageHeaderTitle]) {
-			[iconFolder, iconName, iconColor] = stylingList[messageHeaderTitle];
-		}
+		let [iconFolder, iconName, iconColor] = stylingList[messageHeaderTitle] || ["icons", "gear", "#85a874"];
 		let messageHeaderIcon = getIcon(iconFolder, iconName, "false", `style="background-color: ${getColor(iconColor)}"`);
 
 		/* Prepare unconditional and conditional sections into one message block */
@@ -17454,20 +17431,21 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	}
 
 	/* Apply results */
+	console.log(returnValues)
 	callback(returnValues);
 	setAttrs(output, {}, ()=>{
 
 		/* Execute challange rolls */
 		for (let i = 0; i < valueLists.challengeRollList.length; i++) {
 			/* Checks if any checks failed and the button should not be displayed */
-			rollChallenge(valueLists.challengeRollList[i][0], valueLists.challengeRollList[i][1], "false");
+			rollChallenge(valueLists.challengeRollList[i][0].toLowerCase(), valueLists.challengeRollList[i][1], "false");
 		}
 
 		/* Execute proc effects */
 		for (let i = 0; i < valueLists.procList.length; i++) {
-			if (valueLists.procList[i][0] == "-") { /* If custom ailment */
+			if (valueLists.procList[i][0].slice(0,1) == "-") { /* If custom ailment */
 				updateCustomAilment(valueLists.procList[i][0], "standard", "false");
-			} else if (ailmentName == "Bleed") { /* If Bleed */
+			} else if (valueLists.procList[i][0] == "Bleed") { /* If Bleed */
 				updateBleed();
 			} else { /* If standard ailment */
 				updateAilments(valueLists.procList[i][0]);
@@ -18546,7 +18524,7 @@ function autoEffectToString(AutoEffect, modList={}) {
 
 	autoEffectString += innerAutoEffect.join(" ")
 	if (outerAutoEffect.length > 0) {
-		autoEffectString += outerAutoEffect.join(", ");
+		autoEffectString += ", " + outerAutoEffect.join(", ");
 	}
 	return "(" + autoEffectString + ")";
 }
