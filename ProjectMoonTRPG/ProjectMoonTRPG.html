@@ -16857,7 +16857,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		conditionalAlert += (conditionalAlert != "") ? ", " + buttonName : buttonName;
 	}
 	if (conditionalAlert != "" && settingConditionalButtonReminder != "true") {
-		outputMessage += `<div class="autoeffectEntry">${getIcon("icons","whisper","false","class=autoEffectImage")}<b>Created conditional buttons:</b><br> ${conditionalAlert}</div>`
+		outputMessage += `<div class="autoeffectEntry">${getIcon("icons","whisper","false","html","class=autoEffectImage")}<b>Created conditional buttons:</b><br> ${conditionalAlert}</div>`;
 	}
 
 	/* Message handling */
@@ -16890,7 +16890,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		
 		/* Get AutoScript styling */
 		let [iconFolder, iconName, iconColor] = stylingList[messageHeaderTitle] || ["icons", "gear", "#85a874"];
-		let messageHeaderIcon = getIcon(iconFolder, iconName, "false", `style="background-color: ${getColor(iconColor)}"`);
+		let messageHeaderIcon = getIcon(iconFolder, iconName, "false", "html", `style="background-color: ${getColor(iconColor)}"`);
 
 		/* Prepare unconditional and conditional sections into one message block */
 		if (outputMessage == undefined) { outputMessage = ""; }
@@ -17231,13 +17231,13 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 			/* Get target icon. Is in this format: [/TARGET]. If a effectIcon is provided, use that instead */
 			if (effectIcon != "No icon") {
 				if (settingLimbusStyle == "true") { effectIcon = effectIcon.replace("limbus/",""); }
-				applyInsert(langTargetIcon, getIcon("ailments", effectIcon, settingLimbusStyle, `class="autoEffectImage" style="background-color: ${iconColor}"`), "", "");
+				applyInsert(langTargetIcon, getIcon("ailments", effectIcon, settingLimbusStyle, "html", `class="autoEffectImage" style="background-color: ${iconColor}"`), "", "");
 			} else {
-				applyInsert(langTargetIcon, getIcon("ailments", effectTarget.replace("_"," "), settingLimbusStyle, `class="autoEffectImage" style="background-color: ${iconColor}"`), "", "");
+				applyInsert(langTargetIcon, getIcon("ailments", effectTarget.replace("_"," "), settingLimbusStyle, "html", `class="autoEffectImage" style="background-color: ${iconColor}"`), "", "");
 			}
 			
 			/* Question mark icon */
-			applyInsert("[/Question]", getIcon("icons", "Question", "false", `class="autoEffectImage" style="background-color: ${iconColor}"`), "", "");
+			applyInsert("[/Question]", getIcon("icons", "Question", "false", "html", `class="autoEffectImage" style="background-color: ${iconColor}"`), "", "");
 	
 			/* Get custom icon. Is in one of these formats: [/iconName], [/limbus/iconName], [/community/iconName]*/
 			if ((/\[\/([^0-9]+)\]/g).test(message)) {
@@ -17249,7 +17249,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 					let iconSelector = icon.slice(1,-1).split(", ");
 					let iconFolder = iconSelector[0];
 					let iconName = iconSelector[1];
-					message = message.replace(icon, getIcon(iconFolder, iconName, "false", `class="autoEffectImage" style="background-color: ${iconColor}"`));
+					message = message.replace(icon, getIcon(iconFolder, iconName, "false", "html", `class="autoEffectImage" style="background-color: ${iconColor}"`));
 				});
 			}
 	
@@ -18031,7 +18031,7 @@ function autoEffectToString(AutoEffect, modList={}) {
 /* Creates a new conditional button*/
 function createConditionalButton(buttonName, buttonAutoScript, iconFolder, iconName, iconColor) {
 	let output = {}
-	let buttonIcon = getIcon(iconFolder, iconName, "false").replace('<img src="','').replace('" >','');
+	let buttonIcon = getIcon(iconFolder, iconName, "false", "url");
 
 	let newrowid = generateRowID();
 	output[`repeating_conditionalButtons_${newrowid}_buttonName`] = buttonName;
