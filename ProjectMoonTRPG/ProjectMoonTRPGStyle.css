@@ -2511,13 +2511,21 @@ height: 35px;}
     pointer-events: none;
 }
 .sheet-rolltemplate-message .sheet-styledText,
-.sheet-rolltemplate-errorMessage .sheet-styledText {
+.sheet-rolltemplate-errorMessage .sheet-styledText,
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer .sheet-styledText,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer .sheet-styledText,
+.sheet-rolltemplate-message .userscript-autoeffectContainer .sheet-styledText,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer .sheet-styledText {
     pointer-events: visible;
     cursor: text;
     color: #fff;
 }
 .sheet-rolltemplate-message .sheet-styledText:hover,
-.sheet-rolltemplate-errorMessage .sheet-styledText:hover {
+.sheet-rolltemplate-errorMessage .sheet-styledText:hover,
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer .sheet-styledText:hover,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer .sheet-styledText:hover,
+.sheet-rolltemplate-message .userscript-autoeffectContainer .sheet-styledText:hover,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer .sheet-styledText:hover {
     text-decoration: none;
 }
 .sheet-rolltemplate-message img[alt*="icon"],
@@ -2648,6 +2656,7 @@ height: 35px;}
 .sheet-rolltemplate-baseRoll .userscript-autoeffectContainer > .userscript-autoeffectEntry {
     position: relative;
     padding-left: 25px;
+    padding-right: 5px;
     min-height: 25px;
     line-height: 20px;
     border-bottom: 1px solid #555;
