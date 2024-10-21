@@ -2212,182 +2212,6 @@ background-image: url('https://raw.githubusercontent.com/punibird/roll20-charact
 .defeat-limbus {
 background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Defeat.png');
 }
-
-
-/* Limbus specific icons */
-.sinking-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Sinking.png');
-}
-
-.tremor-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Tremor.png');
-}
-.tremorchain-limbus {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TremorChain.png');
-}
-.tremordecay-limbus {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TremorDecay.png');
-}
-.tremordistribution-limbus {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TremorDistribution.png');
-}
-.tremoreverlasting-limbus {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TremorEverlasting.png');
-}
-.tremorfracture-limbus {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TremorFracture.png');
-}
-.tremorreverb-limbus {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TremorReverb.png');
-}
-.tremorsuperposition-limbus {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TremorSuperposition.png');
-}
-
-.rupture-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Rupture.png');
-}
-
-.poise-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Poise.png');
-}
-
-.critical-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Critical.png');
-}
-
-.devastation-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Devastation.png');
-}
-
-.ruin-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Ruin.png');
-}
-
-.frostbite-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Frostbite.png');
-}
-
-.nails-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Nails.png');
-}
-
-.poison-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Poison.png');
-}
-
-.aggro-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Aggro.png');
-}
-.bullseye-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Bullseye.png');
-}
-.ammo-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Ammo.png');
-}
-.barrier-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Barrier.png');
-}
-.duel-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Duel.png');
-}
-.fist-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Fist.png');
-}
-.fist-limbus-green {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/FistGreen.png');
-}
-.heal-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Heal.png');
-}
-.kampule-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/KAmpule.png');
-}
-.ttime-limbus  {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TTime.png');
-}
-.rottingskin-limbus  {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/RottingSkin.png');
-}
-
-.blood  {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.6.3/ProjectMoonTRPG/images/ailments/Blood.png');
-}
-
-.slashprotection-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/SlashProtection.png');
-}
-.slashfragility-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/SlashFragility.png');
-}
-.pierceprotection-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/PierceProtection.png');
-}
-.piercefragility-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/PierceFragility.png');
-}
-.bluntprotection-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/BluntProtection.png');
-}
-.bluntfragility-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/BluntFragility.png');
-}
-
-.wrath-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Wrath.png');
-}
-.lust-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Lust.png');
-}
-.sloth-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Sloth.png');
-}
-.gluttony-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Gluttony.png');
-}
-.gloom-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Gloom.png');
-}
-.pride-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Pride.png');
-}
-.envy-limbus {
-background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Envy.png');
-}
-
-.damageup-limbus {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7/ProjectMoonTRPG/images/ailments/limbus/DamageUp.png');
-}
-.damagedown-limbus {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7/ProjectMoonTRPG/images/ailments/limbus/DamageDown.png');
-}
-
-/* Community icons */
-.style-community {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/community/Style.png');
-}
-.thorns-community {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/community/Thorns.png');
-}
-.rhythm-community {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/community/Rhythm.png');
-}
-
-.frenzy-community {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7/ProjectMoonTRPG/images/community/Frenzy.png');
-}
-.shock-community {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7/ProjectMoonTRPG/images/community/Shock.png');
-}
-.terror-community {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7/ProjectMoonTRPG/images/community/Terror.png');
-}
-.staggerdamageup-community {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7/ProjectMoonTRPG/images/community/StaggerDamageUp.png');
-}
-.staggerdamagedown-community {
-background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7/ProjectMoonTRPG/images/community/StaggerDamageDown.png');
-}
 /* Ailment Icons END */
 
 .next { /* Aka update */
@@ -2518,7 +2342,7 @@ height: 35px;}
 .sheet-rolltemplate-baseRoll .userscript-autoeffectContainer .sheet-styledText {
     pointer-events: visible;
     cursor: text;
-    color: var(--color-white);
+    color: #fff;
 }
 .sheet-rolltemplate-message .sheet-styledText:hover,
 .sheet-rolltemplate-errorMessage .sheet-styledText:hover,
@@ -2542,7 +2366,7 @@ height: 35px;}
 .sheet-rolltemplate-damagecalculation .userscript-calculationContainer {
     margin-top: 10px;
     border-radius: 5px;
-    border: 1px solid var(--color-light-gray);
+    border: 1px solid #555;
     position: relative;
 }
 
@@ -2562,11 +2386,11 @@ height: 35px;}
     margin-left: 25px;
 }
 .sheet-rolltemplate-damagecalculation .userscript-calculationContainer > div:nth-child(n+2) {
-    border-bottom: 1px solid var(--color-light-gray);
+    border-bottom: 1px solid #555;
 }
 .sheet-rolltemplate-damagecalculation .userscript-calculationContainer > div:first-child {
     height: 30px;
-    border: 2px solid var(--color-black)
+    border: 2px solid #555;
 }
 .sheet-rolltemplate-damagecalculation .userscript-damageDisplay {
     display: flex;
@@ -2589,8 +2413,8 @@ height: 35px;}
     align-items: center;
     height: 30px;
     width: 35%;
-    background-color: var(--color-black);
-    border: 2px solid var(--color-black) !important;
+    background-color: #000;
+    border: 2px solid #000 !important;
     position: absolute;
     right: 0px;
     top: 0px;
@@ -2599,10 +2423,9 @@ height: 35px;}
 .sheet-rolltemplate-damagecalculation .userscript-calculationContainer:has(div:only-child) {
     display: none;
 }
-.sheet-rolltemplate-damagecalculation .userscript-hpCalculationContainer div:first-child { color: var(--color-HP); background-color: var(--color-darker-gray); }
-.sheet-rolltemplate-damagecalculation .userscript-stCalculationContainer div:first-child { color: var(--color-ego-STGR); background-color: var(--color-darker-gray); }
-.sheet-rolltemplate-damagecalculation .userscript-spCalculationContainer div:first-child { color: var(--color-SAN); background-color: var(--color-darker-gray); }
-
+.sheet-rolltemplate-damagecalculation .userscript-hpCalculationContainer div:first-child { color: #cc4125; background-color: #111; }
+.sheet-rolltemplate-damagecalculation .userscript-stCalculationContainer div:first-child { color: #f1c232; background-color: #111; }
+.sheet-rolltemplate-damagecalculation .userscript-spCalculationContainer div:first-child { color: #6d9eeb; background-color: #111; }
 
 /* Description and effect container styling */
 .sheet-rolltemplate-baseRoll .userscript-descriptionContainer {
@@ -2617,7 +2440,7 @@ height: 35px;}
 .sheet-rolltemplate-baseRoll .userscript-effectDescription {
     max-height: 70px;
     overflow: auto;
-    border: 1px var(--color-light-gray) solid;
+    border: 1px #555 solid;
     padding-bottom: 1px;
 }
 
@@ -2643,7 +2466,7 @@ height: 35px;}
 .sheet-rolltemplate-baseRoll .userscript-autoeffectContainer {
     margin-top: 5px;
     border-radius: 5px;
-    border: 1px solid var(--color-light-gray);
+    border: 1px solid #555;
     position: relative;
 }
 .sheet-rolltemplate-baseRoll .userscript-autoeffectContainer {
@@ -2659,7 +2482,7 @@ height: 35px;}
     padding-right: 5px;
     min-height: 25px;
     line-height: 20px;
-    border-bottom: 1px solid var(--color-light-gray);
+    border-bottom: 1px solid #555;
 }
 .sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer .userscript-autoEffectTitle,
 .sheet-rolltemplate-autoeffect .userscript-autoeffectContainer .userscript-autoEffectTitle,
@@ -2717,7 +2540,7 @@ height: 35px;}
     border-bottom: none;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-top: 10px solid var(--color-white);
+    border-top: 10px solid #fff;
     opacity: 50%;
     transition: opacity 10s 0.1s ease;
 }
@@ -2749,14 +2572,14 @@ height: 35px;}
     width: calc(50% - 8px);
 }
 .sheet-rolltemplate-actionbuttons .sheet-button {
-    background-color: var(--color-olive);
+    background-color: #6f8b60;
     border-radius: 10px;
 }
 .sheet-rolltemplate-actionbuttons .sheet-actionButtonContainer:not(:has(div)) {
     display: none;
 }
 .sheet-rolltemplate-actionbuttons .sheet-button a {
-    color: var(--color-white);
+    color: #fff;
     background-color: rgba(0, 0, 0, 0);
     border: 0px;
     border-radius: 10px;
@@ -3443,7 +3266,6 @@ justify-content: center;
     --color-red: #c25944;
     --color-blue: #7397d1;
     --color-green: #85a874;
-    --color-olive: #6f8b60;
     --color-light-green: #93c47d;
     --color-purple: #8e7cc3;
     --color-orange: #cf8c44;
@@ -3462,19 +3284,19 @@ justify-content: center;
 }
 
 .conditioalButtonColorSelection[value="blue"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="blue"])  { background-color: var(--color-blue); }
+.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="blue"])  { background-color: #7397d1; }
 .conditioalButtonColorSelection[value="yellow"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="yellow"])  { background-color: var(--color-STGR); }
+.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="yellow"])  { background-color: #dbb748; }
 .conditioalButtonColorSelection[value="orange"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="orange"]) { background-color: var(--color-orange); }
+.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="orange"]) { background-color: #cf8c44; }
 .conditioalButtonColorSelection[value="red"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="red"]) { background-color: var(--color-red); }
+.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="red"]) { background-color: #c25944; }
 .conditioalButtonColorSelection[value="purple"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="purple"])  { background-color: var(--color-purple) }
+.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="purple"])  { background-color: #8e7cc3; }
 .conditioalButtonColorSelection[value="green"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="green"])  { background-color: var(--color-green) }
+.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="green"])  { background-color: #85a874; }
 .conditioalButtonColorSelection[value="black"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="black"])  { background-color: var(--color-black) }
+.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="black"])  { background-color: #000; }
 
 .WHITE { background-color: var(--color-off-white) !important; }
 .BLACK { background-color: var(--color-black) !important; }
