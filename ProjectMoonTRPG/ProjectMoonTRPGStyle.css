@@ -3038,7 +3038,8 @@ justify-content: center;
 
 
 /* Assorted buttons */
-.shareButton, .editButton, .autoScriptButton, .closeAutoScriptButton, .saveAutoScriptButton, .styleAutoScriptButton, .styleAutoScriptDefault, .copyButton, .displayButton, .lockButton {
+.shareButton, .editButton, .autoScriptButton, .closeAutoScriptButton, .saveAutoScriptButton,.styleAutoScriptButton,
+.styleAutoScriptDefault, .aliasAutoScriptButton, .aliasAutoScriptDefault, .copyButton, .displayButton, .lockButton {
     position: absolute;
     height: 25px;
     width: 25px;
@@ -3052,8 +3053,7 @@ justify-content: center;
     background-color: rgba(0, 0, 0, 0.3) !important;
 }
 
-
-:is(.closeAutoScriptButton, .saveAutoScriptButton, .styleAutoScriptButton, .styleAutoScriptDefault):hover {
+:is(.closeAutoScriptButton, .saveAutoScriptButton, .styleAutoScriptButton, .styleAutoScriptDefault, .aliasAutoScriptButton, .aliasAutoScriptDefault):hover {
     background-color: var(--color-black) !important;
 }
 
@@ -3061,8 +3061,7 @@ justify-content: center;
     bottom: 5px;
     right: 5px;
     z-index: 20;
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/share.png');
-    
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/share.png'); 
 }
 
 .editButton {
@@ -3095,7 +3094,7 @@ justify-content: center;
     width: auto;
 }
 
-.styleAutoScriptButton {
+.styleAutoScriptButton, .aliasAutoScriptButton, .styleAutoScriptDefault, .aliasAutoScriptDefault {
     top: 4px;
     right: 80px;
     z-index: 20;
@@ -3103,21 +3102,14 @@ justify-content: center;
     padding-right: 4px;
     width: auto;
 }
-.toggleStylingButton:checked ~ .styleAutoScriptButton {
-    display: none !important;
+.aliasAutoScriptButton {
+    right: 207px;
 }
 
-.styleAutoScriptDefault {
-    top: 4px;
-    right: 80px;
-    z-index: 20;
-    padding-left: 4px;
-    padding-right: 4px;
-    width: auto;
-}
-.toggleStylingButton:not(:checked) ~ .styleAutoScriptDefault  {
-    display: none !important;
-}
+.toggleStylingButton:not(:checked) ~ :is(.styleAutoScriptDefault)  { display: none !important; }
+.toggleAliasButton:not(:checked) ~ :is(.aliasAutoScriptDefault)  { display: none !important; }
+.toggleStylingButton:checked ~ :is(.styleAutoScriptButton, .aliasAutoScriptButton, .aliasAutoScriptDefault) { display: none !important; }
+.toggleAliasButton:checked ~ :is(.styleAutoScriptButton, .aliasAutoScriptButton, .styleAutoScriptDefault) { display: none !important; }
 
 :is(.augmentBlock, .specialBlock, .skillBlock) .autoScriptButton {
     right: 35px;

@@ -138,14 +138,19 @@
 <!-- AutoScript edit popup -->
 <input type="checkbox" id="autoScriptEditorToggle" name="attr_autoScriptEditor_display" value="true" hidden="true">
 <div class="contentContainer darkBG autoscriptEditorContainer">
+	<input type="checkbox" class="toggleAliasButton" name="attr_autoScriptEditorTarget" value="autoScriptAlias" hidden="true">
 	<input type="checkbox" class="toggleStylingButton" name="attr_autoScriptEditorTarget" value="autoScriptStyling" hidden="true">
-	<button type="action" id="autoScriptStyling" class="darkInput styleAutoScriptButton" name="act_autoScriptEdit" data-i18n-title="autoscript-open-style-editor" title="Open Styling Editor" data-i18n="autoscript-open-style-editor">Open AutoScript Styling Editor</button>
-	<button type="action" id="autoScriptStylingDefault" class="darkInput styleAutoScriptDefault" name="act_autoScriptStylingDefault">Reset Styling to Default</button>
+	<button type="action" id="autoScriptAlias" class="darkInput aliasAutoScriptButton" name="act_autoScriptEdit" data-i18n-title="autoscript-edit-aliases-title" title="Open AutoScript Alias Editor" data-i18n="autoscript-edit-aliases">AutoScript Aliases</button>
+	<button type="action" id="autoScriptStyling" class="darkInput styleAutoScriptButton" name="act_autoScriptEdit" data-i18n-title="autoscript-edit-styling" title="Open AutoScript Styling Editor" data-i18n="autoscript-edit-styling">AutoScript Styling</button>
+	<button type="action" id="autoScriptAliasDefault" class="darkInput aliasAutoScriptDefault" name="act_autoScriptDefault" data-i18n-title="autoscript-reset-aliases" title="Reset Aliases to Default" data-i18n="autoscript-reset-aliases">Reset Aliases to Default</button>
+	<button type="action" id="autoScriptStylingDefault" class="darkInput styleAutoScriptDefault" name="act_autoScriptDefault" data-i18n-title="autoscript-reset-styling" title="Reset Styling to Default" data-i18n="autoscript-reset-styling">Reset Styling to Default</button>
 	<button type="action" class="darkInput saveAutoScriptButton" name="act_saveAutoScriptEdit" data-i18n-title="autoscript-save-changes-title" title="Save AutoScript changes" data-i18n="autoscript-save-changes">Save</button>
 	<button type="action" class="darkInput closeAutoScriptButton" name="act_closeAutoScriptEdit" data-i18n-title="autoscript-close-editor" title="Save and close AutoScript Editor"></button>
 	<label for="autoScriptInput" style="margin-left: 5px;" data-i18n="autoscript-editor">AutoScript Editor</label>
 	<input type="text" class="autoScriptEditorTarget darkBG" name="attr_autoScriptEditorTarget" readonly>
 	<textarea spellcheck="false" id="autoScriptInput" name="attr_autoScriptEditorInput"></textarea>
+	<textarea spellcheck="false" type="text" class="autoScriptAliasStorage" name="attr_autoScriptAlias" hidden="true"></textarea>
+	<textarea spellcheck="false" type="text" class="autoScriptAliasStorage" name="attr_autoScriptAliasDefault" hidden="true"></textarea>
 	<textarea spellcheck="false" type="text" class="autoScriptStylingStorage" name="attr_autoScriptStyling" hidden="true"></textarea>
 	<textarea spellcheck="false" type="text" class="autoScriptStylingStorage" name="attr_autoScriptStylingDefault" hidden="true"></textarea>
 </div>
@@ -8248,7 +8253,6 @@ const ailmentAttributes = [
 	"ailMax", "ailMaxBehavior", "ailMessageCheck", "ailMessage", "ailCustomResistance", "ailCollapse" // Other
 ]
 
-
 /* Contains details on the format of all AutoEffects. Used for parsing AutoScripts */
 //	 value: One of "string", "number", or false. If false the AutoEffect has no value
 //	 target: Array of valid targets. Includes groups of targets like "#Ailment", "#Bar", "#BarDamage" and "#BarTemp". If false the AutoEffect has no target
@@ -8311,6 +8315,441 @@ const autoEffectTriggers = [
 	"Staggered", "Defeated", "Panic",							// States
 	"Permanent"													// Other
 ]
+
+/* Contains default AutoScript styling and aliases */
+const stylingDefault =
+`/* Clash results */
+(Clash Win, icons, win, red) (CW, icons, win, red)
+(Clash Lose, icons, lose, yellow) (CL, icons, lose, yellow)
+
+/* On Use and On Hit */
+(On Use, icons, Portable, blue)
+(On Hit, icons, Attack, purple)
+
+/* Action buttons */
+(Apply damage, icons, damage, red)
+(Apply regen, icons, heal, green)
+(Apply ailments, icons, lose, purple)
+(Give ailments, icons, win, yellow)
+(Roll challenge, icons, Speed, blue)`;
+
+const aliasDefault = 
+`/* --------------------- */
+/* Weapon effects */
+/* --------------------- */
+{# Charge Ammo;
+	(Consume 2 Charge Silent)
+	(CustomMessage "[/TARGET] Charge Ammo: Not enough [TARGET]" CheckFailure)
+	(CustomMessage "[/TARGET] Charge Ammo: Consumed [-NUM] [TARGET]" CheckSuccess)
+#}
+{# Extension Grip;
+	(Consume 4 Charge Silent, Extension Grip)
+	(CustomMessage "[/TARGET] Consumed [-NUM] [TARGET] to activate Extension Grip [[INITIAL] -> [RESULT]]”, Extension Grip)
+#}
+{# Loaded Magnet #N;
+	(Require {2*#N} Charge_Barrier Silent)
+	(CustomMessage "[/limbus/Barrier] Loaded Magnet: Target is pulled up to #N squares towards the user”) (Reset)
+#}
+
+
+/* ------------------------------ */
+/* Outfit / passive effects */
+/* ------------------------------ */
+{# Padded Clothing #N;
+	[#Combat start, (Add {3*#N} THP) #]
+#}
+{# Shock Absorbent #N;
+	[#Combat start, (Add {3*#N} TST) #]
+#}
+{# Comfy Clothes #N;
+	[#Combat start, (Speed #N This combat) #]
+#}
+
+
+/* -------------------------------------- */
+/* Dice Manipulation Augments */
+/* -------------------------------------- */
+{# #Ailment Bonus #Trigger;
+	[# #Trigger,
+		(Require #N #Ailment Target Silent)
+		(CustomMessage "[/TARGET] [TARGET] Bonus: Gained **1** Dice Power") (DicePower 1 Silent)
+	#]
+#}
+{# Poise Bonus #Trigger;
+	[# #Trigger,
+		(Require 4 Poise Silent) (CustomMessage ”Poise bonus: Gained [NUM] Dice Power”)
+		(DicePower 1 Silent)
+	#]
+#}
+{# #Ailment Vigor #N;
+	[#Offensive,
+		(Require #N #Ailment Scaling3 Silent)
+		(CustomMessage ”[/TARGET] #Ailment Vigor: Gained [SCALING] Dice Power”)
+		(DicePower 1 Silent)
+	#]
+#}
+
+//--placeholder-- Haste Vigor
+
+
+
+/* -------------------- */
+/* Buff Augments */
+/* -------------------- */
+{#Activate Protection;
+	[#Round start,
+		(Require 25% -HP Scaling Silent)
+		(CustomMessage "[/Protection] Activate Protection: Gained no Protection" CheckFailure)
+		(CustomMessage "Activate Protection: Gained [SCALING] Protection [/Protection] and [SCALING] Stagger Protection [/StaggerProtection]" CheckSuccess)
+		(Gain 1 Protection This turn Silent) (Gain 1 Stagger_Protection This turn Silent)
+	#]
+#}
+{#Activate #Ailment;
+	[#Round start,
+		(Require 25% -HP Scaling Silent)
+		(CustomMessage "[/Strength] Activate #Ailment: Gained no #Ailment" CheckFailure)
+		(CustomMessage "[/Strength] Activate #Ailment: Gained [SCALING] #Ailment" CheckSuccess)
+		(Gain 1 #Ailment This turn Silent)
+	#]
+#}
+{#First-strike #N;
+	[#Offensive #Defensive #First round, (DicePower N) (CustomMessage “[/Strength] First-strike: Gained N dice power”) #]
+#}
+{#Remembrance #Ailment;
+	[#Round start, (Gain 2 #Ailment This round, Remembrance) #]
+#}
+{#Power on Takedown #N;
+	[#Offensive, (Gain #N Strength, Power on Takedown) #]
+#}
+{# Status Barrier;
+	[#Round start,
+		(Require 0.5 Charge_Barrier Scaling Silent)
+		(CustomMessage “[/limbus/Barrier] Status Barrier: Reduce Ailments by [SCALING]”)
+	#]
+#}
+{# Indomitable;
+	[#Staggered,
+		(Require 1 -ST Scaling Silent, Indomitable) (Add 1 ST Silent, Indomitable)
+		(CustomMessage “Regained all Stagger Resist (Once per combat)”, Indomitable)
+	#]
+#}
+
+
+/* --------------------------------- */
+/* Status Ailment Augments */
+/* --------------------------------- */
+{# Smoke Overflow #N;
+	[#Offensive,
+		(Require {4*#N+4} Smoke Silent)
+		(DicePower #N Silent)
+		(CustomMessage "[/Smoke] Smoke Overflow: Gained #N Dice Power")
+	#]
+#}
+{# Puffy Brume;
+	[#Offensive,
+		(Require 2 Smoke Scaling Silent)
+		(FlatDamage 1 HP Silent)
+		(CustomMessage "[/Smoke] Puffy Brume: Deal [SCALING] [TARGET] damage")
+	#]
+#}
+{# Dizzying Smog;
+	[#Offensive,
+		(Require 4 Smoke Scaling Target Silent)
+		(FlatDamage 1 ST Silent)
+		(CustomMessage "[/Smoke] Dizzying Smog: Deal [SCALING] [TARGET] damage")
+	#]
+#}
+{# Flash #Ailment #N;
+	[#Offensive #First round,
+		(Inflict #N #Ailment Silent)
+		(CustomMessage “[/TARGET] Flash #Ailment: Inflict [SCALING NUM] [TARGET]”)
+		(CustomMessage “[/TARGET] Flash #Ailment: Gain [SCALING NUM] [TARGET] [[INITIAL] -> [RESULT]]” Target, Apply ailments #ActionButton)
+	#]
+#}
+{# #Ailment-maniac #N;
+	[#Offensive,
+		(Consume 1 #Ailment Scaling#N Silent, Clash Win)
+		(Inflict 1 #Ailment Silent, Clash Win)
+		(CustomMessage “[/TARGET] Transferred [SCALING NUM] [TARGET] from user to target”, Clash Win)
+	#]
+#}
+{# #Ailment-maniac #N (Reverse);
+	[#Offensive,
+		(Consume 1 #Ailment Scaling#N Silent Target, Clash Win)
+		(Gain 1 #Ailment Silent, Clash Win)
+		(CustomMessage “[/TARGET] Transferred [SCALING NUM] [TARGET] from target to user”, Clash Win)
+	#]
+#}
+{# Systems Online #N;
+	[#Combat start, (Gain {3*#N} Charge) #]
+#}
+{# Constant Barrier #N;
+	[#Round start,
+		(CustomMessage “[/limbus/Barrier] Constant Barrier: Exchange 3 Charge for 1 Barrier. Max #N uses”)
+		(Consume 3 Charge Silent, Constant Barrier)
+		(Gain 1 Charge_Barrier This round Silent, Constant Barrier)
+	#]
+#}
+{# Combo Master;
+	[#Offensive,
+		(Gain 1 Combo Silent, Clash Win)
+		(CustomMessage “[/TARGET] Gain 1 [TARGET]. Gain [NUM] extra [TARGET] if target is staggered or defeated”, Clash Win)
+	#]
+	[#Offensive #Defensive,
+		(Proc Combo Silent, Clash Lose)
+		(CustomMessage “[/TARGET] Halved [TARGET]”, Clash Lose)
+	#]
+#}
+{# Kinetic Generator;
+	[#Round start,
+		(Require 1 Combo Scaling Silent)
+		(Gain 1 Charge Silent)
+		(CustomMessage “[/limbus/FistGreen] Kinetic Generator: Gained [SCALING NUM] [TARGET]”)
+	#]
+#}
+
+
+/* --------------------- */
+/* Mark Augments */
+/* --------------------- */
+{# Target for Exploitation;
+	[#Offensive, (Gain 2 Charge, On hit: Marked) #]
+#}
+
+
+/* ---------------------- */
+/* Other Augments */
+/* ---------------------- */
+{# Cursed #N;
+	[#Permanent,
+		(Require #N Ruin Silent) (CustomMessage “[/TARGET] Cursed: [TARGET] set to [NUM]” CheckFailure) (Reset)
+		(Require #N Devastation Silent) (CustomMessage “[/TARGET] Cursed: [TARGET] set to [NUM]” CheckFailure) (Reset)
+		(Consume 1 Ruin Scaling#N Silent) (Reset) (Gain #N Ruin Silent)
+		(Consume 1 Devastation Scaling#N Silent) (Reset) (Gain #N Devastation Silent)
+	#]
+#}
+
+
+/* ---------------------------------------- */
+/* Dice Manipulation Skill Effects */
+/* ---------------------------------------- */
+{# Skill #Ailment Vigor #N #X?;
+	(Require {#X+#N} Ailment Silent)
+	(CustomMessage ”[/TARGET] [TARGET] Vigor: Gained #N Dice Power”)
+	(DicePower #N Silent) (Reset)
+#}
+{# Skill Ailment Bonus #N #X;
+	(Require {#X+#N} Ailment Target Silent)
+	(CustomMessage "[/TARGET] [TARGET] Bonus: Gained #N Dice Power")
+	(DicePower #N Silent) (Reset)
+#}
+{# Overcoming Crisis #N;
+	(Require {#N*25%} -HP Silent)
+	(CustomMessage “Overcoming Crisis: Not below [NUM] **HP**” CheckFailure)
+	(DicePower #N Silent)
+	(CustomMessage “Overcoming Crisis: Gained [NUM] **Dice Power**” CheckSuccess) (Reset)
+#}
+{# Press Advantage, #Clash? #Result?;
+	(Require 2 Bind Target Scaling Silent #IgnoreFailure, #Clash #Result)
+	(Inflict 1 TYPE_Fragility Silent, #Clash #Result)
+	(CustomMessage "[/Bind] Press Advantage: Gain [SCALING] [TARGET] next round [[INITIAL] -> [RESULT]]" Target, Apply ailments #ActionButton)
+	(CustomMessage "[/Bind] Press Advantage: Inflict **TYPE Fragility** on the target equal to half their **Bind**", #Clash #Result)
+	(Reset, #Clash #Result)
+#}
+
+
+/* ---------------------------- */
+/* Burn Support Effects */
+/* ---------------------------- */
+{# Detonate;
+	(Proc Burn Target Silent, Clash Win, Detonate #ActionButton)
+	(CustomMessage "[/Burn] Detonate: Activate **Burn**" Target, Clash Win, Detonate #ActionButton)
+#}
+{# Smokey Detonate;
+	(Require 1 Burn Scaling Target Silent, Clash Win, Smokey Detonate #ActionButton)
+	(Inflict 0.5 Smoke Silent, Clash Win, Smokey Detonate #ActionButton)
+	(CustomMessage "[/TARGET] Gain [SCALING NUM] [TARGET] [[INITIAL] -> [RESULT]]" Target, Clash Win, Smokey Detonate #ActionButton)
+	(Proc Burn Target, Clash Win, Smokey Detonate #ActionButton)
+	(CustomMessage "Activate **Burn** on the target and inflict **Smoke** equal to the remaining **Burn**", Clash Win, Smokey Detonate #Section)
+#}
+{# Renewed Blaze;
+	(Pause 1 Burn Target, Clash Win)
+	(CustomMessage "Renewed Blaze: **Burn** on target does not decay for its next activation", Clash Win)
+#}
+{# Fireball N;
+	(Require 1 Burn Scaling Target Silent, Clash Win, Fireball #ActionButton)
+	(FlatDamage 1 Select, Clash Win, Fireball #ActionButton, Fireball Area Damage #ActionButton)
+	(CustomMessage "Activate **Burn** on the target. All characters within N square(s) of the target take [SCALING] **Burn** damage (affected by resistances)", Clash Win, Fireball #Section)
+	(Proc Burn Target, Clash Win, Fireball #ActionButton)
+#}
+
+
+/* --------------------------------- */
+/* Frostbite Support Effects */
+/* --------------------------------- */
+{# Cold Snap #ActionButton;
+	(Proc Frostbite Target, Clash Win, Cold Snap #ActionButton #ActionButton)
+	(Consume 1 Frostbite Target Scaling, Clash Win, Cold Snap #ActionButton)
+	(CustomMessage "Activate **Frostbite** on the target, then fully clear Frostbite", Clash Win, Cold Snap #ActionButton)
+#}
+{# Deep Chill;
+	(Pause 1 Frostbite Target, Clash Win)
+	(CustomMessage "Deep Chill: **Frostbite** on target does not decay for its next activation", Clash Win)
+#}
+{# Shatter #N;
+	(CustomMessage “[/limbus/Frostbite] Consumed **{3+#N} Frostbite** to deal **#Nd8** Force damage” Target, Clash Win)
+	(Consume 5 Frostbite Silent Target #IgnoreFailure, Clash Win )
+	(CustomMessage "Shatter: Consume [-NUM] [TARGET] on the target to deal Force damage", Clash Win)
+	(Reset, Clash Win)
+#}
+{# Chill Out #N;
+	(Require {3+#N} Frostbite Target Silent #IgnoreFailure, Clash Win)
+	(Require 2 Frostbite Scaling{3+#N} Target Silent #IgnoreFailure, Clash Win)
+	(Inflict 1 Bind Silent, Clash Win)
+	(CustomMessage “Chill Out: Gain [SCALING] [TARGET] [[INITIAL] -> [RESULT]]" Target, Clash Win)
+	(Reset, Clash Win)
+	(CustomMessage "Chill Out: Inflict **Bind** to the target equal to half their **Frostbite**" Target, Apply ailments #ActionButton)
+#}
+
+
+/* ------------------------------- */
+/* Smoke Support Effects */
+/* ------------------------------- */
+
+
+Ended off here!
+
+
+Smoke - Gain N
+Consumes X amount of Smoke on the target to gain N ailment. Requires targeting
+{# Smoke - Gain Ailment N;
+(Consume X Smoke Target, #Clash #Result #IgnoreFailure)
+(Gain N Ailment, #Clash #Result)
+(Reset, #Clash #Result)
+#}
+[Replace #Clash #Result with Clash Win or Clash Lose, or remove it and the comma before it if the effect is On Use. Replace X with the Smoke needed for the effect. Replace N with the gained ailment count. Replace Ailment with your ailment of choice]
+Smoke - Inflict N
+Consumes X amount of Smoke on the target to inflict N ailment. Requires targeting
+{# Smoke - Inflict Ailment N;
+(Consume X Smoke Target, #Clash #Result #IgnoreFailure)
+(Inflict N Ailment, #Clash #Result)
+(Reset, #Clash #Result)
+#}
+[Replace #Clash #Result with Clash Win or Clash Lose, or remove it and the comma before it if the effect is On Use. Replace X with the Smoke needed for the effect. Replace N with the inflicted ailment count. Replace Ailment with your ailment of choice]
+
+
+
+
+
+
+
+
+/* ------------------------------- */
+/* Combo Support Effects */
+/* ------------------------------- */
+
+
+
+{# Combo Cost X;
+(Consume X Combo, Clash Win #IgnoreFailure) (Reset)
+(Consume X Combo, Clash Lose #IgnoreFailure)
+
+[Replace X with the total Combo cost of every Combo effect across the entire skill]
+#}
+
+{# Sweep N;
+(Inflict 3*N Bind Silent, Clash Win)
+(CustomMessage "[/limbus/FistGreen] Sweep: Gain [NUM] [TARGET] next round [[INITIAL] -> [RESULT]]" Target, Clash Win)
+(CustomMessage "[/limbus/FistGreen] Sweep: Inflict [NUM] [TARGET] next round", Clash Win)
+(Inflict 0 Burn Silent, Clash Win)
+
+[Replace 3*N with the result of the calculation, and N with the effect potency. Don’t change the last Inflict]
+#}
+
+{# Vital Strike N;
+(FlatDamage 2*N HP Silent, Clash Win)
+(CustomMessage "[/limbus/FistGreen] Vital Strike: Deal [NUM] [TARGET] Damage. Use the Apply Damage button twice if this was a reaction", Clash Win)
+(CustomMessage "[/limbus/FistGreen] Vital Strike: Receive [-NUM] [TARGET] Damage" Target, Clash Win)
+(FlatDamage 0 HP Silent, Clash Win)
+#}
+[Replace 2*N with the result of the calculation, and N with the effect potency. Don’t change the last FlatDamage]
+{# Knockout Strike N;
+(FlatDamage N ST Silent, Clash Win)
+(CustomMessage "[/limbus/FistGreen] Knockout Strike: Deal [NUM] [TARGET] Damage. Use the Apply Damage button twice if this was a reaction", Clash Win)
+(CustomMessage "[/limbus/FistGreen] Knockout Strike: Receive [-NUM] [TARGET] Damage" Target, Clash Win)
+(FlatDamage 0 ST Silent, Clash Win)
+#}
+[Replace 2*N with the result of the calculation, and N with the effect potency. Don’t change the last FlatDamage]
+{# Guard Up N;
+(Gain N Protection Silent, Clash Win)
+(Gain N Stagger_Protection Silent, Clash Win)
+(Gain N Endurance Silent, Clash Win)
+(CustomMessage "[/limbus/FistGreen] Guard Up: Gain [NUM] **Protection**, **Stagger Protection** and **Endurance** next round", Clash Win)
+#}
+[Replace N with the effect potency]
+
+{# Feint;
+(Pause 1 Combo)
+(Pause 0 Combo, Clash Win)
+(CustomMessage "[/limbus/FistGreen] Feint: Lose no **Combo**", Clash Lose)
+#}
+{# Stomp N;
+(Give 2*N Bind Silent, Clash Win)
+(CustomMessage "[/limbus/FistGreen] Stomp: Gain [NUM] [TARGET] next round [[INITIAL] -> [RESULT]]" Target, Clash Win)
+(CustomMessage "[/limbus/FistGreen] Stomp: All creatures within **N** squares of the target gain [NUM] [TARGET] next round. Use Give Ailments to apply [TARGET]. Area becomes **Difficult terrain** for **2** turns. Can be avoided with an **Evade** roll vs. the original roll", Clash Win)
+(Give 0 Burn Silent, Clash Win)
+#}
+[Replace 2*N with the result of the calculation, and N with the effect potency. Don’t change the last FlatDamage]
+
+{# Headlock;
+(ChallengeRoll Fortitude 0 Silent, Clash Win)
+(CustomMessage "[/limbus/FistGreen] Headlock: Rolling to Grapple target", Clash Win)
+#}
+
+/* ---------------------------------- */
+/* Mark Skill Support Effects */
+/* ---------------------------------- */
+
+{# Steal Energy N;
+(Gain 3*N Charge, Clash Win)
+(Consume N Charge Target Silent, Clash Win #IgnoreFailure)
+(CustomMessage “Reduce [TARGET] by [-NUM] [[INITIAL] -> [RESULT]]” Target, Clash Win)
+(Reset, Clash Win)
+(CustomMessage “Steal Energy: Reduce **Charge** of target by **1**”, Clash Win)
+(Inflict 0 Burn Silent, Clash Win)
+#}
+[Don’t change the last Inflict or silence the last CustomMessage]
+
+
+/* -------------------------------------- */
+/* Charge Skill Support Effects */
+/* -------------------------------------- */
+
+{# Charge Cost X;
+(Consume X Charge)
+#}
+[Replace X with the total Charge cost of every Charge effect across the entire skill]
+{# Charge - Give Ailment N;
+(Give N Ailment, #Clash #Result)
+(CustomMessage “Give ailments can be used on user or ally”)
+#}
+[Replace Ailment with your ailment of choice. Replace N with the effect potency. Replace #Clash #Result with Clash Win, Clash Lose or remove it and the comma before it if On Use]
+
+{# Charge - Flashy Extension N;
+Treat this as Charge - Combo and follow the rules outlined at the start of this section
+{# Charge - Repellent Barrier N;
+(Require N Charge_Barrier Silent, #Clash #Result #IgnoreFailure)
+(CustomMessage "[/TARGET] Repellent Barrier: Not enough [TARGET]" CheckFailure, CheckResult)
+(CustomMessage "[/TARGET] Repellent Barrier: Push target [SCALING NUM] SQR away" CheckSuccess, #Clash #Result)
+(Reset, #Clash #Result)
+#}
+[Replace N with the effect potency. Replace #Clash #Result with Clash Win, Clash Lose or remove it and the comma before it if On Use]
+
+
+
+
+
+`;
 /* --- Sheet Constants end --- */
 
 
@@ -11596,7 +12035,7 @@ on('clicked:rollCombat', (info) => {
 	}
 
 	/* Get skill AutoAcript if any */
-	if ((skillselect || skillselect != "0") && basetype == skilltype) {
+	if (skillselect && skillselect != "0" && basetype == skilltype) {
 		AutoScript += "(Reset)" + values[`${skillselect}AutoScript`];
 	}
 	
@@ -12959,7 +13398,7 @@ on('clicked:declareAction', (info) => {
 	}
 
 	/* Get skill AutoAcript if any */
-	if ((skillselect != undefined || skillselect != "0") && skilltype == "Action") {
+	if (skillselect && skillselect != "0" && skilltype == "Action") {
 		AutoScript += "(Reset)" + values[`${skillselect}AutoScript`];
 	}
 
@@ -13962,34 +14401,6 @@ getAttrs(["settingEditMode"], function(values) {
 
 /*--- AutoScript functions ---*/
 
-/* Auto: Set default AutoScript styling */
-/* This is intended as a temporary solution while I figure out a better way to add styling as a setting */
-on("sheet:opened", function() {
-	getAttrs(["autoScriptStylingDefault"], function(values) {
-	let sheetDefaults = values.autoScriptStylingDefault;
-
-	let stylingDefault =
-`/* Clash results */
-(Clash Win, icons, win, red) (CW, icons, win, red)
-(Clash Lose, icons, lose, yellow) (CL, icons, lose, yellow)
-
-/* On Use and On Hit */
-(On Use, icons, Portable, blue)
-(On Hit, icons, Attack, purple)
-
-/* Action buttons */
-(Apply damage, icons, damage, red)
-(Apply regen, icons, heal, green)
-(Apply ailments, icons, lose, purple)
-(Give ailments, icons, win, yellow)
-(Roll challenge, icons, Speed, blue)`;
-
-	if(sheetDefaults != stylingDefault) {
-	setAttrs({"autoScriptStylingDefault":stylingDefault});
-	}
-	});
-});
-
 /* AutoScript editor open button */
 on("clicked:autoScriptEdit", function(info) {	
 	let newEditorTarget = info.htmlAttributes.id;
@@ -14029,30 +14440,32 @@ on("clicked:closeAutoScriptEdit", function(info) {
 		autoScriptEditorTarget: ""
 	});
 });
-/* AutoScript editor reset styling to default button */
-on("clicked:autoScriptStylingDefault", async function(info) {
+/* AutoScript editor reset styling or aliases to default */
+on("clicked:autoScriptDefault", async function(info) {
+	let type = (info.htmlAttributes.id.includes("Styling")) ? "styling" : "alias";
+	
 	let queryResults = await sendQuery(["userConfirmation",
-		getTranslationByKeyCustom("Are you certain you want to reset back to the default AutoEffect styling settings? This action can not be reversed", "query-reset-styling"), {
+		getTranslationByKeyCustom(`Are you certain you want to reset back to the default AutoEffect ${type} settings? This action can not be reversed`, `query-reset-${type}`), {
 			[getTranslationByKeyCustom("No","query-no")]:"false",
 			[getTranslationByKeyCustom("Yes","query-yes")]:"true"
 		}
 	]);
 
 	if (queryResults.userConfirmation == "true") {
-		loadDefaultAutoScriptStyling();
+		loadDefaultAutoScriptRules(capitalize(type));
 	}
 });
-function loadDefaultAutoScriptStyling() {
-	getAttrs(["autoScriptStylingDefault", "autoScriptEditorTarget"], function(values) {
-		let stylingDefault = values.autoScriptStylingDefault;
+function loadDefaultAutoScriptRules(type) {
+	getAttrs(["autoScriptEditorTarget"], function(values) {
+		let settingDefault = (type == "Styling") ? stylingDefault : aliasDefault;
 		let editorTarget = values.autoScriptEditorTarget;
 		
-		let output = {autoScriptStyling: stylingDefault}
+		let output = {[`autoScript${type}`]: settingDefault}
 		
-		// Only modifies the editor input if autoScriptStyling is currently open in the editor
+		// Only modifies the editor input if the aliases/styling is currently open in the editor
 		// Avoids issues with styling rules being applied to other AutoScripts
-		if (editorTarget == "autoScriptStyling") {
-			output.autoScriptEditorInput = stylingDefault;
+		if (editorTarget == `autoScript${type}`) {
+			output.autoScriptEditorInput = settingDefault;
 		}
 		
 		setAttrs(output);
@@ -14103,7 +14516,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 
 
 	/* Get relevant attributes */
-	getAttrs([...autoScriptList, ...buttonAutoScriptList, "isFirstRound", "autoScriptStyling",
+	getAttrs([...autoScriptList, ...buttonAutoScriptList, "isFirstRound", "autoScriptStyling", "autoScriptAlias",
 	"settingMuteMessage", "settingWhisperRolls", "settingWhisperTarget", "settingLimbusStyle", "settingHideNextTurn",
 	"settingCollapseAutoEffectSections", "settingHideConditionalButtonReminder", "settingHideCombatOptions", //"settingTargetMode",
 	"HP", "HP_max", "StagRes", "StagRes_max", "SP", "SP_max", "Light", "Light_max", "THP_Sources", "TST_Sources",
@@ -14154,16 +14567,23 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		conditionalOptions: {}
 	}
 	let autoEffectType = "standard";
-	let actionButtonBuffer = "";
 
 	let conditionalSectionList = {}
 	let conditionalButtonList = {}
 	let outputMessage = "";
 	let buttonList = {}
 	let messageValues = {}
+	let errorMessageList = {}
 	
-	let stylingList = parseAutoScriptStyling(values.autoScriptStyling);
-	
+	let stylingList = {
+		...parseAutoScriptStyling(stylingDefault),			// Default styling rules
+		...parseAutoScriptStyling(values.autoScriptStyling) // Custom styling rules from the AutoScript editor
+	}
+	let defaultAliases = autoScriptToArray(aliasDefault, "aliases");
+	let customAliases = autoScriptToArray(values.autoScriptAlias, "aliases");
+	let aliasList = [...customAliases, ...defaultAliases, ...customAliases, 		// This structure means custom aliases are parsed first before default ones, while
+	].reduce((acc, alias) => Object.assign({[alias[0]]:alias[1], ...acc}), {});		//   still overwriting default aliases with matching custom aliases
+
 	let output = {}
 	let returnValues = { checkResult:"success", message:"", buttonList:{} }
 		
@@ -14210,19 +14630,24 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		}
 
 		/* Collects all AutoScripts that use triggers */
-		autoScriptList.forEach(AutoScript => {
+		autoScriptList.forEach(source => {
 
 			/* Do not collects AutoScripts from Mystery/Distortion items when not manifesting/distorting */
-			if (AutoScript.includes("ego") && !(values.distortState == "true" || values.egoActiveState == "true")) {
+			if (source.includes("ego") && !(values.distortState == "true" || values.egoActiveState == "true")) {
 				return;
 			}
+
+			/* Replaces any aliases in the AutoScript as they can contain triggers */
+			let [AutoScript, aliasErrors] = autoScriptApplyAliases(values[`${source}`], aliasList, "triggers");
+			errorMessageList = {...errorMessageList, ...aliasErrors}
+
 			/* Finds all substrings that begin with "[#" and end with "#]" */
-			if ((/\[([#][^]+?[#])\]/g).test(values[`${AutoScript}`])) {
-				collectedAutoScripts += values[`${AutoScript}`].match(/\[([#][^]+?[#])\]/g).reduce((acc, trigger) => `${acc}${trigger}`,'');
+			if ((/\[#(.+?)#\]/g).test(AutoScript)) {
+				collectedAutoScripts += AutoScript.match(/\[#(.+?)#\]/g).reduce((acc, trigger) => `${acc}${trigger}`,'');
 			}
 		});
-		collectedAutoScripts = autoScriptToArray(collectedAutoScripts, "nested");
-
+		collectedAutoScripts = autoScriptToArray(collectedAutoScripts, "triggers");
+		
 		/* Append any collected AutoScripts with a relevant trigger */
 		collectedAutoScripts.forEach((trigger) => {
 			
@@ -14241,7 +14666,8 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	if (inputAutoScript == "") { callback(returnValues); return; }
 
 	/* Validates AutoEffect formats and returns an array of effects to be executed. Also returns any errors that were encountered during parsing */
-	let [ExecutionArray, errorMessageList] = parseAutoScript(inputAutoScript, valueLists);
+	let [ExecutionArray, parseErrors] = parseAutoScript(inputAutoScript, valueLists, aliasList);
+	errorMessageList = {...errorMessageList, ...parseErrors}
 
 
 	/* --- AutoEffect execution --- */
@@ -14761,6 +15187,8 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 						scaling++
 					}
 				}
+			} else {
+				scaling = exeVars.scaling;
 			}
 
 			/* Execute check */
@@ -14861,7 +15289,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		if (ae.name == "BaseDamage" && (["SP", "Light"]).includes(ae.target)) {
 			ae.name = "FlatDamage";
 		}
-		autoEffectOutput(ae, "Apply damage", `(Add ${-ae.value*exeVars.scaling} ${ae.target})`, "dice");
+		autoEffectOutput(ae, "Apply damage", `(Add ${-ae.value*exeVars.scaling} ${ae.target} ${([true, "target"].includes(ae.options.silent)) ? "Silent" : ""})`, "dice");
 		autoEffectMessage(ae);
 	}
 
@@ -14874,6 +15302,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	}
 
 	function autoEffectPause(ae) {
+		ae.targetAttr = ae.targetAttr.replace("ailNum", "ailDecayPause");
 		autoEffectOutput(ae, "Apply ailments", `(Pause ${ae.value*exeVars.scaling} ${ae.target} ${([true, "target"].includes(ae.options.silent)) ? "Silent" : ""})`);
 		autoEffectMessage(ae);
 	}
@@ -14901,7 +15330,7 @@ function cleanAutoScript(AutoScript) {
 	/* Remove any of the old v0.6 options that still remain in the AutoScript */
 	//cleanAutoScript = cleanAutoScript.replaceAll("#MessageButton","").replaceAll("#Button","").replaceAll("#Message","#Section").trim();
 
-	/* Replace Stagger_Protection with StaggerProtection. The space is added to avoid affecting image links */
+	/* Replace Stagger_Protection with StaggerProtection. The leading space is added to avoid affecting image links */
 	cleanAutoScript = cleanAutoScript.replaceAll(' Stagger_Protection',' StaggerProtection');
 
 	return cleanAutoScript;
@@ -14910,7 +15339,7 @@ function cleanAutoScript(AutoScript) {
 /* Parses an AutoScript, validating its format and getting  */
 /*   Returns an array of objects containing execution parameters for each AutoEffect in the AutoScript (target, value, options, conditionals etc.) */
 /*   Also returns a list of any errors that were encountered while validating the AutoScript */
-function parseAutoScript(inputAutoScript, vl) {
+function parseAutoScript(inputAutoScript, vl, al) {
 	
 	let errorMessageList = {}
 	let ExecutionArray = [];
@@ -14935,7 +15364,7 @@ function parseAutoScript(inputAutoScript, vl) {
 			if (insert == "") { match = ` ${match}`; }
 			errorMessage = errorMessage.replaceAll(match, insert);
 		}
-		errorMessageList[errorType] = (errorMessageList[errorType]) ? errorMessageList[errorType] + errorMessage : errorMessage;
+		modifyProp(errorMessageList, errorType, errorMessage);
 		log({errorType, errorMessage});
 	}
 	const getAutoEffectOptions = (effectName, optionsList, expand=false) => {
@@ -14979,11 +15408,15 @@ function parseAutoScript(inputAutoScript, vl) {
 		return targetString;
 	}
 
+	/* Replaces any aliases in the AutoScript */
+	let [AutoScript, aliasErrors] = autoScriptApplyAliases(inputAutoScript, al);
+	errorMessageList = {...errorMessageList, ...aliasErrors}
+
 	/* Convert AutoScript to an array */
-	inputAutoScript = autoScriptToArray(inputAutoScript);
+	let AutoEffectArray = autoScriptToArray(AutoScript);
 
 	/* Parse each AutoEffect in the AutoScript */
-	inputAutoScript.forEach(AutoEffect => {
+	AutoEffectArray.forEach(AutoEffect => {
 
 		/* Get AutoEffect name */
 		let [effectName, langEffectName] = [getAutoEffectFromTranslation(AutoEffect[0][0]), AutoEffect[0][0]];
@@ -15263,30 +15696,22 @@ function parseAutoScript(inputAutoScript, vl) {
 	//  Execution may still fail if the variable isn't created due to a failed check. In this case use a default value for the variable
 }
 
-/* Converts an AutoScript from a string to an array */
-/* mode: normal is for strings of type (AutoEffect...) (AutoEffect...) ... */
-/*	 each AutoEffect returns an array in the format [[name, value, target, option1, option2, ...], conditional1, conditional2, ...] */
-/*	 some AutoEffects do not return a value or target */
-/*	 options and conditionals are processed further in parseAutoScript() */
-/* mode: nested is for strings of type [#Offensive, (AutoEffect...) ... #] [#Round start, (AutoEffect...) ... ] */
-/*   each Trigger returns an array in the format [trigger, (AutoEffect...)] */
-function autoScriptToArray(inputAutoScript, mode="normal") {
-	let AutoScript = inputAutoScript;
+// Converts an AutoScript from a string to an array
+// mode: normal is for strings of type (AutoEffect...) (AutoEffect...) ...
+//	 each AutoEffect returns an array in the format [[name, value, target, option1, option2, ...], conditional1, conditional2, ...]
+//	 some AutoEffects do not return a value or target
+//	 options and conditionals are processed further in parseAutoScript()
+// mode: nested is for strings of type [#Offensive, (AutoEffect...) ... #] [#Round start, (AutoEffect...) ... ]
+//   each Trigger returns an array in the format [trigger, (AutoEffect...)]
+function autoScriptToArray(AutoScript, mode="normal") {
 	let AutoEffect = "";
 	let AutoEffectArray = [];
 	let AutoScriptArray = [];
 
-	let beginChar = "(";
-	let middleChar = ")("
-	let endChar = ")";
-	let charOffset = 1;
+	let [beginChar, middleChar, endChar, charOffset] = ["(", ")(", ")", 1];
 
-	if (mode == "nested") {
-		beginChar = "[#";
-		middleChar = "#][#";
-		endChar = "#]";
-		charOffset = 2;
-	}
+	if (mode == "triggers") { [beginChar, middleChar, endChar, charOffset] = ["[#", "#][#", "#]", 2]; }
+	else if (mode == "aliases") { [beginChar, middleChar, endChar, charOffset] = ["{#", "#}{#", "#}", 2]; }
 
 	AutoScript = cleanAutoScript(AutoScript);
 
@@ -15306,8 +15731,9 @@ function autoScriptToArray(inputAutoScript, mode="normal") {
 			}
 			
 			/* Structures the AutoEffect into an array and stores it */
-			if (mode == "nested") {
-				AutoEffect = AutoEffect.trim().replace(",","£");
+			if (mode != "normal") {
+				let keySeperator = (mode == "triggers") ? "," : ";";
+				AutoEffect = AutoEffect.trim().replace(keySeperator,"£");
 				AutoEffectArray = AutoEffect.split("£");
 				AutoEffectArray = AutoEffectArray.map(e => e.trim());
 			} else {
@@ -15347,6 +15773,57 @@ function autoScriptToArray(inputAutoScript, mode="normal") {
 
 	/* Return the converted AutoScript */
 	return AutoScriptArray;
+}
+
+// Replaces all aliases in the AutoScript with their full AutoScripts
+// An alias consists of any ordering of Words and #Matches surrounded by curly brackets, ex. "{#Match1 Word1 Word2 #Match2 Word3}"
+//   When added to an item all matches must be replaces with any value, which are inserted into the resulting AutoScript
+// The alias is compared to an aliasList object consisting of format-AutoScript pairs: {aliasFormat1:aliasAutoScript1, aliasFormat2:aliasAutoScript2, ...}
+//   Ex. a valid format-AutoScript pair could be "{#Ailment Vigor #N}":"(Require {3+#N} #Ailment)(DicePower #N)"
+//   If {Burn Vigor 2} is added to an item, it should execute as (Require {3+2} Burn)(DicePower 2)
+function autoScriptApplyAliases(AutoScript, aliasList, mode="normal") {
+	for (let [aliasFormat, aliasAutoScript] of Object.entries(aliasList)) {
+		/* When parsing normal AutoEffects, remove all trigger blocks from the alias AutoScript */
+		if (mode == "normal") { aliasAutoScript = aliasAutoScript.replace(/\[#(.+?)#\]/g,""); }
+
+		aliasFormat = aliasFormat.trim().replaceAll(/[,.\-/\\]/g," ").replaceAll("*","\\*").replaceAll("+","\\+"); // Removes punctuation and escapes RegExp quantifiers except ?
+
+		/* Generates correct RegExp. Question marks in the format make a part of the format optional */
+		const aliasRegExp = new RegExp("\{" + aliasFormat.replace(/(#[^#\s\?]+)/g, "([^#\\s\}]+)").replaceAll(/\s+/g, "\\s*") + "\}", "g");
+		const aliasMatches = AutoScript.match(aliasRegExp) || [];
+		aliasFormat = aliasFormat.replaceAll("?","");
+
+		if (aliasMatches.length > 0) console.log(aliasRegExp, aliasMatches)
+
+		/* Prepares two arrays containing the match and insert values */
+		aliasMatches.forEach(match => {
+			let insertArray = match.slice(1, -1).replaceAll(/[^#\s\w\?]/g,"").split(/\s+/);
+			let matchArray = aliasFormat.split(/\s+/);
+			console.log(insertArray, matchArray)
+
+			/* Replace all aliases with it's aliasAutoScript with all values inserted */
+			let insertAutoScript = aliasAutoScript;
+			for (let i = 0; i < matchArray.length; i++) {
+				insertAutoScript = insertAutoScript.replaceAll(matchArray[i], insertArray[i] || "");
+			}
+			AutoScript = AutoScript.replace(match, insertAutoScript);
+		});
+	}
+
+	/* Throw an error for each alias that remains in the AutoScript */
+	let aliasErrors = {}
+	let restAliasArray = AutoScript.match(/(\{.+?\})(?![^\(]+\))/g); // Ignores curly brackets inside parenthesis (used for math and not aliases)
+	if (restAliasArray) {
+		restAliasArray.forEach(restAlias => {
+			let errorType = getTranslationByKeyCustom("Invalid Alias", "autoeffect-error-invalid-alias-type")
+			let errorMessage = getTranslationByKeyCustom("Alias \"[ALIAS]\" does not exist or is formated incorrectly", "autoeffect-error-invalid-alias-message").replace("[ALIAS]",restAlias);
+			errorMessage = autoEffectEntry(`<div>${styleText(restAlias, "font-weight: bolder; color: red;")}\n*${errorMessage}*</div>`);
+			modifyProp(aliasErrors, errorType, errorMessage);
+			AutoScript = AutoScript.replace(restAlias,"");
+		});
+	}
+
+	return [AutoScript, aliasErrors];
 }
 
 function translateAutoEffectToEnglish(AutoEffect, validTargets, validOptions, validConOptions, targetIndex, optionIndex) {
@@ -15555,7 +16032,7 @@ let attrkeySettings = ["settingWhisperRolls",
 "settingLoopEnabled", "configLoopDelay", "configUpdateDelay", "configTrackerItemName", "settingAutoDetect", "settingTurnUpdate", "settingMultihitFull", "settingMultihitUses",
 "settingMuteMessage", "settingHideNextTurn", "settingBurnImmune", "settingBleedImmune",
 "settingAutoApplyDamage", "settingHideBarUpdate",
-"settingCollapseAutoEffectSections", "settingHideConditionalButtonReminder", "settingHideActionButtons", "settingHideBaseEffect", "AutoScriptStyling"];
+"settingCollapseAutoEffectSections", "settingHideConditionalButtonReminder", "settingHideActionButtons", "settingHideBaseEffect", "AutoScriptStyling", "autoScriptAlias"];
 
 let attrkeyEquip = ["outfitName", "outfitRank", "outfitDescription", "outfitEffect", "defDice1", "defDice2", "defDice3", "evdDice1", "evdDice2", "evdDice3", "outfitImmune1", "outfitImmune2", "outfitImmune3", "outfitImmune4", "outfitImmune5", "outfitImmune6", "bleedResist", "burnResist", "damageResist", "outfitAutoScript",
 
@@ -16766,12 +17243,6 @@ getSectionIDs("repeating_global", function(idarray) {
 		syncToggle = "true";
 		syncHeader = langUpdate; 
 		syncBody += langGeneralSettings + ": " + langSyncSuccess + "\n";
-	}
-
-	/* Check missing AutoScript styling */
-	let autoScriptStyling = values.autoScriptStyling;
-	if (autoScriptStyling == "" && !generalSettings.includes("`AutoScriptStyling`")) {
-		loadDefaultAutoScriptStyling();
 	}
 
 	/* Delete any AutoScript styling rules present in normal AutoScripts */
