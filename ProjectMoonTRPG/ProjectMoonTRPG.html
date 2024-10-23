@@ -8369,7 +8369,7 @@ const aliasDefault =
 /* -------------------------------------- */
 /* Dice Manipulation Augments */
 /* -------------------------------------- */
-{# #Ailment Bonus #Trigger;
+{# #Ailment Bonus #N #Trigger;
 	[# #Trigger,
 		(Require #N #Ailment Target Silent)
 		(CustomMessage "[/TARGET] [TARGET] Bonus: Gained **1** Dice Power") (DicePower 1 Silent)
@@ -8709,16 +8709,13 @@ Consumes X amount of Smoke on the target to inflict N ailment. Requires targetin
 /* ---------------------------------- */
 /* Mark Skill Support Effects */
 /* ---------------------------------- */
-
-{# Steal Energy N;
-(Gain 3*N Charge, Clash Win)
-(Consume N Charge Target Silent, Clash Win #IgnoreFailure)
-(CustomMessage “Reduce [TARGET] by [-NUM] [[INITIAL] -> [RESULT]]” Target, Clash Win)
-(Reset, Clash Win)
-(CustomMessage “Steal Energy: Reduce **Charge** of target by **1**”, Clash Win)
-(Inflict 0 Burn Silent, Clash Win)
+{# Steal Energy #N;
+	(Gain {3*#N} Charge, Clash Win)
+	(Consume #N Charge Target Silent #IgnoreFailure, Clash Win)
+	(CustomMessage “Reduce [TARGET] by [-NUM] [[INITIAL] -> [RESULT]]” Target, Clash Win #ActionButton)
+	(CustomMessage “Steal Energy: Reduce **Charge** of target by **1**”, Clash Win)
+	(Reset, Clash Win)
 #}
-[Don’t change the last Inflict or silence the last CustomMessage]
 
 
 /* -------------------------------------- */
@@ -15776,39 +15773,50 @@ function autoScriptToArray(AutoScript, mode="normal") {
 }
 
 // Replaces all aliases in the AutoScript with their full AutoScripts
-// An alias consists of any ordering of Words and #Matches surrounded by curly brackets, ex. "{#Match1 Word1 Word2 #Match2 Word3}"
-//   When added to an item all matches must be replaces with any value, which are inserted into the resulting AutoScript
+// An alias consists of any ordering of Words and #Insert values surrounded by curly brackets, ex. "{#Insert1 Word1 Word2 #Insert2 Word3}"
+//   When added to an item all #Inserts must be replaces with any value, which are inserted into the resulting AutoScript
 // The alias is compared to an aliasList object consisting of format-AutoScript pairs: {aliasFormat1:aliasAutoScript1, aliasFormat2:aliasAutoScript2, ...}
 //   Ex. a valid format-AutoScript pair could be "{#Ailment Vigor #N}":"(Require {3+#N} #Ailment)(DicePower #N)"
 //   If {Burn Vigor 2} is added to an item, it should execute as (Require {3+2} Burn)(DicePower 2)
 function autoScriptApplyAliases(AutoScript, aliasList, mode="normal") {
-	for (let [aliasFormat, aliasAutoScript] of Object.entries(aliasList)) {
-		/* When parsing normal AutoEffects, remove all trigger blocks from the alias AutoScript */
-		if (mode == "normal") { aliasAutoScript = aliasAutoScript.replace(/\[#(.+?)#\]/g,""); }
+	
+	if ((/\{.+(?!\))\}/)) { // Only run if at least one alias is in the AutoScript
+		for (let [aliasFormatRaw, aliasAutoScript] of Object.entries(aliasList)) {
+			if (mode == "normal") { aliasAutoScript = aliasAutoScript.replace(/\[#(.+?)#\]/g,""); } // When parsing normal AutoEffects, remove all trigger blocks from the alias AutoScript
 
-		aliasFormat = aliasFormat.trim().replaceAll(/[,.\-/\\]/g," ").replaceAll("*","\\*").replaceAll("+","\\+"); // Removes punctuation and escapes RegExp quantifiers except ?
+			/* Generate a RegExp that matches the format */
+			let aliasFormat = aliasFormatRaw.trim()
+				.replace(/([^#\s,.\-/\\\?]+)/g, "($1)") 							// Surround all Words in a capturing group. Doing this makes any ? after the Word make the entire word optional
+				.replace(/(#[^\s,.\-/\\\?]+)/g, '((?:".+")?[^\\s,.\\-\\\/\}]*)') 	// Replace all #Inserts with a capturing group looking for any non-seperator value or "format"
+				.replace(/\s+/g, "[\\s,.\\-\\\/]+");			 					// Replace all spaces with a RegExp that matches with any seperator character
 
-		/* Generates correct RegExp. Question marks in the format make a part of the format optional */
-		const aliasRegExp = new RegExp("\{" + aliasFormat.replace(/(#[^#\s\?]+)/g, "([^#\\s\}]+)").replaceAll(/\s+/g, "\\s*") + "\}", "g");
-		const aliasMatches = AutoScript.match(aliasRegExp) || [];
-		aliasFormat = aliasFormat.replaceAll("?","");
+			let aliasMatches = AutoScript.match(new RegExp(`\{${aliasFormat}\}`, "g")) || [];
+			
+			if (aliasMatches.length > 0) {
+				console.log(new RegExp(`\{${aliasFormat}\}`, "g"), aliasMatches)
 
-		if (aliasMatches.length > 0) console.log(aliasRegExp, aliasMatches)
+				/* Prepare a list of #Insert-value pairs */
+				aliasMatches.forEach(match => {
+					let insertArray = aliasFormatRaw.split(/[?\s,.\-/\\]+/);
+					let sFormats = [];
+					let valueArray = match.slice(1, -1)
+						.replace(/"([^"]*)"/g, (i, sFormat) => { sFormats.push(sFormat); return "Ø"; }) // Extracts all "string formats"
+						.split(/[\s,.\-/\\]+/) 															// Splits the match string across all seperator characters
+						.map(v => (v == "Ø") ? v.replace("Ø", sFormats.shift()) : v); 					// Adds back in the string formats
+					let insertValueList = insertArray.reduce((acc, insert, i) => Object.assign(acc, {[insert]:valueArray[i]}),{})
+					console.log(insertArray, valueArray)
+					console.log(insertValueList)
 
-		/* Prepares two arrays containing the match and insert values */
-		aliasMatches.forEach(match => {
-			let insertArray = match.slice(1, -1).replaceAll(/[^#\s\w\?]/g,"").split(/\s+/);
-			let matchArray = aliasFormat.split(/\s+/);
-			console.log(insertArray, matchArray)
-
-			/* Replace all aliases with it's aliasAutoScript with all values inserted */
-			let insertAutoScript = aliasAutoScript;
-			for (let i = 0; i < matchArray.length; i++) {
-				insertAutoScript = insertAutoScript.replaceAll(matchArray[i], insertArray[i] || "");
+					/* Replace all aliases with it's aliasAutoScript with all values inserted */
+					let insertAutoScript = aliasAutoScript;
+					for (const [insert, value] of Object.entries(insertValueList)) {
+						insertAutoScript = insertAutoScript.replaceAll(insert, value || "");
+					}
+					AutoScript = AutoScript.replace(match, insertAutoScript);
+				});
 			}
-			AutoScript = AutoScript.replace(match, insertAutoScript);
-		});
-	}
+		}
+	} // #Ailment Bonus
 
 	/* Throw an error for each alias that remains in the AutoScript */
 	let aliasErrors = {}
