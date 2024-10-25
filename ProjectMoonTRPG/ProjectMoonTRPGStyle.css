@@ -1657,10 +1657,6 @@ margin-bottom: 2px !important;}
     border: 1px var(--color-darker-gray) solid;
     margin: 1px;
 }
-.speed:hover,  button[type=roll].NDice:hover, button[type=action].NDice:hover,
-.challengeButton:hover, .declare:hover, .btn:hover, .selectTargetButton:hover, .defenceDice:hover {
-    background-color: var(--color-black) !important;
-}
 .expand-toggle:checked ~ .whisper {
     border: 1px var(--color-LIGHT) solid;
     opacity: 60%;
@@ -3038,11 +3034,11 @@ justify-content: center;
 
 
 /* Assorted buttons */
-.shareButton, .editButton, .autoScriptButton, .closeAutoScriptButton, .saveAutoScriptButton,.styleAutoScriptButton,
-.styleAutoScriptDefault, .aliasAutoScriptButton, .aliasAutoScriptDefault, .copyButton, .displayButton, .lockButton {
+.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton {
     position: absolute;
     height: 25px;
     width: 25px;
+    z-index: 20;
     border-radius: 5px;
     background-size: contain;
     background-position: center;
@@ -3052,64 +3048,63 @@ justify-content: center;
 :is(.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton):hover {
     background-color: rgba(0, 0, 0, 0.3) !important;
 }
-
-:is(.closeAutoScriptButton, .saveAutoScriptButton, .styleAutoScriptButton, .styleAutoScriptDefault, .aliasAutoScriptButton, .aliasAutoScriptDefault):hover {
+:is(.speed, .NDice, .challengeButton, .declare, .btn, .selectTargetButton, .defenceDice, .autoscriptEditorControls button):hover {
     background-color: var(--color-black) !important;
 }
 
 .shareButton {
     bottom: 5px;
     right: 5px;
-    z-index: 20;
     background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/share.png'); 
 }
 
 .editButton {
     bottom: 5px;
     right: 35px;
-    z-index: 20;
     background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png');
 }
 
 .autoScriptButton {
     bottom: 5px;
     right: 65px;
-    z-index: 20;
     background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/script.png');
 }
 
-.closeAutoScriptButton {
+/*
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    z-index: 20;
+    border-radius: 5px;
+*/
+.autoscriptEditorControls {
+    position: absolute;
     top: 4px;
     right: 6px;
+    display: flex;
+}
+.autoscriptEditorControls button {
+    height: 25px;
+    width: auto;
     z-index: 20;
+    padding: 0 4px;
+    margin-left: 6px;
+    border-radius: 5px;
+}
+#autoScriptClose {
+    width: 25px;
+    padding: 0;
     background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/exit.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-.saveAutoScriptButton {
-    top: 4px;
-    right: 36px;
-    z-index: 20;
-    padding-left: 4px;
-    padding-right: 4px;
-    width: auto;
-}
+:is(#autoScriptStylingDefault, #autoScriptAliasDefault, #autoScriptReturn) { display: none; }
+.toggleStylingButton:checked ~ :is(#autoScriptStylingDefault, #autoScriptReturn) { display: block; }
+.toggleAliasButton:checked ~ :is(#autoScriptAliasDefault, #autoScriptReturn) { display: block; }
+:is(.toggleStylingButton, .toggleAliasButton):checked ~ :is(#autoScriptStyling, #autoScriptAlias) { display: none; }
 
-.styleAutoScriptButton, .aliasAutoScriptButton, .styleAutoScriptDefault, .aliasAutoScriptDefault {
-    top: 4px;
-    right: 80px;
-    z-index: 20;
-    padding-left: 4px;
-    padding-right: 4px;
-    width: auto;
-}
-.aliasAutoScriptButton {
-    right: 207px;
-}
-
-.toggleStylingButton:not(:checked) ~ :is(.styleAutoScriptDefault)  { display: none !important; }
-.toggleAliasButton:not(:checked) ~ :is(.aliasAutoScriptDefault)  { display: none !important; }
-.toggleStylingButton:checked ~ :is(.styleAutoScriptButton, .aliasAutoScriptButton, .aliasAutoScriptDefault) { display: none !important; }
-.toggleAliasButton:checked ~ :is(.styleAutoScriptButton, .aliasAutoScriptButton, .styleAutoScriptDefault) { display: none !important; }
 
 :is(.augmentBlock, .specialBlock, .skillBlock) .autoScriptButton {
     right: 35px;
@@ -3118,7 +3113,6 @@ justify-content: center;
 .copyButton {
     top: 5px;
     right: 5px;
-    z-index: 1;
     background-color: transparent;
     background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/copy.png');
     opacity: 50%;
@@ -3127,7 +3121,6 @@ justify-content: center;
 .displayButton {
     top: 5px;
     right: 35px;
-    z-index: 1;
     background-color: transparent;
     background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view-hide.png');
     opacity: 50%;

@@ -138,21 +138,25 @@
 <!-- AutoScript edit popup -->
 <input type="checkbox" id="autoScriptEditorToggle" name="attr_autoScriptEditor_display" value="true" hidden="true">
 <div class="contentContainer darkBG autoscriptEditorContainer">
+	<div class="autoscriptEditorControls">
 	<input type="checkbox" class="toggleAliasButton" name="attr_autoScriptEditorTarget" value="autoScriptAlias" hidden="true">
 	<input type="checkbox" class="toggleStylingButton" name="attr_autoScriptEditorTarget" value="autoScriptStyling" hidden="true">
-	<button type="action" id="autoScriptAlias" class="darkInput aliasAutoScriptButton" name="act_autoScriptEdit" data-i18n-title="autoscript-edit-aliases-title" title="Open AutoScript Alias Editor" data-i18n="autoscript-edit-aliases">AutoScript Aliases</button>
-	<button type="action" id="autoScriptStyling" class="darkInput styleAutoScriptButton" name="act_autoScriptEdit" data-i18n-title="autoscript-edit-styling" title="Open AutoScript Styling Editor" data-i18n="autoscript-edit-styling">AutoScript Styling</button>
-	<button type="action" id="autoScriptAliasDefault" class="darkInput aliasAutoScriptDefault" name="act_autoScriptDefault" data-i18n-title="autoscript-reset-aliases" title="Reset Aliases to Default" data-i18n="autoscript-reset-aliases">Reset Aliases to Default</button>
-	<button type="action" id="autoScriptStylingDefault" class="darkInput styleAutoScriptDefault" name="act_autoScriptDefault" data-i18n-title="autoscript-reset-styling" title="Reset Styling to Default" data-i18n="autoscript-reset-styling">Reset Styling to Default</button>
-	<button type="action" class="darkInput saveAutoScriptButton" name="act_saveAutoScriptEdit" data-i18n-title="autoscript-save-changes-title" title="Save AutoScript changes" data-i18n="autoscript-save-changes">Save</button>
-	<button type="action" class="darkInput closeAutoScriptButton" name="act_closeAutoScriptEdit" data-i18n-title="autoscript-close-editor" title="Save and close AutoScript Editor"></button>
+		<button type="action" id="autoScriptAlias" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-edit-aliases-title" title="Open AutoScript Alias Editor" data-i18n="autoscript-edit-aliases">AutoScript Aliases</button>
+		<button type="action" id="autoScriptStyling" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-edit-styling" title="Open AutoScript Styling Editor" data-i18n="autoscript-edit-styling">AutoScript Styling</button>
+		<button type="action" id="autoScriptReturn" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-return-to-editor" title="Return to Editor" data-i18n="autoscript-return-to-editor">Return to Editor</button>
+		<input type="text" name="attr_autoScriptEditorTargetOld" hidden="true">
+		<button type="action" id="autoScriptAliasDefault" class="darkInput" name="act_autoScriptDefault" data-i18n-title="autoscript-reset-aliases" title="Reset Aliases to Default" data-i18n="autoscript-reset-aliases">Reset Aliases to Default</button>
+		<button type="action" id="autoScriptStylingDefault" class="darkInput" name="act_autoScriptDefault" data-i18n-title="autoscript-reset-styling" title="Reset Styling to Default" data-i18n="autoscript-reset-styling">Reset Styling to Default</button>
+		<button type="action" id="autoScriptSave" class="darkInput" name="act_saveAutoScriptEdit" data-i18n-title="autoscript-save-changes-title" title="Save AutoScript changes" data-i18n="autoscript-save-changes">Save</button>
+		<button type="action" id="autoScriptClose" class="darkInput" name="act_closeAutoScriptEdit" data-i18n-title="autoscript-close-editor" title="Save and close AutoScript Editor"></button>
+	</div>
 	<label for="autoScriptInput" style="margin-left: 5px;" data-i18n="autoscript-editor">AutoScript Editor</label>
 	<input type="text" class="autoScriptEditorTarget darkBG" name="attr_autoScriptEditorTarget" readonly>
 	<textarea spellcheck="false" id="autoScriptInput" name="attr_autoScriptEditorInput"></textarea>
-	<textarea spellcheck="false" type="text" class="autoScriptAliasStorage" name="attr_autoScriptAlias" hidden="true"></textarea>
-	<textarea spellcheck="false" type="text" class="autoScriptAliasStorage" name="attr_autoScriptAliasDefault" hidden="true"></textarea>
-	<textarea spellcheck="false" type="text" class="autoScriptStylingStorage" name="attr_autoScriptStyling" hidden="true"></textarea>
-	<textarea spellcheck="false" type="text" class="autoScriptStylingStorage" name="attr_autoScriptStylingDefault" hidden="true"></textarea>
+	<textarea type="text" name="attr_autoScriptAlias" hidden="true"></textarea>
+	<textarea type="text" name="attr_autoScriptAliasDefault" hidden="true"></textarea>
+	<textarea type="text" name="attr_autoScriptStyling" hidden="true"></textarea>
+	<textarea type="text" name="attr_autoScriptStylingDefault" hidden="true"></textarea>
 </div>
 
 
@@ -8306,8 +8310,6 @@ const conditionalOptions = {
 const triggerOptions = [
 	"First round"
 ]
-
-/* Contains all available AutoEffect triggers*/
 const autoEffectTriggers = [
 	"Combat start", "Round start",								// Turn order
 	"Offensive", "Defensive", "Block", "Evade", "Challenge",	// Actions
@@ -14414,7 +14416,8 @@ getAttrs(["settingEditMode"], function(values) {
 
 /* AutoScript editor open button */
 on("clicked:autoScriptEdit", function(info) {	
-	let newEditorTarget = info.htmlAttributes.id;
+	getAttrs(["autoScriptEditorTargetOld"], function(values) {
+		let newEditorTarget = (info.htmlAttributes.id != "autoScriptReturn") ? info.htmlAttributes.id : values.autoScriptEditorTargetOld;
 	getAttrs([`${newEditorTarget}`,"autoScriptEditorTarget", "autoScriptEditorInput"], function(values) {
 		let oldEditorTarget = values.autoScriptEditorTarget;
 		let newEditorInput = values[`${newEditorTarget}`];
@@ -14423,7 +14426,9 @@ on("clicked:autoScriptEdit", function(info) {
 			[oldEditorTarget]: oldEditorInput,
 			autoScriptEditorInput: newEditorInput,
 			autoScriptEditorTarget: newEditorTarget,
+				autoScriptEditorTargetOld: oldEditorTarget,
 			autoScriptEditor_display: "true"
+			});
 		});
 	});
 });
@@ -14555,11 +14560,9 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	let [baseSpeed, thisRoundSpeed, nextRoundSpeed] = [parseInt(values.baseSpeed), parseInt(values.thisRoundSpeed), parseInt(values.nextRoundSpeed)]
 	let valueLists = {
 		barList: {"HP":HP, "ST":ST, "SP":SP, "Light":Light, "THP":0, "TST":0 },
-		barMaxList: {"HP":HP_max, "ST":ST_max, "SP":SP_max, "Light":Light_max},
+		barMaxList: {"HP_max":HP_max, "ST_max":ST_max, "SP_max":SP_max, "Light_max":Light_max},
 		barDamageList: {"-HP":HP_max-HP, "ST":ST_max-ST, "SP":SP_max-SP, "Light":Light_max-Light},
-		speedList: {"baseSpeed":baseSpeed, "thisRoundSpeed":thisRoundSpeed, "nextRoundSpeed":nextRoundSpeed}, 
-		challengeRollList: [],
-		procList: []
+		speedList: {"baseSpeed":baseSpeed, "thisRoundSpeed":thisRoundSpeed, "nextRoundSpeed":nextRoundSpeed}
 	}
 
 	let THP_Sources = (values.THP_Sources != "" && values.THP_Sources != "{}") ? JSON.parse(values.THP_Sources) : "";
@@ -14597,6 +14600,10 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 
 	let output = {}
 	let returnValues = { checkResult:"success", message:"", buttonList:{} }
+	let outputLists = {
+		challengeRollList: [],
+		procList: []
+	}
 		
 	/* Get all ailments */
 	exportAilmentList(overrideList, (ailmentList) => {
@@ -14833,19 +14840,19 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	setAttrs(output, {}, ()=>{
 
 		/* Execute challange rolls */
-		for (let i = 0; i < valueLists.challengeRollList.length; i++) {
+		for (let i = 0; i < outputLists.challengeRollList.length; i++) {
 			/* Checks if any checks failed and the button should not be displayed */
-			rollChallenge(valueLists.challengeRollList[i][0].toLowerCase(), valueLists.challengeRollList[i][1], "false");
+			rollChallenge(outputLists.challengeRollList[i][0].toLowerCase(), outputLists.challengeRollList[i][1], "false");
 		}
 
 		/* Execute proc effects */
-		for (let i = 0; i < valueLists.procList.length; i++) {
-			if (valueLists.procList[i][0].slice(0,1) == "-") { /* If custom ailment */
-				updateCustomAilment(valueLists.procList[i][0], "standard", "false");
-			} else if (valueLists.procList[i][0] == "Bleed") { /* If Bleed */
+		for (let i = 0; i < outputLists.procList.length; i++) {
+			if (outputLists.procList[i][0].slice(0,1) == "-") { /* If custom ailment */
+				updateCustomAilment(outputLists.procList[i][0], "standard", "false");
+			} else if (outputLists.procList[i][0] == "Bleed") { /* If Bleed */
 				updateBleed();
 			} else { /* If standard ailment */
-				updateAilments(valueLists.procList[i][0]);
+				updateAilments(outputLists.procList[i][0]);
 			}
 		}
 	});
@@ -14933,7 +14940,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 				case "set": output[attr] = value * exeVars.scaling; break;
 				case "multi": modifyProp(output, attr, value * exeVars.scaling, "*", {setValue: count, round: "down"}); break;
 				case "dice": modifyProp(returnValues, attr, value * exeVars.scaling, "+"); break;
-				case "list": valueLists[`${uncapitalize(ae.name)}List`].push([attr, value * exeVars.scaling]); break;
+				case "list": outputLists[`${uncapitalize(ae.name)}List`].push([attr, value * exeVars.scaling]); break;
 			}
 
 			/* Return the output value. Used to modify the valueList */
@@ -15178,6 +15185,8 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 			}
 		}
 	}
+
+	// Math operation
 
 	function autoEffectCheck(ae) {
 		let checkResult = "success";
@@ -17486,6 +17495,201 @@ function getConOptionFromTranslation(inputOption, errorString="") {
 
 /* Other helper functions */
 
+const operands = {
+	"+": {min: 2, max: 2, calc: (a,b) => a+b},
+	"-": {min: 2, max: 2, calc: (a,b) => a-b},
+	"*": {min: 2, max: 2, calc: (a,b) => a*b},
+	"/": {min: 2, max: 2, calc: (a,b) => a/b},
+	"%": {min: 2, max: 2, calc: (a,b) => a%b},
+	"**": {min: 2, max: 2, calc: (a,b) => a**b},
+	"<=": {min: 2, max: 2, calc: (a,b) => +(a<=b)},
+	">=": {min: 2, max: 2, calc: (a,b) => +(a>=b)},
+	"<": {min: 2, max: 2, calc: (a,b) => +(a<b)},
+	">": {min: 2, max: 2, calc: (a,b) => +(a<b)},
+	"==": {min: 2, max: 2, calc: (a,b) => +(a==b)},
+	"!=": {min: 2, max: 2, calc: (a,b) => +(a!=b)},
+	"||": {min: 2, max: 2, calc: (a,b) => +!!(a||b)},
+	"&&": {min: 2, max: 2, calc: (a,b) => +!!(a&&b)},
+	"||=": {min: 2, max: 2, calc: (a,b) => +(a||b)},
+	"&&=": {min: 2, max: 2, calc: (a,b) => +(a&&b)},
+	"!": {min: 1, max: 1, calc: (a) => !a},
+	"Min": {min: 2, max:"any", calc: (...args) => Math.max.apply(Math, args), args:true},
+	"Max": {min: 2, max:"any", calc: (...args) => Math.min.apply(Math, args), args:true},
+};
+
+// Takes in a math formula in string form and a list of variable values and returns the result of the formula
+// Uses the same format as writing calculations in JavaScript, except {curly brackets} are used to specify the order of operations. Functions like Min() still use normal parentheses 
+// Returns 0 if the calculation fails due to incorrect formating. If an errors object is provided, details of the error will be added to the list
+function parseMath(mathString, vars={}, mode="math", errors={}) {
+	
+	let type = {new: false, current: false, old: false}
+	let currentChars = "";
+	let parsedChars = "";
+	let inNested = "";
+	let numbers = []
+	let ops = []
+
+	console.log((mode == "math") ? "Parse math from string: " : "Parsing function values from string: " + mathString)
+
+	const newOperand = (op) => {
+		ops.push({...op, name:currentChars});
+		console.log("New Operands: " + Object.entries(ops).reduce((acc, op) => acc += op[1].name,''));
+		if (!op?.args) {
+			checkOperand();
+		}
+	}
+
+	const checkOperand = () => {
+		let op = ops[ops.length-1];
+		if (op.min >= numbers.length) {
+			if (op.max == "any" || op.max <= numbers.length) {
+				console.log("Executing math: " + numbers.slice(-op.min) + " | " + op.name)
+				newNumber(ops.pop().calc.apply(op, numbers.splice(-op.min)));
+			}
+		}
+	}
+
+	const parseNestedMath = () => {
+		let nestedMode = (currentChars.slice(-1) == "{") ? "math" : "function";
+		let nestedMathString = currentChars;
+		[inNested, currentChars] = ["", ""]
+
+		let [funcNumbers, funcErrors] = parseMath(nestedMathString, vars, nestedMode);
+		errors = {...errors, ...funcErrors}
+
+		if (nestedMode == "math") {
+			newNumber(funcNumbers);
+		} else {
+			funcNumbers.forEach(number => newNumber(number));
+		}
+	}
+
+	const newNumber = (number) => {
+		let newNumber = parseFloat(number);
+		if (!isNaN(newNumber)) {
+			numbers.push(newNumber);
+			console.log("New Numbers: " + newNumber)
+			if (ops.length > 0) {
+				console.log(ops[ops.length-1].min, numbers.length)
+				if (ops[ops.length-1].min <= numbers.length) {
+					checkOperand();
+				}
+			}
+		}
+		// Check if you have enough numbers to run an operation
+		// Check if current op has nextNum. If yet immeditely execute it on the new value
+	}
+
+	const beginArguments = (op) => {
+		log({op});
+		// First, check type.current is an operation
+		// Then check if op supports arguments
+	}
+
+	const newArgument = (op) => {
+		log({op});
+		// if (ops[ops.length-1] == "func") 
+		// If you're not currently in a function nesting block throw an error
+	}
+
+	const endArguments = (op) => {
+		log({op});
+		// Check if the operation has the right amount of values
+	}
+
+	const throwMathError = (errorType, error) => { // Change over to using an error object that has keys like "errorOperand"
+		log({errorType, error});
+		// Add "Math - " before error
+		// Print the parsedChars
+	}
+
+
+	/* Remove surrounding brackets */
+	let exitBracket = "";
+	let [openBracket, closeBracket] = (mode == "math") ? ["{","}"] : ["(",")"]
+	if (mathString[0] == openBracket) mathString = mathString.slice(1);
+	if (mathString.slice(-1) == closeBracket) mathString = mathString.slice(0,-1);
+	mathString += " ";
+
+	/* Parse the mathString */
+	for (const char of mathString) {
+		parsedChars += char;
+		type.new = false;
+		
+		/* Checks if next char is the beginning of a new word, number or operand */
+		/* Tests specifiec characters with special interactions first */
+		switch (char) {
+			case ".": if (type.current == "number") type.new = "number"; break;
+			case ",": if (!inNested.includes("(") && mode == "math") throwMathError("Comma outside of function"); break;
+			case "{": if (inNested == "" || inNested == "{") inNested += "{initial"; exitBracket = "}"; break;
+			case "(": if (inNested == "" || inNested == "(") inNested += "(initial"; exitBracket = ")"; break;
+			case exitBracket:
+				if (inNested.length > 1) {
+					inNested = inNested.slice(0,-1);
+				} else {
+					inNested = "exiting";
+					exitBracket = "";
+				} break;
+			case "}": if (!inNested) throwMathError("Unexpected }"); break;
+			case ")": if (!inNested) throwMathError("Unexpected )"); break;
+		}
+		if (!type.new && inNested == "") {
+			if 		((/\s/).test(char)) 				type.new = false;
+			else if ((/[\+\-*\/<>=!\|&]/).test(char)) 	type.new = "operand";
+			else if ((/\d/).test(char)) 				type.new = "number";
+			else if ((/\w/).test(char)) 				type.new = "string";
+		}
+			
+		console.log(char + " | " + inNested)
+		console.log(currentChars + char + " | type.current: " + type.current + " | type.new: " + type.new)
+
+		/* If the new character is part of the current string/number/operand, continue */
+		/* Otherwise, add the new value and check if any operations should be executed */
+		/* If reading values from a nested section, store all nested chars and execute them by recursively calling parseMath */
+		if ((!type.current && type.new) || (type.current && type.current == type.new) || (inNested != "" && !inNested.includes("initial"))) {
+			currentChars += char;
+			type.current = type.new;
+			if (inNested == "exiting") { parseNestedMath(); }
+			continue;
+		} else {
+			type.old = type.current; type.current = type.new;
+			if (inNested.includes("initial")) inNested = inNested.replace("initial","");
+			switch (type.old) {
+				case "operand": newOperand(operands[currentChars]); break;
+				case "number": newNumber(currentChars); break;
+				case "string":
+					let varExists = Object.keys(vars).find(v => v.toLowerCase() == currentChars.toLowerCase());
+					if (capitalize(currentChars) in operands) newOperand(operands[capitalize(currentChars)]);
+					else if (varExists) newNumber(vars[varExists]);
+					else throwMathError("Unknown operand", char);
+					break;
+			}
+			currentChars = "";
+		}
+	}
+
+	/* Finish parsing and return the result */
+	console.log("Final numbers: " + numbers);
+	console.log("Final operands: " + ops);
+	if (!inNested) {
+
+		if (ops.length == 0) {
+			if (mode == "function" || numbers.length == 1) {
+				console.log("Math string parsed successfully")
+				return (mode == "math") ? [numbers[0], errors] : [numbers, errors]
+			} else {
+				throwMathError("Unused values", numbers);
+			}
+		} else {
+			throwMathError("Unused operand", ops.pop());
+		}
+	} else {
+		throwMathError(`Missing ${closeBracket}`);
+	}
+}
+
+
+
 // Executes a math operation between two numbers and returns the result
 function mathOperation(op, a, b) {
 	switch (op) {
@@ -17497,6 +17701,10 @@ function mathOperation(op, a, b) {
 		case "<=": return +(a <= b);
 		case ">": return +(a > b);
 		case ">=": return +(a >= b);
+		case "==": return +(a == b);
+		case "!=": return +(a != b);
+		case "!": return !a;
+		default: return "Error";
 	}
 }
 // Round down positive numbers and rounds up negative numbers
