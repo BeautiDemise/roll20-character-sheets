@@ -8316,6 +8316,20 @@ const autoEffectTriggers = [
 	"Permanent"													// Other
 ]
 
+/* Contains all error codes and messages used by the AutoEffects functionality */
+const autoEffectErrorData = {
+	"Invalid AutoEffect": "autoeffect-error-invalid-name",
+	"Invalid Value": "autoeffect-error-invalid-value",
+	"Invalid Target": "autoeffect-error-invalid-target",
+	"Invalid Format": "autoeffect-error-invalid-format",
+	"Invalid Option": "autoeffect-error-invalid-option",
+	"Invalid Round": "autoeffect-error-invalid-round",
+	"Invalid Duration": "autoeffect-error-invalid-duration",
+	"Invalid Percentage": "autoeffect-error-invalid-percentage",
+	"Invalid Compare": "autoeffect-error-invalid-compare",
+	"Invalid Alias": "autoeffect-error-invalid-alias"
+}
+
 /* Contains default AutoScript styling and aliases */
 const stylingDefault =
 `/* Clash results */
@@ -9339,7 +9353,7 @@ for (let i = 0; i <= 4; i++) {
 }
 function updateAilmentDisplay(ailmentPrefix, ailmentDisplayCount, ailmentList, settingLimbusStyle, returnMode="false") {
 	let ailmentDisplayList = [];
-	if (Object.keys(ailmentList).length > 0) {
+	if (length(ailmentList) > 0) {
 		for (var ailmentName in ailmentList) {
 			ailmentDisplayList.push([ailmentName, ailmentList[ailmentName]]);
 		}
@@ -11361,7 +11375,7 @@ function updateAilments(ailmentOverride=[], callback=()=>{}) {
 			/* Temporary HP */
 			let THPUsed = {}
 			let THPmessage = "";
-			if (burndamage > 0 && Object.keys(THP_Sources).length > 0) {
+			if (burndamage > 0 && length(THP_Sources) > 0) {
 				let returnTHP = applyTempBarDamageAilment(THP_Sources, "THP", burndamage, burnresult);
 				burnresult = returnTHP.newBar;
 				burndamage = returnTHP.damage;
@@ -11685,7 +11699,7 @@ getAttrs(["Bleed", "BleedDecayPause", "bleedResist", "bleedResist_ego", "distort
 		/* Temporary HP */
 		let THPUsed = {}
 		let THPmessage = "";
-		if (bleeddamage > 0 && Object.keys(THP_Sources).length > 0) {
+		if (bleeddamage > 0 && length(THP_Sources) > 0) {
 			let returnTHP = applyTempBarDamageAilment(THP_Sources, "THP", bleeddamage, bleedresult);
 			bleedresult = returnTHP.newBar;
 			bleeddamage = returnTHP.damage;
@@ -12268,7 +12282,7 @@ on('clicked:rollCombat', (info) => {
 				damage_data.BaseDamage = Math.max(parseInt(rollList[rollKey]) + parseInt(damage_data.BaseDamage),0);
 
 				let rollNumber = ` (#${rollKey.replace("roll","")})`;
-				if (Object.keys(rollList).length == 1) {
+				if (length(rollList) == 1) {
 					rollNumber = "";
 				}
 
@@ -12740,7 +12754,7 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 	let tempSTUsed = {}
 	
 	if (newHP < oldHP) {
-		if (Object.keys(THP_Sources).length > 0) {
+		if (length(THP_Sources) > 0) {
 			for (const sourceName in THP_Sources) {
 				let returnTHP = applyTempBarDamage(sourceName, THP_Sources[sourceName], "THP", HPDamage, newHP);
 				if (returnTHP != undefined) {
@@ -12758,7 +12772,7 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 		}
 	}
 	if (newST < oldST) {
-		if (Object.keys(TST_Sources).length > 0) {
+		if (length(TST_Sources) > 0) {
 			for (const sourceName in TST_Sources) {
 				let returnTST = applyTempBarDamage(sourceName, TST_Sources[sourceName], "TST", STDamage, newST);
 				if (returnTST != undefined) {
@@ -12913,7 +12927,7 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 	if ((damageResistance != 0) && (Math.abs(sumBothBefore + sumStBefore)) > 0) { stDamageBody += generateDamageHelperBodyEffect(langDamageResistance, damageResistance, "Reduction", 0, getIcon("ailments", "DamageResist", settingLimbusStyle)); }
 
 	/* Temporary HP and ST */
-	if (Object.keys(tempHPUsed).length > 0) {
+	if (length(tempHPUsed) > 0) {
 		for (const [sourceName, sourceVals] of Object.entries(tempHPUsed)) {
 			let effectName = sourceName;
 			if (sourceName == "AutoEffects THP") {
@@ -12923,7 +12937,7 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 			hpDamageBody += generateDamageHelperBodyEffect(effectName, `${sourceVals[1]} ${countUpdate}`, "TempReduction", 0, sourceVals[2]);
 		}
 	}
-	if (Object.keys(tempSTUsed).length > 0) {
+	if (length(tempSTUsed) > 0) {
 		for (const [sourceName, sourceVals] of Object.entries(tempSTUsed)) {
 			let effectName = sourceName;
 			if (sourceName == "AutoEffects TST") {
@@ -13076,7 +13090,7 @@ function applyTempBarDamageAilment(tempBar_Sources, target, damage, newBar) {
 
 	let tempBarUsed = {};
 	let returnTempBar = {};
-	if (Object.keys(tempBar_Sources).length > 0) {
+	if (length(tempBar_Sources) > 0) {
 		for (const sourceName in tempBar_Sources) {
 			if (damage > 0) {
 				returnTempBar = applyTempBarDamage(sourceName, tempBar_Sources[sourceName], target, damage, newBar);
@@ -14573,12 +14587,12 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	let errorMessageList = {}
 	
 	let stylingList = {
-		...parseAutoScriptStyling(stylingDefault),			// Default styling rules
-		...parseAutoScriptStyling(values.autoScriptStyling) // Custom styling rules from the AutoScript editor
+		...parseAutoScriptStyling(stylingDefault),				// Default styling rules
+		...parseAutoScriptStyling(values.autoScriptStyling) 	// Custom styling rules from the AutoScript editor
 	}
 	let defaultAliases = autoScriptToArray(aliasDefault, "aliases");
 	let customAliases = autoScriptToArray(values.autoScriptAlias, "aliases");
-	let aliasList = [...customAliases, ...defaultAliases, ...customAliases, 		// This structure means custom aliases are parsed first before default ones, while
+	let aliasList = [...customAliases, ...defaultAliases, ...customAliases, 		// This structure means custom aliases are checked first before default ones, while
 	].reduce((acc, alias) => Object.assign({[alias[0]]:alias[1], ...acc}), {});		//   still overwriting default aliases with matching custom aliases
 
 	let output = {}
@@ -14635,8 +14649,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 			}
 
 			/* Replaces any aliases in the AutoScript as they can contain triggers */
-			let [AutoScript, aliasErrors] = autoScriptApplyAliases(values[`${source}`], aliasList, "triggers");
-			errorMessageList = {...errorMessageList, ...aliasErrors}
+			let AutoScript = autoScriptApplyAliases(values[`${source}`], aliasList, "triggers", errorMessageList);
 
 			/* Finds all substrings that begin with "[#" and end with "#]" */
 			if ((/\[#(.+?)#\]/g).test(AutoScript)) {
@@ -14663,14 +14676,13 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	if (inputAutoScript == "") { callback(returnValues); return; }
 
 	/* Validates AutoEffect formats and returns an array of effects to be executed. Also returns any errors that were encountered during parsing */
-	let [ExecutionArray, parseErrors] = parseAutoScript(inputAutoScript, valueLists, aliasList);
-	errorMessageList = {...errorMessageList, ...parseErrors}
+	let ExecutionArray = parseAutoScript(inputAutoScript, valueLists, aliasList, errorMessageList);
 
 
 	/* --- AutoEffect execution --- */
 
 	/* Does not execute if any errors were encountered while parsing the AutoScript */
-	if (Object.keys(errorMessageList).length == 0) {
+	if (length(errorMessageList) == 0) {
 		ExecutionArray.forEach(AutoEffect => {
 
 		/* Handle conditional */
@@ -14690,7 +14702,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 			/*   ignorefailure: If the AutoEffect is a check that fails, the conditional button is not revealed. This option suppressed this behaviour */
 			/*     Note: ignorefailure is now a standard option. The old conditional option can still be used for legacy support */
 			/* If no options are used the effect is not executed and is instead stored in a conditional button */
-			if (Object.keys(options).length == 0) {
+			if (length(options) == 0) {
 				autoEffectType = "conditional";
 				if (!conditionalButtonList[conditional]) { conditionalButtonList[conditional] = {} }
 				modifyProp(conditionalButtonList[conditional], "AutoScript", autoEffectToString(AutoEffect.origAutoEffect));
@@ -14738,7 +14750,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	/* --- Message handling --- */
 
 	/* When encountering one or more errors, print an error message instead of the standard outputMessage */
-	if (Object.keys(errorMessageList).length > 0) {
+	if (length(errorMessageList) > 0) {
 		resetConditionals();
 		
 		/* Error message */
@@ -14848,7 +14860,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		ae.count = false;
 		ae.countImmutable = false;
 
-		if (autoEffectFormats[ae.name].useCount && ae.targetList != "no target") {
+		if (ae.format.useCount && ae.targetList != "no target") {
 			let values = valueLists[ae.targetList][ae.target];
 
 			if (ae.targetType == "ailment") {
@@ -15333,37 +15345,28 @@ function cleanAutoScript(AutoScript) {
 	return cleanAutoScript;
 }
 
-/* Parses an AutoScript, validating its format and getting  */
-/*   Returns an array of objects containing execution parameters for each AutoEffect in the AutoScript (target, value, options, conditionals etc.) */
-/*   Also returns a list of any errors that were encountered while validating the AutoScript */
-function parseAutoScript(inputAutoScript, vl, al) {
-	
-	let errorMessageList = {}
-	let ExecutionArray = [];
-
-	/* Helper functions and data */
-	const errorData = {
-		"Invalid AutoEffect": "autoeffect-error-invalid-name",
-		"Invalid Value": "autoeffect-error-invalid-value",
-		"Invalid Target": "autoeffect-error-invalid-target",
-		"Invalid Format": "autoeffect-error-invalid-format",
-		"Invalid Option": "autoeffect-error-invalid-option",
-		"Invalid Round": "autoeffect-error-invalid-round",
-		"Invalid Duration": "autoeffect-error-invalid-duration",
-		"Invalid Percentage": "autoeffect-error-invalid-percentage",
-		"Invalid Compare": "autoeffect-error-invalid-compare"
-	}
-	const autoEffectError = (errorCode, AutoEffect, errorInserts={}) => {
-		let errorType = getTranslationByKeyCustom(errorCode, errorData[errorCode] + "-type")
-		let errorMessage = autoEffectEntry(`<div>${styleText(autoEffectToString(AutoEffect), "font-weight: bolder; color: red;")}\n*${getTranslationByKeyCustom(errorCode, errorData[errorType] + "-message")}*</div>`);
+/* Adds a new error message to an error object */
+function autoEffectError(errorList, errorCode, AutoEffect, errorInserts={}, errorVariant) {
+	let errorType = getTranslationByKeyCustom(errorCode, autoEffectErrorData[errorCode] + "-type")
+	let errorMessage = autoEffectEntry(`<div>${styleText(autoEffectToString(AutoEffect), "font-weight: bolder; color: red;")}\n*${getTranslationByKeyCustom(errorCode, autoEffectErrorData[errorType] + "-message" + (errorVariant ? `-${errorVariant}` : ""))}*</div>`);
 
 		for (let [match, insert] of Object.entries(errorInserts)) {
 			if (insert == "") { match = ` ${match}`; }
 			errorMessage = errorMessage.replaceAll(match, insert);
 		}
-		modifyProp(errorMessageList, errorType, errorMessage);
+	modifyProp(errorList, errorType, errorMessage);
 		log({errorType, errorMessage});
 	}
+
+/* Parses an AutoScript, validating its format and getting  */
+/* Takes in a list of attribute values (vl) and a list of AutoScript aliases (al) */
+/* Returns an array of objects containing execution parameters for each AutoEffect in the AutoScript (target, value, options, conditionals etc.) */
+/*   If an errors object is provided, details of any the errors that were encountered while validating the AutoScript will be added to the list */
+function parseAutoScript(inputAutoScript, vl, al, errors={}) {
+	
+	let ExecutionArray = [];
+
+	/* Helper functions */
 	const getAutoEffectOptions = (effectName, optionsList, expand=false) => {
 		let options = {};
 		for (const [option, effects] of Object.entries(optionsList)) {
@@ -15406,8 +15409,7 @@ function parseAutoScript(inputAutoScript, vl, al) {
 	}
 
 	/* Replaces any aliases in the AutoScript */
-	let [AutoScript, aliasErrors] = autoScriptApplyAliases(inputAutoScript, al);
-	errorMessageList = {...errorMessageList, ...aliasErrors}
+	let AutoScript = autoScriptApplyAliases(inputAutoScript, al, "normal", errors);
 
 	/* Convert AutoScript to an array */
 	let AutoEffectArray = autoScriptToArray(AutoScript);
@@ -15420,7 +15422,7 @@ function parseAutoScript(inputAutoScript, vl, al) {
 		
 		/* Test: Valid name */
 		if (!(effectName in autoEffectFormats)) {
-			autoEffectError("Invalid AutoEffect", AutoEffect[0], {"[NAME]":langEffectName}); return;
+			autoEffectError(errors, "Invalid AutoEffect", AutoEffect[0], {"[NAME]":langEffectName}); return;
 		}
 		
 		/* Get the AutoEffect format */
@@ -15441,7 +15443,6 @@ function parseAutoScript(inputAutoScript, vl, al) {
 		/* Translates AutoEffect names, bars and ailments to English. Stores untranslated values for error messages */
 		let langAutoEffect = AutoEffect;
 		AutoEffect = translateAutoEffectToEnglish(AutoEffect, effectFormat.target, validOptions, validConOptions, targetIndex, optionIndex);
-		
 
 		/* Get AutoEffect value, target and options */
 		let [effectValue, langEffectValue] = (valueIndex) ? [AutoEffect[0][valueIndex], langAutoEffect[0][valueIndex]] : [false, ""];
@@ -15455,10 +15456,10 @@ function parseAutoScript(inputAutoScript, vl, al) {
 
 		/* Test: Valid format / length */
 		let effectLengthMin = optionIndex;
-		let effectLengthMax = optionIndex + Object.keys(validOptionsRaw).length;
+		let effectLengthMax = optionIndex + length(validOptionsRaw);
 		if (effectFormat.maxLengthMod) { effectLengthMax += effectFormat.maxLengthMod; }
 		if (AutoEffect[0].length < effectLengthMin || AutoEffect[0].length > effectLengthMax) {
-			autoEffectError("Invalid Format", AutoEffect[0], {
+			autoEffectError(errors, "Invalid Format", AutoEffect[0], {
 				"[NAME]":langEffectName,
 				"[VALUE]":valueToString(effectFormat.value),
 				"[TARGET]":targetsToString(effectFormat.target,
@@ -15495,7 +15496,7 @@ function parseAutoScript(inputAutoScript, vl, al) {
 					if (newOption == "This" || newOption == "Next") {
 						options.round = newOption.toLowerCase();
 					}
-					if (!options.round) { autoEffectError("Invalid Round", AutoEffect[0]); }
+					if (!options.round) { autoEffectError(errors, "Invalid Round", AutoEffect[0]); }
 				}
 
 				/* Handle the "Duration" option */
@@ -15507,7 +15508,7 @@ function parseAutoScript(inputAutoScript, vl, al) {
 					else if (options.duration != "combat" && (newOption == "This" || newOption == "Next")) {
 						options.duration = newOption.toLowerCase();
 					}
-					if (!options.duration) { autoEffectError("Invalid Duration", AutoEffect[0]); }
+					if (!options.duration) { autoEffectError(errors, "Invalid Duration", AutoEffect[0]); }
 				}
 
 				/* Handle options using N (ex. ScalingN) */
@@ -15521,7 +15522,7 @@ function parseAutoScript(inputAutoScript, vl, al) {
 				else { options[newOption.toLowerCase()] = true; }
 				
 				if (!(newOption in validOptions || `#${newOption}` in validOptions)) {
-					autoEffectError("Invalid Option", AutoEffect[0], {
+					autoEffectError(errors, "Invalid Option", AutoEffect[0], {
 						"[NAME]":langEffectName,
 						"[OPTION]":langEffectOptions[i],
 						"[OPTIONS]":langValidOptions.replaceAll(" ", ", ")
@@ -15540,7 +15541,7 @@ function parseAutoScript(inputAutoScript, vl, al) {
 			
 			if (targetList) {
 				if (options.target) { // Update the target list when using the target option
-					if (Object.keys(vl.targetAilmentList).length > 0) {
+					if (length(vl.targetAilmentList) > 0) {
 						targetList = "target" + capitalize(targetList);
 					} else {
 						targetList = "no target";
@@ -15565,7 +15566,7 @@ function parseAutoScript(inputAutoScript, vl, al) {
 						effectOptions.push(effectTarget);
 					}
 				} else {
-					autoEffectError("Invalid Target", AutoEffect[0], {
+					autoEffectError(errors, "Invalid Target", AutoEffect[0], {
 						"[TARGETS]":targetsToString(effectFormat.target,
 							getTranslationByKeyCustom(", ", "autoeffect-error-target-divider-comma"),
 							getTranslationByKeyCustom(" or ", "autoeffect-error-target-divider-or"),
@@ -15583,13 +15584,13 @@ function parseAutoScript(inputAutoScript, vl, al) {
 				let percentage = 0;
 
 				/* Extract value options (ex. % and < / > / <= / >= */
-				if ((/^[<>=]/).test(effectValue)) {
-					if ((/^[<>][=]{0,1}/g).test(effectValue) && effectFormat.compareValue && effectTarget) {
-						let compare = effectValue.match(/^[<>][=]{0,1}/g)[0];
+				if ((/^[<>]=?/).test(effectValue)) {
+					if ((/^[<>]=?/g).test(effectValue) && effectFormat.compareValue && effectTarget) {
+						let compare = effectValue.match(/^[<>]=?/g)[0];
 						effectValue = effectValue.replace(compare,"");
 						options.compareValue = compare;
 					} else {
-						autoEffectError("Invalid Compare", AutoEffect[0]); return;
+						autoEffectError(errors, "Invalid Compare", AutoEffect[0]); return;
 					}
 				}
 				if (effectValue.slice(-1) == "%") {
@@ -15599,7 +15600,7 @@ function parseAutoScript(inputAutoScript, vl, al) {
 						langPercent = getTranslationByKeyCustom("or percentage", "autoeffect-error-value-percent");
 						options.percentageValue = true;
 					} else {
-						autoEffectError("Invalid Percentage", AutoEffect[0]); return;
+						autoEffectError(errors, "Invalid Percentage", AutoEffect[0]); return;
 					}
 				}
 				
@@ -15607,13 +15608,13 @@ function parseAutoScript(inputAutoScript, vl, al) {
 				effectValue = parseFloat(effectValue);
 				if (!effectFormat.negativeValue) { effectValue = Math.abs(effectValue); }
 				if (isNaN(effectValue)) {
-					autoEffectError("Invalid Value", AutoEffect[0], {"[VALUE]":langEffectValue,"[PERCENT]":langPercent});
+					autoEffectError(errors, "Invalid Value", AutoEffect[0], {"[VALUE]":langEffectValue,"[PERCENT]":langPercent});
 				}
 				
 				/* Apply value options */
 				if (options.percentageValue && targetList != "no target") {
 					if (["barlist", "bardamagelist"].includes(targetList.toLowerCase())) {
-						let barMax = parseInt(vl.barMaxList[effectTarget.replace("-","")]);
+						let barMax = parseInt(vl.barMaxList[effectTarget.replace("-","")+"_max"]);
 						effectValue = barMax*percentage;
 					}
 					else if (targetList.toLowerCase().includes("ailmentlist")) {
@@ -15624,7 +15625,7 @@ function parseAutoScript(inputAutoScript, vl, al) {
 			
 			case "string":
 				if (effectValue.indexOf('"') == 0 && effectValue.lastIndexOf('"') == 0) {
-					autoEffectError("Invalid Format", AutoEffect[0], {
+					autoEffectError(errors, "Invalid Format", AutoEffect[0], {
 						"[NAME]":langEffectName,
 						"[VALUE]":getTranslationByKeyCustom('"Format"', "autoeffect-error-value-format"),
 						"[TARGET]":langEffectTarget,
@@ -15634,7 +15635,7 @@ function parseAutoScript(inputAutoScript, vl, al) {
 		}
 
 		/* Parse conditionals and conditional options */
-		if (effectConditionals.length > 0 && Object.keys(validConOptions).length > 0) {
+		if (effectConditionals.length > 0 && length(validConOptions) > 0) {
 			let primaryCon = effectConditionals[0];
 			let conOptions = {}
 
@@ -15685,7 +15686,7 @@ function parseAutoScript(inputAutoScript, vl, al) {
 		ExecutionArray.push(executionParams);
 	});
 
-	return [ExecutionArray, errorMessageList]
+	return ExecutionArray
 
 	// Checklist:
 	// Add a list of variables. Begins with the default variables and adds any variables created by AutoEffects
@@ -15694,12 +15695,12 @@ function parseAutoScript(inputAutoScript, vl, al) {
 }
 
 // Converts an AutoScript from a string to an array
-// mode: normal is for strings of type (AutoEffect...) (AutoEffect...) ...
+// mode: "normal" is for strings of type (AutoEffect...) (AutoEffect...) ...
 //	 each AutoEffect returns an array in the format [[name, value, target, option1, option2, ...], conditional1, conditional2, ...]
 //	 some AutoEffects do not return a value or target
-//	 options and conditionals are processed further in parseAutoScript()
-// mode: nested is for strings of type [#Offensive, (AutoEffect...) ... #] [#Round start, (AutoEffect...) ... ]
+// mode: "nested" is for strings of type [#Offensive, (AutoEffect...) ... #] [#Round start, (AutoEffect...) ... ]
 //   each Trigger returns an array in the format [trigger, (AutoEffect...)]
+// mode: "aliases" is for strings of the type {#aliasFormat, aliasAutoScript#}
 function autoScriptToArray(AutoScript, mode="normal") {
 	let AutoEffect = "";
 	let AutoEffectArray = [];
@@ -15734,8 +15735,8 @@ function autoScriptToArray(AutoScript, mode="normal") {
 				AutoEffectArray = AutoEffect.split("£");
 				AutoEffectArray = AutoEffectArray.map(e => e.trim());
 			} else {
-				/* For CustomMessage AutoScripts, preserve commas and quotes in the messages format by extracting the format before splitting over "," */
-				if (AutoEffect.includes("CustomMessage")) {
+				/* For AutoEffects that use a string value, preserve commas and quotes in the string by extracting the string before splitting over "," */
+				if (autoEffectFormats[AutoEffect.split(" ")[0]].value == "string") {
 					let lastCommaIndex = AutoEffect.lastIndexOf(",");
 					let lastQuoteIndex = AutoEffect.lastIndexOf('"');
 					AutoEffectArray = [AutoEffect];
@@ -15747,15 +15748,15 @@ function autoScriptToArray(AutoScript, mode="normal") {
 					}
 					
 					/* Store the message format. Remove the surrounding quotes if the format is valid */
-					let messageFormat = AutoEffectArray[0].match(/"(.*)"/g);
-					if (messageFormat != null) {
-						messageFormat = messageFormat[0].slice(1,-1)
+					let stringValue = AutoEffectArray[0].match(/"(.*)"/g);
+					if (stringValue) {
+						stringValue = stringValue[0].slice(1,-1);
 					} else {
-						messageFormat = AutoEffectArray[0].substr(AutoEffectArray[0].indexOf(" ") + 1);
+						stringValue = AutoEffectArray[0].substr(AutoEffectArray[0].indexOf(" ") + 1);
 					}
-					AutoEffectArray[0] = AutoEffectArray[0].replace(messageFormat,"£").trim();
+					AutoEffectArray[0] = AutoEffectArray[0].replace(stringValue,"£").trim();
 					AutoEffectArray[0] = AutoEffectArray[0].split(/\s+/);
-					AutoEffectArray[0][1] = messageFormat;
+					AutoEffectArray[0][1] = stringValue;
 				} else {
 					AutoEffectArray = AutoEffect.trim().split(",");
 					AutoEffectArray[0] = AutoEffectArray[0].split(/\s+/);
@@ -15778,60 +15779,83 @@ function autoScriptToArray(AutoScript, mode="normal") {
 // The alias is compared to an aliasList object consisting of format-AutoScript pairs: {aliasFormat1:aliasAutoScript1, aliasFormat2:aliasAutoScript2, ...}
 //   Ex. a valid format-AutoScript pair could be "{#Ailment Vigor #N}":"(Require {3+#N} #Ailment)(DicePower #N)"
 //   If {Burn Vigor 2} is added to an item, it should execute as (Require {3+2} Burn)(DicePower 2)
-function autoScriptApplyAliases(AutoScript, aliasList, mode="normal") {
+function autoScriptApplyAliases(AutoScript, aliasList, mode="normal", errors={}, aliasDepth=0) {
 	
-	if ((/\{.+(?!\))\}/)) { // Only run if at least one alias is in the AutoScript
+	AutoScript = cleanAutoScript(AutoScript);
+
+	if ((/\{.+(?!\))\}/).test(AutoScript) && length(errors) == 0) { // Only run if at least one alias is in the AutoScript
 		for (let [aliasFormatRaw, aliasAutoScript] of Object.entries(aliasList)) {
+
+			/* Throws an error if either the aliasFormat or aliasAutoScript is undefined */
+			if (!aliasAutoScript) {
+				autoEffectError(errors, "Invalid Alias", aliasFormatRaw, {}, "format"); break;
+			}
+
+			/* Throws an error if the aliasFormat only contains Inserts, making it match with all aliases of the same length */
+			if (!(/(?<!#[^\s,.\-\/]*)([^#\s,.\-/\\\?]+)/g).test(aliasFormatRaw)) {
+				AutoScript = AutoScript.replace(/(\{.+?\})(?![^\(]+\))/g, "");
+				autoEffectError(errors, "Invalid Alias", aliasFormatRaw, {}, "inserts");
+			}
+
 			if (mode == "normal") { aliasAutoScript = aliasAutoScript.replace(/\[#(.+?)#\]/g,""); } // When parsing normal AutoEffects, remove all trigger blocks from the alias AutoScript
 
 			/* Generate a RegExp that matches the format */
+			let [sep, nsep] = ['[\\s,.\\-\\\\/}]', '[^"\\s,.\\-\\\\/}]'] 			// Seperator characters
 			let aliasFormat = aliasFormatRaw.trim()
-				.replace(/([^#\s,.\-/\\\?]+)/g, "($1)") 							// Surround all Words in a capturing group. Doing this makes any ? after the Word make the entire word optional
-				.replace(/(#[^\s,.\-/\\\?]+)/g, '((?:".+")?[^\\s,.\\-\\\/\}]*)') 	// Replace all #Inserts with a capturing group looking for any non-seperator value or "format"
-				.replace(/\s+/g, "[\\s,.\\-\\\/]+");			 					// Replace all spaces with a RegExp that matches with any seperator character
+				.replace(/([^\s,.\-/\\\?]+)/g, "($1)") 								// Surround all Words and #Inserts in a capturing group. Doing this makes any ? after the Word make the entire word optional
+				.replace(/(\(#[^\s,.\-/\\\?]+)/g, `((?:"[^"]+?")|${nsep}+)`) 		// Replace all #Inserts with a capturing group looking for any value or format. Formats may include seperator characters
+				.replace(/\s+(?=^\s,.\-/\\\?]+\)\?)/g, `${sep}*`)			 		// Replace all spaces just before an optional insert with a RegExp that matches with any or no seperator character
+				.replace(/\s+/g, `${sep}+`);			 							// Replace all remaining spaces with a RegExp that matches with any seperator character
 
-			let aliasMatches = AutoScript.match(new RegExp(`\{${aliasFormat}\}`, "g")) || [];
+			let aliasMatches = AutoScript.match(new RegExp(`{\\s*${aliasFormat}\\s*}`, "g")) || [];
+			console.log(new RegExp(`{\\s*${aliasFormat}\\s*}`, "g"), aliasMatches)
 			
 			if (aliasMatches.length > 0) {
-				console.log(new RegExp(`\{${aliasFormat}\}`, "g"), aliasMatches)
+				console.log(new RegExp(`{\\s*${aliasFormat}\\s*}`, "g"), aliasMatches)
 
 				/* Prepare a list of #Insert-value pairs */
 				aliasMatches.forEach(match => {
-					let insertArray = aliasFormatRaw.split(/[?\s,.\-/\\]+/);
-					let sFormats = [];
-					let valueArray = match.slice(1, -1)
-						.replace(/"([^"]*)"/g, (i, sFormat) => { sFormats.push(sFormat); return "Ø"; }) // Extracts all "string formats"
-						.split(/[\s,.\-/\\]+/) 															// Splits the match string across all seperator characters
-						.map(v => (v == "Ø") ? v.replace("Ø", sFormats.shift()) : v); 					// Adds back in the string formats
+					let insertArray = aliasFormatRaw.replace("?","").split(/[\s,.\-/\\]+/);
+					let valueArray = splitIgnoreBetween(match.slice(1, -1), /[\s,.\-/\\]+/, '"');
 					let insertValueList = insertArray.reduce((acc, insert, i) => Object.assign(acc, {[insert]:valueArray[i]}),{})
 					console.log(insertArray, valueArray)
 					console.log(insertValueList)
 
-					/* Replace all aliases with it's aliasAutoScript with all values inserted */
+					/* Insert any insert values from the alias format */
 					let insertAutoScript = aliasAutoScript;
 					for (const [insert, value] of Object.entries(insertValueList)) {
 						insertAutoScript = insertAutoScript.replaceAll(insert, value || "");
 					}
+
+					/* If the aliasAutoScript itself includes aliases, apply those as well */
+					/* Throws an error and hinders further recursion if aliasDepth reaches 100 */
+					/*   This should only ever happen if the alias creates an infinite loop of cyclically referencing aliases */
+					aliasDepth++
+					if (aliasDepth < 100) {
+						autoScriptApplyAliases(aliasAutoScript, aliasList, "normal", errors, aliasDepth);
+					} else {
+						AutoScript = AutoScript.replace(/(\{.+?\})(?![^\(]+\))/g, "");
+						autoEffectError(errors, "Invalid Alias", match, {}, "loop");
+					}
+
 					AutoScript = AutoScript.replace(match, insertAutoScript);
 				});
 			}
 		}
-	} // #Ailment Bonus
 
 	/* Throw an error for each alias that remains in the AutoScript */
-	let aliasErrors = {}
 	let restAliasArray = AutoScript.match(/(\{.+?\})(?![^\(]+\))/g); // Ignores curly brackets inside parenthesis (used for math and not aliases)
 	if (restAliasArray) {
 		restAliasArray.forEach(restAlias => {
-			let errorType = getTranslationByKeyCustom("Invalid Alias", "autoeffect-error-invalid-alias-type")
-			let errorMessage = getTranslationByKeyCustom("Alias \"[ALIAS]\" does not exist or is formated incorrectly", "autoeffect-error-invalid-alias-message").replace("[ALIAS]",restAlias);
-			errorMessage = autoEffectEntry(`<div>${styleText(restAlias, "font-weight: bolder; color: red;")}\n*${errorMessage}*</div>`);
-			modifyProp(aliasErrors, errorType, errorMessage);
+				if (!Object.values(errors).some(error => error.includes(restAlias))) { // Avoids duplicate messages
 			AutoScript = AutoScript.replace(restAlias,"");
+					autoEffectError(errors, "Invalid Alias", restAlias, {}, "missing");
+				}
 		});
+		}
 	}
 
-	return [AutoScript, aliasErrors];
+	return AutoScript;
 }
 
 function translateAutoEffectToEnglish(AutoEffect, validTargets, validOptions, validConOptions, targetIndex, optionIndex) {
@@ -15858,7 +15882,7 @@ function translateAutoEffectToEnglish(AutoEffect, validTargets, validOptions, va
 	}
 	
 	/* Translate Options */
-	if (Object.keys(validOptions).length > 0) {
+	if (length(validOptions) > 0) {
 		for (let j = optionIndex; j < AutoEffect[0].length; j++) {
 			if (getOptionFromTranslation(AutoEffect[0][j], "Unknown") != "Unknown" + AutoEffect[0][j]) {
 				AutoEffect[0][j] = getOptionFromTranslation(AutoEffect[0][j]);
@@ -15867,7 +15891,7 @@ function translateAutoEffectToEnglish(AutoEffect, validTargets, validOptions, va
 	}
 
 	/* Translate Conditional Options */
-	if (Object.keys(validConOptions).length > 0) {
+	if (length(validConOptions) > 0) {
 		for (let k = 1; k < AutoEffect.length; k++) {
 			for (const option of Object.keys(validConOptions)) {
 				let translatedOption = "#" + getConOptionFromTranslation(option);
@@ -15962,6 +15986,9 @@ function autoEffectTranslateMessage(message) {
 
 /* Converts an AutoEffect from an array back into its string form */
 function autoEffectToString(AutoEffect, modList={}) {
+
+	if (!Array.isArray(AutoEffect)) { return AutoEffect; }
+
 	let autoEffectString = "";
 	let hasConditionals = Array.isArray(AutoEffect[0]);
 	let innerAutoEffect = (hasConditionals) ? AutoEffect[0] : AutoEffect;
@@ -16908,7 +16935,7 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 			if (effecttargetinlist == "StagRes") { tempBarTarget = "TST"; tempBar_Sources = TST_Sources }
 			
 			let tempBarUsed = {}
-			if (change > 0 && Object.keys(tempBar_Sources).length > 0) {
+			if (change > 0 && length(tempBar_Sources) > 0) {
 				let returnTempBar = applyTempBarDamageAilment(tempBar_Sources, tempBarTarget, change, result, roundEnd);
 				result = returnTempBar.newBar;
 				change = returnTempBar.damage;
@@ -17509,6 +17536,19 @@ function modifyProp(object, property, value, mode="+", mod={addValue:undefined, 
 		else { object[property] = value; } // If object
 	}
 }
+// Works as split(), but ignores any seperator matches that are surrounded by characters a and b
+// Characters a and b are not included in the result unless the include argument is set to true
+function splitIgnoreBetween(string, seperator, a, b, include=false) {
+	if (!b) b = a;
+	if (include) { a = "\\" + a; b = "\\" + b; }
+	if (typeof seperator == "string") seperator = new RegExp(seperator);
+	let between = new RegExp(`${a}([^${a}${b}]*)${b}`, "g");
+	
+	let ignoreArray = []; console.log(between)
+	return string.replace(between, (i, b) => { ignoreArray.push(b); return "ÆØÅ"; })
+		.split(seperator)
+		.map(v => (v == "ÆØÅ") ? v.replace("ÆØÅ", ignoreArray.shift()) : v); 	
+}
 // Deletes multiple object properties
 function deleteMultiple(object, ...args) {
 	args.forEach(arg => {
@@ -17516,6 +17556,10 @@ function deleteMultiple(object, ...args) {
 			delete object[arg];
 		}
 	});
+}
+// Return the length of an object
+function length(object) {
+	return keys = Object.keys(object).length;
 }
 
 // Helper used to quickly log data during testing
