@@ -8248,7 +8248,8 @@ const ailmentNames = [
 const barNames = ["HP", "ST", "SP", "Light"]
 const barNamesFull = ["Health", "StagRes", "Sanity", "Light"]
 const barNamesTemp = ["THP", "TST"]
-const statNames = ["Fortitude", "Instinct", "Prudence", "Wisdom", "Justice", "Charm", "Insight", "Temperance"]
+const statNames = ["Instinct", "Wisdom", "Justice", "Charm", "Insight", "Temperance"]
+const statNamesFull = [...statNames, "Fortitude", "Prudence"]
 
 const ailmentAttributes = [
 	"ailNum", "ailName", "ailIcon", "ailDisplay", , "ailTrigger", "ailNextTurn",
@@ -8329,7 +8330,8 @@ const autoEffectErrorData = {
 	"Invalid Duration": "autoeffect-error-invalid-duration",
 	"Invalid Percentage": "autoeffect-error-invalid-percentage",
 	"Invalid Compare": "autoeffect-error-invalid-compare",
-	"Invalid Alias": "autoeffect-error-invalid-alias"
+	"Invalid Alias": "autoeffect-error-invalid-alias",
+	"Math Error": "autoeffect-error-math"
 }
 
 /* Contains default AutoScript styling and aliases */
@@ -8554,8 +8556,8 @@ const aliasDefault =
 	(CustomMessage ”[/TARGET] [TARGET] Vigor: Gained #N Dice Power”)
 	(DicePower #N Silent) (Reset)
 #}
-{# Skill Ailment Bonus #N #X;
-	(Require {#X+#N} Ailment Target Silent)
+{# Skill #Ailment Bonus #N #X;
+	(Require {#X+#N} #Ailment Target Silent)
 	(CustomMessage "[/TARGET] [TARGET] Bonus: Gained #N Dice Power")
 	(DicePower #N Silent) (Reset)
 #}
@@ -9669,7 +9671,7 @@ async function updateTargetAttrLists(settingHideCombatOptions, charId, targetId,
 		let targetPrefix = (targetSettings.genericTokenMode == "true") ? `repeating_tokens_${targetTokenId}_` : "";
 		let targetBarAttrs = barList.reduce((rows,bar) => [...rows, `${targetPrefix}${bar}`, `${targetPrefix}${bar}_max`], '');
 		let targetAilmentListName = (targetSettings.genericTokenMode == "true") ? `${targetPrefix}tokenAilmentList` : "ailmentList";
-		let values = await getAttrsById(targetId, [...targetBarAttrs, targetAilmentListName]);
+		let values = await getAttrsById(targetId, [...targetBarAttrs, ...statNames, targetAilmentListName]);
 		setActiveCharacterId(charId);
 
 		/* Update target bar lists */
@@ -9703,8 +9705,11 @@ async function updateTargetAttrLists(settingHideCombatOptions, charId, targetId,
 			output = {...output, ...updateAilmentDisplay("target", 6, Data.unpackage(targetAilmentList), settingLimbusStyle, "true")}
 		}
 
+		/* Update target stats. Uses new vars system */
+		let targetStatVars = Object.entries(values).filter(attr => statNamesFull.includes(attr[0])).reduce((acc, attr) => Object.assign(acc, {["target"+updateStatName(attr[0])]:parseInt(attr[1])}), {});
+		
 		if (callback != "()=>{}") {
-			callback({...output, "targetBarList":targetBarList, "targetBarMaxList":targetBarMaxList, "targetBarDamageList":targetBarDamageList, "targetAilmentList":targetAilmentList});
+			callback({...output, targetBarList, targetBarMaxList, targetBarDamageList, targetAilmentList, targetStatVars});
 		} else {
 			setAttrs(output);
 		}
@@ -13156,7 +13161,7 @@ on('change:repeating_ailments:ailNum', (info) => {
 	});
 })
 
-function updateTempBar(values={}, target, name, tempBarVal, tempNum, effectName, iconFolder, iconName, stack, returnOutput) {
+function updateTempBar(values={}, target, name, tempBarVal, tempNum, effectName, iconFolder, iconName, stack, returnOutput={}) {
 
 	let tempSource = values[`${target}_Sources`] || "";
 	if (typeof values[`${target}_Sources`] == "string" && values[`${target}_Sources`] != "") {
@@ -13173,12 +13178,10 @@ function updateTempBar(values={}, target, name, tempBarVal, tempNum, effectName,
 			delete tempSource[`${name}`];
 		}
 
-	if (returnOutput) {
-		returnOutput[`${target}_Sources`] = JSON.stringify(tempSource);
-		returnOutput.result = (tempSource[`${name}`]) ? tempSource[`${name}`][0] : 0;
-	} else {
-		setAttrs({[`${target}_Sources`]: JSON.stringify(tempSource)});
-	}
+	let output = {[`${target}_Sources`]: JSON.stringify(tempSource)}
+	if (length(returnOutput) > 0) Object.assign(returnOutput, output);
+	else setAttrs(output);
+	return (tempSource[`${name}`]) ? tempSource[`${name}`][0] : 0;
 }
 
 
@@ -14531,14 +14534,16 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	let buttonAutoScriptList = idarray.map(id => [`repeating_conditionalButtons_${id}_buttonName`, `repeating_conditionalButtons_${id}_buttonAutoScript`]);
 
 
-	/* Get relevant attributes */
+	/* --- Prepare input values --- */
+
 	getAttrs([...autoScriptList, ...buttonAutoScriptList, "isFirstRound", "autoScriptStyling", "autoScriptAlias",
 	"settingMuteMessage", "settingWhisperRolls", "settingWhisperTarget", "settingLimbusStyle", "settingHideNextTurn",
 	"settingCollapseAutoEffectSections", "settingHideConditionalButtonReminder", "settingHideCombatOptions", //"settingTargetMode",
 	"HP", "HP_max", "StagRes", "StagRes_max", "SP", "SP_max", "Light", "Light_max", "THP_Sources", "TST_Sources",
+	"Instinct", "Charm", "Wisdom", "Insight", "Justice", "Temperance",
 	"baseSpeed", "thisRoundSpeed", "nextRoundSpeed", "distortState", "egoActiveState", "egoType",
 	"character_id", "character_name", "targetId", "targetName", "targetTokenId", "targetSettings"], async function(values) {
-		
+	
 	let settingMuteMessage = values.settingMuteMessage;
 	let settingWhisperRolls = values.settingWhisperRolls;
 	let settingWhisperTarget = values.settingWhisperTarget;
@@ -14550,18 +14555,24 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 
 	let charId = values.character_id;
 	let charName = values.character_name;
+	let distortState = values.distortState;
+	let egoActiveState = values.egoActiveState;
+	let egoType = values.egoType;
+
 	let targetId = values.targetId || "";
 	let targetName = values.targetName || "";
 	let targetTokenId = values.targetTokenId || "";
 	let targetSettings = Data.unpackage(values.targetSettings || {});
 
+	/* Values configurable by AutoEffects */
+	/* valueLists are no longer used during execution (now handled by aeVars), but is still used during AutoScript parsing */
 	let [HP, ST, SP, Light] = [parseInt(values.HP), parseInt(values.StagRes), parseInt(values.SP), parseInt(values.Light)];
 	let [HP_max, ST_max, SP_max, Light_max] = [parseInt(values.HP_max), parseInt(values.StagRes_max), parseInt(values.SP_max), parseInt(values.Light_max)];
 	let [baseSpeed, thisRoundSpeed, nextRoundSpeed] = [parseInt(values.baseSpeed), parseInt(values.thisRoundSpeed), parseInt(values.nextRoundSpeed)]
 	let valueLists = {
 		barList: {"HP":HP, "ST":ST, "SP":SP, "Light":Light, "THP":0, "TST":0 },
 		barMaxList: {"HP_max":HP_max, "ST_max":ST_max, "SP_max":SP_max, "Light_max":Light_max},
-		barDamageList: {"-HP":HP_max-HP, "ST":ST_max-ST, "SP":SP_max-SP, "Light":Light_max-Light},
+		barDamageList: {"-HP":HP_max-HP, "-ST":ST_max-ST, "-SP":SP_max-SP, "-Light":Light_max-Light},
 		speedList: {"baseSpeed":baseSpeed, "thisRoundSpeed":thisRoundSpeed, "nextRoundSpeed":nextRoundSpeed}
 	}
 
@@ -14570,41 +14581,36 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	let TST_Sources = (values.TST_Sources != "" && values.TST_Sources != "{}") ? JSON.parse(values.TST_Sources) : "";
 	if (TST_Sources.AutoEffects) { valueLists.barList.TST = TST_Sources.AutoEffects[0]; }
 	
-	let distortState = values.distortState;
-	let egoActiveState = values.egoActiveState;
-	let egoType = values.egoType;
-	
-	let exeVars = {
-		scaling: 1,
-		checkResult: "success",
-		currentConditional: "",
-		conditionalOptions: {}
-	}
-	let autoEffectType = "standard";
+	/* Execution parameters and variables */
+	let aeVars = { scaling:1, checkResult:"success" }				// Variables about the current AutoScript execution which should be available to players
+	let aeType = "standard";										// If the current AutoEffect is "standard", "section" or "conditional"
+	let aeConditional = "";											// The conditional of the currently executing AutoEffect. Used by the #Section option
+	let messageValues = {}											// Holds data about the last executed AutoEffect. Used by CustomMessage
 
+	/* Output storage */
+	let output = {}													// Stores all attribute values to be set by autoScriptMain
+	let returnValues = { checkResult:"success", message:"" }		// Stores all modifiers and action buttons that are returned to the calling function
+	let outputLists = {												// Stores all output values that cannot be applied directly using setAttrs()
+		challengeRollList: [],
+		procList: []
+	}
 	let conditionalSectionList = {}
 	let conditionalButtonList = {}
-	let outputMessage = "";
 	let buttonList = {}
-	let messageValues = {}
+	let outputMessage = "";
 	let errorMessageList = {}
-	
+
+	/* Assorted */
 	let stylingList = {
-		...parseAutoScriptStyling(stylingDefault),				// Default styling rules
-		...parseAutoScriptStyling(values.autoScriptStyling) 	// Custom styling rules from the AutoScript editor
+		...parseAutoScriptStyling(stylingDefault),					// Default styling rules
+		...parseAutoScriptStyling(values.autoScriptStyling) 		// Custom styling rules from the AutoScript editor
 	}
 	let defaultAliases = autoScriptToArray(aliasDefault, "aliases");
 	let customAliases = autoScriptToArray(values.autoScriptAlias, "aliases");
 	let aliasList = [...customAliases, ...defaultAliases, ...customAliases, 		// This structure means custom aliases are checked first before default ones, while
 	].reduce((acc, alias) => Object.assign({[alias[0]]:alias[1], ...acc}), {});		//   still overwriting default aliases with matching custom aliases
 
-	let output = {}
-	let returnValues = { checkResult:"success", message:"", buttonList:{} }
-	let outputLists = {
-		challengeRollList: [],
-		procList: []
-	}
-		
+
 	/* Get all ailments */
 	exportAilmentList(overrideList, (ailmentList) => {
 	valueLists.ailmentList = ailmentList;
@@ -14617,7 +14623,29 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		targetBarMaxList: targetLists.targetBarMaxList || {},
 		targetBarDamageList: targetLists.targetBarDamageList || {}
 	}
-	output = {...output, ...deleteMultiple(targetLists, 'targetAilmentList', 'targetBarList', 'targetBarDamageList')}
+
+	/* Add legacy values to aeVars */
+	Object.assign(aeVars, {
+		...valueLists.barList, ...valueLists.barMaxList, ...valueLists.barDamageList,
+		...Object.entries({...valueLists.targetBarList, ...valueLists.targetBarMaxList, ...valueLists.targetBarDamageList})
+			.reduce((acc, attr) => { return {...acc, [attr[0].replace(/([^-])/, "target$1")]:attr[1]} }, {}),
+		...Object.entries(valueLists.ailmentList)
+			.reduce((acc, attr) => { return {...acc, [attr[0]]:attr[1][1], [`${attr[0]}NextTurn`]:attr[1][2], [`${attr[0]}Immutable`]:attr[1][3], [`${attr[0]}Pause`]:attr[1][4]} }, {}),
+		...Object.entries(valueLists.targetAilmentList)
+			.reduce((acc, attr) => { return {...acc, [`target${attr[0]}`]:attr[1][1], [`target${attr[0]}NextTurn`]:attr[1][2], [`target${attr[0]}Immutable`]:attr[1][3], [`target${attr[0]}Pause`]:attr[1][4]} }, {})
+	});
+	/* Add new values to aeVars */
+	Object.assign(aeVars, {
+		...targetLists.targetStatVars,
+		...statNames.reduce((acc, stat) => { return {...acc, [updateStatName(stat)]:parseInt(values[stat])} }, {}),
+	});
+
+	output = {...output, ...deleteMultiple(targetLists, 'targetAilmentList', 'targetBarList', 'targetBarDamageList', 'targetStatVars')}
+	/* --- Prepare input values end --- */
+
+
+
+	/* --- Parse AutoScripts --- */
 	
 	/* Appends one or more AutoScripts based on the trigger type */
 	let autoScriptTriggers = [];
@@ -14683,14 +14711,17 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	if (inputAutoScript == "") { callback(returnValues); return; }
 
 	/* Validates AutoEffect formats and returns an array of effects to be executed. Also returns any errors that were encountered during parsing */
-	let ExecutionArray = parseAutoScript(inputAutoScript, valueLists, aliasList, errorMessageList);
+	let ExecutionArray = parseAutoScript(inputAutoScript, valueLists, aliasList, aeVars, errorMessageList);
+	
+	/* --- Parse AutoScripts end --- */
+
 
 
 	/* --- AutoEffect execution --- */
+	ExecutionArray.forEach(AutoEffect => {
 
-	/* Does not execute if any errors were encountered while parsing the AutoScript */
-	if (length(errorMessageList) == 0) {
-		ExecutionArray.forEach(AutoEffect => {
+		/* Stops execution if any errors were encountered while parsing or executing the AutoScript */
+		if (length(errorMessageList) > 0) { return; }
 
 		/* Handle conditional */
 		/* Only the first conditional of each AutoEffect is used, while the rest are stored */
@@ -14698,11 +14729,8 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 			const [conditional, options] = [AutoEffect.conditional.name, AutoEffect.conditional.options];
 
 			/* Reset if new conditional doesn't match previous one */
-			if (conditional != exeVars.conditional) {
-				autoEffectReset();
-				exeVars.conditional = conditional;
-				exeVars.conditionalOptions = options;
-			}
+			if (conditional != aeConditional) { autoEffectReset(); }
+			aeConditional = conditional;
 
 			/* The primary conditional has the following options: */
 			/*   section: Sorts the message created by the AutoEffect into a section with a name equal to the name of the condition */
@@ -14710,7 +14738,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 			/*     Note: ignorefailure is now a standard option. The old conditional option can still be used for legacy support */
 			/* If no options are used the effect is not executed and is instead stored in a conditional button */
 			if (length(options) == 0) {
-				autoEffectType = "conditional";
+				aeType = "conditional";
 				if (!conditionalButtonList[conditional]) { conditionalButtonList[conditional] = {} }
 				modifyProp(conditionalButtonList[conditional], "AutoScript", autoEffectToString(AutoEffect.origAutoEffect));
 
@@ -14722,19 +14750,23 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 				}
 			}
 		} else {
-			if (autoEffectType != "standard") { autoEffectReset(); }
-			autoEffectType = "standard";
+			if (aeType != "standard") { autoEffectReset(); }
+			aeType = "standard";
 		}
 
 		/* Execute effects */
-		if (autoEffectType != "conditional") {
-			console.log(AutoEffect)
+		if (aeType != "conditional") {
+			/* If using a math formula, calculate the result */
+			if ((/[{}]/).test(AutoEffect.value)) {
+				AutoEffect.value = parseMath(AutoEffect.value, aeVars, {strict:true}, errorMessageList);
+			}
+
 			/* Checks and Reset are always processed. Other AutoEffects are not processed if the last check failed */
 			switch (AutoEffect.name) {
 				case "Reset": autoEffectReset(AutoEffect); break;
 				case "CustomMessage": autoEffectCustomMessage(AutoEffect, messageValues); break;
 			}
-			if (exeVars.checkResult.includes("success")) {
+			if (aeVars.checkResult.includes("success")) {
 				autoEffectGetCount(AutoEffect); // Get the current count of ailments/bars
 				switch (AutoEffect.name) {
 					case "Require": case "Consume": autoEffectCheck(AutoEffect); break;
@@ -14749,14 +14781,14 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 				}
 			}
 		}
-		});
-	}
+	});
 	/* --- AutoEffect execution ends --- */
+
 
 
 	/* --- Message handling --- */
 
-	/* When encountering one or more errors, print an error message instead of the standard outputMessage */
+	/* When encountering one or more errors, print an error message instead of the standard output buttons and messages */
 	if (length(errorMessageList) > 0) {
 		resetConditionals();
 		
@@ -14765,6 +14797,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		for (const [errorType, errorMessage] of Object.entries(errorMessageList)) {
 			outputMessage += autoEffectSection(errorType, errorMessage, settingCollapseSections, "icons", "exit", getColor("Red"));
 		}
+
 	} else {
 		
 		/* Create conditional buttons */
@@ -14833,11 +14866,12 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	}
 	/* --- Message handling ends --- */
 
+	
 
 	/* --- Apply results --- */
 	console.log(returnValues)
 	callback(returnValues);
-	setAttrs(output, {}, ()=>{
+	setAttrs(output, {}, () => {
 
 		/* Execute challange rolls */
 		for (let i = 0; i < outputLists.challengeRollList.length; i++) {
@@ -14868,16 +14902,9 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		ae.countImmutable = false;
 
 		if (ae.format.useCount && ae.targetList != "no target") {
-			let values = valueLists[ae.targetList][ae.target];
-
+			ae.count = parseInt(aeVars[ae.targetVar]);
 			if (ae.targetType == "ailment") {
-				ae.count = parseInt(values[1]);
-				if (["Proc", "Pause"].includes(ae.name)) ae.count = parseInt(values[4]);
-				else if (ae.options.round == "next") ae.count = parseInt(values[2]);
-				ae.countImmutable = parseInt(values[3]);
-			} else {
-				ae.count = values;
-				ae.countImmutable = values;
+				ae.countImmutable = parseInt(aeVars[`${ae.target}Immutable`]);
 			}
 		}
 	}
@@ -14888,46 +14915,23 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		} else {
 			switch (ae.name) {
 				case "FlatDamage": applyOutputButton(buttonName, buttonAutoScript, "target", ae.conditional.options.actionButton || false); // Intentional lack of break
-				case "BaseDamage": applyOutput(applyMode, ae.name + (ae.target || ""), ae.value, ae.count); break;
-				case "DicePower": case "DiceMax": case "DiceCount": applyOutput(applyMode, ae.name, ae.value, ae.count); break;
-				case "Proc": applyOutput(applyMode, ae.targetAttr, true, ae.count, ae.name); break;
-				case "Speed":
-				ae.result = applyOutput(applyMode, ae.target, ae.value, ae.count);
-				updateValueList(ae);
-				break;
+				case "BaseDamage": applyOutput(applyMode, ae.name + (ae.target || ""), ae.value); break;
+				case "DicePower": case "DiceMax": case "DiceCount": applyOutput(applyMode, ae.name, ae.value); break;
+				case "Proc": applyOutput(applyMode, ae.targetAttr, true, ae.name); break;
+				case "Speed": applyOutput(applyMode, ae.target, ae.value); break;
 				default:
 				if (ae.targetType) {
 					switch (ae.targetType) {
-						case "tempBar":
-							updateTempBar(values, ae.target, "AutoEffects", ae.value * exeVars.scaling, "None", `AutoEffects ${ae.target}`, "icons", "gear", true, output);
-							ae.result = output.result;
-							delete output.result;
-							break;
-						case "stat": applyOutput(applyMode, ae.targetAttr, ae.value, ae.count); break;
-						case "ailment": case "bar":
-						ae.result = applyOutput(applyMode, ae.targetAttr, ae.value, ae.count);
-						updateValueList(ae);
-						break;
+						case "tempBar": ae.result = updateTempBar(values, ae.target, "AutoEffects", ae.value * aeVars.scaling, "None", `AutoEffects ${ae.target}`, "icons", "gear", true, output); break;
+						case "stat": applyOutput(applyMode, ae.targetAttr, ae.value); break;
+						case "ailment": case "bar": applyOutput(applyMode, ae.targetAttr, ae.value); break;
 					}
 				}
 			}
 		}
 		
 
-		function updateValueList(ae) {
-			if (ae.targetList && ae.targetList.toLowerCase().includes("barlist")) {
-				valueLists[ae.targetList][ae.target] = ae.result;
-			}
-			else if (ae.targetList && ae.targetList.toLowerCase().includes("ailment")) {
-				let targetIndex = (ae.options.round == "next") ? 2 : 1;
-				valueLists[ae.targetList][ae.target][targetIndex] = ae.result;
-			}
-			else if (ae.target && ae.target.toLowerCase().includes("speed")) {
-				valueLists.speedList[ae.target] = ae.result;
-			}
-		}
-
-		function applyOutput(applyMode, attr, value=0, count=0) {
+		function applyOutput(applyMode, attr, value=0) {
 
 			/* Make sure the output value is an integer when using "add" or "set" apply modes */
 			if (["add", "set"].includes(applyMode)) {
@@ -14936,25 +14940,28 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 
 			/* Add the change to the output */
 			switch (applyMode) {
-				case "add": modifyProp(output, attr, value * exeVars.scaling, "+", {setValue: count}); break;
-				case "set": output[attr] = value * exeVars.scaling; break;
-				case "multi": modifyProp(output, attr, value * exeVars.scaling, "*", {setValue: count, round: "down"}); break;
-				case "dice": modifyProp(returnValues, attr, value * exeVars.scaling, "+"); break;
-				case "list": outputLists[`${uncapitalize(ae.name)}List`].push([attr, value * exeVars.scaling]); break;
+				case "add": modifyProp(output, attr, value * aeVars.scaling, "+", {setValue: ae.count}); break;
+				case "set": output[attr] = value * aeVars.scaling; break;
+				case "multi": modifyProp(output, attr, value * aeVars.scaling, "*", {setValue: ae.count, round: "down"}); break;
+				case "dice": modifyProp(returnValues, attr, value * aeVars.scaling, "+"); break;
+				case "list": outputLists[`${uncapitalize(ae.name)}List`].push([attr, value * aeVars.scaling]); break;
 			}
 
-			/* Return the output value. Used to modify the valueList */
-			return output[attr] || returnValues[attr] || 0;
+			/* Return the output value. Used for result inserts in messages */
+			ae.result = output[attr] || returnValues[attr] || 0;
+
+			/* Updates any modified variables */
+			if (targetVar in aeVars) aeVars[targetVar] = ae.result;
 		}
 
-		function applyOutputButton(defaultName, AutoEffect, targetMode, customName) {
+		function applyOutputButton(defaultName, AutoScript, targetMode, customName) {
 			let buttonName = customName || defaultName;
 			if (buttonName == "") { return; }
 
 			let buttonTarget = "selected";
 			let buttonIcon = getIcon("icons", "gear", "false", "url");
 			let buttonColor = "green";
-			let buttonData = {buttonName:buttonName, buttonAutoScript:AutoEffect, targetTokenId:""}
+			let buttonData = {buttonName:buttonName, buttonAutoScript:AutoScript, targetTokenId:""}
 
 			let stylingMatch = Object.keys(stylingList).find(conditional => buttonName.toLowerCase().includes(conditional.toLowerCase()))
 			if (stylingMatch) {
@@ -14974,8 +14981,9 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	}
 
 	function autoEffectMessage(ae, countUpdate) {
-		let checkResult = ae.checkResult || exeVars.checkResult;
-		let scaling = ae.scaling || Math.max(parseInt(exeVars.scaling), 1);
+		console.log(ae.scaling, aeVars.scaling, ae.value)
+		let checkResult = ae.checkResult || aeVars.checkResult;
+		let scaling = ae.scaling || Math.max(parseInt(aeVars.scaling), 1);
 		let effectVal = roundTowardsZero(ae.value) || 0;
 		let scalingVal = roundTowardsZero(scaling * ae.value) || 0;
 		let effectTarget = ae.target || "No target";
@@ -15022,10 +15030,10 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		}
 
 		/* Update old stat names */
-		effectTarget = effectTarget.replace("Instinct","Fortitude").replace("Wisdom","Prudence");
+		effectTarget = updateStatName(effectTarget);
 
 		/* Handle ailment icons */
-		if (ae.target in valueLists.ailmentList && ae.name != "CustomMessage") {
+		if (ae.targetType == "ailment" && ae.name != "CustomMessage") {
 			messageFormat = "[/TARGET] " + messageFormat;
 			effectIcon = valueLists.ailmentList[ae.target][6];
 		}
@@ -15062,7 +15070,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 
 		messageValues = {
 			"customname": effectName,
-			"value": effectVal,
+			"value": ae.value,
 			"target": effectTarget,
 			"count": effectCount,
 			"result": effectResult,
@@ -15160,13 +15168,13 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 			message = autoEffectEntry(message);
 
 			/* Output message */
-			if (autoEffectType != "section") {
+			if (aeType != "section") {
 				outputMessage += autoEffectTranslateMessage(message);
 			} else {
-				if (conditionalSectionList[currentConditional]) {
-					conditionalSectionList[currentConditional] += autoEffectTranslateMessage(message);
+				if (conditionalSectionList[aeConditional]) {
+					conditionalSectionList[aeConditional] += autoEffectTranslateMessage(message);
 				} else {
-					conditionalSectionList[currentConditional] = autoEffectTranslateMessage(message);
+					conditionalSectionList[aeConditional] = autoEffectTranslateMessage(message);
 				}
 			}
 		}
@@ -15197,16 +15205,21 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		} else {
 			/* Handle the scaling option */
 			if (ae.options.scaling) {
-				scaling = (typeof ae.options.scaling == "boolean")
-					?  Math.max(Math.floor(ae.countImmutable/ae.value), 1)
-					:  Math.max(Math.min(Math.floor(ae.countImmutable/ae.value), ae.options.scaling), 1);
+				let baseScaling = Math.floor(ae.countImmutable/ae.value);
+				if (parseInt(ae.options.scaling)) {
+					scaling = Math.max(Math.min(baseScaling, ae.options.scaling), 1); // If number
+				} else if ((/[{}]/).test(ae.options.scaling)) {
+					scaling = Math.max(Math.min(baseScaling, parseMath(ae.options.scaling, aeVars, {strict:true}, errorMessageList)), 1); // If math formula
+				} else {
+					scaling = Math.max(baseScaling, 1); // If boolean
+				}
 				if (ae.options.compareValue && ae.options.compareValue.includes("<")) {
 					if (!mathOperation(ae.options.compareValue, ae.countImmutable, ae.value*scaling)) {
 						scaling++
 					}
 				}
 			} else {
-				scaling = exeVars.scaling;
+				scaling = aeVars.scaling;
 			}
 
 			/* Execute check */
@@ -15227,9 +15240,9 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		}
 
 		/* If conditional, do not apply any changes or send a message */
-		if (autoEffectType == "standard") {
+		if (aeType == "standard") {
 			/* Update execution variables */
-			exeVars = {...exeVars, scaling: scaling, checkResult: checkResult }
+			aeVars = {...aeVars, scaling: scaling, checkResult: checkResult }
 
 			/* Update returned checkResult if result is worse than the current value */
 			if (returnValues.checkResult == "success") {
@@ -15256,12 +15269,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		if (ae && ae.options.target) {
 			autoEffectOutput(ae, "", "(Reset)");
 		} else {
-			exeVars = {
-				checkResult: "success",
-				scaling: 1,
-				conditional: "",
-				conditionalOptions: {}
-			}
+			aeVars = {...aeVars, checkResult:"success", scaling:1 }
 			messageValues = {...messageValues, checkResult:"success"}
 		}
 	}
@@ -15271,13 +15279,13 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 			case "Inflict": ae.options.target = "target"; break;
 			case "Give": ae.options.target = "select"; break;
 		}
-		autoEffectOutput(ae, "Apply ailments", autoEffectToString(ae.origAutoEffect, {changeName: "Gain", changeValue: ae.value*exeVars.scaling, removeOptions:["Target", "Select"]}));
+		autoEffectOutput(ae, "Apply ailments", autoEffectToString(ae.origAutoEffect, {changeName: "Gain", changeValue: ae.value*aeVars.scaling, removeOptions:["Target", "Select"]}));
 		autoEffectMessage(ae, "update count");
 	}
 
 	function autoEffectBar(ae) {
 		let buttonName = (ae.value < 0) ? "Apply damage" : "Apply regen"
-		autoEffectOutput(ae, buttonName, autoEffectToString(ae.origAutoEffect, {changeValue: ae.value*exeVars.scaling, removeOptions:["Target", "Select"]}));
+		autoEffectOutput(ae, buttonName, autoEffectToString(ae.origAutoEffect, {changeValue: ae.value*aeVars.scaling, removeOptions:["Target", "Select"]}));
 		autoEffectMessage(ae, "update count");
 	}
 
@@ -15287,7 +15295,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	}
 
 	function autoEffectChallengeRoll(ae) {
-		autoEffectOutput(ae, "Roll challenge", autoEffectToString(ae.origAutoEffect, {changeValue: ae.value*exeVars.scaling, removeOptions:["Target", "Select"]}), "list");
+		autoEffectOutput(ae, "Roll challenge", autoEffectToString(ae.origAutoEffect, {changeValue: ae.value*aeVars.scaling, removeOptions:["Target", "Select"]}), "list");
 		autoEffectMessage(ae);
 	}
 
@@ -15295,11 +15303,11 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		let applyMode = "add";
 		let countUpdate = "update count";
 		switch (ae.options.duration) {
-			case "combat": ae.target = "SpeedCombat"; ae.count = valueLists.speedList.baseSpeed; applyMode = "dice"; countUpdate = false; break;
-			case "this": ae.target = "thisRoundSpeed"; ae.count = valueLists.speedList.thisRoundSpeed; break;
-			case "next": ae.target = "nextRoundSpeed"; ae.count = valueLists.speedList.nextRoundSpeed; break;
+			case "combat": ae.target = "SpeedCombat"; ae.count = aeVars.baseSpeed; applyMode = "dice"; countUpdate = false; break;
+			case "this": ae.target = "thisRoundSpeed"; ae.count = aeVars.thisRoundSpeed; break;
+			case "next": ae.target = "nextRoundSpeed"; ae.count = aeVars.nextRoundSpeed; break;
 		}
-		autoEffectOutput(ae, "Apply Speed", autoEffectToString(ae.origAutoEffect, {changeValue: ae.value*exeVars.scaling, removeOptions:["Target", "Select"]}), applyMode);
+		autoEffectOutput(ae, "Apply Speed", autoEffectToString(ae.origAutoEffect, {changeValue: ae.value*aeVars.scaling, removeOptions:["Target", "Select"]}), applyMode);
 		autoEffectMessage(ae, countUpdate);
 	}
 
@@ -15307,7 +15315,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		if (ae.name == "BaseDamage" && (["SP", "Light"]).includes(ae.target)) {
 			ae.name = "FlatDamage";
 		}
-		autoEffectOutput(ae, "Apply damage", `(Add ${-ae.value*exeVars.scaling} ${ae.target} ${([true, "target"].includes(ae.options.silent)) ? "Silent" : ""})`, "dice");
+		autoEffectOutput(ae, "Apply damage", `(Add ${-ae.value*aeVars.scaling} ${ae.target} ${([true, "target"].includes(ae.options.silent)) ? "Silent" : ""})`, "dice");
 		autoEffectMessage(ae);
 	}
 
@@ -15320,8 +15328,9 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	}
 
 	function autoEffectPause(ae) {
-		ae.targetAttr = ae.targetAttr.replace("ailNum", "ailDecayPause");
-		autoEffectOutput(ae, "Apply ailments", `(Pause ${ae.value*exeVars.scaling} ${ae.target} ${([true, "target"].includes(ae.options.silent)) ? "Silent" : ""})`);
+		ae.targetAttr = ae.targetAttr.replace("ailNum","ail") + "DecayPause";
+		ae.targetVar += "Pause";
+		autoEffectOutput(ae, "Apply ailments", `(Pause ${ae.value*aeVars.scaling} ${ae.target} ${([true, "target"].includes(ae.options.silent)) ? "Silent" : ""})`);
 		autoEffectMessage(ae);
 	}
 	/* --- AutoEffect functions end --- */
@@ -15340,7 +15349,7 @@ function cleanAutoScript(AutoScript) {
 	cleanAutoScript = cleanAutoScript.replace(/(\r\n|\n|\r|\t)/gm, "");
 
 	/* Remove all spaces between AutoEffects ex. )    ( -> )( */
-	cleanAutoScript = cleanAutoScript.replace(/\)( +)\(/g,')(')
+	cleanAutoScript = cleanAutoScript.replace(/[\)}]( +)[\({]/g,')(')
 
 	/* Replace all “” quotes with "" quotes */
 	cleanAutoScript = cleanAutoScript.replaceAll('“','"').replaceAll('”','"');
@@ -15355,23 +15364,23 @@ function cleanAutoScript(AutoScript) {
 }
 
 /* Adds a new error message to an error object */
-function autoEffectError(errorList, errorCode, AutoEffect, errorInserts={}, errorVariant) {
+function autoEffectError(errorList, errorCode, errorSubject, errorInserts={}, errorVariant) {
 	let errorType = getTranslationByKeyCustom(errorCode, autoEffectErrorData[errorCode] + "-type")
-	let errorMessage = autoEffectEntry(`<div>${styleText(autoEffectToString(AutoEffect), "font-weight: bolder; color: red;")}\n*${getTranslationByKeyCustom(errorCode, autoEffectErrorData[errorType] + "-message" + (errorVariant ? `-${errorVariant}` : ""))}*</div>`);
+	let errorMessage = autoEffectEntry(`<div>${styleText(autoEffectToString(errorSubject), "font-weight: bolder; color: red;")}\n*${getTranslationByKeyCustom(errorCode, autoEffectErrorData[errorType] + "-message" + (errorVariant ? `-${errorVariant}` : ""))}*</div>`);
 
-		for (let [match, insert] of Object.entries(errorInserts)) {
-			if (insert == "") { match = ` ${match}`; }
-			errorMessage = errorMessage.replaceAll(match, insert);
-		}
-	modifyProp(errorList, errorType, errorMessage);
-		log({errorType, errorMessage});
+	for (let [match, insert] of Object.entries(errorInserts)) {
+		if (insert == "") { match = ` ${match}`; }
+		errorMessage = errorMessage.replaceAll(match, insert);
 	}
+	modifyProp(errorList, errorType, errorMessage);
+	log({errorType, errorMessage});
+}
 
 /* Parses an AutoScript, validating its format and getting  */
 /* Takes in a list of attribute values (vl) and a list of AutoScript aliases (al) */
 /* Returns an array of objects containing execution parameters for each AutoEffect in the AutoScript (target, value, options, conditionals etc.) */
 /*   If an errors object is provided, details of any the errors that were encountered while validating the AutoScript will be added to the list */
-function parseAutoScript(inputAutoScript, vl, al, errors={}) {
+function parseAutoScript(inputAutoScript, vl, al, vars, errors={}) {
 	
 	let ExecutionArray = [];
 
@@ -15425,6 +15434,7 @@ function parseAutoScript(inputAutoScript, vl, al, errors={}) {
 
 	/* Parse each AutoEffect in the AutoScript */
 	AutoEffectArray.forEach(AutoEffect => {
+		console.log(AutoEffect)
 
 		/* Get AutoEffect name */
 		let [effectName, langEffectName] = [getAutoEffectFromTranslation(AutoEffect[0][0]), AutoEffect[0][0]];
@@ -15450,7 +15460,7 @@ function parseAutoScript(inputAutoScript, vl, al, errors={}) {
 		let [langValidOptions, langValidConOptions] = [optionsToString(validOptionsRaw), optionsToString(validConOptionsRaw)];
 		
 		/* Translates AutoEffect names, bars and ailments to English. Stores untranslated values for error messages */
-		let langAutoEffect = AutoEffect;
+		let langAutoEffect = [...AutoEffect];
 		AutoEffect = translateAutoEffectToEnglish(AutoEffect, effectFormat.target, validOptions, validConOptions, targetIndex, optionIndex);
 
 		/* Get AutoEffect value, target and options */
@@ -15459,7 +15469,7 @@ function parseAutoScript(inputAutoScript, vl, al, errors={}) {
 		let [effectOptions, langEffectOptions] = [AutoEffect[0].slice(optionIndex), langAutoEffect[0].slice(optionIndex)];
 		let [effectConditionals, langEffectConditionals] = [AutoEffect.slice(1), langAutoEffect.slice(1)];
 		let targetList = targetType = false;
-		let targetAttr = effectTarget;
+		let targetAttr = targetVar = effectTarget;
 		let options = {}
 		let conditional = {options:{}}
 
@@ -15472,8 +15482,8 @@ function parseAutoScript(inputAutoScript, vl, al, errors={}) {
 				"[NAME]":langEffectName,
 				"[VALUE]":valueToString(effectFormat.value),
 				"[TARGET]":targetsToString(effectFormat.target,
-					getTranslationByKeyCustom("/", "autoeffect-error-target-divider-slash"),
-					getTranslationByKeyCustom("/", "autoeffect-error-target-divider-slash")
+					getTranslationByKeyCustom("/", "autoeffect-error-divider-slash"),
+					getTranslationByKeyCustom("/", "autoeffect-error-divider-slash")
 				),
 				"[OPTIONS]":langValidOptions
 			}); return;
@@ -15521,10 +15531,11 @@ function parseAutoScript(inputAutoScript, vl, al, errors={}) {
 				}
 
 				/* Handle options using N (ex. ScalingN) */
-				else if ((/(\d+)/).test(newOption) && newOption.replace(/(\d+)/, "N") in validOptions) {
-					let optionN = parseInt(newOption.match(/(\d+)/g)[0]);
+				else if ((/[#\w]+({.+}|\d+)/i).test(newOption) && newOption.replace(/([#\w]+)({.+}|\d+)/i, "$1N") in validOptions) {
+					let optionN = newOption.match(/({.+}|\d+)/ig)[0];
 					newOption = newOption.replace(optionN, "");
 					options[newOption.toLowerCase()] = optionN;
+					if ((/{.+}/).test(options)) validateMathFormula(optionN, vars, errors);
 				}
 				
 				/* Sets option to true if no other value is provided */
@@ -15545,7 +15556,7 @@ function parseAutoScript(inputAutoScript, vl, al, errors={}) {
 			if (effectFormat.target.includes("#Ailment") && effectTarget in vl.ailmentList) { targetList = "ailmentList"; targetType="ailment"; }
 			if (effectFormat.target.includes("#Bar") && effectTarget in vl.barList) { targetList = "barList"; targetType="bar"; }
 			if (effectFormat.target.includes("#BarDamage") && effectTarget in vl.barDamageList) { targetList = "barDamageList"; targetType="bar"; }
-			if (effectFormat.target.includes("#Stat") && statNames.includes(effectTarget)) { targetList = "statList"; targetType="stat"; }
+			if (effectFormat.target.includes("#Stat") && statNamesFull.includes(effectTarget)) { targetList = "statList"; targetType="stat"; }
 			if (effectFormat.target.includes("#BarTemp") && barNamesTemp.includes(effectTarget)) { targetList = "barList"; targetType="tempBar"; }
 			
 			if (targetList) {
@@ -15563,7 +15574,7 @@ function parseAutoScript(inputAutoScript, vl, al, errors={}) {
 					if (vl.ailmentList[effectTarget][0] == "true") { // Handle next turn ailments
 						if (autoEffectOptions["Round"].includes(effectName) && options.round != "this") {
 							options.round = "next";
-						targetAttr += "NextTurn";
+							targetAttr += "NextTurn"; targetVar += "NextTurn";
 						}
 					} else {
 						options.round = "this"; // Forces the round option to "This" if no next turn field exists
@@ -15577,8 +15588,8 @@ function parseAutoScript(inputAutoScript, vl, al, errors={}) {
 				} else {
 					autoEffectError(errors, "Invalid Target", AutoEffect[0], {
 						"[TARGETS]":targetsToString(effectFormat.target,
-							getTranslationByKeyCustom(", ", "autoeffect-error-target-divider-comma"),
-							getTranslationByKeyCustom(" or ", "autoeffect-error-target-divider-or"),
+							getTranslationByKeyCustom(", ", "autoeffect-error-divider-comma"),
+							getTranslationByKeyCustom(" or ", "autoeffect-error-divider-or"),
 						),
 						"[TARGET]":langEffectTarget
 					}); return;
@@ -15592,9 +15603,19 @@ function parseAutoScript(inputAutoScript, vl, al, errors={}) {
 				let langPercent = "";
 				let percentage = 0;
 
+				/* Test math formulas have a valid format */
+				if ((/[{}]/).test(effectValue)) {
+					let mathString = effectValue.match(/^{.+}$/g)[0];
+					if (mathString) {
+						validateMathFormula(effectValue, vars, errors); break;
+					} else {
+						autoEffectError(errors, "Math Error", AutoEffect[0], {"[MATH]":effectValue}, ""); return;
+					}
+				}
+
 				/* Extract value options (ex. % and < / > / <= / >= */
 				if ((/^[<>]=?/).test(effectValue)) {
-					if ((/^[<>]=?/g).test(effectValue) && effectFormat.compareValue && effectTarget) {
+					if ((/^[<>]=?/).test(effectValue) && effectFormat.compareValue && effectTarget) {
 						let compare = effectValue.match(/^[<>]=?/g)[0];
 						effectValue = effectValue.replace(compare,"");
 						options.compareValue = compare;
@@ -15746,29 +15767,11 @@ function autoScriptToArray(AutoScript, mode="normal") {
 			} else {
 				/* For AutoEffects that use a string value, preserve commas and quotes in the string by extracting the string before splitting over "," */
 				if (autoEffectFormats[AutoEffect.split(" ")[0]].value == "string") {
-					let lastCommaIndex = AutoEffect.lastIndexOf(",");
-					let lastQuoteIndex = AutoEffect.lastIndexOf('"');
-					AutoEffectArray = [AutoEffect];
-
-					/* Seperate out any conditionals */
-					while (lastCommaIndex > lastQuoteIndex) {
-						AutoEffectArray = [AutoEffectArray[0].substring(0, lastCommaIndex), AutoEffectArray[0].substring(lastCommaIndex+1), ...AutoEffectArray.slice(1)];
-						lastCommaIndex = AutoEffectArray[0].lastIndexOf(",");
-					}
-					
-					/* Store the message format. Remove the surrounding quotes if the format is valid */
-					let stringValue = AutoEffectArray[0].match(/"(.*)"/g);
-					if (stringValue) {
-						stringValue = stringValue[0].slice(1,-1);
-					} else {
-						stringValue = AutoEffectArray[0].substr(AutoEffectArray[0].indexOf(" ") + 1);
-					}
-					AutoEffectArray[0] = AutoEffectArray[0].replace(stringValue,"£").trim();
-					AutoEffectArray[0] = AutoEffectArray[0].split(/\s+/);
-					AutoEffectArray[0][1] = stringValue;
+					AutoEffectArray = splitIgnoreBetween(AutoEffect.trim(), ",", '"', '"', true, true);
+					AutoEffectArray[0] = splitIgnoreBetween(AutoEffectArray[0], /\s+/g, '"', '"', false, true);
 				} else {
-					AutoEffectArray = AutoEffect.trim().split(",");
-					AutoEffectArray[0] = AutoEffectArray[0].split(/\s+/);
+					AutoEffectArray = splitIgnoreBetween(AutoEffect.trim(), ",", "{", "}", true, true);
+					AutoEffectArray[0] = splitIgnoreBetween(AutoEffectArray[0], /\s+/g, "{", "}", true, true);
 				}
 			}
 			AutoEffectArray = AutoEffectArray.map(e => (typeof e == "string") ? e.trim() : e);
@@ -15791,8 +15794,7 @@ function autoScriptToArray(AutoScript, mode="normal") {
 function autoScriptApplyAliases(AutoScript, aliasList, mode="normal", errors={}, aliasDepth=0) {
 	
 	AutoScript = cleanAutoScript(AutoScript);
-
-	if ((/\{.+(?!\))\}/).test(AutoScript) && length(errors) == 0) { // Only run if at least one alias is in the AutoScript
+	if ((/(?<!\)[^\)]+)(\{.+?\})(?![^\(]+\()/).test(AutoScript) && length(errors) == 0) { // Only run if at least one alias is in the AutoScript
 		for (let [aliasFormatRaw, aliasAutoScript] of Object.entries(aliasList)) {
 
 			/* Throws an error if either the aliasFormat or aliasAutoScript is undefined */
@@ -15813,22 +15815,22 @@ function autoScriptApplyAliases(AutoScript, aliasList, mode="normal", errors={},
 			let aliasFormat = aliasFormatRaw.trim()
 				.replace(/([^\s,.\-/\\\?]+)/g, "($1)") 								// Surround all Words and #Inserts in a capturing group. Doing this makes any ? after the Word make the entire word optional
 				.replace(/(\(#[^\s,.\-/\\\?]+)/g, `((?:"[^"]+?")|${nsep}+)`) 		// Replace all #Inserts with a capturing group looking for any value or format. Formats may include seperator characters
-				.replace(/\s+(?=^\s,.\-/\\\?]+\)\?)/g, `${sep}*`)			 		// Replace all spaces just before an optional insert with a RegExp that matches with any or no seperator character
+				.replace(/\s+(?=[^\s,.\-/\\\?]+\)\?)/g, `${sep}*`)			 		// Replace all spaces just before an optional insert with a RegExp that matches with any or no seperator character
 				.replace(/\s+/g, `${sep}+`);			 							// Replace all remaining spaces with a RegExp that matches with any seperator character
 
-			let aliasMatches = AutoScript.match(new RegExp(`{\\s*${aliasFormat}\\s*}`, "g")) || [];
-			console.log(new RegExp(`{\\s*${aliasFormat}\\s*}`, "g"), aliasMatches)
+			let aliasMatches = AutoScript.match(new RegExp(`{${sep}*${aliasFormat}${sep}*}`, "g")) || [];
 			
+			console.log(new RegExp(`{\\s*${aliasFormat}\\s*}`, "g"), aliasMatches)
 			if (aliasMatches.length > 0) {
-				console.log(new RegExp(`{\\s*${aliasFormat}\\s*}`, "g"), aliasMatches)
+				//console.log(new RegExp(`{\\s*${aliasFormat}\\s*}`, "g"), aliasMatches)
 
 				/* Prepare a list of #Insert-value pairs */
 				aliasMatches.forEach(match => {
 					let insertArray = aliasFormatRaw.replace("?","").split(/[\s,.\-/\\]+/);
-					let valueArray = splitIgnoreBetween(match.slice(1, -1), /[\s,.\-/\\]+/, '"');
+					let valueArray = splitIgnoreBetween(match.slice(1, -1), /[\s,.\-/\\]+/g, '"');
 					let insertValueList = insertArray.reduce((acc, insert, i) => Object.assign(acc, {[insert]:valueArray[i]}),{})
-					console.log(insertArray, valueArray)
-					console.log(insertValueList)
+					//console.log(insertArray, valueArray)
+					//console.log(insertValueList)
 
 					/* Insert any insert values from the alias format */
 					let insertAutoScript = aliasAutoScript;
@@ -15843,7 +15845,7 @@ function autoScriptApplyAliases(AutoScript, aliasList, mode="normal", errors={},
 					if (aliasDepth < 100) {
 						autoScriptApplyAliases(aliasAutoScript, aliasList, "normal", errors, aliasDepth);
 					} else {
-						AutoScript = AutoScript.replace(/(\{.+?\})(?![^\(]+\))/g, "");
+						AutoScript = AutoScript.replace(/(?<!\)[^\)]+)(\{.+?\})(?![^\(]+\()/g, "");
 						autoEffectError(errors, "Invalid Alias", match, {}, "loop");
 					}
 
@@ -15853,7 +15855,8 @@ function autoScriptApplyAliases(AutoScript, aliasList, mode="normal", errors={},
 		}
 
 	/* Throw an error for each alias that remains in the AutoScript */
-	let restAliasArray = AutoScript.match(/(\{.+?\})(?![^\(]+\))/g); // Ignores curly brackets inside parenthesis (used for math and not aliases)
+	AutoScript = cleanAutoScript(AutoScript);
+	let restAliasArray = AutoScript.match(/\)(\{.+?\})\(/g); // Ignores curly brackets inside parenthesis (used for math and not aliases)
 	if (restAliasArray) {
 		restAliasArray.forEach(restAlias => {
 				if (!Object.values(errors).some(error => error.includes(restAlias))) { // Avoids duplicate messages
@@ -17420,6 +17423,10 @@ function getTranslationByKeyCustom(base, key) {
 	return (getTranslationByKey(key)) ? getTranslationByKey(key) : base;
 }
 
+function updateStatName(stat) {
+	return stat.replace("Instinct","Fortitude").replace("Wisdom","Prudence")
+}
+
 /* Translation: Get text in English */
 function getAutoEffectFromTranslation(inputAutoEffect, errorString="") {
 	let translatedName = Object.keys(autoEffectFormats).find(name => {
@@ -17459,7 +17466,7 @@ function getAilmentOrBarFromTranslation(input) {
 }
 
 function getStatFromTranslation(inputStat, errorString="") {
-	let translatedStat = statNames.find(stat => {
+	let translatedStat = statNamesFull.find(stat => {
 		if (["Fortitude","Prudence"].includes(stat)) { return false; } // Needed while using the sheet in English due to the legacy names
 		return getTranslationByKey(`stats-${stat.toLowerCase()}`) == inputStat;
 	})
@@ -17469,8 +17476,8 @@ function getStatFromTranslation(inputStat, errorString="") {
 function getOptionFromTranslation(inputOption, errorString="") {
 	let validOptions = Object.keys(autoEffectOptions);
 	let optionN = ""
-	if ((/(\d+)/).test(inputOption)) {
-		optionN = inputOption.match(/(\d+)/)[0];
+	if ((/({.+}|\d+)/).test(inputOption)) {
+		optionN = inputOption.match(/({.+}|\d+)/)[0];
 		inputOption = inputOption.replace(optionN,"");
 	}
 	validOptions.forEach(option => {
@@ -17495,7 +17502,8 @@ function getConOptionFromTranslation(inputOption, errorString="") {
 
 /* Other helper functions */
 
-const operands = {
+/* --- Math functionality --- */
+const operators = {
 	"+": {min: 2, max: 2, calc: (a,b) => a+b},
 	"-": {min: 2, max: 2, calc: (a,b) => a-b},
 	"*": {min: 2, max: 2, calc: (a,b) => a*b},
@@ -17512,130 +17520,145 @@ const operands = {
 	"&&": {min: 2, max: 2, calc: (a,b) => +!!(a&&b)},
 	"||=": {min: 2, max: 2, calc: (a,b) => +(a||b)},
 	"&&=": {min: 2, max: 2, calc: (a,b) => +(a&&b)},
-	"!": {min: 1, max: 1, calc: (a) => !a},
-	"Min": {min: 2, max:"any", calc: (...args) => Math.max.apply(Math, args), args:true},
-	"Max": {min: 2, max:"any", calc: (...args) => Math.min.apply(Math, args), args:true},
+	"!": {min: 1, max: 1, calc: (a) => !a, func:true},
+	"Min": {min: 2, max:"any", calc: (...args) => Math.min.apply(null, args), func:true},
+	"Max": {min: 2, max:"any", calc: (...args) => Math.max.apply(null, args), func:true},
+	"Floor": {min: 1, max: 1, calc: (a) => Math.floor(a), func:true},
+	"Ceil": {min: 1, max: 1, calc: (a) => Math.ceil(a), func:true},
 };
+
+// Executes a math operation between two or more numbers and returns the result
+function mathOperation(op, ...args) {
+	if (op in operators) {
+		return operators[op].calc.apply(null, args);
+	}
+}
 
 // Takes in a math formula in string form and a list of variable values and returns the result of the formula
 // Uses the same format as writing calculations in JavaScript, except {curly brackets} are used to specify the order of operations. Functions like Min() still use normal parentheses 
 // Returns 0 if the calculation fails due to incorrect formating. If an errors object is provided, details of the error will be added to the list
-function parseMath(mathString, vars={}, mode="math", errors={}) {
+// Options:
+//   mode: One of "math" (returns 1 value) or "function" (returns 1 or more values)
+//   strict: true/false. If false, adds unknown variables as a new variable with a value of false and treats their value as 0
+function parseMath(mathString, vars={}, options={strict:true}, errors) {
 	
+	if (!options.mode) options.mode = "math";
 	let type = {new: false, current: false, old: false}
 	let currentChars = "";
 	let parsedChars = "";
 	let inNested = "";
+	let nestedReturnCount = 0;
 	let numbers = []
 	let ops = []
+	let char = "";
 
-	console.log((mode == "math") ? "Parse math from string: " : "Parsing function values from string: " + mathString)
+	let [openBracket, closeBracket] = (options.mode == "math") ? ["{","}"] : ["(",")"]
 
-	const newOperand = (op) => {
-		ops.push({...op, name:currentChars});
-		console.log("New Operands: " + Object.entries(ops).reduce((acc, op) => acc += op[1].name,''));
-		if (!op?.args) {
-			checkOperand();
-		}
-	}
+	console.log((options.mode == "math") ? "Parse math from string: " + mathString : "Parsing function values from string: " + mathString)
 
-	const checkOperand = () => {
-		let op = ops[ops.length-1];
-		if (op.min >= numbers.length) {
-			if (op.max == "any" || op.max <= numbers.length) {
-				console.log("Executing math: " + numbers.slice(-op.min) + " | " + op.name)
-				newNumber(ops.pop().calc.apply(op, numbers.splice(-op.min)));
+
+	const throwMathError = (errorType, errorInserts={}) => { // Change over to using an error object that has keys like "errorOperator"
+		log({errorType, errorInserts, currentChars, parsedChars, mathString});
+		if (errors) {
+			errorInserts = {
+				"[CURRENT CHARS]":styleText(currentChars, "color: red;"),
+				"[PREV CHARS]":openBracket + parsedChars.slice(0,-1),
+				"[NEXT CHARS]":styleText(mathString.replace(parsedChars,"").trim() + closeBracket, "color: gray;"),
+				"[CHAR]":styleText(parsedChars.slice(-1), "color: red;"),
+				...errorInserts
 			}
+			let langLocation = getTranslationByKeyCustom("Location: ", "autoeffect-error-math-location");
+			errorInserts["[LOCATION]"] = `*\n${langLocation}**${errorInserts["[PREV CHARS]"]}${errorInserts["[CHAR]"]}${errorInserts["[NEXT CHARS]"]}*`;
+			autoEffectError(errors, "Math Error", openBracket + mathString.trim() + closeBracket, errorInserts, errorType.toLowerCase().replaceAll(" ","-"));
 		}
 	}
+	
 
-	const parseNestedMath = () => {
-		let nestedMode = (currentChars.slice(-1) == "{") ? "math" : "function";
-		let nestedMathString = currentChars;
-		[inNested, currentChars] = ["", ""]
-
-		let [funcNumbers, funcErrors] = parseMath(nestedMathString, vars, nestedMode);
-		errors = {...errors, ...funcErrors}
-
-		if (nestedMode == "math") {
-			newNumber(funcNumbers);
-		} else {
-			funcNumbers.forEach(number => newNumber(number));
-		}
-	}
-
-	const newNumber = (number) => {
+	const newNumber = (number, options={}) => {
 		let newNumber = parseFloat(number);
 		if (!isNaN(newNumber)) {
 			numbers.push(newNumber);
-			console.log("New Numbers: " + newNumber)
-			if (ops.length > 0) {
-				console.log(ops[ops.length-1].min, numbers.length)
+			console.log("New Numbers: " + newNumber);
+			if (ops.length > 0 && !options.suppressCheck) {
 				if (ops[ops.length-1].min <= numbers.length) {
-					checkOperand();
+					checkOperator();
 				}
 			}
 		}
-		// Check if you have enough numbers to run an operation
-		// Check if current op has nextNum. If yet immeditely execute it on the new value
 	}
-
-	const beginArguments = (op) => {
-		log({op});
-		// First, check type.current is an operation
-		// Then check if op supports arguments
+	const newOperator = (op) => {
+		if (op in operators) {
+			if ((/(^|[^\d\w\s])\s*\-\d+$/).test(parsedChars)) { // Don't add - as an operator in cases like "-3 2", "2 + -3", "(2, -3)" and "2 (-3)"
+				char = "-" + char; return;
+			}
+			ops.push({...operators[op], name:currentChars});
+			console.log("New Operator: " + Object.entries(ops).reduce((acc, op) => acc += (acc != '' ? ', ' : '') + op[1].name,''));
+			if (!op?.func) checkOperator(); // Function valies only activate on 
+		} else {
+			throwMathError("Unknown operator", {"[OP]":styleText(op, "color: red;")});
+		}
 	}
-
-	const newArgument = (op) => {
-		log({op});
-		// if (ops[ops.length-1] == "func") 
-		// If you're not currently in a function nesting block throw an error
+	const checkOperator = () => {
+		let op = ops[ops.length-1];
+		if (op.min <= numbers.length) {
+			if (op.max == "any" || op.max <= numbers.length) {
+				if (nestedReturnCount) {
+					if (op.max == "any") op.max = nestedReturnCount;
+					nestedReturnCount = 0;
+				}
+				console.log("Executing math: " + numbers.slice(-op.max) + " | " + op.name)
+				newNumber(ops.pop().calc.apply(op, numbers.splice(-op.max)));
+			}
+		}
 	}
+	const parseNestedMath = () => {
+		let nestedMathString = currentChars;
+		[inNested, currentChars] = ["", ""]
 
-	const endArguments = (op) => {
-		log({op});
-		// Check if the operation has the right amount of values
-	}
+		let funcNumbers = parseMath(nestedMathString, vars, {...options, mode:"function"}, errors);
 
-	const throwMathError = (errorType, error) => { // Change over to using an error object that has keys like "errorOperand"
-		log({errorType, error});
-		// Add "Math - " before error
-		// Print the parsedChars
+		if (funcNumbers) {
+			nestedReturnCount = funcNumbers.length;
+			for (let i = 0; i < nestedReturnCount; i++) {
+				newNumber(funcNumbers[i], {suppressCheck: (i < nestedReturnCount-1) ? true : false});
+			}
+		}
 	}
 
 
 	/* Remove surrounding brackets */
-	let exitBracket = "";
-	let [openBracket, closeBracket] = (mode == "math") ? ["{","}"] : ["(",")"]
-	if (mathString[0] == openBracket) mathString = mathString.slice(1);
-	if (mathString.slice(-1) == closeBracket) mathString = mathString.slice(0,-1);
+	if (["(","{"].includes(mathString[0])) mathString = mathString.slice(1);
+	if ([")","}"].includes(mathString.slice(-1))) mathString = mathString.slice(0,-1);
 	mathString += " ";
 
 	/* Parse the mathString */
-	for (const char of mathString) {
+	for (let i = 0; i < mathString.length; i++) {
+		char = mathString[i];
 		parsedChars += char;
 		type.new = false;
+
+		if (length(errors) > 0) return;
 		
-		/* Checks if next char is the beginning of a new word, number or operand */
+		/* Checks if next char is the beginning of a new word, number or operator */
 		/* Tests specifiec characters with special interactions first */
 		switch (char) {
-			case ".": if (type.current == "number") type.new = "number"; break;
-			case ",": if (!inNested.includes("(") && mode == "math") throwMathError("Comma outside of function"); break;
-			case "{": if (inNested == "" || inNested == "{") inNested += "{initial"; exitBracket = "}"; break;
-			case "(": if (inNested == "" || inNested == "(") inNested += "(initial"; exitBracket = ")"; break;
-			case exitBracket:
-				if (inNested.length > 1) {
-					inNested = inNested.slice(0,-1);
+			case ".": if (type.current == "number") { type.new = "number"; break; }
+			case ",": if (!inNested.includes("(") && options.mode == "math") { throwMathError("Unexpected comma"); return; } else { break; }
+			case "(": inNested += (inNested == "") ? char+"initial" : char; break;
+			case ")":
+				if (inNested.includes("(")) {
+					inNested = inNested.replace("(","");
+					if (inNested.length == 0) inNested = "exiting";
+					break;
 				} else {
-					inNested = "exiting";
-					exitBracket = "";
-				} break;
-			case "}": if (!inNested) throwMathError("Unexpected }"); break;
-			case ")": if (!inNested) throwMathError("Unexpected )"); break;
+					throwMathError(`Unexpected bracket`, {"[UNEX]":char}); return;
+				}
+			case "{": case "}":
+				throwMathError(`Unexpected bracket`, {"[UNEX]":char}); return;
 		}
 		if (!type.new && inNested == "") {
 			if 		((/\s/).test(char)) 				type.new = false;
-			else if ((/[\+\-*\/<>=!\|&]/).test(char)) 	type.new = "operand";
+			else if ((/[\+\-*\/<>=!\|&]/).test(char)) 	type.new = "operator";
 			else if ((/\d/).test(char)) 				type.new = "number";
 			else if ((/\w/).test(char)) 				type.new = "string";
 		}
@@ -17643,7 +17666,7 @@ function parseMath(mathString, vars={}, mode="math", errors={}) {
 		console.log(char + " | " + inNested)
 		console.log(currentChars + char + " | type.current: " + type.current + " | type.new: " + type.new)
 
-		/* If the new character is part of the current string/number/operand, continue */
+		/* If the new character is part of the current string/number/operator, continue */
 		/* Otherwise, add the new value and check if any operations should be executed */
 		/* If reading values from a nested section, store all nested chars and execute them by recursively calling parseMath */
 		if ((!type.current && type.new) || (type.current && type.current == type.new) || (inNested != "" && !inNested.includes("initial"))) {
@@ -17653,60 +17676,76 @@ function parseMath(mathString, vars={}, mode="math", errors={}) {
 			continue;
 		} else {
 			type.old = type.current; type.current = type.new;
-			if (inNested.includes("initial")) inNested = inNested.replace("initial","");
 			switch (type.old) {
-				case "operand": newOperand(operands[currentChars]); break;
+				case "operator": newOperator(currentChars); break;
 				case "number": newNumber(currentChars); break;
 				case "string":
 					let varExists = Object.keys(vars).find(v => v.toLowerCase() == currentChars.toLowerCase());
-					if (capitalize(currentChars) in operands) newOperand(operands[capitalize(currentChars)]);
-					else if (varExists) newNumber(vars[varExists]);
-					else throwMathError("Unknown operand", char);
-					break;
+					if (!varExists && !options.strict && !(currentChars in operators)) {
+						varExists = currentChars;
+						vars[varExists] = false;
+					}
+					if (capitalize(currentChars) in operators) {
+						newOperator(capitalize(currentChars));
+					} else if (varExists || (/^\s*\|\|/).test(mathString.slice(i+1))) { // Allow undefined variables if followed by || or ||=
+						newNumber(vars[varExists] || 0);
+					} else {
+						throwMathError("Unknown variable", {"[VAR]":styleText(currentChars, "color: red;")}); return;
+					} break;
 			}
-			currentChars = "";
+			if (inNested.includes("initial")) {
+				inNested = inNested.replace("initial","");
+				currentChars = char;
+			} else {
+				currentChars = (type.new) ? char : "";
+			}
 		}
 	}
 
 	/* Finish parsing and return the result */
 	console.log("Final numbers: " + numbers);
-	console.log("Final operands: " + ops);
+	console.log("Final operators: " + Object.entries(ops).reduce((acc, op) => acc += (acc != '' ? ", " : '') + op[1].name, ''));
+	for (let [key, value] of Object.entries(ops)) {
+		console.log(key, value);
+	}
 	if (!inNested) {
-
 		if (ops.length == 0) {
-			if (mode == "function" || numbers.length == 1) {
+			if (options.mode == "function" || numbers.length == 1) {
 				console.log("Math string parsed successfully")
-				return (mode == "math") ? [numbers[0], errors] : [numbers, errors]
+				return (options.mode == "math") ? numbers[0] : numbers
 			} else {
-				throwMathError("Unused values", numbers);
+				throwMathError("Unused values", {"[COUNT]":styleText(numbers.length-1, "color: red;")}); return;
 			}
 		} else {
-			throwMathError("Unused operand", ops.pop());
+			let langDividerComma = getTranslationByKeyCustom(", ", "autoeffect-error-divider-comma");
+			let langDividerAnd = getTranslationByKeyCustom(" and ", "autoeffect-error-divider-and");
+			throwMathError("Unused operators", {
+				"[OPS]": replaceLast(Object.entries(ops).reduce((acc, op) => acc += (acc != '' ? langDividerComma : '') + styleText(op[1].name, "color: red;"), ''), langDividerComma, langDividerAnd)
+			}); return;
 		}
 	} else {
-		throwMathError(`Missing ${closeBracket}`);
+		throwMathError(`Missing bracket`, {"[CHAR]":styleText(")", "color: red;"), "[MISSING]":")"}); return;
 	}
 }
 
-
-
-// Executes a math operation between two numbers and returns the result
-function mathOperation(op, a, b) {
-	switch (op) {
-		case "+": return (a + b);
-		case "-": return (a - b);
-		case "*": return (a * b);
-		case "/": return (a / b);
-		case "<": return +(a < b);
-		case "<=": return +(a <= b);
-		case ">": return +(a > b);
-		case ">=": return +(a >= b);
-		case "==": return +(a == b);
-		case "!=": return +(a != b);
-		case "!": return !a;
-		default: return "Error";
+/* Tests if a math formula is valid and throws no errors */
+/* Returns false or true. Also returns any errors encountered if an errors object is provided */
+function validateMathFormula(mathString, vars, errors, options={strict:false}) {
+	let mathErrors = {}
+	parseMath(mathString, vars, options, mathErrors);
+	if (length(mathErrors) > 0) {
+		if (errors) {
+			for (const [errorType, errorMessage] of Object.entries(mathErrors)) {
+				modifyProp(errors, errorType, errorMessage);
+			}
+		}
+		return false;
 	}
+	return true;
 }
+/* --- Math functionality end --- */
+
+
 // Round down positive numbers and rounds up negative numbers
 function roundTowardsZero(value) {
 	return (value >= 0) ? Math.floor(value) : Math.ceil(value);
@@ -17717,6 +17756,11 @@ function capitalize(string) {
 }
 function uncapitalize(string) {
 	return string.charAt(0).toLowerCase() + string.slice(1);
+}
+function replaceLast(string, match, replace) {
+	let i = string.lastIndexOf(match);
+	if (i >= 0) string = string.slice(0, i) + replace + string.slice(i+match.length);
+	return string;
 }
 // Creates a new object property with a value, or adds the value to the property if it already exists
 // Also works for arrays, treating property as an index. If the index does not exist the value is pushed onto the array
@@ -17746,16 +17790,16 @@ function modifyProp(object, property, value, mode="+", mod={addValue:undefined, 
 }
 // Works as split(), but ignores any seperator matches that are surrounded by characters a and b
 // Characters a and b are not included in the result unless the include argument is set to true
-function splitIgnoreBetween(string, seperator, a, b, include=false) {
+function splitIgnoreBetween(string, seperator, a, b, includeChars=false, allowNesting=false) {
 	if (!b) b = a;
-	if (include) { a = "\\" + a; b = "\\" + b; }
-	if (typeof seperator == "string") seperator = new RegExp(seperator);
-	let between = new RegExp(`${a}([^${a}${b}]*)${b}`, "g");
-	
-	let ignoreArray = []; console.log(between)
+	let formatInner = (allowNesting) ? ".*?" : `[^${a}${b}]*`;
+	let formatOuter = (includeChars) ? `(\\${a}${formatInner}\\${b})` : `${a}(${formatInner})${b}`;
+	let between = new RegExp(formatOuter, "g");
+
+	let ignoreArray = [];
 	return string.replace(between, (i, b) => { ignoreArray.push(b); return "ÆØÅ"; })
 		.split(seperator)
-		.map(v => (v == "ÆØÅ") ? v.replace("ÆØÅ", ignoreArray.shift()) : v); 	
+		.map(v => { while (v.includes("ÆØÅ")) { v = v.replace("ÆØÅ", ignoreArray.shift()) }; return v; });
 }
 // Deletes multiple object properties
 function deleteMultiple(object, ...args) {
