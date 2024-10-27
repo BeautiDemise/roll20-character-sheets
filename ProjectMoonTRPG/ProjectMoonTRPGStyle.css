@@ -1483,6 +1483,9 @@ margin-bottom: 2px !important;}
 .resistanceChart.BLACK select {
     border: 1px solid var(--color-black)
 }
+.egoContainer select.whiteInput:focus {
+    background-color: rgba(50, 50, 50, 0.4) !important;
+}
 .egoCheck {
     position: absolute !important;  
     top: 10px; 
@@ -1529,8 +1532,7 @@ margin-bottom: 2px !important;}
     margin-top: 2px !important;
     margin-left: 5px !important;
 }
-.skillN select.whiteInput:focus,
-.settingStyle select.whiteInput:focus {
+:is(.skillN, .skillE, .settingStyle) select.whiteInput:focus {
     background-color: rgba(0, 0, 0, 0.2) !important;
 }
 /* Ego skills */
