@@ -59,6 +59,17 @@
 		
 			<label for="MultihitFull"><input type="checkbox" id="MultihitFull" name="attr_settingMultihitFull" value="true"><span data-i18n="settings-multihitfull">No Power debuff on Multi-hit</span></label>
 
+
+			<span class="settingsTitle" data-i18n="settings-combat-options">Combat Options</span>
+
+			<label for="SimpleCombatOptions"><input type="checkbox" id="SimpleActionTracker" name="attr_settingSimpleCombatOptions" value="true" checked><span data-i18n="settings-simplecombatoptions">Simple combat options</span></label>
+			
+			<label for="ActionTracker"><input type="checkbox" id="ActionTracker" name="attr_settingActionTracker" value="true"><span data-i18n="settings-actiontracker" checked>Auto: Action tracker</span></label>
+			
+			<label for="LightRegen"><input type="checkbox" id="LightRegen" name="attr_settingLightRegen" value="true"><span data-i18n="settings-lightregen" checked>Auto: Light regen</span></label>
+
+			<label for="CombatToggle"><input type="checkbox" id="CombatToggle" name="attr_settingCombatToggle" value="true"><span data-i18n="settings-combattoggle" checked>Auto: Combat toggle</span></label>
+
 			<label for="HideCombatOptions"><input type="checkbox" id="HideCombatOptions" name="attr_settingHideCombatOptions" value="true"><span data-i18n="settings-hidecombatoptions">Hide: Combat options</span></label>
 
 			<label for="HideFromTargeting"><input type="checkbox" id="HideFromTargeting" name="attr_settingHideDetailsFromTargeting" value="true"><span data-i18n="settings-hidedetailsfromtargeting">Hide: Details from targeting</span></label>
@@ -1969,7 +1980,13 @@
             <!-- Stats Section -->
             <div id="TopColumnR">
 
-<div class="rowContainer titleHeader"><button type="action" class="qolButton" name="act_resetStats" data-i18n-title="reset-button" title="Reset"> ! </button> <h4 data-i18n="heading-stats">Stats</h4> <button type="action" class="reloadButton reusableIcon" name="act_resetUses" data-i18n-title="reset-button" title="Reset"></button></div>
+
+
+<div class="rowContainer titleHeader">
+	<button type="action" class="qolButton" name="act_resetStats" data-i18n-title="reset-button" title="Reset"> ! </button> <h4 data-i18n="heading-stats">Stats</h4>
+	<button type="action" class="qolButton reloadButton healIcon" name="act_recover" data-i18n-title="recover-button" title="Recover: Benefit from a short rest"></button>
+	<button type="action" class="qolButton recoverButton reusableIcon" name="act_resetUses" data-i18n-title="reset-button" title="Reset: Refresh all reload weapons and reuseable tools"></button>
+</div>
 
                 <div class="contentContainer darkBG" id="baseStats">
 
@@ -2144,85 +2161,156 @@
 
 
 <!-- Combat palette -->
+
+<div class="rowContainer titleHeader">
+	<button type="action" class="qolButton speed" name="act_resetDamageHelper" data-i18n-title="helper-text-begincombat" title="Begin combat"></button>
+	<h4 data-i18n="helper-text-begincombat">Begin combat</h4>
+</div>
+
+<!-- Combat toggle -->
 <div class="status_effect" style="margin-top: 5px;">
 <div class="status_effect" style="margin-top: 5px;">
 	<div class="contentContainer darkBG">
 
-	<!-- Combat options -->
+	<!-- Combat options toggle -->
 	<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideCombatOptions" value="true">
-	<div class="rowContainer combatOptionsContainer hide-item-rev">
-
-		<input type="text" name="attr_selfToken" hidden>
-		
-		<!-- Target selector -->
-		<div class="columnAlign helpers">
-			<b data-i18n="helper-text-selecttarget">Target</b>
-			<button type="action" class="selectTargetButton" name="act_selectTarget" title="Select target. Double click button to reset target" data-i18n-title="helper-text-selecttarget-title">
-				<img name="attr_targetToken" class="targetToken">
-				<div class="selectTargetIcon"></div>
-			</button>
-		</div>
-
-		<!-- Target statistics -->
-		<div class="columnAlign helpers" style="margin-left: 3px;">
-			<input type="text" class="tokenName" name="attr_targetTokenName" value="" style="width: 150px;" placeholder="No target selected" data-i18n-placeholder="helper-text-notarget" readonly="">
-			<input type="text" name="attr_targetName" value="" hidden="true">
-			<input type="text" name="attr_targetTokenId" value="" hidden="true">
-			<input type="text" name="attr_targetSettings" value="{}" hidden="true">
-
-			<input type="text" name="attr_targetedBy" value="{}" hidden="true">
-			<!-- <input type="text" name="attr_announceTargeting" value="" hidden="true">
-			<input type="text" name="attr_testIsGM" value="unset" hidden="true"> -->
-			
-			<!-- Target bars -->
-			<div class="rowContainer" style="width: 150px;">
-				<div class="bars"><input class="Cstat HPtext" type="text" name="attr_HP_target" value="---"></div>
-				<div class="bars"><input class="Cstat egoSTGRtext" type="text" name="attr_StagRes_target" value="---"></div>
-				<div class="bars"><input class="Cstat SANtext" type="text" name="attr_SP_target" value="---"></div>
-			</div>
-
-			<!-- Target ailments -->
-			<div class="rowContainer">
-				<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment1Num" value="0" hidden="true">
-				<div class="targetAilment hide-item-rev">
-					<img name="attr_targetAilment1Icon">
-					<input type="number" name="attr_targetAilment1Num" min="0" value="0">
-				</div>
-				<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment2Num" value="0" hidden="true">
-				<div class="targetAilment hide-item-rev">
-					<img name="attr_targetAilment2Icon">
-					<input type="number" name="attr_targetAilment2Num" min="0" value="0">
-				</div>
-				<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment3Num" value="0" hidden="true">
-				<div class="targetAilment hide-item-rev">
-					<img name="attr_targetAilment3Icon">
-					<input type="number" name="attr_targetAilment3Num" min="0" value="0">
-				</div>
-				<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment4Num" value="0" hidden="true">
-				<div class="targetAilment hide-item-rev">
-					<img name="attr_targetAilment4Icon">
-					<input type="number" name="attr_targetAilment4Num" min="0" value="0">
-				</div>
-				<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment5Num" value="0" hidden="true">
-				<div class="targetAilment hide-item-rev">
-					<img name="attr_targetAilment5Icon">
-					<input type="number" name="attr_targetAilment5Num" min="0" value="0">
-				</div>
-				<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment6Num" value="0" hidden="true">
-				<div class="targetAilment hide-item-rev">
-					<img name="attr_targetAilment6Icon">
-					<input type="number" name="attr_targetAilment6Num" min="0" value="0">
-				</div>
-			</div>
-		</div>
-
-		<!-- Last defence dice -->
-		<div class="columnAlign helpers" style="margin-left: 3px;">
-			<b data-i18n="helper-text-defencedice">Defence</b>
-			<input type="number" class="darkInput defenceDice" name="attr_lastDefenceRoll" min="0" value="0" data-i18n-title="helper-text-lastdefenceroll" title="Last Defence roll"> <!-- delete this later -->
+	<div class="hide-item-rev rowContainer">
+		<input type="checkbox" class="hide-toggle" name="attr_settingCombatToggle" value="true" hidden="true" checked>
+		<div class="hide-item rowContainer combatToggleContainer">
+			<input type="checkbox" class="hide-toggle hide-toggle-rev" name="attr_combatState" value="true" hidden="true" checked>
+			<div class="hide-item-rev rowContainer"><button type="action" class="darkButton combatToggleButton" name="act_combatToggle" title="Begin combat" data-i18n-title="helper-text-begincombat" data-i18n="helper-text-begincombat">Begin Combat</button></div>
+			<div class="hide-item rowContainer"><button type="action" class="darkButton combatToggleButton" name="act_combatToggle" title="End combat" data-i18n-title="helper-text-endcombat" data-i18n="helper-text-endcombat">End Combat</button></div>
 		</div>
 	</div>
 
+	<!-- Combat options -->
+	<input type="checkbox" class="hide-toggle" name="attr_combatState" value="true" hidden="true" checked>
+	<input type="checkbox" class="helperText" name="attr_settingHelperText" value="true" hidden="true">
+	<div class="hide-item columnAlign combatOptionsContainer helperTextContainer">
+			
+		<div class="rowContainer targetAndDefenceContainer">
+			
+			<!-- Target selector -->
+			<div class="columnAlign helpers">
+				<b data-i18n="helper-text-selecttarget">Target</b>
+				<button type="action" class="selectTargetButton" name="act_selectTarget" title="Select target. Double click button to reset target" data-i18n-title="helper-text-selecttarget-title">
+					<img name="attr_targetToken" class="targetToken">
+					<input type="text" name="attr_selfToken" hidden>
+					<div class="selectTargetIcon"></div>
+				</button>
+			</div>
+
+			<!-- Target statistics -->
+			<div class="columnAlign helpers">
+				<input type="text" class="helperInput tokenName" name="attr_targetTokenName" value="" style="width: 150px;" placeholder="No target selected" data-i18n-placeholder="helper-text-notarget" readonly="">
+				<input type="text" name="attr_targetName" value="" hidden="true">
+				<input type="text" name="attr_targetTokenId" value="" hidden="true">
+				<input type="text" name="attr_targetSettings" value="{}" hidden="true">
+
+				<input type="text" name="attr_targetedBy" value="{}" hidden="true">
+				<!-- <input type="text" name="attr_announceTargeting" value="" hidden="true">
+				<input type="text" name="attr_testIsGM" value="unset" hidden="true"> -->
+				
+				<!-- Target bars -->
+				<div class="rowContainer" style="width: 150px;">
+					<div class="bars"><input class="Cstat HPtext" type="text" name="attr_HP_target" value="---"></div>
+					<div class="bars"><input class="Cstat egoSTGRtext" type="text" name="attr_StagRes_target" value="---"></div>
+					<div class="bars"><input class="Cstat SANtext" type="text" name="attr_SP_target" value="---"></div>
+				</div>
+
+				<!-- Target ailments -->
+				<div class="rowContainer">
+					<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment1Num" value="0" hidden="true">
+					<div class="targetAilment hide-item-rev">
+						<img name="attr_targetAilment1Icon">
+						<input type="number" name="attr_targetAilment1Num" min="0" value="0">
+					</div>
+					<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment2Num" value="0" hidden="true">
+					<div class="targetAilment hide-item-rev">
+						<img name="attr_targetAilment2Icon">
+						<input type="number" name="attr_targetAilment2Num" min="0" value="0">
+					</div>
+					<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment3Num" value="0" hidden="true">
+					<div class="targetAilment hide-item-rev">
+						<img name="attr_targetAilment3Icon">
+						<input type="number" name="attr_targetAilment3Num" min="0" value="0">
+					</div>
+					<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment4Num" value="0" hidden="true">
+					<div class="targetAilment hide-item-rev">
+						<img name="attr_targetAilment4Icon">
+						<input type="number" name="attr_targetAilment4Num" min="0" value="0">
+					</div>
+					<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment5Num" value="0" hidden="true">
+					<div class="targetAilment hide-item-rev">
+						<img name="attr_targetAilment5Icon">
+						<input type="number" name="attr_targetAilment5Num" min="0" value="0">
+					</div>
+					<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment6Num" value="0" hidden="true">
+					<div class="targetAilment hide-item-rev">
+						<img name="attr_targetAilment6Icon">
+						<input type="number" name="attr_targetAilment6Num" min="0" value="0">
+					</div>
+				</div>
+			</div>
+
+			<!-- Last defence dice -->
+			<div class="columnAlign helpers">
+				<b data-i18n="helper-text-defencedice">Defence</b>
+				<input type="number" class="darkInput defenceDice" name="attr_lastDefenceRoll" min="0" value="0" data-i18n-title="helper-text-lastdefenceroll" title="Last Defence roll"> <!-- delete this later -->
+			</div>
+		</div>
+
+		<input type="checkbox" class="simpleCombatOptions" name="attr_settingSimpleCombatOptions" value="true" hidden="true" checked>
+		<div class="rowContainer resourceContainer">
+			
+			<!-- Action tracking -->
+			<div>
+				<input type="checkbox" class="hide-toggle" name="attr_settingActionTracker" value="true" hidden="true">
+				<div class="hide-item rowContainer actionTrackerContainer">
+					<div class="resourceTracker rowContainer egoSpecial">
+						<input type="checkbox" class="fade-toggle" name="attr_actions" value="0" hidden="true" checked="">
+						<input type="number" min="0" value="0" class="resourceTrackerValue" name="attr_actions">
+						<input type="number" min="0" value="0" class="resourceTrackerMax" name="attr_actions_max">
+					</div>
+					<div class="resourceTracker rowContainer reaction">
+						<input type="checkbox" class="fade-toggle" name="attr_reactions" value="0" hidden="true" checked="">
+						<input type="number" min="0" value="0" class="resourceTrackerValue" name="attr_reactions">
+						<input type="number" min="0" value="0" class="resourceTrackerMax" name="attr_reactions_max">
+					</div>
+					<input type="checkbox" class="hide-toggle-rev" name="attr_reactionsCounter_max" value="0" hidden="true" checked>
+					<div class="hide-item-rev resourceTracker rowContainer egoAtt">
+						<input type="checkbox" class="fade-toggle" name="attr_reactionsCounter" value="0" hidden="true" checked="">
+						<input type="number" min="0" value="0" class="resourceTrackerValue" name="attr_reactionsCounter">
+						<input type="number" min="0" value="0" class="resourceTrackerMax" name="attr_reactionsCounter_max">
+					</div>
+					<input type="checkbox" class="hide-toggle-rev" name="attr_reactionsBlock_max" value="0" hidden="true" checked>
+					<div class="hide-item-rev resourceTracker rowContainer egoDef">
+						<input type="checkbox" class="fade-toggle" name="attr_reactionsBlock" value="0" hidden="true" checked="">
+						<input type="number" min="0" value="0" class="resourceTrackerValue" name="attr_reactionsBlock">
+						<input type="number" min="0" value="0" class="resourceTrackerMax" name="attr_reactionsBlock_max">
+					</div>
+					<input type="checkbox" class="hide-toggle-rev" name="attr_reactionsEvade_max" value="0" hidden="true" checked>
+					<div class="hide-item-rev resourceTracker rowContainer egoEvd">
+						<input type="checkbox" class="fade-toggle" name="attr_reactionsEvade" value="0" hidden="true" checked="">
+						<input type="number" min="0" value="0" class="resourceTrackerValue" name="attr_reactionsEvade">
+						<input type="number" min="0" value="0" class="resourceTrackerMax" name="attr_reactionsEvade_max">
+					</div>
+				</div>
+			</div>
+			
+			<!-- Light regen tracking -->
+			<div class="rowContainer">
+				<input type="checkbox" class="hide-toggle" name="attr_settingLightRegen" value="true" hidden="true">
+				<div class="hide-item rowContainer lightRegenContainer">
+					<div class="resourceTracker rowContainer light">
+						<input type="checkbox" class="fade-toggle" name="attr_lightRegen" value="0" hidden="true" checked="">
+						<input type="number" min="0" value="0" class="resourceTrackerValue" name="attr_lightRegen">
+						<input type="number" min="0" value="0" class="resourceTrackerMax LIGHT" name="attr_lightRegen_max">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
                      
 	<!-- Weapon 1 Palette -->
@@ -7350,15 +7438,19 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 <b data-i18n="editor-rulename">Ruleset Name</b>:</div> <input type="text" style="input" name="attr_ruleName" data-i18n="editor-rulename-placeholder" value="Original Rulebook (Default)">
 </div>
 
+<!-- Character level -->
+<div class="settingStyle"><div style="width: 100px">
+<b data-i18n="character-level">Level</b>:</div> <input type="number" name="attr_expCalc" value="8"> <span data-i18n="character-exp">EXP</span>
+</div>
+
 <!-- Character status bars -->
 <div class="settingStyle">
 <div style="width: 100px">
 <b data-i18n="bar-health">Health</b>:</div> <input type="number" name="attr_healthBase" value="30">
-+ (
-	<select type="text" name="attr_healthStat" value="Instinct" style="width: 80px;">
-<option value="Instinct" data-i18n="stats-instinct">Fortitude</option>
-<option value="InstinctTemperance" data-i18n="editor-instinct-temperance">(Fortitude + Temperance)/2</option>
-	</select> *
++ (<select type="text" name="attr_healthStat" value="Instinct" style="width: 80px;">
+	<option value="Instinct" data-i18n="stats-instinct">Fortitude</option>
+	<option value="InstinctTemperance" data-i18n="editor-instinct-temperance">(Fortitude + Temperance)/2</option>
+</select> *
 	<input type="number" name="attr_healthStatMod" value="6">
 ) + (
 	<span data-i18n="rank">Rank</span> *
@@ -7404,9 +7496,70 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
  + (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_distortLightRankMod" value="1">)
 </div>
 
-<!-- Character level -->
-<div class="settingStyle"><div style="width: 100px">
-<b data-i18n="character-level">Level</b>:</div> <input type="number" name="attr_expCalc" value="8"> <span data-i18n="character-exp">EXP</span>
+<div class="settingStyle"><div style="width: 100px; height: 28px;">
+<b data-i18n="editor-lightregen-cap">Light regen Cap</b>:</div> <input type="number" name="attr_lightRegenBase" value="3">
+ + (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_lightRegenRankMod" value="1">)
+ + (<span data-i18n="stats-wisdom">Prudence</span> * <input type="number" name="attr_lightRegenStatMod" value="0">)
+</div>
+
+<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
+<b data-i18n="editor-lightregen-sources">Light regen Sources</b>:
+</div><div class="settingStyle" style="flex-wrap: wrap; width: 320px;">
+<div><input type="number" name="attr_lightRegenStaggerSelf" value="0"><span data-i18n="ego-active-OnStagger">On stagger</span>,&nbsp;</div>
+<div><input type="number" name="attr_lightRegenStaggerEnemy" value="0"><span data-i18n="editor-lightregen-stagger-enemy">Enemy stagger</span>,&nbsp;</div>
+<div><input type="number" name="attr_lightRegenDefeatEnemy" value="0"><span data-i18n="ego-active-EnemyDefeat">Enemy defeat</span>,&nbsp;</div>
+<div><input type="number" name="attr_lightRegenRoundEnd" value="0"><span data-i18n="editor-lightregen-round-end">Round end</span></div>
+</div></div>
+
+<!-- Recover calculation -->
+<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
+<b data-i18n="editor-combat-end-stagger">Combat end Stagger</b>:</div>
+<select name="attr_combatEndStaggerMode" style="width: 40px;">
+	<option value="+" selected>+</option>
+	<option value="x">x</option>
+	<option value="=">=</option>
+</select>
+<input type="text" name="attr_combatEndStaggerVal" style="width: 40px;" value="0">
+</div>
+
+<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
+<b data-i18n="editor-combat-end-light">Combat end Light</b>:</div> <input type="number" name="attr_combatEndLightBase" value="0">
++ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_combatEndLightRankMod" value="0">)
+</div>
+
+<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
+<b data-i18n="editor-recover-health">Recover Health</b>:</div> <input type="number" name="attr_recoverHPBase" value="8">
++ (<select type="text" name="attr_healthStat" value="Instinct" style="width: 80px;">
+	<option value="Instinct" data-i18n="stats-instinct">Fortitude</option>
+	<option value="InstinctTemperance" data-i18n="editor-instinct-temperance">(Fortitude + Temperance)/2</option>
+</select>
+* <input type="number" name="attr_recoverHPStatMod" value="2">)
++ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_recoverHPRankMod" value="2">)
+</div>
+
+<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
+<b data-i18n="editor-recover-sanity">Recover Sanity</b>:</div> <input type="number" name="attr_recoverSPBase" value="3">
++ (<select type="text" name="attr_sanityStat" value="Wisdom" style="width: 80px;">
+	<option value="Wisdom" data-i18n="stats-wisdom">Prudence</option>
+	<option value="WisdomInsight" data-i18n="editor-wisdom-insight">(Prudence + Insight)/2</option>
+</select>
+* <input type="number" name="attr_recoverSPStatMod" value="1">)
++ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_recoverSPRankMod" value="0">)
+</div>
+
+<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
+<b data-i18n="editor-recover-stagger">Recover Stagger Res</b>:</div>
+<select name="attr_recoverStaggerMode" style="width: 40px;">
+	<option value="+" selected>+</option>
+	<option value="x">x</option>
+	<option value="=">=</option>
+</select>
+<input type="text" name="attr_recoverStaggerVal" style="width: 40px;" value="0">
+</div>
+
+<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
+<b data-i18n="editor-recover-light">Recover Light</b>:</div> <input type="number" name="attr_recoverLightBase" value="1">
++ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_recoverLightRankMod" value="0">)
 </div>
 
 <!-- Attack power -->
@@ -7451,18 +7604,36 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 
 <!-- Multihit penalty -->
 <div class="settingStyle"><div style="width: 100px">
-	<b data-i18n="editor-multihit-penalty">Multi-hit Penalty</b>:</div> <input type="number" name="attr_multiPenalty" value="-2">
-	<select type="text" class="transpInput" name="attr_multiStyle" style="width: 90px;">
-<option data-i18n="editor-nattacks" value="n" selected>x n Attacks</option>
-<option data-i18n="editor-flat" value="Flat">Flat</option>
+<b data-i18n="editor-multihit-penalty">Multi-hit Penalty</b>:</div> <input type="number" name="attr_multiPenalty" value="-2">
+<select type="text" class="transpInput" name="attr_multiStyle" style="width: 90px;">
+	<option data-i18n="editor-nattacks" value="n" selected>x n Attacks</option>
+	<option data-i18n="editor-flat" value="Flat">Flat</option>
+</select>
+</div>
+
+
+<!-- Actions and reactions -->
+<div class="settingStyle"><div style="width: 100px">
+<b data-i18n="editor-actions">Actions</b>:</div> <input type="number" name="attr_actionBase" value="1">
+ + (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_actionRankMod" value="0">)
+</div>
+
+<div class="settingStyle"><div style="width: 100px">
+<b data-i18n="editor-reactions">Reactions</b>:</div> <input type="number" name="attr_reactionBase" value="2">
+ + (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_reactionRankMod" value="0">)
+</div>
+
+<div class="settingStyle"><div style="width: 100px">
+<b data-i18n="editor-use-action-for-reaction">Can use actions for reactions?</b>:</div>
+<select type="text" class="transpInput" name="attr_actionTradeReaction" style="width: 90px;">
+	<option data-i18n="true" value="true">True</option>
+	<option data-i18n="false" value="0" selected>False</option>
 </select>
 </div>
 
 </div>
 </div>
 <!-- General settings end -->
-
-
 
 <!-- Default ailments -->
 <input type="checkbox" value="true" name="attr_iconStyle" hidden="true" checked>
@@ -7790,7 +7961,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 </div>
 
 <input type="checkbox" class="hide-toggle-rev" name="attr_ailCollapse" value="true" hidden="true">
-<div class="hide-item-rev rowContainer" style="margin-top: 3px;">
+<div class="hide-item-rev columnAlign" style="margin-top: 3px; width: 240px;">
 
 <!-- Ailment icon  -->
 <div class="rowContainer settingStyle">
@@ -7828,7 +7999,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 <input type="checkbox" class="fade-toggle" name="attr_ailTrigger" value="None" hidden="true" checked>
 <div class="hide-item columnAlign">
 
-	<!-- When hit trigger damage type -->
+<!-- When hit trigger damage type -->
 <div class="rowContainer settingStyle">
 	<div class="customAilText" style="width: 135px !important;">
 		<span data-i18n="message-hit-trigger-damage-type">Trigger dmg type</span>:
@@ -7841,7 +8012,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 	</select>
 </div>
 
-	<!-- When hit resistance mode -->
+<!-- When hit resistance mode -->
 <div class="rowContainer settingStyle">
 	<div class="customAilText" style="width: 135px !important;">
 		<span data-i18n="message-hit-resistance-mode">Resistance mode</span>:
@@ -7852,7 +8023,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 	</select>
 </div>
 
-	<!-- When hit decay settings -->
+<!-- When hit decay settings -->
 <div class="rowContainer settingStyle">
 	<div class="customAilText" style="width: 135px !important;">
 		<span data-i18n="message-hit-decaywhenhit">Decay when hit</span>:
@@ -7873,7 +8044,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 	</select>
 </div>
 
-	<!-- When hit positive mode -->
+<!-- When hit positive mode -->
 <input type="checkbox" class="hide-toggle-rev" name="attr_ailEffectVal" value="-n">
 <input type="checkbox" class="hide-toggle-rev" name="attr_ailBeforeResistance" value="beforeResistance">
 <div class="rowContainer settingStyle hide-item-rev">
@@ -10003,19 +10174,19 @@ getSectionIDs(`repeating_global`, idarray => {
 
 	switch (attStat) {
 		case "Rank": newAtt = rnum; break;
-		case "InstinctRank": newAtt = parseInt(instinctVal + rnum); break;
+		case "InstinctRank": newAtt = parseInt(instinctVal) + parseInt(rnum); break;
 		case "InstinctWisdom": newAtt = parseInt((instinctVal + wisdomVal)/2); break;
 	}
 
 	switch (defStat) {
 		case "Rank": newDef = rnum; break;
-		case "TemperanceRank": newDef = parseInt(temperanceVal + rnum); break;
+		case "TemperanceRank": newDef = parseInt(temperanceVal) + parseInt(rnum); break;
 		case "TemperanceCharm": newDef = parseInt((temperanceVal + charmVal)/2); break;
 	}
 
 	switch (evdStat) {
 		case "Rank": newEvd = rnum; break;
-		case "InsightRank": parseInt(insightVal + rnum); break;
+		case "InsightRank": newEvd = parseInt(insightVal) + parseInt(rnum); break;
 		case "InsightJustice": newEvd = parseInt((insightVal + justiceVal)/2); break;
 	}	
 
@@ -10949,7 +11120,7 @@ getSectionIDs(`repeating_global`, idarray => {
 	langRulename = getTranslationByKey("editor-rulename-placeholder");
 	}
 
-	setAttrs({[`${id}_ruleName`]:langRulename, [`${id}_healthBase`]:"30", [`${id}_healthStat`]:"Instinct", [`${id}_healthStatMod`]:"6", [`${id}_healthRankMod`]:"6", [`${id}_staggerBase`]:"20", [`${id}_staggerStat`]:"Charm", [`${id}_staggerStatMod`]:"4", [`${id}_staggerRankMod`]:"4", [`${id}_sanityBase`]:"15", [`${id}_sanityStat`]:"Wisdom", [`${id}_sanityStatMod`]:"3", [`${id}_sanityRankMod`]:"0", [`${id}_lightBase`]:"3", [`${id}_lightRankMod`]:"1", [`${id}_distortLightBase`]:"5", [`${id}_distortLightRankMod`]:"1", [`${id}_expCalc`]:"8", [`${id}_attStat`]:"Instinct", [`${id}_defStat`]:"Temperance", [`${id}_evdStat`]:"Insight", [`${id}_evdAilment`]:"EnduranceDisarm", [`${id}_multiPenalty`]:"-2", [`${id}_multiStyle`]:"n", [`${id}_staggerRecoverPercent`]:"100", [`${id}_staggerRecoverBase`]:"0", [`${id}_staggerDurationMax`]:"1", [`${id}_staggerSanity`]:"5", [`${id}_settingBar1`]:"HP", [`${id}_settingBar2`]:"StagRes", [`${id}_settingBar3`]:"SP", [`${id}_burnDecayMode`]:"x", [`${id}_burnDecayVal`]:"0.5", [`${id}_burnNextTurnSetting`]:"false", [`${id}_bleedDecayMode`]:"x", [`${id}_bleedDecayVal`]:"0.5", [`${id}_bleedNextTurnSetting`]:"false", [`${id}_smokeDecayMode`]:"+", [`${id}_smokeDecayVal`]:"-1", [`${id}_smokeNextTurnSetting`]:"false", [`${id}_smokeCalculationMode`]:"/", [`${id}_smokeCalculationVal`]:"2", [`${id}_chargeDecayMode`]:"+", [`${id}_chargeDecayVal`]:"0", [`${id}_chargeNextTurnSetting`]:"false", "settingLimbusStyle":"0"});
+	setAttrs({[`${id}_ruleName`]:langRulename, [`${id}_healthBase`]:"30", [`${id}_healthStat`]:"Instinct", [`${id}_healthStatMod`]:"6", [`${id}_healthRankMod`]:"6", [`${id}_staggerBase`]:"20", [`${id}_staggerStat`]:"Charm", [`${id}_staggerStatMod`]:"4", [`${id}_staggerRankMod`]:"4", [`${id}_sanityBase`]:"15", [`${id}_sanityStat`]:"Wisdom", [`${id}_sanityStatMod`]:"3", [`${id}_sanityRankMod`]:"0", [`${id}_lightBase`]:"3", [`${id}_lightRankMod`]:"1", [`${id}_distortLightBase`]:"5", [`${id}_distortLightRankMod`]:"1", [`${id}_expCalc`]:"8", [`${id}_actionBase`]:"1", [`${id}_actionRankMod`]:"0", [`${id}_reactionBase`]:"2", [`${id}_reactionRankMod`]:"0", [`${id}_actionTradeReaction`]:"0", [`${id}_lightRegenBase`]:"3", [`${id}_lightRegenRankMod`]:"1", [`${id}_lightRegenStatMod`]:"0", [`${id}_lightRegenStaggerSelf`]:"0", [`${id}_lightRegenStaggerEnemy`]:"0", [`${id}_lightRegenDefeatEnemy`]:"0", [`${id}_lightRegenRoundEnd`]:"0", [`${id}_combatEndLightBase`]:"1", [`${id}_combatEndLightRankMod`]:"0", [`${id}_recoverHPBase`]:"8", [`${id}_recoverHPStatMod`]:"2", [`${id}_recoverHPRankMod`]:"2", [`${id}_recoverSPBase`]:"3", [`${id}_recoverSPStatMod`]:"1", [`${id}_recoverSPRankMod`]:"0", [`${id}_recoverStaggerMode`]:"x", [`${id}_recoverStaggerVal`]:"0.5", [`${id}_recoverLightBase`]:"1", [`${id}_recoverLightRankMod`]:"0",	[`${id}_attStat`]:"Instinct", [`${id}_defStat`]:"Temperance", [`${id}_evdStat`]:"Insight", [`${id}_evdAilment`]:"EnduranceDisarm", [`${id}_multiPenalty`]:"-2", [`${id}_multiStyle`]:"n", [`${id}_staggerRecoverPercent`]:"100", [`${id}_staggerRecoverBase`]:"0", [`${id}_staggerDurationMax`]:"1", [`${id}_staggerSanity`]:"5", [`${id}_settingBar1`]:"HP", [`${id}_settingBar2`]:"StagRes", [`${id}_settingBar3`]:"SP", [`${id}_burnDecayMode`]:"x", [`${id}_burnDecayVal`]:"0.5", [`${id}_burnNextTurnSetting`]:"false", [`${id}_bleedDecayMode`]:"x", [`${id}_bleedDecayVal`]:"0.5", [`${id}_bleedNextTurnSetting`]:"false", [`${id}_smokeDecayMode`]:"+", [`${id}_smokeDecayVal`]:"-1", [`${id}_smokeNextTurnSetting`]:"false", [`${id}_smokeCalculationMode`]:"/", [`${id}_smokeCalculationVal`]:"2", [`${id}_chargeDecayMode`]:"+", [`${id}_chargeDecayVal`]:"0", [`${id}_chargeNextTurnSetting`]:"false", "settingLimbusStyle":"0"});
 
         	});
 
@@ -10965,7 +11136,7 @@ getSectionIDs(`repeating_global`, idarray => {
 function dataExportGlobal() {
      getSectionIDs(`repeating_global`, idarray => {
 	let id = `repeating_global_${idarray[0]}_`;
-	let attrkey = [`${id}ruleName`, `${id}healthBase`, `${id}healthStat`, `${id}healthStatMod`, `${id}healthRankMod`, `${id}staggerBase`, `${id}staggerStat`, `${id}staggerStatMod`, `${id}staggerRankMod`, `${id}sanityBase`, `${id}sanityStat`, `${id}sanityStatMod`, `${id}sanityRankMod`, `${id}lightBase`, `${id}lightRankMod`, `${id}distortLightBase`, `${id}distortLightRankMod`, `${id}attStat`, `${id}defStat`, `${id}evdStat`, `${id}evdAilment`, `${id}multiPenalty`, `${id}multiStyle`, `${id}staggerRecoverPercent`, `${id}staggerRecoverBase`, `${id}staggerDurationMax`, `${id}staggerSanity`, `${id}settingBar1`, `${id}settingBar2`, `${id}settingBar3`, `${id}burnDecayMode`, `${id}burnDecayVal`, `${id}burnNextTurnSetting`, `${id}bleedDecayMode`, `${id}bleedDecayVal`, `${id}bleedNextTurnSetting`, `${id}smokeDecayMode`, `${id}smokeDecayVal`, `${id}smokeNextTurnSetting`, `${id}smokeCalculationMode`, `${id}smokeCalculationVal`, `${id}chargeDecayMode`, `${id}chargeDecayVal`, `${id}chargeNextTurnSetting`, `settingLimbusStyle`];
+	let attrkey = [`${id}ruleName`, `${id}healthBase`, `${id}healthStat`, `${id}healthStatMod`, `${id}healthRankMod`, `${id}staggerBase`, `${id}staggerStat`, `${id}staggerStatMod`, `${id}staggerRankMod`, `${id}sanityBase`, `${id}sanityStat`, `${id}sanityStatMod`, `${id}sanityRankMod`, `${id}lightBase`, `${id}lightRankMod`, `${id}distortLightBase`, `${id}distortLightRankMod`, `${id}actionBase`, `${id}actionRankMod`, `${id}reactionBase`, `${id}reactionRankMod`, `${id}actionTradeReaction`, `${id}lightRegenBase`, `${id}lightRegenRankMod`, `${id}lightRegenStatMod`, `${id}lightRegenStaggerSelf`, `${id}lightRegenStaggerEnemy`, `${id}lightRegenDefeatEnemy`, `${id}lightRegenRoundEnd`, `${id}combatEndLightBase`, `${id}combatEndLightRankMod`, `${id}recoverHPBase`, `${id}recoverHPStatMod`, `${id}recoverHPRankMod`, `${id}recoverSPBase`, `${id}recoverSPStatMod`, `${id}recoverSPRankMod`, `${id}recoverStaggerMode`, `${id}recoverStaggerVal`, `${id}recoverLightBase`, `${id}recoverLightRankMod`, `${id}attStat`, `${id}defStat`, `${id}evdStat`, `${id}evdAilment`, `${id}multiPenalty`, `${id}multiStyle`, `${id}staggerRecoverPercent`, `${id}staggerRecoverBase`, `${id}staggerDurationMax`, `${id}staggerSanity`, `${id}settingBar1`, `${id}settingBar2`, `${id}settingBar3`, `${id}burnDecayMode`, `${id}burnDecayVal`, `${id}burnNextTurnSetting`, `${id}bleedDecayMode`, `${id}bleedDecayVal`, `${id}bleedNextTurnSetting`, `${id}smokeDecayMode`, `${id}smokeDecayVal`, `${id}smokeNextTurnSetting`, `${id}smokeCalculationMode`, `${id}smokeCalculationVal`, `${id}chargeDecayMode`, `${id}chargeDecayVal`, `${id}chargeNextTurnSetting`, `settingLimbusStyle`];
 	let exportkey = attrkeyGlobal;
 	let textbase = "";
 
@@ -15820,7 +15991,6 @@ function autoScriptApplyAliases(AutoScript, aliasList, mode="normal", errors={},
 
 			let aliasMatches = AutoScript.match(new RegExp(`{${sep}*${aliasFormat}${sep}*}`, "g")) || [];
 			
-			console.log(new RegExp(`{\\s*${aliasFormat}\\s*}`, "g"), aliasMatches)
 			if (aliasMatches.length > 0) {
 				//console.log(new RegExp(`{\\s*${aliasFormat}\\s*}`, "g"), aliasMatches)
 
@@ -16115,7 +16285,13 @@ let attrkeySkills = ["skill1Name", "skill1Rank", "skill1Type", "skill1Light", "s
 "egoSkill5Name", "egoSkill5Rank", "egoSkill5Type", "egoSkill5Light", "egoSkill5Dice1", "egoSkill5Dice2", "egoSkill5Dice3", "egoSkill5Description", "egoSkill5Effect", "egoSkill5AutoScript",
 "egoSkill6Name", "egoSkill6Rank", "egoSkill6Type", "egoSkill6Light", "egoSkill6Dice1", "egoSkill6Dice2", "egoSkill6Dice3", "egoSkill6Description", "egoSkill6Effect", "egoSkill6AutoScript"];
 
-let attrkeyGlobal = ["global_ruleName", "global_healthBase", "global_healthStat", "global_healthStatMod", "global_healthRankMod", "global_staggerBase", "global_staggerStat", "global_staggerStatMod", "global_staggerRankMod", "global_sanityBase", "global_sanityStat", "global_sanityStatMod", "global_sanityRankMod", "global_lightBase", "global_lightRankMod", "global_distortLightBase", "global_distortLightRankMod", "global_attStat", "global_defStat", "global_evdStat", "global_evdAilment", "global_multiPenalty", "global_multiStyle", "global_staggerRecoverPercent", "global_staggerRecoverBase", `global_staggerDurationMax`, "global_staggerSanity", "global_settingBar1", "global_settingBar2", "global_settingBar3", "global_burnDecayMode", "global_burnDecayVal", "global_burnNextTurnSetting", "global_bleedDecayMode", "global_bleedDecayVal", "global_bleedNextTurnSetting", "global_smokeDecayMode", "global_smokeDecayVal", "global_smokeNextTurnSetting", "global_smokeCalculationMode", "global_smokeCalculationVal", "global_chargeDecayMode", "global_chargeDecayVal", "global_chargeNextTurnSetting", "settingLimbusStyle"];
+let attrkeyGlobal = ["global_ruleName", "global_healthBase", "global_healthStat", "global_healthStatMod", "global_healthRankMod", "global_staggerBase", "global_staggerStat", "global_staggerStatMod", "global_staggerRankMod", "global_sanityBase", "global_sanityStat", "global_sanityStatMod", "global_sanityRankMod", "global_lightBase", "global_lightRankMod", "global_distortLightBase", "global_distortLightRankMod",
+"global_actionBase", "global_actionRankMod", "global_reactionBase", "global_reactionRankMod", "global_actionTradeReaction",
+"global_lightRegenBase", "global_lightRegenRankMod", "global_lightRegenStatMod", "global_lightRegenStaggerSelf", "global_lightRegenStaggerEnemy", "global_lightRegenDefeatEnemy", "global_lightRegenRoundEnd",
+"global_combatEndLightBase", "global_combatEndLightRankMod", "global_recoverHPBase", "global_recoverHPStatMod", "global_recoverHPRankMod", "global_recoverSPBase", "global_recoverSPStatMod", "global_recoverSPRankMod", "global_recoverStaggerMode", "global_recoverStaggerVal", "global_recoverLightBase", "global_recoverLightRankMod",
+"global_attStat", "global_defStat", "global_evdStat", "global_evdAilment", "global_multiPenalty", "global_multiStyle",
+"global_staggerRecoverPercent", "global_staggerRecoverBase", `global_staggerDurationMax`, "global_staggerSanity", "global_settingBar1", "global_settingBar2", "global_settingBar3",
+"global_burnDecayMode", "global_burnDecayVal", "global_burnNextTurnSetting", "global_bleedDecayMode", "global_bleedDecayVal", "global_bleedNextTurnSetting", "global_smokeDecayMode", "global_smokeDecayVal", "global_smokeNextTurnSetting", "global_smokeCalculationMode", "global_smokeCalculationVal", "global_chargeDecayMode", "global_chargeDecayVal", "global_chargeNextTurnSetting", "settingLimbusStyle"];
 
 /* Data Exporter */
 function dataExport(override, target){
@@ -16484,6 +16660,67 @@ onJQ('clicked:ailmentClicker clicked:repeating_ailments:clickercustom', (info) =
 			updateAilments([ailmentName]);
 		}
 	}
+});
+
+/* Action: Toggle combat mode */
+on('clicked:combatToggle', (info) => {
+	getSectionIDs(`repeating_global`, idarray => {
+	let id = `repeating_global_${idarray[0]}_`;
+
+	getAttrs(["charRankNum", "StagRes", "StagRes_max", "Light", "Light_max", `${id}combatEndStaggerMode`, `${id}combatEndStaggerVal`, `${id}combatEndLightBase`, `${id}combatEndLightRankMod`], function(values) {
+		let output = {}
+
+		if (info.htmlAttributes.title == "Begin combat") {
+			output.combatState = "true";
+			rollChallenge("speed");
+		} else {
+			output.combatState = "0";
+
+			let [ST, ST_max] = [parseInt(values.StagRes), parseInt(values.StagRes_max)]
+			let [Light, Light_max] = [parseInt(values.Light), parseInt(values.Light_max)]
+			let [staggerMode, staggerVal] = [values[`${id}combatEndStaggerMode`], parseFloat(values[`${id}combatEndStaggerVal`])]
+			let [lightBase, lightRank] = [parseFloat(values[`${id}combatEndLightBase`]), values.charRankNum * parseFloat(values[`${id}combatEndLightRankMod`])]
+
+			output.StagRes = calcStagger(ST, ST_max, staggerVal, staggerMode);
+			output.Light = Math.min(Light + Math.floor(lightBase + lightRank), Light_max);
+		}
+		setAttrs(output);
+	});
+	});
+});
+function calcStagger(ST, ST_max, staggerVal, staggerMode) {
+	log({arguments})
+	switch (staggerMode) {
+		case "x": return Math.min(Math.floor(ST + (staggerVal * ST_max)), ST_max); break;
+		case "+": return Math.min(Math.floor(ST + staggerVal), ST_max); break;
+		case "=": return Math.floor(staggerVal);
+	}
+}
+
+/* Action: Recover */
+on('clicked:recover', (info) => {
+	getSectionIDs(`repeating_global`, idarray => {
+	let id = `repeating_global_${idarray[0]}_`;
+
+	getAttrs([...statNames, "charRankNum", "StagRes", "StagRes_max", "HP", "HP_max", "SP", "SP_max", "Light", "Light_max", `${id}healthStat`, `${id}recoverHPBase`, `${id}recoverHPStatMod`, `${id}recoverHPRankMod`,
+		`${id}recoverStaggerMode`, `${id}recoverStaggerVal`, `${id}sanityStat`, `${id}recoverSPBase`, `${id}recoverSPStatMod`, `${id}recoverSPRankMod`, `${id}recoverLightBase`, `${id}recoverLightRankMod`], function(values) {
+
+		let [rank, hpStatNum, spStatNum] = [parseInt(values.charRankNum), parseInt(values[values[`${id}healthStat`]]), parseInt(values[values[`${id}sanityStat`]])]
+		let [HP, HP_max, hpBase,  HPstat, HPrank] = [parseInt(values.HP), parseInt(values.HP_max), parseFloat(values[`${id}recoverHPBase`]), hpStatNum * parseFloat(values[`${id}recoverHPStatMod`]), rank * parseFloat(values[`${id}recoverHPRankMod`])]
+		let [SP, SP_max, spBase, SPstat, SPrank] = [parseInt(values.SP), parseInt(values.SP_max), parseFloat(values[`${id}recoverSPBase`]), spStatNum * parseFloat(values[`${id}recoverSPStatMod`]), rank * parseFloat(values[`${id}recoverSPRankMod`])]
+		let [Light, Light_max, lightBase, lightRank] = [parseInt(values.Light), parseInt(values.Light_max), parseFloat(values[`${id}recoverLightBase`]), rank * parseFloat(values[`${id}recoverLightRankMod`])]
+		let [ST, ST_max, staggerMode, staggerVal] = [parseInt(values.StagRes), parseInt(values.StagRes_max), values[`${id}recoverStaggerMode`], parseFloat(values[`${id}recoverStaggerVal`])]
+
+		let output = {
+			HP: Math.min(Math.floor(HP + hpBase + HPstat + HPrank), HP_max),
+			SP: Math.min(Math.floor(SP + spBase + SPstat + SPrank), SP_max),
+			Light: Math.min(Math.floor(Light + lightBase + lightRank), Light_max),
+			StagRes: calcStagger(ST, ST_max, staggerVal, staggerMode)
+		}
+
+		setAttrs(output);
+	});
+	});
 });
 
 
@@ -17554,7 +17791,7 @@ function parseMath(mathString, vars={}, options={strict:true}, errors) {
 
 	let [openBracket, closeBracket] = (options.mode == "math") ? ["{","}"] : ["(",")"]
 
-	console.log((options.mode == "math") ? "Parse math from string: " + mathString : "Parsing function values from string: " + mathString)
+	//console.log((options.mode == "math") ? "Parse math from string: " + mathString : "Parsing function values from string: " + mathString)
 
 
 	const throwMathError = (errorType, errorInserts={}) => { // Change over to using an error object that has keys like "errorOperator"
@@ -17578,7 +17815,7 @@ function parseMath(mathString, vars={}, options={strict:true}, errors) {
 		let newNumber = parseFloat(number);
 		if (!isNaN(newNumber)) {
 			numbers.push(newNumber);
-			console.log("New Numbers: " + newNumber);
+			//console.log("New Numbers: " + newNumber);
 			if (ops.length > 0 && !options.suppressCheck) {
 				if (ops[ops.length-1].min <= numbers.length) {
 					checkOperator();
@@ -17592,7 +17829,7 @@ function parseMath(mathString, vars={}, options={strict:true}, errors) {
 				char = "-" + char; return;
 			}
 			ops.push({...operators[op], name:currentChars});
-			console.log("New Operator: " + Object.entries(ops).reduce((acc, op) => acc += (acc != '' ? ', ' : '') + op[1].name,''));
+			//console.log("New Operator: " + Object.entries(ops).reduce((acc, op) => acc += (acc != '' ? ', ' : '') + op[1].name,''));
 			if (!op?.func) checkOperator(); // Function valies only activate on 
 		} else {
 			throwMathError("Unknown operator", {"[OP]":styleText(op, "color: red;")});
@@ -17606,7 +17843,7 @@ function parseMath(mathString, vars={}, options={strict:true}, errors) {
 					if (op.max == "any") op.max = nestedReturnCount;
 					nestedReturnCount = 0;
 				}
-				console.log("Executing math: " + numbers.slice(-op.max) + " | " + op.name)
+				//console.log("Executing math: " + numbers.slice(-op.max) + " | " + op.name)
 				newNumber(ops.pop().calc.apply(op, numbers.splice(-op.max)));
 			}
 		}
@@ -17663,8 +17900,8 @@ function parseMath(mathString, vars={}, options={strict:true}, errors) {
 			else if ((/\w/).test(char)) 				type.new = "string";
 		}
 			
-		console.log(char + " | " + inNested)
-		console.log(currentChars + char + " | type.current: " + type.current + " | type.new: " + type.new)
+		//console.log(char + " | " + inNested)
+		//console.log(currentChars + char + " | type.current: " + type.current + " | type.new: " + type.new)
 
 		/* If the new character is part of the current string/number/operator, continue */
 		/* Otherwise, add the new value and check if any operations should be executed */
@@ -17703,15 +17940,15 @@ function parseMath(mathString, vars={}, options={strict:true}, errors) {
 	}
 
 	/* Finish parsing and return the result */
-	console.log("Final numbers: " + numbers);
-	console.log("Final operators: " + Object.entries(ops).reduce((acc, op) => acc += (acc != '' ? ", " : '') + op[1].name, ''));
+	//console.log("Final numbers: " + numbers);
+	//console.log("Final operators: " + Object.entries(ops).reduce((acc, op) => acc += (acc != '' ? ", " : '') + op[1].name, ''));
 	for (let [key, value] of Object.entries(ops)) {
-		console.log(key, value);
+		//console.log(key, value);
 	}
 	if (!inNested) {
 		if (ops.length == 0) {
 			if (options.mode == "function" || numbers.length == 1) {
-				console.log("Math string parsed successfully")
+				//console.log("Math string parsed successfully")
 				return (options.mode == "math") ? numbers[0] : numbers
 			} else {
 				throwMathError("Unused values", {"[COUNT]":styleText(numbers.length-1, "color: red;")}); return;
