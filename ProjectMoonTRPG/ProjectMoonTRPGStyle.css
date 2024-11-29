@@ -1,4 +1,79 @@
-/* Universal styling */
+/* Sheet styling outline:
+   In VSCode, select an entry and CTRL-F for easy nagivation
+    
+    - Sheet base
+    - Sheet top bar
+		○ Title, logo, player name, credits, settings
+		○ Popup messages
+    - Shared sheet styling
+        ○ Placeholder text, sizing and position elements
+        ○ Content containers
+        ○ Generic inputs, buttons, dropdowns, icons
+        ○ Section headers
+        ○ Assorted
+    - Sheet tabs
+    - Character profile
+    - Distortion
+        ○ Profile, Distortion effects
+        ○ Work preference, observation level
+    - Status bars
+    - Character stats
+        ○ Roll helpers
+    - Damage helper
+    - Status ailments
+        ○ Combat states
+        ○ Custom ailments
+    - Combat options
+        ○ Targeting
+        ○ Last defence dice
+        ○ Resource tracking
+        ○ Combat toggle
+        ○ Generic token mode
+    - Combat palette
+        ○ Skill and tool selection
+        ○ Mystery combat palette
+        ○ Weapon uses
+    - Equipment and Skills
+        ○ Weapons
+        ○ Outfits
+        ○ Tools
+        ○ Augments
+        ○ Skills
+        ○ Special items
+        ○ Mysteries (E.G.O)
+        ○ Repeating inventory
+        ○ AutoScript, edit, share buttons
+            ○ Edit cover
+            ○ Custom outfit resistances
+    - AutoScript
+        ○ AutoScript editor
+        ○ Styling and alias editors
+        ○ Conditional buttons
+    - Settings
+        ○ General settings
+        ○ Editor tab
+        ○ Game settings
+        ○ Custom ailments
+        ○ Export/Import tab
+    - Roll templates
+        ○ Shared roll template styles
+        ○ Messages
+        ○ Damage calculations
+        ○ Dice rolls
+        ○ AutoEffect sections
+        ○ Action buttons
+    - Assorted
+        ○ Auto Update indicator
+        ○ Experimental
+    - Icons
+        ○ Ailment icons
+        ○ Assorted icons
+    - Colors
+
+*/
+
+
+/* ===== Universal styling ===== */
 * {
     margin: 0px;
     padding: 0px;
@@ -10,14 +85,25 @@
 }
 
 
-/* Sheet base */
-#menuContainer {
-    width: 100%;
-    display: flex;
-    position: relative;
+/* ===== Sheet base ===== */
+#sheetWrapper {
+    margin-top: 70px;
+    margin-bottom: 30px;
+}
+.sheetform {
+    background-color: #1F1F1F !important; 
+    position: relative; 
+    min-width: 850px;
+}
+body, .sheet-body {
     min-width: 800px;
+    max-width: 850px;
 }
 
+
+
+/* ===== Sheet top bar ===== */
+/* Includes the sheet's title, logo, player name, credits and cogwheel menu (displays the general setting) */
 #sheetTitle {
     color: var(--color-LIGHT); 
     font-weight: bolder;
@@ -31,425 +117,23 @@
     min-width: 600px;
 }
 
-#sheetWrapper {
-    margin-top: 70px;
-    margin-bottom: 30px;
+#logo {
+    height: 75px; width: 150px; min-width: 150px; margin-bottom: 10px;
+    position: absolute;
+    top: 0; left: 15px;
+}
+#logo img {
+    width: 150px; min-width: 150px;
 }
 
-.sheetform {
-    background-color: #1F1F1F !important; 
-    position: relative; 
-    min-width: 850px;
-}
 
-.title, body, .sheet-body {
+/* Used for the credits and general settings menus */
+#menuContainer {
+    width: 100%;
+    display: flex;
+    position: relative;
     min-width: 800px;
-    max-width: 850px;
 }
-
-
-/* Popup messages */
-#messagePop {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    z-index: 999;
-}
-
-#messagePop input, #messagePop textarea {
-    text-align: center;
-}
-
-.messageClose {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    border: 1px rgba(256,256,256, 0.5) solid;
-    border-radius: 5px;
-    z-index: 900;
-    width: 30px;
-    height: 30px;
-}
-
-.messageClose label {
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
-
-.mHeader{
-    font-size: 20px;
-    color: var(--color-LIGHT) !important;
-}
-
-.mBody {
-    border: none;
-    /* border: 1px red solid !important; */
-}
-
-.messageContent {
-    position: absolute;
-    top: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px var(--color-LIGHT) solid;
-    background-color: rgba(0,0,0,0.8);
-    border-radius: 5px;
-    color: var(--color-LIGHT);
-    width: 50%;
-    min-width: 350px;
-    padding: 5px;
-    height: 0px;
-    opacity: 0;
-    overflow: hidden;
-    /* transition: opacity 0.55s, height 1s; */
-}
-
-#messageToggle:checked ~ #messagePop .messageContent  {
-    height: 100px;
-    opacity: 100%;
-    /* transition: opacity 0.55s, height 0s; */
-}
-
-
-/* Placeholder text for input fields and textfields */
-::placeholder {
-    color: var(--color-white);
-    opacity: 50%;
-}
-
-textarea::placeholder, .CharSmallNotes::placeholder, .CharDetail::placeholder, .egoIdeologyInput::placeholder {
-    color: var(--color-darker-gray);
-    opacity: 30%;
-}
-
-
-/* Cusomizable names for equipment, skills, mystery ect. */
-.contentName, .viewerName, .skillName, .toolName, .skillSelectionElement .skillSelectionName, input[type=text] {
-    text-overflow:ellipsis;
-}
-.contentName {
-    width: 100%;
-}
-.skillName {
-    width: 140px;
-    margin-left: 40px;
-}
-.toolName {
-    width: 95px;
-}
-
-
-/* Setting bars that appear when editing weapon/tool uses, outfit resistances ect. */
-.editCover {
-    position: absolute;
-    z-index: 5;
-    background-image: linear-gradient(rgba(160,160,160,0.8), rgba(160,160,160,0.9), rgba(160,160,160,0.7));
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
-    padding: 5px;
-    min-height: 25px;
-}
-.editCover .settingStyle {
-    color: var(--color-white);
-}
-.helperText:checked ~ .helperTextContainer .helpers :is(b, .helperInput) {
-    display: none !important;
-}
-.helperText:checked ~ .damageHelperContainer.helperTextContainer :is(.slash, .pierce) {
-    margin-right: 28px;
-}
-.helperText:checked ~ .damageHelperContainer.helperTextContainer .blunt {
-    position: absolute;
-    top: 0px;
-    left: 28px;
-}
-.editCover > .rowContainer,
-.editCover > .hide-item,
-.editCover > .hide-item > .rowContainer {
-    position: relative;
-    height: 100%;
-}
-/* Currently unused. Will wrap a fourth ego outfit property down to a second row */
-/* If outfits ever gain more than this many properties a change should probably be made
-   to a columnAligned rowContainer structure */
-.distortionContainer .editCover .rowContainer .rowContainer:nth-child(n+4),
-.egoContainer .editCover .rowContainer .rowContainer:nth-child(n+4) {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-}
-
-
-/* Dropdown menues in top right corner of augments and special items */
-.topRight {
-    width: 140px;
-    height: 25px;
-    position: absolute;
-    right: 5px;
-    text-align: center;
-    top: 5px;
-}
-
-
-/* Displays for the health, stagger, sanity and light bars as well as the distortion counter */
-.banner {
-    text-align: left; font-weight: bold; padding: 5px; width: 50%;
-    height: 50px; color: var(--color-white);
-    text-transform: uppercase;
-}
-.counter {
-    opacity: 100%;
-}
-.Cstat, .Mstat {
-    font-size: 16pt; 
-    font-weight: bold;
-}
-.Cstat, .Tstat {
-    color: var(--color-darker-gray); 
-    background-color: transparent !important; 
-    width: 125% !important; 
-    height: 100% !important;  
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 5;
-    opacity: 80%;
-    padding-left: 5px;
-}
-.Mstat {
-    color: rgba(0,0,0,0.5);
-    position: absolute; 
-    top: 0; 
-    right: 0; 
-    width: 50% !important; 
-    height: 100% !important; 
-    text-align: center; 
-    border-radius: 0px 3px 3px 0px;
-    z-index: 10;
-}
-.distortProfile .bars {
-    width: 65px !important;
-    height: 25px !important; 
-    background-color: transparent;
-    opacity: 70%;
-}
-.distortProfile .Cstat {
-    width: 130% !important;
-    font-size: 14pt;
-    opacity: 100%;
-}
-.distortProfile .Mstat {
-    font-size: 14pt;
-    border-left: 2px var(--color-HP) dotted;
-    background-color: var(--color-black);
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 20;
-}
-.bars {position: relative; background-color: var(--color-darker-gray); width: 90px !important; height: 37px; border-radius: 5px;}
-.contentBlock { width: 100%; display: flex; justify-content: start; align-items: start; }
-
-/* Blue border for Temporary HP and ST */
-.bars:has(> .style-toggle-rev:not(:checked)) {
-    border: 2px solid var(--color-TEMP) !important;
-    top: -3px;
-    left: -3px;
-    z-index: 1;
-}
-.bars:has(> .style-toggle-rev:checked) {
-    border: 0px !important;
-}
-.banner:has(.style-toggle-rev:not(:checked)) span {
-    position: relative;
-    top: -1px;
-    z-index: 2;
-}
-
-#Counter span {
-    font-weight: bold;
-}
-
-
-/* Assorted sizing and positioning of sheet elements. Most are self-explanatory */
-.rowContainer {
-    display: flex;
-    align-items: flex-start;
-    justify-content: start;
-    width: 100%;
-    position: relative;
-}
-
-.centerFlex {
-    align-items: center;
-    justify-content: center;
-}
-
-.rowContainer select {
-    text-align: center;
-}
-
-.settingStyle {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-}
-
-.qolButton {
-    height: 15px;
-    width: 15px;
-    text-align: center;
-    border: 1px var(--color-LIGHT) solid;
-    color: var(--color-LIGHT);
-    padding: 3px;
-    border-radius: 5px;
-    background-color: rgba(0,0,0,0);
-    float: left;
-    font-size: 12pt;
-    font-weight: bold;
-    opacity: 50%;
-    margin-right: 5px;
-}
-
-.recoverButton, .reloadButton {
-    opacity: 40%;
-    position: absolute;
-    top: 3px;
-}
-.recoverButton { right: -10px; }
-.reloadButton { right: 20px; }
-
-.titleHeader {
-    height: 30px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-    opacity: 100%;
-}
-
-/* Header of all sections in the sheet (equipment, skills, player profile at the top of the sheet) */
-.sectionHeader {
-    background-color: var(--color-dark-white);
-    width: 100%;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    text-align: left;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    flex-basis: 0;
-    height: 30px;
-}
-
-/* User for sections displayed in pairs (ex. tools), each taking up half of the column */
-.half {
-    width: 49%;
-}
-.contentContainer.half {
-    width: 49% !important;
-}
-
-#TopContainer { width: 100%; text-align: center; display: flex; }
-#TopColumnL { min-width: 265px; float: left; padding-left: 0px; padding-right: 0px; margin-right: 5px; }
-#TopColumnM { min-width: 180px; padding-left: 10px; padding-right: 10px; }
-#TopColumnR { width: 265px; float: right; padding-left: 15px; padding-right: 10px; }
-
-.columnContent { min-width: 180px; max-width: 280px; position: relative;}
-
-.columnAlign {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    color: var(--color-white);
-    position: relative;
-}
-
-.contentContainer, .specialBlock, .augmentBlock, .skillBlock {
-	width: 100%;
-    text-align: center;
-    background-color: #c3c3c3; border-radius: 3px;
-    position: relative;
-    overflow: hidden;
-} 
-
-.specialBlock { margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom:5px; }
-.augmentBlock { margin-top: 10px; }
-
-
-/* Player name field at the top of the sheet */
-.player { position: absolute; top: 40px; left: 203px; z-index: 4; text-align: left; display: flex; align-items: flex-start; justify-content: flex-start; height: 25px; opacity: 50%; }
-.player div { color: var(--color-LIGHT); font-weight: bolder; height: 25px; display: flex; align-items: center; justify-content: center; }
-#playerName { background-color: transparent; text-decoration-line: underline; text-decoration-color: var(--color-LIGHT); color: var(--color-LIGHT); }
-
-
-/* Setting menu (displayed by hovering over cogwheel in top-right corner) */
-#settings label {
-    color: var(--color-white) !important;
-    font-size: 10pt !important;
-}
-#settings {
-    width: 27px;
-    height: 27px;
-    position: absolute;
-    top: 2px;
-    right: 0px;
-    background-color: rgba(0,0,0,0);
-    border-radius: 5px;
-    border: 1px transparent solid;
-    overflow: hidden;
-    color: var(--color-LIGHT);
-    font-weight: bold;
-    z-index: 150;
-}
-/*#settings {*/
-#settings:hover {
-    height: auto;
-    width: 530px;
-    border: 1px var(--color-LIGHT) solid;
-    border-radius: 5px 15px 5px 5px;
-    background-color: rgba(0,0,0,0.8);
-}
-.settingsIcon {
-    position: absolute;
-    z-index: 5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top:0;
-    right: 0;
-    width: 25px;
-    height: 25px;
-    font-size: 20px;
-    border-radius: 100px;
-    border: 1px var(--color-LIGHT) solid;
-}
-.settingsText {
-    width: 220px;
-    padding: 35px;
-    padding-bottom: 25px;
-}
-.settingsText input[type="checkbox"] {
-    position: absolute;
-}
-.settingsText span:not(.settingsTitle) {
-    position: relative;
-    left: 21px;
-}
-.settingsTitle {
-    line-height: 1.8em;
-}
-
 
 /* Credits (displayed by hovering over logo in top-left corner) */
 #credits {
@@ -494,48 +178,280 @@ textarea::placeholder, .CharSmallNotes::placeholder, .CharDetail::placeholder, .
     height: 15px !important;
 }
 
-#logo {
-    height: 75px; width: 150px; min-width: 150px; margin-bottom: 10px;
+
+/* Player name field */
+.player { position: absolute; top: 40px; left: 203px; z-index: 4; text-align: left; display: flex; align-items: flex-start; justify-content: flex-start; height: 25px; opacity: 50%; }
+.player div { color: var(--color-LIGHT); font-weight: bolder; height: 25px; display: flex; align-items: center; justify-content: center; }
+#playerName { background-color: transparent; text-decoration-line: underline; text-decoration-color: var(--color-LIGHT); color: var(--color-LIGHT); }
+
+
+/* Popup messages, Used by many functions across the sheet to display alerts to the player */
+#messagePop {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 999;
+}
+#messagePop input, #messagePop textarea {
+    text-align: center;
+}
+.messageClose {
     position: absolute;
-    top: 0; left: 15px;
+    top: 5px;
+    right: 5px;
+    border: 1px rgba(256,256,256, 0.5) solid;
+    border-radius: 5px;
+    z-index: 900;
+    width: 30px;
+    height: 30px;
 }
-#logo img {
-    width: 150px; min-width: 150px;
+.messageClose label {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+.mHeader{
+    font-size: 20px;
+    color: var(--color-LIGHT) !important;
+}
+.mBody {
+    border: none;
+}
+.messageContent {
+    position: absolute;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px var(--color-LIGHT) solid;
+    background-color: rgba(0,0,0,0.8);
+    border-radius: 5px;
+    color: var(--color-LIGHT);
+    width: 50%;
+    min-width: 350px;
+    padding: 5px;
+    height: 0px;
+    opacity: 0;
+    overflow: hidden;
+    /* transition: opacity 0.55s, height 1s; */
+}
+#messageToggle:checked ~ #messagePop .messageContent  {
+    height: 100px;
+    opacity: 100%;
+    /* transition: opacity 0.55s, height 0s; */
+}
+/* ===== Sheet top bar END ===== */
+
+
+
+
+/* ===== Shared sheet styling ===== */
+/* Generic styling for elements that appear all over the sheet */
+
+/* Assorted placeholder text */
+::placeholder {
+    color: var(--color-white);
+    opacity: 50%;
+}
+:is(textarea, .CharSmallNotes, .CharDetail, .egoIdeologyInput)::placeholder {
+    color: var(--color-darker-gray);
+    opacity: 30%;
+}
+.distortProfile ::placeholder {
+    color: var(--color-lighter-gray) !important;
+}
+#globalSettings ::placeholder {
+    color: var(--color-light-gray) !important;
 }
 
 
-.sheet-template_Body{width: 240px; height: 360px; 
-    background-image: url(https://i.imgur.com/TjGTQ7o.png); background-size: 240px 360px; overflow: hidden;}
-.sheet-container{width: 150px; height: 250px; margin-left: 45px; margin-top: 55px; text-shadow: var(--color-light-orange) 0px 0 4px;}
-.sheet-template_type{width: 150px; height: 20px; color: var(--color-LIGHT); text-align: center; padding-top: 10px;} 
-.sheet-template_name{width: 150px; height: 20px; color: var(--color-LIGHT); text-align: center; font-family: 'HeirofLightBold';} 
-.sheet-template_dice_type{width: 150px; height: 20px; color: var(--color-LIGHT); text-align: center;} 
-.sheet-template_dice{width: 150px; height: 60px; color: var(--color-black); text-align: center;} 
-.sheet-template_effect {width: 150px; height: 60px; color: var(--color-LIGHT); text-align: center;} 
+/* Cusomizable names for equipment, skills, mystery ect. */
+.contentName, .viewerName, .skillName, .toolName, .skillSelectionElement .skillSelectionName, input[type=text] {
+    text-overflow: ellipsis;
+}
+.contentName {
+    width: 100%;
+}
 
 
-/* Default for all icons on the sheet */
+/* Assorted sizing and positioning of sheet elements. Most are self-explanatory */
+.rowContainer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: start;
+    width: 100%;
+    position: relative;
+}
+.rowContainer select {
+    text-align: center;
+}
+
+.centerFlex {
+    align-items: center;
+    justify-content: center;
+}
+
+.columnAlign {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--color-white);
+    position: relative;
+}
+
+#TopContainer { width: 100%; text-align: center; display: flex; }
+#TopColumnL { min-width: 265px; float: left; padding-left: 0px; padding-right: 0px; margin-right: 5px; }
+#TopColumnM { min-width: 180px; padding-left: 10px; padding-right: 10px; }
+#TopColumnR { width: 265px; float: right; padding-left: 15px; padding-right: 10px; }
+
+.columnContent { min-width: 180px; max-width: 280px; position: relative;}
+
+
+/* Base for all content-holding containers (equipment, skills, player profile at the top of the sheet etc.) */
+.contentContainer, .specialBlock, .augmentBlock, .skillBlock {
+	width: 100%;
+    text-align: center;
+    background-color: #c3c3c3; border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+}
+.contentHeader {
+    background-color: var(--color-dark-white);
+    width: 100%;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: left;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-basis: 0;
+    height: 30px;
+}
+.contentBlock {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+
+/* Generic elements */
+.weaponRank, .outfitRank, .augmentRank, .toolRank, .specialItemRank, .egoRank, .characterRank,
+.characterLevel, .workAmount, .workPref .workPref, .disadvCounter, .advCounter, .lightCostInput {
+    width: 25px;
+    text-align: center;
+    background-color: rgba(0,0,0,0.2) !important;
+    color: var(--color-white);
+    font-weight: bold;
+    height: 25px !important;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+/* Generic buttons */
+.darkButton {
+    height: 22px;
+    width: 100%;
+    padding: 0 4px;
+    border-radius: 3px;
+    color: var(--color-white) !important;
+    background-color: var(--color-dark-gray) !important;
+    border: 1px var(--color-darker-gray) solid;
+    font-weight: bold;
+}
+.btn {
+    border-radius: 5px;
+    background-image: none;
+    background-color: var(--color-dark-gray);
+    border: 1px var(--color-darker-gray) solid;
+    height: 20px;
+    padding: 3px;
+    border-radius: 3px;
+    color: var(--color-white) !important;
+    font-weight: bold;
+    min-width: 40px;
+    background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0));
+    text-align: center;
+    text-shadow: none;
+    box-shadow: none !important;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+.btn-danger {
+    width: 45px;
+    height: 25px;
+}
+.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton {
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    z-index: 9;
+    border-radius: 5px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+:is(.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton):hover {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+}
+:is(.NDice, .challengeButton, .declare, .btn, .selectTargetButton, .defenceDice, .autoscriptEditorControls button, .sectionHeader button:not(:first-child), .darkButton):hover {
+    background-color: var(--color-black) !important;
+}
+
+/* Generic icons */
+.statusIcon {
+    width: 25px;
+    height: 25px;
+}
 .icon {
     position: absolute;
     top: 0;
     left: 0;
 }
+.centerIcon, .NDice {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.containIcon {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 
-
-/* Default styling for different interactive elements */
-textarea, input { outline: none; }
-
-input[type="number"]{border-style: none; vertical-align: middle; background-color: var(--color-dark-white);}
-input[type="text"]{border-style: none; outline-style: none; vertical-align: middle; background-color: var(--color-dark-white);}
-input[type="checkbox"]{ width: 21px;  height: 21px; text-align: center; vertical-align: middle; }
-input[type='checkbox'] {
+/* Generic input elements */
+textarea, input {
+    outline: none;
+}
+input[type="number"] {
+    border-style: none;
+    vertical-align: middle;
+    background-color: var(--color-dark-white);
+}
+input[type="text"] {
+    border-style: none;
+    outline-style: none;
+    vertical-align: middle;
+    background-color: var(--color-dark-white);
+}
+input[type="checkbox"] {
+    width: 21px;
+    height: 21px;
+    text-align: center;
+    vertical-align: middle;
     accent-color: var(--color-LIGHT);
     opacity: 50%;
 }
 input[type='checkbox']:checked {
     opacity: 100%;
 }
-
 textarea {
     border-style: none; 
     outline-style: none;
@@ -548,7 +464,6 @@ textarea {
     max-height: 100px;
     resize: none;
 }
-
 select {
     border-style: none;
     outline-style: none;
@@ -556,9 +471,6 @@ select {
     background-color: var(--color-dark-white);
     margin-bottom: 0px;
 }
-
-
-/* Styling for default, dark and light input elements */
 .transpInput {
     background-color: rgba(0,0,0,0) !important;
     color: var(--color-white);
@@ -575,12 +487,72 @@ select {
     font-weight: bold;
 }
 
-
-/* Genuinely have no clue what this does. May be for having the sheet function better on tablets and mobiles */
-textarea::-webkit-outer-spin-button,textarea::-webkit-inner-spin-button {
-    -webkit-appearance: none;  margin: 0;
+/* Generic toggle checkboxes */
+.expand-toggle, .hide-toggle, .hide-toggle-rev, .hide-toggle-next {
+    display: none;
+}
+.expand-btn {
+    width: 35px !important;
+    height: 35px !important;
+    opacity: 30%;
+}
+.distortProfile .expand-btn {
+    padding: 0px;
+    margin: 5px;
+    height: 25px !important;
+    width: 25px !important;
+}
+.fade-toggle + div {
+    opacity: 100%;
+}
+.fade-toggle:checked + div {
+    opacity: 20%;
+}
+.status_effect_value {
+    opacity: 60%;
+}
+.fade-toggle ~ .status_effect_value {
+    opacity: 80%;
+}
+.fade-toggle:checked ~ .status_effect_value {
+    opacity: 40%;
+}
+.fade-toggle:checked ~ .resourceCurrent {
+    color: rgba(255, 255, 255, 0.5);
 }
 
+/* Reveal/hide content with checkbox is checked */
+.expand-toggle:checked ~ .expand-btn,
+#weapon1-slash:checked ~ .expand-btn, #weapon1-pierce:checked ~ .expand-btn, #weapon1-blunt:checked ~ .expand-btn,
+#weapon2-slash:checked ~ .expand-btn, #weapon2-pierce:checked ~ .expand-btn, #weapon2-blunt:checked ~ .expand-btn {
+    opacity: 100% !important;
+}
+.expand-toggle:checked ~ .type-image {
+    opacity: 100% !important;
+}
+.hide-item-rev {
+    display: inline-block;
+}
+.hide-item-rev:is(.rowContainer, .columnAlign) {
+    display: flex;
+}
+.hide-toggle:checked ~ button, .hide-toggle-rev:checked ~ .hide-item-rev,
+.hide-toggle-next:checked + .hide-item, .hide-toggle-rev-next:checked + .hide-item-rev {
+    display: none !important;
+}
+.hide-item {
+    width: 100%;
+    display: none;
+}
+.hide-toggle:checked ~ .hide-item {
+    display: inline-block;
+}
+.hide-toggle:checked ~ .hide-item:is(.rowContainer, .columnAlign) {
+    display: flex;
+}
+div:has(> .hide-container-toggle:checked) { display: none; }
+div:has(> .hide-container-toggle-rev) { display: none; }
+div:has(> .hide-container-toggle-rev:checked) { display: inline-block; }
 
 /* H3 is used for sections on the main character sheet. H4 is used for headers in the Editor tab. viewerName is used for the skill preview */
 h3, h4, .viewerName {
@@ -588,29 +560,139 @@ h3, h4, .viewerName {
     color: var(--color-LIGHT) !important; 
     font-weight: bolder;
 }
-#sheetSettings h3 {
-    background-color: var(--color-gray);
-    padding: 5px;
-    position: relative;
+
+/* User for containers displayed in pairs (ex. tools), each taking up half of the column */
+.half {
+    width: 50%;
+}
+.contentContainer.half {
+    width: 49% !important;
+}
+
+/* Used for all settings except the general settings. Other sections have more specific styling rules */
+.settingStyle {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+/* The header above the different sections at the top of the sheet (Derived values, stats, etc.) */
+/* Each header consists of a reset button, a h4 header title, and any number of section-specific buttons */
+.sectionHeader {
+    height: 30px;
+    width: calc(100% + 10px);
+    margin-top: 8px;
+    margin-bottom: 5px;
+    align-items: center;
+    gap: 5px;
+}
+.sectionHeader h4 {
+    margin-right: auto;
+}
+.sectionHeader button {
+    height: 15px;
+    width: 15px;
+    text-align: center;
+    border: 1px var(--color-LIGHT) solid;
+    color: var(--color-LIGHT);
+    padding: 3px;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0);
+    font-size: 12pt;
+    font-weight: bold;
+    opacity: 50%;
+}
+.sectionHeader button:not(:first-child) {
+    margin-left: 2px;
+}
+.sectionHeader button:hover {
+    opacity: 75%;
+}
+.sectionHeader button:is(.luck, .next) { background-size: 25px; }
+.sectionHeader button:is(.speed) { background-size: 23px; }
+.sectionHeader button:is(.exit) { background-size: 21px; padding-left: 22px; }
+
+.sectionHeader button:has(span) {
+    display: flex;
+    align-items: flex-end;
+    width: auto;
+    padding-left: 25px;
+    background-position: left;
+}
+.sectionHeader button span {
+    padding-right: 1px;
+    font-size: 9pt;
+    line-height: 14px;
+    color: var(--color-white);
 }
 
 
-/* Character profile */
+/* Assorted */
+
+/* Helper text */
+.helpers b, .work b {
+    font-size: 9pt;
+    opacity: 30%;
+}
+
+/* Number input spinners (increment/decrement buttons) */
+/* Hide spinner on Chromium brosers unless selected/hovered over. Alternatively, always hide the spinner */
+:is(.hoverSpinner:not(:hover):not(:focus), .noSpinner)::-webkit-inner-spin-button,
+:is(.hoverSpinner:not(:hover):not(:focus), .noSpinner)::-webkit-outer-spin-button {
+    display: none;
+}
+/* Hide spinner on Firefox */
+.hoverSpinner {
+    appearance: textfield;
+}
+.hoverSpinner:focus, .hoverSpinner:hover {
+    appearance: auto;
+}
+/* May be needed for Firefox */
+textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Repcontrol elements are usually not used */
+:is(.ailmentCustomDisplay, .genericTokenInstanceContainer, .conditionalButtonDisplay, #equipmentSection, #mysterySection, #globalSettings) .repcontrol,
+:is(#equipmentSection, #mysterySection) .outfitCustomResistDisplay .repcontrol {
+    display: none;
+}
+/* ===== Shared sheet styling END ===== */
+
+
+
+
+/* ===== Character profile ===== */
 .profileData {
     text-align: left;
     display: flex;
     margin-bottom: 1px;
 }
-.textSection {
-    width: 65px !important;
-    font-size: 8pt !important;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-left: 5px;
-    font-weight: bold;
-    overflow: hidden;
+.profileHeader {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    z-index: 5;
 }
+
+/* EXP counter / level box */
+.levelBox input {
+    height: 25px !important;
+}
+.levelBox {
+    position: absolute;
+    top: 3px;
+    left: auto;
+    right: 0;
+    font-size: 9pt !important;
+    align-items: flex-end;
+    justify-content: flex-end;
+    opacity: 50%;
+    width: 90px;
+}
+
 .CharImage {
     background-color: var(--color-light-gray);
     right: 0px;
@@ -621,6 +703,14 @@ h3, h4, .viewerName {
     position: absolute;
     height: 105px;
     width: 100px;
+}
+.CharImage img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    object-fit: contain !important;
+    z-index: 2;
 }
 .CharImageText {
     top: 0;
@@ -641,29 +731,37 @@ h3, h4, .viewerName {
     width: 155px;
     height: 158px;
 }
+
+.textSection {
+    width: 65px !important;
+    font-size: 8pt !important;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 5px;
+    font-weight: bold;
+    overflow: hidden;
+}
 .CharMediumNotes {
     height: 50px !important;
     margin: 0 !important;
 }
-.CharImage img {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    object-fit: contain !important;
-    z-index: 2;
+.CharBigNotes {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 15px;
+    overflow: hidden;
+    height: 100px !important;
+    padding: 5px;
 }
-
-.levelBox {
-    position: absolute;
-    top: 3px;
-    left: auto;
-    right: 0;
-    font-size: 9pt !important;
-    align-items: flex-end;
-    justify-content: flex-end;
-    opacity: 50%;
-    width: 90px;
+.CharBigNotes textarea {
+    height: 100% !important;
+    width: 100% !important;
+    margin: 0px !important;
+    padding: 5px !important;
+    display: inline-block;
+    border-radius: 5px;
 }
 .CharAge, .CharHeight, .CharOrigin, .CharJob {
     max-width: 95px;
@@ -673,7 +771,7 @@ h3, h4, .viewerName {
 #CharExtra, #distortExtra {
     padding-top: 10px;
     margin-left: 5px;
-    margin-right: 5px;
+    padding-right: 11px;
 }
 #CharExtra div {
     color: var(--color-gray);
@@ -690,53 +788,26 @@ h3, h4, .viewerName {
 #characterDetails .CharDetail {
     width: 330px !important;
 }
-
-.CharBigNotes {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin-left: 15px;
-    overflow: hidden;
-    height: 100px !important;
-    padding: 5px;
-}
-
 #CharExtra .textSection, #distortExtra .textSection {
     margin-left: 10px;
     margin-top: 5px;
     margin-bottom: 5px;
 }
+/* ===== Character profile END ===== */
 
-.CharBigNotes textarea {
-    height: 100% !important;
-    width: 100% !important;
-    margin: 0px !important;
-    padding: 5px !important;
-    display: inline-block;
-    border-radius: 5px;
+
+
+
+/* ===== Distortion profile ===== */
+.distortProfile {
+    background-color: var(--color-darker-gray);
+    color: var(--color-lighter-gray) !important;
 }
 
-
-/* EXP counter / level box */
-.levelBox input {
-    height: 25px !important;
-}
-
-
-/* Distortion profile */
 .distortProfile .CharImage {
     background-color: var(--color-darker-gray);
     border: 2px var(--color-darker-gray) solid;
     top: 30px;
-}
-.distortionDice .dicerollBlock {
-    width: 85px;
-    margin-left: 2px;
-    margin-right: 2px;
-}
-.distortProfile {
-    background-color: var(--color-darker-gray);
-    color: var(--color-lighter-gray) !important;
 }
 .distortProfile .textSection {
     color: #777;
@@ -754,9 +825,36 @@ h3, h4, .viewerName {
     border-top: 1px var(--color-darker-gray) solid;
     border-bottom: 1px var(--color-darker-gray) solid;
 }
-.distortProfile ::placeholder {
-    color: var(--color-lighter-gray) !important;
-    opacity: 50%;
+.distortionDice .dicerollBlock {
+    width: 85px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+/* The distort button */
+.distortIcon {
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Distort.png');
+}
+.profileHeader input[type=checkbox] {
+    display:none;
+}
+.profileHeader input[type=checkbox] + label {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 30px !important;
+    width: 30px !important;
+    display:inline-block;
+    padding: 0 0 0 0px;
+    opacity: 20%;
+}
+.profileHeader input[type=checkbox]:checked + label {
+    opacity: 30%;
+}
+
+/* Distortion work preference and observation levels */
+#WorkCounter span {
+    font-weight: bold;
 }
 .workPref input {
     height: 27px !important;
@@ -765,34 +863,6 @@ h3, h4, .viewerName {
     font-size: 14pt;
     margin: 3px;
 }
-
-
-/* The distort button */
-.distortIcon {
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Distort.png');
-}
-.profileHeader {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    z-index: 5;
-}
-.profileHeader input[type=checkbox] + label {
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
-height: 30px !important;
-width: 30px !important;
-display:inline-block;
-padding: 0 0 0 0px;
-opacity: 20%;
-}
-.profileHeader input[type=checkbox]:checked + label {
-    opacity: 30%;
-}
-
-
-/* Distortion observation levels */
 .observationSelect span {
     font-size: 9px;
 }
@@ -802,9 +872,785 @@ opacity: 20%;
 .observationSelect label {
     color: #888 !important;
 }
+/* ===== Distortion profile END ===== */
 
 
-/* Dice / combat pallette and skill selection */
+
+
+/* ===== Sheet tabs ===== */
+.toggleButtons {
+    height: 60px;
+    min-width: 800px;
+    max-width: 860px;
+}
+.toggleButtons button {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    font-size: 16pt;
+    font-weight: bold;
+    border-radius: 5px 5px 0px 0px;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-darker-gray);
+    color: #888 !important;
+}
+
+/* Show only the contents of the selected tab */
+.sheet-equipment,
+.sheet-skills,
+.sheet-details,
+.sheet-edit,
+.sheet-export {
+    display: none;
+}
+.sheet-tabstoggle[value="equipment"] ~ div.sheet-equipment,
+.sheet-tabstoggle[value="skills"] ~ div.sheet-skills,
+.sheet-tabstoggle[value="details"] ~ div.sheet-details,
+.sheet-tabstoggle[value="export"] ~ div.sheet-export,
+.sheet-tabstoggle[value="edit"] ~ div.sheet-edit {
+    display: block;
+}
+
+.sheet-tabstoggle[value="equipment"] ~ div #equipmentButton,
+.sheet-tabstoggle[value="skills"] ~ div #skillsButton,
+.sheet-tabstoggle[value="details"] ~ div #detailsButton,
+.sheet-tabstoggle[value="export"] ~ div #exportButton,
+.sheet-tabstoggle[value="edit"] ~ div #editButton {
+    color: var(--color-LIGHT) !important;
+    background-color: var(--color-gray);
+}
+/* ===== Sheet tabs END ===== */
+
+
+
+
+/* ===== Status bars ===== */
+/* A status bar consists of a Cstat (current stat), mstat (max stat) and background banner */
+.bars {
+    position: relative;
+    background-color: var(--color-darker-gray);
+    width: 90px !important;
+    height: 37px;
+    border-radius: 5px;
+}
+.banner {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px;
+    width: 50%;
+    height: 50px;
+    color: var(--color-white);
+    text-transform: uppercase;
+}
+.Cstat, .Mstat {
+    position: absolute; 
+    height: 100% !important; 
+    font-size: 16pt; 
+    font-weight: bold;
+}
+.Cstat {
+    width: 125% !important; 
+    color: var(--color-darker-gray); 
+    background-color: transparent !important; 
+    padding-left: 5px;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    opacity: 80%;
+}
+.Mstat {
+    width: 50% !important; 
+    color: rgba(0,0,0,0.5);
+    top: 0; 
+    right: 0; 
+    text-align: center; 
+    border-radius: 0px 3px 3px 0px;
+    z-index: 10;
+}
+.distortProfile .bars {
+    width: 65px !important;
+    height: 25px !important; 
+    background-color: transparent;
+    opacity: 70%;
+}
+.distortProfile .Cstat {
+    width: 130% !important;
+    font-size: 14pt;
+    opacity: 100%;
+}
+.distortProfile .Mstat {
+    font-size: 14pt;
+    border-left: 2px var(--color-HP) dotted;
+    background-color: var(--color-black);
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 20;
+}
+
+/* Blue border for Temporary HP and ST */
+.bars:has(> .style-toggle-rev:not(:checked)) {
+    border: 2px solid var(--color-TEMP) !important;
+    top: -3px;
+    left: -3px;
+    z-index: 1;
+}
+.bars:has(> .style-toggle-rev:checked) {
+    border: 0px !important;
+}
+.banner:has(.style-toggle-rev:not(:checked)) span {
+    position: relative;
+    top: -1px;
+    z-index: 2;
+}
+/* ===== Status bars END ===== */
+
+
+
+
+/* ===== Character stats ===== */
+.statBlock {
+    margin: 3px;
+    width: 100px;
+    overflow: hidden;
+    border-radius: 3px;
+}
+.statHeader {
+    background-color: var(--color-black);
+    font-weight: bold;
+    padding: 0px;
+    padding-bottom: 5px;
+}
+.statImage {
+    background-color: var(--color-black);
+    position: relative;
+    overflow: hidden;
+    height: 60px;
+}
+#InstinctStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Instinct.png'); }
+#WisdomStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Wisdom.png'); }
+#JusticeStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Justice.png'); }
+#CharmStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Charm.png'); }
+#InsightStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Insight.png'); }
+#TemperanceStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Temperance.png'); }
+
+.statInput {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: bottom-left;
+	background-size: 100%;
+}
+.statInput input {
+	text-align: center;
+	height: 100% !important;
+	width: 100% !important;
+	background-color: rgba(0,0,0,0.6) !important;
+	font-weight: bold;
+	font-size: 25pt;
+}
+
+
+/* Stat roll buttons */
+button[type=action].challengeButton {
+	font-size: 9pt !important;
+	background-color: transparent !important;
+	height: 25px;
+	overflow:hidden;
+	width: 70px;
+	background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0));
+    font-weight: bolder;
+    text-align: center;
+	text-decoration: none;
+	text-shadow: none;
+	border: 1px rgba(256,256,256, 0.3) solid;
+	box-shadow: none !important;
+	padding: 0px !important;
+}
+button[type=action].challengeButton:hover{
+	opacity: 80%;
+}
+button[type=action].challengeButton::before {
+    display: none;
+}
+
+
+/* Roll helpers */
+.rollHelpersContainer {
+    margin: 3px;
+    width: auto;
+    justify-content: space-between;
+}
+.expand-toggle:checked ~ .darkButton.whisper {
+    border: 1px var(--color-LIGHT) solid;
+    opacity: 60%;
+}
+.darkButton.whisper {
+    width: 65px;
+    height: 24px;
+    padding: 0;
+    background-size: contain;
+    background-position: center;
+    margin-top: 3px !important;
+}
+.difficultyInput {
+    height: 25px !important; 
+    width: 65px !important; 
+    font-size: 12pt; 
+    text-align: center; 
+    margin-top: 3px !important; 
+    margin-bottom: 0px;
+}
+.disadvCounter {
+    border: 2px var(--color-HP) solid !important;
+    margin-left: 0;
+}
+.disadvCheck {
+    height: 30px !important;
+    accent-color: var(--color-HP) !important;
+}
+.advCounter {
+    border: 2px var(--color-light-green) solid !important;
+}
+.advCheck {
+    height: 30px !important;
+    accent-color: var(--color-light-green) !important;
+}
+
+/* Currently unused */
+.power {
+    text-align: center !important;
+    font-weight: bold;
+    border: 1px #666 solid !important;
+    margin-bottom: 2px !important;
+    width: 25px !important;
+}
+/* ===== Stats END ===== */
+
+
+
+
+/* ===== Damage helper ===== */
+.damageHelperContainer b {
+    display: inline-block;
+    max-width: 80%;
+    opacity: 30%;
+    font-size: 9pt;
+}
+.damageHelperContainer input[type=number] {
+    height: 50px !important;
+    text-align: center;
+    font-size: 16pt;
+    font-weight: bold;
+    opacity: 80%;
+    margin-top: 3px !important;
+}
+.baseDamage, .flatDamage, .applyDamage {
+    margin-top: 2px;
+}
+.baseDamage { width: 55px; }
+.flatDamage, .applyDamage { width: 55px; }
+
+.baseDamage input {
+    width: 50px !important;
+    border-top: 2px solid var(--color-HP) !important;
+    border-left: 2px solid var(--color-HP) !important;
+    border-right: 2px solid var(--color-STGR) !important;
+    border-bottom: 2px solid var(--color-STGR) !important;
+}
+.flatDamage input {
+    width: 45px !important;
+}
+.flatHPInput, .flatSTInput {
+    text-align: left !important;
+    padding-right: 2px;
+    padding-left: 8px;
+}
+.flatHPInput {
+    border: 2px solid var(--color-HP) !important;
+}
+.flatSTInput {
+    border: 2px solid var(--color-STGR) !important;
+}
+
+.damageHelperType input[type=radio] {
+    display: none;
+}
+.damageHelperType label {
+    height: 30px;
+    width: 30px;
+    margin: 0px;
+    padding: 0px;
+    opacity: 30%;
+}
+.damageHelperType input[type=radio]:not(:checked) + label:hover {
+    opacity: 60% !important;
+    cursor: pointer;
+}
+.damageHelperType input[type=radio]:checked + label {
+    opacity: 100%;
+}
+/* When no damage type is selected, the apply damage button should be unuseable */
+.applyDamageInput {
+    opacity: 60%;
+    cursor: default;
+    height: 50px; 
+    min-width: 50px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 2px; 
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/damage.png');
+    border-radius: 5px;
+    background-color: var(--color-dark-gray) !important;
+    border: 1px var(--color-darker-gray) solid;
+    pointer-events: none;
+}
+.damageHelperType:has(input:checked:not([value="None"])) ~ .applyDamage .applyDamageInput {
+    opacity: 100%;
+    pointer-events: auto;
+}
+.damageHelperType:has(input:checked:not([value="None"])) ~ .applyDamage .applyDamageInput:hover {
+    background-color: var(--color-black) !important;
+    cursor: pointer;
+}
+/* ===== Damage helper END ===== */
+
+
+
+
+/* ===== Status ailments ===== */
+#ailmentBlock .contentContainer {
+    padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.ailmentIconSelector, .ailmentIconSelector .icon, .ailmentIconSelector .skillIcon {
+    height: 25px;
+    width: 25px;
+}
+
+.status_effect_item {
+	width: 30px;
+}
+.status_effect_value {
+    width: 52px;
+    height: 26px;
+    text-align: center;
+    border-radius: 5px;
+}
+.ailmentButton {
+    background-color: transparent;
+    width: 25px;
+}
+.ailmentNum {
+    color: var(--color-white);
+    font-weight: bold;
+    background-color: transparent !important;
+    padding-left: 1px;
+    text-align: left;
+}
+.ailmentNumThisTurn, .ailmentNumDecayPause {
+    width: 30px !important;
+    padding-right: 0px;
+    position: absolute;
+    left: 3px;
+}
+.ailmentNumDecayPause {
+    color: var(--color-SAN);
+}
+.ailmentNumNextTurn {
+    color: var(--color-lighter-gray);
+    width: 28px !important;
+    padding-right: 0px;
+    position: absolute;
+    left: 25px;
+}
+/* If the next turn field is disabled by a hide toggle (Burn/Bleed/Smoke/Charge individual setting) or by a hide toggle rev (Global setting) the standard field is returned to it's normal styling */
+.status_effect_value .hide-toggle:not(:checked) ~ .ailmentNumThisTurn,
+.status_effect_value .hide-toggle-rev:checked ~ .ailmentNumThisTurn,
+.ailmentNumDecayPause {
+    width: 45.5px !important;
+    padding-right: 4px;
+}
+/* This lengthy boi disables interacting with the next turn field while selecting or hovering over the current turn field (the fields partially overlap) */
+:is(.ailmentNumThisTurn:hover, .ailmentNumThisTurn:focus) + :is(.ailmentNumNextTurn) {
+    pointer-events: none;
+    z-index:-1;
+}
+/* When ctrl-clicking an ailment icon the decay field is reveal. "reveal-DecayPause" is set via JQuery */
+.ailmentNumDecayPause:not(.reveal-DecayPause) {
+    display: none;
+}
+:is(.ailmentNumNextTurn, .ailmentNumThisTurn):has(~ .reveal-DecayPause) {
+    display: none !important;
+}
+
+
+/* Automated state detection icons */
+.ailmentStates .statusIcon {
+    width: 35px;
+    height: 35px;
+}
+.ailmentStates input[type="checkbox"] {
+    display: none;
+}
+.ailmentStates label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 3px;
+}
+#state_Stagger, #state_Panic, #state_Defeat, #state_Immobile {
+    display: hidden !important;
+}
+#state_Stagger:checked, #state_Panic:checked, #state_Defeat:checked, #state_Immobile:checked {
+    accent-color: var(--color-light-gray);
+    opacity: 100%;
+}
+
+
+/* Custom ailments display */
+.ailmentCustomDisplay .repcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+.ailmentCustomDisplay .repitem  {
+    display: inline-block;
+    flex-basis: 33.33%;
+    min-width: 83.2px;
+    overflow: hidden;
+}
+/* ===== Status ailments END ===== */
+
+
+
+
+/* ===== Combat options ===== */
+.combatOptionsContainer {
+    margin-bottom: 5px;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+.combatOptionsContainer .helpers {
+    margin-left: 0;
+    margin-right: 0;
+}
+.combatOptionsContainer b {
+    display: inline-block;
+    margin-bottom: 2px; 
+}
+
+
+/* Combat options - Targeting and Defence */
+.targetAndDefenceContainer .hide-item.rowContainer {
+    gap: 5px;
+}
+.targetAndDefenceContainer .tokenName {
+    display: inline-block;
+    width: 100%;
+    height: 12px !important;
+    padding: 0;
+    margin-bottom: 2px; 
+    font-size: 9pt;
+    font-weight: bold;
+    text-align: center;
+    opacity: 30%;
+    color: var(--color-white);
+    background-color: transparent;
+    pointer-events: none;
+}
+.targetAndDefenceContainer .tokenName::placeholder {
+    opacity: 100% !important;
+}
+.targetAndDefenceContainer :is(img[src=""], img:not([src])) {
+    display: none;
+}
+.targetAndDefenceContainer :is(img[src=""], img:not([src])) + input[type="number"] {
+    display: none;
+}
+.targetAndDefenceContainer .bars {
+    height: 24px;
+    background-color: var(--color-dark-gray);
+}
+.targetAndDefenceContainer .bars.bars:not(:first-child) {
+    margin-left: 2px;
+}
+.targetAndDefenceContainer .Cstat {
+    width: 100% !important;
+    font-size: 12pt;
+    pointer-events: none;
+}
+
+.selectTargetButton, .targetToken {
+    height: 44px; 
+    width: 44px;
+}
+.selectTargetButton {
+    float: left;
+    padding: 3px;
+    border-radius: 5px;
+    background-color: var(--color-dark-gray) !important;
+    border: 1px var(--color-darker-gray) solid;
+}
+.targetToken {
+    opacity: 0.5;
+}
+.selectTargetIcon {
+    height: 50px; 
+    width: 50px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/target.png');
+}
+
+/* Last defence dice display */
+.defenceDice {
+    height: 52px !important;
+    width: 52px !important;
+    padding: 4px;
+    font-size: 20px;
+    text-shadow: var(--color-black) 0 0 3px, var(--color-black) 0 0 10px;
+    text-align: center;
+    border: 1px var(--color-darker-gray) solid !important;
+    border-radius: 5px;
+    background-color: var(--color-dark-gray) !important;
+    background-size: 45px;
+    background-position: 45% 45%;
+    background-repeat: no-repeat;
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png');
+}
+
+
+/* Combat options - Action and regen trackers */
+.resourceContainer {
+    height: auto !important;
+    gap: 4px;
+}
+.resourceTracker {
+    width: auto !important;
+    border-radius: 3px;
+    background-color: var(--color-dark-gray);
+}
+.resourceTracker :is(.resourceCurrent, .resourceMax, .resourceBase, .resourceTypeSelector) {
+    background-color: transparent;
+    height: 20px !important;
+    padding: 0;
+    color: white;
+    font-weight: bold;
+    font-size: 12pt;
+    appearance: textfield;
+}
+.resourceTracker .resourceCurrent {
+    float: left;
+    width: calc(40% + 4px) !important;
+    padding-left: calc(5% - 2px) !important;
+}
+.resourceTracker .resourceMax {
+    position: absolute;
+    right: 0;
+    width: calc(55% - 13px) !important;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    text-align: center;
+    color: rgb(0, 0, 0, 0.5);
+}
+.resourceTracker .resourceBase {
+    width: calc(95% - 9px) !important;
+    padding-left: calc(37% - 8px);
+}
+.resourceTypeSelector {
+    width: 20px !important;
+    margin: 0 !important;
+    background-size: 22px;
+    background-position: left;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    padding-right: calc(15% - 6px) !important;
+}
+.resourceButton {
+    height: 18px !important;
+    width: 18px !important;
+    min-width: 18px;
+    padding: 0 !important;
+}
+.resourceTracker:has(input[type=radio]:checked)::before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--color-lighter-gray);
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 5;
+}
+#editResourceToggle:checked + div :is(.resourceCurrent, .resourceMax) {
+    display: none !important;
+}
+#editResourceToggle:not(:checked) + div .resourceBase {
+    display: none !important;
+}
+.resourceTracker:has(.reaction) .resourceMax { background-color: var(--color-darker-white); }
+.resourceTracker:has(.egoSpecial) .resourceMax { background-color: var(--color-orange); }
+.resourceTracker:has(.egoAtt) .resourceMax { background-color: var(--color-red); }
+.resourceTracker:has(.egoDef) .resourceMax { background-color: var(--color-blue); }
+.resourceTracker:has(.egoEvd) .resourceMax { background-color: var(--color-STGR); }
+
+.resourceContainer:has(.hide-toggle-rev-next[name="attr_settingActionTracker"]:checked) .resourceTracker:has(.light) {
+    width: 265px !important;
+}
+.resourceTracker .hide-toggle:not(:checked) ~ label.hide-item {
+    display: none !important;
+}
+
+
+/* Combat options - Combat toggle */
+.combatToggleContainer {
+    width: auto;
+}
+
+
+/* Generic token mode display */
+.genericTokenContainer {
+    position: fixed;
+    bottom: 0px;
+    left: 0%;
+    width: calc(99% - 14px);
+    z-index: 999;
+    padding: 5px;
+    background-color: #1F1F1F !important;
+}
+#genericTokenModeToggle + .genericTokenContainer {
+    display: none !important;
+}
+#genericTokenModeToggle:checked + .genericTokenContainer {
+    display: flex !important;
+}
+.genericTokenInstanceContainer {
+    resize: vertical;
+    max-height: 450px;
+    min-height: 150px;
+    overflow-y: auto;
+}
+.genericTokenInstanceContainer .repcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: calc(99% - 64px);
+}
+
+/* Generic token controls */
+.genericTokenSelectButton {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    height: 20%;
+    width: calc(100% + 2px);
+    background-color: transparent;
+}
+.genericToken_controls {
+    justify-content: space-around;
+    width: 50px;
+    height: 130px;
+    margin: 10px 5px 10px 5px;
+}
+.genericToken_controls button {
+    background-color: transparent;
+}
+
+/* Individual generic tokens */
+.genericToken {
+    height: 130px;
+    width: 120px;
+    margin: 5px;
+}
+.style-toggle:checked + .genericToken {
+    height: 126px;
+    border: 2px solid #666;
+}
+.genericToken .tokenName {
+    background-color: transparent;
+    color: var(--color-lighter-gray);
+    width: 100%;
+    padding: 0;
+    pointer-events: none;
+    overflow: ellipsis;
+}
+.genericToken .bars {
+    width: 100px !important;
+    height: 20px;
+}
+.genericToken .bars:not(:first-child) {
+    margin-top: 2px;
+}
+.genericToken :is(.Cstat, .Mstat, .Tstat) {
+    font-size: 12pt;
+}
+.genericToken .Mstat{
+    width: 33% !important;
+    padding: 4px 2px 4px 2px;
+}
+.genericToken .Tstat {
+    width: auto !important;
+    left: 30px;
+    z-index: 3;
+}
+.tokenAilment, .targetAilment {
+    width: 25px;
+    height: 25px;
+    margin-top: 2px;
+}
+.targetAilment {
+    pointer-events: none;
+}
+:is(.tokenAilment, .targetAilment) img {
+    position: relative;
+    opacity: 90%;
+    left: 0;
+    width: 25px;
+    height: 25px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+:is(.tokenAilment, .targetAilment) input[type="number"] {
+    position: relative;
+    top: -25px;
+    left: -2px;
+    background-color: transparent;
+    color: var(--color-white);
+    font-weight: bold;
+    text-shadow: var(--color-black) 0 0 3px, var(--color-black) 0 0 5px, var(--color-black) 0 0 10px;
+    padding-left: 2px;
+    text-align: center;
+    z-index: 2;
+}
+.tokenAilment input[type="number"]:not(:hover):not(:focus) {
+    width: 31px !important;
+}
+.tokenAilment input[type="number"]:focus, .tokenAilment input[type="number"]:hover {
+    width: 3.5em;
+}
+/* ===== Combat options END ===== */
+
+
+
+
+/* ===== Combat palette ===== */
 .combatPaletteName {
     max-width: 100px;
     margin-left: 35px !important;
@@ -832,11 +1678,9 @@ opacity: 20%;
     overflow: hidden; 
     width: 60px; 
     height: 30px; 
-    position: absolute; 
-    right: 30px !important; 
-    top: 0px;
-    padding-left: 3px;
+    padding-left: 2px;
     padding-right: 3px;
+    margin-left: 1px;
 }
 .paletteDice * {
     margin: 0 !important;
@@ -854,11 +1698,18 @@ opacity: 20%;
 .paletteDice .plainText { 
     opacity: 70%;
     width: 5px !important;
+    pointer-events: none;
 }
 .paletteButton .BDice, .paletteButton .NDice {
-    height: 23px !important;
-    width: 23px !important;
-    position: absolute; top: 3px; right: 0px;
+    margin-top: 3px;
+    margin-left: 4px;
+    margin-right: 3px;
+}
+:is(.outfit, .STGR).paletteButton .iconHolder {
+    margin-left: -1px;
+}
+:is(.outfit, .STGR).paletteButton .typeIcon {
+    margin-left: -1px;
 }
 .blocker {
     position: absolute;
@@ -868,6 +1719,9 @@ opacity: 20%;
     height: 100%;
     z-index: 4;
 }
+
+
+/* Skill / tool selection (old) */
 .skillSelectionElement .icon, .skillN .icon, .skillE .icon {
     border-radius: 100px;
     overflow: hidden;
@@ -999,6 +1853,9 @@ opacity: 20%;
     height: 1px;
     z-index: 20;
 }
+
+
+/* Mystery combat palette elements */
 .egoDefPalette, .egoEvdPalette, .egoAttPalette {
     background-color: var(--color-black);
     overflow: hidden;
@@ -1018,6 +1875,9 @@ opacity: 20%;
 .hide-item.tool {
     width: 45px;
 }
+
+
+/* Weapon uses */
 .weaponSlot {
     max-height: 35px;
 }
@@ -1033,7 +1893,7 @@ opacity: 20%;
     width: 30px;
     height: 30px;
     position: relative;
-    margin-left: 3px;
+    margin-left: 5px;
 }
 .paletteRange .buffer {
     width: 100% !important;
@@ -1049,58 +1909,36 @@ opacity: 20%;
     height: 30px; 
     position: absolute; 
     top:0px;  
-    right: 100px;
+    right: 99px;
     z-index: 24;
     opacity: 70%;
 }
 .weaponPaletteUses input {
     color: var(--color-white) !important;
 }
+/* ===== Combat palette END ===== */
 
+
+
+
+/* ===== Equipment and Skills ===== */
 
 /* Roll buttons around the character sheet. See Dice Roll Blocks for the roll template input fields */
-button[type=action].challengeButton {
-	font-size: 9pt !important;
-	background-color: transparent !important;
-	height: 25px;
-	overflow:hidden;
-	width: 70px;
-	background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0));
-    font-weight: bolder;
-    text-align: center;
-	text-decoration: none;
-	text-shadow: none;
-	border: 1px rgba(256,256,256, 0.3) solid;
-	box-shadow: none !important;
-	padding: 0px !important;
-}
-button[type=action].challengeButton:hover{
-	opacity: 80%;
-}
-button[type=action].challengeButton::before {
-    display: none;
-}
-
-button[type=roll].NDice, button[type=action].NDice{
+.NDice, .NDice{
     background-color: var(--color-gray);
     font-weight: bolder;
     font-size: 0px;
     width: 23px !important;
     height: 23px !important;
-    margin: 0.0;
     padding: 0.0em;
     border: 1px solid var(--color-black);
     border-radius: 5px;
     background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/buttondice.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
     overflow: hidden;
 	line-height: 100;
 	margin-left: 5px;
 	margin-right: 2px;
 }
-
 
 /* Dice roll blocks, aka anything in the format "xdx+x". Not to be confused with the block reaction */
 .combatDice{ text-align: center; justify-content: end; align-items: center; margin-right: 3px; }
@@ -1120,12 +1958,15 @@ button[type=roll].NDice, button[type=action].NDice{
     opacity: 70%;
     font-weight: bold;
 }
-.dicerollBlock input{
-    width: 25px;
+.dicerollBlock input {
+    width: 26px;
     background-color: transparent;
     color: var(--color-white);
     font-weight: bold;
     font-size: 12pt; 
+}
+.dicerollBlock input:first-child {
+    width: 23px;
 }
 .diceNum {
     text-align: right !important;
@@ -1135,89 +1976,7 @@ button[type=roll].NDice, button[type=action].NDice{
 }
 
 
-/* Hide the toggle checkbox */
-.expand-toggle, .hide-toggle, .hide-toggle-rev {
-    display: none;
-}
-.expand-btn {
-    width: 35px !important;
-    height: 35px !important;
-    opacity: 30%;
-}
-.distortProfile .expand-btn {
-    padding: 0px;
-    margin: 5px;
-    height: 25px !important;
-    width: 25px !important;
-}
-.fade-toggle + div {
-    opacity: 100%;
-}
-.fade-toggle:checked + div {
-    opacity: 20%;
-}
-.status_effect_value {
-    opacity: 60%;
-}
-.fade-toggle ~ .status_effect_value {
-    opacity: 80%;
-}
-.fade-toggle:checked ~ .status_effect_value {
-    opacity: 40%;
-}
-.fade-toggle:checked ~ .resourceTrackerValue {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-
-/* Reveal/hide content with checkbox is checked */
-.expand-toggle:checked ~ .expand-btn,
-#weapon1-slash:checked ~ .expand-btn, #weapon1-pierce:checked ~ .expand-btn, #weapon1-blunt:checked ~ .expand-btn,
-#weapon2-slash:checked ~ .expand-btn, #weapon2-pierce:checked ~ .expand-btn, #weapon2-blunt:checked ~ .expand-btn {
-    opacity: 100% !important;
-}
-.expand-toggle:checked ~ .type-image {
-    opacity: 100% !important;
-}
-.hide-item-rev {
-    display: inline-block;
-}
-.hide-item-rev:is(.rowContainer, .columnAlign) {
-    display: flex;
-}
-.hide-toggle:checked ~ button, .hide-toggle-rev:checked ~ .hide-item-rev {
-    display: none !important;
-}
-.hide-item {
-    width: 100%;
-    display: none;
-}
-.hide-toggle:checked ~ .hide-item {
-    display: inline-block;
-}
-.hide-toggle:checked ~ .hide-item:is(.rowContainer, .columnAlign) {
-    display: flex;
-}
-div:has(> .hide-container-toggle:checked) { display: none; }
-div:has(> .hide-container-toggle-rev) { display: none; }
-div:has(> .hide-container-toggle-rev:checked) { display: inline-block; }
-
-
 /* General equipment */
-/* ALL of these classes were labelled as "outfitRank" before the reformatting */
-.weaponRank, .outfitRank, .augmentRank, .toolRank, .specialItemRank, .egoRank,
-.characterRank, .characterLevel, .workAmount, .workPref .workPref,
-.disadvCounter, .advCounter,
-.lightCostInput, .egoLightCostInput {
-    width: 25px;
-    text-align: center;
-    background-color: rgba(0,0,0,0.2) !important;
-    color: var(--color-white);
-    font-weight: bold;
-    height: 25px !important;
-    margin-left: 5px;
-    margin-right: 5px;
-}
 .weaponContainer, .outfitContainer, .toolContainer, .egoSkillContainer, .skillContainer {
     width: 100%;
     max-width: 400px;
@@ -1241,9 +2000,21 @@ div:has(> .hide-container-toggle-rev:checked) { display: inline-block; }
     height: 35px;
     width: 35px;
 }
-.type-image{ text-align: center; }
+.type-image{
+    text-align: center;
+}
 .icon .type-image, .resIconRight .type-image, .resIconLeft .type-image {
     opacity: 0;
+}
+
+/* Dropdown menues in top right corner of augments and special items */
+.topRight {
+    width: 140px;
+    height: 25px;
+    position: absolute;
+    right: 5px;
+    text-align: center;
+    top: 5px;
 }
 
 
@@ -1336,7 +2107,10 @@ div:has(> .hide-container-toggle-rev:checked) { display: inline-block; }
     text-indent: 3px;
     border: 1px solid #c3c3c3;
 }
-.outfitResistVal { width: 45px; text-align: center; }
+.outfitResistVal {
+    width: 45px;
+    text-align: center;
+}
 .resIconLeft {
     position: absolute;
     top: 0;
@@ -1357,56 +2131,20 @@ div:has(> .hide-container-toggle-rev:checked) { display: inline-block; }
 }
 
 
-/* Outfit custom resistance display */
-.outfitCustomResistDisplay {
-    width: 300px;
-}
-
-:is(.outfitContainer, .egoContainer, .distortionContainer) .editCover .columnAlign {
-    align-items: normal;
-    flex-direction: column;
-    justify-content: start;
-}
-:is(.egoContainer, .distortionContainer) .editCover {
-    padding-bottom: 35px;
-}
-.outfitContainer .editCover > .columnAlign > .rowContainer > .rowContainer, 
-.egoContainer .editCover .columnAlign > .rowContainer > .rowContainer,
-.distortionContainer .editCover > .columnAlign > .rowContainer > .rowContainer,
-.outfitCustomResistDisplay .repitem:has(.hide-toggle:checked)  { width: 82.34px; }
-
-:is(.outfitContainer, .egoContainer) .status_effect_value {
-    background-color: rgba(0, 0, 0, 0.2) !important;
-    border-radius: 5px;
-}
-:is(.outfitContainer, .egoContainer, .distortionContainer) .ailmentNum {
-    text-align: center;
-}
-:is(.outfitContainer, .egoContainer, .distortionContainer) .status_effect_item {
-    width: 25px;
-    opacity: 100%;
-}
-.outfitCustomResistDisplay .repcontainer, .egoContainer .repcontainer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-
 /* Tools */
+.toolName {
+    width: 95px;
+}
 .tool input[type=checkbox] + label {
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
-height: 30px !important;
-width: 30px !important;
-display:inline-block;
-padding: 0 0 0 0px;
-margin: 0px;
-opacity: 30%;
+    height: 30px !important;
+    width: 30px !important;
+    display:inline-block;
+    padding: 0 0 0 0px;
+    margin: 0px;
+    opacity: 30%;
 }
 .tool input[type=checkbox] + label:hover {
-opacity: 50%;
+    opacity: 50%;
 }
 .tool input[type=checkbox]:checked + label {
     opacity: 100%;
@@ -1415,91 +2153,26 @@ opacity: 50%;
     height: 65px !important;
     margin-bottom: 2px !important;
 }
-.tool input[type=checkbox], .profileHeader input[type=checkbox] {
+.tool input[type=checkbox] {
     display:none;
 }
-/* Hide spinner on Chromium brosers unless selected/hovered over */
-.toolMaxInput:not(:hover):not(:focus)::-webkit-inner-spin-button,
-.toolMaxInput:not(:hover):not(:focus)::-webkit-outer-spin-button {
-    display: none;
-}
-/* Hide spinner on Firefox */
-.toolMaxInput {
-    appearance: textfield;
-}
-.toolMaxInput:focus, .toolMaxInput:hover {
-    appearance: auto;
-}
-.portableIcon {
-    background-image: url("https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png");
-}
-/* Also used in a lot of other places*/
-.reusableIcon {
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/reuse.png'); 
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-.healIcon {
-    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/heal.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
-/* Special items */
-.specialDescriptionInput {
-margin-bottom: 0px !important;
-}
-.specialColumn {
-    color: rgba(0,0,0,0.5);
-    font-weight: bold;
-    text-align: left;
-    padding-left: 5px;
-    padding-right: 5px;
-    margin-bottom: 0 !important;
-    margin-top: 7px;
-    width: 140px;
-}
-.specialInput {
-    width: 140px;
-}
-
 .toolDescriptionInput {
-height: 65px !important;
-margin-bottom: 2px !important;}
+    height: 65px !important;
+    margin-bottom: 2px !important;
+}
 
-.egoDescInput {
-    height: 60px;
-}
-.egoIdeologyInput {
-    width: 100% !important; 
-    height: 25px !important; 
-    margin-bottom: 3px !important;
-}
-.egoSpecialLabel span {
-    width: 150px;
-    height: 20px;
-    text-align: left;
-    padding-left: 10px;
-}
-.egoSpecialLabel select {
-    margin-right: 5px;
-}
-.resistanceChart.BLACK select {
-    border: 1px solid var(--color-black)
-}
-.egoContainer select.whiteInput:focus {
-    background-color: rgba(50, 50, 50, 0.4) !important;
-}
-.egoCheck {
-    position: absolute !important;  
-    top: 10px; 
-    right: 5px; 
-    height: 20px !important; 
-    width: 20px !important; 
+
+/* Augments */
+.augmentBlock {
+    margin-top: 10px;
 }
 
 
 /* Skills */
+.skillName {
+    width: 140px;
+    margin-left: 40px;
+}
 .skillType {
     width: 100%;
     margin-right: 5px;
@@ -1545,421 +2218,530 @@ margin-bottom: 2px !important;}
 }
 
 
-/* Damage helpers */
-.damageHelperContainer b {
-    display: inline-block;
-    max-width: 80%;
-    opacity: 30%;
-    font-size: 9pt;
+/* Special items */
+.specialBlock {
+    margin: 5px;
 }
-.damageHelperContainer input[type=number] {
-    height: 50px !important;
-    text-align: center;
-    font-size: 16pt;
+.specialDescriptionInput {
+    margin-bottom: 0px !important;
+}
+.specialColumn {
+    color: rgba(0,0,0,0.5);
     font-weight: bold;
-    opacity: 80%;
-    margin-top: 3px !important;
+    text-align: left;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 0 !important;
+    margin-top: 7px;
+    width: 140px;
 }
-.baseDamage, .flatDamage, .applyDamage {
-    margin-top: 2px;
-}
-.baseDamage input {
-    width: 55px !important;
-    border-top: 2px solid var(--color-HP) !important;
-    border-left: 2px solid var(--color-HP) !important;
-    border-right: 2px solid var(--color-STGR) !important;
-    border-bottom: 2px solid var(--color-STGR) !important;
-}
-.flatDamage input {
-    width: 45px !important;
-}
-.flatHPInput, .flatSTInput {
-    text-align: left !important;
-    padding-right: 2px;
-    padding-left: 8px;
-}
-.flatHPInput {
-    border: 2px solid var(--color-HP) !important;
-}
-.flatSTInput {
-    border: 2px solid var(--color-STGR) !important;
-}
-/* Hide spinner on Chromium brosers unless selected/hovered over */
-.flatHPInput:not(:hover):not(:focus)::-webkit-inner-spin-button,
-.flatHPInput:not(:hover):not(:focus)::-webkit-outer-spin-button,
-.flatSTInput:not(:hover):not(:focus)::-webkit-inner-spin-button,
-.flatSTInput:not(:hover):not(:focus)::-webkit-outer-spin-button {
-    display: none;
-}
-/* Hide spinner on Firefox */
-.flatHPInput, .flatSTInput {
-    appearance: textfield;
-}
-.flatHPInput:focus, .flatHPInput:hover,
-.flatSTInput:focus, .flatSTInput:hover {
-    appearance: auto;
-}
-
-.damageHelperType input[type=radio] {
-    display: none;
-}
-.damageHelperType input[type=radio]:not(:checked) + label:hover {
-    opacity: 60% !important;
-    cursor: pointer;
-}
-.damageHelperType input[type=radio]:checked + label {
-    opacity: 100%;
-}
-.damageHelperType input[type=radio] + label {
-    opacity: 30%;
-}
-.damageHelperType label {
-    height: 30px;
-    width: 30px;
-    margin: 0px;
-    padding: 0px;
-}
-/* When no damage type is selected, the button is grayed out and unresponsive to input */
-.applyDamageInput {
-    opacity: 60%;
-    cursor: default;
-    height: 50px; 
-    min-width: 50px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    margin-top: 2px; 
-    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/damage.png');
-    border-radius: 5px;
-    background-color: var(--color-dark-gray) !important;
-    border: 1px var(--color-darker-gray) solid;
-    pointer-events: none;
-}
-.damageHelperType:has(input:checked:not([value="None"])) ~ .applyDamage .applyDamageInput {
-    opacity: 100%;
-    pointer-events: auto;
-}
-.damageHelperType:has(input:checked:not([value="None"])) ~ .applyDamage .applyDamageInput:hover {
-    background-color: var(--color-black) !important;
-    cursor: pointer;
+.specialInput {
+    width: 140px;
 }
 
 
-
-/* Roll helpers */
-.helpers {
-    margin-left: 1px;
-    margin-right: 1px;
-}
-.helpers b, .work b {
-    font-size: 9pt;
-    opacity: 30%;
-}
-.speed {
-    height: 30px;
-    width: 30px;
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Speed.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    border-radius: 5px;
-    background-color: var(--color-dark-gray) !important;
-    border: 1px var(--color-darker-gray) solid;
-    margin: 1px;
-}
-.expand-toggle:checked ~ .whisper {
-    border: 1px var(--color-LIGHT) solid;
-    opacity: 60%;
-}
-.difficultyInput {
-    height: 50px !important; 
-    width: 55px !important; 
-    font-size: 12pt; 
-    text-align: center; 
-    margin-top: 3px !important; 
-    margin-bottom: 0px;
-}
-.updateInput {
-    height: 50px; 
-    width: 50px; 
-    background-size: contain;
-    background-position: center;
-    margin-top: 2px; 
-    margin-right: 3px;
-}
-.utilitybuttons {
-    height: 27px;
-    background-size: contain;
-    background-position: center;
-}
-.disadvCounter {
-    border: 2px var(--color-HP) solid !important;
-}
-.disadvCheck {
-    height: 30px !important;
-    accent-color: var(--color-HP) !important;
-}
-.advCounter {
-    border: 2px var(--color-light-green) solid !important;
-}
-.advCheck {
-    height: 30px !important;
-    accent-color: var(--color-light-green) !important;
-}
-.speedbox {
-    text-align: center;
-    width: 30px !important;
-}
-.sideDice {
-    color: var(--color-white);
-    font-weight: bold;
-}
-.power {
-    text-align: center !important;
-    font-weight: bold;
-    border: 1px #666 solid !important;
-    margin-bottom: 2px !important;
-    width: 40px !important;
-}
-
-
-/* Auto Update Indicator */
-.autoUpdateIndicator {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    opacity: 80%;
-    border-radius: 4px;
-    pointer-events: none;
-}
-.loopEnabledToggle:not(:checked) ~ .autoUpdateIndicator {
-    display: none;
-}
-.loopEnabledToggle:checked ~ .autoUpdateIndicator {
-    border: 4px solid var(--color-STGR);
-}
-.loopEnabledToggle:checked + .loopSearchingToggle:checked ~ .autoUpdateIndicator {
-    border: 4px solid var(--color-light-green);
-}
-.loopEnabledToggle:checked ~ .loopStandbyToggle:checked + .autoUpdateIndicator {
-    border: 4px solid var(--color-HP);
-}
-
-
-
-/* Character stats */
-.statBlock {
-    margin: 3px;
-    width: 100px;
-    overflow: hidden;
-    border-radius: 3px;
-}
-.statHeader {
-    background-color: var(--color-black);
-    font-weight: bold;
-    padding: 0px;
-    padding-bottom: 5px;
-}
-.statImage {
-    background-color: var(--color-black);
-    position: relative;
-    overflow: hidden;
+/* Mysteries (E.G.O) */
+.egoDescInput {
     height: 60px;
 }
-
-#InstinctStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Instinct.png');
+.egoIdeologyInput {
+    width: 100% !important; 
+    height: 25px !important; 
+    margin-bottom: 3px !important;
 }
-#WisdomStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Wisdom.png');
+.egoSpecialLabel span {
+    width: 150px;
+    height: 20px;
+    text-align: left;
+    padding-left: 10px;
 }
-#JusticeStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Justice.png');
+.egoSpecialLabel select {
+    margin-right: 5px;
 }
-#CharmStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Charm.png');
+.resistanceChart.BLACK select {
+    border: 1px solid var(--color-black)
 }
-#InsightStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Insight.png');
+.egoContainer select.whiteInput:focus {
+    background-color: rgba(50, 50, 50, 0.4) !important;
 }
-#TemperanceStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Temperance.png');
-}
-
-.statInput {
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	top: 0;
-	left: 0;
-
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: bottom-left;
-	background-size: 100%;
-}
-.statInput input {
-	text-align: center;
-	height: 100% !important;
-	width: 100% !important;
-	background-color: rgba(0,0,0,0.6) !important;
-	font-weight: bold;
-	font-size: 25pt;
+.egoCheck {
+    position: absolute !important;  
+    top: 10px; 
+    right: 5px; 
+    height: 20px !important; 
+    width: 20px !important; 
 }
 
 
-/* Status ailments */
-.statusIcon {
-    width: 25px;
+/* Repeating inventory */
+:is(#equipmentSection, #mysterySection) .itemContainer {
+    background-color: var(--color-dark-gray);
+}
+:is(#equipmentSection, #mysterySection) .contentHeader {
+    flex-basis: auto;
+    background-color: transparent;
+}
+
+/* Repeating inventory - Controls */
+:is(#equipmentSection, #mysterySection) .repcontrol_blocker {
+    float: right;
+    height: 100%;
+    width: 30px;
+    visibility: hidden;
+}
+:is(#equipmentSection, #mysterySection) .repcontrol {
+    position: absolute;
+    display: flex;
+    z-index: 20;
+    top: 4px;
+    right: 4px;
+    gap: 4px;
+}
+:is(#equipmentSection, #mysterySection) :is(.repcontrol_edit, .repcontrol_add, .repcontrol_del, .repcontrol_move) {
+    min-width: 20px;
+    margin: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+:is(#equipmentSection, #mysterySection) :is(.repcontrol_edit, .repcontrol_add) {
+    font-size: 0;
+    background-color: #161616;
+}
+:is(#equipmentSection, #mysterySection) :is(.repcontrol_del, .repcontrol_move) {
+    position: absolute;
     height: 25px;
+    width: 45px;
+    z-index: 20;
 }
-.ailmentStates .statusIcon {
-    width: 35px;
-    height: 35px;
-} 
-.ailmentStates input[type="checkbox"]{
-    display: none;
+:is(#equipmentSection, #mysterySection) .repcontrol_edit {
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png');
 }
-.ailmentStates label {
+:is(#equipmentSection, #mysterySection) .repcontrol_add {
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/heal.png');
+}
+:is(#equipmentSection, #mysterySection) .repcontrol_add[style*="display: none;"] {
+    display: block !important;
+}
+:is(#equipmentSection, #mysterySection) .repcontrol_del {
+    right: 0;
+}
+:is(#equipmentSection, #mysterySection) .repcontrol_move {
+    left: 0;
+}
+
+
+/* AutoScript, edit, share buttons */
+.autoScriptButton {
+    bottom: 5px;
+    right: 65px;
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/script.png');
+}
+:is(.augmentBlock, .specialBlock, .skillBlock) .autoScriptButton {
+    right: 35px;
+}
+.shareButton {
+    bottom: 5px;
+    right: 5px;
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/share.png'); 
+}
+.editButton {
+    bottom: 5px;
+    right: 35px;
+}
+
+
+/* Edit cover. Used to modify weapon/tool uses, outfit resistances ect. */
+.editCover {
+    position: absolute;
+    z-index: 5;
+    background-image: linear-gradient(rgba(160,160,160,0.8), rgba(160,160,160,0.9), rgba(160,160,160,0.7));
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    padding: 5px;
+    min-height: 25px;
+}
+.editCover .settingStyle {
+    color: var(--color-white);
+}
+.helperText:checked ~ .helperTextContainer .helpers :is(b, .helperInput) {
+    display: none !important;
+}
+.helperText:checked ~ .damageHelperContainer.helperTextContainer :is(.slash, .pierce) {
+    margin-left: -3px;
+    margin-right: 28px;
+}
+.helperText:checked ~ .damageHelperContainer.helperTextContainer .blunt {
+    position: absolute;
+    top: 0px;
+    left: 25px;
+}
+.helperText:checked ~ .damageHelperContainer.helperTextContainer .flatDamage {
+    margin-left: 1px !important;
+}
+.editCover > .rowContainer,
+.editCover > .hide-item,
+.editCover > .hide-item > .rowContainer {
+    position: relative;
+    height: 100%;
+}
+/* Currently unused. Will wrap a fourth ego outfit property down to a second row */
+/* If outfits ever gain more than this many properties a change should probably be made
+   to a columnAligned rowContainer structure */
+.distortionContainer .editCover .rowContainer .rowContainer:nth-child(n+4),
+.egoContainer .editCover .rowContainer .rowContainer:nth-child(n+4) {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+
+/* Outfit custom resistances */
+.outfitCustomResistDisplay {
+    width: 300px;
+}
+:is(.outfitContainer, .egoContainer, .distortionContainer) .editCover .columnAlign {
+    align-items: normal;
+    flex-direction: column;
+    justify-content: start;
+}
+:is(.egoContainer, .distortionContainer) .editCover {
+    padding-bottom: 35px;
+}
+.outfitContainer .editCover > .columnAlign > .rowContainer > .rowContainer, 
+.egoContainer .editCover .columnAlign > .rowContainer > .rowContainer,
+.distortionContainer .editCover > .columnAlign > .rowContainer > .rowContainer,
+.outfitCustomResistDisplay .repitem:has(.hide-toggle:checked)  { width: 82.34px; }
+
+:is(.outfitContainer, .egoContainer) .status_effect_value {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    border-radius: 5px;
+}
+:is(.outfitContainer, .egoContainer, .distortionContainer) .ailmentNum {
+    text-align: center;
+}
+:is(.outfitContainer, .egoContainer, .distortionContainer) .status_effect_item {
+    width: 25px;
+    opacity: 100%;
+}
+.outfitCustomResistDisplay .repcontainer, .egoContainer .repcontainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+/* ===== Equipment and Skills END ===== */
+
+
+
+
+/* ===== AutoScript ===== */
+/* AutoScript editor */
+.autoscriptEditorContainer {
+    position: fixed;
+    top: 0px;
+    left: 2%;
+    width: 95%;
+    z-index: 999;
+}
+#autoScriptEditorToggle + .autoscriptEditorContainer {
+    display:none !important;
+}
+#autoScriptEditorToggle:checked + .autoscriptEditorContainer {
+    display:block !important;
+}
+.autoScriptEditorTarget {
+    position: absolute;
+    top: 2px;
+    left: 145px;
+    color: var(--color-lighter-gray);
+    pointer-events: none;
+}
+.autoscriptEditorContainer label {
+    color: #B3B3B3;
+}
+#autoScriptInput {
+    resize: vertical;
+    overflow: auto;
+    min-height:60px;
+    height: 120px;
+    max-height: 500px;
+}
+
+.autoscriptEditorControls {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    display: flex;
+}
+.autoscriptEditorControls button {
+    height: 25px;
+    width: auto;
+    z-index: 20;
+    padding: 0 4px;
+    margin-left: 6px;
+    border-radius: 5px;
+}
+#autoScriptClose {
+    width: 25px;
+    padding: 0;
+}
+
+
+/* Styling and alias editor toggles */
+:is(#autoScriptStylingDefault, #autoScriptAliasDefault, #autoScriptReturn) { display: none; }
+.toggleStylingButton:checked ~ :is(#autoScriptStylingDefault, #autoScriptReturn) { display: block; }
+.toggleAliasButton:checked ~ :is(#autoScriptAliasDefault, #autoScriptReturn) { display: block; }
+:is(.toggleStylingButton, .toggleAliasButton):checked ~ :is(#autoScriptStyling, #autoScriptAlias) { display: none; }
+
+
+/* AutoEffect conditional buttons */
+.conditionalButtonDisplay .repcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.conditionalButtonDisplay .repitem {
+    width: 49%;
+}
+.conditionalButton {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    padding: 3px;
+    position: relative;
+    border-radius: 12px;
+    border: 1px var(--color-light-gray) solid;
+    background-color: var(--color-green);
+    margin-left: 2px;
+    margin-right: 2px;
+    width: 100%;
+    height: 30px;
+    z-index: 0;
 }
-.ailmentNum {
-    color: var(--color-white);
-    font-weight: bold;
-    background-color: transparent !important;
-    padding-left: 1px;
+.conditionalButtonAct {
+    position: absolute;
+    top: 0;
+    left: 1px;
+    width: calc(100% + 2px);
+    height: 100%;
+    border-radius: 12px;
+    background-color: var(--color-black);
+    opacity: 0.2;
+    z-index: 1;
+}
+.conditionalButtonAct:hover {
+    opacity: 0;
+}
+.conditionalButtonName {
+    position: absolute;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
     text-align: left;
+    left: 0;
+    max-width: calc(95% - 34px);
+    padding-left: 34px;
+    font-size: 9pt;
+    line-height: 1em;
+    max-height: 2em;
+    font-weight: bold;
+    color: var(--color-white);
+    z-index: 3;
 }
-.ailmentNumThisTurn, .ailmentNumDecayPause {
-    width: 30px !important;
-    padding-right: 0px;
+.conditionalButtonIcon {
     position: absolute;
-    left: 3px;
-}
-.ailmentNumDecayPause {
-    color: var(--color-SAN);
-}
-.ailmentNumNextTurn {
-    color: var(--color-lighter-gray);
-    width: 28px !important;
-    padding-right: 0px;
-    position: absolute;
-    left: 25px;
-}
-
-/* This rule disables the spinner (up and down buttons in number inputs) when not hovering over or selecting an ailment field */
-.ailmentNumNextTurn:not(:hover):not(:focus)::-webkit-inner-spin-button,
-.ailmentNumNextTurn:not(:hover):not(:focus)::-webkit-outer-spin-button,
-.ailmentNumThisTurn:not(:hover):not(:focus)::-webkit-inner-spin-button,
-.ailmentNumThisTurn:not(:hover):not(:focus)::-webkit-outer-spin-button,
-.ailmentNumDecayPause:not(:hover):not(:focus)::-webkit-inner-spin-button,
-.ailmentNumDecayPause:not(:hover):not(:focus)::-webkit-outer-spin-button {
-    display: none;
-}
-/* This disables the spinner in Firefox! */
-.ailmentNumNextTurn, .ailmentNumThisTurn, .ailmentNumDecayPause {
-    appearance: textfield;
-}
-.ailmentNumNextTurn:focus, .ailmentNumNextTurn:hover,
-.ailmentNumThisTurn:focus, .ailmentNumThisTurn:hover,
-.ailmentNumDecayPause:focus, .ailmentNumDecayPause:hover {
-    appearance: auto;
-}
-/* If the next turn field is disabled by a hide toggle (Burn/Bleed/Smoke/Charge individual setting) or by a hide toggle rev (Global setting) the standard field is returned to it's normal styling */
-.status_effect_value .hide-toggle:not(:checked) ~ .ailmentNumThisTurn,
-.status_effect_value .hide-toggle-rev:checked ~ .ailmentNumThisTurn,
-.ailmentNumDecayPause {
-    width: 45.5px !important;
-    padding-right: 4px;
-}
-/* This lengthy boi disables interacting with the next turn field while selecting or hovering over the current turn field (the fields partially overlap) */
-:is(.ailmentNumThisTurn:hover, .ailmentNumThisTurn:focus) + :is(.ailmentNumNextTurn) {
     pointer-events: none;
-    z-index:-1;
+    left: 1px;
+    width: 30px;
+    height: 30px;
+    z-index: 3;
+    border-radius: 12px 0 0 12px;
+    border: 1px var(--color-light-gray) solid;
 }
-.ailmentNumDecayPause:not(.reveal-DecayPause) {
+/* ===== AutoScript END ===== */
+
+
+
+
+/* ===== Settings ===== */
+/* General setting (displayed by hovering over cogwheel in top-right corner) */
+#settings label {
+    color: var(--color-white) !important;
+    font-size: 10pt !important;
+}
+#settings {
+    width: 27px;
+    height: 27px;
+    position: absolute;
+    top: 2px;
+    right: 0px;
+    background-color: rgba(0,0,0,0);
+    border-radius: 5px;
+    border: 1px transparent solid;
+    overflow: hidden;
+    color: var(--color-LIGHT);
+    font-weight: bold;
+    z-index: 150;
+}
+#settings:hover {
+    height: auto;
+    width: 530px;
+    border: 1px var(--color-LIGHT) solid;
+    border-radius: 5px 15px 5px 5px;
+    background-color: rgba(0,0,0,0.8);
+}
+.settingsIcon {
+    position: absolute;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top:0;
+    right: 0;
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+    border-radius: 100px;
+    border: 1px var(--color-LIGHT) solid;
+}
+.settingsText {
+    width: 220px;
+    padding: 35px;
+    padding-bottom: 25px;
+}
+.settingsText input[type="checkbox"] {
+    position: absolute;
+}
+.settingsText span:not(.settingsTitle) {
+    position: relative;
+    left: 21px;
+}
+.settingsTitle {
+    line-height: 1.8em;
+}
+
+
+/* Editor tab */
+#sheetSettings h3 {
+    background-color: var(--color-gray);
+    padding: 5px;
+    position: relative;
+}
+.ailmentCustomEditor .repcontrol_move, #globalSettings .repcontrol_move {
     display: none;
 }
-:is(.ailmentNumNextTurn, .ailmentNumThisTurn):has(~ .reveal-DecayPause) {
-    display: none !important;
-}
 
-
-
-#ailmentBlock .contentContainer {
-    padding-top: 10px;
-	padding-bottom: 10px;
-}
-.status_effect_item {
-	width: 30px;
-}
-.status_effect_value {
-    width: 52px;
-    height: 26px;
-    text-align: center;
-    border-radius: 5px;
-}
-.ailmentButton {
+.copyButton {
+    top: 5px;
+    right: 5px;
     background-color: transparent;
-    width: 25px;
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/copy.png');
+    opacity: 50%;
 }
-
-
-/* Automated state detection icons */
-#state_Stagger, #state_Panic, #state_Defeat, #state_Immobile {
-    display: hidden !important;
+.displayButton {
+    top: 5px;
+    right: 35px;
+    background-color: transparent;
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view-hide.png');
+    opacity: 50%;
 }
-#state_Stagger:checked, #state_Panic:checked, #state_Defeat:checked, #state_Immobile:checked {
-    accent-color: var(--color-light-gray);
+.lockButton {
+    height: 30px;
+    width: 30px;
+    top: 3px;
+    left: 5px;
+    border-radius: 0px;
+    background-color: transparent;
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/lock-unlock.png');
+    opacity: 50%;
+}
+.syncIcon {
+    height: 5px;
+    width: 5px;
+    top: 7px;
+    left: 29px;
+    background-color: var(--color-HP);
+    border-radius: 100px;
+}
+.arrowholder {
+    height: 30px; 
+    width: auto !important;
+    position: absolute; 
+    top: 0px; 
+    left: 45px;
+    right: 0px; 
+    z-index: 1;
+}
+.arrow {
+    position: absolute; top: 12px; right: 10px;   
+    width: 0px; 
+    height: 0px; 
+    border-bottom: none;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 14px solid var(--color-white);
+    opacity: 50%;
+}
+.smallarrow {
+    width: 0px; 
+    height: 0px; 
+    border-bottom: none;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 12px solid var(--color-white);
+    opacity: 50%;
+}
+.switch-toggle:checked ~ .arrow {
+    position: absolute; top: 10px; right: 13px;  
+    width: 0px; 
+    height: 0px; 
+    border-left: none;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 14px solid var(--color-white);
+    opacity: 100%;
+}
+.switch-toggle:checked ~ .smallarrow {
+    margin-bottom: 2px;
+    margin-right: 2px;
+    width: 0px; 
+    height: 0px; 
+    border-left: none;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 12px solid var(--color-white);
+    opacity: 100%;
+}
+.switch-toggle:checked ~ .displayButton {
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view.png');
+}
+.switch-toggle:checked ~ .lockButton {
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/lock.png');
     opacity: 100%;
 }
 
 
-/* Custom ailments display */
+/* Game settings (Editor tab) */
+#globalSettings .transpInput {
+    color: var(--color-light-gray) !important;
+}
+
+
+/* Custom ailments (Editor tab) */
+.ailmentCustomEditor {
+    height: 320px;
+}
 .customAilText {
     width: 70px !important;
     text-align: left;
     font-weight: bold;
 }
-.ailmentIconSelector, .ailmentIconSelector .icon, .ailmentIconSelector .skillIcon {
-    height: 25px;
-    width: 25px;
-}
-.ailmentCustomDisplay .repcontainer {
-    display: flex;
-    flex-wrap: wrap;
-    overflow: hidden;
-}
-.ailmentCustomDisplay .repcontrol,
-.outfitCustomResistDisplay .repcontrol,
-.conditionalButtonDisplay .repcontrol {
-    display: none;
-}
-.ailmentCustomDisplay .repitem  {
-    display: inline-block;
-    flex-basis: 33.33%;
-    min-width: 83.2px;
-    overflow: hidden;
-}
-.ailmentCustomEditor {
-    height: 320px;
-}
-.ailmentCustomEditor .repcontrol_move, #globalSettings .repcontrol_move {
-    display: none;
-}
 .ailmentCustomEditor .repcontrol { 
     position: absolute;
     top: -38px;
     right: 0px;
-}
-
-
-/* Game settings and custom ailment editor */
-#globalSettings .repcontrol {
-    display: none;
-}
-#globalSettings ::placeholder {
-    color: var(--color-light-gray) !important;
-}
-#globalSettings .transpInput {
-    color: var(--color-light-gray) !important;
 }
 .ailmentCustomEditor .repitem { 
     margin: 5px;
@@ -2017,10 +2799,431 @@ div.settingStyle:has(select[name="attr_ailTrigger"] > option[value="WhenHit"]:ch
 ~ div.hide-item {
     display: flex !important;
 }
+/* ===== Settings END ===== */
 
 
 
-/* Icons! */
+
+/* ===== Roll templates ===== */
+/* Shared roll template styles */
+
+/* Roll20 adds .charsheet before any styling rules that do not begin with .sheet- or .userscript- */
+/*  :is() and :where() can due to this not be used, leading to some very chucky selectors */
+/*  A lot of older styling is written directly into the roll templates and cannot be found here */
+
+/* styledText is a hacky method of adding inline HTML styling to text. This text is technically a link with no href. These rules style the link to look like normal text */
+.sheet-rolltemplate-message .sheet-styledText,
+.sheet-rolltemplate-errorMessage .sheet-styledText,
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer .sheet-styledText,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer .sheet-styledText,
+.sheet-rolltemplate-message .userscript-autoeffectContainer .sheet-styledText,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer .sheet-styledText {
+    pointer-events: visible;
+    cursor: text;
+    color: var(--color-white);
+}
+.sheet-rolltemplate-message .sheet-styledText:hover,
+.sheet-rolltemplate-errorMessage .sheet-styledText:hover,
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer .sheet-styledText:hover,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer .sheet-styledText:hover,
+.sheet-rolltemplate-message .userscript-autoeffectContainer .sheet-styledText:hover,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer .sheet-styledText:hover {
+    text-decoration: none;
+}
+
+
+/* --- Roll template - Messages --- */
+.sheet-rolltemplate-message div {
+    color: var(--color-white) !important;
+    background-color: rgba(0,0,0,0.5) !important;
+}
+.sheet-rolltemplate-message a,
+.sheet-rolltemplate-errorMessage a {
+    pointer-events: none;
+}
+.sheet-rolltemplate-message img[alt*="icon"],
+.sheet-rolltemplate-errorMessage img[alt*="icon"] {
+    height: 25px;
+    width: 25px;
+}
+
+
+/* --- Roll template - Damage calculations --- */
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer {
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--color-light-gray);
+    position: relative;
+}
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer div {
+    min-height: 25px;
+    line-height: 20px;
+}
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer > div:nth-child(n+2) div {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer div > img:first-child {
+    position: absolute;
+}
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer div > img:first-child + div {
+    margin-left: 25px;
+}
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer > div:nth-child(n+2) {
+    border-bottom: 1px solid var(--color-light-gray);
+}
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer > div:first-child {
+    height: 30px;
+    border: 2px solid var(--color-light-gray);
+}
+.sheet-rolltemplate-damagecalculation .userscript-damageDisplay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    text-align: center;
+    width: 64%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+.sheet-rolltemplate-damagecalculation img {
+    height: 25px;
+    width: 25px;
+}
+.sheet-rolltemplate-damagecalculation .userscript-baseDamage, .sheet-rolltemplate-damagecalculation .userscript-flatModifier {
+    padding-left: 9px;
+    line-height: 25px !important;
+}
+.sheet-rolltemplate-damagecalculation .userscript-updateStatDisplay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 28px;
+    width: 35%;
+    background-color: var(--color-black);
+    border: 2px solid var(--color-black) !important;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    font-size: 16px;
+}
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer:has(div:only-child) {
+    display: none;
+}
+.sheet-rolltemplate-damagecalculation .userscript-hpCalculationContainer div:first-child { color: var(--color-HP); background-color: var(--color-darker-gray); }
+.sheet-rolltemplate-damagecalculation .userscript-stCalculationContainer div:first-child { color: var(--color-ego-STGR); background-color: var(--color-darker-gray); }
+.sheet-rolltemplate-damagecalculation .userscript-spCalculationContainer div:first-child { color: var(--color-SAN); background-color: var(--color-darker-gray); }
+
+
+/* --- Roll template - Dice rolls --- */
+.sheet-rolltemplate-baseRoll .userscript-descriptionContainer {
+    width: 50%;
+    height: auto;
+    float: left;
+}
+.sheet-rolltemplate-baseRoll .userscript-effectDescription {
+    max-height: 70px;
+    overflow: auto;
+    border: 1px var(--color-light-gray) solid;
+    padding-bottom: 1px;
+}
+/* If only one description is present, expand its width to cover the entie container*/
+.sheet-rolltemplate-baseRoll :nth-child(1 of div.userscript-descriptionContainer):not(:has(+ .userscript-descriptionContainer)) {
+    width: 100% !important;
+}
+
+
+/* --- AutoEffect sections --- */
+.sheet-rolltemplate-message .userscript-autoeffectContainer .userscript-autoEffectImage,
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer .userscript-autoEffectImage,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer .userscript-autoEffectImage,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer .userscript-autoEffectImage {
+    height: 25px;
+    width: 25px;
+}
+.sheet-rolltemplate-message .userscript-autoeffectContainer a,
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer a,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer a,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer a {
+    pointer-events: none;
+}
+.sheet-rolltemplate-message .userscript-autoeffectContainer,
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer {
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--color-light-gray);
+    position: relative;
+}
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer {
+    float: left;
+    width: 99.3%;
+}
+.sheet-rolltemplate-message .userscript-autoeffectContainer > .userscript-autoeffectEntry,
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer > .userscript-autoeffectEntry,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer > .userscript-autoeffectEntry,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer > .userscript-autoeffectEntry {
+    position: relative;
+    padding-left: 25px;
+    padding-right: 5px;
+    min-height: 25px;
+    line-height: 20px;
+    border-bottom: 1px solid var(--color-light-gray);
+}
+.sheet-rolltemplate-message .userscript-autoeffectContainer .userscript-autoEffectTitle,
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer .userscript-autoEffectTitle,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer .userscript-autoEffectTitle,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer .userscript-autoEffectTitle {
+    width: calc(100% - 40px);
+}
+.sheet-rolltemplate-message .userscript-autoeffectEntryn div,
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectEntry div,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectEntry div,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectEntry div{
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.sheet-rolltemplate-message .userscript-autoeffectEntryn:has(div:first-child),
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectEntry:has(div:first-child),
+.sheet-rolltemplate-autoeffect .userscript-autoeffectEntry:has(div:first-child),
+.sheet-rolltemplate-baseRoll .userscript-autoeffectEntry:has(div:first-child){
+    padding-left: 9px;
+}
+.sheet-rolltemplate-message .userscript-autoeffectContainer > .userscript-autoeffectEntry > img:first-child,
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer > .userscript-autoeffectEntry > img:first-child,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer > .userscript-autoeffectEntry > img:first-child,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer > .userscript-autoeffectEntry > img:first-child {
+    position: absolute;
+    left: 0;
+}
+
+/* Collapseable section styling */
+.sheet-rolltemplate-message .userscript-collapseSection,
+.sheet-rolltemplate-damagecalculation .userscript-collapseSection,
+.sheet-rolltemplate-baseRoll .userscript-collapseSection {
+    max-height: 29px;
+    transition: max-height 10s 0.1s ease-in;
+    overflow: hidden;
+}
+.sheet-rolltemplate-message .userscript-collapseSection:hover,
+.sheet-rolltemplate-damagecalculation .userscript-collapseSection:hover,
+.sheet-rolltemplate-baseRoll .userscript-collapseSection:hover {
+    max-height: 500px;
+    transition: max-height 3s 0.1s ease;
+}
+/* Removed mergin for every section but the first */
+.sheet-rolltemplate-damagecalculation .userscript-collapseSection ~ .userscript-collapseSection,
+.sheet-rolltemplate-message .userscript-collapseSection ~ .userscript-collapseSection,
+.sheet-rolltemplate-baseRoll .userscript-collapseSection ~ .userscript-collapseSection {
+    margin-top: 0px;
+}
+/* Create arrow to indicate if the section is collapsed... */
+.sheet-rolltemplate-damagecalculation .userscript-collapseSection .userscript-arrow,
+.sheet-rolltemplate-message .userscript-collapseSection .userscript-arrow,
+.sheet-rolltemplate-baseRoll .userscript-collapseSection .userscript-arrow {
+    position: absolute; top: 10px; right: 10px;   
+    width: 0px; 
+    height: 0px; 
+    border-bottom: none;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 10px solid var(--color-white);
+    opacity: 50%;
+    transition: opacity 10s 0.1s ease;
+}
+/* ... or expanded */
+.sheet-rolltemplate-damagecalculation .userscript-collapseSection:hover .userscript-arrow,
+.sheet-rolltemplate-message .userscript-collapseSection:hover .userscript-arrow,
+.sheet-rolltemplate-baseRoll .userscript-collapseSection:hover .userscript-arrow {
+    opacity: 0%;
+    transition: opacity 0.6s 0.1s ease;
+}
+
+
+/* --- Action buttons (buttons below chat messages) --- */
+/* These buttons are in reality a second message styled to look seemless with the message before it */
+.sheet-rolltemplate-actionbuttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    width: 100%;
+}
+.sheet-rolltemplate-actionbuttons .sheet-actionButtonContainer {
+    background-color: #454545;
+    position: relative;
+    top: -10px;
+    left: 2px;
+    padding: 5px;
+    margin: -2px;
+    border-radius: 5px;
+    width: calc(50% - 8px);
+}
+.sheet-rolltemplate-actionbuttons .sheet-button {
+    background-color: #6f8b60;
+    border-radius: 10px;
+}
+.sheet-rolltemplate-actionbuttons .sheet-button a {
+    color: var(--color-white);
+    background-color: rgba(0, 0, 0, 0);
+    border: 0px;
+    border-radius: 10px;
+    width: 76%;
+}
+.sheet-rolltemplate-actionbuttons .sheet-button a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+.sheet-rolltemplate-actionbuttons img {
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+}
+.sheet-rolltemplate-actionbuttons a:has(img) {
+    position: absolute;
+    pointer-events: none;
+    background-color: rgba(0,0,0,0) !important;
+    padding: 4px;
+    z-index: 1;
+}
+.sheet-rolltemplate-actionbuttons a:has(img) + a {
+    padding-left: 25px !important;
+}
+
+/* Chat avatar fix. Creates a blocker that cover the chat avatat, and shifts the message up an additional amount to make up for the space taken by the avatar */
+/* For the love of all that is holy do not change these styling rules. I cannot describe to you how long it took to get them right */
+.sheet-rolltemplate-actionbuttons:not(:first-child) .sheet-actionButtonBlocker,
+.sheet-rolltemplate-actionbuttons:not(:first-child) .sheet-actionButtonBlockerWhisper {
+    position: absolute;
+    height: calc(100% + 16px);
+    margin-top: -60px;
+    background-color: #d3e5f5;
+    top: 25px;
+    left: -50px;
+    right: -50px;
+}
+.sheet-rolltemplate-darkmode .sheet-actionButtonBlocker {
+    background-color: var(--surface-dark2) !important;
+}
+/* The blocker currently uses the standard whisper message background color. Can be set to --surface-dark2 to hide that action buttons were whispered */
+.sheet-rolltemplate-darkmode .sheet-actionButtonBlockerWhisper {
+    background-color: var(--surface-dark-gamecard) !important;
+}
+.sheet-rolltemplate-actionbuttons:not(:first-child):has(:nth-child(3):not(:empty)) {
+    position: relative;
+}
+.sheet-rolltemplate-actionbuttons:not(:first-child) {
+    position: relative;
+    margin-bottom: -25px;
+}
+.sheet-rolltemplate-actionbuttons:not(:first-child) .sheet-actionButtonContainer {
+    top: -35px;
+}
+/* ===== Roll templates END ===== */
+
+
+
+
+/* ===== Assorted ===== */
+/* Auto Update Indicator */
+.autoUpdateIndicator {
+    position: absolute;
+    top: 6px;
+    right: 2px;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 2;
+}
+.loopEnabledToggle:not(:checked) ~ .autoUpdateIndicator {
+    display: none;
+}
+.loopEnabledToggle:checked ~ .autoUpdateIndicator {
+    border: 4px solid var(--color-STGR);
+}
+.loopEnabledToggle:checked + .loopSearchingToggle:checked ~ .autoUpdateIndicator {
+    border: 4px solid var(--color-light-green);
+}
+.loopEnabledToggle:checked ~ .loopStandbyToggle:checked + .autoUpdateIndicator {
+    border: 4px solid var(--color-HP);
+}
+
+
+/* --- Experimental --- */
+
+
+/* --- :target testing --- */
+.sheet-rolltemplate-shareB :target {
+    background-color: gold;
+}
+
+.sheet-rolltemplate-shareB :target::before {
+    content: " ";
+    width: 10px;
+    height: 10px;
+    background-color: red !important;
+}
+  
+/* Add a pseudo-element inside the target element */
+.sheet-rolltemplate-shareB :target::before {
+    font: 70% sans-serif;
+    content: "►";
+    color: limegreen;
+    margin-right: 0.25em; /* Go back here */
+}
+
+/* Style italic elements within the target element */
+.sheet-rolltemplate-shareB :target i {
+    color: red;
+}
+
+
+/* Get Rickrolled */
+.sheet-rolltemplate-testFeature .sheet-testcontainer {
+    display: flex;
+    justify-content: center;
+}
+.sheet-rolltemplate-testFeature .sheet-testcontainer a {
+    display: block;
+    margin: auto;
+    width: 65px;
+    height: 30px;
+    background-color: #111;
+    border: 1px solid #000;
+    border-radius: 3px;
+    color: #fff;
+    padding: 15px 6px 0px 6px;
+
+    font-size: 20px;
+    text-align: center;
+
+    transition: width 5s, height 5s, background-color 5s, color 5s, font-size 5s;
+    transition-timing-function: ease-in-out;
+}
+
+@keyframes example {
+    0%   {background-color:#000000; color: #ffffff; width: 65px; }
+    25%  {background-color:#1f1a1a; color: #ffcece; width: 75px;}
+    50%  {background-color:#2c1e1e; color: #ff9f9f; width: 85px;}
+    75%  {background-color:#352121; color: #ff5656; width: 95px;}
+    100% {background-color:#361f1f; color: #ff0000; width: 105px;}
+}
+
+.sheet-rolltemplate-testFeature .sheet-testcontainer a:hover {
+    background-color:#361f1f;
+    color: #ff0000;
+    width: 105px;
+    height: 42px;
+    font-size: 35px;
+}
+
+
+/* ===== Assorted END ===== */
+
+
+
+
+/* ===== Icons ===== */
 .skillIcon, .typeIcon, .resistIcon {
     background-size: contain;
     background-position: center;
@@ -2139,1042 +3342,42 @@ div.settingStyle:has(select[name="attr_ailTrigger"] > option[value="WhenHit"]:ch
 
 .defeat { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Defeat.png'); }
 .defeat-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Defeat.png'); }
-/* Ailment Icons END */
 
 
 /* Assorted icons */
 .next { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/next.png'); }
 .luck { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/fortunewhite.png'); }
+.speed { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Speed.png'); }
 .whisper { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/whisper.png'); }
+.exit { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/exit.png'); }
+.edit { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png'); }
+.arrowUp { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowUp.png'); }
+.arrowDown { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowDown.png'); }
 
-.reaction { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.6.2/ProjectMoonTRPG/imagesResized/icons/fortunewhite.png'); }
+.reaction { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/fortunewhite.png'); }
 .light { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/light.png'); }
 
 .damageResist { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/DamageResist.png'); }
 .damageResist-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/limbus/DamageResist.png'); }
 
+.portable { background-image: url("https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png"); }
+.reusable { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/reuse.png'); }
+.heal { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/heal.png'); }
 
-/* Sheet tabs */
-#infoSectionToggle.sheet-toggle-show:not(:checked) ~ div.sheet-body, 
-#infoSectionToggle.sheet-toggle-hide:checked ~ div.sheet-body,
-#skillSectionToggle.sheet-toggle-show:not(:checked) ~ div.sheet-body,
-#skillSectionToggle.sheet-toggle-hide:checked ~ div.sheet-body,
-#equipmentSectionToggle.sheet-toggle-show:not(:checked) ~ div.sheet-body,
-#equipmentSectionToggle.sheet-toggle-hide:checked ~ div.sheet-body,
-#exportSectionToggle.sheet-toggle-show:not(:checked) ~ div.sheet-body,
-#exportSectionToggle.sheet-toggle-hide:checked ~ div.sheet-body,
-#editSectionToggle.sheet-toggle-show:not(:checked) ~ div.sheet-body,
-#editSectionToggle.sheet-toggle-hide:checked ~ div.sheet-body {
-    display: none;
-}
+/* ===== Icons END ===== */
 
 
-/* Rolltemplate styling */
-.sheet-rolltemplate-message div {
-    color: var(--color-white) !important;
-    background-color: rgba(0,0,0,0.5) !important;
-}
-.sheet-rolltemplate-message a,
-.sheet-rolltemplate-errorMessage a {
-    pointer-events: none;
-}
-.sheet-rolltemplate-message .sheet-styledText,
-.sheet-rolltemplate-errorMessage .sheet-styledText,
-.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer .sheet-styledText,
-.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer .sheet-styledText,
-.sheet-rolltemplate-message .userscript-autoeffectContainer .sheet-styledText,
-.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer .sheet-styledText {
-    pointer-events: visible;
-    cursor: text;
-    color: #fff;
-}
-.sheet-rolltemplate-message .sheet-styledText:hover,
-.sheet-rolltemplate-errorMessage .sheet-styledText:hover,
-.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer .sheet-styledText:hover,
-.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer .sheet-styledText:hover,
-.sheet-rolltemplate-message .userscript-autoeffectContainer .sheet-styledText:hover,
-.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer .sheet-styledText:hover {
-    text-decoration: none;
-}
-.sheet-rolltemplate-message img[alt*="icon"],
-.sheet-rolltemplate-errorMessage img[alt*="icon"] {
-    height: 25px;
-    width: 25px;
-}
-
-/* Damage helper message styling*/
-.sheet-rolltemplate-damagecalculation img {
-    height: 25px;
-    width: 25px;
-}
-.sheet-rolltemplate-damagecalculation .userscript-calculationContainer {
-    margin-top: 10px;
-    border-radius: 5px;
-    border: 1px solid #555;
-    position: relative;
-}
 
 
-.sheet-rolltemplate-damagecalculation .userscript-calculationContainer div {
-    min-height: 25px;
-    line-height: 20px;
-}
-.sheet-rolltemplate-damagecalculation .userscript-calculationContainer > div:nth-child(n+2) div {
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-.sheet-rolltemplate-damagecalculation .userscript-calculationContainer div > img:first-child {
-    position: absolute;
-}
-.sheet-rolltemplate-damagecalculation .userscript-calculationContainer div > img:first-child + div {
-    margin-left: 25px;
-}
-.sheet-rolltemplate-damagecalculation .userscript-calculationContainer > div:nth-child(n+2) {
-    border-bottom: 1px solid #555;
-}
-.sheet-rolltemplate-damagecalculation .userscript-calculationContainer > div:first-child {
-    height: 30px;
-    border: 2px solid #555;
-}
-.sheet-rolltemplate-damagecalculation .userscript-damageDisplay {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30px;
-    text-align: center;
-    width: 64%;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-}
-.sheet-rolltemplate-damagecalculation .userscript-baseDamage, .sheet-rolltemplate-damagecalculation .userscript-flatModifier {
-    padding-left: 9px;
-    line-height: 25px !important;
-}
-.sheet-rolltemplate-damagecalculation .userscript-updateStatDisplay {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30px;
-    width: 35%;
-    background-color: #000;
-    border: 2px solid #000 !important;
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    font-size: 16px;
-}
-.sheet-rolltemplate-damagecalculation .userscript-calculationContainer:has(div:only-child) {
-    display: none;
-}
-.sheet-rolltemplate-damagecalculation .userscript-hpCalculationContainer div:first-child { color: #cc4125; background-color: #111; }
-.sheet-rolltemplate-damagecalculation .userscript-stCalculationContainer div:first-child { color: #f1c232; background-color: #111; }
-.sheet-rolltemplate-damagecalculation .userscript-spCalculationContainer div:first-child { color: #6d9eeb; background-color: #111; }
-
-/* Description and effect container styling */
-.sheet-rolltemplate-baseRoll .userscript-descriptionContainer {
-    width: 50%;
-    height: auto;
-    float: left;
-}
-/* If only one description is present, expand its width */
-.sheet-rolltemplate-baseRoll :nth-child(1 of div.userscript-descriptionContainer):not(:has(+ .userscript-descriptionContainer)) {
-    width: 100% !important;
-}
-.sheet-rolltemplate-baseRoll .userscript-effectDescription {
-    max-height: 70px;
-    overflow: auto;
-    border: 1px #555 solid;
-    padding-bottom: 1px;
-}
-
-
-/* AutoEffect message styling */
-/* Yes, you have to write them all out like this... */
-.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer .userscript-autoEffectImage,
-.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer .userscript-autoEffectImage,
-.sheet-rolltemplate-message .userscript-autoeffectContainer .userscript-autoEffectImage,
-.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer .userscript-autoEffectImage {
-    height: 25px;
-    width: 25px;
-}
-.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer a,
-.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer a,
-.sheet-rolltemplate-message .userscript-autoeffectContainer a,
-.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer a {
-    pointer-events: none;
-}
-.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer,
-.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer,
-.sheet-rolltemplate-message .userscript-autoeffectContainer,
-.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer {
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #555;
-    position: relative;
-}
-.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer {
-    float: left;
-    width: 99.3%;
-}
-.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer > .userscript-autoeffectEntry,
-.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer > .userscript-autoeffectEntry,
-.sheet-rolltemplate-message .userscript-autoeffectContainer > .userscript-autoeffectEntry,
-.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer > .userscript-autoeffectEntry {
-    position: relative;
-    padding-left: 25px;
-    padding-right: 5px;
-    min-height: 25px;
-    line-height: 20px;
-    border-bottom: 1px solid #555;
-}
-.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer .userscript-autoEffectTitle,
-.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer .userscript-autoEffectTitle,
-.sheet-rolltemplate-message .userscript-autoeffectContainer .userscript-autoEffectTitle,
-.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer .userscript-autoEffectTitle {
-    width: calc(100% - 40px);
-}
-.sheet-rolltemplate-damagecalculation .userscript-autoeffectEntry div,
-.sheet-rolltemplate-autoeffect .userscript-autoeffectEntry div,
-.sheet-rolltemplate-message .userscript-autoeffectEntryn div,
-.sheet-rolltemplate-baseRoll .userscript-autoeffectEntry div{
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-.sheet-rolltemplate-damagecalculation .userscript-autoeffectEntry:has(div:first-child),
-.sheet-rolltemplate-autoeffect .userscript-autoeffectEntry:has(div:first-child),
-.sheet-rolltemplate-message .userscript-autoeffectEntryn:has(div:first-child),
-.sheet-rolltemplate-baseRoll .userscript-autoeffectEntry:has(div:first-child){
-    padding-left: 9px;
-}
-.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer > .userscript-autoeffectEntry > img:first-child,
-.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer > .userscript-autoeffectEntry > img:first-child,
-.sheet-rolltemplate-message .userscript-autoeffectContainer > .userscript-autoeffectEntry > img:first-child,
-.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer > .userscript-autoeffectEntry > img:first-child {
-    position: absolute;
-    left: 0;
-}
-/* Collapseable section styling */
-.sheet-rolltemplate-damagecalculation .userscript-collapseSection,
-.sheet-rolltemplate-message .userscript-collapseSection,
-.sheet-rolltemplate-baseRoll .userscript-collapseSection {
-    max-height: 29px;
-    transition: max-height 10s 0.1s ease-in;
-    overflow: hidden;
-}
-.sheet-rolltemplate-damagecalculation .userscript-collapseSection:hover,
-.sheet-rolltemplate-message .userscript-collapseSection:hover,
-.sheet-rolltemplate-baseRoll .userscript-collapseSection:hover {
-    max-height: 500px;
-    transition: max-height 3s 0.1s ease;
-}
-/* Removed mergin for every section but the first */
-.sheet-rolltemplate-damagecalculation .userscript-collapseSection ~ .userscript-collapseSection,
-.sheet-rolltemplate-message .userscript-collapseSection ~ .userscript-collapseSection,
-.sheet-rolltemplate-baseRoll .userscript-collapseSection ~ .userscript-collapseSection {
-    margin-top: 0px;
-}
-/* Create arrow to indicate if the section is collapsed or expanded */
-.sheet-rolltemplate-damagecalculation .userscript-collapseSection .userscript-arrow,
-.sheet-rolltemplate-message .userscript-collapseSection .userscript-arrow,
-.sheet-rolltemplate-baseRoll .userscript-collapseSection .userscript-arrow {
-    position: absolute; top: 10px; right: 10px;   
-    width: 0px; 
-    height: 0px; 
-    border-bottom: none;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 10px solid #fff;
-    opacity: 50%;
-    transition: opacity 10s 0.1s ease;
-}
-/* Create arrow to indicate if the section is collapsed or expanded */
-.sheet-rolltemplate-damagecalculation .userscript-collapseSection:hover .userscript-arrow,
-.sheet-rolltemplate-message .userscript-collapseSection:hover .userscript-arrow,
-.sheet-rolltemplate-baseRoll .userscript-collapseSection:hover .userscript-arrow {
-    opacity: 0%;
-    transition: opacity 0.6s 0.1s ease;
-}
-
-
-/* Action buttons below chat messages */
-.sheet-rolltemplate-actionbuttons {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    width: 100%;
-}
-.sheet-rolltemplate-actionbuttons .sheet-actionButtonContainer {
-    background-color: #454545;
-    position: relative;
-    top: -10px;
-    left: 2px;
-    padding: 5px;
-    margin: -2px;
-    border-radius: 5px;
-    width: calc(50% - 8px);
-}
-.sheet-rolltemplate-actionbuttons .sheet-button {
-    background-color: #6f8b60;
-    border-radius: 10px;
-}
-.sheet-rolltemplate-actionbuttons .sheet-actionButtonContainer:not(:has(div)) {
-    display: none;
-}
-.sheet-rolltemplate-actionbuttons .sheet-button a {
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0);
-    border: 0px;
-    border-radius: 10px;
-    width: 76%;
-}
-.sheet-rolltemplate-actionbuttons .sheet-button a:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-}
-.sheet-rolltemplate-actionbuttons img {
-    width: 20px;
-    height: 20px;
-    margin-right: 2px;
-}
-.sheet-rolltemplate-actionbuttons a:has(img) {
-    position: absolute;
-    pointer-events: none;
-    background-color: rgba(0,0,0,0) !important;
-    padding: 4px;
-    z-index: 1;
-}
-.sheet-rolltemplate-actionbuttons a:has(img) + a {
-    padding-left: 25px !important;
-}
-
-
-/* Chat avatar fix */
-/* For the love of all that is holy do not change these styling rules. I cannot describe to you how long it took to get them right */
-.sheet-rolltemplate-actionbuttons:not(:first-child) .sheet-actionButtonBlocker,
-.sheet-rolltemplate-actionbuttons:not(:first-child) .sheet-actionButtonBlockerWhisper {
-    position: absolute;
-    height: calc(100% + 16px);
-    margin-top: -60px;
-    background-color: #d3e5f5;
-    top: 25px;
-    left: -50px;
-    right: -50px;
-}
-.sheet-rolltemplate-darkmode .sheet-actionButtonBlocker {
-    background-color: var(--surface-dark2) !important;
-}
-.sheet-rolltemplate-darkmode .sheet-actionButtonBlockerWhisper {
-    background-color: var(--surface-dark-gamecard) !important;
-}
-.sheet-rolltemplate-actionbuttons:not(:first-child):has(:nth-child(3):not(:empty)) {
-    position: relative;
-}
-.sheet-rolltemplate-actionbuttons:not(:first-child) {
-    position: relative;
-    margin-bottom: -25px;
-}
-.sheet-rolltemplate-actionbuttons:not(:first-child) .sheet-actionButtonContainer {
-    top: -35px;
-}
-
-
-/* Alright here's the actual sheet tab switching functionality */
-.toggleButtons {
-width: 100%;
-height: 60px;
-min-width: 800px;
-max-width: 860px;
-display: flex;
-align-items: center;
-justify-content: center;
-}
-
-.sheet-equipment,
-.sheet-skills,
-.sheet-details,
-.sheet-edit,
-.sheet-export {
-    display: none;
-}
-
-/* show the selected tab */
-.sheet-tabstoggle[value="equipment"] ~ div.sheet-equipment,
-.sheet-tabstoggle[value="skills"] ~ div.sheet-skills,
-.sheet-tabstoggle[value="details"] ~ div.sheet-details,
-.sheet-tabstoggle[value="export"] ~ div.sheet-export,
-.sheet-tabstoggle[value="edit"] ~ div.sheet-edit {
-    display: block;
-}
-
-.sheet-tabstoggle[value="equipment"] ~ div #equipmentButton, .sheet-tabstoggle[value="skills"] ~ div #skillsButton, .sheet-tabstoggle[value="details"] ~ div #detailsButton, .sheet-tabstoggle[value="export"] ~ div #exportButton, .sheet-tabstoggle[value="edit"] ~ div #editButton {
-    color: var(--color-LIGHT) !important;
-    background-color: var(--color-gray);
-}
-
-.toggleButtons button {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    font-size: 16pt;
-    font-weight: bold;
-    border-radius: 5px 5px 0px 0px;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--color-darker-gray);
-    color: #888 !important;
-}
-
-
-/* Combat options */
-.combatOptionsContainer {
-    margin-bottom: 4px;
-    gap: 4px;
-}
-.combatOptionsContainer > .rowContainer {
-    justify-content: space-between;
-}
-.combatOptionsContainer .helpers {
-    margin-left: 0;
-    margin-right: 0;
-}
-.combatOptionsContainer b {
-    display: inline-block;
-    margin-bottom: 2px; 
-}
-.darkButton {
-    height: 22px;
-    width: 100%;
-    padding: 0 4px;
-    border-radius: 3px;
-    color: var(--color-white) !important;
-    background-color: var(--color-dark-gray) !important;
-    border: 1px var(--color-darker-gray) solid;
-    font-weight: bold;
-}
-
-/* Combat options - Targeting and Defence */
-.targetAndDefenceContainer .tokenName {
-    display: inline-block;
-    width: 100%;
-    height: 12px !important;
-    padding: 0;
-    margin-bottom: 2px; 
-    font-size: 9pt;
-    font-weight: bold;
-    text-align: center;
-    opacity: 30%;
-    color: var(--color-white);
-    background-color: transparent;
-    pointer-events: none;
-}
-.targetAndDefenceContainer .tokenName::placeholder {
-    opacity: 100% !important;
-}
-.targetAndDefenceContainer :is(img[src=""], img:not([src])) {
-    display: none;
-}
-.targetAndDefenceContainer :is(img[src=""], img:not([src])) + input[type="number"] {
-    display: none;
-}
-.targetAndDefenceContainer .bars {
-    height: 24px;
-    background-color: var(--color-dark-gray);
-}
-.targetAndDefenceContainer .bars.bars:not(:first-child) {
-    margin-left: 2px;
-}
-.targetAndDefenceContainer .Cstat {
-    width: 100% !important;
-    font-size: 12pt;
-    pointer-events: none;
-}
-.targetAndDefenceContainer .Cstat::-webkit-inner-spin-button,
-.targetAndDefenceContainer .Cstat::-webkit-outer-spin-button {
-    display: none;
-}
-/* This disables the spinner in Firefox */
-.targetAndDefenceContainer .Cstat {
-    appearance: textfield;
-}
-.targetAndDefenceContainer .rowContainer {
-    justify-content: start;
-}
-.selectTargetButton, .targetToken {
-    height: 44px; 
-    width: 44px;
-}
-.selectTargetButton {
-    padding: 3px;
-    border-radius: 5px;
-    background-color: var(--color-dark-gray) !important;
-    border: 1px var(--color-darker-gray) solid;
-}
-.targetToken {
-    opacity: 0.5;
-}
-.selectTargetIcon {
-    height: 50px; 
-    width: 50px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.6.2/ProjectMoonTRPG/imagesResized/icons/target.png');
-}
-/* Last defence dice display */
-.defenceDice {
-    height: 52px !important;
-    width: 52px !important;
-    padding: 4px;
-    font-size: 20px;
-    text-shadow: var(--color-black) 0 0 3px, var(--color-black) 0 0 10px;
-    text-align: center;
-    border: 1px var(--color-darker-gray) solid !important;
-    border-radius: 5px;
-    background-color: var(--color-dark-gray) !important;
-    background-size: 45px;
-    background-position: 45% 45%;
-    background-repeat: no-repeat;
-    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.6.2/ProjectMoonTRPG/imagesResized/icons/egoDef.png');
-}
-.defenceDice:not(:hover):not(:focus)::-webkit-inner-spin-button,
-.defenceDice:not(:hover):not(:focus)::-webkit-outer-spin-button {
-    display: none;
-}
-/* This disables the spinner in Firefox */
-.defenceDice {
-    appearance: textfield;
-}
-.defenceDice:focus, .defenceDice:hover {
-    appearance: auto;
-}
-
-/* Combat options - Action and regen trackers */
-.resourceContainer {
-    justify-content: flex-start !important;
-    gap: 4px;
-}
-.actionTrackerContainer, .lightRegenContainer {
-    height: 24px;
-    gap: 4px;
-}
-.resourceTracker {
-    position: relative;
-    background-size: 22px;
-    background-repeat: no-repeat;
-    height: 100% !important;
-    width: 100% !important;
-    padding-left: 22px;
-    border-radius: 3px;
-    background-color: var(--color-dark-gray);
-}
-.resourceTracker :is(.resourceTrackerValue, .resourceTrackerMax) {
-    background-color: transparent;
-    box-sizing: content-box;
-    height: 100% !important;
-    padding: 0;
-    color: white;
-    font-weight: bold;
-    font-size: 12pt;
-    appearance: textfield;
-}
-.resourceTracker .resourceTrackerValue {
-    float: left;
-    width: calc(50% - 2px) !important;
-    min-width: 26px;
-    padding-left: calc(20% - 6px)
-}
-.resourceTracker .resourceTrackerMax {
-    position: absolute;
-    right: 0;
-    width: calc(50% - 11px) !important;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    text-align: center;
-    color: rgb(0, 0, 0, 0.5);
-}
-.resourceTracker.reaction .resourceTrackerMax { background-color: var(--color-darker-white); }
-.resourceTracker.egoSpecial .resourceTrackerMax { background-color: var(--color-orange); }
-.resourceTracker.egoAtt .resourceTrackerMax { background-color: var(--color-red); }
-.resourceTracker.egoDef .resourceTrackerMax { background-color: var(--color-blue); }
-.resourceTracker.egoEvd .resourceTrackerMax { background-color: var(--color-STGR); }
-
-.resourceTrackerValue:not(:hover):not(:focus)::-webkit-inner-spin-button,
-.resourceTrackerValue:not(:hover):not(:focus)::-webkit-outer-spin-button,
-.resourceTrackerMax::-webkit-inner-spin-button,
-.resourceTrackerMax::-webkit-outer-spin-button {
-    display: none;
-}
-
-/*
-.simpleCombatOptions:checked ~ .resourceContainer .lightRegenContainer .resourceTracker {
-    padding-left: 5px;
-    min-width: 32px;
-}
-.simpleCombatOptions:checked ~ .resourceContainer .lightRegenContainer .resourceTrackerValue {
-    text-align: right;
-}
-.simpleCombatOptions:checked ~ .resourceContainer .lightRegenContainer .resourceTrackerValue::-webkit-textfield-decoration-container { flex-direction: row-reverse; }
-*/
-.simpleCombatOptions:checked ~ .resourceContainer .resourceTracker { width: 15px !important; }
-.simpleCombatOptions:checked ~ .resourceContainer .resourceTrackerMax { display: none; }
-.resourceContainer:has(.hide-toggle:not(:checked) + .actionTrackerContainer) { gap: 0px; }
-
-/* Combat options - Combat toggle */
-.combatToggleContainer {
-    margin-bottom: 4px;
-}
-
-
-/* Generic token mode display */
-.genericTokenContainer {
-    position: fixed;
-    bottom: 0px;
-    left: 0%;
-    width: calc(99% - 14px);
-    z-index: 999;
-    padding: 5px;
-    background-color: #1F1F1F !important;
-}
-#genericTokenModeToggle + .genericTokenContainer {
-    display: none !important;
-}
-#genericTokenModeToggle:checked + .genericTokenContainer {
-    display: flex !important;
-}
-.genericTokenInstanceContainer {
-    resize: vertical;
-    max-height: 450px;
-    min-height: 150px;
-    overflow-y: auto;
-}
-.genericTokenInstanceContainer .repcontainer {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: calc(99% - 64px);
-}
-.genericTokenInstanceContainer .repcontrol { 
-    display: none;
-}
-
-
-/* Generic token controls */
-.genericTokenSelectButton {
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    height: 20%;
-    width: calc(100% + 2px);
-    background-color: transparent;
-}
-.genericToken_controls {
-    justify-content: space-around;
-    width: 50px;
-    height: 130px;
-    margin: 10px 5px 10px 5px;
-}
-.genericToken_controls button {
-    background-color: transparent;
-}
-
-/* Individual generic token*/
-.genericToken {
-    height: 130px;
-    width: 120px;
-    margin: 5px;
-}
-.style-toggle:checked + .genericToken {
-    height: 126px;
-    border: 2px solid #666;
-}
-.genericToken .tokenName {
-    background-color: transparent;
-    color: var(--color-lighter-gray);
-    width: 100%;
-    padding: 0;
-    pointer-events: none;
-    overflow: ellipsis;
-}
-.genericToken .bars {
-    width: 100px !important;
-    height: 20px;
-}
-.genericToken .bars:not(:first-child) {
-    margin-top: 2px;
-}
-.genericToken :is(.Cstat, .Mstat, .Tstat) {
-    font-size: 12pt;
-}
-.genericToken .Mstat{
-    width: 33% !important;
-    padding: 4px 2px 4px 2px;
-}
-.genericToken .Tstat {
-    width: auto !important;
-    left: 30px;
-    z-index: 3;
-}
-.tokenAilment, .targetAilment {
-    width: 25px;
-    height: 25px;
-    margin-top: 2px;
-}
-:is(.tokenAilment, .targetAilment) img {
-    position: relative;
-    opacity: 90%;
-    left: 0;
-    width: 25px;
-    height: 25px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: 1;
-}
-:is(.tokenAilment, .targetAilment) input[type="number"] {
-    position: relative;
-    top: -25px;
-    left: -2px;
-    background-color: transparent;
-    color: var(--color-white);
-    font-weight: bold;
-    text-shadow: var(--color-black) 0 0 3px, var(--color-black) 0 0 5px, var(--color-black) 0 0 10px;
-    padding-left: 2px;
-    text-align: center;
-    z-index: 2;
-}
-.targetAilment {
-    pointer-events: none;
-}
-.tokenAilment input[type="number"]:not(:hover):not(:focus)::-webkit-inner-spin-button,
-.tokenAilment input[type="number"]:not(:hover):not(:focus)::-webkit-outer-spin-button {
-    display: none;
-}
-.tokenAilment input[type="number"]:hover, :hover::-webkit-inner-spin-button,
-.tokenAilment input[type="number"]:hover, :hover::-webkit-outer-spin-button,
-.tokenAilment input[type="number"]:focus, :hover::-webkit-inner-spin-button,
-.tokenAilment input[type="number"]:focus, :hover::-webkit-outer-spin-button {
-    z-index: 3;
-}
-.tokenAilment input[type="number"] {
-    appearance: textfield;
-}
-.tokenAilment input[type="number"]:not(:hover):not(:focus) {
-    width: 31px !important;
-}
-.tokenAilment input[type="number"]:focus, .tokenAilment input[type="number"]:hover {
-    appearance: auto;
-    width: 3.5em;
-}
-
-
-/* AutoScript Editor */
-.autoscriptEditorContainer {
-    position: fixed;
-    top: 0px;
-    left: 2%;
-    width: 95%;
-    z-index: 999;
-}
-#autoScriptEditorToggle + .autoscriptEditorContainer {
-    display:none !important;
-}
-#autoScriptEditorToggle:checked + .autoscriptEditorContainer {
-    display:block !important;
-}
-.autoScriptEditorTarget {
-    position: absolute;
-    top: 2px;
-    left: 145px;
-    color: var(--color-lighter-gray);
-    pointer-events: none
-}
-.autoscriptEditorContainer label {
-    color: #B3B3B3;
-}
-#autoScriptInput {
-    resize: vertical;
-    overflow: auto;
-    min-height:60px;
-    height: 120px;
-    max-height: 500px;
-}
-
-
-/* AutoEffect conditional buttons */
-.conditionalButtonDisplay .repcontainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-.conditionalButtonDisplay .repitem {
-    width: 49%;
-}
-.conditionalButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    border-radius: 12px;
-    border: 1px var(--color-light-gray) solid;
-    background-color: var(--color-green);
-    margin-left: 2px;
-    margin-right: 2px;
-    width: 100%;
-    height: 30px;
-    z-index: 0;
-}
-.conditionalButtonAct {
-    position: absolute;
-    top: 0;
-    left: 1px;
-    width: calc(100% + 2px);
-    height: 100%;
-    border-radius: 12px;
-    background-color: var(--color-black);
-    opacity: 0.2;
-    z-index: 1;
-}
-.conditionalButtonAct:hover {
-    opacity: 0;
-}
-.conditionalButtonName {
-    position: absolute;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-    left: 0;
-    max-width: calc(95% - 34px);
-    padding-left: 34px;
-    font-size: 9pt;
-    line-height: 1em;
-    max-height: 2em;
-    font-weight: bold;
-    color: var(--color-white);
-    z-index: 3;
-}
-.conditionalButtonIcon {
-    position: absolute;
-    pointer-events: none;
-    left: 1px;
-    width: 30px;
-    height: 30px;
-    z-index: 3;
-    border-radius: 12px 0 0 12px;
-    border: 1px var(--color-light-gray) solid;
-}
-
-
-/* Assorted buttons */
-.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton {
-    position: absolute;
-    height: 25px;
-    width: 25px;
-    z-index: 20;
-    border-radius: 5px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-:is(.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton):hover {
-    background-color: rgba(0, 0, 0, 0.3) !important;
-}
-:is(.speed, .NDice, .challengeButton, .declare, .btn, .selectTargetButton, .defenceDice, .autoscriptEditorControls button, .darkButton):hover {
-    background-color: var(--color-black) !important;
-}
-
-.shareButton {
-    bottom: 5px;
-    right: 5px;
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/share.png'); 
-}
-
-.editButton {
-    bottom: 5px;
-    right: 35px;
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png');
-}
-
-.autoScriptButton {
-    bottom: 5px;
-    right: 65px;
-    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/script.png');
-}
-
-/*
-    position: absolute;
-    height: 25px;
-    width: 25px;
-    z-index: 20;
-    border-radius: 5px;
-*/
-.autoscriptEditorControls {
-    position: absolute;
-    top: 4px;
-    right: 6px;
-    display: flex;
-}
-.autoscriptEditorControls button {
-    height: 25px;
-    width: auto;
-    z-index: 20;
-    padding: 0 4px;
-    margin-left: 6px;
-    border-radius: 5px;
-}
-#autoScriptClose {
-    width: 25px;
-    padding: 0;
-    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/exit.png');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-:is(#autoScriptStylingDefault, #autoScriptAliasDefault, #autoScriptReturn) { display: none; }
-.toggleStylingButton:checked ~ :is(#autoScriptStylingDefault, #autoScriptReturn) { display: block; }
-.toggleAliasButton:checked ~ :is(#autoScriptAliasDefault, #autoScriptReturn) { display: block; }
-:is(.toggleStylingButton, .toggleAliasButton):checked ~ :is(#autoScriptStyling, #autoScriptAlias) { display: none; }
-
-
-:is(.augmentBlock, .specialBlock, .skillBlock) .autoScriptButton {
-    right: 35px;
-}
-
-.copyButton {
-    top: 5px;
-    right: 5px;
-    background-color: transparent;
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/copy.png');
-    opacity: 50%;
-}
-
-.displayButton {
-    top: 5px;
-    right: 35px;
-    background-color: transparent;
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view-hide.png');
-    opacity: 50%;
-}
-
-.lockButton {
-    height: 30px;
-    width: 30px;
-    top: 3px;
-    left: 5px;
-    border-radius: 0px;
-    background-color: transparent;
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/lock-unlock.png');
-    opacity: 50%;
-}
-
-.syncIcon {
-    height: 5px;
-    width: 5px;
-    top: 7px;
-    left: 29px;
-    background-color: var(--color-HP);
-    border-radius: 100px;
-}
-
-.arrowholder {
-    height: 30px; 
-    width: auto !important;
-    position: absolute; 
-    top: 0px; 
-    left: 45px;
-    right: 0px; 
-    z-index: 1;
-}
-
-.arrow {
-    position: absolute; top: 12px; right: 10px;   
-    width: 0px; 
-    height: 0px; 
-    border-bottom: none;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 14px solid var(--color-white);
-    opacity: 50%;
-}
-
-.switch-toggle:checked ~ .arrow {
-    position: absolute; top: 10px; right: 13px;  
-    width: 0px; 
-    height: 0px; 
-    border-left: none;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    border-right: 14px solid var(--color-white);
-    opacity: 100%;
-}
-
-.smallarrow {
-    width: 0px; 
-    height: 0px; 
-    border-bottom: none;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 12px solid var(--color-white);
-    opacity: 50%;
-}
-
-.switch-toggle:checked ~ .smallarrow {
-    margin-bottom: 2px;
-    margin-right: 2px;
-    width: 0px; 
-    height: 0px; 
-    border-left: none;
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    border-right: 12px solid var(--color-white);
-    opacity: 100%;
-}
-
-.switch-toggle:checked ~ .displayButton {
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view.png');
-}
-
-.switch-toggle:checked ~ .lockButton {
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/lock.png');
-    opacity: 100%;
-}
-
-.btn {
-    border-radius: 5px;
-    background-image: none;
-    background-color: var(--color-dark-gray) !important;
-    border: 1px var(--color-darker-gray) solid;
-    height: 20px;
-    padding: 3px;
-    border-radius: 3px;
-    color: var(--color-white) !important;
-    background-color: var(--color-dark-gray) !important;
-    border: 1px var(--color-darker-gray) solid;
-    font-weight: bold;
-    min-width: 40px;
-    background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0));
-    text-align: center;
-    text-shadow: none;
-    box-shadow: none !important;
-    margin-right: 5px;
-    margin-left: 5px;
-}
-
-/* Seem to be used specifically for custom ailments */
-.btn-danger {
-    width: 45px;
-    height: 25px;
-}
-
-/* Colors */
-:root {
+/* ===== Colors ===== */
+.charsheet,
+.sheet-rolltemplate-message,
+.sheet-rolltemplate-errorMessage,
+.sheet-rolltemplate-damagecalculation,
+.sheet-rolltemplate-autoeffect,
+.sheet-rolltemplate-baseRoll,
+.sheet-rolltemplate-actionbuttons,
+.sheet-rolltemplate-shareB  {
     --color-white: #fff;
     --color-off-white: #eee;
     --color-dark-white: #ddd;
@@ -3206,19 +3409,19 @@ justify-content: center;
 }
 
 .conditioalButtonColorSelection[value="blue"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="blue"])  { background-color: #7397d1; }
+.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="blue"])  { background-color: var(--color-blue); }
 .conditioalButtonColorSelection[value="yellow"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="yellow"])  { background-color: #dbb748; }
+.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="yellow"])  { background-color: var(--color-STGR); }
 .conditioalButtonColorSelection[value="orange"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="orange"]) { background-color: #cf8c44; }
+.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="orange"]) { background-color: var(--color-orange); }
 .conditioalButtonColorSelection[value="red"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="red"]) { background-color: #c25944; }
+.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="red"]) { background-color: var(--color-red); }
 .conditioalButtonColorSelection[value="purple"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="purple"])  { background-color: #8e7cc3; }
+.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="purple"])  { background-color: var(--color-purple); }
 .conditioalButtonColorSelection[value="green"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="green"])  { background-color: #85a874; }
+.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="green"])  { background-color: var(--color-green); }
 .conditioalButtonColorSelection[value="black"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="black"])  { background-color: #000; }
+.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="black"])  { background-color: var(--color-black); }
 
 .WHITE { background-color: var(--color-off-white) !important; }
 .BLACK { background-color: var(--color-black) !important; }
@@ -3274,13 +3477,13 @@ justify-content: center;
     color: var(--color-HP) !important;
     height: 30px;
 }
-.egoDiceATK input, .egoDiceATK .plainText {
+.egoDiceATK :is(input, .plainText) {
     color: var(--color-HP) !important;
 }
-.egoDiceDEF input, .egoDiceDEF .plainText {
+.egoDiceDEF :is(input, .plainText) {
     color: var(--color-SAN) !important;
 }
-.egoDiceEVD input, .egoDiceEVD .plainText {
+.egoDiceEVD :is(input, .plainText) {
     color: var(--color-ego-STGR) !important;
 }
-/* Colors end */
+/* ===== Colors END ===== */
