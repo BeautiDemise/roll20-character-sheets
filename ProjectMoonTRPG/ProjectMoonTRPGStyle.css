@@ -471,6 +471,25 @@ select {
     background-color: var(--color-dark-white);
     margin-bottom: 0px;
 }
+
+/* Dropdowns */
+select:focus { background-color: rgba(0, 0, 0, var(--select-alpha-focus)) !important; }
+option { background-color: rgba(0, 0, 0, var(--option-alpha)); }
+option:checked { background-color: rgba(0, 0, 0, var(--option-alpha-checked)); }
+
+.whiteInput      {--select-alpha-focus: 0.20; --option-alpha: 0.65; --option-alpha-checked: 0.45; }
+.darkInput       {--select-alpha-focus: 0.35; --option-alpha: 0.25; --option-alpha-checked: 0.15; }
+.exportSelect    {--select-alpha-focus: 0.30; --option-alpha: 0.20; --option-alpha-checked: 0.10; }
+.paletteButton   {--select-alpha-focus: 0.30; }
+.outfitContainer {--option-alpha: 0.075; --option-alpha-checked: 0; }
+
+.settingStyle select:not(.whiteInput, .darkInput) {
+    background-color: var(--color-dark-white) !important;
+}
+.settingStyle             {--option-alpha: 0.10; --option-alpha-checked: 0; }
+.settingStyle .whiteInput {--select-alpha-focus: 0.15; --option-alpha: 0.40; --option-alpha-checked: 0.30; }
+.settingStyle .darkInput  {--select-alpha-focus: 0.35; --option-alpha: 0.45; --option-alpha-checked: 0.30; }
+
 .transpInput {
     background-color: rgba(0,0,0,0) !important;
     color: var(--color-white);
@@ -2067,9 +2086,6 @@ button[type=action].challengeButton::before {
 }
 .weaponRangeBox select, .weaponPropertySelect select{
     width: 70px;
-    background-color: rgba(0,0,0,0.2) !important;
-    color: var(--color-white);
-    font-weight: bold;
 }
 .weaponDescription, .weaponEffect {
     width: 50%;
@@ -2217,9 +2233,6 @@ button[type=action].challengeButton::before {
     margin-top: 2px !important;
     margin-left: 5px !important;
 }
-:is(.skillN, .skillE, .settingStyle) select.whiteInput:focus {
-    background-color: rgba(0, 0, 0, 0.2) !important;
-}
 /* Ego skills */
 .skillE .icon {
     border: 1px #888 solid !important;
@@ -2269,7 +2282,7 @@ button[type=action].challengeButton::before {
 .resistanceChart.BLACK select {
     border: 1px solid var(--color-black)
 }
-.egoContainer select.whiteInput:focus {
+.egoContainer select:focus {
     background-color: rgba(50, 50, 50, 0.4) !important;
 }
 .egoCheck {

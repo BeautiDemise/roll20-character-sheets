@@ -4786,14 +4786,14 @@
 	
 			<!-- Weapon properties -->
 			<div class="weaponPropertySelect weapon"> 
-				<select name="attr_damageType" class="weapon_type">
+				<select name="attr_damageType" class="weapon_type darkInput">
 					<option value="None" data-i18n="weapon-type-None">---</option>
 					<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
 					<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
 					<option data-i18n="weapon-type-Blunt" value="Blunt">Blunt</option>
 				</select>
 	
-				<select name="attr_range" class="weapon_distance">
+				<select name="attr_range" class="weapon_distance darkInput">
 					<option value="None" data-i18n="weapon-type-None">---</option>
 					<option data-i18n="weapon-type-Melee" value="Melee">Melee</option>
 					<option data-i18n="weapon-type-Ranged" value="Ranged">Ranged</option>
@@ -4903,14 +4903,14 @@
 		<!-- Weapon1 Edit end -->
 
 		<div class="weaponPropertySelect weapon"> 
-			<select name="attr_weapon1Type" class="weapon_type">
+			<select name="attr_weapon1Type" class="weapon_type darkInput">
 				<option value="None" data-i18n="weapon-type-None">---</option>
 				<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
 				<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
 				<option data-i18n="weapon-type-Blunt" value="Blunt">Blunt</option>
 			</select>
 
-			<select name="attr_weapon1Range" class="weapon_distance">
+			<select name="attr_weapon1Range" class="weapon_distance darkInput">
 				<option value="None" data-i18n="weapon-type-None">---</option>
 				<option data-i18n="weapon-type-Melee" value="Melee">Melee</option>
 				<option data-i18n="weapon-type-Ranged" value="Ranged">Ranged</option>
@@ -5012,14 +5012,14 @@
 		<!-- Weapon2 Edit end -->
 
 		<div class="weaponPropertySelect weapon"> 
-			<select name="attr_weapon2Type" class="weapon_type">
+			<select name="attr_weapon2Type" class="weapon_type darkInput">
 				<option value="None" data-i18n="weapon-type-None">---</option>
 				<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
 				<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
 				<option data-i18n="weapon-type-Blunt" value="Blunt">Blunt</option>
 			</select>
 
-			<select name="attr_weapon2Range" class="weapon_distance">
+			<select name="attr_weapon2Range" class="weapon_distance darkInput">
 				<option value="None" data-i18n="weapon-type-None">---</option>
 				<option data-i18n="weapon-type-Melee" value="Melee">Melee</option>
 				<option data-i18n="weapon-type-Ranged" value="Ranged">Ranged</option>
@@ -5124,14 +5124,14 @@
 		<!-- Weapon3 Edit end -->
 
 		<div class="weaponPropertySelect weapon"> 
-			<select name="attr_weapon3Type" class="weapon_type">
+			<select name="attr_weapon3Type" class="weapon_type darkInput">
 				<option value="None" data-i18n="weapon-type-None">---</option>
 				<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
 				<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
 				<option data-i18n="weapon-type-Blunt" value="Blunt">Blunt</option>
 			</select>
 
-			<select name="attr_weapon3Range" class="weapon_distance">
+			<select name="attr_weapon3Range" class="weapon_distance darkInput">
 				<option value="None" data-i18n="weapon-type-None">---</option>
 				<option data-i18n="weapon-type-Melee" value="Melee">Melee</option>
 				<option data-i18n="weapon-type-Ranged" value="Ranged">Ranged</option>
@@ -5233,14 +5233,14 @@
 		<!-- Weapon4 Edit end -->
 
 		<div class="weaponPropertySelect weapon"> 
-			<select name="attr_weapon4Type" class="weapon_type">
+			<select name="attr_weapon4Type" class="weapon_type darkInput">
 				<option value="None" data-i18n="weapon-type-None">---</option>
 				<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
 				<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
 				<option data-i18n="weapon-type-Blunt" value="Blunt">Blunt</option>
 			</select>
 
-			<select name="attr_weapon4Range" class="weapon_distance">
+			<select name="attr_weapon4Range" class="weapon_distance darkInput">
 				<option value="None" data-i18n="weapon-type-None">---</option>
 				<option data-i18n="weapon-type-Melee" value="Melee">Melee</option>
 				<option data-i18n="weapon-type-Ranged" value="Ranged">Ranged</option>
@@ -7402,7 +7402,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 	<div class="rowContainer centerFlex">
 		<button type="action" class="declare" name="act_clearButton" id="clear_editorOutput" data-i18n-title="reset-button" title="Reset" style="position: absolute; left: 0;">x</button>
 
-		<select name="attr_exportType" class="darkInput" style="width: 200px !important; position: absolute; left: 90px; margin-bottom: 0px;">
+		<select name="attr_exportType" class="darkInput exportSelect" style="width: 200px !important; position: absolute; left: 90px; margin-bottom: 0px;">
 			<option data-i18n="export-type-All" value="All">All</option>
 			<option data-i18n="export-type-Equip" value="Equip">Equipment</option>
 			<option data-i18n="export-type-Skill" value="Skills">Skills</option>
@@ -7980,10 +7980,10 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 </div>
 
 <button type="action" name="act_exportRepeating" data-i18n="message-export" class="btn">Export</button>
-  <select name="attr_customImportMode" class="darkInput" style="width: 100px;">
+<select name="attr_customImportMode" class="darkInput exportSelect" style="width: 100px;">
     <option data-i18n="import-type-replace" value="Replace" selected>Replace</option>
     <option data-i18n="import-type-add" value="Add">Add</option>
-  </select>
+</select>
 <button type="action" name="act_importRepeating" data-i18n="message-import" class="btn">Import</button>
 </div>
 <!-- Menu END -->
@@ -12627,6 +12627,12 @@ function rollCombat(info) {
 
 /* Executes one or more rolls and posts the results to the chat */
 function executeRolls(rollArray, callback=()=>{}) {
+	getAttrs(["settingWhisperRolls", "settingWhisperTarget"], function(values) {
+
+	let whisperrolls = values.settingWhisperRolls;
+	let whispertarget = values.settingWhisperTarget;
+	let whisper = (whisperrolls == "true") ? "/w " + whispertarget : "";
+	
 	let message = "";
 	let returnValues = {}
 	let output = {}
@@ -12635,15 +12641,16 @@ function executeRolls(rollArray, callback=()=>{}) {
 		{ // Multi-hit attack with a different weapon for the second attack
 			type: "Attack",
 			diceFormat: [
-				{count: 1, max: 12, power: 2, adv: "Advantage", storable: true},
+				{count: 1, max: 12, power: 2, adv: "Advantage", storable: true}, // Count no longer rolls multiple seperate dice, and instead combine them into one roll (similar to stat rolls)
 				{count: 1, max: 11, power: 3, adv: false}
 			],
-			AutoScript: "(Gain 1 Tremor) (Inflict 2 Burn, Clash Win)", // Displays differently when 
+			AutoScript: "(Gain 1 Tremor) (Inflict 2 Burn, Clash Win)", // If multiple dice are rolled, AutoEffect messages display next to their associated roll
 			icon: false, // Uses default icon and color (Attack symbol over a red dice)
-			origin: false,
+			origin: false, // Source of the dice. Displays in a grayed out italic text between the header and description
 			store: { // Allows storing of dice. If the diceFormat is an array, only dice with storable = true can be stored
 				immediate: false, // Dice is rolled and can be stored afterwards. If false, the dice is not rolled and stored immediately
-				duration: 1, // Dice is stored for 1 round. Should be "Combat" when using effects that last until the next turn (needs to be removed manually). If unset the roll is removed on use
+				duration: 1, // Dice is stored for 1 round. Can be set to "Combat", "Recover" or "Refresh" to last until the next of these actions. If unset, lasts until the dice is used or manually removed
+				uses: 2, // The dice can be used 2 times. If set to a non-integer value the dice has an unlimited amount of uses
 				charId: "-abc", // Character id of the attacking character. If set, only this character can store dice from the attack. Can be another character's id
 				tokenId: false, // As charId above, but also requires a specific token id. Swaps to the correct token if needed
 			},
@@ -12651,7 +12658,7 @@ function executeRolls(rollArray, callback=()=>{}) {
 			description: false, // The description without any AutoEffect messages. Can contain HTML and inline rolls
 			variable: false // The name of the variable the result is saved to
 		},
-		{ // Standard fortitude stat roll with disadvantage. Stat rolls either add the bad/normal/bood element using HTML, or sets a challange value in the template which reveals the extra HTML
+		{ // Standard fortitude stat roll with disadvantage. Stat rolls either add the bad/normal/good element using HTML, or sets a challange value in the template which reveals the extra HTML
 			type: "Fortitude",
 			diceFormat: {count: 2, max: 6, power: 1, adv: "Disadvantage"},
 			AutoScript: false,
@@ -12664,7 +12671,7 @@ function executeRolls(rollArray, callback=()=>{}) {
 		},
 		{ // Poise roll. Would usually be together with the Clash Win effects after the attack
 			type: "Custom",
-			diceFormat: {count: 1, max: 10, power: 0, adv: false, result: 7}, // If result is set, [[result]] is rolled instead of [[1d10+0]]
+			diceFormat: {count: 1, max: 10, power: 0, adv: false, result: 7}, // If result is set, [[result]] is rolled instead of [[1d10+0]]. Useful when the result is calculated before the message is sent
 			AutoScript: false,
 			icon: {
 				image: "https://...limbus/Poise.png", // Uses a custom icon over a dark dice
@@ -12681,18 +12688,18 @@ function executeRolls(rollArray, callback=()=>{}) {
 				},
 			},
 			description: false,
-			variable: "Poise roll" // Stores result for any further use. Could alternatively be an attribute name (repeating_ailments_-abc_ailRollResult)
+			variable: "PoiseRoll" // Stores result for any further use. Could alternatively be an attribute name (repeating_ailments_-abc_ailRollResult)
 		}
 	]
+
+	rollArray = exampleRoll;
+
+	console.log(rollArray)
 
 	
 	for (let rollIndex = 0; rollIndex < rollArray.length; rollIndex++) {
 		let roll = rollArray[rollIndex];
 		
-
-
-
-
 		
 		if (combatDiceNames.includes(roll.type)) {
 
@@ -12712,6 +12719,14 @@ function executeRolls(rollArray, callback=()=>{}) {
 	}
 
 	/* Send the roll message */
+	//   Header: Consists of a title, and icon, an optional image and any generated tabs
+	//   Body: Displays each rolls and any associated headers/descriptions/etc. The rolls are inline. Each roll is hidden by default if tabs are used
+	//   Chat buttons: Sent seperately
+	startRoll((whisper + `&{template:baseRoll} {{header=${header}}} {{body=${body}}}`), (results) => {
+		finishRoll(results.rollId);
+	});
+
+
 
 	/*
 	Uses #allprops. Consists of a container and a header with a name equal to the prop key. All other HTML elements are created from the prop value
@@ -12723,6 +12738,7 @@ function executeRolls(rollArray, callback=()=>{}) {
 	if (callback != "()=>{}") {
 		callback(returnValues);
 	}
+	});
 }
 
 /* Action: Challenge Roll */
@@ -14055,7 +14071,12 @@ on("clicked:shareOutfit", function() {
 
 
 on("clicked:testButton", function(values) {
-	changeIframe("https://www.youtube.com/embed/dQw4w9WgXcQ?si=eSYcqdXVCkheSQGk", "", "charsheet");
+	executeRolls([], (returnValues) => {
+		console.log(" --- Finished test --- ")
+		console.log("returnValues: ", returnValues)
+	});
+	
+	//changeIframe("https://www.youtube.com/embed/dQw4w9WgXcQ?si=eSYcqdXVCkheSQGk", "", "charsheet");
 });
 
 function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='" class="') {
