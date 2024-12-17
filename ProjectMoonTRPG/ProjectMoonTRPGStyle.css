@@ -61,7 +61,7 @@
         ○ Damage calculations
         ○ Dice rolls
         ○ AutoEffect sections
-        ○ Action buttons
+        ○ Chat buttons
     - Assorted
         ○ Auto Update indicator
         ○ Experimental
@@ -640,6 +640,9 @@ h3, h4, .viewerName {
 :is(.hoverSpinner:not(:hover):not(:focus), .noSpinner)::-webkit-inner-spin-button,
 :is(.hoverSpinner:not(:hover):not(:focus), .noSpinner)::-webkit-outer-spin-button {
     display: none;
+}
+.hoverSpinner::-webkit-inner-spin-button, .hoverSpinner::-webkit-outer-spin-button {
+    z-index: 20;
 }
 /* Hide spinner on Firefox */
 .hoverSpinner {
@@ -1246,7 +1249,7 @@ button[type=action].challengeButton::before {
 }
 .ailmentButton {
     background-color: transparent;
-    width: 25px;
+    width: 25px !important;
 }
 .ailmentNum {
     color: var(--color-white);
@@ -1397,11 +1400,15 @@ button[type=action].challengeButton::before {
     float: left;
     padding: 3px;
     border-radius: 5px;
-    background-color: var(--color-dark-gray) !important;
-    border: 1px var(--color-darker-gray) solid;
+}
+.selectTargetButton:has(img[src^="http"]) {
+    border-color: rgba(var(--color-rgb-LIGHT), 0.6);
+}
+.selectTargetButton img[src^="http"] ~ .selectTargetIcon {
+    display: none;
 }
 .targetToken {
-    opacity: 0.5;
+    opacity: 0.8;
 }
 .selectTargetIcon {
     height: 50px; 
@@ -1459,6 +1466,7 @@ button[type=action].challengeButton::before {
 }
 .resourceTracker .resourceMax {
     position: absolute;
+    background-color: var(--resource-color);
     right: 0;
     width: calc(55% - 13px) !important;
     border-top-left-radius: 0;
@@ -1493,7 +1501,7 @@ button[type=action].challengeButton::before {
     height: 20px;
     width: 100%;
     box-sizing: border-box;
-    border: 1px solid var(--color-lighter-gray);
+    border: 1px solid var(--resource-color);
     border-radius: 3px;
     pointer-events: none;
     z-index: 5;
@@ -1504,11 +1512,11 @@ button[type=action].challengeButton::before {
 #editResourceToggle:not(:checked) + div .resourceBase {
     display: none !important;
 }
-.resourceTracker:has(.reaction) .resourceMax { background-color: var(--color-darker-white); }
-.resourceTracker:has(.egoSpecial) .resourceMax { background-color: var(--color-orange); }
-.resourceTracker:has(.egoAtt) .resourceMax { background-color: var(--color-red); }
-.resourceTracker:has(.egoDef) .resourceMax { background-color: var(--color-blue); }
-.resourceTracker:has(.egoEvd) .resourceMax { background-color: var(--color-STGR); }
+.resourceTracker:has(.reaction) { --resource-color: var(--color-darker-white); }
+.resourceTracker:has(.egoSpecial) { --resource-color: var(--color-orange); }
+.resourceTracker:has(.egoAtt) { --resource-color: var(--color-red); }
+.resourceTracker:has(.egoDef) { --resource-color: var(--color-blue); }
+.resourceTracker:has(.egoEvd) { --resource-color: var(--color-STGR); }
 
 .resourceContainer:has(.hide-toggle-rev-next[name="attr_settingActionTracker"]:checked) .resourceTracker:has(.light) {
     width: 265px !important;
@@ -3042,59 +3050,64 @@ div.settingStyle:has(select[name="attr_ailTrigger"] > option[value="WhenHit"]:ch
 }
 
 
-/* --- Action buttons (buttons below chat messages) --- */
+/* --- Chat buttons (buttons below chat messages) --- */
 /* These buttons are in reality a second message styled to look seemless with the message before it */
-.sheet-rolltemplate-actionbuttons {
+.sheet-rolltemplate-chatbuttons {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-content: flex-start;
     width: 100%;
 }
-.sheet-rolltemplate-actionbuttons .sheet-actionButtonContainer {
+.sheet-rolltemplate-chatbuttons .sheet-chatButtonContainer {
     background-color: #454545;
     position: relative;
+    box-sizing: border-box;
     top: -10px;
     left: 2px;
     padding: 5px;
-    margin: -2px;
+    margin: -2px; /* Due to this margin every gap between two chat buttons removes 4px of width from a row. The width calc below accounts for this */
     border-radius: 5px;
-    width: calc(50% - 8px);
+    width: calc((100% + (var(--buttonsPerRow) - 1) * 4px)/var(--buttonsPerRow));
 }
-.sheet-rolltemplate-actionbuttons .sheet-button {
+.sheet-rolltemplate-chatbuttons .sheet-chatButtonContainer:has([class*="sheet-HalfButton"]) { --buttonsPerRow: 2 }
+.sheet-rolltemplate-chatbuttons .sheet-chatButtonContainer:has([class*="sheet-ThirdButton"]) { --buttonsPerRow: 3 }
+
+.sheet-rolltemplate-chatbuttons .sheet-button {
     background-color: #6f8b60;
     border-radius: 10px;
 }
-.sheet-rolltemplate-actionbuttons .sheet-button a {
+.sheet-rolltemplate-chatbuttons .sheet-button a {
+    box-sizing: border-box;
     color: var(--color-white);
     background-color: rgba(0, 0, 0, 0);
     border: 0px;
     border-radius: 10px;
-    width: 76%;
+    width: 100%;
 }
-.sheet-rolltemplate-actionbuttons .sheet-button a:hover {
+.sheet-rolltemplate-chatbuttons .sheet-button a:hover {
     background-color: rgba(255, 255, 255, 0.15);
 }
-.sheet-rolltemplate-actionbuttons img {
+.sheet-rolltemplate-chatbuttons img {
     width: 20px;
     height: 20px;
     margin-right: 2px;
 }
-.sheet-rolltemplate-actionbuttons a:has(img) {
+.sheet-rolltemplate-chatbuttons a:has(img) {
     position: absolute;
     pointer-events: none;
     background-color: rgba(0,0,0,0) !important;
     padding: 4px;
     z-index: 1;
 }
-.sheet-rolltemplate-actionbuttons a:has(img) + a {
+.sheet-rolltemplate-chatbuttons a:has(img) + a {
     padding-left: 25px !important;
 }
 
-/* Chat avatar fix. Creates a blocker that cover the chat avatat, and shifts the message up an additional amount to make up for the space taken by the avatar */
+/* Chat avatar fix. Creates a blocker that cover the chat avatar, and shifts the message up an additional amount to make up for the space taken by the avatar */
 /* For the love of all that is holy do not change these styling rules. I cannot describe to you how long it took to get them right */
-.sheet-rolltemplate-actionbuttons:not(:first-child) .sheet-actionButtonBlocker,
-.sheet-rolltemplate-actionbuttons:not(:first-child) .sheet-actionButtonBlockerWhisper {
+.sheet-rolltemplate-chatbuttons:not(:first-child) .sheet-chatButtonBlocker,
+.sheet-rolltemplate-chatbuttons:not(:first-child) .sheet-chatButtonBlockerWhisper {
     position: absolute;
     height: calc(100% + 16px);
     margin-top: -60px;
@@ -3103,21 +3116,21 @@ div.settingStyle:has(select[name="attr_ailTrigger"] > option[value="WhenHit"]:ch
     left: -50px;
     right: -50px;
 }
-.sheet-rolltemplate-darkmode .sheet-actionButtonBlocker {
+.sheet-rolltemplate-darkmode .sheet-chatButtonBlocker {
     background-color: var(--surface-dark2) !important;
 }
-/* The blocker currently uses the standard whisper message background color. Can be set to --surface-dark2 to hide that action buttons were whispered */
-.sheet-rolltemplate-darkmode .sheet-actionButtonBlockerWhisper {
+/* The blocker currently uses the standard whisper message background color. Can be set to --surface-dark2 to hide that chat buttons were whispered */
+.sheet-rolltemplate-darkmode .sheet-chatButtonBlockerWhisper {
     background-color: var(--surface-dark-gamecard) !important;
 }
-.sheet-rolltemplate-actionbuttons:not(:first-child):has(:nth-child(3):not(:empty)) {
+.sheet-rolltemplate-chatbuttons:not(:first-child):has(:nth-child(3):not(:empty)) {
     position: relative;
 }
-.sheet-rolltemplate-actionbuttons:not(:first-child) {
+.sheet-rolltemplate-chatbuttons:not(:first-child) {
     position: relative;
     margin-bottom: -25px;
 }
-.sheet-rolltemplate-actionbuttons:not(:first-child) .sheet-actionButtonContainer {
+.sheet-rolltemplate-chatbuttons:not(:first-child) .sheet-chatButtonContainer {
     top: -35px;
 }
 /* ===== Roll templates END ===== */
@@ -3376,7 +3389,7 @@ div.settingStyle:has(select[name="attr_ailTrigger"] > option[value="WhenHit"]:ch
 .sheet-rolltemplate-damagecalculation,
 .sheet-rolltemplate-autoeffect,
 .sheet-rolltemplate-baseRoll,
-.sheet-rolltemplate-actionbuttons,
+.sheet-rolltemplate-chatbuttons,
 .sheet-rolltemplate-shareB  {
     --color-white: #fff;
     --color-off-white: #eee;
@@ -3400,6 +3413,7 @@ div.settingStyle:has(select[name="attr_ailTrigger"] > option[value="WhenHit"]:ch
     --color-ego-STGR: #f1c232;
     --color-SAN: #6d9eeb;
     --color-LIGHT: #fee2b0;
+    --color-rgb-LIGHT: 254, 226, 176;
     --color-TEMP: #1f9bd9c0;
     --color-wisdom: #d9d9d9;
     --color-justice: #46bdc6;
@@ -3409,19 +3423,19 @@ div.settingStyle:has(select[name="attr_ailTrigger"] > option[value="WhenHit"]:ch
 }
 
 .conditioalButtonColorSelection[value="blue"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="blue"])  { background-color: var(--color-blue); }
+.sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="blue"])  { background-color: var(--color-blue); }
 .conditioalButtonColorSelection[value="yellow"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="yellow"])  { background-color: var(--color-STGR); }
+.sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="yellow"])  { background-color: var(--color-STGR); }
 .conditioalButtonColorSelection[value="orange"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="orange"]) { background-color: var(--color-orange); }
+.sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="orange"]) { background-color: var(--color-orange); }
 .conditioalButtonColorSelection[value="red"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="red"]) { background-color: var(--color-red); }
+.sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="red"]) { background-color: var(--color-red); }
 .conditioalButtonColorSelection[value="purple"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="purple"])  { background-color: var(--color-purple); }
+.sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="purple"])  { background-color: var(--color-purple); }
 .conditioalButtonColorSelection[value="green"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="green"])  { background-color: var(--color-green); }
+.sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="green"])  { background-color: var(--color-green); }
 .conditioalButtonColorSelection[value="black"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-actionbuttons .sheet-button:has(img[alt*="black"])  { background-color: var(--color-black); }
+.sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="black"])  { background-color: var(--color-black); }
 
 .WHITE { background-color: var(--color-off-white) !important; }
 .BLACK { background-color: var(--color-black) !important; }

@@ -103,7 +103,7 @@
 
 			<label for="ConditionalButtonReminder"><input type="checkbox" id="ConditionalButtonReminder" name="attr_settingHideConditionalButtonReminder" value="true"><span data-i18n="settings-hideconditionalreminder">Hide: Conditional button reminder</span></label>
 
-			<label for="HideActionButtons"><input type="checkbox" id="HideActionButtons" name="attr_settingHideActionButtons" value="true"><span data-i18n="settings-hideactionbuttons">Hide: Action buttons</span></label>
+			<label for="HideChatButtons"><input type="checkbox" id="HideChatButtons" name="attr_settingHideChatButtons" value="true"><span data-i18n="settings-hidechatbuttons">Hide: Chat buttons</span></label>
 			
 			<label for="HideBaseEffect"><input type="checkbox" id="HideBaseEffect" name="attr_settingHideBaseEffect" value="true"><span data-i18n="settings-hidebaseeffect">Hide: Base effects</span></label>
 		</div>
@@ -2134,7 +2134,7 @@
 			<div class="hide-item rowContainer">
 				<div class="columnAlign helpers">
 					<b data-i18n="helper-text-selecttarget">Target</b>
-					<button type="action" class="selectTargetButton" name="act_selectTarget" title="Select target. Double click button to reset target" data-i18n-title="helper-text-selecttarget-title">
+					<button type="action" class="darkButton selectTargetButton" name="act_selectTarget" title="Select target. Double click button to reset target" data-i18n-title="helper-text-selecttarget-title">
 						<img name="attr_targetToken" class="targetToken">
 						<input type="text" name="attr_selfToken" hidden>
 						<div class="selectTargetIcon"></div>
@@ -2225,7 +2225,7 @@
 							</label>
 							<input type="checkbox" class="fade-toggle" name="attr_Action" value="0" hidden="true" checked="">
 							<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Action">
-							<input type="number" min="0" value="0" class="resourceMax hoverSpinner" name="attr_Action_max">
+							<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Action_max">
 							<input type="number" min="0" value="0" class="resourceBase" name="attr_Action_base">
 						</div>
 					</div>
@@ -2243,7 +2243,7 @@
 
 							<input type="checkbox" class="fade-toggle" name="attr_Reaction" value="0" hidden="true" checked="">
 							<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Reaction">
-							<input type="number" min="0" value="0" class="resourceMax hoverSpinner" name="attr_Reaction_max">
+							<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Reaction_max">
 							<input type="number" min="0" value="0" class="resourceBase" name="attr_Reaction_base">
 						</div>
 					</div>
@@ -2256,7 +2256,7 @@
 							<button type="action" class="light resourceTypeSelector" name="act_lightClicker" data-i18n-title="helper-light-regen" title="Light regen"></button>
 							<input type="checkbox" class="fade-toggle" name="attr_Light_Regen" value="0" hidden="true" checked="">
 							<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Light_Regen">
-							<input type="number" min="0" value="0" class="resourceMax hoverSpinner LIGHT" name="attr_Light_Regen_max">
+							<input type="number" min="0" value="0" class="resourceMax noSpinner LIGHT" name="attr_Light_Regen_max">
 							<input type="number" min="0" value="0" class="resourceBase" name="attr_Light_Regen_base">
 						</div>
 					</div>
@@ -2285,7 +2285,7 @@
 						</label>
 						<input type="checkbox" class="fade-toggle" name="attr_Counter" value="0" hidden="true" checked="">
 						<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Counter">
-						<input type="number" min="0" value="0" class="resourceMax hoverSpinner" name="attr_Counter_max">
+						<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Counter_max">
 						<input type="number" min="0" value="0" class="resourceBase" name="attr_Counter_base">
 					</div>
 						
@@ -2295,7 +2295,7 @@
 						</label>
 						<input type="checkbox" class="fade-toggle" name="attr_Block" value="0" hidden="true" checked="">
 						<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Block">
-						<input type="number" min="0" value="0" class="resourceMax hoverSpinner" name="attr_Block_max">
+						<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Block_max">
 						<input type="number" min="0" value="0" class="resourceBase" name="attr_Block_base">
 					</div>
 		
@@ -2305,7 +2305,7 @@
 						</label>
 						<input type="checkbox" class="fade-toggle" name="attr_Evade" value="0" hidden="true" checked="">
 						<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Evade">
-						<input type="number" min="0" value="0" class="resourceMax hoverSpinner" name="attr_Evade_max">
+						<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Evade_max">
 						<input type="number" min="0" value="0" class="resourceBase" name="attr_Evade_base">
 					</div>
 
@@ -8447,15 +8447,16 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 <div style="display:none">
 <button type="action" name="act_selectToken"></button>
 <button type="action" name="act_deleteTokenMultiple"></button>
-<button type="action" name="act_actionButtonDamage"></button>
-<button type="action" name="act_actionButton"></button>
+<button type="action" name="act_chatButtonDamage"></button>
+<button type="action" name="act_chatButtonRoll"></button>
+<button type="action" name="act_chatButton"></button>
 </div>
 
-<rolltemplate class="sheet-rolltemplate-actionbuttons">
-    <div class="sheet-actionButtonBlocker{{whisperMode}}"></div>
+<rolltemplate class="sheet-rolltemplate-chatbuttons">
+    <div class="sheet-chatButtonBlocker{{whisperMode}}"></div>
 	{{#allprops() whisperMode}}
-	<div class="sheet-actionButtonContainer">
-		<div class="sheet-button">
+	<div class="sheet-chatButtonContainer">
+		<div class="sheet-button sheet-{{key}}">
 			{{value}}
 		</div>
 	</div>
@@ -8542,7 +8543,7 @@ const autoEffectOptionsExpand = {
 const conditionalOptions = {
 	"Section":			["All"],
 	"IgnoreFailure":	["Require", "Consume"],
-	"ActionButton":		[...autoEffectOptions.Target, "Inflict", "Give", "FlatDamage"]
+	"ChatButton":		[...autoEffectOptions.Target, "Inflict", "Give", "FlatDamage"]
 }
 const triggerOptions = [
 	"First round"
@@ -8717,7 +8718,7 @@ const aliasDefault =
 	[#Offensive #First round,
 		(Inflict #N #Ailment Silent)
 		(CustomMessage “[/TARGET] Flash #Ailment: Inflict [SCALING NUM] [TARGET]”)
-		(CustomMessage “[/TARGET] Flash #Ailment: Gain [SCALING NUM] [TARGET] [[INITIAL] -> [RESULT]]” Target, Apply ailments #ActionButton)
+		(CustomMessage “[/TARGET] Flash #Ailment: Gain [SCALING NUM] [TARGET] [[INITIAL] -> [RESULT]]” Target, Apply ailments #ChatButton)
 	#]
 #}
 {# #Ailment-maniac #N;
@@ -8806,7 +8807,7 @@ const aliasDefault =
 {# Press Advantage, #Clash? #Result?;
 	(Require 2 Bind Target Scaling Silent #IgnoreFailure, #Clash #Result)
 	(Inflict 1 TYPE_Fragility Silent, #Clash #Result)
-	(CustomMessage "[/Bind] Press Advantage: Gain [SCALING] [TARGET] next round [[INITIAL] -> [RESULT]]" Target, Apply ailments #ActionButton)
+	(CustomMessage "[/Bind] Press Advantage: Gain [SCALING] [TARGET] next round [[INITIAL] -> [RESULT]]" Target, Apply ailments #ChatButton)
 	(CustomMessage "[/Bind] Press Advantage: Inflict **TYPE Fragility** on the target equal to half their **Bind**", #Clash #Result)
 	(Reset, #Clash #Result)
 #}
@@ -8816,14 +8817,14 @@ const aliasDefault =
 /* Burn Support Effects */
 /* ---------------------------- */
 {# Detonate;
-	(Proc Burn Target Silent, Clash Win, Detonate #ActionButton)
-	(CustomMessage "[/Burn] Detonate: Activate **Burn**" Target, Clash Win, Detonate #ActionButton)
+	(Proc Burn Target Silent, Clash Win, Detonate #ChatButton)
+	(CustomMessage "[/Burn] Detonate: Activate **Burn**" Target, Clash Win, Detonate #ChatButton)
 #}
 {# Smokey Detonate;
-	(Require 1 Burn Scaling Target Silent, Clash Win, Smokey Detonate #ActionButton)
-	(Inflict 0.5 Smoke Silent, Clash Win, Smokey Detonate #ActionButton)
-	(CustomMessage "[/TARGET] Gain [SCALING NUM] [TARGET] [[INITIAL] -> [RESULT]]" Target, Clash Win, Smokey Detonate #ActionButton)
-	(Proc Burn Target, Clash Win, Smokey Detonate #ActionButton)
+	(Require 1 Burn Scaling Target Silent, Clash Win, Smokey Detonate #ChatButton)
+	(Inflict 0.5 Smoke Silent, Clash Win, Smokey Detonate #ChatButton)
+	(CustomMessage "[/TARGET] Gain [SCALING NUM] [TARGET] [[INITIAL] -> [RESULT]]" Target, Clash Win, Smokey Detonate #ChatButton)
+	(Proc Burn Target, Clash Win, Smokey Detonate #ChatButton)
 	(CustomMessage "Activate **Burn** on the target and inflict **Smoke** equal to the remaining **Burn**", Clash Win, Smokey Detonate #Section)
 #}
 {# Renewed Blaze;
@@ -8831,20 +8832,20 @@ const aliasDefault =
 	(CustomMessage "Renewed Blaze: **Burn** on target does not decay for its next activation", Clash Win)
 #}
 {# Fireball N;
-	(Require 1 Burn Scaling Target Silent, Clash Win, Fireball #ActionButton)
-	(FlatDamage 1 Select, Clash Win, Fireball #ActionButton, Fireball Area Damage #ActionButton)
+	(Require 1 Burn Scaling Target Silent, Clash Win, Fireball #ChatButton)
+	(FlatDamage 1 Select, Clash Win, Fireball #ChatButton, Fireball Area Damage #ChatButton)
 	(CustomMessage "Activate **Burn** on the target. All characters within N square(s) of the target take [SCALING] **Burn** damage (affected by resistances)", Clash Win, Fireball #Section)
-	(Proc Burn Target, Clash Win, Fireball #ActionButton)
+	(Proc Burn Target, Clash Win, Fireball #ChatButton)
 #}
 
 
 /* --------------------------------- */
 /* Frostbite Support Effects */
 /* --------------------------------- */
-{# Cold Snap #ActionButton;
-	(Proc Frostbite Target, Clash Win, Cold Snap #ActionButton #ActionButton)
-	(Consume 1 Frostbite Target Scaling, Clash Win, Cold Snap #ActionButton)
-	(CustomMessage "Activate **Frostbite** on the target, then fully clear Frostbite", Clash Win, Cold Snap #ActionButton)
+{# Cold Snap #ChatButton;
+	(Proc Frostbite Target, Clash Win, Cold Snap #ChatButton)
+	(Consume 1 Frostbite Target Scaling, Clash Win, Cold Snap #ChatButton)
+	(CustomMessage "Activate **Frostbite** on the target, then fully clear Frostbite", Clash Win, Cold Snap #ChatButton)
 #}
 {# Deep Chill;
 	(Pause 1 Frostbite Target, Clash Win)
@@ -8862,7 +8863,7 @@ const aliasDefault =
 	(Inflict 1 Bind Silent, Clash Win)
 	(CustomMessage “Chill Out: Gain [SCALING] [TARGET] [[INITIAL] -> [RESULT]]" Target, Clash Win)
 	(Reset, Clash Win)
-	(CustomMessage "Chill Out: Inflict **Bind** to the target equal to half their **Frostbite**" Target, Apply ailments #ActionButton)
+	(CustomMessage "Chill Out: Inflict **Bind** to the target equal to half their **Frostbite**" Target, Apply ailments #ChatButton)
 #}
 
 
@@ -8966,7 +8967,7 @@ Consumes X amount of Smoke on the target to inflict N ailment. Requires targetin
 {# Steal Energy #N;
 	(Gain {3*#N} Charge, Clash Win)
 	(Consume #N Charge Target Silent #IgnoreFailure, Clash Win)
-	(CustomMessage “Reduce [TARGET] by [-NUM] [[INITIAL] -> [RESULT]]” Target, Clash Win #ActionButton)
+	(CustomMessage “Reduce [TARGET] by [-NUM] [[INITIAL] -> [RESULT]]” Target, Clash Win #ChatButton)
 	(CustomMessage “Steal Energy: Reduce **Charge** of target by **1**”, Clash Win)
 	(Reset, Clash Win)
 #}
@@ -10025,17 +10026,31 @@ function unknownTarget(returnMode="false") {
 /* --- Action button functionality --- */
 
 /* Creates one or more action buttons and post them to the chat */
-/* Taken in a buttonList of the format: {target1: {name1: {icon, color, data}, name2: {...}, ...}, target2: {...}, ...} */
-async function createActionButtons(buttonList) {
-	getAttrs(["settingHideActionButtons", "settingWhisperRolls", "settingWhisperTarget", "targetName", "targetTokenId"], async function(values) {
+/* Taken in a buttonList of the format: {target1: {name1: {icon, color, data, type}, name2: {...}, ...}, target2: {...}, ...} */
+/*   size: One of "half" or "third". Used for styling the width of chat buttons */
+/* The reactions option can be included to show reaction buttons. If set to a tokenId, the buttons will target that generic token (if it exists) */
+async function createChatButtons(buttonList, options={reactions:false}) {
+	getAttrs(["settingHideChatButtons", "settingWhisperRolls", "settingWhisperTarget"], async function(values) {
 
-	if (values.settingHideActionButtons == "true") { return; }
+	if (values.settingHideChatButtons == "true") { return; }
 
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let i = 0;
 
-	for (const [buttonTarget, button] of Object.entries(buttonList)) {
+	/* Include reaction buttons if requested */
+	if (options.reactions !== false) {
+		/* If all buttons use selected, show the buttons to all characters. Otherwise only show reaction buttons for targeted characters */
+		if (buttonList.selected && length(buttonList) == 1) {
+			buttonList.selected = {...generateReactionButtons(), ...buttonList.selected}
+		} else {
+			for (const buttonTarget of Object.keys(buttonList).filter(key => key != "selected")) {
+				buttonList[buttonTarget] = {...generateReactionButtons(options.reactions), ...buttonList[buttonTarget]}
+			}
+		}
+	}
+
+	for (const [buttonTarget, buttons] of Object.entries(buttonList)) {
 
 		/* Whisper roll */
 		let whispermode = whisper = "";
@@ -10048,11 +10063,11 @@ async function createActionButtons(buttonList) {
 			whispermode = "Whisper";
 		}
 
-		let rollBase = whisper + `&{template:actionbuttons} {{whisperMode=${whispermode}}} `;
+		let rollBase = whisper + `&{template:chatbuttons} {{whisperMode=${whispermode}}} `;
 		
-		for (const [buttonName, buttonValues] of Object.entries(button)) {
+		for (const [buttonName, buttonValues] of Object.entries(buttons)) {
 			
-			rollBase += `{{button${i++}=[${buttonValues.color}](${buttonValues.icon})[${buttonName}](~${buttonTarget}|${buttonValues.transferFunction}||${Data.package(buttonValues.data)})}}`;
+			rollBase += `{{${buttonValues.size}Button${i++}=[${buttonValues.color}](${buttonValues.icon})[${buttonName}](~${buttonTarget}|${buttonValues.transferFunction}||${Data.package(buttonValues.data)})}}`;
 
 			/* If targeting, add targeting update data to the action button */
 			//if (isGM == "false" && dataList[`targetid${i}`] == targetName) {
@@ -10067,12 +10082,12 @@ async function createActionButtons(buttonList) {
 	});
 }
 
-function generateActionButton(buttonList, target, name, icon, color, data, transferFunction) {
+function generateChatButton(buttonList, target, name, icon, color, data, transferFunction, size) {
 	name = name.replace(/(Apply damage)/ig, getTranslationByKeyCustom("Apply damage", "helper-text-applydamage"));
 	name = name.replace(/(Apply ailments)/ig, getTranslationByKeyCustom("Apply ailments", "helper-text-applyailments"));
 	name = name.replace(/(Give ailments)/ig, getTranslationByKeyCustom("Give ailments", "helper-text-giveailments"));
 
-	let newButton = {icon:icon, color:color, data:data, transferFunction:transferFunction}
+	let newButton = {icon:icon, color:color, data:data, transferFunction:transferFunction, size:size}
 	
 	/* Create new button. If the button already exist, append the AutoEffect to the button's AutoScript */
 	if (buttonList[target] && buttonList[target][name]) {
@@ -10084,13 +10099,39 @@ function generateActionButton(buttonList, target, name, icon, color, data, trans
 	return buttonList;
 }
 
+function generateReactionButtons(targetTokenId="") {
+	return {
+		"Counter": {
+			"icon": "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Attack.png",
+			"color": "red",
+			"data": {"roll":"attack", "reaction":"true", "targetTokenId":targetTokenId},
+			"size": "third",
+			"transferFunction": "chatButtonRoll"
+		},
+		"Block": {
+			"icon": "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/defend.png",
+			"color": "blue",
+			"data": {"roll":"block", "reaction":"true", "targetTokenId":targetTokenId},
+			"size": "third",
+			"transferFunction": "chatButtonRoll"
+		},
+		"Evade": {
+			"icon": "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/evade.png",
+			"color": "yellow",
+			"data": {"roll":"evade", "reaction":"true", "targetTokenId":targetTokenId},
+			"size": "third",
+			"transferFunction": "chatButtonRoll"
+		}
+	}
+}
+
 /* Action button functions */
-on('clicked:actionButtonDamage', async (data) => {
+on('clicked:chatButtonDamage', async (data) => {
 	getAttrs(["lastDefenceRoll", "targetedBy"], async function(values) {
 		
 		let defenceRoll = parseInt(values.lastDefenceRoll);
 		data = Data.unpackage(data.originalRollId);
-		actionButtonTokenIdHelper(data.targetTokenId, async (tokenId) => {
+		chatButtonTokenIdHelper(data.targetTokenId, async (tokenId) => {
 
 			/* If the damage type is unset (such as for ranged weapon) query the player for a damage type */
 			if (data.damageTypeOverride == "---") {
@@ -10117,10 +10158,22 @@ on('clicked:actionButtonDamage', async (data) => {
 		});
 	});
 });
-on('clicked:actionButton', async (data) => {
+on('clicked:chatButtonRoll', async (data) => {
+	data = Data.unpackage(data.originalRollId);
+	chatButtonTokenIdHelper(data.targetTokenId, (tokenId) => {
+		
+		let rollType = (data.roll == "attack") ? "weapon1"
+					 : (data.roll == "block") ? "def"
+					 : (data.roll == "evade") ? "evd"
+					 : "unknown roll";
+		
+		rollCombat({htmlAttributes: {id: "autoroll_" + rollType}}); // Still need to use data.reaction to indicate if the roll is an action or a reaction
+	});
+});
+on('clicked:chatButton', async (data) => {
 	//getAttrs(["targetedBy"], async function(values) {
 		data = Data.unpackage(data.originalRollId);
-		actionButtonTokenIdHelper(data.targetTokenId, (tokenId) => {
+		chatButtonTokenIdHelper(data.targetTokenId, (tokenId) => {
 			AutoScriptMain(data.buttonAutoScript, "None", "false", "true", { tokenId: tokenId }, () => {}, data.buttonName);
 		});
 		//updateTargetedBy(data.announceTargeting, Data.unpackage(values.targetedBy));
@@ -10129,7 +10182,7 @@ on('clicked:actionButton', async (data) => {
 
 /* Helper function that gets and returns the selected token's instance if generic token mode is enabled */
 /* If a tokenId is provided by the action button (the enemy is using targeting) no token needs to be selected */
-function actionButtonTokenIdHelper(targetTokenId, callback=()=>{}) {
+function chatButtonTokenIdHelper(targetTokenId, callback=()=>{}) {
 	getAttrs(["settingGenericTokenMode"], function(values) {
 		if (targetTokenId == "" && values.settingGenericTokenMode == "true") {
 			getTokenAttrs("selected", "unset", "false", (selectAttrs) => {
@@ -11991,11 +12044,13 @@ getAttrs(["Bleed", "BleedDecayPause", "bleedResist", "bleedResist_ego", "distort
 
 /* Action: Combat Roll */
 on('clicked:rollCombat', (info) => {
+	rollCombat(info);
+});
+function rollCombat(info) {
 	/* Preparing values */
 	/* Get IDs/names */
 	let buttonid = info.htmlAttributes.id.split('_')[1];
 	let rawcheck = info.htmlAttributes.id.split('_')[2];
-	let numcheck = info.htmlAttributes.id.split('_')[3];
 
 	let name = buttonid + "Name";
 	let type = buttonid + "Type";
@@ -12295,7 +12350,7 @@ on('clicked:rollCombat', (info) => {
 	AutoScriptMain(AutoScript, triggerType, "true", "false", autoScriptOverrideList, function(returnValues) {
 	
 	let autoScriptMessage = returnValues.message || "";
-	let actionButtonList = returnValues.buttonList || {}
+	let chatButtonList = returnValues.buttonList || {}
 
 	let autoeffectdice1 = returnValues.DiceCount || 0;
 	let autoeffectdice2 = returnValues.DiceMax || 0;
@@ -12506,13 +12561,13 @@ on('clicked:rollCombat', (info) => {
 		/* Handle Apply damage action button for attacks */
 		let damageButtonList = {}
 		let damageAutoScript = "";
-		
+		let buttonTarget = (targetname != "") ? targetname : "selected";
+
 		if (basetype == "Attack") {
 			/* If an "Apply damage" button already exists, add its AutoScript to the action button of the first attack */
-			let buttonTarget = (targetname != "") ? targetname : "selected";
-				if (actionButtonList[buttonTarget] && actionButtonList[buttonTarget]["Apply damage"]) {
-					damageAutoScript = actionButtonList[buttonTarget]["Apply damage"].data.buttonAutoScript;
-				delete actionButtonList[buttonTarget]["Apply damage"]
+			if (chatButtonList[buttonTarget] && chatButtonList[buttonTarget]["Apply damage"]) {
+				damageAutoScript = chatButtonList[buttonTarget]["Apply damage"].data.buttonAutoScript;
+				delete chatButtonList[buttonTarget]["Apply damage"]
 			}
 
 			/* Remove any (Add N HP/ST/SP) from damageAutoScript, leaving only (Add N Light) and any non-Add effects */
@@ -12544,17 +12599,17 @@ on('clicked:rollCombat', (info) => {
 				let buttonData = {...damage_data, buttonAutoScript:"", targetTokenId:targettokenid}
 				if (rollKey == "roll1") { buttonData.buttonAutoScript = damageAutoScript; }
 
-				generateActionButton(damageButtonList, buttonTarget, buttonName, buttonIcon, buttonColor, buttonData, "actionButtonDamage");
+				generateChatButton(damageButtonList, buttonTarget, buttonName, buttonIcon, buttonColor, buttonData, "chatButtonDamage", "half");
 			}
 		}
 
 		for (const target of Object.keys(damageButtonList)) {
-			if (actionButtonList[target]) {
-				damageButtonList[target] = {...damageButtonList[target], ...actionButtonList[target]}
-				delete actionButtonList[target]
+			if (chatButtonList[target]) {
+				damageButtonList[target] = {...damageButtonList[target], ...chatButtonList[target]}
+				delete chatButtonList[target]
 			}
 		}
-		createActionButtons({...damageButtonList, ...actionButtonList});
+		createChatButtons({...damageButtonList, ...chatButtonList}, {reactions:targettokenid});
     });
 	/*--- send roll end ---*/
 
@@ -12566,8 +12621,8 @@ on('clicked:rollCombat', (info) => {
 	});
 	});
 	});
-  });
-});
+	});
+}
 
 
 /* Executes one or more rolls and posts the results to the chat */
@@ -12718,7 +12773,7 @@ function rollChallenge(buttonid, rollDifficulty=0, collectAutoScripts="false") {
 	let autoEffectDiceAdv = returnValues.DiceAdv || 0;
 	let autoEffectSpeedCombat = returnValues.SpeedCombat || 0;
 	let autoScriptMessage = returnValues.message || "";
-	let actionButtonList = returnValues.buttonList || {}
+	let chatButtonList = returnValues.buttonList || {}
 	
 	let rollformat = Math.max(autoEffectDiceCount + 2, 0) + "d" + Math.max(autoEffectDiceMax + 6, 0) + "+" + parseInt(stat) + "+(" + parseInt(difficulty) + ")";
 
@@ -12803,7 +12858,7 @@ function rollChallenge(buttonid, rollDifficulty=0, collectAutoScripts="false") {
 		finishRoll(results.rollId);
 		
 		/* Create action Buttons */
-		createActionButtons(actionButtonList);
+		createChatButtons(chatButtonList);
 	});
 	/*--- send roll end ---*/
 
@@ -13182,7 +13237,7 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 	AutoScriptMain(autoScript, autoScriptTriggers, "true", "false", {}, function(returnValues) {
 
 	let autoScriptMessage = returnValues.message || "";
-	let actionButtonList = returnValues.buttonList || {}
+	let chatButtonList = returnValues.buttonList || {}
 	
 	/* console.log("HP base: " + sumBothBefore + ". HP after resistance: " + Math.ceil(Math.min((hpResistance * (sumBothBefore + sumHpBefore)) + hpProtection + damageResistance, 0)))
 	console.log("ST base: " + sumBothBefore + ". ST after resistance: " + Math.ceil(Math.min((stResistance * (sumBothBefore + sumStBefore)) + stProtection + damageResistance, 0)))
@@ -13346,7 +13401,7 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 		finishRoll(results.rollId, {} );
 
 		/* Create action Buttons */
-		createActionButtons(actionButtonList);
+		createChatButtons(chatButtonList);
 	});
 	/* Damage calculation chat message block end */
 	});
@@ -13789,7 +13844,7 @@ on('clicked:declareAction', (info) => {
 
 	let autoEffectLight = parseInt(returnValues.Light) || 0;
 	let autoScriptMessage = returnValues.message || "";
-	let actionButtonList = returnValues.buttonList || {}
+	let chatButtonList = returnValues.buttonList || {}
 
 	/* Translation prep */
 	let langFrom = "From";
@@ -13874,7 +13929,7 @@ on('clicked:declareAction', (info) => {
         finishRoll(results.rollId,{});
 
 		/* Create action Buttons */
-		createActionButtons(actionButtonList);
+		createChatButtons(chatButtonList);
     });
 	/*--- send roll end ---*/
 
@@ -15350,7 +15405,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 			finishRoll(results.rollId, {} );
 		
 			/* Attach any action buttons that have been created for the AutoScript*/
-			createActionButtons(buttonList);
+			createChatButtons(buttonList);
 		});
 	}
 	
@@ -15405,10 +15460,10 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 
 	function autoEffectOutput(ae, buttonName="", buttonAutoScript="", applyMode="add") {
 		if (ae.options.target && buttonAutoScript != "") {
-			applyOutputButton(buttonName, buttonAutoScript, ae.options.target, ae.conditional.options.actionButton || false);
+			applyOutputButton(buttonName, buttonAutoScript, ae.options.target, ae.conditional.options.chatButton || false);
 		} else {
 			switch (ae.name) {
-				case "FlatDamage": applyOutputButton(buttonName, buttonAutoScript, "target", ae.conditional.options.actionButton || false); // Intentional lack of break
+				case "FlatDamage": applyOutputButton(buttonName, buttonAutoScript, "target", ae.conditional.options.chatButton || false); // Intentional lack of break
 				case "BaseDamage": applyOutput(applyMode, ae.name + (ae.target || ""), ae.value); break;
 				case "DicePower": case "DiceMax": case "DiceCount": case "DiceAdv": applyOutput(applyMode, ae.name, ae.value); break;
 				case "Proc": applyOutput(applyMode, ae.targetAttr, true, ae.name); break;
@@ -15474,7 +15529,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 				buttonData.targetTokenId = targetTokenId;
 			}
 
-			buttonList = generateActionButton(buttonList, buttonTarget, buttonName, buttonIcon, buttonColor, buttonData, "actionButton");
+			buttonList = generateChatButton(buttonList, buttonTarget, buttonName, buttonIcon, buttonColor, buttonData, "chatButton", "half");
 		}
 	}
 
@@ -16183,16 +16238,16 @@ function parseAutoScript(inputAutoScript, vl, al, vars, triggers=[], errors={}) 
 				conOptions.ignoreFailure = true;
 			}
 
-			/* Handle the "ActionButton" option */
+			/* Handle the "ChatButton" option */
 			/* The conditional with option is removed. If the conditional is the primary conditional the effect becomes unconditional */
 			for (var i = 0; i < effectConditionals.length; i++) {
 				let anyCon = effectConditionals[i];
 				
-				if (!conOptions.actionButton && anyCon.includes("#ActionButton") && "ActionButton" in validConOptions) {
+				if (!conOptions.chatButton && anyCon.includes("#ChatButton") && "ChatButton" in validConOptions) {
 					effectConditionals.splice(i,i);
 					AutoEffect.splice(i+1,i+1);
 					primaryCon = false;
-					conOptions.actionButton = anyCon.replaceAll(/(#ActionButton)/ig,"").trim();
+					conOptions.chatButton = anyCon.replaceAll(/(#ChatButton)/ig,"").trim();
 				}
 			}
 
@@ -16574,7 +16629,7 @@ let attrkeySettings = ["settingWhisperRolls",
 "settingLoopEnabled", "configLoopDelay", "configUpdateDelay", "configTrackerItemName", "settingAutoDetect", "settingTurnUpdate", "settingMultihitFull", "settingMultihitUses",
 "settingMuteMessage", "settingHideNextTurn", "settingBurnImmune", "settingBleedImmune",
 "settingAutoApplyDamage", "settingHideBarUpdate",
-"settingCollapseAutoEffectSections", "settingHideConditionalButtonReminder", "settingHideActionButtons", "settingHideBaseEffect", "AutoScriptStyling", "autoScriptAlias"];
+"settingCollapseAutoEffectSections", "settingHideConditionalButtonReminder", "settingHideChatButtons", "settingHideBaseEffect", "AutoScriptStyling", "autoScriptAlias"];
 
 let attrkeyEquip = ["outfitName", "outfitRank", "outfitDescription", "outfitEffect", "defDice1", "defDice2", "defDice3", "evdDice1", "evdDice2", "evdDice3", "outfitImmune1", "outfitImmune2", "outfitImmune3", "outfitImmune4", "outfitImmune5", "outfitImmune6", "bleedResist", "burnResist", "damageResist", "outfitAutoScript",
 
