@@ -12625,6 +12625,174 @@ function rollCombat(info) {
 }
 
 
+
+/* Temp Repeating Inventory area */
+
+function importItems(itemArray) {
+
+	/* Example data structure for three items: a Mystery, and a linked weapon and skill */
+	let exampleItems = [
+		{
+			type: "Mystery", // Weapon, Outfit, Tool, Augment, Mystery, Special, Skill or Effect
+			id: "-abcdefghij1234567890", // Uses a standard repeating section id
+			rank: 2,
+			name: "Test Mystery",
+			linked: false, // id of the item this item is linked to. Can alternatively use the item's name
+			equip: {
+				equipped: true, // If the item is equipped. Cannot be true if the linked item is unequipped
+				type: "Hands",
+				slots: -2, // This item actually gives two extra hands when equipped
+			},
+			uses: false, // Has an unlimited amount of uses
+			roll: false, // Item has no associated rolls
+			resistance: {
+				mode: "Replace", // If resistances should "Replace" or "Add" to other resistances
+				damage: { // Damage type resistances
+					slash: 0.5,
+					slash_stg: 0.5,
+				},
+				default: { // Default resistances. Burn, Bleed and Damage. need to use .default?.burn here
+					burn: 1,
+				},
+				custom: false, // Custom ailment resistances
+			},
+			AutoScript: false, // AutoScript of the item
+			tags: false, // If the item gives or requires Tags
+			icon: "Default" // For a mystery this is no icon by default. Can be set to gain a skill-like icon
+		},
+
+		{
+			type: "Weapon",
+			id: "",
+			rank: 2,
+			name: "Test Weapon (Mystery)",
+			linked: {
+				id: "-abcdefghij1234567890",
+				type: "Mystery",
+				equipTogether: true // If the sheet should attempt to equip this item when the linked item is equipped
+			},
+			equip: {
+				equipped: "Mainhand", // Weapons can be "Mainhand" or "Offhand". Only one of each may be equipped
+				type: "Hands", // The type of slots an item uses
+				slots: 2, // How many equip slots an item uses. This item requires two hands to use
+			},
+			uses: false,
+			roll: [ // Weapon has two rolls: A normal attack and a special limited attack. An item can at most have three rolls
+				{
+					type: "Attack", // The type of action
+					format: {count: 1, max: 12, power: 3}, // Uses same format as rolls
+					applied: false, // If the roll is applied (like skills). Otherwise it's standalone (like weapons)
+					cost: { // Cost of the action
+						type: "Counter", // Uses a Counter reaction, universal reaction, or action if "actions for reactions" is enabled
+						amount: 1,
+					},
+					damage: "Slash" // Damage of attacks. Unset for other types of rolls
+				},
+				{
+					type: "Attack",
+					format: {count: 2, max: 8, power: 4, storable: true},
+					cost: [ // The cost can be an array of multiple resource costs
+						{
+							type: "Action", // Only allowed as an action
+							amount: 1,
+						},
+						{
+							type: "Light", // Costs 1 Light on use
+							amount: 1, // Light costs are displayed in the UI, unlike action costs
+						}
+					],
+					damage: "Choose" // Damage type is chosen on use
+				}
+			],
+			resistance: false,
+			AutoScript: false,
+			tags: {
+				gives: {burn: 2}, // Gives two weight of the Burn tag
+				requires: false // Requires no tags to equip
+			},
+			icon: "Default" // For a weapon this is no icon by default
+		},
+
+		{
+			type: "Skill",
+			id: "",
+			rank: 2,
+			name: "Test Skill (Mystery)",
+			linked: {
+				id: "-abcdefghij1234567890",
+				type: "Mystery",
+				equipTogether: true
+			},
+			equip: {
+				equipped: false, // Item is not equipped and is not using any equip slots
+				type: "Skills",
+				slots: 1, // If using card combat, this instead equals {size: X, current: Y, max: Z}
+			},
+			uses: {
+				type: "Recover", // Type of uses. Can be "Round", "Combat", "Recover", "Refresh" etc
+				current: 2, // Has two uses remaining
+				max: 3, // Has a maximum of three uses
+			},
+			roll: {
+				type: "Attack", // When applied, is used to define which type of action it is applied to. Can be "Any"
+				applied: true,
+				format: {count: 0, max: 0, power: 2}, // When applied, is added to format of the base action
+				cost: {type: "Light", amount: 1},
+			},
+			resistance: false,
+			AutoScript: "(Inflict 5 Burn, Clash Win)",
+			tags: {
+				gives: false, // Gives no tags while equipped
+				requires: {burn: 2} // Requires two weight of the Burn tag to equip
+			},
+			icon: "Default" // For a skill this matches the type of its first roll by default
+		}
+	]
+
+	itemArray = exampleItems;
+
+	for (let item of itemArray) {
+		importItem(item);
+	}
+}
+
+function importItem(item) {
+	// If the item already exists (name and id matches), ask if a copy should be made
+	// If the item is linked, do not create it if the linked item doesn't exist
+	// If something is unset, use a default based on the item type
+	// updateItemList() handles adding the items to the itemList
+}
+
+function exportItems(idArray, options={exportLinked:false}) {
+	// Get one or more item with certain id(s) from the itemList (see below)
+	// If exportLinked is true, use recursion to also include any linked items (and items linked to those items etc.)	
+}
+
+function updateItemList() {
+	// As updateAilmentList, but for items. Runs whenever an item is updated or deleted
+}
+
+function shareItems() {
+	// Takes in an array of items, and generates a message that displays the items
+	// Can be configured to include chat buttons to import the displayed items
+}
+
+const weaponAttrs = []
+const outfitAttrs = []
+// Do the same for augment, skills etc.
+
+function convertInventory() {
+	// Converts all the old items into the new inventory format
+	// Runs importItems() once the data is prepared
+}
+
+// Add a on:startup event that adds some empty slots when a sheet is first opened
+// If at least one old inventory item exists, use convertInventory() first, then add any unused slots in the old inventory
+
+
+
+
+
 /* Executes one or more rolls and posts the results to the chat */
 function executeRolls(rollArray, callback=()=>{}) {
 	getAttrs(["settingWhisperRolls", "settingWhisperTarget"], function(values) {
