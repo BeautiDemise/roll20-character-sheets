@@ -8399,8 +8399,16 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 
 <rolltemplate class="sheet-rolltemplate-testFeature">
 	<div class="sheet-template-wrapper" style="background-color: #333; border-radius: 5px;  overflow: hidden; border: 1px #555 solid;">
-		<div hidden="true">{{roll1}}</div>
-		<div class="sheet-testcontainer">[{{buttonLabel}}]({{baseUrl}}{{fragment}}" class="{{computed::roll1}}")</div>
+		<div class="sheet-testcontainer">
+			{{#baseUrl}}[{{buttonLabel}}]({{baseUrl}}{{fragment}}){{/baseUrl}}
+			{{#insert}}
+				<div class="sheet-tab1" dir="{{computed::insert}}"></div>
+				<div class="sheet-tab2" dir="{{computed::insert}}"></div>
+				<div class="sheet-tab3" dir="{{computed::insert}}"></div>
+			{{/insert}}
+			{{#test}}{{test}}{{/test}}
+			{{#script}}<div dir="{{computed::script}}{{computed::scriptend}}"></div>{{/script}}
+		</div>
 	</div>
 </rolltemplate>
 
@@ -12886,6 +12894,9 @@ function executeRolls(rollArray, callback=()=>{}) {
 		}
 	}
 
+	let header = "";
+	let body = "";
+
 	/* Send the roll message */
 	//   Header: Consists of a title, and icon, an optional image and any generated tabs
 	//   Body: Displays each rolls and any associated headers/descriptions/etc. The rolls are inline. Each roll is hidden by default if tabs are used
@@ -14239,18 +14250,23 @@ on("clicked:shareOutfit", function() {
 
 
 on("clicked:testButton", function(values) {
-	executeRolls([], (returnValues) => {
+	/*executeRolls([], (returnValues) => {
 		console.log(" --- Finished test --- ")
 		console.log("returnValues: ", returnValues)
-	});
+	});*/
+
+	let msgId = generateRowID();
+	let msgNr = 0;
 	
+	changeIframe("app.roll20.net/editor/", "#sheet-testTab1", "charsheet", msgId, msgNr++);
+	changeIframe("app.roll20.net/editor/", "#sheet-testTab2", "charsheet", msgId, msgNr++);
 	//changeIframe("https://www.youtube.com/embed/dQw4w9WgXcQ?si=eSYcqdXVCkheSQGk", "", "charsheet");
 });
 
-function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='" class="') {
+function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='" class="', id, nr) {
 	getAttrs(["character_id", "campaign_id", "settingWhisperRolls", "settingWhisperTarget"], function(values) {
 	let charId = values.character_id;
-	let campId = values.campaign_id;
+	let campId = values.campaign_id || "17431492";
 
 	/* If the url or htmlAttr is "charsheet" the iframe of the character sheet should modified */
 	if (baseUrl == "charsheet") {
@@ -14269,7 +14285,6 @@ function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='
 	}
 
 	/* See https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments for more details */
-	baseUrl += fragment;
 	
 	/*
 	let id1 = generateRowID();
@@ -14313,9 +14328,100 @@ function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='
 		whisper = "/w " + whispertarget;
 	}
 
+	id = "-abcd"
+	
+	let frag = fragment.replace("#sheet-","");
+	fragment = "#:~:text=" + frag;
+	let test = `<div class="sheet-compact" id="sheet-${frag}">${frag}</div>`;
+	
+	htmlAttr =  `"><input type="radio" name="${id}testRadio" class="${nr == 0 ? "head" : "append"}" msg-id="${id}" none="`;
+
+	htmlScript = `"><style none="`;
+	htmlScriptend = `">
+	.message:has(.sheet-compact) {
+		background-color: red !important;
+	}
+	.message input[type="radio"]:checked {
+		background-color: purple !important;
+		width: 20px;
+		height: 20px;
+	}
+	#textchat .content {
+		display: flex;
+		flex-direction: column;
+		--order-mid: 0;
+		--order-low: 0;
+		--order-shift: 0;
+	}
+	:is(.news, .system, .hidden-message) { order: -1 !important; }
+	
+	.message:nth-child(10n+9) { --order-low: 9; }
+	.message:nth-child(10n+8) { --order-low: 8; }
+	.message:nth-child(10n+7) { --order-low: 7; }
+	.message:nth-child(10n+6) { --order-low: 6; }
+	.message:nth-child(10n+5) { --order-low: 5; }
+	.message:nth-child(10n+4) { --order-low: 4; }
+	.message:nth-child(10n+3) { --order-low: 3; }
+	.message:nth-child(10n+2) { --order-low: 2; }
+	.message:nth-child(10n+1) { --order-low: 1; }
+	.message:nth-child(100n-10) { --order-mid: 9; }
+	.message:nth-child(100n-20) { --order-mid: 8; }
+	.message:nth-child(100n-30) { --order-mid: 7; }
+	.message:nth-child(100n-40) { --order-mid: 6; }
+	.message:nth-child(100n-50) { --order-mid: 5; }
+	.message:nth-child(100n-60) { --order-mid: 4; }
+	.message:nth-child(100n-70) { --order-mid: 3; }
+	.message:nth-child(100n-80) { --order-mid: 2; }
+	.message:nth-child(100n-90) { --order-mid: 1; }
+	.message:nth-child(1000n-100) { --order-high: 9; }
+	.message:nth-child(1000n-200) { --order-high: 8; }
+	.message:nth-child(1000n-300) { --order-high: 7; }
+	.message:nth-child(1000n-400) { --order-high: 6; }
+	.message:nth-child(1000n-500) { --order-high: 5; }
+	.message:nth-child(1000n-600) { --order-high: 4; }
+	.message:nth-child(1000n-700) { --order-high: 3; }
+	.message:nth-child(1000n-800) { --order-high: 2; }
+	.message:nth-child(1000n-900) { --order-high: 1; }
+
+	.message { order: calc(var(--order-high)*100 + var(--order-mid)*10 + var(--order-low) + var(--order-shift)); }
+
+	
+	.message:has([msg-id="${id}"]) + .message:not(:has([msg-id="${id}"])) {
+		& + :has([msg-id="${id}"]) { --order-shift: -2; --append: 1; }
+		& + * + :has([msg-id="${id}"]) { --order-shift: -3; --append: 1; }
+		& + * + * + :has([msg-id="${id}"]) { --order-shift: -4; --append: 1; }
+		& + * + * + * + :has([msg-id="${id}"]) { --order-shift: -5; --append: 1; }
+		& + * + * + * + * + :has([msg-id="${id}"]) { --order-shift: -6; --append: 1; }
+		& + * + * + * + * + * + :has([msg-id="${id}"]) { --order-shift: -7; --append: 1; }
+		& + * + * + * + * + * + * + :has([msg-id="${id}"]) { --order-shift: -8; --append: 1; }
+		& + * + * + * + * + * + * + * + :has([msg-id="${id}"]) { --order-shift: -9; --append: 1; }
+		& + * + * + * + * + * + * + * + * + :has([msg-id="${id}"]) { --order-shift: -10; --append: 1; }
+	}
+
+	</style none="`;
+
+	// Generate the last styling rules using a loop. The current ones are just for testing
+	//  For the sorting CSS, generate the main selector, & + and :has(...), and add N "* + " in the middle
+
+	// Ordering:
+	// Elements use four modifiers to set their order: --order-mid, --order-low and and --order-shift
+	// The mods have the following values: high = 100, mid = 10 and shift = varies
+	// New messages begin with a total value of 490, which decreases by 10 for every following message
+	// Chains of related messages gain 1 value per message
+	// To move an element N spaces backwards, decrease it's value by 10*N + 1
+	// This code only sorts the last 40 messages
+
+	let template = `&{template:testFeature} {{test=@{dummy}}} {{insert=[[0]]}}`;
+	if (nr == 0) {
+		template += ` {{buttonLabel=?!?!?!?}} {{baseUrl=${baseUrl}}} {{fragment=${fragment}}} {{script=[[0]]}} {{scriptend=[[0]]}}`;
+	}
+
+	setAttrs({"dummy":test});
+
 	/* Send */
-	startRoll((whisper + `&{template:testFeature} {{buttonLabel=?!?!?!?}} {{baseUrl=${baseUrl}}} {{fragment=${fragment}}} {{roll1=[[0]]}}`), (results) => {
-		finishRoll(results.rollId, {roll1: htmlAttr} );
+	startRoll((whisper + " " + template), (results) => {
+		console.log(results)
+		finishRoll(results.rollId, {insert: htmlAttr, script: htmlScript, scriptend: htmlScriptend} );
 	});
 	});
 }
