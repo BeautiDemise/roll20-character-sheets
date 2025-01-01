@@ -2310,7 +2310,7 @@
 					</div>
 
 					<!-- Edit resources button -->
-					<button type="action" name="act_editResourceTrackers" class="darkButton resourceButton centerIcon edit" data-i18n-title="resource-edit" title="Edit base resource values"></button>
+					<button type="action" name="act_editResourceTrackers" class="darkButton resourceButton centerIcon edit" data-i18n-title="resource-edit" title="Edit base actions and reactions (per round) and light regen (per combat)"></button>
 				</div>
 			</div>
 		</div>
@@ -8400,8 +8400,14 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 <rolltemplate class="sheet-rolltemplate-testFeature">
 	<div class="sheet-template-wrapper" style="background-color: #333; border-radius: 5px;  overflow: hidden; border: 1px #555 solid;">
 		<div class="sheet-testcontainer">
-			{{test}}
-			[{{buttonLabel}}]({{baseUrl}}{{fragment}}" class="{{computed::insert}}")
+			{{#baseUrl}}[{{buttonLabel}}]({{baseUrl}}{{fragment}}){{/baseUrl}}
+			{{#insert}}
+				<div class="sheet-tab1" dir="{{computed::insert}}"></div>
+				<div class="sheet-tab2" dir="{{computed::insert}}"></div>
+				<div class="sheet-tab3" dir="{{computed::insert}}"></div>
+			{{/insert}}
+			{{#test}}{{test}}{{/test}}
+			{{#script}}<div dir="{{computed::script}}{{computed::scriptend}}"></div>{{/script}}
 		</div>
 	</div>
 </rolltemplate>
@@ -12633,6 +12639,174 @@ function rollCombat(info) {
 }
 
 
+
+/* Temp Repeating Inventory area */
+
+function importItems(itemArray) {
+
+	/* Example data structure for three items: a Mystery, and a linked weapon and skill */
+	let exampleItems = [
+		{
+			type: "Mystery", // Weapon, Outfit, Tool, Augment, Mystery, Special, Skill or Effect
+			id: "-abcdefghij1234567890", // Uses a standard repeating section id
+			rank: 2,
+			name: "Test Mystery",
+			linked: false, // id of the item this item is linked to. Can alternatively use the item's name
+			equip: {
+				equipped: true, // If the item is equipped. Cannot be true if the linked item is unequipped
+				type: "Hands",
+				slots: -2, // This item actually gives two extra hands when equipped
+			},
+			uses: false, // Has an unlimited amount of uses
+			roll: false, // Item has no associated rolls
+			resistance: {
+				mode: "Replace", // If resistances should "Replace" or "Add" to other resistances
+				damage: { // Damage type resistances
+					slash: 0.5,
+					slash_stg: 0.5,
+				},
+				default: { // Default resistances. Burn, Bleed and Damage. need to use .default?.burn here
+					burn: 1,
+				},
+				custom: false, // Custom ailment resistances
+			},
+			AutoScript: false, // AutoScript of the item
+			tags: false, // If the item gives or requires Tags
+			icon: "Default" // For a mystery this is no icon by default. Can be set to gain a skill-like icon
+		},
+
+		{
+			type: "Weapon",
+			id: "",
+			rank: 2,
+			name: "Test Weapon (Mystery)",
+			linked: {
+				id: "-abcdefghij1234567890",
+				type: "Mystery",
+				equipTogether: true // If the sheet should attempt to equip this item when the linked item is equipped
+			},
+			equip: {
+				equipped: "Mainhand", // Weapons can be "Mainhand" or "Offhand". Only one of each may be equipped
+				type: "Hands", // The type of slots an item uses
+				slots: 2, // How many equip slots an item uses. This item requires two hands to use
+			},
+			uses: false,
+			roll: [ // Weapon has two rolls: A normal attack and a special limited attack. An item can at most have three rolls
+				{
+					type: "Attack", // The type of action
+					format: {count: 1, max: 12, power: 3}, // Uses same format as rolls
+					applied: false, // If the roll is applied (like skills). Otherwise it's standalone (like weapons)
+					cost: { // Cost of the action
+						type: "Counter", // Uses a Counter reaction, universal reaction, or action if "actions for reactions" is enabled
+						amount: 1,
+					},
+					damage: "Slash" // Damage of attacks. Unset for other types of rolls
+				},
+				{
+					type: "Attack",
+					format: {count: 2, max: 8, power: 4, storable: true},
+					cost: [ // The cost can be an array of multiple resource costs
+						{
+							type: "Action", // Only allowed as an action
+							amount: 1,
+						},
+						{
+							type: "Light", // Costs 1 Light on use
+							amount: 1, // Light costs are displayed in the UI, unlike action costs
+						}
+					],
+					damage: "Choose" // Damage type is chosen on use
+				}
+			],
+			resistance: false,
+			AutoScript: false,
+			tags: {
+				gives: {burn: 2}, // Gives two weight of the Burn tag
+				requires: false // Requires no tags to equip
+			},
+			icon: "Default" // For a weapon this is no icon by default
+		},
+
+		{
+			type: "Skill",
+			id: "",
+			rank: 2,
+			name: "Test Skill (Mystery)",
+			linked: {
+				id: "-abcdefghij1234567890",
+				type: "Mystery",
+				equipTogether: true
+			},
+			equip: {
+				equipped: false, // Item is not equipped and is not using any equip slots
+				type: "Skills",
+				slots: 1, // If using card combat, this instead equals {size: X, current: Y, max: Z}
+			},
+			uses: {
+				type: "Recover", // Type of uses. Can be "Round", "Combat", "Recover", "Refresh" etc
+				current: 2, // Has two uses remaining
+				max: 3, // Has a maximum of three uses
+			},
+			roll: {
+				type: "Attack", // When applied, is used to define which type of action it is applied to. Can be "Any"
+				applied: true,
+				format: {count: 0, max: 0, power: 2}, // When applied, is added to format of the base action
+				cost: {type: "Light", amount: 1},
+			},
+			resistance: false,
+			AutoScript: "(Inflict 5 Burn, Clash Win)",
+			tags: {
+				gives: false, // Gives no tags while equipped
+				requires: {burn: 2} // Requires two weight of the Burn tag to equip
+			},
+			icon: "Default" // For a skill this matches the type of its first roll by default
+		}
+	]
+
+	itemArray = exampleItems;
+
+	for (let item of itemArray) {
+		importItem(item);
+	}
+}
+
+function importItem(item) {
+	// If the item already exists (name and id matches), ask if a copy should be made
+	// If the item is linked, do not create it if the linked item doesn't exist
+	// If something is unset, use a default based on the item type
+	// updateItemList() handles adding the items to the itemList
+}
+
+function exportItems(idArray, options={exportLinked:false}) {
+	// Get one or more item with certain id(s) from the itemList (see below)
+	// If exportLinked is true, use recursion to also include any linked items (and items linked to those items etc.)	
+}
+
+function updateItemList() {
+	// As updateAilmentList, but for items. Runs whenever an item is updated or deleted
+}
+
+function shareItems() {
+	// Takes in an array of items, and generates a message that displays the items
+	// Can be configured to include chat buttons to import the displayed items
+}
+
+const weaponAttrs = []
+const outfitAttrs = []
+// Do the same for augment, skills etc.
+
+function convertInventory() {
+	// Converts all the old items into the new inventory format
+	// Runs importItems() once the data is prepared
+}
+
+// Add a on:startup event that adds some empty slots when a sheet is first opened
+// If at least one old inventory item exists, use convertInventory() first, then add any unused slots in the old inventory
+
+
+
+
+
 /* Executes one or more rolls and posts the results to the chat */
 function executeRolls(rollArray, callback=()=>{}) {
 	getAttrs(["settingWhisperRolls", "settingWhisperTarget"], function(values) {
@@ -12780,7 +12954,7 @@ function executeRolls(rollArray, callback=()=>{}) {
 
 	let header = "test header";
 	let body = message;
-
+	
 	console.log(`&{template:customRoll} ${dicerolls} ${header} ${body}`)
 
 	setAttrs({"dummy":header, "dummy2":body}, () => {
@@ -12798,8 +12972,6 @@ function executeRolls(rollArray, callback=()=>{}) {
 				key: "test222"
 			} );
 		});
-
-
 
 		/*
 		Uses #allprops. Consists of a container and a header with a name equal to the prop key. All other HTML elements are created from the prop value
@@ -14146,18 +14318,23 @@ on("clicked:shareOutfit", function() {
 
 
 on("clicked:testButton", function(values) {
-	executeRolls([], (returnValues) => {
+	/*executeRolls([], (returnValues) => {
 		console.log(" --- Finished test --- ")
 		console.log("returnValues: ", returnValues)
-	});
+	});*/
+
+	let msgId = generateRowID();
+	let msgNr = 0;
 	
-	changeIframe("https://www.youtube.com/embed/dQw4w9WgXcQ?si=eSYcqdXVCkheSQGk", "", "charsheet");
+	changeIframe("app.roll20.net/editor/", "#sheet-testTab1", "charsheet", msgId, msgNr++);
+	changeIframe("app.roll20.net/editor/", "#sheet-testTab2", "charsheet", msgId, msgNr++);
+	//changeIframe("https://www.youtube.com/embed/dQw4w9WgXcQ?si=eSYcqdXVCkheSQGk", "", "charsheet");
 });
 
-function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='" class="') {
+function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='" class="', id, nr) {
 	getAttrs(["character_id", "campaign_id", "settingWhisperRolls", "settingWhisperTarget"], function(values) {
 	let charId = values.character_id;
-	let campId = values.campaign_id;
+	let campId = values.campaign_id || "17431492";
 
 	/* If the url or htmlAttr is "charsheet" the iframe of the character sheet should modified */
 	if (baseUrl == "charsheet") {
@@ -14176,7 +14353,6 @@ function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='
 	}
 
 	/* See https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments for more details */
-	baseUrl += fragment;
 	
 	/*
 	let id1 = generateRowID();
@@ -14220,9 +14396,98 @@ function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='
 		whisper = "/w " + whispertarget;
 	}
 
+	// Make this into your char id. Now the sorting can be reused for all of your messages
+	id = "-abcd"
+	
+	let frag = fragment.replace("#sheet-","");
+	fragment = "#:~:text=" + frag;
+	let test = `<div class="sheet-compact" id="sheet-${frag}">${frag}</div>`;
+	
+	htmlAttr =  `"><input type="radio" name="${id}testRadio" class="${nr == 0 ? "head" : "append"}" msg-id="${id}" none="`;
+
+	htmlScript = `"><style none="`;
+	htmlScriptend = `">
+	/* Ordering CSS */
+	@scope (#textchat .content) {
+		:scope {
+			display: flex;
+			flex-direction: column;
+			--order-high: 0; --order-mid: 0; --order-low: 0; --order-shift: 0;
+			--append: 0;
+		}
+		
+		:is(.news, .system, .hidden-message) { order: -1 !important; }
+
+		.message {
+			order: calc(var(--order-high)*100 + var(--order-mid)*10 + var(--order-low) + var(--order-shift));
+			
+			${range(1, 10).reduce((acc, i) => { // Low ordering (1s). Generated 10 selectors for 10n+i = i
+				return acc + `&:nth-child(10n+${i}) {--order-low: ${i};}\n`
+			}, "")}
+
+			${range(1, 10).map(i => { // Mid ordering (10s). Generated 100 selectors for 100n+ij = i
+				return range(0, 10).reduce((acc, j) => {
+					return acc + `&:nth-child(100n+${i}${j})${(j < 9) ? ", " : ""}`
+				}, "") + ` {--order-mid: ${i};}`
+			}).join("\n")}
+
+			${range(1, 10).reduce((acc, i) => { // High ordering (100s). Generated 10 selectors for n+i00-i99 = i
+				return acc + `&:nth-child(n+${i}00):nth-child(-n+${i}99) {--order-high: ${i};}\n`
+			}, "")}
+		}
+	}
+
+	/* Sorting CSS */
+	.message {
+		border: calc(2px*var(--append)) solid red;
+		&:has(.head) {
+			background-color: cyan !important;
+		}
+
+		input[type="radio"]:checked {
+			background-color: blue !important;
+			width: 20px;
+			height: 20px;
+		}
+		
+		&:has([msg-id="${id}"]:is(.head, .append)) + &:has([msg-id="${id}"].append) {
+			background-color: purple !important;
+			--append: 1;
+		}
+		/* Make the system work when a character posts two heads in a row, then appends messages to both of them */
+		/*  Could maybe add an extra id after the main id which is just used for the last sorting rule below */
+		/*  If you add this, change the main id checks to match the beginning of the attribute */
+		/* Also consider explanding the code to the next 15 or 20 messages, or maybe make this customizable through a confix setting? */
+		&:has([msg-id="${id}"]:is(.head, .append)) + &:not(:has([msg-id="${id}"])) {
+			${range(1, 10).reduce((acc, i) => { // Shifts forwards any .append messages amongst the next 10 messages. Marks them as appended
+				return acc + `& +${` :not(:has([msg-id="${id}"].head)) +`.repeat(i-1)} .message:has([msg-id="${id}"].append) {--order-shift: -${i+1}; --append: 1;}\n`
+			}, "")}
+		}
+	}
+	</style none="`;
+
+	// Generate the last styling rules using a loop. The current ones are just for testing
+	//  For the sorting CSS, generate the main selector, & + and :has(...), and add N "* + " in the middle
+
+	// Ordering:
+	// Elements use four modifiers to set their order: --order-mid, --order-low and and --order-shift
+	// The mods have the following values: high = 100, mid = 10 and shift = varies
+	// New messages begin with a total value of 490, which decreases by 10 for every following message
+	// Chains of related messages gain 1 value per message
+	// To move an element N spaces backwards, decrease it's value by 10*N + 1
+	// This code only sorts the last 40 messages
+
+	let template = `&{template:testFeature} {{test=@{dummy}}} {{insert=[[0]]}}`;
+	if (nr == 0) {
+		template += ` {{buttonLabel=?!?!?!?}} {{baseUrl=${baseUrl}}} {{fragment=${fragment}}} {{script=[[0]]}} {{scriptend=[[0]]}}`;
+	}
+
+	setAttrs({"dummy":test});
+
 	/* Send */
-	startRoll((whisper + `&{template:testFeature} {{buttonLabel=Rick}} {{baseUrl=${baseUrl}}} {{fragment=${fragment}}} {{insert=[[0]]}} {{test=[ ](#"title=>[[1d20]]<coconut=)}}`), (results) => {
-		finishRoll(results.rollId, {insert: htmlAttr} );
+	startRoll((whisper + " " + template), (results) => {
+		console.log(results)
+		finishRoll(results.rollId, {insert: htmlAttr, script: htmlScript, scriptend: htmlScriptend} );
 	});
 	});
 }
@@ -18541,6 +18806,13 @@ function deleteMultiple(object, ...args) {
 function length(object) {
 	return keys = Object.keys(object).length;
 }
+// Works as the range() Python function
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
+const range = (start, stop, step=1) =>
+  Array.from(
+    { length: Math.ceil((stop - start) / step) },
+    (_, i) => start + i * step,
+  );
 
 // Helper used to quickly log data during testing
 // Can use property value shorthand log({var1, var2, ...}) to get a more detailed console message

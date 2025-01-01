@@ -3196,12 +3196,25 @@ div.settingStyle:has(select[name="attr_ailTrigger"] > option[value="WhenHit"]:ch
 
 
 
+/* --- Chat message sorting --- */
+.sheet-rolltemplate-testFeature :target {
+    background-color: red !important;
+    border: 2px solid black !important;
+}
 
+.sheet-rolltemplate-testFeature .sheet-compact {
+    width: 100px;
+    height: 45px;
+    background-color: black;
+}
 
+.sheet-rolltemplate-testFeature:has(:target) .sheet-template-wrapper {
+    background-color: purple !important;
+}
 
-
-
-
+.sheet-rolltemplate-testFeature:has(:target) ~ * {
+    background-color: purple !important;
+}
 
 
 /* --- :target testing --- */

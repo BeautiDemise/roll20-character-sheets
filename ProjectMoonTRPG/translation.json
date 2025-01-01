@@ -164,7 +164,7 @@
 	"resource-light_regen":"Light_Regen",
 	"resource-expand":"Expand trackers",
 	"resource-compact":"Compact trackers",
-	"resource-edit":"Edit base resource values",
+	"resource-edit":"Edit base actions and reactions (per round) and light regen (per combat)",
 	"helper-actions":"Actions",
 	"helper-reactions":"Reactions",
 	"helper-light-regen":"Light regen",
