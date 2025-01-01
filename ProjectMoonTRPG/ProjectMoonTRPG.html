@@ -14328,6 +14328,7 @@ function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='
 		whisper = "/w " + whispertarget;
 	}
 
+	// Make this into your char id. Now the sorting can be reused for all of your messages
 	id = "-abcd"
 	
 	let frag = fragment.replace("#sheet-","");
@@ -14338,66 +14339,63 @@ function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='
 
 	htmlScript = `"><style none="`;
 	htmlScriptend = `">
-	.message:has(.sheet-compact) {
-		background-color: red !important;
-	}
-	.message input[type="radio"]:checked {
-		background-color: purple !important;
-		width: 20px;
-		height: 20px;
-	}
-	#textchat .content {
-		display: flex;
-		flex-direction: column;
-		--order-mid: 0;
-		--order-low: 0;
-		--order-shift: 0;
-	}
-	:is(.news, .system, .hidden-message) { order: -1 !important; }
-	
-	.message:nth-child(10n+9) { --order-low: 9; }
-	.message:nth-child(10n+8) { --order-low: 8; }
-	.message:nth-child(10n+7) { --order-low: 7; }
-	.message:nth-child(10n+6) { --order-low: 6; }
-	.message:nth-child(10n+5) { --order-low: 5; }
-	.message:nth-child(10n+4) { --order-low: 4; }
-	.message:nth-child(10n+3) { --order-low: 3; }
-	.message:nth-child(10n+2) { --order-low: 2; }
-	.message:nth-child(10n+1) { --order-low: 1; }
-	.message:nth-child(100n-10) { --order-mid: 9; }
-	.message:nth-child(100n-20) { --order-mid: 8; }
-	.message:nth-child(100n-30) { --order-mid: 7; }
-	.message:nth-child(100n-40) { --order-mid: 6; }
-	.message:nth-child(100n-50) { --order-mid: 5; }
-	.message:nth-child(100n-60) { --order-mid: 4; }
-	.message:nth-child(100n-70) { --order-mid: 3; }
-	.message:nth-child(100n-80) { --order-mid: 2; }
-	.message:nth-child(100n-90) { --order-mid: 1; }
-	.message:nth-child(1000n-100) { --order-high: 9; }
-	.message:nth-child(1000n-200) { --order-high: 8; }
-	.message:nth-child(1000n-300) { --order-high: 7; }
-	.message:nth-child(1000n-400) { --order-high: 6; }
-	.message:nth-child(1000n-500) { --order-high: 5; }
-	.message:nth-child(1000n-600) { --order-high: 4; }
-	.message:nth-child(1000n-700) { --order-high: 3; }
-	.message:nth-child(1000n-800) { --order-high: 2; }
-	.message:nth-child(1000n-900) { --order-high: 1; }
+	/* Ordering CSS */
+	@scope (#textchat .content) {
+		:scope {
+			display: flex;
+			flex-direction: column;
+			--order-high: 0; --order-mid: 0; --order-low: 0; --order-shift: 0;
+			--append: 0;
+		}
+		
+		:is(.news, .system, .hidden-message) { order: -1 !important; }
 
-	.message { order: calc(var(--order-high)*100 + var(--order-mid)*10 + var(--order-low) + var(--order-shift)); }
+		.message {
+			order: calc(var(--order-high)*100 + var(--order-mid)*10 + var(--order-low) + var(--order-shift));
+			
+			${range(1, 10).reduce((acc, i) => { // Low ordering (1s). Generated 10 selectors for 10n+i = i
+				return acc + `&:nth-child(10n+${i}) {--order-low: ${i};}\n`
+			}, "")}
 
-	
-	.message:has([msg-id="${id}"]) + .message:not(:has([msg-id="${id}"])) {
-		& + :has([msg-id="${id}"]) { --order-shift: -2; --append: 1; }
-		& + * + :has([msg-id="${id}"]) { --order-shift: -3; --append: 1; }
-		& + * + * + :has([msg-id="${id}"]) { --order-shift: -4; --append: 1; }
-		& + * + * + * + :has([msg-id="${id}"]) { --order-shift: -5; --append: 1; }
-		& + * + * + * + * + :has([msg-id="${id}"]) { --order-shift: -6; --append: 1; }
-		& + * + * + * + * + * + :has([msg-id="${id}"]) { --order-shift: -7; --append: 1; }
-		& + * + * + * + * + * + * + :has([msg-id="${id}"]) { --order-shift: -8; --append: 1; }
-		& + * + * + * + * + * + * + * + :has([msg-id="${id}"]) { --order-shift: -9; --append: 1; }
-		& + * + * + * + * + * + * + * + * + :has([msg-id="${id}"]) { --order-shift: -10; --append: 1; }
+			${range(1, 10).map(i => { // Mid ordering (10s). Generated 100 selectors for 100n+ij = i
+				return range(0, 10).reduce((acc, j) => {
+					return acc + `&:nth-child(100n+${i}${j})${(j < 9) ? ", " : ""}`
+				}, "") + ` {--order-mid: ${i};}`
+			}).join("\n")}
+
+			${range(1, 10).reduce((acc, i) => { // High ordering (100s). Generated 10 selectors for n+i00-i99 = i
+				return acc + `&:nth-child(n+${i}00):nth-child(-n+${i}99) {--order-high: ${i};}\n`
+			}, "")}
+		}
 	}
 
+	/* Sorting CSS */
+	.message {
+		border: calc(2px*var(--append)) solid red;
+		&:has(.head) {
+			background-color: cyan !important;
+		}
+
+		input[type="radio"]:checked {
+			background-color: blue !important;
+			width: 20px;
+			height: 20px;
+		}
+		
+		&:has([msg-id="${id}"]:is(.head, .append)) + &:has([msg-id="${id}"].append) {
+			background-color: purple !important;
+			--append: 1;
+		}
+		/* Make the system work when a character posts two heads in a row, then appends messages to both of them */
+		/*  Could maybe add an extra id after the main id which is just used for the last sorting rule below */
+		/*  If you add this, change the main id checks to match the beginning of the attribute */
+		/* Also consider explanding the code to the next 15 or 20 messages, or maybe make this customizable through a confix setting? */
+		&:has([msg-id="${id}"]:is(.head, .append)) + &:not(:has([msg-id="${id}"])) {
+			${range(1, 10).reduce((acc, i) => { // Shifts forwards any .append messages amongst the next 10 messages. Marks them as appended
+				return acc + `& +${` :not(:has([msg-id="${id}"].head)) +`.repeat(i-1)} .message:has([msg-id="${id}"].append) {--order-shift: -${i+1}; --append: 1;}\n`
+			}, "")}
+		}
+	}
 	</style none="`;
 
 	// Generate the last styling rules using a loop. The current ones are just for testing
@@ -18740,6 +18738,13 @@ function deleteMultiple(object, ...args) {
 function length(object) {
 	return keys = Object.keys(object).length;
 }
+// Works as the range() Python function
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
+const range = (start, stop, step=1) =>
+  Array.from(
+    { length: Math.ceil((stop - start) / step) },
+    (_, i) => start + i * step,
+  );
 
 // Helper used to quickly log data during testing
 // Can use property value shorthand log({var1, var2, ...}) to get a more detailed console message
