@@ -8399,9 +8399,21 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 
 <rolltemplate class="sheet-rolltemplate-testFeature">
 	<div class="sheet-template-wrapper" style="background-color: #333; border-radius: 5px;  overflow: hidden; border: 1px #555 solid;">
-		<div hidden="true">{{roll1}}</div>
-		<div class="sheet-testcontainer">[{{buttonLabel}}]({{baseUrl}}{{fragment}}" class="{{computed::roll1}}")</div>
+		<div class="sheet-testcontainer">
+			{{test}}
+			[{{buttonLabel}}]({{baseUrl}}{{fragment}}" class="{{computed::insert}}")
+		</div>
 	</div>
+</rolltemplate>
+
+
+<rolltemplate class="sheet-rolltemplate-customRoll">
+    <div class="sheet-template-wrapper" style="background-color: #454545; border-radius: 5px; color: #eee; height: auto; padding: 5px; overflow: hidden;">
+		<div style="position: relative;">
+			{{#header}} {{header}} {{/header}}
+			{{#body}} {{body}} {{/body}}
+		</div>
+    </div>
 </rolltemplate>
 
 
@@ -11382,10 +11394,8 @@ getSectionIDs(`repeating_global`, idarray => {
 
 	setAttrs(output);
 
-
-			});
-		});
-
+	});
+	});
 });
 
 
@@ -11404,10 +11414,8 @@ on('clicked:resetHelpers', function() {
 
 	setAttrs({"baseSpeed":"0", "Difficulty":"0", "advNum":newadvNum, "disadvNum":newdisadvNum, "advState":"0", "baseLuckNum":"0", "skillSelect":"0"});
 
-
- 		});
-
-	});
+ 	});
+});
 
 
 /* Auto: EGO condition update */
@@ -12634,20 +12642,22 @@ function executeRolls(rollArray, callback=()=>{}) {
 	let whisper = (whisperrolls == "true") ? "/w " + whispertarget : "";
 	
 	let message = "";
+	let dicerolls = "";
+	let rollindex = 0;
 	let returnValues = {}
 	let output = {}
 
 	let exampleRoll = [
 		{ // Multi-hit attack with a different weapon for the second attack
 			type: "Attack",
-			diceFormat: [
+			format: [
 				{count: 1, max: 12, power: 2, adv: "Advantage", storable: true}, // Count no longer rolls multiple seperate dice, and instead combine them into one roll (similar to stat rolls)
-				{count: 1, max: 11, power: 3, adv: false}
+				{count: 1, max: 11, power: 3}
 			],
 			AutoScript: "(Gain 1 Tremor) (Inflict 2 Burn, Clash Win)", // If multiple dice are rolled, AutoEffect messages display next to their associated roll
 			icon: false, // Uses default icon and color (Attack symbol over a red dice)
 			origin: false, // Source of the dice. Displays in a grayed out italic text between the header and description
-			store: { // Allows storing of dice. If the diceFormat is an array, only dice with storable = true can be stored
+			store: { // Allows storing of dice. If the format is an array, only dice with storable = true can be stored
 				immediate: false, // Dice is rolled and can be stored afterwards. If false, the dice is not rolled and stored immediately
 				duration: 1, // Dice is stored for 1 round. Can be set to "Combat", "Recover" or "Refresh" to last until the next of these actions. If unset, lasts until the dice is used or manually removed
 				uses: 2, // The dice can be used 2 times. If set to a non-integer value the dice has an unlimited amount of uses
@@ -12660,7 +12670,7 @@ function executeRolls(rollArray, callback=()=>{}) {
 		},
 		{ // Standard fortitude stat roll with disadvantage. Stat rolls either add the bad/normal/good element using HTML, or sets a challange value in the template which reveals the extra HTML
 			type: "Fortitude",
-			diceFormat: {count: 2, max: 6, power: 1, adv: "Disadvantage"},
+			format: {count: 2, max: 6, power: 1, adv: "Disadvantage"},
 			AutoScript: false,
 			icon: false,
 			origin: "Skill - Seize Them", // Dice added by a skill called "Seize Them"
@@ -12671,7 +12681,7 @@ function executeRolls(rollArray, callback=()=>{}) {
 		},
 		{ // Poise roll. Would usually be together with the Clash Win effects after the attack
 			type: "Custom",
-			diceFormat: {count: 1, max: 10, power: 0, adv: false, result: 7}, // If result is set, [[result]] is rolled instead of [[1d10+0]]. Useful when the result is calculated before the message is sent
+			format: {count: 1, max: 10, power: 0, result: 7}, // If result is set, [[result]] is rolled instead of [[1d10+0]]. Useful when the result is calculated before the message is sent
 			AutoScript: false,
 			icon: {
 				image: "https://...limbus/Poise.png", // Uses a custom icon over a dark dice
@@ -12692,52 +12702,117 @@ function executeRolls(rollArray, callback=()=>{}) {
 		}
 	]
 
+
+
+	/* Adds a new roll to the chat message. Returns an insertRoll string that can be inserted anywhere in the HTML to display the roll */
+	function newRoll(format, name) {
+		let baseroll = format.result || `${format.count}d${format.max}+(${format.power})`;
+		
+		if (format.adv) {
+			let advmod = (format.adv == "Advantage") ? "kh1" : (format.adv == "Disadvantage") ? "dh1" : "";
+			baseroll = `{(${baseroll}), (${baseroll})}${advmod}`;
+		}
+
+		dicerolls += `{{${name}=[[${baseroll}]]}} `;
+		return `$&#91;&#91;${rollindex++}.computed&#93;&#93;`;
+	}
+
+
+
+
 	rollArray = exampleRoll;
-
-	console.log(rollArray)
-
 	
-	for (let rollIndex = 0; rollIndex < rollArray.length; rollIndex++) {
-		let roll = rollArray[rollIndex];
+	for (let i = 0; i < rollArray.length; i++) {
+		let roll = rollArray[i];
+		let insertRoll = "";
+
+		/* Add all rolls from the current action */
+		if (Array.isArray(roll.format)) {
+			for (let j = 0; j < roll.format.length; j++) {
+				insertRoll += newRoll(roll.format[j], "roll"+i+j);
+			}
+		} else {
+			insertRoll = newRoll(roll.format, "roll"+i);
+		}
 		
-		
+
+
+
+		/* Handle Combat rolls */
 		if (combatDiceNames.includes(roll.type)) {
+			let icon = (roll.type == "Attack") ? "egoAtt"
+					 : (roll.type == "Block") ? "egoDef"
+					 : (roll.type == "Evade") ? "egoEvd" : "";
 
+			message += `<div class="sheet-statRollResult">${insertRoll} <b>${roll.type}</b> <img src="${getIcon("icons",icon,"false","url")}"></div>`;
 		}
+
+		/* Handle Stat rolls */
 		else if (statNamesFull.includes(roll.type)) {
-
+			// Execute the roll. Check the result variable. Add extra message based on the value
+			let statRoll = 7;
+			let statResult = (statRoll < 7)  ? {icon: "bad", message: getTranslationByKeyCustom("Failure...", "message-failure")}
+						   : (statRoll < 10) ? {icon: "normal", message: getTranslationByKeyCustom("Partial Success", "message-normal")}
+						   : {icon: "good", message: getTranslationByKeyCustom("Success!", "message-success")}
+			
+			message += `<div class="sheet-statRollResult">${insertRoll} <b>${statResult.message}</b> <img src="${getIcon("icons",statResult.icon,"false","url")}"></div>`;
 		}
+
+		/* Handle Speed and Luck rolls */
 		else if (["Speed", "Luck"].includes(roll.type)) {
+			let icon = (roll.type == "Speed") ? "Speed"
+					 : (roll.type == "Luck") ? "fortunewhite" : "";
 
+			message += `<div class="sheet-statRollResult">${insertRoll} <b>${roll.type}</b> <img src="${getIcon("icons",icon,"false","url")}"></div>`;
 		}
+
+		/* Handle Custom rolls */
 		else if (roll.type == "Custom") {
-
+   			message += `<div class="sheet-statRollResult"> [${roll.format.result}](#" name="${insertRoll}) <b>${roll.header.title}</b> <img src="${getIcon("ailments/limbus","Poise","false","url")}"></div>`;
 		}
+
 		else {
 			console.log("Error: unknown roll type: " + roll.type)
 		}
+
+
 	}
 
-	/* Send the roll message */
-	//   Header: Consists of a title, and icon, an optional image and any generated tabs
-	//   Body: Displays each rolls and any associated headers/descriptions/etc. The rolls are inline. Each roll is hidden by default if tabs are used
-	//   Chat buttons: Sent seperately
-	startRoll((whisper + `&{template:baseRoll} {{header=${header}}} {{body=${body}}}`), (results) => {
-		finishRoll(results.rollId);
+	let header = "test header";
+	let body = message;
+
+	console.log(`&{template:customRoll} ${dicerolls} ${header} ${body}`)
+
+	setAttrs({"dummy":header, "dummy2":body}, () => {
+
+		/* Send the roll message */
+		//   Header: Consists of a title, and icon, an optional image and any generated tabs
+		//   Body: Displays each rolls and any associated headers/descriptions/etc. The rolls are inline. Each roll is hidden by default if tabs are used
+		//   Chat buttons: Sent seperately
+		startRoll((whisper + `&{template:customRoll} ${dicerolls} {{header=@{dummy}}} {{body=@{dummy2}}}`), (results) => {
+			
+			console.log(results)
+			
+			finishRoll(results.rollId, { //tipsy-n-right
+				roll2: `" class="inlinerollresult showtip" style="color: #eee; text-decoration: none; " original-title="&lt;img src='/images/quantumrollwhite.png' class='inlineqroll'&gt; Rolling 1d11+(3) = (4?)+(3???) You can add anything here, including pictures &lt;img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/limbus/Poise.png' class='inlineqroll'&gt;, non-userscript classes, input elements etc. &lt;input type='date' style='width: 80%;' &gt;" class="`,
+				key: "test222"
+			} );
+		});
+
+
+
+		/*
+		Uses #allprops. Consists of a container and a header with a name equal to the prop key. All other HTML elements are created from the prop value
+		All rolls are inline, are are surrounded by a container with additional info for the roll used for styling
+		The inline rolls can be written directly in the HTML code and parses with no issues
+		If storing rolls is allowed, each roll container gains an action button to store that dice (has all the same data except store = false and diceFormat cannot be an array)
+		*/
+
+		if (callback != "()=>{}") {
+			callback(returnValues);
+		}
+
 	});
-
-
-
-	/*
-	Uses #allprops. Consists of a container and a header with a name equal to the prop key. All other HTML elements are created from the prop value
-	All rolls are inline, are are surrounded by a container with additional info for the roll used for styling
-	The inline rolls can be written directly in the HTML code and parses with no issues
-	If storing rolls is allowed, each roll container gains an action button to store that dice (has all the same data except store = false and diceFormat cannot be an array)
-	*/
-
-	if (callback != "()=>{}") {
-		callback(returnValues);
-	}
 	});
 }
 
@@ -14076,7 +14151,7 @@ on("clicked:testButton", function(values) {
 		console.log("returnValues: ", returnValues)
 	});
 	
-	//changeIframe("https://www.youtube.com/embed/dQw4w9WgXcQ?si=eSYcqdXVCkheSQGk", "", "charsheet");
+	changeIframe("https://www.youtube.com/embed/dQw4w9WgXcQ?si=eSYcqdXVCkheSQGk", "", "charsheet");
 });
 
 function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='" class="') {
@@ -14146,8 +14221,8 @@ function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='
 	}
 
 	/* Send */
-	startRoll((whisper + `&{template:testFeature} {{buttonLabel=?!?!?!?}} {{baseUrl=${baseUrl}}} {{fragment=${fragment}}} {{roll1=[[0]]}}`), (results) => {
-		finishRoll(results.rollId, {roll1: htmlAttr} );
+	startRoll((whisper + `&{template:testFeature} {{buttonLabel=Rick}} {{baseUrl=${baseUrl}}} {{fragment=${fragment}}} {{insert=[[0]]}} {{test=[ ](#"title=>[[1d20]]<coconut=)}}`), (results) => {
+		finishRoll(results.rollId, {insert: htmlAttr} );
 	});
 	});
 }
@@ -17183,7 +17258,7 @@ on('clicked:repeating_ailments:copycustom', (info) => {
 
 /* Action: Clear all ailment data */
 on('clicked:clearAilment', (info) => {
-clearCustomAilments();
+	clearCustomAilments();
 });
 function clearCustomAilments() {
    getSectionIDs("repeating_ailments", function(idarray) {
@@ -17279,7 +17354,7 @@ getSectionIDs(`repeating_global`, idarray => {
 
 	setAttrs(output);
 
-		});
+	});
 	});
 });
 

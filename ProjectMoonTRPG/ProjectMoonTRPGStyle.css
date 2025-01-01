@@ -3178,6 +3178,32 @@ div.settingStyle:has(select[name="attr_ailTrigger"] > option[value="WhenHit"]:ch
 /* --- Experimental --- */
 
 
+
+/* --- Roll overhaul --- */
+.sheet-rolltemplate-customRoll .sheet-statRollResult {
+    text-align: center;
+    margin-top: 5px;
+}
+.sheet-rolltemplate-customRoll .sheet-statRollResult img {
+    width: 25px;
+    height: 25px;
+}
+.sheet-rolltemplate-customRoll .sheet-plainText span {
+    background-color: transparent;
+    border: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /* --- :target testing --- */
 .sheet-rolltemplate-shareB :target {
     background-color: gold;
