@@ -2644,8 +2644,11 @@ button[type=action].challengeButton::before {
 }
 
 
-/* Editor tab */
-#sheetSettings h3 {
+/* Editor tabs */
+#sheetSettings, #equipmentSettings {
+    border-radius: 0;
+}
+#sheetSettings h3, #equipmentSettings h3 {
     background-color: var(--color-gray);
     padding: 5px;
     position: relative;
@@ -3192,6 +3195,13 @@ div.settingStyle:has(select[name="attr_ailTrigger"] > option[value="WhenHit"]:ch
     background-color: transparent;
     border: none;
 }
+
+
+/* --- Repeating inventory --- */
+#equipmentSection > #editToggle:checked .repitem .itemcontrol {
+    display: block !important;
+}
+
 
 
 

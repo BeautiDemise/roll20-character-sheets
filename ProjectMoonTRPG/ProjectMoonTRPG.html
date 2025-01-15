@@ -4704,6 +4704,45 @@
 <!-- EGO uses dummy -->
 <input type="text" name="attr_egoUses" value="5" hidden="true">
 
+<!-- Game Setting Section -->
+<div class="contentContainer" id="equipmentSettings">
+
+	<input type="checkbox" class="hide-toggle-rev" name="attr_global_accessCheck" value="0" hidden="true">
+	<div class="hide-item-rev rowContainer">
+	
+	
+	
+	<div style="width: 100%;"><h3>
+	<input type="checkbox" class="switch-toggle" name="attr_syncLockGame" value="true" hidden="true">
+	<button type="action" class="lockButton" id="lock_Game" name="act_lockSection"></button>
+	
+	<div>
+	<input type="checkbox" class="hide-toggle" name="attr_syncStateGame" value="true">
+	<div class="hide-item syncIcon"></div>
+	</div>
+	
+	<span data-i18n="editor-gamesettings">Game Settings</span> 
+	
+	<label for="hideGameSettings" class="arrowholder"><input type="checkbox" class="switch-toggle" id="hideGameSettings" name="attr_hideGameSettings" value="true" style="display: none;"><div class="arrow"></div></label></h3>
+	
+	<input type="checkbox" class="hide-toggle-rev" name="attr_hideGameSettings" value="true" hidden="true">
+	<div class="hide-item-rev" style="width: 100%;">
+	
+	<div class="rowContainer centerFlex">
+		<textarea spellcheck="false" name="attr_gameEditor" data-il18n-placeholder="editor-outputText" data-i18n-placeholder="editor-gamesettings-textedit" placeholder="Game Settings editor."></textarea>
+	</div>
+	<div class="rowContainer">
+	<button type="action" name="act_resetGlobal" data-i18n="clear-button" class="btn">Clear</button>
+	<button type="action" name="act_syncGlobal" data-i18n="sync-button" class="btn">Sync</button>
+	<button type="action" name="act_exportGlobal" data-i18n="message-export" class="btn">Export</button>
+	<button type="action" name="act_importGlobal" data-i18n="message-import" class="btn">Import</button>
+
+	</div>
+	</div>
+	</div>
+	</div>
+</div>
+
 <div class="contentBlock" id="equipmentSection">
 <div class="weaponContainer">
 
@@ -12556,7 +12595,7 @@ function rollCombat(info) {
 
 		let total = 0;
 		let rollList = {}
-		for (let i = 1; i <= 5; i++) {
+		for (let i = 1; i <= 10; i++) {
 			let rollKey = "roll" + i;
 			if (results.results.hasOwnProperty(rollKey)) {
 				rollList[rollKey] = Math.max(parseInt(results.results[rollKey].result), 0);
@@ -12803,6 +12842,11 @@ function convertInventory() {
 // Add a on:startup event that adds some empty slots when a sheet is first opened
 // If at least one old inventory item exists, use convertInventory() first, then add any unused slots in the old inventory
 
+// Add a remove:repeating_inventory event that checks if any items were linked to the removed item
+// If yes, it asks if those items should also be deleted or if they should be unlinked
+
+// Consider adding the getSectionIDsOrdered function from the wiki
+// You'd have to rework it to work for multiple repeating sections at the same time
 
 
 
