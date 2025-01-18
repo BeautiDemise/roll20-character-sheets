@@ -19,7 +19,7 @@
 </div>
 
 <div id="settings">
-<div class="settingsIcon"><img src="https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/gear.png"></div>
+<div class="settingsIcon centerIcon option"></div>
 
 	<div class="rowContainer">
 		<div class="settingsText">
@@ -110,61 +110,59 @@
 	</div>
 
 </div>
-
 </div>
 <br>
 
- 	<div class="player">
-            <div><span data-i18n="assessed">Assessed by: </span></div>
-            <input type="text" placeholder="Player name" id="playerName" name="attr_player_name" data-i18n-placeholder="playername">
-        </div>
+<div class="player">
+	<div><span data-i18n="assessed">Assessed by: </span></div>
+	<input type="text" placeholder="Player name" id="playerName" name="attr_player_name" data-i18n-placeholder="playername">
+</div>
 
-              <div id="logo">
-                    <img src="https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/PMTRPGLogo.png" title="Project Moon TRPG"></div>
+<div id="logo">
+	<img src="https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/PMTRPGLogo.png" title="Project Moon TRPG">
+</div>
 
-	<div class="rowContainer centerFlex">    
-        <div id="sheetTitle"><span data-i18n="sheet-title">Background Investigation and Combat Ability Report</span></div>
-
-	      </div>
+<div class="rowContainer centerFlex">    
+	<div id="sheetTitle"><span data-i18n="sheet-title">Background Investigation and Combat Ability Report</span></div>
+</div>
 
 
 <div id="sheetWrapper">
 
+<!-- Generic popup -->
 <input type="checkbox" id="messageToggle" name="attr_popup_display" value="true" hidden="true">
 <div id="messagePop">
-<div class="rowContainer centerFlex">
+	<div class="rowContainer centerFlex">
+		<div class="messageContent columnAlign">
+			<div class="messageClose"><label for="messageToggle">x</label></div>
 
-<div class="messageContent columnAlign">
-
-<div class="messageClose">
-<label for="messageToggle">x</label></div>
-
-<input type="text" class="mHeader transpInput" name="attr_popup_messageHeader">
-<textarea type="text" class="mBody transpInput" name="attr_popup_messageBody" style="overflow: hidden;">
-
-
+			<input type="text" class="mHeader transpInput" name="attr_popup_messageHeader">
+			<textarea type="text" class="mBody transpInput" name="attr_popup_messageBody" style="overflow: hidden;">
+		</div>
+	</div>
 </div>
-</div>
-</div>
+
 
 <!-- AutoScript edit popup -->
-<input type="checkbox" id="autoScriptEditorToggle" name="attr_autoScriptEditor_display" value="true" hidden="true">
-<div class="contentContainer darkBG autoscriptEditorContainer">
-	<div class="autoscriptEditorControls">
-	<input type="checkbox" class="toggleAliasButton" name="attr_autoScriptEditorTarget" value="autoScriptAlias" hidden="true">
-	<input type="checkbox" class="toggleStylingButton" name="attr_autoScriptEditorTarget" value="autoScriptStyling" hidden="true">
-		<button type="action" id="autoScriptAlias" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-edit-aliases-title" title="Open AutoScript Alias Editor" data-i18n="autoscript-edit-aliases">AutoScript Aliases</button>
-		<button type="action" id="autoScriptStyling" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-edit-styling" title="Open AutoScript Styling Editor" data-i18n="autoscript-edit-styling">AutoScript Styling</button>
-		<button type="action" id="autoScriptReturn" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-return-to-editor" title="Return to Editor" data-i18n="autoscript-return-to-editor">Return to Editor</button>
-		<input type="text" name="attr_autoScriptEditorTargetOld" hidden="true">
-		<button type="action" id="autoScriptAliasDefault" class="darkInput" name="act_autoScriptDefault" data-i18n-title="autoscript-reset-aliases" title="Reset Aliases to Default" data-i18n="autoscript-reset-aliases">Reset Aliases to Default</button>
-		<button type="action" id="autoScriptStylingDefault" class="darkInput" name="act_autoScriptDefault" data-i18n-title="autoscript-reset-styling" title="Reset Styling to Default" data-i18n="autoscript-reset-styling">Reset Styling to Default</button>
-		<button type="action" id="autoScriptSave" class="darkInput" name="act_saveAutoScriptEdit" data-i18n-title="autoscript-save-changes-title" title="Save AutoScript changes" data-i18n="autoscript-save-changes">Save</button>
-		<button type="action" id="autoScriptClose" class="darkInput centerIcon exit" name="act_closeAutoScriptEdit" data-i18n-title="autoscript-close-editor" title="Save and close AutoScript Editor"></button>
+<input type="checkbox" class="hide-toggle-next" name="attr_autoScriptEditor_display" value="true" hidden="true">
+<div id="autoscriptEditor" class="hide-item contentContainer darkBG editorContainer">
+	<div class="editorControls">
+		<input type="checkbox" class="toggleAliasButton" name="attr_autoScriptEditorTarget" value="autoScriptAlias" hidden="true">
+		<input type="checkbox" class="toggleStylingButton" name="attr_autoScriptEditorTarget" value="autoScriptStyling" hidden="true">
+		<button type="action" id="autoScriptAlias" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-editor-aliases-title" title="Open AutoScript Alias Editor" data-i18n="autoscript-editor-aliases">AutoScript Aliases</button>
+		<button type="action" id="autoScriptStyling" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-editor-styling" title="Open AutoScript Styling Editor" data-i18n="autoscript-editor-styling">AutoScript Styling</button>
+		<button type="action" id="autoScriptReturn" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-editor-return" title="Return to Editor" data-i18n="autoscript-editor-return">Return to Editor</button>
+		<button type="action" id="autoScriptAliasDefault" class="darkInput" name="act_autoScriptDefault" data-i18n-title="autoscript-editor-aliases-reset" title="Reset Aliases to Default" data-i18n="autoscript-editor-aliases-reset">Reset Aliases to Default</button>
+		<button type="action" id="autoScriptStylingDefault" class="darkInput" name="act_autoScriptDefault" data-i18n-title="autoscript-editor-styling-reset" title="Reset Styling to Default" data-i18n="autoscript-editor-styling-reset">Reset Styling to Default</button>
+		<button type="action" id="autoScriptClose" class="darkInput centerIcon mediumIcon exit" name="act_closeAutoScriptEdit" data-i18n-title="autoscript-editor-close" title="Save and close AutoScript Editor"></button>
 	</div>
 	<label for="autoScriptInput" style="margin-left: 5px;" data-i18n="autoscript-editor">AutoScript Editor</label>
-	<input type="text" class="autoScriptEditorTarget darkBG" name="attr_autoScriptEditorTarget" readonly>
-	<textarea spellcheck="false" id="autoScriptInput" name="attr_autoScriptEditorInput"></textarea>
+	<input type="text" class="editorTarget darkBG" name="attr_autoScriptEditorTargetName" readonly>
+	<input type="text" name="attr_autoScriptEditorTarget" hidden="true">
+	<textarea spellcheck="false" class="editorInput" name="attr_autoScriptEditorInput"></textarea>
+
+	<!-- Used for data storage -->
+	<input type="text" name="attr_autoScriptEditorTargetOld" hidden="true">
 	<textarea type="text" name="attr_autoScriptAlias" hidden="true"></textarea>
 	<textarea type="text" name="attr_autoScriptAliasDefault" hidden="true"></textarea>
 	<textarea type="text" name="attr_autoScriptStyling" hidden="true"></textarea>
@@ -172,7 +170,23 @@
 </div>
 
 
-<!-- Generic token mode popup -->
+<!-- Item edit popup -->
+<input type="checkbox" class="hide-toggle-next" name="attr_itemEditor_display" value="true" hidden="true">
+<div id="itemEditor" class="hide-item contentContainer darkBG editorContainer">
+	<div class="editorControls">
+		<button type="action" id="itemClose" class="darkInput centerIcon mediumIcon exit" name="act_closeItemEdit" data-i18n-title="item-editor-close" title="Save and close Item Editor"></button>
+	</div>
+	<label for="itemInput" style="margin-left: 5px;" data-i18n="item-editor">Item Editor</label>
+	<input type="text" class="editorTarget darkBG" name="attr_itemEditorTargetName" readonly>
+	<input type="text" name="attr_itemEditorTarget" hidden="true">
+
+	<!-- Item options -->
+	<input type="checkbox" name="attr_testCheckbox">
+	<textarea spellcheck="false" class="editorInput" name="attr_itemEditorInput"></textarea>
+</div>
+
+
+<!-- Generic token mode instance bar -->
 <input type="checkbox" id="genericTokenModeToggle" name="attr_settingGenericTokenMode" value="true" hidden="true">
 <div class="contentContainer columnAlign genericTokenContainer">
 
@@ -1799,7 +1813,7 @@
 <div class="ailmentCustomDisplay">
 <fieldset class="repeating_ailments">
 
-<input type="checkbox" class="hide-container-toggle displayButton" name="attr_ailDisplay" hidden="true" value="0">
+<input type="checkbox" class="hide-container-toggle" name="attr_ailDisplay" hidden="true" value="0">
 
 <button type="action" class="blocker ailmentButton" name="act_clickercustom"></button>
 
@@ -4701,45 +4715,44 @@
 <!-- Equipment section -->
 <div class="sheet-body sheet-equipment darkBG">
 
-<!-- EGO uses dummy -->
-<input type="text" name="attr_egoUses" value="5" hidden="true">
+<!-- Item Settings Section. Used for both Equipment and Skills! -->
+<div class="contentContainer" id="itemSettings">
+	<div style="width: 100%;">
+		<h3 style="height: 27px;">
 
-<!-- Game Setting Section -->
-<div class="contentContainer" id="equipmentSettings">
+			<!-- Lock Button -->
+			<input type="checkbox" class="switch-toggle" name="attr_syncLockItems" value="true" hidden="true">
+			<button type="action" class="lockButton largeIcon" id="lock_Items" name="act_lockSection"></button>
+			<div>
+				<input type="checkbox" class="hide-toggle" name="attr_syncStateItems" value="true">
+				<div class="hide-item containIcon"></div>
+			</div>
 
-	<input type="checkbox" class="hide-toggle-rev" name="attr_global_accessCheck" value="0" hidden="true">
-	<div class="hide-item-rev rowContainer">
-	
-	
-	
-	<div style="width: 100%;"><h3>
-	<input type="checkbox" class="switch-toggle" name="attr_syncLockGame" value="true" hidden="true">
-	<button type="action" class="lockButton" id="lock_Game" name="act_lockSection"></button>
-	
-	<div>
-	<input type="checkbox" class="hide-toggle" name="attr_syncStateGame" value="true">
-	<div class="hide-item syncIcon"></div>
-	</div>
-	
-	<span data-i18n="editor-gamesettings">Game Settings</span> 
-	
-	<label for="hideGameSettings" class="arrowholder"><input type="checkbox" class="switch-toggle" id="hideGameSettings" name="attr_hideGameSettings" value="true" style="display: none;"><div class="arrow"></div></label></h3>
-	
-	<input type="checkbox" class="hide-toggle-rev" name="attr_hideGameSettings" value="true" hidden="true">
-	<div class="hide-item-rev" style="width: 100%;">
-	
-	<div class="rowContainer centerFlex">
-		<textarea spellcheck="false" name="attr_gameEditor" data-il18n-placeholder="editor-outputText" data-i18n-placeholder="editor-gamesettings-textedit" placeholder="Game Settings editor."></textarea>
-	</div>
-	<div class="rowContainer">
-	<button type="action" name="act_resetGlobal" data-i18n="clear-button" class="btn">Clear</button>
-	<button type="action" name="act_syncGlobal" data-i18n="sync-button" class="btn">Sync</button>
-	<button type="action" name="act_exportGlobal" data-i18n="message-export" class="btn">Export</button>
-	<button type="action" name="act_importGlobal" data-i18n="message-import" class="btn">Import</button>
+			<!-- Search Bar -->
+			<div class="searchBar">
+				<label for="itemSearch" class="searchIcon centerIcon search"></label>
 
-	</div>
-	</div>
-	</div>
+				<input type="text" id="itemSearch" class="searchInput" name="attr_itemSearchInput" data-i18n-title="item-search-title" title="Search for a term in an item's name, effect or description" data-i18n-placeholder="item-search" placeholder="Search for item">
+				
+				<button type="action" class="searchClear centerIcon exit" name="act_clearSearchBar" data-i18n-title="item-search-clear" title="Clear the search"></button>
+
+				<!-- Advanced Search Button -->
+				<input type="checkbox" class="switch-toggle" id="hideItemSearchOptions" name="attr_hideItemSearchOptions" value="true" hidden="true">
+				<label for="hideItemSearchOptions" class="searchOptions centerIcon option" data-i18n-title="item-search-options" title="Advanced search options"></label>
+			</div>
+			
+			<!-- Edit Button -->
+			<input type="checkbox" class="switch-toggle" id="hideItemSettings" name="attr_hideItemSettings" value="true" hidden="true">
+			<label for="hideItemSettings" class="equipEditButton largeIcon edit" data-i18n-title="item-edit" title="Edit items"></label>
+
+		</h3>
+	
+		<!-- Advanced Search Menu -->
+		<input type="checkbox" class="hide-toggle-rev" name="attr_hideItemSearchOptions" value="true" hidden="true" checked>
+		<div class="hide-item-rev searchOptionsMenu">
+			<!-- Add options here later in a similar style to Ruina -->
+		</div>
+
 	</div>
 </div>
 
@@ -4747,18 +4760,25 @@
 <div class="weaponContainer">
 
 	<div class="contentContainer itemContainer">
-	<div class="contentHeader">
-		<div class="repcontrol_blocker"></div>
+	<div class="contentHeader repcontrol_header">
+		<span class="contentName">Weapons</span>
+
+		<!-- Custom add repeating item button. The default one makes it difficult to set different default values for different item types -->
+		<button type="action" class="btn repcontrol_add" id="add_weapon" name="act_addItem" data-i18n-title="item-add" title="Add new item">Add</button>
 	</div>
 
 	<!-- Repeating weapon block -->
 	<fieldset class="repeating_weapons">
 
+		<!-- Custom delete repeating item button. The default one doesn't work consistently -->
+		<button class="btn btn-danger pictos repcontrol_del" style="display: none;">#</button>
+
 		<div class="contentContainer">
-			<button type="action" class="darkInput shareButton" name="act_shareWeapon" data-i18n-title="share" title="Share info"></button>
-			<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-			<button type="action" class="darkInput autoScriptButton" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+			<button type="action" class="darkInput shareButton" name="act_share-item" data-i18n-title="share" title="Share info"></button>
+			<button type="action" class="darkInput editButton edit" name="act_edit-item" data-i18n-title="edit" title="Edit"></button>
+			<button type="action" class="darkInput autoScriptButton" name="act_edit-autoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
 			<input type="text" name="attr_autoScript" hidden="true">
+			<input type="text" name="attr_itemData" hidden="true">
 	
 			<!-- Weapon header -->
 			<div class="contentHeader weapon">
@@ -4853,9 +4873,7 @@
 			<!-- desc end -->	
 	
 		</div>
-
-
-
+		
 	</fieldset>
 	</div>
 	<!-- Repeating weapon block END -->
@@ -7486,7 +7504,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 <!-- Game Setting Section -->
 <div style="width: 100%;"><h3>
 <input type="checkbox" class="switch-toggle" name="attr_syncLockGame" value="true" hidden="true">
-<button type="action" class="lockButton" id="lock_Game" name="act_lockSection"></button>
+<button type="action" class="lockButton largeIcon" id="lock_Game" name="act_lockSection"></button>
 
 <div>
 <input type="checkbox" class="hide-toggle" name="attr_syncStateGame" value="true">
@@ -7501,7 +7519,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 <div class="hide-item-rev" style="width: 100%;">
 
 <div class="rowContainer centerFlex">
-	<textarea spellcheck="false" name="attr_gameEditor" data-il18n-placeholder="editor-outputText" data-i18n-placeholder="editor-gamesettings-textedit" placeholder="Game Settings output"></textarea>
+	<textarea spellcheck="false" name="attr_gameEditor" data-i18n-placeholder="editor-gamesettings-textedit" placeholder="Game Settings output"></textarea>
 </div>
 <div class="rowContainer">
 <button type="action" name="act_resetGlobal" data-i18n="clear-button" class="btn">Clear</button>
@@ -7991,7 +8009,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 <div>
 <h3>
 <input type="checkbox" class="switch-toggle" name="attr_syncLockAilment" value="true" hidden="true">
-	<button type="action" class="lockButton" id="lock_Ailment" name="act_lockSection"></button>
+	<button type="action" class="lockButton largeIcon" id="lock_Ailment" name="act_lockSection"></button>
 
 	<div>
 	<input type="checkbox" class="hide-toggle" name="attr_syncStateAilment" value="true">
@@ -8536,6 +8554,13 @@ const ailmentNames = [
 	"Fragile", "Strength", "Feeble", "Endurance", "Disarm",
 	"Haste", "Bind", "Smoke", "Charge", "Fortune"
 ]
+const ailmentAttributes = [
+	"ailNum", "ailName", "ailIcon", "ailDisplay", , "ailTrigger", "ailNextTurn",
+	"ailEffect", "ailEffectMode", "ailEffectVal", "ailDecayMode", "ailDecayVal", "ailDecayMin", // Effect and decay
+	"ailDamageTypeTrigger", "ailBeforeResistance", "ailDecayWhenHit", "ailDecayRoundEnd", "ailPositiveType", // When Hit settings
+	"ailMax", "ailMaxBehavior", "ailMessageCheck", "ailMessage", "ailCustomResistance", "ailCollapse" // Other
+]
+
 const barNames = ["HP", "ST", "SP", "Light"]
 const barNamesFull = ["Health", "StagRes", "Sanity", "Light"]
 const barNamesTemp = ["THP", "TST"]
@@ -8543,13 +8568,7 @@ const statNames = ["Instinct", "Wisdom", "Justice", "Charm", "Insight", "Tempera
 const statNamesFull = [...statNames, "Fortitude", "Prudence"]
 const resourceNames = ["Action", "Reaction", "Counter", "Block", "Evade", "Light_Regen"]
 const combatDiceNames = ["Attack", "Block", "Evade"]
-
-const ailmentAttributes = [
-	"ailNum", "ailName", "ailIcon", "ailDisplay", , "ailTrigger", "ailNextTurn",
-	"ailEffect", "ailEffectMode", "ailEffectVal", "ailDecayMode", "ailDecayVal", "ailDecayMin", // Effect and decay
-	"ailDamageTypeTrigger", "ailBeforeResistance", "ailDecayWhenHit", "ailDecayRoundEnd", "ailPositiveType", // When Hit settings
-	"ailMax", "ailMaxBehavior", "ailMessageCheck", "ailMessage", "ailCustomResistance", "ailCollapse" // Other
-]
+const itemNames = ["Weapon", "Outfit", "Augment", "Tool", "Skill"]
 
 /* Contains details on the format of all AutoEffects. Used for parsing AutoScripts */
 //	 value: One of "string", "number", or false. If false the AutoEffect has no value
@@ -12823,6 +12842,10 @@ function exportItems(idArray, options={exportLinked:false}) {
 
 function updateItemList() {
 	// As updateAilmentList, but for items. Runs whenever an item is updated or deleted
+	
+	// Change events include the new attribute value, so you may be able to modify individual attributes instead of updating everything
+	// If yes, consider changing the ailmentList over to using this method as well
+	// You'd have to find some way to only setAttrs() the new list once and not every time a value changes (Causes a lot of extra server calls when updating many attributes at once)
 }
 
 function shareItems() {
@@ -12842,12 +12865,89 @@ function convertInventory() {
 // Add a on:startup event that adds some empty slots when a sheet is first opened
 // If at least one old inventory item exists, use convertInventory() first, then add any unused slots in the old inventory
 
-// Add a remove:repeating_inventory event that checks if any items were linked to the removed item
-// If yes, it asks if those items should also be deleted or if they should be unlinked
-
 // Consider adding the getSectionIDsOrdered function from the wiki
 // You'd have to rework it to work for multiple repeating sections at the same time
 
+
+/* Add repeating item */
+on("clicked:addItem", function(info) {
+	let itemType = info.htmlAttributes.id.split("_")[1];
+
+	// Set which item options are enabled based on the item type (ex. weapons have an offensive roll format by default)
+
+	// Create the item
+
+	// setAttrs() the desired default options
+
+	// Add the new item to the itemList. Make this a function so it can be used in other places
+});
+
+/* Remove repeating item */
+on(itemNames.reduce((rows, item) => rows += ` remove:repeating_${item}s`, ""), function(info) {
+	let itemType = info.sourceAttribute.split("_")[1];
+	let itemId = info.sourceAttribute.split("_")[2];
+
+	// The built in Roll20 functionality deleted the item automatically
+
+	// Check if any items link to the item
+	// If yes, ask if those items should be unlinked or deleted. If possible, list the linked items in the query
+
+	// Remove all deleted items from the itemList. Make this a function so it can be used in other places
+
+	console.log(`${itemType} section - removed item: ${itemId}`);
+});
+
+/* Repeating item share button */
+on(itemNames.reduce((rows, item) => rows += ` clicked:repeating_${item}s:share-item`, ""), function(info) {
+	console.log(info);
+});
+
+/* Reorder repeating items */
+on(itemNames.reduce((rows, item) => rows += ` change:_reporder:${item}s`, ""), function(info) {
+	let itemType = info.sourceAttribute.split("_")[3];
+
+	let newOrder = info.newValue; // Handle if this is undefined. Unsure why it happens
+
+	// Update the item order in the itemList
+
+	console.log(`${itemType} section - changed item order to: ${newOrder}`);
+});
+
+
+/* Clear equipment and skills search bar */
+on("clicked:clearSearchBar", function() {
+	setAttrs({"itemSearchInput":""});
+	// Also needs to clear the advanced search options
+});
+
+
+
+/*--- Item Editor ---*/
+const itemEditorAttrs = [ // Item edit popup
+	"testCheckbox"
+]
+
+/* Item editor open button */
+on(itemNames.reduce((rows, item) => rows += ` clicked:repeating_${item}s:edit-item`, ""), function(info) {
+	let itemData = info.sourceAttribute.replace("_edit-item", "_itemData");
+	let itemName = info.sourceAttribute.replace("_edit-item", "_name");
+	
+	getAttrs([itemName], function(values) {
+		openEditor("item", itemData, values[itemName]);
+	});
+});
+
+/* Item editor close button */
+on("clicked:closeItemEdit", function(info) {
+	saveEditor("item", itemEditorAttrs);
+	closeEditor("item");
+});
+
+/* Item editor sync changes */
+on(itemEditorAttrs.reduce((rows, attr) => rows += ` change:${attr}`, ""), function(info) {
+	saveEditor("item", itemEditorAttrs);
+});
+/*--- Item Editor end ---*/
 
 
 
@@ -15324,18 +15424,8 @@ on("clicked:shareSkill", function(info) {
 
 /* Toggle: Edit Mode */
 on("clicked:editMode", function(){
-getAttrs(["settingEditMode"], function(values) {
-	let newstate = "";
-	let editmode = values.settingEditMode;
-
-	if(editmode == "true"){
-	newstate = "0";
-	}
-	else {
-	newstate = "true";
-	}
-
-	setAttrs({"settingEditMode":newstate});
+	getAttrs(["settingEditMode"], function(values) {
+		setAttrs({"settingEditMode": (values.settingEditMode == "true") ? "0" : "true"});
 	});
 });
 
@@ -15350,50 +15440,99 @@ tablist.forEach(tab => {
 
 
 
-/*--- AutoScript functions ---*/
 
-/* AutoScript editor open button */
-on("clicked:autoScriptEdit", function(info) {	
-	getAttrs(["autoScriptEditorTargetOld"], function(values) {
-		let newEditorTarget = (info.htmlAttributes.id != "autoScriptReturn") ? info.htmlAttributes.id : values.autoScriptEditorTargetOld;
-	getAttrs([`${newEditorTarget}`,"autoScriptEditorTarget", "autoScriptEditorInput"], function(values) {
-		let oldEditorTarget = values.autoScriptEditorTarget;
-		let newEditorInput = values[`${newEditorTarget}`];
-		let oldEditorInput = values.autoScriptEditorInput;
-		setAttrs({
-			[oldEditorTarget]: oldEditorInput,
-			autoScriptEditorInput: newEditorInput,
-			autoScriptEditorTarget: newEditorTarget,
-				autoScriptEditorTargetOld: oldEditorTarget,
-			autoScriptEditor_display: "true"
-			});
-		});
+/*--- Editor functions ---*/
+function openEditor(type, newTarget, newTargetName) {
+	let editorAttrs = [`${newTarget}`, `${type}EditorTarget`, `${type}EditorInput`];
+	if (!newTargetName) {
+		newTargetName = newTarget;
+	}
+
+	getAttrs(editorAttrs, function(values) {
+		let oldTarget = values[`${type}EditorTarget`];
+		let newInput = values[`${newTarget}`];
+		let oldInput = values[`${type}EditorInput`];
+		
+		let output = {
+			[`${type}EditorTarget`]: newTarget,
+			[`${type}EditorTargetOld`]: oldTarget,
+			[`${type}EditorTargetName`]: newTargetName,
+			[`${type}Editor_display`]: "true"
+		}
+
+		if (type == "item") {
+			output = {...output, ...Data.unpackage(newInput)};
+		} else {
+			output[`${type}EditorInput`] = newInput;
+		}
+		
+		if (oldTarget != "") {
+			output[oldTarget] = oldInput;
+		}
+
+		setAttrs(output);
 	});
-});
-/* AutoScript editor save button */
-function saveAutoScriptEditor() {
-	getAttrs(["autoScriptEditorTarget", "autoScriptEditorInput"], function(values) {
-		let editorTarget = values.autoScriptEditorTarget;
-		let editorInput = values.autoScriptEditorInput;
+}
+
+function saveEditor(type, attrs) {
+	let editorAttrs = attrs || [`${type}EditorInput`];
+
+	getAttrs([`${type}EditorTarget`, ...editorAttrs], function(values) {
+		let editorTarget = values[`${type}EditorTarget`];
+		delete values[`${type}EditorTarget`]
+		let editorInput = (attrs) ? Data.package(values) : values[`${type}EditorInput`];
+
+		let output = {[editorTarget]: editorInput}
+		if (attrs) { output[`${type}EditorInput`] = editorInput; } // For testing purposes. Displays the data in plaintext
 
 		if (editorTarget != "") {
-			setAttrs({
-				[editorTarget]: editorInput
-			});
+			setAttrs(output);
 		}
 	});
 }
-on("clicked:saveAutoScriptEdit", function(info) {
-	saveAutoScriptEditor();
-});
-/* AutoScript editor close button */
-on("clicked:closeAutoScriptEdit", function(info) {
-	saveAutoScriptEditor();
+function closeEditor(type) {
 	setAttrs({
-		autoScriptEditor_display: "0",
-		autoScriptEditorTarget: ""
+		[`${type}Editor_display`]: "0",
+		[`${type}EditorTarget`]: "",
+		[`${type}EditorTargetName`]: ""
+	});
+}
+/*--- Editor functions end ---*/
+
+
+
+/*--- AutoScript functions ---*/
+
+/* AutoScript editor open button */
+on("clicked:autoScriptEdit" + itemNames.reduce((rows, item) => rows += ` clicked:repeating_${item}s:edit-autoscript`, ""), function(info) {	
+	getAttrs(["autoScriptEditorTargetOld"], function(values) {
+		let target = (info.htmlAttributes.id == "autoScriptReturn") ? values.autoScriptEditorTargetOld
+				   : (info.sourceAttribute?.includes("repeating")) ? info.sourceAttribute.replace("_edit-", "_")
+				   : info.htmlAttributes.id;
+
+		if (target.includes("repeating")) {
+			let targetName = target.replace("_autoscript", "_name");
+
+			getAttrs([targetName], function(values) {
+				openEditor("autoScript", target, values[targetName]);
+			});
+		} else {
+			openEditor("autoScript", target);
+		}
 	});
 });
+
+/* AutoScript editor close button */
+on("clicked:closeAutoScriptEdit", function(info) {
+	saveEditor("autoScript");
+	closeEditor("autoScript");
+});
+
+/* AutoScript editor sync changes */
+on("change:autoScriptEditorInput", function(info) {
+	saveEditor("autoScript");
+});
+
 /* AutoScript editor reset styling or aliases to default */
 on("clicked:autoScriptDefault", async function(info) {
 	let type = (info.htmlAttributes.id.includes("Styling")) ? "styling" : "alias";
@@ -18110,7 +18249,7 @@ on("change:global_editMode", function() {
 getAttrs(["global_editMode"], function(values) {
 		if(values.global_editMode != "true"){
 			setAttrs({"sheetTab":"equipment"});
-	}
+		}
 	});
 });
 

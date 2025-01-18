@@ -41,7 +41,9 @@
         ○ Skills
         ○ Special items
         ○ Mysteries (E.G.O)
-        ○ Repeating inventory
+        ○ Repeating inventory and skills
+            ○ Controls
+            ○ Item editor
         ○ AutoScript, edit, share buttons
             ○ Edit cover
             ○ Custom outfit resistances
@@ -267,6 +269,9 @@ body, .sheet-body {
 #globalSettings ::placeholder {
     color: var(--color-light-gray) !important;
 }
+.searchBar ::placeholder {
+    color: var(--color-lighter-gray) !important;
+}
 
 
 /* Cusomizable names for equipment, skills, mystery ect. */
@@ -388,7 +393,7 @@ body, .sheet-body {
     width: 45px;
     height: 25px;
 }
-.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton {
+.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton, .equipEditButton {
     position: absolute;
     height: 25px;
     width: 25px;
@@ -398,11 +403,46 @@ body, .sheet-body {
     background-position: center;
     background-repeat: no-repeat;
 }
-:is(.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton):hover {
+:is(.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton, .equipEditButton, .searchClear, .searchOptions):hover {
     background-color: rgba(0, 0, 0, 0.3) !important;
 }
-:is(.NDice, .challengeButton, .declare, .btn, .selectTargetButton, .defenceDice, .autoscriptEditorControls button, .sectionHeader button:not(:first-child), .darkButton):hover {
+:is(.NDice, .challengeButton, .declare, .btn, .selectTargetButton, .defenceDice, .editorControls button, .sectionHeader button:not(:first-child), .darkButton):hover {
     background-color: var(--color-black) !important;
+}
+.editorContainer {
+    position: fixed;
+    z-index: 999;
+}
+.editorControls {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    display: flex;
+}
+.editorControls button {
+    height: 25px;
+    width: auto;
+    z-index: 20;
+    padding: 0 4px;
+    margin-left: 6px;
+    border-radius: 5px;
+}
+.editorTarget {
+    position: absolute;
+    top: 2px;
+    left: 145px;
+    color: var(--color-lighter-gray);
+    pointer-events: none;
+}
+.editorContainer label {
+    color: #B3B3B3;
+}
+.editorInput {
+    resize: vertical;
+    overflow: auto;
+    min-height:60px;
+    height: 120px;
+    max-height: 500px;
 }
 
 /* Generic icons */
@@ -424,6 +464,21 @@ body, .sheet-body {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+}
+:is(.largeIcon, .mediumIcon, .smallIcon) {
+    padding: 0 !important;
+}
+.largeIcon {
+    height: 30px !important;
+    width: 30px !important;
+}
+.mediumIcon {
+    height: 25px !important;
+    width: 25px !important;
+}
+.smallIcon {
+    height: 20px !important;
+    width: 20px !important;
 }
 
 /* Generic input elements */
@@ -555,15 +610,14 @@ option:checked { background-color: rgba(0, 0, 0, var(--option-alpha-checked)); }
 .hide-item-rev:is(.rowContainer, .columnAlign) {
     display: flex;
 }
-.hide-toggle:checked ~ button, .hide-toggle-rev:checked ~ .hide-item-rev,
-.hide-toggle-next:checked + .hide-item, .hide-toggle-rev-next:checked + .hide-item-rev {
+.hide-toggle:checked ~ button, .hide-toggle-rev:checked ~ .hide-item-rev, .hide-toggle-rev-next:checked + .hide-item-rev {
     display: none !important;
 }
 .hide-item {
     width: 100%;
     display: none;
 }
-.hide-toggle:checked ~ .hide-item {
+.hide-toggle:checked ~ .hide-item, .hide-toggle-next:checked + .hide-item {
     display: inline-block;
 }
 .hide-toggle:checked ~ .hide-item:is(.rowContainer, .columnAlign) {
@@ -677,9 +731,27 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 }
 
 /* Repcontrol elements are usually not used */
-:is(.ailmentCustomDisplay, .genericTokenInstanceContainer, .conditionalButtonDisplay, #equipmentSection, #mysterySection, #globalSettings) .repcontrol,
-:is(#equipmentSection, #mysterySection) .outfitCustomResistDisplay .repcontrol {
+:is(.ailmentCustomDisplay, .genericTokenInstanceContainer, .conditionalButtonDisplay, #globalSettings) .repcontrol,
+.outfitCustomResistDisplay .repcontrol {
     display: none;
+}
+
+/* Repcontrols disable interactions with the repeating items */
+.itemcontrol {
+    position: absolute;
+    z-index: 10;
+    right: 0px;
+    top: 0px;
+}
+
+.repcontrol_header {
+    box-sizing: content-box;
+    width: calc(100% - 12px);
+    pointer-events: none;
+    padding-right: 4px;
+    padding-left: 8px;
+    color: var(--color-white);
+    font-weight: bold;
 }
 /* ===== Shared sheet styling END ===== */
 
@@ -2294,61 +2366,74 @@ button[type=action].challengeButton::before {
 }
 
 
-/* Repeating inventory */
-:is(#equipmentSection, #mysterySection) .itemContainer {
+/* Repeating inventory and skills */
+.itemContainer {
     background-color: var(--color-dark-gray);
 }
-:is(#equipmentSection, #mysterySection) .contentHeader {
+.itemContainer .contentHeader {
     flex-basis: auto;
     background-color: transparent;
 }
 
-/* Repeating inventory - Controls */
-:is(#equipmentSection, #mysterySection) .repcontrol_blocker {
-    float: right;
-    height: 100%;
-    width: 30px;
-    visibility: hidden;
+/* Controls */
+#itemSettings:has(#hideItemSettings:checked) ~ div .itemContainer :is(.repcontrol_header, .repcontrol, .itemcontrol) {
+    display: none;
 }
-:is(#equipmentSection, #mysterySection) .repcontrol {
+
+/* A custom add and delete button are used instead of the default ones */
+.itemContainer :is(.repcontrol .repcontrol_add, .itemcontrol .repcontrol_del) {
+    display: none !important;    
+}
+.repcontrol_header .repcontrol_add {
+    pointer-events: auto;
+}
+.itemContainer .repcontainer.editmode .itemcontrol + .repcontrol_del {
+    display: block !important;
+}
+
+.itemContainer .repcontrol {
     position: absolute;
     display: flex;
     z-index: 20;
     top: 4px;
-    right: 4px;
-    gap: 4px;
+    right: 36px;
 }
-:is(#equipmentSection, #mysterySection) :is(.repcontrol_edit, .repcontrol_add, .repcontrol_del, .repcontrol_move) {
+.itemContainer :is(.repcontrol_edit, .repcontrol_add, .repcontrol_del, .repcontrol_move) {
     min-width: 20px;
     margin: 0;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
 }
-:is(#equipmentSection, #mysterySection) :is(.repcontrol_edit, .repcontrol_add) {
+.itemContainer :is(.repcontrol_edit, .repcontrol_add) {
     font-size: 0;
     background-color: #161616;
 }
-:is(#equipmentSection, #mysterySection) :is(.repcontrol_del, .repcontrol_move) {
+.itemContainer :is(.repcontrol_del, .repcontrol_move) {
     position: absolute;
     height: 25px;
     width: 45px;
     z-index: 20;
 }
-:is(#equipmentSection, #mysterySection) .repcontrol_edit {
+.itemContainer .repcontrol_edit {
     background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png');
 }
-:is(#equipmentSection, #mysterySection) .repcontrol_add {
+.itemContainer .repcontrol_add {
     background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/heal.png');
 }
-:is(#equipmentSection, #mysterySection) .repcontrol_add[style*="display: none;"] {
-    display: block !important;
-}
-:is(#equipmentSection, #mysterySection) .repcontrol_del {
+.itemContainer .repcontrol_del {
     right: 0;
 }
-:is(#equipmentSection, #mysterySection) .repcontrol_move {
+.itemContainer .repcontrol_move {
     left: 0;
+}
+
+/* Item editor */
+#itemEditor {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
 }
 
 
@@ -2458,54 +2543,10 @@ button[type=action].challengeButton::before {
 
 /* ===== AutoScript ===== */
 /* AutoScript editor */
-.autoscriptEditorContainer {
-    position: fixed;
+#autoscriptEditor {
     top: 0px;
     left: 2%;
     width: 95%;
-    z-index: 999;
-}
-#autoScriptEditorToggle + .autoscriptEditorContainer {
-    display:none !important;
-}
-#autoScriptEditorToggle:checked + .autoscriptEditorContainer {
-    display:block !important;
-}
-.autoScriptEditorTarget {
-    position: absolute;
-    top: 2px;
-    left: 145px;
-    color: var(--color-lighter-gray);
-    pointer-events: none;
-}
-.autoscriptEditorContainer label {
-    color: #B3B3B3;
-}
-#autoScriptInput {
-    resize: vertical;
-    overflow: auto;
-    min-height:60px;
-    height: 120px;
-    max-height: 500px;
-}
-
-.autoscriptEditorControls {
-    position: absolute;
-    top: 4px;
-    right: 6px;
-    display: flex;
-}
-.autoscriptEditorControls button {
-    height: 25px;
-    width: auto;
-    z-index: 20;
-    padding: 0 4px;
-    margin-left: 6px;
-    border-radius: 5px;
-}
-#autoScriptClose {
-    width: 25px;
-    padding: 0;
 }
 
 
@@ -2616,14 +2657,10 @@ button[type=action].challengeButton::before {
 .settingsIcon {
     position: absolute;
     z-index: 5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     top:0;
     right: 0;
     width: 25px;
     height: 25px;
-    font-size: 20px;
     border-radius: 100px;
     border: 1px var(--color-LIGHT) solid;
 }
@@ -2645,16 +2682,69 @@ button[type=action].challengeButton::before {
 
 
 /* Editor tabs */
-#sheetSettings, #equipmentSettings {
+#sheetSettings, #itemSettings {
     border-radius: 0;
 }
-#sheetSettings h3, #equipmentSettings h3 {
+#sheetSettings h3, #itemSettings h3 {
     background-color: var(--color-gray);
     padding: 5px;
     position: relative;
 }
+#itemSettings .editorButtonContainer {
+    padding-bottom: 5px;
+}
 .ailmentCustomEditor .repcontrol_move, #globalSettings .repcontrol_move {
     display: none;
+}
+
+.searchBar {
+    position: absolute;
+    width: 30%;
+    left: 40px;
+    background-color: transparent;
+    box-sizing: border-box;
+    border-bottom: 2px solid var(--color-lighter-gray);
+}
+.searchBar .searchInput {
+    width: 100%;
+    padding: 4px 40px 2px 22px;
+    color: var(--color-LIGHT) !important;
+    background-color: transparent;
+}
+.searchBar :is(.searchIcon, .searchClear, .searchOptions) {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    margin: 0 !important;
+    background-color: transparent;
+    cursor: pointer;
+    opacity: 50%;
+}
+.searchBar .searchIcon {
+    top: 2px;
+    left: 0;
+}
+.searchBar .searchClear {
+    top: 2px;
+    right: 20px;
+    display: none;
+}
+.searchBar .searchOptions {
+    top: 2px;
+    right: 0;
+}
+.searchOptionsMenu {
+    width: 100%;
+}
+.searchBar .searchIcon:has(~ .searchInput:not(:placeholder-shown)) {
+    opacity: 100%;
+}
+.searchBar .searchInput:not(:placeholder-shown) ~ .searchClear {
+    display: inline-block;
+}
+.searchBar .switch-toggle:not(:checked) + .searchOptions {
+    opacity: 100%;
 }
 
 .copyButton {
@@ -2672,13 +2762,16 @@ button[type=action].challengeButton::before {
     opacity: 50%;
 }
 .lockButton {
-    height: 30px;
-    width: 30px;
     top: 3px;
     left: 5px;
     border-radius: 0px;
     background-color: transparent;
     background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/lock-unlock.png');
+    opacity: 50%;
+}
+.equipEditButton {
+    top: 3px;
+    right: 5px;
     opacity: 50%;
 }
 .syncIcon {
@@ -2741,8 +2834,11 @@ button[type=action].challengeButton::before {
 .switch-toggle:checked ~ .displayButton {
     background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view.png');
 }
-.switch-toggle:checked ~ .lockButton {
+.switch-toggle:checked + .lockButton {
     background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/lock.png');
+    opacity: 100%;
+}
+.switch-toggle:not(:checked) + .equipEditButton {
     opacity: 100%;
 }
 
@@ -2798,12 +2894,6 @@ button[type=action].challengeButton::before {
 }
 .repIconMock .columnAlign .rowContainer {
     align-items: flex-end !important;
-}
-.ailmentCustomEditor .itemcontrol {
-    position: absolute;
-    z-index: 10;
-    right: 0px;
-    top: 0px;
 }
 .ailmentCustomEditor .repcontainer, .ailmentCustomEditor .repcontainerMock  {
     display: flex;
@@ -3197,14 +3287,6 @@ div.settingStyle:has(select[name="attr_ailTrigger"] > option[value="WhenHit"]:ch
 }
 
 
-/* --- Repeating inventory --- */
-#equipmentSection > #editToggle:checked .repitem .itemcontrol {
-    display: block !important;
-}
-
-
-
-
 
 /* --- Chat message sorting --- */
 .sheet-rolltemplate-testFeature :target {
@@ -3425,7 +3507,9 @@ div.settingStyle:has(select[name="attr_ailTrigger"] > option[value="WhenHit"]:ch
 .speed { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Speed.png'); }
 .whisper { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/whisper.png'); }
 .exit { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/exit.png'); }
+.option { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/gear.png'); }
 .edit { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png'); }
+.search { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/search.png'); }
 .arrowUp { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowUp.png'); }
 .arrowDown { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowDown.png'); }
 
