@@ -15460,7 +15460,7 @@ function openEditor(type, newTarget, newTargetName) {
 			[`${type}Editor_display`]: "true"
 		}
 
-		if (type == "item") {
+		if (type == "item" && newInput != "") {
 			output = {...output, ...Data.unpackage(newInput)};
 		} else {
 			output[`${type}EditorInput`] = newInput;
