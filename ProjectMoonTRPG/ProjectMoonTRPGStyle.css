@@ -429,10 +429,16 @@ body, .sheet-body {
 }
 .editorTarget {
     position: absolute;
-    top: 2px;
+    top: 1px;
     left: 145px;
     color: var(--color-lighter-gray);
     pointer-events: none;
+}
+.editorContainer > :is(label, .editorTarget) {
+    margin-top: 3px;
+}
+#itemEditor .editorTarget {
+    left: 95px;
 }
 .editorContainer label {
     color: #B3B3B3;
@@ -732,7 +738,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 
 /* Repcontrol elements are usually not used */
 :is(.ailmentCustomDisplay, .genericTokenInstanceContainer, .conditionalButtonDisplay, #globalSettings) .repcontrol,
-.outfitCustomResistDisplay .repcontrol {
+.customResistDisplay .repcontrol {
     display: none;
 }
 
@@ -2435,6 +2441,70 @@ button[type=action].challengeButton::before {
     transform: translate(-50%, -50%);
     width: 50%;
 }
+.itemOptionContainer {
+    padding: 5px;
+}
+.itemOptionContainer label {
+    color: var(--color-white) !important;
+    font-size: 10pt !important;
+    margin-bottom: 2px;
+}
+.itemOptionContainer .itemOption label {
+    font-size: 9pt !important;
+}
+.itemOptionContainer label span {
+    position: relative;
+    left: 10px;
+}
+
+.itemOption {
+    position: relative;
+    padding: 10px 0 0 10px;
+}
+.itemOptionContainer > .itemOption:first-of-type {
+    padding-top: 0;
+}
+.itemOption > label input[type="checkbox"] {
+    position: absolute;
+    left: 0;
+}
+.itemOption > label:has(input[type="checkbox"]:not(:checked)) ~ * {
+    display: none;
+}
+.itemOption > .itemOption {
+    margin-left: 20px;
+}
+
+.itemOption > .itemOption::before,
+.itemOption:has(+ .itemOption)::after {
+    content: "";
+    position: absolute;
+    left: -11px;
+    width: 10px;
+    border-color: var(--color-light-gray);
+    border-style: solid;
+}
+.itemOption > .itemOption::before {
+    top: -2px;
+    height: 17px;
+    border-width: 0 0 2px 2px;
+}
+.itemOption:has(+ .itemOption)::after {
+    bottom: 2px;
+    height: calc(100% - 17px);
+    border-width: 0 0 0 2px;
+}
+
+/* Item editor - Resistances */
+.itemOptionContainer .defaultResistDisplay > .rowContainer {
+    width: 82.34px;
+}
+
+
+
+
+
+
 
 
 /* AutoScript, edit, share buttons */
@@ -2504,7 +2574,7 @@ button[type=action].challengeButton::before {
 
 
 /* Outfit custom resistances */
-.outfitCustomResistDisplay {
+.outfitContainer .customResistDisplay {
     width: 300px;
 }
 :is(.outfitContainer, .egoContainer, .distortionContainer) .editCover .columnAlign {
@@ -2518,7 +2588,7 @@ button[type=action].challengeButton::before {
 .outfitContainer .editCover > .columnAlign > .rowContainer > .rowContainer, 
 .egoContainer .editCover .columnAlign > .rowContainer > .rowContainer,
 .distortionContainer .editCover > .columnAlign > .rowContainer > .rowContainer,
-.outfitCustomResistDisplay .repitem:has(.hide-toggle:checked)  { width: 82.34px; }
+.outfitContainer .customResistDisplay .repitem:has(.hide-toggle:checked)  { width: 82.34px; }
 
 :is(.outfitContainer, .egoContainer) .status_effect_value {
     background-color: rgba(0, 0, 0, 0.2) !important;
@@ -2531,7 +2601,7 @@ button[type=action].challengeButton::before {
     width: 25px;
     opacity: 100%;
 }
-.outfitCustomResistDisplay .repcontainer, .egoContainer .repcontainer {
+.customResistDisplay .repcontainer {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
