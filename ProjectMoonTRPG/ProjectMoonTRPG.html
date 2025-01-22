@@ -13004,12 +13004,31 @@ on("clicked:clearSearchBar", function() {
 
 
 /*--- Item Editor ---*/
-const itemEditorAttrs = [
-	"optionRollFormat",
-	"optionUseable",
-	"optionLimitedUses",
-	"optionLightCost",
-	"optionResistance", "burnResist", "bleedResist", "damageResist"
+/* Item attributes used in the item editor as well as their default values. Includes both normal and repeating attributes */
+/* When creating a new item, override the default values with those of the specific item created (see below) */
+const itemEditorAttrs = {
+	"optionRollFormat": 0, // repeating_rollformats: {"rollType": "Any", "diceCount": 1, "diceMax": 6, "dicePower": 0, "AutoScript": ""},
+	"optionUseable": 0,
+	"optionLimitedUses": 0,
+	"optionLightCost": 0,
+	"optionResistance": 0, "burnResist": 0, "bleedResist": 0, "damageResist": 0, // repeating_ailments: {"ailCustomResistance": 0, "ailCustomResistanceNum": 0}
+}
+const itemDefaults = {
+	weapon: {
+		"optionRollFormat": 1
+	},
+	outfit: {
+		"optionRollFormat": 1, repeating_rollformats: {"rollType": "Block"},
+	},
+	augment: {},
+	tool: {},
+	skill: {},
+	special: {}
+}
+
+/* Item attributes used in the Import/Export script functionality */
+const itemScriptAttrs = [
+	"description", "effect"
 ]
 
 /* Item editor open button */
@@ -13024,13 +13043,13 @@ on(itemNames.reduce((rows, item) => rows += ` clicked:repeating_${item}s:repitem
 
 /* Item editor close button */
 on("clicked:closeItemEdit", function(info) {
-	saveEditor("item", itemEditorAttrs, "repitem-");
+	saveEditor("item", Object.keys(itemEditorAttrs), "repitem-");
 	closeEditor("item");
 });
 
 /* Item editor sync changes */
-on(itemEditorAttrs.reduce((rows, attr) => rows += ` change:repitem-${attr}`, ""), function(info) {
-	saveEditor("item", itemEditorAttrs, "repitem-");
+on(Object.keys(itemEditorAttrs).reduce((rows, attr) => rows += ` change:repitem-${attr}`, ""), function(info) {
+	saveEditor("item", Object.keys(itemEditorAttrs), "repitem-");
 });
 /*--- Item Editor end ---*/
 
@@ -15561,23 +15580,51 @@ function openEditor(type, newTarget, newTargetName, prefix) {
 }
 
 function saveEditor(type, attrs, prefix) {
-	let editorAttrs = attrs || [`${type}EditorInput`];
-	if (prefix) { editorAttrs = editorAttrs.map(attr => prefix + attr); }
+	computeAttrs(editorAttrs => {
+		getAttrs([`${type}EditorTarget`, ...editorAttrs], function(values) {
+			let editorTarget = values[`${type}EditorTarget`];
+			delete values[`${type}EditorTarget`];
 
-	getAttrs([`${type}EditorTarget`, ...editorAttrs], function(values) {
-		let editorTarget = values[`${type}EditorTarget`];
-		delete values[`${type}EditorTarget`]
+			let editorData = (attrs) ? packageAttrData(values, (prefix) ? {[prefix]: ""} : {}) : values[`${type}EditorInput`];
 
-		if (prefix) { values = Object.fromEntries(Object.entries(values).map(([key, value]) => [key.replace(prefix, ""), value])); }
-		let editorInput = (attrs) ? JSON.stringify(values) : values[`${type}EditorInput`];
+			/* Save editor data */
+			if (editorTarget != "") {
+				let output = {[editorTarget]: editorData}
 
-		let output = {[editorTarget]: editorInput}
-		if (attrs) { output[`${type}EditorInput`] = editorInput; } // For testing purposes. Displays the data in plaintext
+				if (attrs) { output[`${type}EditorInput`] = editorData; } // For testing purposes. Displays the data in plaintext
 
-		if (editorTarget != "") {
-			setAttrs(output);
+				setAttrs(output);
+			}
+		});
+	})
+
+	function computeAttrs(callback=()=>{}) {
+		if (attrs) {
+			getSectionIDs("rollformats", rollformat_idarray => {
+			getSectionIDs("ailments", ailments_idarray => {
+
+			let idarrays = {"repeating_rollformats": rollformat_idarray, "repeating_ailments": ailments_idarray}
+
+			callback(attrs.flatMap(attr => {
+				// Handle repeating attributes of format repeating_section: {attr: value, ...}. Becomes [repeating_section_-id1_attr, repeating_section_-id2_attr, ...]
+				if (typeof(attr) == "Object") {
+					return Object.values(attr).flatMap(rep_attr => {
+						return idarrays[`${attr}`].map(id => `${attr}_${id}_${rep_attr}`);
+					});
+				}
+				// Handle prefixes. Does not affect repeating attributes
+				else if (prefix) {
+					return prefix + attr;
+				}
+				
+				return attr;
+			}));
+			});
+			});
+		} else {
+			callback([`${type}EditorInput`]);
 		}
-	});
+	}
 }
 
 function closeEditor(type) {
@@ -17254,378 +17301,273 @@ function resetConditionals() {
 
 
 /*--- Export/Import functions ---*/
+const attrkeys = {
+	Character: ["character_nameBase", "instinct", "wisdom", "justice", "charm", "insight", "temperance", "EXP", "character_job", "age", "height", "character_origin", "character_residence", "character_assets", "character_ahn", "character_url", "character_summary", "character_combatnote", "character_history", "character_relations", "character_notes", "character_desc", "character_personality", "character_background"],
 
-let attrkeyCharacter = ["character_nameBase", "instinct", "wisdom", "justice", "charm", "insight", "temperance", "EXP", "character_job", "age", "height", "character_origin", "character_residence", "character_assets", "character_ahn", "character_url", "character_summary", "character_combatnote", "character_history", "character_relations", "character_notes", "character_desc", "character_personality", "character_background"];
+	Settings: ["settingWhisperRolls",
+	"settingSimpleDisplay", "settingExtraEquip", "settingHideSpecial", "settingHelperText", "settingHideShare", "settingHideUses",
+	"settingLoopEnabled", "configLoopDelay", "configUpdateDelay", "configTrackerItemName", "settingAutoDetect", "settingTurnUpdate", "settingMultihitFull", "settingMultihitUses",
+	"settingMuteMessage", "settingHideNextTurn", "settingBurnImmune", "settingBleedImmune",
+	"settingAutoApplyDamage", "settingHideBarUpdate",
+	"settingCollapseAutoEffectSections", "settingHideConditionalButtonReminder", "settingHideChatButtons", "settingHideBaseEffect", "AutoScriptStyling", "autoScriptAlias"],
 
-let attrkeySettings = ["settingWhisperRolls",
+	Equip: ["outfitName", "outfitRank", "outfitDescription", "outfitEffect", "defDice1", "defDice2", "defDice3", "evdDice1", "evdDice2", "evdDice3", "outfitImmune1", "outfitImmune2", "outfitImmune3", "outfitImmune4", "outfitImmune5", "outfitImmune6", "bleedResist", "burnResist", "damageResist", "outfitAutoScript",
 
-"settingSimpleDisplay", "settingExtraEquip", "settingHideSpecial", "settingHelperText", "settingHideShare", "settingHideUses",
-"settingLoopEnabled", "configLoopDelay", "configUpdateDelay", "configTrackerItemName", "settingAutoDetect", "settingTurnUpdate", "settingMultihitFull", "settingMultihitUses",
-"settingMuteMessage", "settingHideNextTurn", "settingBurnImmune", "settingBleedImmune",
-"settingAutoApplyDamage", "settingHideBarUpdate",
-"settingCollapseAutoEffectSections", "settingHideConditionalButtonReminder", "settingHideChatButtons", "settingHideBaseEffect", "AutoScriptStyling", "autoScriptAlias"];
+	"weapon1Name", "weapon1Rank", "weapon1Description", "weapon1Effect", "weapon1Dice1", "weapon1Dice2", "weapon1Dice3", "weapon1Type", "weapon1Range", "weapon1Uses", "weapon1Uses_max", "weapon1UseType", "weapon1AutoScript",
+	"weapon2Name", "weapon2Rank", "weapon2Description", "weapon2Effect", "weapon2Dice1", "weapon2Dice2", "weapon2Dice3", "weapon2Type", "weapon2Range", "weapon2Uses", "weapon2Uses_max", "weapon2UseType", "weapon2AutoScript",
+	"weapon3Name", "weapon3Rank", "weapon3Description", "weapon3Effect", "weapon3Dice1", "weapon3Dice2", "weapon3Dice3", "weapon3Type", "weapon3Range", "weapon3Uses", "weapon3Uses_max", "weapon3UseType", "weapon3AutoScript",
+	"weapon4Name", "weapon4Rank", "weapon4Description", "weapon4Effect", "weapon4Dice1", "weapon4Dice2", "weapon4Dice3", "weapon4Type", "weapon4Range", "weapon4Uses", "weapon4Uses_max", "weapon4UseType", "weapon4AutoScript",
 
-let attrkeyEquip = ["outfitName", "outfitRank", "outfitDescription", "outfitEffect", "defDice1", "defDice2", "defDice3", "evdDice1", "evdDice2", "evdDice3", "outfitImmune1", "outfitImmune2", "outfitImmune3", "outfitImmune4", "outfitImmune5", "outfitImmune6", "bleedResist", "burnResist", "damageResist", "outfitAutoScript",
+	"augmentName", "augmentRank", "augmentType", "augmentDescription", "augmentEffect", "augmentAutoScript",
 
-"weapon1Name", "weapon1Rank", "weapon1Description", "weapon1Effect", "weapon1Dice1", "weapon1Dice2", "weapon1Dice3", "weapon1Type", "weapon1Range", "weapon1Uses", "weapon1Uses_max", "weapon1UseType", "weapon1AutoScript",
-"weapon2Name", "weapon2Rank", "weapon2Description", "weapon2Effect", "weapon2Dice1", "weapon2Dice2", "weapon2Dice3", "weapon2Type", "weapon2Range", "weapon2Uses", "weapon2Uses_max", "weapon2UseType", "weapon2AutoScript",
-"weapon3Name", "weapon3Rank", "weapon3Description", "weapon3Effect", "weapon3Dice1", "weapon3Dice2", "weapon3Dice3", "weapon3Type", "weapon3Range", "weapon3Uses", "weapon3Uses_max", "weapon3UseType", "weapon3AutoScript",
-"weapon4Name", "weapon4Rank", "weapon4Description", "weapon4Effect", "weapon4Dice1", "weapon4Dice2", "weapon4Dice3", "weapon4Type", "weapon4Range", "weapon4Uses", "weapon4Uses_max", "weapon4UseType", "weapon4AutoScript",
+	"tool1Name", "tool1Rank", "tool1Description", "tool1Effect", "tool1Portable", "tool1Reusable", "tool1Uses", "tool1Uses_max", "tool1Icon", "tool1AutoScript",
+	"tool2Name", "tool2Rank", "tool2Description", "tool2Effect", "tool2Portable", "tool2Reusable", "tool2Uses", "tool2Uses", "tool2Uses_max", "tool2Icon", "tool2AutoScript",
+	"tool3Name", "tool3Rank", "tool3Description", "tool3Effect", "tool3Portable", "tool3Reusable", "tool3Uses", "tool3Uses", "tool3Uses_max", "tool3Icon", "tool3AutoScript",
+	"tool4Name", "tool4Rank", "tool4Description", "tool4Effect", "tool4Portable", "tool4Reusable", "tool4Uses", "tool4Uses", "tool4Uses_max", "tool4Icon", "tool4AutoScript",
 
-"augmentName", "augmentRank", "augmentType", "augmentDescription", "augmentEffect", "augmentAutoScript",
+	"special1Name", "special1Rank", "special1Risk", "special1Range", "special1Duration", "special1Description", "special1AutoScript",
+	"special2Name", "special2Rank", "special2Risk", "special2Range", "special2Duration", "special2Description", "special2AutoScript"],
 
-"tool1Name", "tool1Rank", "tool1Description", "tool1Effect", "tool1Portable", "tool1Reusable", "tool1Uses", "tool1Uses_max", "tool1Icon", "tool1AutoScript",
-"tool2Name", "tool2Rank", "tool2Description", "tool2Effect", "tool2Portable", "tool2Reusable", "tool2Uses", "tool2Uses", "tool2Uses_max", "tool2Icon", "tool2AutoScript",
-"tool3Name", "tool3Rank", "tool3Description", "tool3Effect", "tool3Portable", "tool3Reusable", "tool3Uses", "tool3Uses", "tool3Uses_max", "tool3Icon", "tool3AutoScript",
-"tool4Name", "tool4Rank", "tool4Description", "tool4Effect", "tool4Portable", "tool4Reusable", "tool4Uses", "tool4Uses", "tool4Uses_max", "tool4Icon", "tool4AutoScript",
+	Distort: ["distort_name", "distortWork", "distortCounter", "distortWorkInstinct", "distortWorkWisdom", "distortWorkJustice", "distortWorkCharm", "distortWorkInsight", "distortWorkTemperance", "distortResultGood", "distortResultNormal", "distortResultBad", "distortWeaponDice1", "distortWeaponDice2", "distortWeaponDice3", "distortDefDice1", "distortDefDice2", "distortDefDice3", "distortEvdDice1", "distortEvdDice2", "distortEvdDice3", "distortDescription", "distortEffect", "distortDescription2", "distortEffect2", "distort_url", "distort_summary", "distort_behavior", "distort_combatnote", "distort_origin", "distort_notes", "distort_taboo", "distort_appearance", "distort_atmosphere", "distort_story"],
 
-"special1Name", "special1Rank", "special1Risk", "special1Range", "special1Duration", "special1Description", "special1AutoScript",
-"special2Name", "special2Rank", "special2Risk", "special2Range", "special2Duration", "special2Description", "special2AutoScript"];
+	Ego: ["egoName", "egoCondition", "egoType", "egoRank", "egoIdeology", "egoDescription", "egoEffect", "egoWeaponDice1", "egoWeaponDice2", "egoWeaponDice3", "egoWeaponType", "egoWeaponRange", "egoDefDice1", "egoDefDice2", "egoDefDice3", "egoEvdDice1", "egoEvdDice2", "egoEvdDice3", "egoImmune1", "egoImmune2", "egoImmune3", "egoImmune4", "egoImmune5", "egoImmune6", "egoUses", "egoUses_max", "egoUseType", "egoRisk", "egoRange", "egoDuration", "bleedResist_ego", "burnResist_ego", "damageResist_ego", "egoAutoScript"],
 
-let attrkeyDistort = ["distort_name", "distortWork", "distortCounter", "distortWorkInstinct", "distortWorkWisdom", "distortWorkJustice", "distortWorkCharm", "distortWorkInsight", "distortWorkTemperance", "distortResultGood", "distortResultNormal", "distortResultBad", "distortWeaponDice1", "distortWeaponDice2", "distortWeaponDice3", "distortDefDice1", "distortDefDice2", "distortDefDice3", "distortEvdDice1", "distortEvdDice2", "distortEvdDice3", "distortDescription", "distortEffect", "distortDescription2", "distortEffect2", "distort_url", "distort_summary", "distort_behavior", "distort_combatnote", "distort_origin", "distort_notes", "distort_taboo", "distort_appearance", "distort_atmosphere", "distort_story"];
+	Skills: ["skill1Name", "skill1Rank", "skill1Type", "skill1Light", "skill1Dice1", "skill1Dice2", "skill1Dice3", "skill1Description", "skill1Effect", "skill1AutoScript",
+	"skill2Name", "skill2Rank", "skill2Type", "skill2Light", "skill2Dice1", "skill2Dice2", "skill2Dice3", "skill2Description", "skill2Effect", "skill2AutoScript",
+	"skill3Name", "skill3Rank", "skill3Type", "skill3Light", "skill3Dice1", "skill3Dice2", "skill3Dice3", "skill3Description", "skill3Effect", "skill3AutoScript",
+	"skill4Name", "skill4Rank", "skill4Type", "skill4Light", "skill4Dice1", "skill4Dice2", "skill4Dice3", "skill4Description", "skill4Effect", "skill4AutoScript",
+	"skill5Name", "skill5Rank", "skill5Type", "skill5Light", "skill5Dice1", "skill5Dice2", "skill5Dice3", "skill5Description", "skill5Effect", "skill5AutoScript",
+	"skill6Name", "skill6Rank", "skill6Type", "skill6Light", "skill6Dice1", "skill6Dice2", "skill6Dice3", "skill6Description", "skill6Effect", "skill6AutoScript",
+	"egoSkill1Name", "egoSkill1Rank", "egoSkill1Type", "egoSkill1Light", "egoSkill1Dice1", "egoSkill1Dice2", "egoSkill1Dice3", "egoSkill1Description", "egoSkill1Effect", "egoSkill1AutoScript",
+	"egoSkill2Name", "egoSkill2Rank", "egoSkill2Type", "egoSkill2Light", "egoSkill2Dice1", "egoSkill2Dice2", "egoSkill2Dice3", "egoSkill2Description", "egoSkill2Effect", "egoSkill2AutoScript",
+	"egoSkill3Name", "egoSkill3Rank", "egoSkill3Type", "egoSkill3Light", "egoSkill3Dice1", "egoSkill3Dice2", "egoSkill3Dice3", "egoSkill3Description", "egoSkill3Effect", "egoSkill3AutoScript",
+	"egoSkill4Name", "egoSkill4Rank", "egoSkill4Type", "egoSkill4Light", "egoSkill4Dice1", "egoSkill4Dice2", "egoSkill4Dice3", "egoSkill4Description", "egoSkill4Effect", "egoSkill4AutoScript",
+	"egoSkill5Name", "egoSkill5Rank", "egoSkill5Type", "egoSkill5Light", "egoSkill5Dice1", "egoSkill5Dice2", "egoSkill5Dice3", "egoSkill5Description", "egoSkill5Effect", "egoSkill5AutoScript",
+	"egoSkill6Name", "egoSkill6Rank", "egoSkill6Type", "egoSkill6Light", "egoSkill6Dice1", "egoSkill6Dice2", "egoSkill6Dice3", "egoSkill6Description", "egoSkill6Effect", "egoSkill6AutoScript"],
 
-let attrkeyEgo = ["egoName", "egoCondition", "egoType", "egoRank", "egoIdeology", "egoDescription", "egoEffect", "egoWeaponDice1", "egoWeaponDice2", "egoWeaponDice3", "egoWeaponType", "egoWeaponRange", "egoDefDice1", "egoDefDice2", "egoDefDice3", "egoEvdDice1", "egoEvdDice2", "egoEvdDice3", "egoImmune1", "egoImmune2", "egoImmune3", "egoImmune4", "egoImmune5", "egoImmune6", "egoUses", "egoUses_max", "egoUseType", "egoRisk", "egoRange", "egoDuration", "bleedResist_ego", "burnResist_ego", "damageResist_ego", "egoAutoScript"];
+	Global: ["global_ruleName", "global_healthBase", "global_healthStat", "global_healthStatMod", "global_healthRankMod", "global_staggerBase", "global_staggerStat", "global_staggerStatMod", "global_staggerRankMod", "global_sanityBase", "global_sanityStat", "global_sanityStatMod", "global_sanityRankMod", "global_lightBase", "global_lightRankMod", "global_distortLightBase", "global_distortLightRankMod",
+	"global_actionBase", "global_actionRankMod", "global_reactionBase", "global_reactionRankMod", "global_actionTradeReaction",
+	"global_lightRegenBase", "global_lightRegenRankMod", "global_lightRegenStatMod", "global_lightRegenStaggerSelf", "global_lightRegenStaggerEnemy", "global_lightRegenDefeatEnemy", "global_lightRegenRoundEnd",
+	"global_combatEndLightBase", "global_combatEndLightRankMod", "global_recoverHPBase", "global_recoverHPStatMod", "global_recoverHPRankMod", "global_recoverSPBase", "global_recoverSPStatMod", "global_recoverSPRankMod", "global_recoverStaggerMode", "global_recoverStaggerVal", "global_recoverLightBase", "global_recoverLightRankMod",
+	"global_attStat", "global_defStat", "global_evdStat", "global_evdAilment", "global_multiPenalty", "global_multiStyle",
+	"global_staggerRecoverPercent", "global_staggerRecoverBase", `global_staggerDurationMax`, "global_staggerSanity", "global_settingBar1", "global_settingBar2", "global_settingBar3",
+	"global_burnDecayMode", "global_burnDecayVal", "global_burnNextTurnSetting", "global_bleedDecayMode", "global_bleedDecayVal", "global_bleedNextTurnSetting", "global_smokeDecayMode", "global_smokeDecayVal", "global_smokeNextTurnSetting", "global_smokeCalculationMode", "global_smokeCalculationVal", "global_chargeDecayMode", "global_chargeDecayVal", "global_chargeNextTurnSetting", "settingLimbusStyle"]
+}
+const repattrkeys = {
+	ailments: ["ailName", "ailIcon", "ailDisplay", "ailTrigger", "ailNextTurn",
+	"ailEffect", "ailEffectMode", "ailEffectVal",
+	"ailDecayMode", "ailDecayVal", "ailDecayMin", "ailDecayWhenHit", "ailDecayRoundEnd",
+	"ailMax", "ailMaxBehavior",
+	"ailMessageCheck", "ailMessage",
+	"ailDamageTypeTrigger", "ailBeforeResistance", "ailPositiveType", 
+	"ailCustomResistance", /*"ailCustomResistanceNum", "ailCustomResistanceNumEgo"*/],
 
-let attrkeySkills = ["skill1Name", "skill1Rank", "skill1Type", "skill1Light", "skill1Dice1", "skill1Dice2", "skill1Dice3", "skill1Description", "skill1Effect", "skill1AutoScript",
-"skill2Name", "skill2Rank", "skill2Type", "skill2Light", "skill2Dice1", "skill2Dice2", "skill2Dice3", "skill2Description", "skill2Effect", "skill2AutoScript",
-"skill3Name", "skill3Rank", "skill3Type", "skill3Light", "skill3Dice1", "skill3Dice2", "skill3Dice3", "skill3Description", "skill3Effect", "skill3AutoScript",
-"skill4Name", "skill4Rank", "skill4Type", "skill4Light", "skill4Dice1", "skill4Dice2", "skill4Dice3", "skill4Description", "skill4Effect", "skill4AutoScript",
-"skill5Name", "skill5Rank", "skill5Type", "skill5Light", "skill5Dice1", "skill5Dice2", "skill5Dice3", "skill5Description", "skill5Effect", "skill5AutoScript",
-"skill6Name", "skill6Rank", "skill6Type", "skill6Light", "skill6Dice1", "skill6Dice2", "skill6Dice3", "skill6Description", "skill6Effect", "skill6AutoScript",
-"egoSkill1Name", "egoSkill1Rank", "egoSkill1Type", "egoSkill1Light", "egoSkill1Dice1", "egoSkill1Dice2", "egoSkill1Dice3", "egoSkill1Description", "egoSkill1Effect", "egoSkill1AutoScript",
-"egoSkill2Name", "egoSkill2Rank", "egoSkill2Type", "egoSkill2Light", "egoSkill2Dice1", "egoSkill2Dice2", "egoSkill2Dice3", "egoSkill2Description", "egoSkill2Effect", "egoSkill2AutoScript",
-"egoSkill3Name", "egoSkill3Rank", "egoSkill3Type", "egoSkill3Light", "egoSkill3Dice1", "egoSkill3Dice2", "egoSkill3Dice3", "egoSkill3Description", "egoSkill3Effect", "egoSkill3AutoScript",
-"egoSkill4Name", "egoSkill4Rank", "egoSkill4Type", "egoSkill4Light", "egoSkill4Dice1", "egoSkill4Dice2", "egoSkill4Dice3", "egoSkill4Description", "egoSkill4Effect", "egoSkill4AutoScript",
-"egoSkill5Name", "egoSkill5Rank", "egoSkill5Type", "egoSkill5Light", "egoSkill5Dice1", "egoSkill5Dice2", "egoSkill5Dice3", "egoSkill5Description", "egoSkill5Effect", "egoSkill5AutoScript",
-"egoSkill6Name", "egoSkill6Rank", "egoSkill6Type", "egoSkill6Light", "egoSkill6Dice1", "egoSkill6Dice2", "egoSkill6Dice3", "egoSkill6Description", "egoSkill6Effect", "egoSkill6AutoScript"];
-
-let attrkeyGlobal = ["global_ruleName", "global_healthBase", "global_healthStat", "global_healthStatMod", "global_healthRankMod", "global_staggerBase", "global_staggerStat", "global_staggerStatMod", "global_staggerRankMod", "global_sanityBase", "global_sanityStat", "global_sanityStatMod", "global_sanityRankMod", "global_lightBase", "global_lightRankMod", "global_distortLightBase", "global_distortLightRankMod",
-"global_actionBase", "global_actionRankMod", "global_reactionBase", "global_reactionRankMod", "global_actionTradeReaction",
-"global_lightRegenBase", "global_lightRegenRankMod", "global_lightRegenStatMod", "global_lightRegenStaggerSelf", "global_lightRegenStaggerEnemy", "global_lightRegenDefeatEnemy", "global_lightRegenRoundEnd",
-"global_combatEndLightBase", "global_combatEndLightRankMod", "global_recoverHPBase", "global_recoverHPStatMod", "global_recoverHPRankMod", "global_recoverSPBase", "global_recoverSPStatMod", "global_recoverSPRankMod", "global_recoverStaggerMode", "global_recoverStaggerVal", "global_recoverLightBase", "global_recoverLightRankMod",
-"global_attStat", "global_defStat", "global_evdStat", "global_evdAilment", "global_multiPenalty", "global_multiStyle",
-"global_staggerRecoverPercent", "global_staggerRecoverBase", `global_staggerDurationMax`, "global_staggerSanity", "global_settingBar1", "global_settingBar2", "global_settingBar3",
-"global_burnDecayMode", "global_burnDecayVal", "global_burnNextTurnSetting", "global_bleedDecayMode", "global_bleedDecayVal", "global_bleedNextTurnSetting", "global_smokeDecayMode", "global_smokeDecayVal", "global_smokeNextTurnSetting", "global_smokeCalculationMode", "global_smokeCalculationVal", "global_chargeDecayMode", "global_chargeDecayVal", "global_chargeNextTurnSetting", "settingLimbusStyle"];
+	inventory: [] // Add this later
+}
 
 /* Data Exporter */
-function dataExport(override, target){
-
-getAttrs(["exportType"], function(values) {
-
-	let exporttype = values.exportType;
-	let textbase = "";
-	let tempval = "";
-	let attrkey = "";
-	let output = "editorOutput";
-
-	if(target != null){
-	output = target;
-	}
-
-	let char = "";
-	let distort = "";
-	let ego = "";
-	let equip = "";
-	let skills = "";
+function dataExport(override, target) {
+	
+	getAttrs(["exportType"], function(values) {
+	
+	let exporttype = override || values.exportType;
+	let attrkey = [];
+	let output = target || "editorOutput";
 
 	/* Format key */
-
-	if(override != null){
-	exporttype = override;
+	if (exporttype) {
+		if(exporttype == "All") {
+			attrkey = Object.keys(attrkeys).flatMap(type => attrkeys[type]);
+		} else {
+			attrkey = attrkeys[exporttype];
+		}
 	}
-
-	if(exporttype == "All"){
 	
-	attrkey = attrkeyCharacter.concat(attrkeyDistort, attrkeyEgo, attrkeyEquip, attrkeySkills, attrkeySettings);
-	
-	}
-	else if (exporttype == "Equip"){
-	attrkey = attrkeyEquip;
-	}
-	else if (exporttype == "Distort"){
-	attrkey = attrkeyDistort;
-	}
-	else if (exporttype == "Ego"){
-	attrkey = attrkeyEgo;
-	}
-	else if (exporttype == "Skills"){
-	attrkey = attrkeySkills;
-	}
-	else if (exporttype == "Character"){
-	attrkey = attrkeyCharacter;
-	}
-	else if (exporttype == "Settings"){
-	attrkey = attrkeySettings;
-	}
-	else if (exporttype == "Global"){
-	attrkey = attrkeyGlobal;
-	}
-	else {
-	attrkey = [];
-	}
-
 	/* Get attributes */
-
 	getAttrs(attrkey, function(values) {
 
-	for(let i = 0; i< attrkey.length ;i++){
-	tempval = values[attrkey[i]];
-
-	if(tempval == undefined){
-	tempval = "";
-	}
-
-   	 	textbase += "[`" + attrkey[i] + "`,`" + tempval + "`]";
-
-		if(i < (attrkey.length - 1)){
-		textbase += ", ";
-		}
-
-	}
-
-
-	textbase = textbase.replace(/	/g, ''); /* Remove whitespace */
-	
-
-	setAttrs({[output]: textbase });
-
-		});
-
-
+	/* Export attribute data */
+	setAttrs({[output]: packageAttrData(values)});
 	});
-
+	});
 }
 
 /* Data Importer */
-function dataImport(target, prefix, replacestr){
-
-	let inputsource = "editorInput";
-	let inputprefix = "";
+function dataImport(target, prefix, replacestr) {
 	
-	if(target != null){
-	inputsource = target;
+	let inputsource = target || "editorInput";
+	getAttrs([inputsource], function(values) {
 
-	}
-
-getAttrs([`${inputsource}`], function(values) {
-
+	/* Prepare input attribute data */
 	let input = values[`${inputsource}`];
-
 	input = input.replace(/	/g, ''); /* Remove whitespace */
 	input = input.replace(/\n/g, "@"); /* Temporarily replace line breaks */
 	input = input.replace(/"/g, "“"); /* Temporarily replace " quotes */
-
-	if(replacestr != null && prefix != null){
-	input = input.replaceAll(replacestr, prefix);
+	
+	if (replacestr && prefix) {
+		input = input.replaceAll(replacestr, prefix);
 	}
 
-	let inputarray = "[" + input + "]";
-	let attrtarget = "";
-	let attrvalue = "";
-
-	inputarray = inputarray.replace(/`/g, '"');
-
-	inputarray = JSON.parse(inputarray);
-
+	let inputarray = "[" + input.replace(/`/g, '"') + "]";
 	const output = {};
 
-	for(let i = 0; i< inputarray.length ;i++){
+	/* Parse data into attributes */
+	inputarray = JSON.parse(inputarray);
 
-	attrtarget = inputarray[i][0].toString();
-	attrvalue = inputarray[i][1].toString();
+	for(let i = 0; i < inputarray.length; i++) {
+		let attrtarget = inputarray[i][0].toString().replace(/@/g, "\n"); /* Reintroduce line breaks */
+		let attrvalue = inputarray[i][1].toString().replace(/“/g, '"'); /* Reintroduce " quotes */
+		
+		output[`${attrtarget}`] = attrvalue;
+	}
 
-	//console.log("Set " + attrtarget + " to: " + attrvalue);
-
-	attrvalue = attrvalue.replace(/@/g, "\n"); /* Reintroduce line breaks */
-	attrvalue = attrvalue.replace(/“/g, '"'); /* Reintroduce " quotes */
-
-	output[`${attrtarget}`] = attrvalue;
-
-		}
-
-      	setAttrs(output);	
-
-
+	/* Import attributes */
+    setAttrs(output);
 	});
 }
 
 /* Data Exporter - Repeating Section */
-function dataExportRepeating(section){
+function dataExportRepeating(section, target) {
 
-getSectionIDs("repeating_ailments", function(idarray) {
+	getSectionIDs(`repeating_${section}`, function(idarray) {
 
-	let textbase = "";
-	let tempval = "";
 	let attrkey = [];
-	let exportkey = [];
+	let prefixList = {};
+	let output = target || "editorOutput";
+
+	/* Format key */
+    for(var i=0; i < idarray.length; i++) {
+		repattrkeys[section].forEach(key => {
+			attrkey.push(`repeating_${section}_${idarray[i]}_${key}`);
+			prefixList[`repeating_${section}_${idarray[i]}_${key}`] = `${i}_${key}`;
+		}); 
+    }
 
 	/* Get attributes */
-      for(var i=0; i < idarray.length; i++) {
-	let currentid = `repeating_${section}_${idarray[i]}`;
-	let finalid = i;
-
-	let currentkeys = [`${currentid}_ailName`, `${currentid}_ailIcon`, `${currentid}_ailDisplay`, `${currentid}_ailTrigger`, `${currentid}_ailNextTurn`, `${currentid}_ailEffect`, `${currentid}_ailEffectMode`, `${currentid}_ailEffectVal`, `${currentid}_ailDecayMode`, `${currentid}_ailDecayVal`, `${currentid}_ailDecayMin`, `${currentid}_ailMax`, `${currentid}_ailMaxBehavior`, `${currentid}_ailMessageCheck`, `${currentid}_ailMessage`, `${currentid}_ailDamageTypeTrigger`, `${currentid}_ailBeforeResistance`, `${currentid}_ailDecayWhenHit`, `${currentid}_ailDecayRoundEnd`, `${currentid}_ailPositiveType`, `${currentid}_ailCustomResistance`, `${finalid}_ailCustomResistanceNum`, `${currentid}_ailCustomResistanceNumEgo`];
-
-	let finalkeys = [`${finalid}_ailName`, `${finalid}_ailIcon`, `${finalid}_ailDisplay`, `${finalid}_ailTrigger`, `${finalid}_ailNextTurn`, `${finalid}_ailEffect`, `${finalid}_ailEffectMode`, `${finalid}_ailEffectVal`, `${finalid}_ailDecayMode`, `${finalid}_ailDecayVal`, `${finalid}_ailDecayMin`, `${finalid}_ailMax`, `${finalid}_ailMaxBehavior`, `${finalid}_ailMessageCheck`, `${finalid}_ailMessage`, `${finalid}_ailDamageTypeTrigger`, `${finalid}_ailBeforeResistance`, `${finalid}_ailDecayWhenHit`, `${finalid}_ailDecayRoundEnd`, `${finalid}_ailPositiveType`, `${finalid}_ailCustomResistance`, `${finalid}_ailCustomResistanceNum`,  `${finalid}_ailCustomResistanceNumEgo`];
-
-	attrkey = attrkey.concat(currentkeys);
-	exportkey = exportkey.concat(finalkeys);
-
-      }
-
-
 	getAttrs(attrkey, function(values) {
 
-		for(let i = 0; i< attrkey.length ;i++){
-		tempval = values[attrkey[i]];
-
-		if(tempval == undefined){
-		tempval = "";
-		}
-
-   	 	textbase += "[`" + exportkey[i] + "`,`" + tempval + "`]";
-
-		if(i < (attrkey.length - 1)){
-		textbase += ", ";
-		}
-
-		}
-
-
-	textbase = textbase.replace(/	/g, ''); /* Remove whitespace */
-	
-
-	setAttrs({"ailmentEditor": textbase });
-
-		});
+	/* Import attributes */
+	setAttrs({[output]: packageAttrData(values, prefixList)});
+	});
 	});
 }
 
-function dataImportRepeating(section, override){
+/* Data Importer - Repeating Section */
+function dataImportRepeating(section, override, target) {
 
-getAttrs(["ailmentEditor", "customImportMode", "settingCustomCollapse"], function(values) {
-
-	let input = values.ailmentEditor;
-	let mode = values.customImportMode;
+	let inputsource = target || "ailmentEditor";
+	getAttrs([inputsource, "customImportMode", "settingCustomCollapse"], function(values) {
+	
+	let mode = override || values.customImportMode;
 	let collapseSetting = values.settingCustomCollapse;
 
+	/* Prepare input attribute data */
+	let input = values[inputsource];
 	input = input.replace(/	/g, ''); /* Remove whitespace */
 	input = input.replace(/\n/g, "@"); /* Temporarily replace line breaks */
 	input = input.replace(/"/g, "“"); /* Temporarily replace " quotes */
 
-	let inputarray = "[" + input + "]";
-	let attrid = "";
-	let attrtarget = "";
-	let attrvalue = "";
+	let inputarray = "[" + input.replace(/`/g, '"') + "]";
+	const output = {};
 
-	inputarray = inputarray.replace(/`/g, '"');
-
+	/* Parse data into attributes */
 	inputarray = JSON.parse(inputarray);
 
-	const output = {};
-	let currentid = 0;
-	let oldrowid = "";
-	let newrowid = generateRowID();
-	output[`repeating_${section}_${newrowid}_ailCollapse`] = collapseSetting;
+	let indexIds = {};
 
-	if(input != null && input != ""){
-		if(override != null){
-		mode = override;
+	if (inputarray.length > 0) {
+
+		if (section == "ailments" && mode != "Add") {
+			clearCustomAilments();
 		}
 
-		if(mode != "Add"){
-		clearCustomAilments();
-		}
+		inputarray.forEach(attr => {
 
-		for(let i = 0; i< inputarray.length ;i++){
+			let [attrid, attrtarget] = attr[0].split('_');
+			let attrvalue = attr[1].toString();
 
-		attrid = inputarray[i][0].split('_')[0];
-		attrtarget = inputarray[i][0].split('_')[1];
-		attrvalue = inputarray[i][1].toString();
+			attrvalue = attrvalue.replace(/@/g, "\n"); /* Reintroduce line breaks */
+			attrvalue = attrvalue.replace(/“/g, '"'); /* Reintroduce " quotes */
 
-		attrvalue = attrvalue.replace(/@/g, "\n"); /* Reintroduce line breaks */
-		attrvalue = attrvalue.replace(/“/g, '"'); /* Reintroduce " quotes */
+			/* Registering a new item */
+			if (!indexIds[attrid]) {
 
-		/* Moving to next item */
-		if(currentid != attrid){
-		oldrowid = newrowid;
-		newrowid = generateRowID();
+				indexIds[attrid] = generateRowID();
 
-			while(oldrowid == newrowid){
-			//console.log("This shouldn't happen:" + newrowid);
-
-			newrowid = generateRowID();
-			//console.log("Fixing:" + newrowid);
+				if (section == "ailments") {
+					output[`repeating_${section}_${indexIds[attrid]}_ailCollapse`] = collapseSetting;
+				}
 			}
-
-		output[`repeating_${section}_${newrowid}_ailCollapse`] = collapseSetting;
-
-		currentid += 1;
-		//console.log("ID: " + newrowid + " | " + attrtarget + "|" + attrid + ", " + currentid + "|");
-			}
-	
-		output[`repeating_${section}_${newrowid}_${attrtarget}`] = attrvalue;
-
+			output[`repeating_${section}_${indexIds[attrid]}_${attrtarget}`] = attrvalue;
+		});
+	} else {
+		if (section == "ailments" && mode != "Add") {
+			output[`repeating_${section}_${generateRowID()}_ailCollapse`] = collapseSetting;
 		}
+	}
 
-      	setAttrs(output);
-
-	}	
-
-
+	/* Import attributes */
+	setAttrs(output);
 	});
+}
+
+/* Data Export/Import helper functions */
+function packageAttrData(values={}, prefixList={}) {
+	console.log(values)
+
+	let textbase = Object.keys(values).reduce((acc, key) => {
+		if (values[key] == undefined) {
+			values[key] = "";
+		}
+		return acc + "[`" + key + "`,`" + values[key] + "`], ";
+	}, "");
+
+	if (textbase.length > 0) {
+		textbase = textbase.slice(0, -2); /* Remove the comma and space after the last attribute */
+		textbase = textbase.replace(/	/g, ''); /* Remove whitespace */
+		
+		for (const [replacestr, prefix] of Object.entries(prefixList)) {
+			textbase = textbase.replaceAll(replacestr, prefix);
+		}
+	}
+
+	return textbase;
 }
 
 /* Export Repeating button */
 on("clicked:exportRepeating", function(info) { 
 	dataExportRepeating("ailments");
-
 });
 
 /* Import Repeating button */
 on("clicked:importRepeating", function(info) { 
 	dataImportRepeating("ailments");
-
 });
-
-
-/* Swap function */
-function dataSwap() {
-	getAttrs(["editorOutput", "editorInput"], function(values) {
-	
-	let newoutput = values.editorInput;
-	let newinput = values.editorOutput;
-
-
-	setAttrs({ "editorOutput":newoutput, "editorInput":newinput});
-	});
-}
 
 /* Swap button */ 
 on("clicked:swap", function(info) {
 	dataSwap();
-
+});
+function dataSwap() {
+	getAttrs(["editorOutput", "editorInput"], function(values) {
+	setAttrs({"editorOutput":values.editorInput, "editorInput":values.editorOutput});
 	});
+}
 
 /* Function: Clear specified attribute from button */
 on("clicked:clearButton", function(info) {
-
-        let buttonid = info.htmlAttributes.id.split('_')[1];
-
+    let buttonid = info.htmlAttributes.id.split('_')[1];
 	setAttrs({ [buttonid]:""});
-
 });
 
 /* Import button */
 on("clicked:import", function(info) {
 	dataImport();
-
 });
 
 /* Export button */
 on("clicked:export", function(info) { 
 	dataExport();
-
 });
 
 /* Action: Status ailment increment + Pause value reveal toggle + Trigger ailment */
