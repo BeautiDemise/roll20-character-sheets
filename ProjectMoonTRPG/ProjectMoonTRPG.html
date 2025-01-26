@@ -17595,9 +17595,9 @@ function packageAttrData(values={}, replaceList={}, dataFormat, repFormat, type=
 		// Handle standard attribute data format
 		else {
 			// Apply a prefix if one is provided
-			let modvalue = values[(options.prefix) ? options.prefix + key : key]
+			let modkey = (options.prefix && type != "repeating") ? options.prefix + key : key;
 
-			if (options.ignoreDefault && dataFormat[key] == modvalue) {
+			if (options.ignoreDefault && dataFormat[key] == values[modkey]) {
 				if (type == "repeating") {
 					return "";
 				} else {
@@ -17605,10 +17605,10 @@ function packageAttrData(values={}, replaceList={}, dataFormat, repFormat, type=
 				}
 			}
 			else if (type == "repeating") {
-				attrData.push(values[key]);
+				attrData.push(values[modkey]);
 			}
 			else {
-				attrData.push([key, modvalue]);
+				attrData.push([modkey, values[modkey]]);
 			}
 		}
 	}
