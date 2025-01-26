@@ -183,57 +183,57 @@
 	<!-- Item options -->
 	<div class="itemOptionContainer">
 
-		<div class="itemOption"><label><input type="checkbox" name="attr_repitem-optionRollFormat" value="true"><span>Roll Format</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionRollFormat" value="true"><span>Roll Format</span></label>
 			<!-- Repeating section of between 1 and 5 roll formats -->
 		</div>
 
-		<div class="itemOption"><label><input type="checkbox" name="attr_repitem-optionUseable" value="true"><span>Useable</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionUseable" value="true"><span>Useable</span></label>
 			
 		</div>
 
-		<div class="itemOption"><label><input type="checkbox" name="attr_repitem-optionLimitedUses" value="true"><span>Limited Uses</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionLimitedUses" value="true"><span>Limited Uses</span></label>
 			
 		</div>
 
-		<div class="itemOption"><label><input type="checkbox" name="attr_repitem-optionLightCost" value="true"><span>Light Cost</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionLightCost" value="true"><span>Light Cost</span></label>
 			
 		</div>
 
-		<div class="itemOption"><label><input type="checkbox" name="attr_repitem-optionResistance" value="true"><span>Resistances</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionResistance" value="true"><span>Resistances</span></label>
 			
 			<!-- Burn/Bleed/Damage Resist -->
 			<div class="rowContainer defaultResistDisplay">
 				<div class="rowContainer">
-					<input type="checkbox" class="fade-toggle" name="attr_repitem-burnResist" value="0" hidden="true">
+					<input type="checkbox" class="fade-toggle" name="attr_itemBurnResist" value="0" hidden="true">
 
 					<div class="ailmentIconSelector status_effect_item centerFlex">
 						<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon burn"></div></div>
 						<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon burn-limbus"></div></div>
 					</div>
 
-					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_repitem-burnResist" value="0"></div>
+					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemBurnResist" value="0"></div>
 				</div>
 
 				<div class="rowContainer">
-					<input type="checkbox" class="fade-toggle" name="attr_repitem-bleedResist" value="0" hidden="true">
+					<input type="checkbox" class="fade-toggle" name="attr_itemBleedResist" value="0" hidden="true">
 
 					<div class="ailmentIconSelector status_effect_item rowContainer centerFlex">
 						<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon bleed"></div></div>
 						<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon bleed-limbus"></div></div>
 					</div>
 
-					<div class="status_effect_value"><input type="number"  class="ailmentNum" name="attr_repitem-bleedResist" value="0"></div>
+					<div class="status_effect_value"><input type="number"  class="ailmentNum" name="attr_itemBleedResist" value="0"></div>
 				</div>
 
 				<div class="rowContainer">
-					<input type="checkbox" class="fade-toggle" name="attr_repitem-damageResist" value="0" hidden="true">
+					<input type="checkbox" class="fade-toggle" name="attr_itemDamageResist" value="0" hidden="true">
 
 					<div class="ailmentIconSelector status_effect_item rowContainer centerFlex">
 						<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon damageResist"></div></div>
 						<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon damageResist-limbus"></div></div>
 					</div>
 					
-					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_repitem-damageResist" value="0"></div>
+					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemDamageResist" value="0"></div>
 				</div>
 			</div>
 
@@ -242,13 +242,13 @@
 				<fieldset class="repeating_ailments">
 					<input type="checkbox" class="hide-toggle" name="attr_ailCustomResistance" hidden="true" value="true">
 					<div class="rowContainer hide-item">
-						<input type="checkbox" class="fade-toggle" name="attr_repitem-ailCustomResistanceNum" value="0" hidden="true">
+						<input type="checkbox" class="fade-toggle" name="attr_itemAilCustomResistanceNum" value="0" hidden="true">
 
 						<div class="ailmentIconSelector status_effect_item rowContainer centerFlex">
 							<div class="icon"><img name="attr_ailIconDisplay" class="skillIcon"></div>
 						</div>
 
-						<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_repitem-ailCustomResistanceNum" value="0"></div>
+						<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemAilCustomResistanceNum" value="0"></div>
 					</div>
 				</fieldset>
 			</div>
@@ -4855,9 +4855,9 @@
 		<button class="btn btn-danger pictos repcontrol_del" style="display: none;">#</button>
 
 		<div class="contentContainer">
-			<button type="action" class="darkInput shareButton" name="act_repitem-share" data-i18n-title="share" title="Share info"></button>
-			<button type="action" class="darkInput editButton edit" name="act_repitem-edit" data-i18n-title="edit" title="Edit"></button>
-			<button type="action" class="darkInput autoScriptButton" name="act_repitem-edit-autoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+			<button type="action" class="darkInput shareButton" name="act_share-item" data-i18n-title="share" title="Share info"></button>
+			<button type="action" class="darkInput editButton edit" name="act_edit-item" data-i18n-title="edit" title="Edit"></button>
+			<button type="action" class="darkInput autoScriptButton" name="act_edit-item-autoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
 			<input type="text" name="attr_autoScript" hidden="true">
 			<input type="text" name="attr_itemData" hidden="true">
 	
@@ -12195,6 +12195,54 @@ getAttrs(["Bleed", "BleedDecayPause", "bleedResist", "bleedResist_ego", "distort
 	});
 }
 
+/* Action: Status ailment increment + Pause value reveal toggle + Trigger ailment */
+onJQ('clicked:ailmentClicker clicked:repeating_ailments:clickercustom', (info) => {
+	let keyPressed = (info.altKey) ? "alt" : (info.ctrlKey) ? "ctrl" : false;
+
+	/* Get currect attribute */
+	let ailmentType = (info.sourceAttribute) ? "custom" : "standard";
+	let ailmentAttr = (info.htmlAttributes.class.includes("reveal-DecayPause")) ? "DecayPause" : "Num";
+	let ailmentName = "";
+
+	if (ailmentType == "custom") {
+		ailmentName = info.sourceAttribute.split('_')[2];
+		ailmentAttr = `repeating_ailments_${ailmentName}_ail${ailmentAttr}`;
+	} else {
+		ailmentName = info.htmlAttributes.id.split('_')[1];
+		ailmentAttr = (ailmentAttr == "Num") ? ailmentName : ailmentName + ailmentAttr;
+	}
+
+	/* If not pressing any keys, increment ailment count by 1 */
+	if (!keyPressed) {
+		getAttrs([ailmentAttr], function(values) {
+			setAttrs({[ailmentAttr]: parseInt(values[ailmentAttr]) + 1});
+		});
+	}
+	
+	/* If pressing alt, reveal the ailments DecayPause field */
+	else if (keyPressed == "alt") {
+		let pauseInputSelector = (ailmentType == "custom")
+			? `[data-reprowid*=${ailmentName}] [name*=attr_ailDecayPause]`
+			: `[name*=attr_${ailmentName}DecayPause]`;
+		
+		let ailmentButtonSelecter = (ailmentType == "custom")
+			? `[data-reprowid*=${ailmentName}] [name*=act_clickercustom]`
+			: `button[id*=ailment_${ailmentName}]`;
+
+		$20(ailmentButtonSelecter).toggleClass("reveal-DecayPause");
+		$20(pauseInputSelector).toggleClass("reveal-DecayPause");
+	}
+
+	/* If pressing ctrl, trigger the ailment */
+	else if (keyPressed == "ctrl") {
+		if (ailmentType == "custom") {
+			updateCustomAilment(ailmentName, "standard", "false");
+		} else {
+			updateAilments([ailmentName]);
+		}
+	}
+});
+
 /* Action: Combat Roll */
 on('clicked:rollCombat', (info) => {
 	rollCombat(info);
@@ -12979,7 +13027,7 @@ on(itemNames.reduce((rows, item) => rows += ` remove:repeating_${item}s`, ""), f
 });
 
 /* Repeating item share button */
-on(itemNames.reduce((rows, item) => rows += ` clicked:repeating_${item}s:repitem-share`, ""), function(info) {
+on(itemNames.reduce((rows, item) => rows += ` clicked:repeating_${item}s:shareItem`, ""), function(info) {
 	console.log(info);
 });
 
@@ -13000,59 +13048,6 @@ on("clicked:clearSearchBar", function() {
 	setAttrs({"itemSearchInput":""});
 	// Also needs to clear the advanced search options
 });
-
-
-
-/*--- Item Editor ---*/
-/* Item attributes used in the item editor as well as their default values. Includes both normal and repeating attributes */
-/* When creating a new item, override the default values with those of the specific item created (see below) */
-const itemEditorAttrs = {
-	"optionRollFormat": 0, // repeating_rollformats: {"rollType": "Any", "diceCount": 1, "diceMax": 6, "dicePower": 0, "AutoScript": ""},
-	"optionUseable": 0,
-	"optionLimitedUses": 0,
-	"optionLightCost": 0,
-	"optionResistance": 0, "burnResist": 0, "bleedResist": 0, "damageResist": 0, // repeating_ailments: {"ailCustomResistance": 0, "ailCustomResistanceNum": 0}
-}
-const itemDefaults = {
-	weapon: {
-		"optionRollFormat": 1
-	},
-	outfit: {
-		"optionRollFormat": 1, repeating_rollformats: {"rollType": "Block"},
-	},
-	augment: {},
-	tool: {},
-	skill: {},
-	special: {}
-}
-
-/* Item attributes used in the Import/Export script functionality */
-const itemScriptAttrs = [
-	"description", "effect"
-]
-
-/* Item editor open button */
-on(itemNames.reduce((rows, item) => rows += ` clicked:repeating_${item}s:repitem-edit`, ""), function(info) {
-	let itemData = info.sourceAttribute.replace("_repitem-edit", "_itemData");
-	let itemName = info.sourceAttribute.replace("_repitem-edit", "_name");
-	
-	getAttrs([itemName], function(values) {
-		openEditor("item", itemData, values[itemName], "repitem-");
-	});
-});
-
-/* Item editor close button */
-on("clicked:closeItemEdit", function(info) {
-	saveEditor("item", Object.keys(itemEditorAttrs), "repitem-");
-	closeEditor("item");
-});
-
-/* Item editor sync changes */
-on(Object.keys(itemEditorAttrs).reduce((rows, attr) => rows += ` change:repitem-${attr}`, ""), function(info) {
-	saveEditor("item", Object.keys(itemEditorAttrs), "repitem-");
-});
-/*--- Item Editor end ---*/
-
 
 
 /* Executes one or more rolls and posts the results to the chat */
@@ -14462,7 +14457,6 @@ on('clicked:declareAction', (info) => {
 
 /* Clicked: Resource display buttons */
 on("clicked:expandResourceTrackers clicked:editResourceTrackers", function(info) {
-	console.log(info)
 	getAttrs(["expandResourceToggle", "editResourceToggle", "actionType",
 	"Action", "Action_base", "Action_max", "Reaction", "Reaction_base", "Reaction_max", "Light_Regen", "Light_Regen_base", "Light_Regen_max",
 	"Counter", "Counter_base", "Counter_max", "Block", "Block_base", "Block_max", "Evade", "Evade_base", "Evade_max"], function(values) {
@@ -15546,7 +15540,7 @@ tablist.forEach(tab => {
 
 
 /*--- Editor functions ---*/
-function openEditor(type, newTarget, newTargetName, prefix) {
+function openEditor(type, newTarget, newTargetName) {
 	let editorAttrs = [`${newTarget}`, `${type}EditorTarget`, `${type}EditorInput`];
 
 	getAttrs(editorAttrs, function(values) {
@@ -15562,11 +15556,8 @@ function openEditor(type, newTarget, newTargetName, prefix) {
 		}
 
 		if (type == "item" && newInput != "") {
-			newInput = JSON.parse(newInput);
-
-			if (prefix) { newInput = Object.fromEntries(Object.entries(newInput).map(([key, value]) => [prefix + key, value])); }
-
-			output = {...output, ...newInput};
+			//newInput = JSON.parse(newInput);
+			//output = {...output, ...newInput};
 		} else {
 			output[`${type}EditorInput`] = newInput;
 		}
@@ -15579,13 +15570,69 @@ function openEditor(type, newTarget, newTargetName, prefix) {
 	});
 }
 
-function saveEditor(type, attrs, prefix) {
-	computeAttrs(editorAttrs => {
-		getAttrs([`${type}EditorTarget`, ...editorAttrs], function(values) {
+function saveEditor(type, attrs) {
+	let options = (type == "item") ? {prefix: type, ignoreDefault: true} : {}
+
+	/* Helper functions uses to configure which attributes should be retrieved */
+	/* Attrs are structured as {attrKey: defaultValue} pairs */
+	/* Repeating attrs are structured as {repeating_section:attrAlias: {attrKey: defaultValue}} */
+	const computeKeys = (callback=()=>{}) => {
+		if (attrs) {
+			getSectionIDs("rollformats", rollformat_idarray => {
+			getSectionIDs("ailments", ailments_idarray => {
+			let idarrays = {"repeating_rollformats": rollformat_idarray, "repeating_ailments": ailments_idarray}
+			
+			let repFormat = {}
+			let editorKeys = []
+
+			for (const [key, value] of Object.entries(attrs)) {
+
+				// Handle repeating attributes
+				if (typeof(value) == "object") {
+					let [repsection, repalias] = key.split(":");
+					let idarray = idarrays[repsection];
+					repFormat[key] = {}
+					
+					// Compute the attributes for each repitem (which each have an unique id)
+					for (let i = 0; i < idarray.length; i++) {
+						let id = idarray[i];
+						repFormat[key][i] = {};
+						
+						for (let [repkey, repvalue] of Object.entries(value)) {
+							repFormat[key][i][`${repsection}_${id}_${repkey}`] = repvalue;
+							editorKeys.push(`${repsection}_${id}_${repkey}`);
+						}
+					}
+				}
+
+				// Handle an optional attribute prefix
+				else if (options.prefix) {
+					editorKeys.push(options.prefix + key);
+				}
+
+				// Handle normal attributes
+				else {
+					editorKeys.push(key);
+				}
+			}
+
+			callback(editorKeys, repFormat);
+			});
+			});
+		} else {
+			callback([`${type}EditorInput`], {});
+		}
+	}
+	
+	computeKeys((editorKeys, repFormat) => {
+		getAttrs([`${type}EditorTarget`, ...editorKeys], function(values) {
+
+			let editorData = packageAttrData(values, {}, attrs, repFormat, "standard", options);
+
+			//let replaceList = (prefix) ? {[prefix]: ""} : {}
+
 			let editorTarget = values[`${type}EditorTarget`];
 			delete values[`${type}EditorTarget`];
-
-			let editorData = (attrs) ? packageAttrData(values, (prefix) ? {[prefix]: ""} : {}) : values[`${type}EditorInput`];
 
 			/* Save editor data */
 			if (editorTarget != "") {
@@ -15596,35 +15643,7 @@ function saveEditor(type, attrs, prefix) {
 				setAttrs(output);
 			}
 		});
-	})
-
-	function computeAttrs(callback=()=>{}) {
-		if (attrs) {
-			getSectionIDs("rollformats", rollformat_idarray => {
-			getSectionIDs("ailments", ailments_idarray => {
-
-			let idarrays = {"repeating_rollformats": rollformat_idarray, "repeating_ailments": ailments_idarray}
-
-			callback(attrs.flatMap(attr => {
-				// Handle repeating attributes of format repeating_section: {attr: value, ...}. Becomes [repeating_section_-id1_attr, repeating_section_-id2_attr, ...]
-				if (typeof(attr) == "Object") {
-					return Object.values(attr).flatMap(rep_attr => {
-						return idarrays[`${attr}`].map(id => `${attr}_${id}_${rep_attr}`);
-					});
-				}
-				// Handle prefixes. Does not affect repeating attributes
-				else if (prefix) {
-					return prefix + attr;
-				}
-				
-				return attr;
-			}));
-			});
-			});
-		} else {
-			callback([`${type}EditorInput`]);
-		}
-	}
+	});
 }
 
 function closeEditor(type) {
@@ -15641,10 +15660,10 @@ function closeEditor(type) {
 /*--- AutoScript functions ---*/
 
 /* AutoScript editor open button */
-on("clicked:autoScriptEdit" + itemNames.reduce((rows, item) => rows += ` clicked:repeating_${item}s:repitem-edit-autoscript`, ""), function(info) {	
+on("clicked:autoScriptEdit" + itemNames.reduce((rows, item) => rows += ` clicked:repeating_${item}s:edit-item-autoscript`, ""), function(info) {	
 	getAttrs(["autoScriptEditorTargetOld"], function(values) {
 		let target = (info.htmlAttributes.id == "autoScriptReturn") ? values.autoScriptEditorTargetOld
-				   : (info.sourceAttribute?.includes("repeating")) ? info.sourceAttribute.replace("_repitem-edit-", "_")
+				   : (info.sourceAttribute?.includes("repeating")) ? info.sourceAttribute.replace("_edit-item-", "_")
 				   : info.htmlAttributes.id;
 
 		if (target.includes("repeating")) {
@@ -16215,7 +16234,6 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	}
 
 	function autoEffectMessage(ae, countUpdate) {
-		console.log(ae.scaling, aeVars.scaling, ae.value)
 		let checkResult = ae.checkResult || aeVars.checkResult;
 		let scaling = ae.scaling || Math.max(parseInt(aeVars.scaling), 1);
 		let effectVal = roundTowardsZero(ae.value) || 0;
@@ -16668,7 +16686,6 @@ function parseAutoScript(inputAutoScript, vl, al, vars, triggers=[], errors={}) 
 
 	/* Parse each AutoEffect in the AutoScript */
 	AutoEffectArray.forEach(AutoEffect => {
-		console.log(AutoEffect)
 
 		/* Get AutoEffect name */
 		let [effectName, langEffectName] = [getAutoEffectFromTranslation(AutoEffect[0][0]), AutoEffect[0][0]];
@@ -17360,12 +17377,17 @@ const repattrkeys = {
 	"ailMax", "ailMaxBehavior",
 	"ailMessageCheck", "ailMessage",
 	"ailDamageTypeTrigger", "ailBeforeResistance", "ailPositiveType", 
-	"ailCustomResistance", /*"ailCustomResistanceNum", "ailCustomResistanceNumEgo"*/],
+	"ailCustomResistance", "ailCustomResistanceNum", "ailCustomResistanceNumEgo"],
+
+	rollformats: ["rollType", "diceCount", "diceMax", "dicePower", "AutoScript"],
 
 	inventory: [] // Add this later
 }
 
 /* Data Exporter */
+on("clicked:export", function(info) { 
+	dataExport();
+});
 function dataExport(override, target) {
 	
 	getAttrs(["exportType"], function(values) {
@@ -17393,6 +17415,9 @@ function dataExport(override, target) {
 }
 
 /* Data Importer */
+on("clicked:import", function(info) {
+	dataImport();
+});
 function dataImport(target, prefix, replacestr) {
 	
 	let inputsource = target || "editorInput";
@@ -17427,19 +17452,22 @@ function dataImport(target, prefix, replacestr) {
 }
 
 /* Data Exporter - Repeating Section */
+on("clicked:exportRepeating", function(info) { 
+	dataExportRepeating("ailments");
+});
 function dataExportRepeating(section, target) {
 
 	getSectionIDs(`repeating_${section}`, function(idarray) {
 
 	let attrkey = [];
-	let prefixList = {};
+	let replaceList = {};
 	let output = target || "editorOutput";
 
 	/* Format key */
     for(var i=0; i < idarray.length; i++) {
 		repattrkeys[section].forEach(key => {
 			attrkey.push(`repeating_${section}_${idarray[i]}_${key}`);
-			prefixList[`repeating_${section}_${idarray[i]}_${key}`] = `${i}_${key}`;
+			replaceList[`repeating_${section}_${idarray[i]}_${key}`] = `${i}_${key}`;
 		}); 
     }
 
@@ -17447,12 +17475,15 @@ function dataExportRepeating(section, target) {
 	getAttrs(attrkey, function(values) {
 
 	/* Import attributes */
-	setAttrs({[output]: packageAttrData(values, prefixList)});
+	setAttrs({[output]: packageAttrData(values, replaceList)});
 	});
 	});
 }
 
 /* Data Importer - Repeating Section */
+on("clicked:importRepeating", function(info) { 
+	dataImportRepeating("ailments");
+});
 function dataImportRepeating(section, override, target) {
 
 	let inputsource = target || "ailmentEditor";
@@ -17511,40 +17542,7 @@ function dataImportRepeating(section, override, target) {
 	});
 }
 
-/* Data Export/Import helper functions */
-function packageAttrData(values={}, prefixList={}) {
-	console.log(values)
-
-	let textbase = Object.keys(values).reduce((acc, key) => {
-		if (values[key] == undefined) {
-			values[key] = "";
-		}
-		return acc + "[`" + key + "`,`" + values[key] + "`], ";
-	}, "");
-
-	if (textbase.length > 0) {
-		textbase = textbase.slice(0, -2); /* Remove the comma and space after the last attribute */
-		textbase = textbase.replace(/	/g, ''); /* Remove whitespace */
-		
-		for (const [replacestr, prefix] of Object.entries(prefixList)) {
-			textbase = textbase.replaceAll(replacestr, prefix);
-		}
-	}
-
-	return textbase;
-}
-
-/* Export Repeating button */
-on("clicked:exportRepeating", function(info) { 
-	dataExportRepeating("ailments");
-});
-
-/* Import Repeating button */
-on("clicked:importRepeating", function(info) { 
-	dataImportRepeating("ailments");
-});
-
-/* Swap button */ 
+/* Export/Import tab: Swap button */ 
 on("clicked:swap", function(info) {
 	dataSwap();
 });
@@ -17554,69 +17552,145 @@ function dataSwap() {
 	});
 }
 
-/* Function: Clear specified attribute from button */
+/* Export/Import tab: Clear buttons */
 on("clicked:clearButton", function(info) {
     let buttonid = info.htmlAttributes.id.split('_')[1];
-	setAttrs({ [buttonid]:""});
+	setAttrs({[buttonid]:""});
 });
 
-/* Import button */
-on("clicked:import", function(info) {
-	dataImport();
-});
+/* Data Export/Import helper functions */
+const dataStyles = {
+	standard: ["[`", "`,`", "`]"],
+	repeating: ["", ":", ""]
+}
+function packageAttrData(values={}, replaceList={}, dataFormat, repFormat, type="standard", options={}) {
+	let style = dataStyles[type];
+	if (!dataFormat) dataFormat = values;
+	let attrData = []
 
-/* Export button */
-on("clicked:export", function(info) { 
-	dataExport();
-});
-
-/* Action: Status ailment increment + Pause value reveal toggle + Trigger ailment */
-onJQ('clicked:ailmentClicker clicked:repeating_ailments:clickercustom', (info) => {
-	let keyPressed = (info.altKey) ? "alt" : (info.ctrlKey) ? "ctrl" : false;
-
-	/* Get currect attribute */
-	let ailmentType = (info.sourceAttribute) ? "custom" : "standard";
-	let ailmentAttr = (info.htmlAttributes.class.includes("reveal-DecayPause")) ? "DecayPause" : "Num";
-	let ailmentName = "";
-
-	if (ailmentType == "custom") {
-		ailmentName = info.sourceAttribute.split('_')[2];
-		ailmentAttr = `repeating_ailments_${ailmentName}_ail${ailmentAttr}`;
-	} else {
-		ailmentName = info.htmlAttributes.id.split('_')[1];
-		ailmentAttr = (ailmentAttr == "Num") ? ailmentName : ailmentName + ailmentAttr;
-	}
-
-	/* If not pressing any keys, increment ailment count by 1 */
-	if (!keyPressed) {
-		getAttrs([ailmentAttr], function(values) {
-			setAttrs({[ailmentAttr]: parseInt(values[ailmentAttr]) + 1});
-		});
-	}
-	
-	/* If pressing alt, reveal the ailments DecayPause field */
-	else if (keyPressed == "alt") {
-		let pauseInputSelector = (ailmentType == "custom")
-			? `[data-reprowid*=${ailmentName}] [name*=attr_ailDecayPause]`
-			: `[name*=attr_${ailmentName}DecayPause]`;
+	for (let [key, value] of Object.entries(dataFormat)) {
 		
-		let ailmentButtonSelecter = (ailmentType == "custom")
-			? `[data-reprowid*=${ailmentName}] [name*=act_clickercustom]`
-			: `button[id*=ailment_${ailmentName}]`;
+		// Handle check values used for repeating attributes. A repitem which fails a check is not included in the output data
+		if (typeof(value) == "function") {
+			if (value.apply(null, [values[key]])) { // itemEditorAttrs
+				continue;
+			} else {
+				return "";
+			}
+		}
 
-		$20(ailmentButtonSelecter).toggleClass("reveal-DecayPause");
-		$20(pauseInputSelector).toggleClass("reveal-DecayPause");
-	}
+		// Handle repeating attribute data format
+		else if (typeof(value) == "object") {
+			let [repsection, repalias] = key.split(":");
+			let repData = [];
 
-	/* If pressing ctrl, trigger the ailment */
-	else if (keyPressed == "ctrl") {
-		if (ailmentType == "custom") {
-			updateCustomAilment(ailmentName, "standard", "false");
-		} else {
-			updateAilments([ailmentName]);
+			for (let i = 0; i < length(repFormat[key] || 0); i++) {
+				let newRepData = packageAttrData(values, {}, repFormat[key][i], {}, "repeating", options);
+				if (newRepData) { repData.push(newRepData); }
+			}
+
+			attrData.push([repalias, repData.join(", ")]);
+		}
+
+		// Handle standard attribute data format
+		else {
+			// Apply a prefix if one is provided
+			let modvalue = values[(options.prefix) ? options.prefix + key : key]
+
+			if (options.ignoreDefault && dataFormat[key] == modvalue) {
+				if (type == "repeating") {
+					return "";
+				} else {
+					continue;
+				}
+			}
+			else if (type == "repeating") {
+				attrData.push(values[key]);
+			}
+			else {
+				attrData.push([key, modvalue]);
+			}
 		}
 	}
+
+	if (typeof(attrData[0]) != "object") { attrData = [attrData] }
+	let textbase = attrData.map(data => style[0] + data.join(style[1]) + style[2]).join(", ");
+
+	/* Legacy code for the old packaging method */
+	if (textbase.length > 0 && length(replaceList) > 0) {
+		textbase = textbase.replace(/	/g, ''); // Remove whitespace
+		
+		for (const [replacestr, prefix] of Object.entries(replaceList)) {
+			textbase = textbase.replaceAll(replacestr, prefix);
+		}
+	}
+
+	return textbase;
+}
+
+
+/* Item Editor */
+/* Item attributes used in the item editor as well as their default values. Includes both normal and repeating attributes */
+/* When creating a new item, override the default values with those of the specific item created (see below) */
+const itemEditorAttrs = {
+	"optionRollFormat": 0, "repeating_rollformats:rollFormats": {"rollType": "Any", "diceCount": 1, "diceMax": 6, "dicePower": 0, "AutoScript": ""},
+	"optionUseable": 0,
+	"optionLimitedUses": 0,
+	"optionLightCost": 0,
+	"optionResistance": 0, "burnResist": 0, "bleedResist": 0, "damageResist": 0, "repeating_ailments:customResist": {"ailCustomResistance": (a) => isTrue(a), "ailName": "Unknown", "itemAilCustomResistanceNum": 0}
+}
+const itemDefaults = {
+weapon: {
+	"optionRollFormat": 1
+	},
+	outfit: {
+		"optionRollFormat": 1, repeating_rollformats: {"rollType": "Block"},
+	},
+	augment: {},
+	tool: {},
+	skill: {},
+	special: {}
+}
+
+/* Item attributes used in the Import/Export data functionality */
+const itemScriptAttrs = [
+	"description", "effect"
+]
+
+/* Item editor open button */
+on(itemNames.reduce((rows, item) => rows += ` clicked:repeating_${item}s:edit-item`, ""), function(info) {
+	let itemData = info.sourceAttribute.replace("_edit-item", "_itemData");
+	let itemName = info.sourceAttribute.replace("_edit-item", "_name");
+	
+	getAttrs([itemName], function(values) {
+		openEditor("item", itemData, values[itemName]);
+	});
 });
+
+/* Item editor close button */
+on("clicked:closeItemEdit", function(info) {
+	saveEditor("item", itemEditorAttrs);
+	closeEditor("item");
+});
+
+/* Item editor sync changes */
+on(Object.keys(itemEditorAttrs).reduce((rows, key) => {
+	
+	/* Sync repeating attributes */
+	if (key.includes("repeating_")) {
+		let repsection = key.split(":")[0];
+		return rows += Object.keys(itemEditorAttrs[key]).reduce((acc, repkey) => acc += ` change:${repsection}:${repkey}`, "");
+	}
+	/* Sync normal attributes */
+	else {
+		return rows += ` change:item${capitalize(key)}`;
+	}
+}, ""), function(info) {
+	saveEditor("item", itemEditorAttrs);
+});
+/*--- Export/Import functions end ---*/
+
+
 
 /* Action: Toggle combat mode */
 on('clicked:combatToggle', (info) => {
@@ -19021,6 +19095,14 @@ function deleteMultiple(object, ...args) {
 function length(object) {
 	return keys = Object.keys(object).length;
 }
+// Checks if a value is true or false
+function isFalse(value) {
+	return (value == false || value == "false" || value == 0 || value == undefined || value == null);
+}
+function isTrue(value) {
+	return !isFalse(value);
+}
+
 // Works as the range() Python function
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
 const range = (start, stop, step=1) =>
