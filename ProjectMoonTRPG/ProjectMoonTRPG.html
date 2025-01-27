@@ -39,8 +39,6 @@
 		
 			<label><input type="checkbox" name="attr_settingHelperText" value="true"><span data-i18n="settings-hidehelpertext">Hide:  Helper text</span></label>
 		
-			<label><input type="checkbox" name="attr_settingHideShare" value="true"><span data-i18n="settings-hideshare">Hide: Share buttons</span></label>
-		
 			<label><input type="checkbox" name="attr_settingHideUses" value="true"><span data-i18n="settings-hideuses">Hide: Uses in messages</span></label>
 		
 			
@@ -174,90 +172,230 @@
 <input type="checkbox" class="hide-toggle-next" name="attr_itemEditor_display" value="true" hidden="true">
 <div id="itemEditor" class="hide-item contentContainer darkBG editorContainer">
 	<div class="editorControls">
+
+		<!-- Item type -->
+		<select name="attr_itemType" class="darkInput itemType">
+			<option value="Weapon" data-i18n="item-type-weapon">Weapon</option>
+			<option value="Outfit" data-i18n="item-type-outfit">Outfit</option>
+			<option value="Augment" data-i18n="item-type-augment">Augment</option>
+			<option value="Tool" data-i18n="item-type-tool">Tool</option>
+			<option value="Skill" data-i18n="item-type-skill">Skill</option>
+			<option value="Special" data-i18n="item-type-special">Special</option>
+		</select>
+
+		<!-- Close editor -->
 		<button type="action" id="itemClose" class="darkInput centerIcon mediumIcon exit" name="act_closeItemEdit" data-i18n-title="item-editor-close" title="Save and close Item Editor"></button>
 	</div>
+
 	<label for="itemInput" style="margin-left: 5px;" data-i18n="item-editor">Item Editor</label>
 	<input type="text" class="editorTarget darkBG" name="attr_itemEditorTargetName" readonly>
 	<input type="text" name="attr_itemEditorTarget" hidden="true">
 
+
 	<!-- Item options -->
 	<div class="itemOptionContainer">
 
+		<!-- Option: Roll formats -->
 		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionRollFormat" value="true"><span>Roll Format</span></label>
+			<div class="rollFormatContainer">
+				
+				<!-- Custom add repeating rollformat button -->
+				<input type="checkbox" class="hide-toggle-rev-next" name="attr_rollFormatAddToggle" value="true" hidden="true">
+				<button type="action" class="hide-item-rev btn repcontrol_add" id="add_rollformat" name="act_addItem" data-i18n-title="item-add-rollformat" title="Add new roll format">Add</button>
+				
+				<fieldset class="repeating_rollformats">
+					<div class="rowContainer">
+
+						<!-- Standalone vs. Applied -->
+						<select name="attr_rollUse" class="whiteInput">
+							<option value="Roll">Roll</option>
+							<option value="Applied">Applied</option>
+						</select>
+
+						<!-- Roll type -->
+						<select name="attr_rollType" class="whiteInput">
+							<option value="Any" data-i18n="skill-type-None">---</option>
+							<option value="Attack" data-i18n="skill-type-Attack">Attack</option>
+							<option value="Block" data-i18n="skill-type-Block">Block</option>
+							<option value="Evade" data-i18n="skill-type-Evade">Evade</option>
+							<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
+							<option value="Prudence" data-i18n="stats-wisdom">Prudence</option>
+							<option value="Justice" data-i18n="stats-justice">Justice</option>
+							<option value="Charm" data-i18n="stats-charm">Charm</option>
+							<option value="Insight" data-i18n="stats-insight">Insight</option>
+							<option value="Temperance" data-i18n="stats-temperance">Temperance</option>
+						</select>
+
+						<!-- Damage type (Attack only) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_rollType" value="Attack">
+						<select name="attr_rollDamage" class="whiteInput hide-item">
+							<option value="None" data-i18n="weapon-type-None">---</option>
+							<option value="Slash" data-i18n="weapon-type-Slash">Slash</option>
+							<option value="Pierce" data-i18n="weapon-type-Pierce">Pierce</option>
+							<option value="Blunt" data-i18n="weapon-type-Blunt">Blunt</option>
+							<option value="Choose" data-i18n="weapon-type-Choose">Choose</option>
+						</select>
+		
+						<!-- Roll format -->
+						<div class="rowContainer combatRoll">
+							<div class="rollFormatBlock">
+								<input type="number" class="diceCount noSpinner" name="attr_diceCount" value="0">
+								<div class="plainText">D</div>
+								<input type="number" class="diceMax noSpinner" name="attr_diceMax" value="0">
+								<div class="plainText">+</div>
+								<input type="number" class="dicePower noSpinner" name="attr_dicePower" value="0">
+							</div>
+						</div>
+
+						<!-- Roll format AutoScript -->
+						<button type="action" class="darkButton autoScriptButton script" name="act_edit-item-autoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+						<input type="text" name="attr_autoscript" hidden="true">
+
+					</div>
+				</fieldset>
+			</div>
+
 			<!-- Repeating section of between 1 and 5 roll formats -->
+			<!-- "repeating_rollformats:rollFormats": {"rollType": "Any", "diceCount": 1, "diceMax": 6, "dicePower": 0, "AutoScript": ""} -->
 		</div>
 
+
+		<!-- Option: Useable -->
 		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionUseable" value="true"><span>Useable</span></label>
 			
 		</div>
 
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionLimitedUses" value="true"><span>Limited Uses</span></label>
+
+		<!-- Option: Linked -->
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionLinked" value="true"><span>Linked</span></label>
 			
 		</div>
 
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionLightCost" value="true"><span>Light Cost</span></label>
+
+		<!-- Option: Mystery -->
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionMystery" value="true"><span>Mystery</span></label>
 			
 		</div>
 
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionResistance" value="true"><span>Resistances</span></label>
+
+		<!-- Option: Mystery -->
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionEquipSlots" value="true"><span>Equip slots</span></label>
 			
-			<!-- Burn/Bleed/Damage Resist -->
-			<div class="rowContainer defaultResistDisplay">
+		</div>
+
+
+		<!-- Option: Tags -->
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionTags" value="true"><span>Tags</span></label>
+			<!-- Should be hidden when a game settings is disabled -->
+		</div>
+
+
+		<!-- Option: Style -->
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionStyle" value="true"><span>Style</span></label>
+			<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionIcon" value="true"><span>Icon</span></label></div>
+			<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionColor" value="true"><span>Color</span></label></div>
+		</div>
+
+		
+		<!-- Option: Limited uses -->
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionLimitedUses" value="true"><span>Limited uses</span></label>
+			
+			<!-- Uses -->
+			<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionUses" value="true"><span>Uses</span></label>
 				<div class="rowContainer">
-					<input type="checkbox" class="fade-toggle" name="attr_itemBurnResist" value="0" hidden="true">
-
-					<div class="ailmentIconSelector status_effect_item centerFlex">
-						<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon burn"></div></div>
-						<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon burn-limbus"></div></div>
-					</div>
-
-					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemBurnResist" value="0"></div>
-				</div>
-
-				<div class="rowContainer">
-					<input type="checkbox" class="fade-toggle" name="attr_itemBleedResist" value="0" hidden="true">
-
-					<div class="ailmentIconSelector status_effect_item rowContainer centerFlex">
-						<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon bleed"></div></div>
-						<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon bleed-limbus"></div></div>
-					</div>
-
-					<div class="status_effect_value"><input type="number"  class="ailmentNum" name="attr_itemBleedResist" value="0"></div>
-				</div>
-
-				<div class="rowContainer">
-					<input type="checkbox" class="fade-toggle" name="attr_itemDamageResist" value="0" hidden="true">
-
-					<div class="ailmentIconSelector status_effect_item rowContainer centerFlex">
-						<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon damageResist"></div></div>
-						<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon damageResist-limbus"></div></div>
-					</div>
+					<input type="checkbox" class="fade-toggle" name="attr_itemUsesMax" value="0" hidden="true">
+					<div class="mediumIcon centerIcon reusable"></div>
+					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemUsesMax" min="0" value="0"></div>
 					
-					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemDamageResist" value="0"></div>
+					<input type="checkbox" class="hide-toggle-rev-next" name="attr_itemUsesMax" value="0" hidden="true">
+					<select name="attr_itemUseMode" class="hide-item-rev darkInput">
+						<option value="Limited" data-i18n="item-usemode-limited">Limited: Manually restore uses</option>
+						<option value="Refresh" data-i18n="item-usemode-refresh">Refresh: Restore uses on Refresh</option>
+						<option value="Loaded" data-i18n="item-usemode-loaded">Loaded: Consumes uses from Ammo item</option>
+						<option value="Ammo" data-i18n="item-usemode-ammo">Ammo: Used by Loaded items</option>
+					</select>
 				</div>
 			</div>
 
-			<!-- Custom Ailment Resistances -->
-			<div class="customResistDisplay">
-				<fieldset class="repeating_ailments">
-					<input type="checkbox" class="hide-toggle" name="attr_ailCustomResistance" hidden="true" value="true">
-					<div class="rowContainer hide-item">
-						<input type="checkbox" class="fade-toggle" name="attr_itemAilCustomResistanceNum" value="0" hidden="true">
+			<!-- Light cost -->
+			<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionLightCost" value="true"><span>Light cost</span></label>
+				<div class="rowContainer">
+					<input type="checkbox" class="fade-toggle" name="attr_itemLightCost" value="0" hidden="true">
+					<div class="mediumIcon centerIcon light"></div>
+					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemLightCost" min="0" value="0"></div>
+				</div>
+			</div>
+		</div>
 
-						<div class="ailmentIconSelector status_effect_item rowContainer centerFlex">
-							<div class="icon"><img name="attr_ailIconDisplay" class="skillIcon"></div>
+
+		
+		<!-- Option: Resistances -->
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionResistance" value="true"><span>Resistances</span></label>
+			
+			<!-- Damage Resistance -->
+			<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionDamageResistance" value="true"><span>Damage resistance</span></label>
+			
+			</div>
+
+			<!-- Ailment Resistance -->
+			<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionAilmentResistance" value="true"><span>Ailment resistance</span></label>
+				
+				<!-- Burn/Bleed/Damage Resist -->
+				<div class="rowContainer defaultResistDisplay">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle" name="attr_itemBurnResist" value="0" hidden="true">
+
+						<div class="ailmentIconSelector centerFlex">
+							<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon burn"></div></div>
+							<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon burn-limbus"></div></div>
 						</div>
 
-						<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemAilCustomResistanceNum" value="0"></div>
+						<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemBurnResist" value="0"></div>
 					</div>
-				</fieldset>
+
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle" name="attr_itemBleedResist" value="0" hidden="true">
+
+						<div class="ailmentIconSelector rowContainer centerFlex">
+							<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon bleed"></div></div>
+							<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon bleed-limbus"></div></div>
+						</div>
+
+						<div class="status_effect_value"><input type="number"  class="ailmentNum" name="attr_itemBleedResist" value="0"></div>
+					</div>
+
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle" name="attr_itemDamageResist" value="0" hidden="true">
+
+						<div class="ailmentIconSelector rowContainer centerFlex">
+							<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon damageResist"></div></div>
+							<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon damageResist-limbus"></div></div>
+						</div>
+						
+						<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemDamageResist" value="0"></div>
+					</div>
+				</div>
+
+				<!-- Custom Ailment Resistances -->
+				<div class="customResistDisplay">
+					<fieldset class="repeating_ailments">
+						<input type="checkbox" class="hide-toggle" name="attr_ailCustomResistance" hidden="true" value="true">
+						<div class="rowContainer hide-item">
+							<input type="checkbox" class="fade-toggle" name="attr_itemAilCustomResistanceNum" value="0" hidden="true">
+							<div class="ailmentIconSelector centerFlex">
+								<div class="icon"><img name="attr_ailIconDisplay" class="skillIcon"></div>
+							</div>
+							<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemAilCustomResistanceNum" value="0"></div>
+						</div>
+					</fieldset>
+				</div>
 			</div>
 		
 		</div>
 
 	</div>
 
-	 <!-- data-i18n="missing-item-editor-translation" -->
+	<!-- data-i18n="missing-item-editor-translation" -->
 
 
 	<!-- Item options end -->
@@ -524,16 +662,13 @@
 	<textarea spellcheck="false" class="distortEffectInput SANtext"  name="attr_distortEffect2" placeholder="Distortion effects." data-i18n-placeholder="distort-effectDef" style="margin-bottom: 0px;"></textarea>
 </div>
 
-<!-- Distort Share section -->
-<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideShare" value="true">
-<div class="hide-item-rev" style="position: absolute; bottom: 0px; right: 0px;">
-
-<button type="action" class="darkInput shareButton" name="act_shareDistort" data-i18n-title="share" title="Share info"></button>
-<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-<button type="action" class="darkInput autoScriptButton" id="egoAutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-
+<!-- Distort item buttons -->
+<div class="itemButtons">
+	<button type="action" class="darkInput shareButton share" name="act_shareDistort" data-i18n-title="share" title="Share info"></button>
+	<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
+	<button type="action" class="darkInput autoScriptButton script" id="egoAutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
 </div>
-<!-- Distort Share end -->
+<!-- Distort item buttons end -->
 
 <!-- Distort edit -->
 <input type="checkbox" class="hide-toggle" name="attr_settingEditMode" value="true">
@@ -622,29 +757,29 @@
 
 <div class="contentHeader rowContainer BLACK" style="height: 40px">
 
-<div class="rowContainer centerFlex distortionDice">
-	<div class="dicerollBlock egoDiceATK" data-i18n-title="distort-weapon-dice" title="Att modifier applied when Distorted.">
-		<input type="text" class="diceNum" name="attr_distortWeaponDice1" placeholder="0" value="0">
+<div class="rowContainer centerFlex distortionRollFormats">
+	<div class="rollFormatBlock egoDiceATK" data-i18n-title="distort-weapon-dice" title="Att modifier applied when Distorted.">
+		<input type="number" class="diceCount noSpinner" name="attr_distortWeaponDice1" min="1" value="1">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_distortWeaponDice2" placeholder="0" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_distortWeaponDice2" min="0" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_distortWeaponDice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_distortWeaponDice3" value="0">
 	</div>
 
-	<div class="dicerollBlock egoDiceDEF" data-i18n-title="distort-def-dice" title="Def modifier applied when Distorted." style="margin: 0px !important;">
-		<input type="text" class="diceNum" name="attr_distortDefDice1" placeholder="0" value="0">
+	<div class="rollFormatBlock egoDiceDEF" data-i18n-title="distort-def-dice" title="Def modifier applied when Distorted." style="margin: 0px !important;">
+		<input type="number" class="diceCount noSpinner" name="attr_distortDefDice1" min="1" value="1">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_distortDefDice2" placeholder="0" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_distortDefDice2" min="0" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_distortDefDice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_distortDefDice3" value="0">
 		</div>
 
-		<div class="dicerollBlock egoDiceEVD" data-i18n-title="distort-evd-dice" title="Evd modifier applied when Distorted.">
-		<input type="text" class="diceNum" name="attr_distortEvdDice1" placeholder="0" value="0">
+		<div class="rollFormatBlock egoDiceEVD" data-i18n-title="distort-evd-dice" title="Evd modifier applied when Distorted.">
+		<input type="number" class="diceCount noSpinner" name="attr_distortEvdDice1" min="1" value="1">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_distortEvdDice2" placeholder="0" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_distortEvdDice2" min="0" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_distortEvdDice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_distortEvdDice3" value="0">
 		</div>
 
 
@@ -848,20 +983,20 @@
 <input name="attr_egoIdeology" type="text" class="egoIdeologyInput" placeholder="Manifested ideology." data-i18n-placeholder="ego-ideology">
 
 <div class="rowContainer">
-<textarea spellcheck="false"   name="attr_egoDescription" class="egoDescInput" placeholder="Mystery description." data-i18n-placeholder="ego-description" style="margin-bottom: 0px;"></textarea>
-
+	<textarea spellcheck="false"   name="attr_egoDescription" class="egoDescInput" placeholder="Mystery description." data-i18n-placeholder="ego-description" style="margin-bottom: 0px;"></textarea>
 	<textarea spellcheck="false"   name="attr_egoEffect" placeholder="Mystery effects." data-i18n-placeholder="ego-effect" style="margin-bottom: 0px;"></textarea>
 </div>
 
-<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideShare" value="true">
-<div class="hide-item-rev" style="position: absolute; bottom: 0px; right: 0px;">
 
-<button type="action" class="darkInput shareButton" name="act_shareEgo" data-i18n-title="share" title="Share info"></button>
-<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-<button type="action" class="darkInput autoScriptButton" id="egoAutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-<input type="text" name="attr_egoAutoScript" hidden="true">
-
+<!-- EGO item buttons -->
+<div class="itemButtons">
+	<button type="action" class="darkInput shareButton share" name="act_shareEgo" data-i18n-title="share" title="Share info"></button>
+	<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
+	<button type="action" class="darkInput autoScriptButton script" id="egoAutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+	<input type="text" name="attr_egoAutoScript" hidden="true">
 </div>
+<!-- EGO item buttons end -->
+
 
 <!-- EGO edit -->
 <input type="checkbox" class="hide-toggle" name="attr_settingEditMode" value="true">
@@ -970,12 +1105,12 @@
 
 <div class="rowContainer centerFlex">
 
-	<div class="dicerollBlock egoDiceATK" data-i18n-title="ego-weapon-dice" title="Att dice applied when Mystery is active." style="margin-bottom: 5px;">
-		<input type="text" class="diceNum" name="attr_egoWeaponDice1" value="1">
+	<div class="rollFormatBlock egoDiceATK" data-i18n-title="ego-weapon-dice" title="Att dice applied when Mystery is active." style="margin-bottom: 5px;">
+		<input type="number" class="diceCount noSpinner" name="attr_egoWeaponDice1" min="1" value="1">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_egoWeaponDice2" value="6">
+		<input type="number" class="diceMax noSpinner" name="attr_egoWeaponDice2" min="0" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_egoWeaponDice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_egoWeaponDice3" value="0">
 		</div>
 
 
@@ -1006,20 +1141,20 @@
 
 	<div class="rowContainer centerFlex BLACK" style="margin-bottom: 5px;">
 
-		<div class="dicerollBlock egoDiceDEF" data-i18n-title="ego-defend-dice" title="Def dice applied when Mystery is active.">
-		<input type="text" class="diceNum" name="attr_egoDefDice1" value="1">
+		<div class="rollFormatBlock egoDiceDEF" data-i18n-title="ego-defend-dice" title="Def dice applied when Mystery is active.">
+		<input type="number" class="diceCount noSpinner" name="attr_egoDefDice1" min="1" value="1">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_egoDefDice2" value="6">
+		<input type="number" class="diceMax noSpinner" name="attr_egoDefDice2" min="0" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_egoDefDice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_egoDefDice3" value="0">
 		</div>
 
-		<div class="dicerollBlock egoDiceEVD" data-i18n-title="ego-evade-dice" title="Evd dice applied when Mystery is active.">
-		<input type="text" class="diceNum" name="attr_egoEvdDice1" value="1">
+		<div class="rollFormatBlock egoDiceEVD" data-i18n-title="ego-evade-dice" title="Evd dice applied when Mystery is active.">
+		<input type="number" class="diceCount noSpinner" name="attr_egoEvdDice1" min="1" value="1">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_egoEvdDice2" value="6">
+		<input type="number" class="diceMax noSpinner" name="attr_egoEvdDice2" min="0" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_egoEvdDice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_egoEvdDice3" value="0">
 		</div>
 
 	</div>
@@ -4724,13 +4859,13 @@
 <input type="text" class="transpInput viewerName" name="attr_selectName" data-i18n-placeholder="skill-name" placeholder="Skill name" value="" style="width: 100%;">
 </div>
 
-		<div class="dicerollBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill" style="position: absolute; right: 30px;">
+		<div class="rollFormatBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill" style="position: absolute; right: 30px;">
 <div class="blocker"></div>
-		<input type="text" class="diceNum" name="attr_selectDice1" value="0">
+		<input type="number" class="diceCount noSpinner" name="attr_selectDice1" min="1" value="1">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_selectDice2" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_selectDice2" min="0" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_selectDice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_selectDice3" value="0">
 		</div>
 
 <div class="lightCost" style="position: absolute; top: 2px; right: 0px;" data-i18n-title="skill-light-cost" title="Light Cost">
@@ -4824,7 +4959,7 @@
 			
 			<!-- Edit Button -->
 			<input type="checkbox" class="switch-toggle" id="hideItemSettings" name="attr_hideItemSettings" value="true" hidden="true">
-			<label for="hideItemSettings" class="equipEditButton largeIcon edit" data-i18n-title="item-edit" title="Edit items"></label>
+			<label for="hideItemSettings" class="inventoryEditButton largeIcon edit" data-i18n-title="item-edit" title="Edit items"></label>
 
 		</h3>
 	
@@ -4850,16 +4985,16 @@
 
 	<!-- Repeating weapon block -->
 	<fieldset class="repeating_weapons">
-
-		<!-- Custom delete repeating item button. The default one doesn't work consistently -->
-		<button class="btn btn-danger pictos repcontrol_del" style="display: none;">#</button>
-
 		<div class="contentContainer">
-			<button type="action" class="darkInput shareButton" name="act_share-item" data-i18n-title="share" title="Share info"></button>
-			<button type="action" class="darkInput editButton edit" name="act_edit-item" data-i18n-title="edit" title="Edit"></button>
-			<button type="action" class="darkInput autoScriptButton" name="act_edit-item-autoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-			<input type="text" name="attr_autoScript" hidden="true">
-			<input type="text" name="attr_itemData" hidden="true">
+			
+			<!-- Item controls -->
+			<div class="itemButtons">
+				<button type="action" class="darkInput shareButton share" name="act_share-item" data-i18n-title="share" title="Share info"></button>
+				<button type="action" class="darkInput editButton edit" name="act_edit-item" data-i18n-title="edit" title="Edit"></button>
+				<button type="action" class="darkInput autoScriptButton script" name="act_edit-item-autoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+				<input type="text" name="attr_autoScript" hidden="true">
+				<input type="text" name="attr_itemData" hidden="true">
+			</div>
 	
 			<!-- Weapon header -->
 			<div class="contentHeader weapon">
@@ -4867,7 +5002,7 @@
 				<input type="text" class="transpInput contentName" name="attr_name" data-i18n-placeholder="equip-weapon-name" placeholder="Weapon Name">
 	
 				<!-- Dice roll block -->
-				<div class="rowContainer combatDice">
+				<div class="rowContainer combatRoll">
 	
 					<!-- Uses indicator -->
 					<div class="buffer" style="width: 30px; height: 30px;">
@@ -4889,12 +5024,12 @@
 					</div>
 		
 					<!-- Dice format -->
-					<div class="dicerollBlock">
-						<input type="text" class="diceNum" name="attr_dice1" min="0" value="1">
+					<div class="rollFormatBlock">
+						<input type="number" class="diceCount noSpinner" name="attr_dice1" min="1" value="1">
 						<div class="plainText">D</div>
-						<input type="text" class="diceVval" name="attr_dice2" min="0" value="6">
+						<input type="number" class="diceMax noSpinner" name="attr_dice2" min="0" value="0">
 						<div class="plainText">+</div>
-						<input type="text" name="attr_dice3" placeholder="0" value="0">
+						<input type="number" class="dicePower noSpinner" name="attr_dice3" value="0">
 					</div>
 		
 					<!-- Roll button -->
@@ -4965,12 +5100,12 @@
 
 	<!-- Weapon1 block -->
 	<div class="contentContainer">
-
-		<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-		<button type="action" class="darkInput shareButton" id="share_weapon1" name="act_shareWeapon" data-i18n-title="share" title="Share info"></button>
-		<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-		<button type="action" class="darkInput autoScriptButton" id="weapon1AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-		<input type="text" name="attr_weapon1AutoScript" hidden="true">
+		<div class="itemButtons">
+			<button type="action" class="darkInput shareButton share" id="share_weapon1" name="act_shareWeapon" data-i18n-title="share" title="Share info"></button>
+			<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
+			<button type="action" class="darkInput autoScriptButton script" id="weapon1AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+			<input type="text" name="attr_weapon1AutoScript" hidden="true">
+		</div>
 
 		<!-- Weapon 1 header -->
 		<div class="contentHeader weapon">
@@ -4978,7 +5113,7 @@
 			<input type="text" class="transpInput contentName" name="attr_weapon1Name" data-i18n-placeholder="equip-weapon1-name" placeholder="Weapon Name (1)">
 
 			<!-- Weapon dice roll block -->
-			<div class="rowContainer combatDice">
+			<div class="rowContainer combatRoll">
 
 			<!-- Weapon1 Uses indicator -->
 			<div class="buffer" style="width: 30px; height: 30px;">
@@ -5007,12 +5142,12 @@
 				</div>
 			</div>
 
-			<div class="dicerollBlock">
-				<input type="text" class="diceNum" name="attr_weapon1Dice1" value="1">
+			<div class="rollFormatBlock">
+				<input type="number" class="diceCount noSpinner" name="attr_weapon1Dice1" min="1" value="1">
 				<div class="plainText">D</div>
-				<input type="text" class="diceVval" name="attr_weapon1Dice2" value="6">
+				<input type="number" class="diceMax noSpinner" name="attr_weapon1Dice2" min="0" value="0">
 				<div class="plainText">+</div>
-				<input type="text" name="attr_weapon1Dice3" placeholder="0" value="0">
+				<input type="number" class="dicePower noSpinner" name="attr_weapon1Dice3" value="0">
 			</div>
 
 			<button type="action" class="NDice" id="autoroll_weapon1_raw" name="act_rollCombat"></button>
@@ -5074,12 +5209,12 @@
 
 	<!-- Weapon2 block -->
 	<div class="contentContainer">
-
-		<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-		<button type="action" class="darkInput shareButton" id="share_weapon2" name="act_shareWeapon" data-i18n-title="share" title="Share info"></button>
-		<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-		<button type="action" class="darkInput autoScriptButton" id="weapon2AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-		<input type="text" name="attr_weapon2AutoScript" hidden="true">
+		<div class="itemButtons">
+			<button type="action" class="darkInput shareButton share" id="share_weapon2" name="act_shareWeapon" data-i18n-title="share" title="Share info"></button>
+			<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
+			<button type="action" class="darkInput autoScriptButton script" id="weapon2AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+			<input type="text" name="attr_weapon2AutoScript" hidden="true">
+		</div>
 
 		<!-- Weapon 2 header -->
 		<div class="contentHeader weapon">
@@ -5087,7 +5222,7 @@
 			<input type="text" class="transpInput contentName" name="attr_weapon2Name" data-i18n-placeholder="equip-weapon2-name" placeholder="Weapon Name (2)">
 
 			<!-- Weapon dice roll block -->
-			<div class="rowContainer combatDice">
+			<div class="rowContainer combatRoll">
 
 			<!-- Weapon2 Uses indicator -->
 			<div class="buffer" style="width: 30px; height: 30px;">
@@ -5116,12 +5251,12 @@
 				</div>
 			</div>
 
-			<div class="dicerollBlock">
-				<input type="text" class="diceNum" name="attr_weapon2Dice1" value="1">
+			<div class="rollFormatBlock">
+				<input type="number" class="diceCount noSpinner" name="attr_weapon2Dice1" min="1" value="1">
 				<div class="plainText">D</div>
-				<input type="text" class="diceVval" name="attr_weapon2Dice2" value="6">
+				<input type="number" class="diceMax noSpinner" name="attr_weapon2Dice2" min="0" value="0">
 				<div class="plainText">+</div>
-				<input type="text" name="attr_weapon2Dice3" placeholder="0" value="0">
+				<input type="number" class="dicePower noSpinner" name="attr_weapon2Dice3" value="0">
 			</div>
 
 			<button type="action" class="NDice" id="autoroll_weapon2_raw" name="act_rollCombat"></button>
@@ -5186,12 +5321,12 @@
 
 	<!-- Weapon3 block -->
 	<div class="contentContainer">
-
-		<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-		<button type="action" class="darkInput shareButton" id="share_weapon3" name="act_shareWeapon" data-i18n-title="share" title="Share info"></button>
-		<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-		<button type="action" class="darkInput autoScriptButton" id="weapon3AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-		<input type="text" name="attr_weapon3AutoScript" hidden="true">
+		<div class="itemButtons">
+			<button type="action" class="darkInput shareButton share" id="share_weapon3" name="act_shareWeapon" data-i18n-title="share" title="Share info"></button>
+			<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
+			<button type="action" class="darkInput autoScriptButton script" id="weapon3AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+			<input type="text" name="attr_weapon3AutoScript" hidden="true">
+		</div>
 
 		<!-- Weapon 3 header -->
 		<div class="contentHeader weapon">
@@ -5199,7 +5334,7 @@
 			<input type="text" class="transpInput contentName" name="attr_weapon3Name" data-i18n-placeholder="equip-weapon3-name" placeholder="Weapon Name (3)">
 
 			<!-- Weapon dice roll block -->
-			<div class="rowContainer combatDice">
+			<div class="rowContainer combatRoll">
 
 			<!-- Weapon3 Uses indicator -->
 			<div class="buffer" style="width: 30px; height: 30px;">
@@ -5228,12 +5363,12 @@
 				</div>
 			</div>
 
-			<div class="dicerollBlock">
-				<input type="text" class="diceNum" name="attr_weapon3Dice1" value="1">
+			<div class="rollFormatBlock">
+				<input type="number" class="diceCount noSpinner" name="attr_weapon3Dice1" min="1" value="1">
 				<div class="plainText">D</div>
-				<input type="text" class="diceVval" name="attr_weapon3Dice2" value="6">
+				<input type="number" class="diceMax noSpinner" name="attr_weapon3Dice2" min="0" value="0">
 				<div class="plainText">+</div>
-				<input type="text" name="attr_weapon3Dice3" placeholder="0" value="0">
+				<input type="number" class="dicePower noSpinner" name="attr_weapon3Dice3" value="0">
 			</div>
 
 			<button type="action" class="NDice" id="autoroll_weapon3_raw" name="act_rollCombat"></button>
@@ -5296,11 +5431,12 @@
 	<!-- Weapon4 block -->
 	<div class="contentContainer">
 
-		<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-		<button type="action" class="darkInput shareButton" id="share_weapon4" name="act_shareWeapon" data-i18n-title="share" title="Share info"></button>
-		<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-		<button type="action" class="darkInput autoScriptButton" id="weapon4AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-		<input type="text" name="attr_weapon4AutoScript" hidden="true">
+		<div class="itemButtons">
+			<button type="action" class="darkInput shareButton share" id="share_weapon4" name="act_shareWeapon" data-i18n-title="share" title="Share info"></button>
+			<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
+			<button type="action" class="darkInput autoScriptButton script" id="weapon4AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+			<input type="text" name="attr_weapon4AutoScript" hidden="true">
+		</div>
 
 		<!-- Weapon 4 header -->
 		<div class="contentHeader weapon">
@@ -5308,7 +5444,7 @@
 			<input type="text" class="transpInput contentName" name="attr_weapon4Name" data-i18n-placeholder="equip-weapon4-name" placeholder="Weapon Name (4)">
 
 			<!-- Weapon dice roll block -->
-			<div class="rowContainer combatDice">
+			<div class="rowContainer combatRoll">
 
 			<!-- Weapon4 Uses indicator -->
 			<div class="buffer" style="width: 30px; height: 30px;">
@@ -5337,12 +5473,12 @@
 				</div>
 			</div>
 
-			<div class="dicerollBlock">
-				<input type="text" class="diceNum" name="attr_weapon4Dice1" value="1">
+			<div class="rollFormatBlock">
+				<input type="number" class="diceCount noSpinner" name="attr_weapon4Dice1" min="1" value="1">
 				<div class="plainText">D</div>
-				<input type="text" class="diceVval" name="attr_weapon4Dice2" value="6">
+				<input type="number" class="diceMax noSpinner" name="attr_weapon4Dice2" min="0" value="0">
 				<div class="plainText">+</div>
-				<input type="text" name="attr_weapon4Dice3" placeholder="0" value="0">
+				<input type="number" class="dicePower noSpinner" name="attr_weapon4Dice3" value="0">
 			</div>
 
 			<button type="action" class="NDice" id="autoroll_weapon4_raw" name="act_rollCombat"></button>
@@ -5407,11 +5543,11 @@
 
 <!-- Augmentation block -->
 <div class="augmentBlock">
-
-<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-<button type="action" class="darkInput shareButton" name="act_shareAugment" data-i18n-title="share" title="Share info"></button>
-<button type="action" class="darkInput autoScriptButton" id="augmentAutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-<input type="text" name="attr_augmentAutoScript" hidden="true">
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" name="act_shareAugment" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="augmentAutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_augmentAutoScript" hidden="true">
+	</div>
 
 	<!-- Augment header -->
 	<div class="contentHeader augment rowContainer" id="augment-name">
@@ -5461,15 +5597,12 @@
 <!-- Outfit block -->
 <div class="contentContainer">
 <div>
-
-<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideShare" value="true">
-<div class="hide-item-rev" style="position: absolute; bottom: 0px; right: 0px;">
-
-<button type="action" class="darkInput shareButton" name="act_shareOutfit" data-i18n-title="share" title="Share info"></button>
-<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-<button type="action" class="darkInput autoScriptButton" id="outfitAutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-<input type="text" name="attr_outfitAutoScript" hidden="true">
-</div>
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" name="act_shareOutfit" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="outfitAutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_outfitAutoScript" hidden="true">
+	</div>
 
 <!-- Outfit Burn/Bleed/Damage Resist -->
 <input type="checkbox" class="hide-toggle" name="attr_settingEditMode" value="true">
@@ -5557,18 +5690,18 @@
 		<input type="text" class="transpInput contentName" name="attr_outfitName" data-i18n-placeholder="outfit-name" placeholder="Outfit">
 
 	<!-- Outfit dice roll block -->
-	<div class="rowContainer combatDice">
+	<div class="rowContainer combatRoll">
 	
 	<div class="evadeIcon typeIcon defend">
 	</div>
 
 
-		<div class="dicerollBlock">
-		<input type="text" class="diceNum" name="attr_defDice1" value="1">
+		<div class="rollFormatBlock">
+		<input type="number" class="diceCount noSpinner" name="attr_defDice1" min="1" value="1">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_defDice2" value="6">
+		<input type="number" class="diceMax noSpinner" name="attr_defDice2" min="0" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_defDice3" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_defDice3" value="0">
 		</div>
 
 	<div>
@@ -5583,18 +5716,18 @@
 
 	<div class="weaponRangeBox outfit"> 
 
-	<div class="rowContainer combatDice evadeAdjust">
+	<div class="rowContainer combatRoll evadeAdjust">
 
 	<div class="evadeIcon typeIcon evade">
 	</div>
 
 
-		<div class="dicerollBlock">
-		<input type="text" class="diceNum" name="attr_evdDice1" value="1">
+		<div class="rollFormatBlock">
+		<input type="number" class="diceCount noSpinner" name="attr_evdDice1" min="1" value="1">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_evdDice2" value="6">
+		<input type="number" class="diceMax noSpinner" name="attr_evdDice2" min="0" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_evdDice3" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_evdDice3" value="0">
 		</div>
 
 	<div>
@@ -5805,15 +5938,13 @@
 	</div>
 
 </div>
+<!-- Tool1 Edit end -->
 
-	<!-- Tool1 Edit end -->
-
-<div>
-<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_tool1" name="act_shareTool" data-i18n-title="share" title="Share info"></button>
-<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-<button type="action" class="darkInput autoScriptButton" id="tool1AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-<input type="text" name="attr_tool1AutoScript" hidden="true">
+<div class="itemButtons">
+	<button type="action" class="darkInput shareButton share" id="share_tool1" name="act_shareTool" data-i18n-title="share" title="Share info"></button>
+	<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
+	<button type="action" class="darkInput autoScriptButton script" id="tool1AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+	<input type="text" name="attr_tool1AutoScript" hidden="true">
 </div>
 
 
@@ -5872,15 +6003,13 @@
 	</div>
 
 </div>
+<!-- Tool2 Edit end -->
 
-	<!-- Tool2 Edit end -->
-
-<div>
-<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_tool2" name="act_shareTool" data-i18n-title="share" title="Share info"></button>
-<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-<button type="action" class="darkInput autoScriptButton" id="tool2AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-<input type="text" name="attr_tool2AutoScript" hidden="true">
+<div class="itemButtons">
+	<button type="action" class="darkInput shareButton share" id="share_tool2" name="act_shareTool" data-i18n-title="share" title="Share info"></button>
+	<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
+	<button type="action" class="darkInput autoScriptButton script" id="tool2AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+	<input type="text" name="attr_tool2AutoScript" hidden="true">
 </div>
 
 	<!-- Description/Effect section -->
@@ -5946,15 +6075,13 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 	</div>
 
 </div>
+<!-- Tool3 Edit end -->
 
-	<!-- Tool3 Edit end -->
-
-<div>
-<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_tool3" name="act_shareTool" data-i18n-title="share" title="Share info"></button>
-<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-<button type="action" class="darkInput autoScriptButton" id="tool3AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-<input type="text" name="attr_tool3AutoScript" hidden="true">
+<div class="itemButtons">
+	<button type="action" class="darkInput shareButton share" id="share_tool3" name="act_shareTool" data-i18n-title="share" title="Share info"></button>
+	<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
+	<button type="action" class="darkInput autoScriptButton script" id="tool3AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+	<input type="text" name="attr_tool3AutoScript" hidden="true">
 </div>
 
 
@@ -6015,15 +6142,13 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 	</div>
 
 </div>
+<!-- Tool4 Edit end -->
 
-	<!-- Tool4 Edit end -->
-
-<div>
-<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_tool4" name="act_shareTool" data-i18n-title="share" title="Share info"></button>
-<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-<button type="action" class="darkInput autoScriptButton" id="tool4AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-<input type="text" name="attr_tool4AutoScript" hidden="true">
+<div class="itemButtons">
+	<button type="action" class="darkInput shareButton share" id="share_tool4" name="act_shareTool" data-i18n-title="share" title="Share info"></button>
+	<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
+	<button type="action" class="darkInput autoScriptButton script" id="tool4AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+	<input type="text" name="attr_tool4AutoScript" hidden="true">
 </div>
 
 
@@ -6059,10 +6184,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 	<!-- Special Item1 block -->
 	<div class="specialBlock">
 
-<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-<button type="action" class="darkInput shareButton" id="share_special1" name="act_shareSpecial" data-i18n-title="share" title="Share info"></button>
-<button type="action" class="darkInput autoScriptButton" id="special1AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-<input type="text" name="attr_special1AutoScript" hidden="true">
+	<!-- Item buttons -->
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" id="share_special1" name="act_shareSpecial" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="special1AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_special1AutoScript" hidden="true">
+	</div>
 
 	<!-- Header -->
 	<div class="contentHeader special" id="special1Name">
@@ -6133,10 +6260,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 <!-- Special Item2 block -->
 	<div class="specialBlock">
 
-<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-<button type="action" class="darkInput shareButton" id="share_special2" name="act_shareSpecial" data-i18n-title="share" title="Share info"></button>
-<button type="action" class="darkInput autoScriptButton" id="special2AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-<input type="text" name="attr_special2AutoScript" hidden="true">
+	<!-- Item buttons -->
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" id="share_special2" name="act_shareSpecial" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="special2AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_special2AutoScript" hidden="true">
+	</div>
 
 	<!-- Header -->
 	<div class="contentHeader special" id="special2Name">
@@ -6222,10 +6351,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 	<!-- EGO Skill1 block -->
 	<div class="skillBlock">
 
-	<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_egoSkill1" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput autoScriptButton" id="egoSkill1AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_egoSkill1AutoScript" hidden="true">
+	<!-- Item buttons -->
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" id="share_egoSkill1" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="egoSkill1AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_egoSkill1AutoScript" hidden="true">
+	</div>
 
 	<!-- header -->
 	<div class="contentHeader skillE rowContainer">
@@ -6272,12 +6403,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
                                     <option data-i18n="skill-type-Mass" value="Mass">Mass</option>
                                 </select>
 
-		<div class="dicerollBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
-		<input type="text" class="diceNum" name="attr_egoSkill1Dice1" value="0">
+		<div class="rollFormatBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
+		<input type="number" class="diceCount noSpinner" name="attr_egoSkill1Dice1" value="0">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_egoSkill1Dice2" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_egoSkill1Dice2" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_egoSkill1Dice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_egoSkill1Dice3" value="0">
 		</div>
 	
 
@@ -6311,10 +6442,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 <!-- EGO Skill2 block -->
 	<div class="skillBlock">
 
-	<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_egoSkill2" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput autoScriptButton" id="egoSkill2AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_egoSkill2AutoScript" hidden="true">
+	<!-- Item buttons -->
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" id="share_egoSkill2" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="egoSkill2AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_egoSkill2AutoScript" hidden="true">
+	</div>
 
 	<!-- header -->
 	<div class="contentHeader skillE rowContainer">
@@ -6361,12 +6494,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
                                     <option data-i18n="skill-type-Mass" value="Mass">Mass</option>
                                 </select>
 
-		<div class="dicerollBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
-		<input type="text" class="diceNum" name="attr_egoSkill2Dice1" value="0">
+		<div class="rollFormatBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
+		<input type="number" class="diceCount noSpinner" name="attr_egoSkill2Dice1" value="0">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_egoSkill2Dice2" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_egoSkill2Dice2" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_egoSkill2Dice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_egoSkill2Dice3" value="0">
 		</div>
 	
 
@@ -6400,10 +6533,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 <!-- EGO Skill3 block -->
 	<div class="skillBlock">
 
-	<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_egoSkill3" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput autoScriptButton" id="egoSkill3AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_egoSkill3AutoScript" hidden="true">
+	<!-- Item buttons -->
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" id="share_egoSkill3" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="egoSkill3AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_egoSkill3AutoScript" hidden="true">
+	</div>
 
 	<!-- header -->
 	<div class="contentHeader skillE rowContainer">
@@ -6450,12 +6585,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
                                     <option data-i18n="skill-type-Mass" value="Mass">Mass</option>
                                 </select>
 
-		<div class="dicerollBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
-		<input type="text" class="diceNum" name="attr_egoSkill3Dice1" value="0">
+		<div class="rollFormatBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
+		<input type="number" class="diceCount noSpinner" name="attr_egoSkill3Dice1" value="0">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_egoSkill3Dice2" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_egoSkill3Dice2" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_egoSkill3Dice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_egoSkill3Dice3" value="0">
 		</div>
 	
 
@@ -6489,10 +6624,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 <!-- EGO Skill4 block -->
 	<div class="skillBlock">
 
-	<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_egoSkill4" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput autoScriptButton" id="egoSkill4AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_egoSkill4AutoScript" hidden="true">
+	<!-- Item buttons -->
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" id="share_egoSkill4" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="egoSkill4AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_egoSkill4AutoScript" hidden="true">
+	</div>
 
 	<!-- header -->
 	<div class="contentHeader skillE rowContainer">
@@ -6539,12 +6676,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
                                     <option data-i18n="skill-type-Mass" value="Mass">Mass</option>
                                 </select>
 
-		<div class="dicerollBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
-		<input type="text" class="diceNum" name="attr_egoSkill4Dice1" value="0">
+		<div class="rollFormatBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
+		<input type="number" class="diceCount noSpinner" name="attr_egoSkill4Dice1" value="0">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_egoSkill4Dice2" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_egoSkill4Dice2" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_egoSkill4Dice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_egoSkill4Dice3" value="0">
 		</div>
 	
 
@@ -6583,10 +6720,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 <!-- EGO Skill5 block -->
 	<div class="skillBlock">
 
-	<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_egoSkill5" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput autoScriptButton" id="egoSkill5AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_egoSkill5AutoScript" hidden="true">
+	<!-- Item buttons -->
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" id="share_egoSkill5" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="egoSkill5AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_egoSkill5AutoScript" hidden="true">
+	</div>
 
 	<!-- header -->
 	<div class="contentHeader skillE rowContainer">
@@ -6633,12 +6772,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
                                     <option data-i18n="skill-type-Mass" value="Mass">Mass</option>
                                 </select>
 
-		<div class="dicerollBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
-		<input type="text" class="diceNum" name="attr_egoSkill5Dice1" value="0">
+		<div class="rollFormatBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
+		<input type="number" class="diceCount noSpinner" name="attr_egoSkill5Dice1" value="0">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_egoSkill5Dice2" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_egoSkill5Dice2" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_egoSkill5Dice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_egoSkill5Dice3" value="0">
 		</div>
 	
 
@@ -6672,10 +6811,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 <!-- EGO Skill6 block -->
 	<div class="skillBlock">
 
-	<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_egoSkill6" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput autoScriptButton" id="egoSkill6AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_egoSkill6AutoScript" hidden="true">
+	<!-- Item buttons -->
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" id="share_egoSkill6" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="egoSkill6AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_egoSkill6AutoScript" hidden="true">
+	</div>
 
 	<!-- header -->
 	<div class="contentHeader skillE rowContainer">
@@ -6722,12 +6863,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
                                     <option data-i18n="skill-type-Mass" value="Mass">Mass</option>
                                 </select>
 
-		<div class="dicerollBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
-		<input type="text" class="diceNum" name="attr_egoSkill6Dice1" value="0">
+		<div class="rollFormatBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
+		<input type="number" class="diceCount noSpinner" name="attr_egoSkill6Dice1" value="0">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_egoSkill6Dice2" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_egoSkill6Dice2" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_egoSkill6Dice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_egoSkill6Dice3" value="0">
 		</div>
 	
 
@@ -6773,12 +6914,14 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 
 	<!-- Skill1 block -->
 	<div class="skillBlock">
-<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_skill1" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput autoScriptButton" id="skill1AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_skill1AutoScript" hidden="true">
 
-
+	<!-- Item buttons -->
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" id="share_skill1" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="skill1AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_skill1AutoScript" hidden="true">
+	</div>
+	
 	<!-- header -->
 	<div class="contentHeader skillN rowContainer" style="position: relative;">
 
@@ -6827,12 +6970,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
                                     <option data-i18n="skill-type-Mass" value="Mass">Mass</option>
                                 </select>
 
-		<div class="dicerollBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
-		<input type="text" class="diceNum" name="attr_skill1Dice1" value="0">
+		<div class="rollFormatBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
+		<input type="number" class="diceCount noSpinner" name="attr_skill1Dice1" value="0">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_skill1Dice2" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_skill1Dice2" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_skill1Dice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_skill1Dice3" value="0">
 		</div>
 	
 
@@ -6865,11 +7008,13 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 
 	<!-- Skill2 block -->
 	<div class="skillBlock">
-<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_skill2" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput autoScriptButton" id="skill2AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_skill2AutoScript" hidden="true">
 
+	<!-- Item buttons -->
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" id="share_skill2" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="skill2AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_skill2AutoScript" hidden="true">
+	</div>
 
 	<!-- header -->
 	<div class="contentHeader skillN rowContainer" style="position: relative;">
@@ -6919,12 +7064,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
                                     <option data-i18n="skill-type-Mass" value="Mass">Mass</option>
                                 </select>
 
-		<div class="dicerollBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
-		<input type="text" class="diceNum" name="attr_skill2Dice1" value="0">
+		<div class="rollFormatBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
+		<input type="number" class="diceCount noSpinner" name="attr_skill2Dice1" value="0">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_skill2Dice2" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_skill2Dice2" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_skill2Dice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_skill2Dice3" value="0">
 		</div>
 	
 
@@ -6957,11 +7102,13 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 
 <!-- Skill3 block -->
 	<div class="skillBlock">
-<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_skill3" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput autoScriptButton" id="skill3AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_skill3AutoScript" hidden="true">
 
+	<!-- Item buttons -->
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" id="share_skill3" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="skill3AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_skill3AutoScript" hidden="true">
+	</div>
 
 	<!-- header -->
 	<div class="contentHeader skillN rowContainer" style="position: relative;">
@@ -7011,12 +7158,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
                                     <option data-i18n="skill-type-Mass" value="Mass">Mass</option>
                                 </select>
 
-		<div class="dicerollBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
-		<input type="text" class="diceNum" name="attr_skill3Dice1" value="0">
+		<div class="rollFormatBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
+		<input type="number" class="diceCount noSpinner" name="attr_skill3Dice1" value="0">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_skill3Dice2" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_skill3Dice2" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_skill3Dice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_skill3Dice3" value="0">
 		</div>
 	
 
@@ -7049,11 +7196,13 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 
 <!-- Skill4 block -->
 	<div class="skillBlock">
-<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_skill4" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput autoScriptButton" id="skill4AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_skill4AutoScript" hidden="true">
 
+	<!-- Item buttons -->
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" id="share_skill4" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="skill4AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_skill4AutoScript" hidden="true">
+	</div>
 
 	<!-- header -->
 	<div class="contentHeader skillN rowContainer" style="position: relative;">
@@ -7103,12 +7252,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
                                     <option data-i18n="skill-type-Mass" value="Mass">Mass</option>
                                 </select>
 
-		<div class="dicerollBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
-		<input type="text" class="diceNum" name="attr_skill4Dice1" value="0">
+		<div class="rollFormatBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
+		<input type="number" class="diceCount noSpinner" name="attr_skill4Dice1" value="0">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_skill4Dice2" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_skill4Dice2" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_skill4Dice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_skill4Dice3" value="0">
 		</div>
 	
 
@@ -7146,10 +7295,13 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 
 <!-- Skill5 block -->
 	<div class="skillBlock">
-<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_skill5" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput autoScriptButton" id="skill5AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_skill5AutoScript" hidden="true">
+
+	<!-- Item buttons -->
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" id="share_skill5" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="skill5AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_skill5AutoScript" hidden="true">
+	</div>
 
 	<!-- header -->
 	<div class="contentHeader skillN rowContainer" style="position: relative;">
@@ -7199,12 +7351,12 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
                                     <option data-i18n="skill-type-Mass" value="Mass">Mass</option>
                                 </select>
 
-		<div class="dicerollBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
-		<input type="text" class="diceNum" name="attr_skill5Dice1" value="0">
+		<div class="rollFormatBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
+		<input type="number" class="diceCount noSpinner" name="attr_skill5Dice1" value="0">
 		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_skill5Dice2" value="0">
+		<input type="number" class="diceMax noSpinner" name="attr_skill5Dice2" value="0">
 		<div class="plainText">+</div>
-		<input type="text" name="attr_skill5Dice3" placeholder="0" value="0">
+		<input type="number" class="dicePower noSpinner" name="attr_skill5Dice3" value="0">
 		</div>
 	
 
@@ -7237,19 +7389,20 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 
 <!-- Skill6 block -->
 	<div class="skillBlock">
-<input type="checkbox" class="hide-toggle" name="attr_settingHideShare" value="true">
-	<button type="action" class="darkInput shareButton" id="share_skill6" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput autoScriptButton" id="skill6AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_skill6AutoScript" hidden="true">
+		
+	<!-- Item buttons -->
+	<div class="itemButtons">
+		<button type="action" class="darkInput shareButton share" id="share_skill6" name="act_shareSkill" data-i18n-title="share" title="Share info"></button>
+		<button type="action" class="darkInput autoScriptButton script" id="skill6AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+		<input type="text" name="attr_skill6AutoScript" hidden="true">
+	</div>
 
 	<!-- header -->
 	<div class="contentHeader skillN rowContainer" style="position: relative;">
 
 	<input type="text" class="transpInput skillName" name="attr_skill6Name" data-i18n-placeholder="skill-name" placeholder="Skill name">
 
-
-<div class="iconHolder">
-
+	<div class="iconHolder">
 		<div class="icon">
 		<input type="checkbox" class="expand-toggle" value="" name="attr_skill6Type"><div class="type-image skillIcon skillNone"></div>
 		</div>
@@ -7274,35 +7427,30 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill6Type"><div class="type-image skillIcon skillMass weapon"></div>
 		</div>
 
-<input class="skillRank" type="text" name="attr_skill6Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
-
-
+		<input class="skillRank" type="text" name="attr_skill6Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
 	</div>
 
 	<div class="rowContainer centerFlex skillN"> 
+		<select name="attr_skill6Type" class="whiteInput skillType">
+			<option data-i18n="skill-type-None" value="None" selected>---</option>
+			<option data-i18n="skill-type-Attack" value="Attack">Attack</option>
+			<option data-i18n="skill-type-Defend" value="Defend">Defend</option>
+			<option data-i18n="skill-type-Evade" value="Evade">Evade</option>
+			<option data-i18n="skill-type-Action" value="Action">Action</option>
+			<option data-i18n="skill-type-Mass" value="Mass">Mass</option>
+		</select>
 
-				<select name="attr_skill6Type" class="whiteInput skillType">
-				    <option data-i18n="skill-type-None" value="None" selected>---</option>
-                                    <option data-i18n="skill-type-Attack" value="Attack">Attack</option>
-                                    <option data-i18n="skill-type-Defend" value="Defend">Defend</option>
-                                    <option data-i18n="skill-type-Evade" value="Evade">Evade</option>
-                                    <option data-i18n="skill-type-Action" value="Action">Action</option>
-                                    <option data-i18n="skill-type-Mass" value="Mass">Mass</option>
-                                </select>
-
-		<div class="dicerollBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
-		<input type="text" class="diceNum" name="attr_skill6Dice1" value="0">
-		<div class="plainText">D</div>
-		<input type="text" class="diceVval" name="attr_skill6Dice2" value="0">
-		<div class="plainText">+</div>
-		<input type="text" name="attr_skill6Dice3" placeholder="0" value="0">
+		<div class="rollFormatBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill">
+			<input type="number" class="diceCount noSpinner" name="attr_skill6Dice1" value="0">
+			<div class="plainText">D</div>
+			<input type="number" class="diceMax noSpinner" name="attr_skill6Dice2" value="0">
+			<div class="plainText">+</div>
+			<input type="number" class="dicePower noSpinner" name="attr_skill6Dice3" value="0">
 		</div>
-	
-
-	<div class="lightCost">
-				<input class="lightCostInput" type="text" name="attr_skill6Light" value="1" data-i18n-title="skill-light-cost" title="Light Cost">
-	</div>
-
+		
+		<div class="lightCost">
+			<input class="lightCostInput" type="text" name="attr_skill6Light" value="1" data-i18n-title="skill-light-cost" title="Light Cost">
+		</div>
 	</div>
 
 
@@ -8648,7 +8796,7 @@ const barNamesTemp = ["THP", "TST"]
 const statNames = ["Instinct", "Wisdom", "Justice", "Charm", "Insight", "Temperance"]
 const statNamesFull = [...statNames, "Fortitude", "Prudence"]
 const resourceNames = ["Action", "Reaction", "Counter", "Block", "Evade", "Light_Regen"]
-const combatDiceNames = ["Attack", "Block", "Evade"]
+const combatRollNames = ["Attack", "Block", "Evade"]
 const itemNames = ["Weapon", "Outfit", "Augment", "Tool", "Skill"]
 
 /* Contains details on the format of all AutoEffects. Used for parsing AutoScripts */
@@ -12676,19 +12824,19 @@ function rollCombat(info) {
 	}
 
 	/* Multi-hit formatting */
-	let diceNumber = 0;
+	let diceCount = 0;
 	if(combinedice1 > 1){
 		if(acounter != "0") {
 			for(let i = 0; i< acounter ;i++) {
-				rollformat += ` {{roll${diceNumber+1}=[[${advformat}${advmod}]]}}`;
+				rollformat += ` {{roll${diceCount+1}=[[${advformat}${advmod}]]}}`;
 				dcounter--
-				diceNumber++
+				diceCount++
 			}
 		}
 		if(dcounter > 0){
 			for(let i = 0; i< dcounter ;i++) {
-				rollformat += ` {{roll${diceNumber+1}=[[${baseformat}]]}}`;
-				diceNumber++
+				rollformat += ` {{roll${diceCount+1}=[[${baseformat}]]}}`;
+				diceCount++
 			}
 		}
 	}
@@ -12998,23 +13146,65 @@ function convertInventory() {
 // You'd have to rework it to work for multiple repeating sections at the same time
 
 
-/* Add repeating item */
+
+
+/* Repeating inventory event helper */
+function itemEvent(event, element) {
+	if (event == "reorder") {
+		return itemNames.reduce((rows, item) => rows += ` change:_reporder:${item}s`, "");
+	} else {
+		return itemNames.reduce((rows, item) => rows += ` ${event}:repeating_${item}s${(element) ? `:${element}` : ""}`, "");
+	}
+}
+
+/* Add repeating item or rollformat */
 on("clicked:addItem", function(info) {
 	let itemType = info.htmlAttributes.id.split("_")[1];
+	let newrowid = generateRowID();
 
-	// Set which item options are enabled based on the item type (ex. weapons have an offensive roll format by default)
+	let attrSource = itemEditorAttrs;
+	if (itemType == "rollformat") { attrSource = itemEditorAttrs["repeating_rollformats:rollFormats:includeDefault"]; }
 
-	// Create the item
+	let output = Object.entries(attrSource).reduce((acc, [key, value]) => {
+		if (typeof(value) == "object") {
+			if (Array.isArray(value)) {
+				value = value[0];
+			} else {
+				return acc;
+			}
+		}
+		return {...acc, [`repeating_${itemType}s_${newrowid}_${key}`]: value}
+	}, {});
 
-	// setAttrs() the desired default options
-
-	// Add the new item to the itemList. Make this a function so it can be used in other places
+	if (itemType != "rollformat") {
+		setAttrs(output);
+	} else {
+		/* A maximum of five rollformats are accepted */
+		getSectionIDs(`repeating_rollformats`, idarray => {
+			if (idarray.length+1 >= 5) {
+				output.rollFormatAddToggle = "true";
+			}
+			setAttrs(output);
+		});
+	}
 });
 
-/* Remove repeating item */
-on(itemNames.reduce((rows, item) => rows += ` remove:repeating_${item}s`, ""), function(info) {
+/* Remove repeating item or rollformat */
+on("remove:repeating_rollformats" + itemEvent("remove"), function(info) {
 	let itemType = info.sourceAttribute.split("_")[1];
 	let itemId = info.sourceAttribute.split("_")[2];
+
+	if (itemType == "rollformats") {
+		saveEditor("item", itemEditorAttrs);
+		getSectionIDs(`repeating_rollformats`, idarray => {
+			console.log(idarray);
+			if (idarray.length < 5) {
+				setAttrs({"rollFormatAddToggle": "0"});
+			}
+		});
+	}
+
+	
 
 	// The built in Roll20 functionality deleted the item automatically
 
@@ -13027,12 +13217,14 @@ on(itemNames.reduce((rows, item) => rows += ` remove:repeating_${item}s`, ""), f
 });
 
 /* Repeating item share button */
-on(itemNames.reduce((rows, item) => rows += ` clicked:repeating_${item}s:shareItem`, ""), function(info) {
+on(itemEvent("clicked", "shareItem"), function(info) {
 	console.log(info);
 });
 
+
+
 /* Reorder repeating items */
-on(itemNames.reduce((rows, item) => rows += ` change:_reporder:${item}s`, ""), function(info) {
+on(itemEvent("reorder"), function(info) {
 	let itemType = info.sourceAttribute.split("_")[3];
 
 	let newOrder = info.newValue; // Handle if this is undefined. Unsure why it happens
@@ -13156,7 +13348,7 @@ function executeRolls(rollArray, callback=()=>{}) {
 
 
 		/* Handle Combat rolls */
-		if (combatDiceNames.includes(roll.type)) {
+		if (combatRollNames.includes(roll.type)) {
 			let icon = (roll.type == "Attack") ? "egoAtt"
 					 : (roll.type == "Block") ? "egoDef"
 					 : (roll.type == "Evade") ? "egoEvd" : "";
@@ -15551,7 +15743,7 @@ function openEditor(type, newTarget, newTargetName) {
 		let output = {
 			[`${type}EditorTarget`]: newTarget,
 			[`${type}EditorTargetOld`]: oldTarget,
-			[`${type}EditorTargetName`]: newTargetName,
+			[`${type}EditorTargetName`]: newTargetName || newTarget,
 			[`${type}Editor_display`]: "true"
 		}
 
@@ -15570,14 +15762,14 @@ function openEditor(type, newTarget, newTargetName) {
 	});
 }
 
-function saveEditor(type, attrs) {
+function saveEditor(type, attrs={}, callback=()=>{}) {
 	let options = (type == "item") ? {prefix: type, ignoreDefault: true} : {}
 
 	/* Helper functions uses to configure which attributes should be retrieved */
 	/* Attrs are structured as {attrKey: defaultValue} pairs */
 	/* Repeating attrs are structured as {repeating_section:attrAlias: {attrKey: defaultValue}} */
 	const computeKeys = (callback=()=>{}) => {
-		if (attrs) {
+		if (length(attrs) > 0) {
 			getSectionIDs("rollformats", rollformat_idarray => {
 			getSectionIDs("ailments", ailments_idarray => {
 			let idarrays = {"repeating_rollformats": rollformat_idarray, "repeating_ailments": ailments_idarray}
@@ -15620,27 +15812,29 @@ function saveEditor(type, attrs) {
 			});
 			});
 		} else {
-			callback([`${type}EditorInput`], {});
+			callback([`${type}EditorInput`]);
 		}
 	}
 	
 	computeKeys((editorKeys, repFormat) => {
 		getAttrs([`${type}EditorTarget`, ...editorKeys], function(values) {
-
-			let editorData = packageAttrData(values, {}, attrs, repFormat, "standard", options);
-
-			//let replaceList = (prefix) ? {[prefix]: ""} : {}
-
 			let editorTarget = values[`${type}EditorTarget`];
-			delete values[`${type}EditorTarget`];
+			let editorData = "";
+
+			if (type == "item") {
+				editorData = packageAttrData(values, {}, attrs, repFormat, "standard", options);
+			} else {
+				editorData = values[`${type}EditorInput`];
+			}
 
 			/* Save editor data */
 			if (editorTarget != "") {
 				let output = {[editorTarget]: editorData}
 
-				if (attrs) { output[`${type}EditorInput`] = editorData; } // For testing purposes. Displays the data in plaintext
+				if (type == "item") { output[`${type}EditorInput`] = editorData; } // For testing purposes. Displays the data in plaintext
 
 				setAttrs(output);
+				callback();
 			}
 		});
 	});
@@ -15660,17 +15854,19 @@ function closeEditor(type) {
 /*--- AutoScript functions ---*/
 
 /* AutoScript editor open button */
-on("clicked:autoScriptEdit" + itemNames.reduce((rows, item) => rows += ` clicked:repeating_${item}s:edit-item-autoscript`, ""), function(info) {	
+on("clicked:autoScriptEdit clicked:repeating_rollformats:edit-item-autoscript" + itemEvent("clicked", "edit-item-autoscript"), function(info) {	
 	getAttrs(["autoScriptEditorTargetOld"], function(values) {
 		let target = (info.htmlAttributes.id == "autoScriptReturn") ? values.autoScriptEditorTargetOld
 				   : (info.sourceAttribute?.includes("repeating")) ? info.sourceAttribute.replace("_edit-item-", "_")
 				   : info.htmlAttributes.id;
 
 		if (target.includes("repeating")) {
-			let targetName = target.replace("_autoscript", "_name");
+			let targetNameAttr = (target.includes("rollformats")) ? "itemEditorTargetName" : target.replace("_autoscript", "_name");
 
-			getAttrs([targetName], function(values) {
-				openEditor("autoScript", target, values[targetName]);
+			getAttrs([targetNameAttr], function(values) {
+				let targetName = `${values[targetNameAttr]}${(target.includes("rollformats")) ? ` (${getTranslationByKeyCustom("Roll format", "item-rollformat")})` : ""}`;
+
+				openEditor("autoScript", target, targetName);
 			});
 		} else {
 			openEditor("autoScript", target);
@@ -15680,12 +15876,15 @@ on("clicked:autoScriptEdit" + itemNames.reduce((rows, item) => rows += ` clicked
 
 /* AutoScript editor close button */
 on("clicked:closeAutoScriptEdit", function(info) {
-	saveEditor("autoScript");
-	closeEditor("autoScript");
+	console.log(info);
+	saveEditor("autoScript", {}, () => {
+		closeEditor("autoScript");
+	});
 });
 
 /* AutoScript editor sync changes */
 on("change:autoScriptEditorInput", function(info) {
+	console.log(info);
 	saveEditor("autoScript");
 });
 
@@ -17567,29 +17766,42 @@ function packageAttrData(values={}, replaceList={}, dataFormat, repFormat, type=
 	let style = dataStyles[type];
 	if (!dataFormat) dataFormat = values;
 	let attrData = []
+	let prevAttrs = {}
 
 	for (let [key, value] of Object.entries(dataFormat)) {
 		
 		// Handle check values used for repeating attributes. A repitem which fails a check is not included in the output data
-		if (typeof(value) == "function") {
-			if (value.apply(null, [values[key]])) { // itemEditorAttrs
-				continue;
-			} else {
-				return "";
-			}
+		if (Array.isArray(value)) {
+			let checkFunc = value[1];
+			value = value[0];
+
+			switch (checkFunc.apply(null, [{self: values[key], ...prevAttrs}])) {
+				case "exclude:rep": return "";
+				case "include:rep": continue; // repeating_rollformats:rollFormats
+				case "exclude:attr": continue;
+				case "include:attr": break;
+			} 
 		}
 
 		// Handle repeating attribute data format
-		else if (typeof(value) == "object") {
-			let [repsection, repalias] = key.split(":");
+		if (typeof(value) == "object") {
+			let [repsection, repalias, repoptionstext] = key.split(":");
 			let repData = [];
 
+			let repoptions = {...options};
+			if (repoptionstext) {
+				if (repoptionstext.includes("includeDefault")) { repoptions.ignoreDefault = false; }
+				else if (repoptionstext.includes("ignoreDefault")) { repoptions.ignoreDefault = true; }
+			}
+
 			for (let i = 0; i < length(repFormat[key] || 0); i++) {
-				let newRepData = packageAttrData(values, {}, repFormat[key][i], {}, "repeating", options);
+				let newRepData = packageAttrData(values, {}, repFormat[key][i], {}, "repeating", repoptions);
 				if (newRepData) { repData.push(newRepData); }
 			}
 
-			attrData.push([repalias, repData.join(", ")]);
+			if (repData.length > 0) {
+				attrData.push([repalias, repData.join(", ")]);
+			}
 		}
 
 		// Handle standard attribute data format
@@ -17608,8 +17820,9 @@ function packageAttrData(values={}, replaceList={}, dataFormat, repFormat, type=
 				attrData.push(values[modkey]);
 			}
 			else {
-				attrData.push([modkey, values[modkey]]);
+				attrData.push([key, values[modkey]]);
 			}
+			prevAttrs[key.split("_")[3] || key] = values[modkey];
 		}
 	}
 
@@ -17632,16 +17845,45 @@ function packageAttrData(values={}, replaceList={}, dataFormat, repFormat, type=
 /* Item Editor */
 /* Item attributes used in the item editor as well as their default values. Includes both normal and repeating attributes */
 /* When creating a new item, override the default values with those of the specific item created (see below) */
+/* In addition to a default value a check function can be provided. This is used in packageAttrData() */
 const itemEditorAttrs = {
-	"optionRollFormat": 0, "repeating_rollformats:rollFormats": {"rollType": "Any", "diceCount": 1, "diceMax": 6, "dicePower": 0, "AutoScript": ""},
+	"type": "None",
+	
+	"optionRollFormat": 0,
+		"repeating_rollformats:rollFormats:includeDefault": {
+			rollUse: "Roll", rollType: "Any", rollDamage: ["None", isAttr({rollUse:"Roll", rollType:"Attack"},"include:attr")],
+			diceCount: 1, diceMax: 6, dicePower: 0, AutoScript: ""
+		},
+	
 	"optionUseable": 0,
+
+	"optionLinked": 0,
+
+	"optionMystery": 0,
+	
+	"optionEquipSlots": 0,
+
+	"optionTags": 0,
+
+	"optionStyle": 0,
+		"optionIcon": 0,
+		"optionColor": 0,
+	
 	"optionLimitedUses": 0,
-	"optionLightCost": 0,
-	"optionResistance": 0, "burnResist": 0, "bleedResist": 0, "damageResist": 0, "repeating_ailments:customResist": {"ailCustomResistance": (a) => isTrue(a), "ailName": "Unknown", "itemAilCustomResistanceNum": 0}
+		"optionUses": 0, "usesMax": 0, "useMode": "Limited",
+		"optionLightCost": 0, "lightCost": 0,
+	
+	"optionResistance": 0,
+		"optionDamageResistance": 0,
+		"optionAilmentResistance": 0,
+			"burnResist": 0, "bleedResist": 0, "damageResist": 0,
+			"repeating_ailments:customResist:ignoreDefault": {
+				ailCustomResistance: [0, isAttr({self:true},"include:rep")], ailName: "Unknown", itemAilCustomResistanceNum: 0
+			}
 }
 const itemDefaults = {
-weapon: {
-	"optionRollFormat": 1
+	weapon: {
+		"optionRollFormat": 1
 	},
 	outfit: {
 		"optionRollFormat": 1, repeating_rollformats: {"rollType": "Block"},
@@ -17657,8 +17899,32 @@ const itemScriptAttrs = [
 	"description", "effect"
 ]
 
+/* Item attribute check values */
+function isAttr(attrs, result) {
+	return (p) => {
+		
+		const checkAttr = (key, value) => {
+			switch (value) {
+				case true: return isTrue(p[key]);
+				case false: return isFalse(p[key]);
+				default: return (p[key] == value);
+			}
+		}
+
+		for (const [key, value] of Object.entries(attrs)) {
+			if (!checkAttr(key, value)) {
+				let [action, scope] = result.split(":");
+
+				if (action == "include") { return "exclude:" + scope; }
+				if (action == "exclude") { return "include:" + scope; }
+			}
+		}
+		return result;
+	}
+}
+
 /* Item editor open button */
-on(itemNames.reduce((rows, item) => rows += ` clicked:repeating_${item}s:edit-item`, ""), function(info) {
+on(itemEvent("clicked", "edit-item"), function(info) {
 	let itemData = info.sourceAttribute.replace("_edit-item", "_itemData");
 	let itemName = info.sourceAttribute.replace("_edit-item", "_name");
 	
@@ -17669,8 +17935,9 @@ on(itemNames.reduce((rows, item) => rows += ` clicked:repeating_${item}s:edit-it
 
 /* Item editor close button */
 on("clicked:closeItemEdit", function(info) {
-	saveEditor("item", itemEditorAttrs);
-	closeEditor("item");
+	saveEditor("item", itemEditorAttrs, () => {
+		closeEditor("item");
+	});
 });
 
 /* Item editor sync changes */

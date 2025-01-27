@@ -393,8 +393,10 @@ body, .sheet-body {
     width: 45px;
     height: 25px;
 }
-.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton, .equipEditButton {
+.copyButton, .displayButton, .lockButton, .inventoryEditButton {
     position: absolute;
+}
+.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton, .inventoryEditButton {
     height: 25px;
     width: 25px;
     z-index: 9;
@@ -403,7 +405,7 @@ body, .sheet-body {
     background-position: center;
     background-repeat: no-repeat;
 }
-:is(.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton, .equipEditButton, .searchClear, .searchOptions):hover {
+:is(.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton, .inventoryEditButton, .searchClear, .searchOptions):hover {
     background-color: rgba(0, 0, 0, 0.3) !important;
 }
 :is(.NDice, .challengeButton, .declare, .btn, .selectTargetButton, .defenceDice, .editorControls button, .sectionHeader button:not(:first-child), .darkButton):hover {
@@ -426,6 +428,10 @@ body, .sheet-body {
     padding: 0 4px;
     margin-left: 6px;
     border-radius: 5px;
+}
+.editorControls select {
+    height: 25px;
+    width: 100px;
 }
 .editorTarget {
     position: absolute;
@@ -707,6 +713,9 @@ h3, h4, .viewerName {
 
 
 /* Assorted */
+.plainText {
+    color: var(--color-white);
+}
 
 /* Helper text */
 .helpers b, .work b {
@@ -758,6 +767,40 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     padding-left: 8px;
     color: var(--color-white);
     font-weight: bold;
+}
+
+/* Custom repcontrols */
+:is(.itemContainer, .itemOptionContainer) {
+    :is(.repcontrol_edit, .repcontrol_add, .repcontrol_del, .repcontrol_move) {
+        min-width: 20px;
+        margin: 0;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+    :is(.repcontrol_edit, .repcontrol_add) {
+        font-size: 0;
+    }
+    :is(.repcontrol_del, .repcontrol_move) {
+        position: absolute;
+        height: 25px;
+        width: 45px;
+        z-index: 20;
+    }
+    .repcontrol_edit {
+        background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png');
+    }
+    .repcontrol_add {
+        background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/heal.png');
+    }
+
+    /* A custom add button is used instead of the default one */
+    .repcontrol .repcontrol_add {
+        display: none !important;    
+    }
+}
+.repcontrol_header .repcontrol_add {
+    pointer-events: auto;
 }
 /* ===== Shared sheet styling END ===== */
 
@@ -925,7 +968,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     border-top: 1px var(--color-darker-gray) solid;
     border-bottom: 1px var(--color-darker-gray) solid;
 }
-.distortionDice .dicerollBlock {
+.distortionRollFormats .rollFormatBlock {
     width: 85px;
     margin-left: 2px;
     margin-right: 2px;
@@ -2046,8 +2089,8 @@ button[type=action].challengeButton::before {
 }
 
 /* Dice roll blocks, aka anything in the format "xdx+x". Not to be confused with the block reaction */
-.combatDice{ text-align: center; justify-content: end; align-items: center; margin-right: 3px; }
-.dicerollBlock {
+.combatRoll { text-align: center; justify-content: end; align-items: center; margin-right: 3px; }
+.rollFormatBlock {
     display: flex;
     height: 100%;
     justify-content: end;
@@ -2056,27 +2099,27 @@ button[type=action].challengeButton::before {
     background-color: rgba(0,0,0,0.2);
     border-radius: 5px;
 }
-.dicerollBlock .plainText {
+.rollFormatBlock .plainText {
     width: 8px;  
     color: var(--color-white);
     text-align: center;
     opacity: 70%;
     font-weight: bold;
 }
-.dicerollBlock input {
+.charsheet .rollFormatBlock input[type="number"] {
     width: 26px;
     background-color: transparent;
     color: var(--color-white);
     font-weight: bold;
     font-size: 12pt; 
 }
-.dicerollBlock input:first-child {
+.charsheet .rollFormatBlock input[type="number"]:first-child {
     width: 23px;
 }
-.diceNum {
+.diceCount {
     text-align: right !important;
 }
-.diceVval {
+.diceMax {
     text-align: left !important;
 }
 
@@ -2386,52 +2429,24 @@ button[type=action].challengeButton::before {
     display: none;
 }
 
-/* A custom add and delete button are used instead of the default ones */
-.itemContainer :is(.repcontrol .repcontrol_add, .itemcontrol .repcontrol_del) {
-    display: none !important;    
-}
-.repcontrol_header .repcontrol_add {
-    pointer-events: auto;
-}
-.itemContainer .repcontainer.editmode .itemcontrol + .repcontrol_del {
-    display: block !important;
-}
-
-.itemContainer .repcontrol {
-    position: absolute;
-    display: flex;
-    z-index: 20;
-    top: 4px;
-    right: 36px;
-}
-.itemContainer :is(.repcontrol_edit, .repcontrol_add, .repcontrol_del, .repcontrol_move) {
-    min-width: 20px;
-    margin: 0;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-}
-.itemContainer :is(.repcontrol_edit, .repcontrol_add) {
-    font-size: 0;
-    background-color: #161616;
-}
-.itemContainer :is(.repcontrol_del, .repcontrol_move) {
-    position: absolute;
-    height: 25px;
-    width: 45px;
-    z-index: 20;
-}
-.itemContainer .repcontrol_edit {
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png');
-}
-.itemContainer .repcontrol_add {
-    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/heal.png');
-}
-.itemContainer .repcontrol_del {
-    right: 0;
-}
-.itemContainer .repcontrol_move {
-    left: 0;
+.itemContainer {
+    .repcontrol {
+        position: absolute;
+        display: flex;
+        z-index: 20;
+        top: 4px;
+        right: 36px;
+    }
+    :is(.repcontrol_edit, .repcontrol_add) {
+        font-size: 0;
+        background-color: #161616;
+    }
+    .repcontrol_del {
+        right: 0;
+    }
+    .repcontrol_move {
+        left: 0;
+    }
 }
 
 /* Item editor */
@@ -2442,9 +2457,12 @@ button[type=action].challengeButton::before {
     width: 50%;
 }
 .itemOptionContainer {
-    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 5px 5px 5px;
 }
 .itemOptionContainer label {
+    width: 100%;
     color: var(--color-white) !important;
     font-size: 10pt !important;
     margin-bottom: 2px;
@@ -2459,11 +2477,17 @@ button[type=action].challengeButton::before {
 
 .itemOption {
     position: relative;
+    box-sizing: border-box;
     padding: 10px 0 0 10px;
 }
-.itemOptionContainer > .itemOption:first-of-type {
-    padding-top: 0;
+.itemOptionContainer > .itemOption {
+    width: 33%;
+
+    &:has(> label input[type="checkbox"]:checked) {
+        width: 100%;
+    }
 }
+
 .itemOption > label input[type="checkbox"] {
     position: absolute;
     left: 0;
@@ -2472,11 +2496,11 @@ button[type=action].challengeButton::before {
     display: none;
 }
 .itemOption > .itemOption {
-    margin-left: 20px;
+    margin-left: 11px;
 }
 
 .itemOption > .itemOption::before,
-.itemOption:has(+ .itemOption)::after {
+.itemOption > .itemOption:has(+ .itemOption)::after {
     content: "";
     position: absolute;
     left: -11px;
@@ -2490,14 +2514,76 @@ button[type=action].challengeButton::before {
     border-width: 0 0 2px 2px;
 }
 .itemOption:has(+ .itemOption)::after {
-    bottom: 2px;
+    bottom: 0;
     height: calc(100% - 17px);
     border-width: 0 0 0 2px;
 }
 
+/* Item editor - General styling */
+.itemOptionContainer {
+    select {
+        height: 26px;
+    }
+
+    .repcontainer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3px;
+    }
+    .rowContainer {
+        gap: 3px;
+    }
+}
+
+/* Item editor - Roll Formats */
+.itemOptionContainer .rollFormatContainer {
+    padding: 6px 0 4px 0;
+
+    .repitem {
+        width: 100%;
+
+        :is(.repcontrol_move, .repcontrol_del) {
+            box-sizing: border-box;
+            height: auto;
+            margin: 0;
+        }
+        .repcontrol_move {
+            left: 0;
+        }
+        .repcontrol_del {
+            right: 0;
+        }
+    }
+    
+    .repcontrol {
+        position: absolute;
+        top: 6px;
+        right: 0;
+    }
+
+    .autoScriptButton {
+        box-sizing: border-box;
+        min-width: 25px;
+        padding: 0;
+    }
+}
+.itemOptionContainer {
+    :is(.repcontrol_edit, .repcontrol_add) {
+        box-sizing: border-box;
+        height: 25px;
+        width: 25px;
+        padding: 0;
+    }
+    .repcontrol_add {
+        position: absolute;
+        top: 6px;
+        right: 30px;
+    }
+}
+
 /* Item editor - Resistances */
 .itemOptionContainer .defaultResistDisplay > .rowContainer {
-    width: 82.34px;
+    width: 80px;
 }
 
 
@@ -2507,25 +2593,14 @@ button[type=action].challengeButton::before {
 
 
 
-/* AutoScript, edit, share buttons */
-.autoScriptButton {
-    bottom: 5px;
-    right: 65px;
-    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/script.png');
-}
-:is(.augmentBlock, .specialBlock, .skillBlock) .autoScriptButton {
-    right: 35px;
-}
-.shareButton {
+/* Item buttons (AutoScript, edit, share) */
+.itemButtons {
+    position: absolute;
+    display: flex;
     bottom: 5px;
     right: 5px;
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/share.png'); 
+    gap: 5px;
 }
-.editButton {
-    bottom: 5px;
-    right: 35px;
-}
-
 
 /* Edit cover. Used to modify weapon/tool uses, outfit resistances ect. */
 .editCover {
@@ -2839,7 +2914,7 @@ button[type=action].challengeButton::before {
     background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/lock-unlock.png');
     opacity: 50%;
 }
-.equipEditButton {
+.inventoryEditButton {
     top: 3px;
     right: 5px;
     opacity: 50%;
@@ -2908,7 +2983,7 @@ button[type=action].challengeButton::before {
     background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/lock.png');
     opacity: 100%;
 }
-.switch-toggle:not(:checked) + .equipEditButton {
+.switch-toggle:not(:checked) + .inventoryEditButton {
     opacity: 100%;
 }
 
@@ -3578,7 +3653,9 @@ div.settingStyle:has(select[name="attr_ailTrigger"] > option[value="WhenHit"]:ch
 .whisper { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/whisper.png'); }
 .exit { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/exit.png'); }
 .option { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/gear.png'); }
+.script { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/script.png'); }
 .edit { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png'); }
+.share { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/share.png'); }
 .search { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/search.png'); }
 .arrowUp { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowUp.png'); }
 .arrowDown { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowDown.png'); }
