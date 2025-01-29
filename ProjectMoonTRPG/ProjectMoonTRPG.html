@@ -4931,6 +4931,12 @@
 <!-- Equipment section -->
 <div class="sheet-body sheet-equipment darkBG">
 
+<div class="rowContainer">
+	<button type="action" class="darkButton" style="width: 100px;" name="act_testA">Test button A</button> <!-- For testing. Delete later -->
+	<button type="action" class="darkButton" style="width: 100px;" name="act_testB">Test button B</button> <!-- For testing. Delete later -->
+</div>
+<textarea name="attr_itemList"></textarea> <!-- Revealed for testing purposes. Hide this later -->
+
 <!-- Item Settings Section. Used for both Equipment and Skills! -->
 <div class="contentContainer" id="itemSettings">
 	<div style="width: 100%;">
@@ -13148,6 +13154,283 @@ function convertInventory() {
 
 
 
+
+// attr_itemList
+
+const itemFormat = { // Is added to an itemList as itemList.id = itemFormat. "id" matches the repeating section id of the item
+	type: "", // One of "Weapon", "Outfit", "Augment", "Tool", "Skill", "Special" or "Effect"
+	rank: 0, // Integer value. Minimum -1
+	name: "", // String without newlines
+	equipped: false, // Boolean value
+	rollformats: [ // false if the item has no roll formats. Array can include up to five elements
+		{
+			type: "", // One of "Attack", "Block", "Evade", "Fortitude", "Prudence", "Justice", "Charm", "Insight", "Temperance" or "Custom"
+			format: {
+				count: 1, // Integer value. Minimum 1
+				max: 0, // Integer value. Minimum 0
+				power: 0, // Integer value
+			},
+			autoscript: false, // Either false or string value containing an AutoScript
+		},
+	],
+	linked: false, // The id of another item or false
+	uses: { // false if the item doesn't have uses
+		mode: "", // One of "Limited", "Refresh", "Loaded" or "Ammo"
+		max: 0, // Integer value. Minimum 0
+		current: 0, // Integer value. Minimum 0. Cannot be greater than max
+	},
+	lightcost: 0, // Integer value. Minimum 0
+	slots: { // false if the item doesn't use equip slots
+		type: "", // String value matching a type of equip slots (like "Hands")
+		value: 0, // Integer value. Matches amount of slots used. Negative values give slots
+	},
+	resistances: { // false if the item doesn't have resistances
+		damage: { // false if the item doesn't have damage resistances
+			pierce: {mode: "", hp: 0, stg: 0}, // "mode" is one of "Add" or "Replace". "hp" and "stg" are integer values (minimum 0)
+			slash: {mode: "", hp: 0, stg: 0},
+			blunt: {mode: "", hp: 0, stg: 0},
+			flat: 0, // Integer value. Can be negative
+		},
+		ailments: { // false if the item doesn't have ailment resistances
+			default: {Burn: 0, Bleed: 0}, // Integer values. Can be negative
+			custom: {
+				// Follows the same format as default resistances: "ailName: resistValue"
+			}
+		}
+	},
+	mystery: { // false if the item isn't a mystery item
+		activation: "", // One of "None", "AlwaysActive", "HalfHealth", "OnStagger", "EnemyDefeat" or "AllyDefeat"
+	},
+	autoscript: false, // Either false or string value containing an AutoScript
+	tags: {
+		gives: {}, // Follows the following format: "tagName: tagValue"
+		requires: {},
+	},
+	style: {
+		icon: "", // Either false, a http image link, or the name of a built-in icon
+		color: "", // Either false or one of "Red", "Blue", "Green", "Purple", "Orange" or "Black"
+	},
+	card: {} // false if card combat is disabled
+}
+
+
+
+on("clicked:testA", function(info) {
+	console.log("Clicked button A");
+});
+
+on("clicked:testB", function(info) {
+	console.log("Clicked button B");
+
+	itemList.access("write", () => {
+		console.log(itemList)
+		let filteredItemList = itemList.filter(item => item.type == "Tool");
+		console.log(filteredItemList);
+		console.log(filteredItemList.export());
+		console.log(filteredItemList.IDs, filteredItemList[filteredItemList.IDs[0]])
+		filteredItemList[filteredItemList.IDs[0]].type = "Weapon";
+		console.log(itemList)
+		itemList.access("read", () => {
+			console.log("Began second access");
+			itemList.access("write", () => {
+				console.log("Began third access");
+			});
+		});
+	});
+});
+
+/* Object that handles all interactions with the itemList */
+/* To access the itemList, use itemList.access(mode). Mode is one of "read" and "write" */
+/*   In read mode the itemList cannot be modified. Multiple functions can read the itemList simultaneously */
+/*   In write mode the itemList can be modified. While in write mode other access wait until the current write access finishes */
+/* All accesses should end in itemList.endAccess(). Any itemList changes made in write mode are applied to the sheet once the access ends */
+/*   To read and write values, use "itemList.property" and "itemList.property = value" as normal */
+class itemListHandler {
+	#accessStack;
+	#output;
+	
+	constructor(itemList) {
+		this.#accessStack = itemList?.accessStack || []
+		this.itemList = {}
+		this.#output = itemList?.output || {}
+	}
+
+	access(mode, callback=()=>{}) {
+		// Adds some test data
+		// setAttrs({itemList: JSON.stringify({[generateRowID()]: {...itemFormat, type:"Weapon"}, [generateRowID()]: {...itemFormat, type:"Outfit"}, [generateRowID()]: {...itemFormat, type:"Tool"}})})
+
+		this.#accessStack.push({mode: mode});
+		console.log("Added new access: ", [...this.#accessStack]);
+
+		let accessCallback = callback;
+		if (!callback.toString().includes(".endAccess")) {
+			console.warn(`itemList: ${mode} access was not ended. Adding automatic endAccess`)
+			accessCallback = () => {callback(); this.endAccess();}
+		}
+
+		if (this.#accessStack.length > 1 && mode == "write" || (mode == "read" && this.#accessStack.some(access => access.mode == "write"))) {
+			console.log("This " + mode + " access will wait until the previous " + this.#accessStack[0].mode + " access ends")
+			this.#accessStack.at(-1).callback = accessCallback;
+		} else {
+			this.#accessStack.at(-1).active = true;
+			let self = this;
+		
+			getAttrs(["itemList"], function(values) {
+				self.#add(JSON.parse(values.itemList));
+				accessCallback();
+			});
+		}
+	}
+
+	endAccess() {
+		this.#accessStack.shift();
+		console.log("Removed access: ", [...this.#accessStack]);
+
+		if (this.#accessStack.length > 0) {
+			if (!this.#accessStack[0].active) {
+				console.log("Ended previous access and allowed new " + this.#accessStack[0]?.mode + " access");
+				this.#accessStack[0].callback();
+				
+				if (this.#accessStack[0]?.mode == "read") {
+					for (let i = 1; i < this.#accessStack.length-1; i++) {
+						if (this.#accessStack[i]?.mode == "read") {
+							console.log("Allowed access for an additional read access");
+							this.#accessStack[i].callback();
+						} else {
+							break;
+						}
+					}
+				}
+			}
+		} else {
+			console.log("All accesses finished. Applying itemList and output");
+
+			setAttrs({"itemList": this.export(), ...this.#output});
+			this.itemList = {}
+			this.#output = {}
+		}
+	}
+
+	get #accessMode() {
+		return this.#accessStack[0]?.mode;
+	}
+	set #accessMode(mode) {
+		if (this.#accessStack.length > 0) {
+			this.#accessStack[0].mode = mode;
+		}
+	}
+
+
+	// Returns the id of every item in the itemList in the order they're displayed in the sheet
+	get IDs() {
+		//  - Still need to order the indexes in the same order as they're displayed in the sheet. Requires some getSectionIDsOrdered shenanigans
+		return Object.keys(this.itemList);
+	}
+
+	// Returns every item in the itemList in the order they're displayed in the sheet
+	get items() {
+		return this.itemList;
+	}
+
+	// Adds one or more new items to the itemList
+	// Accepts itemListHandlers, itemLists and item types (ex. "Weapon". Case sensitive)
+	// If using an item type the item will match the default values of that item type
+	add(inputData) {
+		console.log(this.#accessMode, "mode - Adding new item(s): ", inputData)
+		if (this.#accessMode != "read") {
+			if (typeof(inputData) == "object" && length(inputData) > 0) {
+				if (inputData.itemList) { inputData = inputData.itemList; }
+				
+				for (const [id, data] of Object.entries(inputData)) {
+					this.itemList[id] = data;
+					this.#addAccessors(id);
+				}
+			}
+			else if (Object.keys(itemDefaults).includes(inputData)) {
+				let newid = generateRowID();
+				this.itemList[newid] = {...itemFormat, ...itemDefaults[inputData]}; // This may not work. May need a function to apply default values
+				this.#addAccessors(newid);
+			}
+		} else {
+			this.#writeError("add");
+		}
+	}
+	#add(inputData) {
+		let oldAccess = this.#accessMode;
+		this.#accessMode = "write";
+		this.add(inputData);
+		this.#accessMode = oldAccess;
+	}
+
+	// Deletes one item with a specific id
+	delete(itemId) {
+		if (this.#accessMode != "read") {
+			delete this[itemId];
+			this.#deleteAccessors(itemId);
+		} else {
+			this.#writeError("delete");
+		}
+	}
+
+	// Item id accessors (getters and setters) simplyfy accessing the itemList. Instead of writing itemList.itemList[id], itemList[id] may be used
+	// Must be added or deleted together with their associated item id
+	#addAccessors(itemId) {
+		Object.defineProperty(this, itemId, {
+			get() {
+				return this.itemList[itemId]
+			},
+			set(value) {
+				if (this.#accessMode != "read") {
+					this.itemList[itemId] = value;
+				} else {
+					this.#writeError("set");
+				}
+			},
+			configurable: true,
+		});
+	}
+	#deleteAccessors(itemId) {
+		delete this[itemId];
+	}
+
+	// Imports one or more items from an export script
+	// The items are added to the current itemList by default. "Replace" mode may be used to overwrite the itemList
+	import(itemScript, mode="Add") {
+		if (this.#accessMode != "read") {
+			// - Still need to send a querry to the player confirming they want to overwrite the itemList
+			this.itemList = JSON.parse(itemScript);
+		} else {
+			this.#writeError("import");
+		}
+	}
+
+	// Exports the current itemList
+	export() {
+		return JSON.stringify(this.itemList);
+	}
+
+	// Returns a subset of the itemList. Allows other handler methods to affect only part of the itemList
+	filter(predicate) {
+		return this.IDs
+			.filter(id => predicate(this.itemList[id]))
+			.reduce((acc, id) => (acc.add({[id]: this[id]}), acc), new itemListHandler(this));
+	}
+
+	/* Assorted */
+	#writeError(method) {
+		throw new Error(`Attempted to use method "${method}" in itemList without accessing in write mode`)
+	}
+}
+
+/* The actual itemListHandler instance that all other code interacts with */
+let itemList = new itemListHandler();
+
+
+
+
+
+
+
 /* Repeating inventory event helper */
 function itemEvent(event, element) {
 	if (event == "reorder") {
@@ -17882,16 +18165,16 @@ const itemEditorAttrs = {
 			}
 }
 const itemDefaults = {
-	weapon: {
-		"optionRollFormat": 1
+	Weapon: {
+		type: "Weapon",
 	},
-	outfit: {
+	Outfit: {
 		"optionRollFormat": 1, repeating_rollformats: {"rollType": "Block"},
 	},
-	augment: {},
-	tool: {},
-	skill: {},
-	special: {}
+	Augment: {},
+	Tool: {},
+	Skill: {},
+	Special: {}
 }
 
 /* Item attributes used in the Import/Export data functionality */
