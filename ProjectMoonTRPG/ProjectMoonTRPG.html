@@ -31,7 +31,7 @@
 			
 			<label><input type="checkbox" name="attr_settingDistortSave" value="true"><span data-i18n="settings-distortsave">Auto: Save/Load on Distort</span></label>
 		
-			<label><input type="checkbox" name="attr_settingSimpleDisplay" value="true"><span data-i18n="settings-simpledisplay">Simple roll display</label>
+			<label><input type="checkbox" name="attr_settingSimpleDisplay" value="true"><span data-i18n="settings-simpledisplay">Simple roll display</span></label>
 		
 			<label><input type="checkbox" name="attr_settingExtraEquip" value="true"><span data-i18n="settings-extraequip">Extra weapons/tools/skills</span></label>
 		
@@ -90,7 +90,7 @@
 
 			<span class="settingsTitle" data-i18n="settings-damage-helper">Damage Helper Settings</span>
 
-			<label><input type="checkbox" name="attr_settingAutoApplyDamage" value="true" checked><span data-i18n="settings-autoapplydamage">Auto: Apply damage taken</label>
+			<label><input type="checkbox" name="attr_settingAutoApplyDamage" value="true" checked><span data-i18n="settings-autoapplydamage">Auto: Apply damage taken</span></label>
 
 			<label><input type="checkbox" name="attr_settingHideBarUpdate" value="true"><span data-i18n="settings-hidebarupdate">Hide: Status bar update </span></label>
 
@@ -196,7 +196,7 @@
 	<div class="itemOptionContainer">
 
 		<!-- Option: Roll formats -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionRollFormat" value="true"><span>Roll Format</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_optionRollFormat" value="true"><span>Roll Format</span></label>
 			<div class="rollFormatContainer">
 				
 				<!-- Custom add repeating rollformat button -->
@@ -207,7 +207,7 @@
 					<div class="rowContainer">
 
 						<!-- Standalone vs. Applied -->
-						<select name="attr_rollUse" class="whiteInput">
+						<select name="attr_rollMode" class="whiteInput">
 							<option value="Roll">Roll</option>
 							<option value="Applied">Applied</option>
 						</select>
@@ -228,7 +228,7 @@
 
 						<!-- Damage type (Attack only) -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_rollType" value="Attack">
-						<select name="attr_rollDamage" class="whiteInput hide-item">
+						<select name="attr_rollDamagetype" class="whiteInput hide-item">
 							<option value="None" data-i18n="weapon-type-None">---</option>
 							<option value="Slash" data-i18n="weapon-type-Slash">Slash</option>
 							<option value="Pierce" data-i18n="weapon-type-Pierce">Pierce</option>
@@ -239,17 +239,17 @@
 						<!-- Roll format -->
 						<div class="rowContainer combatRoll">
 							<div class="rollFormatBlock">
-								<input type="number" class="diceCount noSpinner" name="attr_diceCount" value="0">
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount" value="0">
 								<div class="plainText">D</div>
-								<input type="number" class="diceMax noSpinner" name="attr_diceMax" value="0">
+								<input type="number" class="diceMax noSpinner" name="attr_rollMax" value="0">
 								<div class="plainText">+</div>
-								<input type="number" class="dicePower noSpinner" name="attr_dicePower" value="0">
+								<input type="number" class="dicePower noSpinner" name="attr_rollPower" value="0">
 							</div>
 						</div>
 
 						<!-- Roll format AutoScript -->
 						<button type="action" class="darkButton autoScriptButton script" name="act_edit-item-autoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-						<input type="text" name="attr_autoscript" hidden="true">
+						<input type="text" name="attr_rollAutoscript" hidden="true">
 
 					</div>
 				</fieldset>
@@ -259,56 +259,48 @@
 			<!-- "repeating_rollformats:rollFormats": {"rollType": "Any", "diceCount": 1, "diceMax": 6, "dicePower": 0, "AutoScript": ""} -->
 		</div>
 
-
-		<!-- Option: Useable -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionUseable" value="true"><span>Useable</span></label>
-			
-		</div>
-
-
 		<!-- Option: Linked -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionLinked" value="true"><span>Linked</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_optionLinked" value="true"><span>Linked</span></label>
 			
 		</div>
 
 
 		<!-- Option: Mystery -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionMystery" value="true"><span>Mystery</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_optionMystery" value="true"><span>Mystery</span></label>
 			
 		</div>
 
 
 		<!-- Option: Mystery -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionEquipSlots" value="true"><span>Equip slots</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_optionEquipSlots" value="true"><span>Equip slots</span></label>
 			
 		</div>
 
 
 		<!-- Option: Tags -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionTags" value="true"><span>Tags</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_optionTags" value="true"><span>Tags</span></label>
 			<!-- Should be hidden when a game settings is disabled -->
 		</div>
 
 
 		<!-- Option: Style -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionStyle" value="true"><span>Style</span></label>
-			<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionIcon" value="true"><span>Icon</span></label></div>
-			<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionColor" value="true"><span>Color</span></label></div>
+		<div class="itemOption"><label><input type="checkbox" name="attr_optionStyle" value="true"><span>Style</span></label>
+			<div class="itemOption"><label><input type="checkbox" name="attr_optionIcon" value="true"><span>Icon</span></label></div>
 		</div>
 
 		
 		<!-- Option: Limited uses -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionLimitedUses" value="true"><span>Limited uses</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_optionLimited" value="true"><span>Limited uses</span></label>
 			
 			<!-- Uses -->
-			<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionUses" value="true"><span>Uses</span></label>
+			<div class="itemOption"><label><input type="checkbox" name="attr_optionUses" value="true"><span>Uses</span></label>
 				<div class="rowContainer">
-					<input type="checkbox" class="fade-toggle" name="attr_itemUsesMax" value="0" hidden="true">
+					<input type="checkbox" class="fade-toggle" name="attr_itemEditUsesMax" value="0" hidden="true">
 					<div class="mediumIcon centerIcon reusable"></div>
 					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemUsesMax" min="0" value="0"></div>
 					
-					<input type="checkbox" class="hide-toggle-rev-next" name="attr_itemUsesMax" value="0" hidden="true">
-					<select name="attr_itemUseMode" class="hide-item-rev darkInput">
+					<input type="checkbox" class="hide-toggle-rev-next" name="attr_itemEditUsesMax" value="0" hidden="true">
+					<select name="attr_itemEditUseMode" class="hide-item-rev darkInput">
 						<option value="Limited" data-i18n="item-usemode-limited">Limited: Manually restore uses</option>
 						<option value="Refresh" data-i18n="item-usemode-refresh">Refresh: Restore uses on Refresh</option>
 						<option value="Loaded" data-i18n="item-usemode-loaded">Loaded: Consumes uses from Ammo item</option>
@@ -318,11 +310,11 @@
 			</div>
 
 			<!-- Light cost -->
-			<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionLightCost" value="true"><span>Light cost</span></label>
+			<div class="itemOption"><label><input type="checkbox" name="attr_optionLightCost" value="true"><span>Light cost</span></label>
 				<div class="rowContainer">
-					<input type="checkbox" class="fade-toggle" name="attr_itemLightCost" value="0" hidden="true">
+					<input type="checkbox" class="fade-toggle" name="attr_itemEditLightCost" value="0" hidden="true">
 					<div class="mediumIcon centerIcon light"></div>
-					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemLightCost" min="0" value="0"></div>
+					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemEditLightCost" min="0" value="0"></div>
 				</div>
 			</div>
 		</div>
@@ -330,49 +322,49 @@
 
 		
 		<!-- Option: Resistances -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionResistance" value="true"><span>Resistances</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_optionResist" value="true"><span>Resistances</span></label>
 			
 			<!-- Damage Resistance -->
-			<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionDamageResistance" value="true"><span>Damage resistance</span></label>
+			<div class="itemOption"><label><input type="checkbox" name="attr_optionResistDamage" value="true"><span>Damage resistance</span></label>
 			
 			</div>
 
 			<!-- Ailment Resistance -->
-			<div class="itemOption"><label><input type="checkbox" name="attr_itemOptionAilmentResistance" value="true"><span>Ailment resistance</span></label>
+			<div class="itemOption"><label><input type="checkbox" name="attr_optionResistAilments" value="true"><span>Ailment resistance</span></label>
 				
 				<!-- Burn/Bleed/Damage Resist -->
 				<div class="rowContainer defaultResistDisplay">
 					<div class="rowContainer">
-						<input type="checkbox" class="fade-toggle" name="attr_itemBurnResist" value="0" hidden="true">
+						<input type="checkbox" class="fade-toggle" name="attr_itemEditBurnResist" value="0" hidden="true">
 
 						<div class="ailmentIconSelector centerFlex">
 							<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon burn"></div></div>
 							<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon burn-limbus"></div></div>
 						</div>
 
-						<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemBurnResist" value="0"></div>
+						<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemEditBurnResist" value="0"></div>
 					</div>
 
 					<div class="rowContainer">
-						<input type="checkbox" class="fade-toggle" name="attr_itemBleedResist" value="0" hidden="true">
+						<input type="checkbox" class="fade-toggle" name="attr_itemEditBleedResist" value="0" hidden="true">
 
 						<div class="ailmentIconSelector rowContainer centerFlex">
 							<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon bleed"></div></div>
 							<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon bleed-limbus"></div></div>
 						</div>
 
-						<div class="status_effect_value"><input type="number"  class="ailmentNum" name="attr_itemBleedResist" value="0"></div>
+						<div class="status_effect_value"><input type="number"  class="ailmentNum" name="attr_itemEditBleedResist" value="0"></div>
 					</div>
 
 					<div class="rowContainer">
-						<input type="checkbox" class="fade-toggle" name="attr_itemDamageResist" value="0" hidden="true">
+						<input type="checkbox" class="fade-toggle" name="attr_itemEditDamageResist" value="0" hidden="true">
 
 						<div class="ailmentIconSelector rowContainer centerFlex">
 							<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon damageResist"></div></div>
 							<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon damageResist-limbus"></div></div>
 						</div>
 						
-						<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemDamageResist" value="0"></div>
+						<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemEditDamageResist" value="0"></div>
 					</div>
 				</div>
 
@@ -385,7 +377,7 @@
 							<div class="ailmentIconSelector centerFlex">
 								<div class="icon"><img name="attr_ailIconDisplay" class="skillIcon"></div>
 							</div>
-							<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemAilCustomResistanceNum" value="0"></div>
+							<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemEditCustomResistanceNum" value="0"></div>
 						</div>
 					</fieldset>
 				</div>
@@ -8789,11 +8781,12 @@ const ailmentNames = [
 	"Fragile", "Strength", "Feeble", "Endurance", "Disarm",
 	"Haste", "Bind", "Smoke", "Charge", "Fortune"
 ]
-const ailmentAttributes = [
-	"ailNum", "ailName", "ailIcon", "ailDisplay", , "ailTrigger", "ailNextTurn",
-	"ailEffect", "ailEffectMode", "ailEffectVal", "ailDecayMode", "ailDecayVal", "ailDecayMin", // Effect and decay
+const ailmentAttrs = [
+	"ailNum", "ailName", "ailIcon", "ailDisplay", "ailTrigger", "ailNextTurn", "ailNumNextTurn",
+	"ailEffect", "ailEffectMode", "ailEffectVal", "ailDecayMode", "ailDecayVal", "ailDecayMin", "ailDecayPause", // Effect and decay
 	"ailDamageTypeTrigger", "ailBeforeResistance", "ailDecayWhenHit", "ailDecayRoundEnd", "ailPositiveType", // When Hit settings
-	"ailMax", "ailMaxBehavior", "ailMessageCheck", "ailMessage", "ailCustomResistance", "ailCollapse" // Other
+	"ailCustomResistance", "ailCustomResistanceNum", "ailCustomResistanceNumEgo", // Custom resistance
+	"ailMax", "ailMaxBehavior", "ailMessageCheck", "ailMessage", "ailCollapse" // Other
 ]
 
 const barNames = ["HP", "ST", "SP", "Light"]
@@ -8801,9 +8794,10 @@ const barNamesFull = ["Health", "StagRes", "Sanity", "Light"]
 const barNamesTemp = ["THP", "TST"]
 const statNames = ["Instinct", "Wisdom", "Justice", "Charm", "Insight", "Temperance"]
 const statNamesFull = [...statNames, "Fortitude", "Prudence"]
+
 const resourceNames = ["Action", "Reaction", "Counter", "Block", "Evade", "Light_Regen"]
 const combatRollNames = ["Attack", "Block", "Evade"]
-const itemNames = ["Weapon", "Outfit", "Augment", "Tool", "Skill"]
+const damageTypes = ["Slash", "Pierce", "Blunt"]
 
 /* Contains details on the format of all AutoEffects. Used for parsing AutoScripts */
 //	 value: One of "string", "number", or false. If false the AutoEffect has no value
@@ -12980,551 +12974,6 @@ function rollCombat(info) {
 }
 
 
-
-/* Temp Repeating Inventory area */
-
-function importItems(itemArray) {
-
-	/* Example data structure for three items: a Mystery, and a linked weapon and skill */
-	let exampleItems = [
-		{
-			type: "Mystery", // Weapon, Outfit, Tool, Augment, Mystery, Special, Skill or Effect
-			id: "-abcdefghij1234567890", // Uses a standard repeating section id
-			rank: 2,
-			name: "Test Mystery",
-			linked: false, // id of the item this item is linked to. Can alternatively use the item's name
-			equip: {
-				equipped: true, // If the item is equipped. Cannot be true if the linked item is unequipped
-				type: "Hands",
-				slots: -2, // This item actually gives two extra hands when equipped
-			},
-			uses: false, // Has an unlimited amount of uses
-			roll: false, // Item has no associated rolls
-			resistance: {
-				mode: "Replace", // If resistances should "Replace" or "Add" to other resistances
-				damage: { // Damage type resistances
-					slash: 0.5,
-					slash_stg: 0.5,
-				},
-				default: { // Default resistances. Burn, Bleed and Damage. need to use .default?.burn here
-					burn: 1,
-				},
-				custom: false, // Custom ailment resistances
-			},
-			AutoScript: false, // AutoScript of the item
-			tags: false, // If the item gives or requires Tags
-			icon: "Default" // For a mystery this is no icon by default. Can be set to gain a skill-like icon
-		},
-
-		{
-			type: "Weapon",
-			id: "",
-			rank: 2,
-			name: "Test Weapon (Mystery)",
-			linked: {
-				id: "-abcdefghij1234567890",
-				type: "Mystery",
-				equipTogether: true // If the sheet should attempt to equip this item when the linked item is equipped
-			},
-			equip: {
-				equipped: "Mainhand", // Weapons can be "Mainhand" or "Offhand". Only one of each may be equipped
-				type: "Hands", // The type of slots an item uses
-				slots: 2, // How many equip slots an item uses. This item requires two hands to use
-			},
-			uses: false,
-			roll: [ // Weapon has two rolls: A normal attack and a special limited attack. An item can at most have three rolls
-				{
-					type: "Attack", // The type of action
-					format: {count: 1, max: 12, power: 3}, // Uses same format as rolls
-					applied: false, // If the roll is applied (like skills). Otherwise it's standalone (like weapons)
-					cost: { // Cost of the action
-						type: "Counter", // Uses a Counter reaction, universal reaction, or action if "actions for reactions" is enabled
-						amount: 1,
-					},
-					damage: "Slash" // Damage of attacks. Unset for other types of rolls
-				},
-				{
-					type: "Attack",
-					format: {count: 2, max: 8, power: 4, storable: true},
-					cost: [ // The cost can be an array of multiple resource costs
-						{
-							type: "Action", // Only allowed as an action
-							amount: 1,
-						},
-						{
-							type: "Light", // Costs 1 Light on use
-							amount: 1, // Light costs are displayed in the UI, unlike action costs
-						}
-					],
-					damage: "Choose" // Damage type is chosen on use
-				}
-			],
-			resistance: false,
-			AutoScript: false,
-			tags: {
-				gives: {burn: 2}, // Gives two weight of the Burn tag
-				requires: false // Requires no tags to equip
-			},
-			icon: "Default" // For a weapon this is no icon by default
-		},
-
-		{
-			type: "Skill",
-			id: "",
-			rank: 2,
-			name: "Test Skill (Mystery)",
-			linked: {
-				id: "-abcdefghij1234567890",
-				type: "Mystery",
-				equipTogether: true
-			},
-			equip: {
-				equipped: false, // Item is not equipped and is not using any equip slots
-				type: "Skills",
-				slots: 1, // If using card combat, this instead equals {size: X, current: Y, max: Z}
-			},
-			uses: {
-				type: "Recover", // Type of uses. Can be "Round", "Combat", "Recover", "Refresh" etc
-				current: 2, // Has two uses remaining
-				max: 3, // Has a maximum of three uses
-			},
-			roll: {
-				type: "Attack", // When applied, is used to define which type of action it is applied to. Can be "Any"
-				applied: true,
-				format: {count: 0, max: 0, power: 2}, // When applied, is added to format of the base action
-				cost: {type: "Light", amount: 1},
-			},
-			resistance: false,
-			AutoScript: "(Inflict 5 Burn, Clash Win)",
-			tags: {
-				gives: false, // Gives no tags while equipped
-				requires: {burn: 2} // Requires two weight of the Burn tag to equip
-			},
-			icon: "Default" // For a skill this matches the type of its first roll by default
-		}
-	]
-
-	itemArray = exampleItems;
-
-	for (let item of itemArray) {
-		importItem(item);
-	}
-}
-
-function importItem(item) {
-	// If the item already exists (name and id matches), ask if a copy should be made
-	// If the item is linked, do not create it if the linked item doesn't exist
-	// If something is unset, use a default based on the item type
-	// updateItemList() handles adding the items to the itemList
-}
-
-function exportItems(idArray, options={exportLinked:false}) {
-	// Get one or more item with certain id(s) from the itemList (see below)
-	// If exportLinked is true, use recursion to also include any linked items (and items linked to those items etc.)	
-}
-
-function updateItemList() {
-	// As updateAilmentList, but for items. Runs whenever an item is updated or deleted
-	
-	// Change events include the new attribute value, so you may be able to modify individual attributes instead of updating everything
-	// If yes, consider changing the ailmentList over to using this method as well
-	// You'd have to find some way to only setAttrs() the new list once and not every time a value changes (Causes a lot of extra server calls when updating many attributes at once)
-}
-
-function shareItems() {
-	// Takes in an array of items, and generates a message that displays the items
-	// Can be configured to include chat buttons to import the displayed items
-}
-
-const weaponAttrs = []
-const outfitAttrs = []
-// Do the same for augment, skills etc.
-
-function convertInventory() {
-	// Converts all the old items into the new inventory format
-	// Runs importItems() once the data is prepared
-}
-
-// Add a on:startup event that adds some empty slots when a sheet is first opened
-// If at least one old inventory item exists, use convertInventory() first, then add any unused slots in the old inventory
-
-// Consider adding the getSectionIDsOrdered function from the wiki
-// You'd have to rework it to work for multiple repeating sections at the same time
-
-
-
-
-
-// attr_itemList
-
-const itemFormat = { // Is added to an itemList as itemList.id = itemFormat. "id" matches the repeating section id of the item
-	type: "", // One of "Weapon", "Outfit", "Augment", "Tool", "Skill", "Special" or "Effect"
-	rank: 0, // Integer value. Minimum -1
-	name: "", // String without newlines
-	equipped: false, // Boolean value
-	rollformats: [ // false if the item has no roll formats. Array can include up to five elements
-		{
-			type: "", // One of "Attack", "Block", "Evade", "Fortitude", "Prudence", "Justice", "Charm", "Insight", "Temperance" or "Custom"
-			format: {
-				count: 1, // Integer value. Minimum 1
-				max: 0, // Integer value. Minimum 0
-				power: 0, // Integer value
-			},
-			autoscript: false, // Either false or string value containing an AutoScript
-		},
-	],
-	linked: false, // The id of another item or false
-	uses: { // false if the item doesn't have uses
-		mode: "", // One of "Limited", "Refresh", "Loaded" or "Ammo"
-		max: 0, // Integer value. Minimum 0
-		current: 0, // Integer value. Minimum 0. Cannot be greater than max
-	},
-	lightcost: 0, // Integer value. Minimum 0
-	slots: { // false if the item doesn't use equip slots
-		type: "", // String value matching a type of equip slots (like "Hands")
-		value: 0, // Integer value. Matches amount of slots used. Negative values give slots
-	},
-	resistances: { // false if the item doesn't have resistances
-		damage: { // false if the item doesn't have damage resistances
-			pierce: {mode: "", hp: 0, stg: 0}, // "mode" is one of "Add" or "Replace". "hp" and "stg" are integer values (minimum 0)
-			slash: {mode: "", hp: 0, stg: 0},
-			blunt: {mode: "", hp: 0, stg: 0},
-			flat: 0, // Integer value. Can be negative
-		},
-		ailments: { // false if the item doesn't have ailment resistances
-			default: {Burn: 0, Bleed: 0}, // Integer values. Can be negative
-			custom: {
-				// Follows the same format as default resistances: "ailName: resistValue"
-			}
-		}
-	},
-	mystery: { // false if the item isn't a mystery item
-		activation: "", // One of "None", "AlwaysActive", "HalfHealth", "OnStagger", "EnemyDefeat" or "AllyDefeat"
-	},
-	autoscript: false, // Either false or string value containing an AutoScript
-	tags: {
-		gives: {}, // Follows the following format: "tagName: tagValue"
-		requires: {},
-	},
-	style: {
-		icon: "", // Either false, a http image link, or the name of a built-in icon
-		color: "", // Either false or one of "Red", "Blue", "Green", "Purple", "Orange" or "Black"
-	},
-	card: {} // false if card combat is disabled
-}
-
-
-
-on("clicked:testA", function(info) {
-	console.log("Clicked button A");
-});
-
-on("clicked:testB", function(info) {
-	console.log("Clicked button B");
-
-	itemList.access("write", () => {
-		console.log(itemList)
-		let filteredItemList = itemList.filter(item => item.type == "Tool");
-		console.log(filteredItemList);
-		console.log(filteredItemList.export());
-		console.log(filteredItemList.IDs, filteredItemList[filteredItemList.IDs[0]])
-		filteredItemList[filteredItemList.IDs[0]].type = "Weapon";
-		console.log(itemList)
-		itemList.access("read", () => {
-			console.log("Began second access");
-			itemList.access("write", () => {
-				console.log("Began third access");
-			});
-		});
-	});
-});
-
-/* Object that handles all interactions with the itemList */
-/* To access the itemList, use itemList.access(mode). Mode is one of "read" and "write" */
-/*   In read mode the itemList cannot be modified. Multiple functions can read the itemList simultaneously */
-/*   In write mode the itemList can be modified. While in write mode other access wait until the current write access finishes */
-/* All accesses should end in itemList.endAccess(). Any itemList changes made in write mode are applied to the sheet once the access ends */
-/*   To read and write values, use "itemList.property" and "itemList.property = value" as normal */
-class itemListHandler {
-	#accessStack;
-	#output;
-	
-	constructor(itemList) {
-		this.#accessStack = itemList?.accessStack || []
-		this.itemList = {}
-		this.#output = itemList?.output || {}
-	}
-
-	access(mode, callback=()=>{}) {
-		// Adds some test data
-		// setAttrs({itemList: JSON.stringify({[generateRowID()]: {...itemFormat, type:"Weapon"}, [generateRowID()]: {...itemFormat, type:"Outfit"}, [generateRowID()]: {...itemFormat, type:"Tool"}})})
-
-		this.#accessStack.push({mode: mode});
-		console.log("Added new access: ", [...this.#accessStack]);
-
-		let accessCallback = callback;
-		if (!callback.toString().includes(".endAccess")) {
-			console.warn(`itemList: ${mode} access was not ended. Adding automatic endAccess`)
-			accessCallback = () => {callback(); this.endAccess();}
-		}
-
-		if (this.#accessStack.length > 1 && mode == "write" || (mode == "read" && this.#accessStack.some(access => access.mode == "write"))) {
-			console.log("This " + mode + " access will wait until the previous " + this.#accessStack[0].mode + " access ends")
-			this.#accessStack.at(-1).callback = accessCallback;
-		} else {
-			this.#accessStack.at(-1).active = true;
-			let self = this;
-		
-			getAttrs(["itemList"], function(values) {
-				self.#add(JSON.parse(values.itemList));
-				accessCallback();
-			});
-		}
-	}
-
-	endAccess() {
-		this.#accessStack.shift();
-		console.log("Removed access: ", [...this.#accessStack]);
-
-		if (this.#accessStack.length > 0) {
-			if (!this.#accessStack[0].active) {
-				console.log("Ended previous access and allowed new " + this.#accessStack[0]?.mode + " access");
-				this.#accessStack[0].callback();
-				
-				if (this.#accessStack[0]?.mode == "read") {
-					for (let i = 1; i < this.#accessStack.length-1; i++) {
-						if (this.#accessStack[i]?.mode == "read") {
-							console.log("Allowed access for an additional read access");
-							this.#accessStack[i].callback();
-						} else {
-							break;
-						}
-					}
-				}
-			}
-		} else {
-			console.log("All accesses finished. Applying itemList and output");
-
-			setAttrs({"itemList": this.export(), ...this.#output});
-			this.itemList = {}
-			this.#output = {}
-		}
-	}
-
-	get #accessMode() {
-		return this.#accessStack[0]?.mode;
-	}
-	set #accessMode(mode) {
-		if (this.#accessStack.length > 0) {
-			this.#accessStack[0].mode = mode;
-		}
-	}
-
-
-	// Returns the id of every item in the itemList in the order they're displayed in the sheet
-	get IDs() {
-		//  - Still need to order the indexes in the same order as they're displayed in the sheet. Requires some getSectionIDsOrdered shenanigans
-		return Object.keys(this.itemList);
-	}
-
-	// Returns every item in the itemList in the order they're displayed in the sheet
-	get items() {
-		return this.itemList;
-	}
-
-	// Adds one or more new items to the itemList
-	// Accepts itemListHandlers, itemLists and item types (ex. "Weapon". Case sensitive)
-	// If using an item type the item will match the default values of that item type
-	add(inputData) {
-		console.log(this.#accessMode, "mode - Adding new item(s): ", inputData)
-		if (this.#accessMode != "read") {
-			if (typeof(inputData) == "object" && length(inputData) > 0) {
-				if (inputData.itemList) { inputData = inputData.itemList; }
-				
-				for (const [id, data] of Object.entries(inputData)) {
-					this.itemList[id] = data;
-					this.#addAccessors(id);
-				}
-			}
-			else if (Object.keys(itemDefaults).includes(inputData)) {
-				let newid = generateRowID();
-				this.itemList[newid] = {...itemFormat, ...itemDefaults[inputData]}; // This may not work. May need a function to apply default values
-				this.#addAccessors(newid);
-			}
-		} else {
-			this.#writeError("add");
-		}
-	}
-	#add(inputData) {
-		let oldAccess = this.#accessMode;
-		this.#accessMode = "write";
-		this.add(inputData);
-		this.#accessMode = oldAccess;
-	}
-
-	// Deletes one item with a specific id
-	delete(itemId) {
-		if (this.#accessMode != "read") {
-			delete this[itemId];
-			this.#deleteAccessors(itemId);
-		} else {
-			this.#writeError("delete");
-		}
-	}
-
-	// Item id accessors (getters and setters) simplyfy accessing the itemList. Instead of writing itemList.itemList[id], itemList[id] may be used
-	// Must be added or deleted together with their associated item id
-	#addAccessors(itemId) {
-		Object.defineProperty(this, itemId, {
-			get() {
-				return this.itemList[itemId]
-			},
-			set(value) {
-				if (this.#accessMode != "read") {
-					this.itemList[itemId] = value;
-				} else {
-					this.#writeError("set");
-				}
-			},
-			configurable: true,
-		});
-	}
-	#deleteAccessors(itemId) {
-		delete this[itemId];
-	}
-
-	// Imports one or more items from an export script
-	// The items are added to the current itemList by default. "Replace" mode may be used to overwrite the itemList
-	import(itemScript, mode="Add") {
-		if (this.#accessMode != "read") {
-			// - Still need to send a querry to the player confirming they want to overwrite the itemList
-			this.itemList = JSON.parse(itemScript);
-		} else {
-			this.#writeError("import");
-		}
-	}
-
-	// Exports the current itemList
-	export() {
-		return JSON.stringify(this.itemList);
-	}
-
-	// Returns a subset of the itemList. Allows other handler methods to affect only part of the itemList
-	filter(predicate) {
-		return this.IDs
-			.filter(id => predicate(this.itemList[id]))
-			.reduce((acc, id) => (acc.add({[id]: this[id]}), acc), new itemListHandler(this));
-	}
-
-	/* Assorted */
-	#writeError(method) {
-		throw new Error(`Attempted to use method "${method}" in itemList without accessing in write mode`)
-	}
-}
-
-/* The actual itemListHandler instance that all other code interacts with */
-let itemList = new itemListHandler();
-
-
-
-
-
-
-
-/* Repeating inventory event helper */
-function itemEvent(event, element) {
-	if (event == "reorder") {
-		return itemNames.reduce((rows, item) => rows += ` change:_reporder:${item}s`, "");
-	} else {
-		return itemNames.reduce((rows, item) => rows += ` ${event}:repeating_${item}s${(element) ? `:${element}` : ""}`, "");
-	}
-}
-
-/* Add repeating item or rollformat */
-on("clicked:addItem", function(info) {
-	let itemType = info.htmlAttributes.id.split("_")[1];
-	let newrowid = generateRowID();
-
-	let attrSource = itemEditorAttrs;
-	if (itemType == "rollformat") { attrSource = itemEditorAttrs["repeating_rollformats:rollFormats:includeDefault"]; }
-
-	let output = Object.entries(attrSource).reduce((acc, [key, value]) => {
-		if (typeof(value) == "object") {
-			if (Array.isArray(value)) {
-				value = value[0];
-			} else {
-				return acc;
-			}
-		}
-		return {...acc, [`repeating_${itemType}s_${newrowid}_${key}`]: value}
-	}, {});
-
-	if (itemType != "rollformat") {
-		setAttrs(output);
-	} else {
-		/* A maximum of five rollformats are accepted */
-		getSectionIDs(`repeating_rollformats`, idarray => {
-			if (idarray.length+1 >= 5) {
-				output.rollFormatAddToggle = "true";
-			}
-			setAttrs(output);
-		});
-	}
-});
-
-/* Remove repeating item or rollformat */
-on("remove:repeating_rollformats" + itemEvent("remove"), function(info) {
-	let itemType = info.sourceAttribute.split("_")[1];
-	let itemId = info.sourceAttribute.split("_")[2];
-
-	if (itemType == "rollformats") {
-		saveEditor("item", itemEditorAttrs);
-		getSectionIDs(`repeating_rollformats`, idarray => {
-			console.log(idarray);
-			if (idarray.length < 5) {
-				setAttrs({"rollFormatAddToggle": "0"});
-			}
-		});
-	}
-
-	
-
-	// The built in Roll20 functionality deleted the item automatically
-
-	// Check if any items link to the item
-	// If yes, ask if those items should be unlinked or deleted. If possible, list the linked items in the query
-
-	// Remove all deleted items from the itemList. Make this a function so it can be used in other places
-
-	console.log(`${itemType} section - removed item: ${itemId}`);
-});
-
-/* Repeating item share button */
-on(itemEvent("clicked", "shareItem"), function(info) {
-	console.log(info);
-});
-
-
-
-/* Reorder repeating items */
-on(itemEvent("reorder"), function(info) {
-	let itemType = info.sourceAttribute.split("_")[3];
-
-	let newOrder = info.newValue; // Handle if this is undefined. Unsure why it happens
-
-	// Update the item order in the itemList
-
-	console.log(`${itemType} section - changed item order to: ${newOrder}`);
-});
-
-
-/* Clear equipment and skills search bar */
-on("clicked:clearSearchBar", function() {
-	setAttrs({"itemSearchInput":""});
-	// Also needs to clear the advanced search options
-});
-
-
 /* Executes one or more rolls and posts the results to the chat */
 function executeRolls(rollArray, callback=()=>{}) {
 	getAttrs(["settingWhisperRolls", "settingWhisperTarget"], function(values) {
@@ -13950,7 +13399,6 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 			case "Slash": hpResistance = parseFloat(values[`${outfitType}Immune1`]); stResistance = parseFloat(values[`${outfitType}Immune2`]); break;
 			case "Pierce": hpResistance = parseFloat(values[`${outfitType}Immune3`]); stResistance = parseFloat(values[`${outfitType}Immune4`]); break;
 			case "Blunt": hpResistance = parseFloat(values[`${outfitType}Immune5`]); stResistance = parseFloat(values[`${outfitType}Immune6`]); break;
-			default: break;
 		}
 	}
 
@@ -16013,7 +15461,6 @@ tablist.forEach(tab => {
 
 
 
-
 /*--- Editor functions ---*/
 function openEditor(type, newTarget, newTargetName) {
 	let editorAttrs = [`${newTarget}`, `${type}EditorTarget`, `${type}EditorInput`];
@@ -16048,10 +15495,43 @@ function openEditor(type, newTarget, newTargetName) {
 function saveEditor(type, attrs={}, callback=()=>{}) {
 	let options = (type == "item") ? {prefix: type, ignoreDefault: true} : {}
 
+
+	// Since the itemSheetKeys.itemEditor includes repeating_ailments, events will also be registered for some stuff outside of the editor
+	// You may want to exclude these values from the sync or add special handling to update ALL items when these events trigger
+
+	/* After getting values, do
+	for (const [key, value] of Object.entries(values)) {
+		if (key.startsWith("repeating")) {
+			let [type, repid, repkey] = key.split("_").shift();
+			let repindex = idarray.indexOf(repid);
+			formatedValues[`repeating_${type}`][repindex][repkey] = values[key]; // This may not work
+			delete values[key];
+		}
+	}
+	*/
+	// For the parsing process, if key.startsWith("option"), parse as if "valid: (b) => is.Bool(b)" and "subattrs: value" if they're not defined already
+
+
+
+
+
+
+
+
+
+
+
+
 	/* Helper functions uses to configure which attributes should be retrieved */
 	/* Attrs are structured as {attrKey: defaultValue} pairs */
 	/* Repeating attrs are structured as {repeating_section:attrAlias: {attrKey: defaultValue}} */
-	const computeKeys = (callback=()=>{}) => {
+	const computeKeys = (callback=()=>{}) => { // - Deapprechiated. The new input parsing method should work better
+		
+		
+		// - Now needs getAttrs(["itemEditorTarget"], function(values) {});
+		
+		
+		
 		if (length(attrs) > 0) {
 			getSectionIDs("rollformats", rollformat_idarray => {
 			getSectionIDs("ailments", ailments_idarray => {
@@ -16131,6 +15611,1294 @@ function closeEditor(type) {
 	});
 }
 /*--- Editor functions end ---*/
+
+
+
+
+// testA
+
+
+// Add custom getters and setters for ex. rollFormats[i].damagetype
+// get damagetype() instead gives damagetype.value if value exists
+// set damagetype(v) instead sets damagetype.value if value exists and damagetype.valid(v)
+// better yet: have an itemNode be {key: {param: 1, param: 2, param: itemNode..., param: itemNode...}}
+
+// alias comes from format.value instead of format. Define it in the loop
+
+
+
+
+
+
+/*--- Repeating inventory ---*/
+
+
+
+function updateItemList() {
+	// As updateAilmentList, but for items. Runs whenever an item is updated or deleted
+	
+	// Change events include the new attribute value, so you may be able to modify individual attributes instead of updating everything
+	// If yes, consider changing the ailmentList over to using this method as well
+	// You'd have to find some way to only setAttrs() the new list once and not every time a value changes (Causes a lot of extra server calls when updating many attributes at once)
+}
+
+function convertInventory() {
+	// Converts all the old items into the new inventory format
+	// Runs import(itemScript, "Add") once the data is prepared
+}
+
+// Add a on:startup event that adds some empty slots when a sheet is first opened
+// If at least one old inventory item exists, use convertInventory() first, then add any unused slots in the old inventory
+
+// Consider adding the getSectionIDsOrdered function from the wiki
+// You'd have to rework it to work for multiple repeating sections at the same time
+
+
+
+
+
+
+
+// An item consists of one or more itemNodes. The format for these nodes can be seen in itemFormat
+// The itemList consists of one or more items and is accessed through an itemListHandler
+class itemNode {
+	
+	constructor(format, id, defaults, valid, style) {
+		Object.defineProperties(this, {
+			valid: {writable: true, value: {}},
+			option: {writable: true, value: {}},
+			prefix: {writable: true, value: ""},
+			suffix: {writable: true, value: ""},
+			repeating: {writable: true, value: false},
+			enabled: {writable: true, value: false},
+			id: {writable: true, value: id},
+		});
+
+		if (defaults == undefined) {
+			if ((format?.type || format) in itemNode.format.defaults) {
+				defaults = itemNode.format.defaults[format?.type || format];
+				format = itemNode.format.base;
+				this.enabled = true;
+			}
+		}
+		if (!valid) { valid = itemNode.format.valid; }
+		if (!style) { style = itemNode.format.style; }
+
+		if (defaults != false) {
+			this.enabled = true;
+		}
+		
+		for (const [prop, value] of Object.entries(format)) {
+			if (style?.[prop]?.option) {
+				this.option[prop] = style[prop].option;
+				this.valid[prop] = (b) => is.Bool(b);
+			}
+			else if (valid[prop] && typeof valid[prop] == "function") {
+				this.valid[prop] = valid[prop];
+			}
+			this.prefix = style.prefix || "";
+			this.suffix = style.suffix || "";
+
+			if (style.repeating) {
+				this.repeating = style.repeating;
+			}
+			
+			if (is.Object(value)) {
+				this[prop] = new itemNode(value, id, defaults[prop] || false, valid[prop], style[prop]);
+			}
+			else if (prop == "array") {
+				if (is.Array(value) && value.length > 0) {
+					value.forEach((node, i) => this[i] = new itemNode(node, id, defaults.array?.[i] || false, valid[prop], style[prop]));
+				}
+				delete this.array;
+			}
+			else {
+				if (defaults && prop in defaults) {
+					this[prop] = defaults[prop];
+				} else {
+					this[prop] = value;
+				}
+			}
+		}
+		return this;
+	}
+
+
+	// Access an itemNode and all of its sub-nodes and either input values from or output values for the editor/sheet
+	// During input, assign input attribute values from the source(s) to the item. Returns true if all values were used
+	// During output, generates and returns a list of output attribute values for the sources
+	set input(values) {
+		let sourceStyle = {
+			editor: {
+				prefix: "itemEdit",
+			},
+			sheet: {
+				section: this.type.toLowerCase() + "s",
+				id: this.id,
+			}
+		}
+		this.#access(values, sourceStyle);
+		return length(values) == 0;
+	}
+	get output() {
+		let sourceStyle = {
+			editor: {
+				prefix: "itemEdit",
+				index: "",
+			},
+			sheet: {
+				section: this.type.toLowerCase() + "s",
+				id: this.id,
+				index: "",
+			}
+		}
+		return this.#access(false, sourceStyle);
+	}
+	#access(values, sourceStyle) {
+		let output = {editor: {}, sheet: {}}
+
+		if (!values || length(values) > 0) {
+			for (let [prop, subnode] of Object.entries(this)) {
+				
+				// Apply the property's option, suffix or prefix if they exists
+				let prefix = this.prefix;
+				let suffix = this.suffix;
+				let origprop = prop;
+				if (this.option[prop]) {
+					prop = "option" + this.option[prop];
+					prefix = "";
+					suffix = "";
+					sourceStyle.sheet.index = "";
+				}
+				else if (this.prefix) {
+					prop = capitalize(prop);
+				}
+				
+				for (let [source, style] of Object.entries(sourceStyle)) {
+
+					if (source == "editor" && this.id != itemList.editor) {
+						//continue;
+					}
+
+					// Handle inputting values
+					if (length(values) > 0 && !is.Array(subnode)) {
+						/*let match = false;
+						
+						// Checks if prop or alias is a direct match, or if it matches with it's prefix and/or suffix
+						let regex = `^((?:${style.prefix + prefix})?${prop}(?:${suffix})?)$`;
+						if ("index" in repData) {
+							//regex =  `^((?:${this.prefix})?${prop}(?:${this.suffix})?)$`; // Need to account for repid, repsection and repindex
+						}
+						let propFormat = new RegExp(regex, "i");
+						for (const key of Object.keys(values)) {
+							match = key.match(propFormat)?.[0];
+							if (match) break;
+						}
+
+						if (match) {
+							//console.log(match, this, values[match]);
+							if (this.value?.valid(values[match].value)) {
+								if (subnode instanceof itemNode && "value" in subnode) {
+									subnode.value = values[match].value;
+								}
+							}
+							else if (this.valid(values[match].value)) {
+								if (subnode instanceof itemNode && "enabled" in subnode) {
+									subnode.enabled = (is.Bool(values[match].value)) ? values[match].value : subnode.enabled;
+								}
+							} else {
+								console.warn("Illegal item input!", this.valid, values[match].value);
+							}
+							delete values[match];
+						}*/
+					}
+
+					// Handle outputting values
+					else {
+						let outputKey = (!style.section) ? (style.prefix || "") + prefix + prop + suffix + (style.suffix || "")
+									: `repeating_${style.section}_${style.id}_${prefix + prop + suffix + style.index}`;
+						
+						if (this.enabled && parseInt(prop) != prop) {
+							if (this.option[origprop]) {
+								output[source][outputKey] = "" + this.enabled;
+							} 
+							else if (!(subnode instanceof itemNode)) {
+								output[source][outputKey] = subnode;
+							}
+						}
+					}
+				}
+
+				// Handle any sub-nodes
+				if (subnode instanceof itemNode) {
+					if (this.repeating) {
+						for (const source of Object.keys(sourceStyle)) {
+							switch (this.repeating[source]?.type) {
+								case "index":
+									sourceStyle[source].index = prop; break;
+								case "id":
+									sourceStyle[source].section = this.repeating.section;
+									sourceStyle[source].id = itemList.editor.IDs[this.repeating.section][prop]; break;
+								case "props":
+									// Currently missing
+									break;
+							}
+						}
+					}
+					let newStyle = {editor: {...sourceStyle.editor}, sheet: {...sourceStyle.sheet}}
+					Object.entries(subnode.#access(values, newStyle)).reduce((acc, [source, values]) => Object.assign(output[source], values), {});
+				}
+			}
+		}
+		return output;
+	}
+
+	// repeating is now in style. Has info on how to input and output editor and sheet data
+	// x If type == "index", set style.rep.index = i of each array element
+	// x If type == "ids", let style.rep.section = format.repeating.section and style.rep.id = itemList.editor.IDs[format.repeating.section][i] of each array element
+	//   If type == "props":
+	//     When inputing values (values != false) get repeating.editor.check, find values where key includes check.key and where check.value(value) == true. Get their ids
+	//       Then get repeating.editor.key and value, loop through the ids, find matches with id_key in values, get the key, then set this[key] = values[repeating_section_id_value] 
+	//       Also save the ids to attr_editorRepeatingProps as {key: {prop1: id, prop2: id}}. When accessing itemList, it adds all props from editorRepeatingProps to editor.IDs
+	//       Change of plans: have itemList.access set up editorRepeatingProps. Have it import check-key pairs, get the attrs, check which values have check.key and check.value(value) == true
+	//         Get the ids, find attrs containing id_key, then save IDs.key = [values[key]: id, ...]
+	//         This method should be able to handle any future repeating values you add to the editor
+	//     When outputing values, loop over props and values, get itemList.editor.IDs[key], then output {repeating_rep.section_id_rep.key: prop, repeating_rep.section_id_rep.value: value}
+	//       When exporting, ignore this and just export [alias, prop:value, prop:value, ...]. Their repeatingProps will have the correct ids for their sheet
+
+	add(type) {
+		if (type == "Rollformat") {
+			this.rollformats.enabled = true;
+			this.rollformats[length(this.rollformats)] = new itemNode(this.format.base.rollformats.array[0], this.id);
+		}
+	}
+
+	static format = {
+
+		// The base format of all items. Modified with format.defaults[type] before being added to the itemList
+		base: {
+			type: "Effect", rank: 0, name: "", description: "", effect: "",
+			minimized: false,
+			equip: {
+				equipped: false,
+				slots: {
+					type: "Hand", use: 0,
+				},
+			},
+			rollformats: {
+				array: [{
+					type: "None", mode: "Roll", damagetype: "None", count: 0, max: 0, power: 0, adv: false,
+					resource: {
+						action: {type: "Action", use: 1},
+						reaction: {type: "Reaction", use: 1},
+					},
+					store: {
+						count: 0, max: 0, power: 0, adv: false,
+					},
+					autoscript: false,
+				}]
+			},
+			linked: {
+				itemid: false,
+				equipTogether: true,
+			},
+			limited: {
+				uses: {
+					type: "None", mode: "None", max: 0, current: 0,
+					resource: {
+						action: {type: "Action", use: 1},
+						reaction: {type: "None", use: 0},
+					},
+				},
+				light: {
+					cost: 0,
+				},
+			},
+			resistances: {
+				damage: {
+					pierce: {mode: "None", hp: {base: 0, flat: 0}, st: {base: 0, flat: 0}},
+					slash: {mode: "None", hp: {base: 0, flat: 0}, st: {base: 0, flat: 0}},
+					blunt: {mode: "None", hp: {base: 0, flat: 0}, st: {base: 0, flat: 0}},
+				},
+				ailments: {
+					default: {Burn: 0, Bleed: 0},
+					custom: {},
+				},
+			},
+			mystery: {
+				activation: "None",
+			},
+			tags: {
+				gives: {},
+				requires: {},
+			},
+			style: {
+				icon: {
+					source: "",
+				},
+				color: "Black",
+				accent: "None",
+			},
+			ui: {
+				damagetype: false,
+				range: false,
+				special: false,
+				half: false,
+			},
+			card: {},
+			autoscript: false,
+		},
+
+		// Includes all default values for items of a certain type
+		// All sub-nodes like "rollformats" are optional and begin off disabled by default
+		// Including a sub-node in an item's default values (even just writing "subnode: {}") enables that sub-node 
+		defaults: {
+			Weapon: {
+				type: "Weapon",
+				equip: {slots: {type: "Hands", value: 1}},
+				rollformats: {
+					array: [
+						{type: "Attack", damagetype: "Untyped", count: 1, max: 10, power: 0,
+							resource: {action: {}, reaction: {type: "Counter"}}},
+					],
+				},
+				style: {color: "Red"},
+				ui: {damagetype: true, range: true},
+			},
+			Outfit: {
+				type: "Outfit",
+				equip: {},
+				rollformats: {
+					array: [
+						{type: "Block", count: 1, max: 10, power: 0,
+							resource: {action: {}, reaction: {type: "Block"}}},
+						{type: "Evade", count: 1, max: 12, power: 0,
+							resource: {action: {}, reaction: {type: "Evade"}},
+							store: {storeable: true, mod: {power: -2}}},
+					],
+				},
+				resistances: {
+					damage: {
+						pierce: {mode: "Replace", hp: {base: 1}, st: {base: 1}},
+						slash: {mode: "Replace", hp: {base: 1}, st: {base: 1}},
+						blunt: {mode: "Replace", hp: {base: 1}, st: {base: 1}},
+					},
+					ailments: {
+						default: {},
+						custom: {},
+					}
+				},
+				style: {color: "Blue"},
+			},
+			Augment: {
+				type: "Augment",
+				equip: {},
+				resistances: {
+					ailments: {
+						default: {},
+						custom: {},
+					}
+				},
+				style: {color: "Green"},
+			},
+			Tool: {
+				type: "Tool",
+				equip: {slots: {type: "Hands", value: 1}},
+				limited: {
+					uses:{type: "Standalone", mode: "Refresh", max: 3, current: 3, resource: {action: {}}},
+				},
+				style: {color: "Purple"},
+				ui: {half: true},
+			},
+			Skill: {
+				type: "Skill",
+				equip: {},
+				rollformats: {
+					array: [
+						{type: "None", mode: "Applied", count: 0, max: 0, power: 0,
+							resource: {action: {type: "None", value: 0}, reaction: {type: "Node", value: 0}}},
+					],
+				},
+				limited: {light: {cost: 1}},
+			},
+			Special: {
+				type: "Special",
+				equip: {},
+				style: {color: "Orange"},
+				ui: {special: true}
+			},
+			Effect: {
+				type: "Effect",
+			}
+		},
+
+		// Includes functions for validating item input values
+		valid: {
+			type: (s) => is(s).In(Object.keys(itemNode.format.defaults)),
+			rank: (i) => is.Int(i, {min: -1}),
+			name: (s) => is.String(s, {newlines:false}),
+			description: (s) => is.String(s),
+			effect: (s) => is.String(s),
+			minimized: (b) => is.Bool(b),
+			equip: { // Always enabled
+				equipped: (v) => is.Bool(v) || is(v).In(["Mainhand", "Offhand"]), // How do you handle this? It should be is.ID(this.linked) && is.Bool(b) || is(b).in(hand), but linked isn't in this, it's in this.parent.linked.id. You also need linked to be updated first
+				slots: { // Enabled by optionEquipSlots
+					type: (s) => is.String(s), // String value matching a type of equip slots (like "Hand"). This would have to reference an external list of equipSlot types
+					use: (i) => is.Int(i),
+				},
+			},
+			rollformats: { // Enabled by optionRollFormats. Can contains between 1 and 5 formats. This is handled in itemNode.add("Rollformat")
+				array: {
+					type: (s) => is(s).In(["None", ...combatRollNames, ...statNames, "Custom"]),
+					mode: (s) => is(s).In(["Roll", "Applied"]),
+					damagetype: (v) => is(v).In(["None", ...damageTypes, "Untyped"]) || is.Array(v, {min:1, max:3}), // false for non-attacks. One of "None", "Slash", "Pierce", "Blunt", "Untyped" or an object with 2+ damagetypes ("Hybrid")
+					count: (i) => is.Int(i, (this.type == "Roll") ? {min: 1} : {}), // This probably still refers to this itemNode, right? If not use itemList[this... id...]... motherfucker
+					max: (i) => is.Int(i, (this.type == "Roll") ? {min: 0} : {}),
+					power: (i) => is.Int(i),
+					adv: (v) => is.False(v) || is(v).In(["Advantage", "Disadvantage"]),
+					resource: { // Enabled by optionRollResource *with an index*
+						action: { // Enabled by optionRollAction *with an index*
+							type: (s) => is(s).In(["None", ...resourceNames]),
+							use: (i) => is.Int(i, {min: 0}),
+						},
+						reaction: this.action, // Enabled by optionRollReaction *with an index*
+						// Maybe make it so if valid(v) returns an object, you run valid(v) again on that object?
+					},
+					store: { // Enabled by optionStoreRoll *with an index*
+						count: (i) => is.Int(i),
+						max: (i) => is.Int(i),
+						power: (i) => is.Int(i),
+						adv: (v) => is.False(v) || is(v).In(["Advantage", "Disadvantage"]),
+					},
+					autoscript: (v) => is.False(v) || is.String(v),
+				},
+			},
+			linked: { // Enabled by optionLinked
+				itemidid: (v) => is.Bool(v) || is(v).In(itemList.IDs), // Need to make sure this works if the linked item is added after this item. Maybe add all the ids first and then add the itemNodes?
+				equipTogether: (b) => is.Bool(b),
+			},
+			limited: { // Enabled by optionLimited
+				uses: { // Enabled by optionUses
+					type: (s) => is(s).In(["None", "Standalone", "Applied", "Both"]),
+					mode: (s) => is(s).In(["None", "Manual", "Refresh", "Recover", "Loaded", "Ammo", "Combat", "Round"]),
+					max: (i) => is.Int(i, {min: 0}),
+					current: (i) => is.Int(i, {min: 0, max: this.max}),
+					resource: { // Enabled by optionUsesResource
+						action: { // Enabled by optionUsesAction
+							type: (s) => is(s).In(["None", ...resourceNames]),
+							use: (i) => is.Int(i, {min: 0}),
+						},
+						reaction: this.action, // Enabled by optionUsesReaction
+					},
+				},
+				light: { // Enabled by optionLightCost
+					cost: (v) => is.False(v) || is.Int(v, {min: 0}),
+				},
+			},
+			resistances: { // Enabled by optionResist (optionResistances?)
+				damage: { // Enabled by optionResistDamage
+					pierce: {
+						mode: (s) => is(s).In(["None", "Add", "Replace"]),
+						hp: { // Ignored when mode == "None"
+							base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+							flat: (i) => is.Int(i),
+						},
+						st: { // Ignored when mode == "None"
+							base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+							flat: (i) => is.Int(i),
+						},
+					},
+					slash: (v) => this.pierce.valid(v), // This is intended to run the validator on pierce instead
+					blunt: (v) => this.pierce.valid(v), // It definitely doesn't work due to the validators being nested inside hp and st
+				},
+				ailments: { // Enabled by optionResistAilments
+					default: {
+						Burn: (i) => is.Int(i),
+						Bleed: (i) => is.Int(i),
+					},
+					custom: {
+						ailName: (i, v) => is.Values(v, "ailCustomResistanceNum").Int(i), // Needs some work. Should set key=ailName and value=ailCustomResistanceNum
+						// "*": () => (this?.values?.ailName && is.Int(this?.values?.ailCustomResistanceNum)) ? {values.ailName, values.ailResistanceNum} : false,
+						// Would here try format.valid("*") if format.valid(key) fails. If a validator returns an object o, loop over o keys and values and set this[key] = value
+						// This wouldn't help with updating already existing values however... You could just say that if no validator exists anything goes? 
+					},
+				},
+			},
+			mystery: { // Enabled by optionMystery
+				activation: (s) => is(s).In(["None", "AlwaysActive", "HalfHealth", "OnStagger", "EnemyDefeat", "AllyDefeat"]),
+			},
+			tags: { // Enabled by optionTags
+				gives: {},
+				requires: {}, // See custom resistances above. Needs a similar solution
+			},
+			style: { // Enabled by optionCustomStyle
+				icon: { // Enabled by optionIcon
+					source: (s) => is.String(s), // Is either a http image or a default icon name. Otherwise a question mark icon is displayed
+				},
+				color: (v) => is(v).In(["Red", "Blue", "Green", "Purple", "Orange", "Black"]),
+				accent: (v) => is(v).In(["None", "Red", "Blue", "Green", "Purple", "Orange", "Black"]),
+			},
+			ui: { // Enabled by optionCustomUI
+				damagetype: (b) => is.Bool(b), // The UI element has a custom event handler to update the damage type of the first roll format
+				range: (b) => is.Bool(b), // The UI element has a custom event handler to toggle optionUses
+				special: (b) => is.Bool(b),
+				half: (b) => is.Bool(b), // Ignored when possessing 2+ roll formats, ui.special or damage resistances. This is handled by CSS
+			},
+			card: {}, // Enabled by optionCardCombat
+			autoscript: (v) => is.False(v) || is.String(v),
+		},
+
+		// Contains format info about input, output, import and export data of items
+		style: {
+			equip: {
+				slots: {option: "EquipSlots", prefix: "slot"},
+			},
+			rollformats: {
+				option: "RollFormat",
+				repeating: {
+					section: "rollformats",
+					editor: {type: "id"},
+					sheet: {type: "index"},
+					export: {alias: "rollFormats"},
+				},
+				array: {
+					prefix: "roll",
+					resource: {
+						option: "RollResource",
+						action: {option: "RollAction", prefix: "action"},
+						reaction: {option: "RollReaction", prefix: "reaction"},
+					},
+					store: {option: "StoreRoll", prefix: "storeMod"},
+				},
+			},
+			linked: {option: "Linked", prefix: "linked"},
+			limited: {
+				option: "Limited",
+				uses: {
+					option: "Uses", prefix: "uses",
+					resource: {
+						option: "UsesResource",
+						action: {option: "UsesAction", prefix: "action"},
+						reaction: {option: "UsesReaction", prefix: "reaction"},
+					},
+				},
+				light: {option: "LightCost", prefix: "light"},
+			},
+			resistances: {
+				option: "Resist",
+				damage: {
+					option: "ResistDamage",
+					pierce: {prefix: "pierce", hp: {suffix: "HP"}, st: {suffix: "ST"}},
+					slash: {prefix: "slash", hp: {suffix: "HP"}, st: {suffix: "ST"}},
+					blunt: {prefix: "blunt", hp: {suffix: "HP"}, st: {suffix: "ST"}},
+				},
+				ailments: {
+					option: "ResistAilments",
+					default: {suffix: "Resist"},
+					custom: {
+						suffix: "Resist",
+						repeating: {
+							section: "ailments",
+							editor: {
+								type: "props",
+								key: "ailName",
+								value: "itemEditCustomResistanceNum",
+							},
+							sheet: false,
+							export: {alias: "customResist"},
+						}
+					},
+				},
+			},
+			mystery: {option: "Mystery"},
+			tags: {
+				option: "Tags",
+				gives: {prefix: "tag"},
+				requires: {prefix: "tag"},
+			},
+			style: {
+				option: "CustomStyle",
+				icon: {option: "Tags", prefix: "icon"},
+			},
+			ui: {option: "CustomUI", suffix: "UI"},
+			card: {option: "CardCombat", prefix: "card"},
+		}
+	}
+}
+
+
+
+
+
+/* Object that handles all interactions with the itemList */
+/* To access the itemList, use itemList.access(mode). Mode is one of "read" and "write" */
+/*   In read mode the itemList cannot be modified. Multiple functions can read the itemList simultaneously */
+/*   In write mode the itemList can be modified. While in write mode other access wait until the current write access finishes */
+/* All accesses should end in itemList.endAccess(). Any itemList changes made in write mode are applied to the sheet once the access ends */
+/*   To read and write values, use "itemList.property" and "itemList.property = value" as normal */
+class itemListHandler {
+	#accessStack;
+	#output;
+	
+	constructor(itemList) {
+		this.#accessStack = itemList?.accessStack || []
+		this.itemList = {}
+		this.origItemList = itemList?.itemList || false;
+		this.editor = {};
+		this.#output = itemList?.output || {}
+	}
+
+	access(mode, options={editor:false}, callback=()=>{}) {
+		// Adds some test data
+		///*
+		setAttrs({itemList: JSON.stringify({
+			[generateRowID()]: {...itemNode.format.base, type:"Weapon"},
+			[generateRowID()]: {...itemNode.format.base, type:"Outfit"},
+			[generateRowID()]: {...itemNode.format.base, type:"Tool"}})
+		}, {}, () => {
+		//*/
+
+		this.#accessStack.push({mode: mode});
+		console.log("Added new access: ", [...this.#accessStack]);
+
+		let accessCallback = callback;
+		if (!callback.toString().includes(".endAccess")) {
+			console.warn(`itemList: ${mode} access was not ended. Adding automatic endAccess`)
+			accessCallback = () => {callback(); this.endAccess();}
+		}
+
+		// The rowids of rollformats and ailments are automatically included if they're likely to be used in the function accessing the itemList 
+		if (options.editor || (/.add\(/).test(callback.toString()) || (/.editor.IDs[\W]?[^\w\d]/).test(callback.toString())) {
+			this.editor = true;
+		}
+
+		if (this.#accessStack.length > 1 && mode == "write" || (mode == "read" && this.#accessStack.some(access => access.mode == "write"))) {
+			console.log("This " + mode + " access will wait until the previous " + this.#accessStack[0].mode + " access ends")
+			this.#accessStack.at(-1).callback = accessCallback;
+		} else {
+			this.#accessStack.at(-1).active = true;
+			let self = this;
+		
+			getAttrs(["itemList", "itemEditorTarget"], function(values) {
+				self.#accessEditor(values, () => {
+					self.#add(JSON.parse(values.itemList));
+					accessCallback();
+				});
+			});
+		}
+		}); // Comment out when not using test data
+	}
+
+	#accessEditor(values, callback=()=>{}) {
+		let self = this;
+		if (this.editor === true) {
+			getSectionIDs("ailments", function(ailmentIDs) {
+				getSectionIDs("rollformats", function(rollformatIDs) {
+					self.editor = {
+						IDs: {rollformats: rollformatIDs, ailments: ailmentIDs},
+						target: values.itemEditorTarget.split("_")[2],
+					}
+					callback();
+				});
+			});
+		} else {
+			callback();
+		}
+	}
+
+	endAccess() {
+		this.#accessStack.shift();
+		console.log("Removed access: ", [...this.#accessStack]);
+
+		if (this.#accessStack.length > 0) {
+			if (!this.#accessStack[0].active) {
+				console.log("Ended previous access and allowed new " + this.#accessStack[0]?.mode + " access");
+				this.#accessStack[0].callback();
+				
+				if (this.#accessStack[0]?.mode == "read") {
+					for (let i = 1; i < this.#accessStack.length-1; i++) {
+						if (this.#accessStack[i]?.mode == "read") {
+							console.log("Allowing access for an additional read access");
+							this.#accessStack[i].callback();
+						} else {
+							break;
+						}
+					}
+				}
+			}
+		} else {
+			console.log("All accesses finished. Applying itemList and output");
+
+			console.log(this.#output)
+			setAttrs({"itemList": this.export(), ...this.#output});
+			this.itemList = {}
+			this.#output = {}
+
+			//saveEditor("item");
+			if (this.editor.target) {
+				console.log("Would have saved the item editor here with the following id: " + this.editor.target);
+				console.log(this.editor)
+			}
+			this.editor = {};
+		}
+	}
+
+	get #accessMode() {
+		return this.#accessStack[0]?.mode;
+	}
+	set #accessMode(mode) {
+		if (this.#accessStack.length > 0) {
+			this.#accessStack[0].mode = mode;
+		}
+	}
+
+
+	// Returns the id of every item in the itemList in the order they're displayed in the sheet
+	get IDs() {
+		//  - Still need to order the indexes in the same order as they're displayed in the sheet. Requires some getSectionIDsOrdered shenanigans
+		return Object.keys(this.itemList);
+	}
+
+	// Returns every item in the itemList in the order they're displayed in the sheet
+	get items() {
+		return this.itemList;
+	}
+
+	// Takes in data generated from the editor and/or the sheet applies it to the associated item(s) in the itemList
+	// If values provided for an item id that doesn't exist, create a new item and assign the values to it 
+	input(values) { // "repeating_weapons_-abc_rollType0" testA
+		if (this.#accessMode != "read") {
+			
+			if (source == "editor" && this.editor.target) {
+				// Can include both repeating and normal values
+				// Uses the current editor target to select the correct item, and key/repkey to find the attribute
+				// For repeating values, find the index of repid in this.editor.IDs[section]. Add a new rollformat if it doesn't exist, up to a maximim of 5
+			}
+
+			else if (source == "sheet" && length(this.IDs) > 0) {
+				// Can only include repeating values
+				// Uses section and repid to find select correct item(s), and repkey to find the attribute. Uses index values for roll formats
+				// If repid isn't an item, add a new default item of type = section and assign the value to it
+			}
+
+
+			values = Object.fromEntries(this.IDs.map(id => [`repeating_weapons_${id}_bleedResist`, Random.Int(0, 10)]))
+
+			let testValues = Object.fromEntries([...Object.entries(values), ...Object.entries(values).map(([id, val]) => [id.replace("bleed", "burn"), Random.Int(0, 10)])]);
+
+			let groupedValues = Object.entries(testValues).reduce((acc, [key, value]) => {
+				let [section, repid, repkey] = key.split("_").slice(1);
+
+				if (!this.IDs.includes(repid)) { this.add(section, {id: repid}); } // Generates a new default item for new ids
+
+				if (this.itemList[repid].type.toLowerCase() == section.slice(0, -1)) { // Is ex. "weapons". Should be "weapon"
+				
+				let propValues = {[repkey]: {value}}
+					if (/\d/.test(repkey.slice(-1))) {
+						propValues = {...propValues, section: section, index: parseInt(repkey)}
+					}
+					acc[repid] = propValues;
+				} else {
+					console.warn(`Item "${repid}" with type "${section}" does not exist... somehow`);
+				}
+				return acc;
+			}, {});
+
+			console.log(groupedValues, this.items);
+			
+		} else {
+			this.#writeError("add");
+		}
+	}
+
+	get output() {
+		return Object.values(this.items).reduce((output, item) => {
+			let itemOutput = item.output;
+			Object.assign(output.editor, itemOutput.editor);
+			Object.assign(output.sheet, itemOutput.sheet);
+			return output;
+		}, {editor: {}, sheet: {}});
+	}
+
+
+
+
+
+
+	// Takes
+	handleEvent(type, info, options={}) {
+		// Check if the new value matches the format
+	}
+
+
+	/*
+	// Returns an array of every sheet attribute key in the current itemList
+	// Requires a key format (from itemSheetKeys)
+	keys(keyFormat, style={prefix:"", start:"", divider:"", end:""}, repstyle={divider:"_"}, ids) {
+		return Object.keys(this.#compute(keyFormat, this.itemList, style, repstyle, ids));
+	}
+
+	// Returns an object containing every sheet attribute in the current itemList
+	// Requires a key format and an itemList containing at least one item
+	attrs(keyFormat, itemList, style={prefix:"", start:"", divider:"", end:""}, repstyle={divider:"_"}, ids) {
+		return Object.fromEntries(this.#compute(keyFormat, itemList, style, repstyle, ids));
+	}
+
+	#compute(keyFormat, itemList, basestyle, repstyle, ids) {
+		
+		// Get itemIds
+		if (!ids) ids = Object.keys(itemList);
+		
+		return Object.entries(keyFormat).reduce((attrs, [key, value]) => {
+			console.log(arguments)
+
+			let style = (repstyle.prefix.includes("repeating_")) ? {...basestyle, ...repstyle} : basestyle;
+
+			// If repeating, change over to using the repeating attribute style "repeating_section_id_key"
+			if (key.includes("repeating_")) {
+				repstyle.prefix = key;
+			} else {
+				let attrValue = (value.attr && value.valid && value.valid(value.attr(itemList))) ? value.attr(itemList) : false;;
+				attrs.push([style.start + [style.prefix, key].join(style.divider) + style.end, attrValue]);
+			}
+
+			// Recursively parse the format
+			if (value.subattrs) {
+
+				// Handle index / array formats (primarily used by repeating sections)
+				if (value.index) {
+					for (let i = 0; i < itemList.length; i++) {
+						if (!value.valid || value.valid(itemList)) {
+							repstyle.prefix = [style.prefix, value.index(itemList, i)].join(repstyle.divider);
+							attrs = [...attrs, ...this.#compute(value.subattrs, value.index(itemList, i), style, repstyle, ids)];
+						}
+					}
+				}
+	
+				// Handle sub-attribute / object formats
+				else {
+					let attrValue = itemList;
+					if (value.attr) {
+						attrValue = (value.valid(itemList)) ? value.attr(itemList) : false;
+					}
+					attrs = [...attrs, ...this.#compute(value.subattrs, attrValue, style, repstyle, ids)];
+				}
+			}
+
+			console.log(attrs)
+			return attrs;
+		}, []);
+	}
+
+	add(inputData) {
+		console.log(this.#accessMode, "mode - Adding new item(s): ", inputData)
+		if (this.#accessMode != "read") {
+			let keyFormat = itemSheetKeys.repitem;
+			let itemList = {}
+			let style = {}
+
+			if (inputData.itemList) { inputData = inputData.itemList; }
+
+			// Add itemListHandlers or itemList
+			if (typeof(inputData) == "object" && length(inputData) > 0) {
+
+				// Adds one or more new items to the itemList
+				for (const [id, data] of Object.entries(inputData)) {
+					this.itemList[id] = data;
+					this.#addAccessors(id);
+
+					itemList = {...itemList, [id]: this.itemList[id]}
+				}
+
+				// Adds the new item(s) to the sheet
+				Object.assign(this.#output, this.attrs(keyFormat, itemList, style));
+			}
+
+			// Add item by type, or add a rollformat
+			else if ([...Object.keys(itemDefaults), "Rollformat"].includes(inputData)) {
+				let keyFormat, itemList, style;
+				let newid = generateRowID();
+				
+				if (inputData == "Rollformat") {
+					// Adds a new rollformat to the item open in the editor
+					this[this.editor.target].rollformats.push(itemFormat.rollformats[0]); // Need to properly set the editor to the itemList for this to work
+					this.editor.IDs.rollformats.push(newid);
+					
+					// A maximum of five rollformats are accepted
+					if (this.editor.IDs.rollformats.length >= 5) {
+						this.#output.rollFormatAddToggle = "true";
+					}
+
+					keyFormat = itemSheetKeys.editor.optionRollFormat.subattrs;
+					itemList = itemFormat.rollformats;
+					style = {prefix: "item"}
+				} else {
+					// Adds a new item to the itemList
+					this.itemList[newid] = {...itemFormat, ...itemDefaults[inputData]}; // This may not work. May need a function to apply default values
+					this.#addAccessors(newid);
+
+					itemList = {[newid]: this.itemList[newid]};
+				}
+				
+				// Adds the new item to the sheet, or the new rollformat to the editor
+				Object.assign(this.#output, this.attrs(keyFormat, itemList, style));
+			}
+		} else {
+			this.#writeError("add");
+		}
+		return this;
+	}
+	*/
+
+	// Adds one or more new items to the itemList. Accepts itemListHandlers, itemLists or an item type (ex. "Weapon". Case sensitive)
+	// If using an item type the item will match the default values of that item type
+	// .add("Rollformat") can alternatively be used to add a new rollformat in the editor
+	add(inputData, options={id:false}) {
+		console.log(this.#accessMode, "mode - Adding new item(s): ", inputData)
+		if (this.#accessMode != "read") {
+			if (inputData.itemList) { inputData = inputData.itemList; }
+
+			// Add items from another itemList
+			if (typeof(inputData) == "object" && length(inputData) > 0) {
+
+				// Adds one or more new items to the itemList
+				for (const [id, data] of Object.entries(inputData)) {
+					this.itemList[id] = new itemNode(data, id);
+					this.#addAccessors(id);
+					// Needs function to calculate output
+				}
+			}
+
+			// Add item by type, or add a rollformat
+			else if (is(capitalize(inputData)).In([...Object.keys(itemNode.format.defaults), "Rollformat"])) {
+				let newid = options.id || generateRowID();
+				
+				if (inputData == "Rollformat") {
+					// Adds a new rollformat to the item open in the editor
+					this[this.editor.target].add(inputData); // Need to properly set the editor to the itemList for this to work
+					this.editor.IDs.rollformats.push(newid);
+					
+					// A maximum of five rollformats are accepted
+					if (this.editor.IDs.rollformats.length >= 5) {
+						this.#output.rollFormatAddToggle = "true";
+					}
+				} else {
+					// Adds a new item to the itemList
+					this.itemList[newid] = new itemNode(inputData, newid); // May work
+					this.#addAccessors(newid);
+					// Needs function to calculate output
+				}
+			}
+		} else {
+			this.#writeError("add");
+		}
+		return this;
+	}
+	#add(inputData) {
+		let oldAccess = this.#accessMode;
+		this.#accessMode = "write";
+		this.add(inputData);
+		this.#accessMode = oldAccess;
+	}
+
+	// Deletes one or more items to the itemList. Accepts one or more item ids
+	delete(itemId) {
+		if (this.#accessMode != "read") {
+			let itemIds = itemId;
+			if (length(arguments) > 2) itemIds == arguments;
+			if (is.String(itemId)) itemIds == [itemId];
+			if (is.Object(itemId)) itemIds == Object.keys(itemId);
+	
+			console.log(this.#accessMode, "mode - Deleting item(s): ", itemId)
+			
+			itemIds.forEach(id => {
+				if (this.#accessMode != "read") {
+					delete this[id];
+					this.#deleteAccessors(id);
+				} else {
+					this.#writeError("delete");
+				}
+
+				// Check if any items link to the item
+				// If yes, ask if those items should be unlinked or deleted. If possible, list the linked items in the query
+			});
+			return this;
+		} else {
+			this.#writeError("add");
+		}
+	}
+
+	// Item id accessors (getters and setters) simplyfy accessing the itemList. Instead of writing itemList.itemList[id], itemList[id] may be used
+	// Must be added or deleted together with their associated item id
+	#addAccessors(itemId) {
+		Object.defineProperty(this, itemId, {
+			get() {
+				return this.itemList[itemId]
+			},
+			set(value) {
+				if (this.#accessMode != "read") {
+					this.itemList[itemId] = value;
+				} else {
+					this.#writeError("set");
+				}
+			},
+			configurable: true,
+		});
+	}
+	#deleteAccessors(itemId) {
+		delete this[itemId];
+	}
+
+	// Imports one or more items from an export script
+	// The items are added to the current itemList by default. "Replace" mode may be used to overwrite the itemList
+	import(itemScript, mode="Add") {
+		if (this.#accessMode != "read") {
+			// - Still need to send a querry to the player confirming they want to overwrite the itemList
+			this.itemList = JSON.parse(itemScript);
+		} else {
+			this.#writeError("import");
+		}
+
+		// If the item is linked, do not create it if the linked item doesn't exist
+	}
+
+	// Exports an item with a certain id, or the entire current itemList if no id is provided
+	// If chatbuttons is enabled, post a chat button to import the items
+	export(itemId, chatbuttons=false) {
+		if (itemId) {
+			return JSON.stringify(this[itemId]);
+		} else {
+			return JSON.stringify(this.itemList);
+		}
+
+		// If exportLinked is true, use recursion to also include any linked items (and items linked to those items etc.)
+		// May cause issues if used on a filtered list. Some linked items may not be in the list. Have all itemLists give a origItemList to their children?
+	}
+
+	// As export, but generates share messages for each item
+	// If chatbuttons is enabled, add chat buttons to import either individual items or every item
+	share(itemId, chatbuttons=false) {
+		return this; // Allows chaining
+	}
+
+	// Returns a subset of the itemList. Allows other handler methods to affect only part of the itemList
+	filter(predicate, useOrigList=false) {
+		let itemList = (useOrigList) ? this.origItemList : this.itemList;
+		return this.IDs
+			.filter(id => predicate(itemList[id]))
+			.reduce((acc, id) => (acc.add({[id]: itemList[id]}), acc), new itemListHandler(this));
+	}
+
+	/* Some pre-made filters for commonly accessed values */
+	get equipped() {
+		return this.filter(item => item.equip?.equipped);
+	}
+	linked(itemId, recursive=true) {
+		let linkedItems = {};
+		if (typeof(itemId) == "string") {
+			linkedItems = this.filter(item => item.linked?.id == itemId, !recursive);
+		}
+		else if (typeof(itemId) == "object") {
+			if (!Array.isArray(itemId)) {
+				itemId = Object.keys(itemId);
+			}
+			itemId.forEach(id => {
+				Object.assign(linkedItems, this.linked(id, false));
+			});
+		}
+		if (recursive) {
+			let chainLinkedItems = this.filter(item => linkedItems.IDs.includes(item.linked?.id) && !(item in linkedItems)); // May not work
+			if (length(chainLinkedItems) > 0) {
+				Object.assign(linkedItems, this.linked(chainLinkedItems.IDs));
+			}
+		}
+		return linkedItems;
+	}
+
+	/* Assorted */
+	#writeError(method) {
+		throw new Error(`Attempted to use method "${method}" in itemList without accessing in write mode`)
+	}
+}
+
+/* The actual itemListHandler instance that all other code interacts with */
+let itemList = new itemListHandler();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+on("clicked:testA", function(info) {
+	console.log("Clicked button A");
+
+	itemList.access("write", {editor: true}, () => {
+		//console.log(test);
+		//console.log(test.itemList);
+		//console.log(test.items);
+		//console.log(test.IDs);
+
+
+		itemList.add("Weapon");
+		console.log(itemList.output);
+
+		console.log(itemList.items);
+	});
+});
+
+
+
+on("clicked:testB", function(info) {
+	console.log("Clicked button B");
+
+	itemList.access("write", {}, () => {
+		console.log(itemList)
+		let filteredItemList = itemList.filter(item => item.type == "Tool");
+		console.log(filteredItemList);
+		console.log(filteredItemList.export());
+		console.log(filteredItemList.IDs, filteredItemList[filteredItemList.IDs[0]])
+		filteredItemList[filteredItemList.IDs[0]].type = "Weapon";
+		console.log(itemList)
+		itemList.access("read", {}, () => {
+			console.log("Began second access");
+			itemList.access("write", {}, () => {
+				console.log("Began third access");
+			});
+		});
+	});
+});
+
+const test = new Proxy(itemList, {
+	get: function (target, prop, receiver) {
+		if (prop in target) {
+			return target[prop];
+		}
+	},
+
+	deleteProperty(target, prop) {
+		if (prop in target) {
+			delete target[prop];
+			console.log(`property removed: ${prop}`);
+			// Expected output: "property removed: texture"
+		}
+	},
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*--- Repeating inventory events ---*/
+function itemEvent(event, element) {
+	switch (element) {
+		case "editor": return "Currently in development"; // Currently doesn't return. Need to sync the itemList and editor
+		case "reorder": return Object.keys(itemNode.format.defaults).reduce((rows, item) => rows += ` change:_reporder:${item}s`, "");
+		default: return Object.keys(itemNode.format.defaults).reduce((rows, item) => rows += ` ${event}:repeating_${item}s${(element) ? `:${element}` : ""}`, "");
+	}
+}
+
+
+
+/* Item editor sync changes */
+on(itemEvent("change", "editor"), function(info) { // - Doesn't work. Will be updated after adding the new item data parsers
+	itemList.access("write", {}, () => {
+		let attr = info.sourceAttribute; // ????
+
+		if (attr.includes("repeating_")) {
+			let [section, repid, repkey] = info.sourceAttribute.split("_").slice(1);
+			let repindex = itemList.editor.IDs[section].indexOf(repid);
+			switch (section) {
+				case "rollformats": itemList.rollformats[repindex][repkey];
+				case "ailments": break;
+			}
+		}
+	});
+});
+
+/* Add repeating item or rollformat */
+on("clicked:addItem", function(info) {
+	let itemtype = capitalize(info.htmlAttributes.id.split("_")[1]);
+	itemList.access("write", {}, () => { itemList.add(itemtype).endAccess(); });
+});
+
+
+/* Remove repeating item or rollformat */
+/*
+on("remove:repeating_rollformats" + itemEvent("remove"), function(info) {
+	// - Change this over to using the itemList
+
+	let itemType = info.sourceAttribute.split("_")[1];
+	let itemId = info.sourceAttribute.split("_")[2];
+
+	if (itemType == "rollformats") {
+		saveEditor("item", itemEditorAttrs);
+		getSectionIDs("repeating_rollformats", idarray => {
+			console.log(idarray);
+			if (idarray.length < 5) {
+				setAttrs({"rollFormatAddToggle": "0"});
+			}
+		});
+	}
+
+	console.log(`${itemType} section - removed item: ${itemId}`);
+});
+*/
+
+/* Repeating item share button */
+on(itemEvent("clicked", "shareItem"), function(info) {
+	console.log(info);
+});
+
+
+
+/* Reorder repeating items */
+on(itemEvent("reorder"), function(info) {
+	let itemType = info.sourceAttribute.split("_")[3];
+
+	let newOrder = info.newValue; // Handle if this is undefined. Unsure why it happens
+
+	// Update the item order in the itemList
+
+	console.log(`${itemType} section - changed item order to: ${newOrder}`);
+});
+
+
+/* Clear equipment and skills search bar */
+on("clicked:clearSearchBar", function() {
+	setAttrs({"itemSearchInput":""});
+	// - Also needs to clear the advanced search options
+});
+/*--- Repeating inventory end ---*/
 
 
 
@@ -17861,7 +18629,7 @@ const repattrkeys = {
 	"ailDamageTypeTrigger", "ailBeforeResistance", "ailPositiveType", 
 	"ailCustomResistance", "ailCustomResistanceNum", "ailCustomResistanceNumEgo"],
 
-	rollformats: ["rollType", "diceCount", "diceMax", "dicePower", "AutoScript"],
+	rollformats: ["mode", "type", "damagetype", "count", "max", "power", "autoscript"],
 
 	inventory: [] // Add this later
 }
@@ -18124,88 +18892,6 @@ function packageAttrData(values={}, replaceList={}, dataFormat, repFormat, type=
 	return textbase;
 }
 
-
-/* Item Editor */
-/* Item attributes used in the item editor as well as their default values. Includes both normal and repeating attributes */
-/* When creating a new item, override the default values with those of the specific item created (see below) */
-/* In addition to a default value a check function can be provided. This is used in packageAttrData() */
-const itemEditorAttrs = {
-	"type": "None",
-	
-	"optionRollFormat": 0,
-		"repeating_rollformats:rollFormats:includeDefault": {
-			rollUse: "Roll", rollType: "Any", rollDamage: ["None", isAttr({rollUse:"Roll", rollType:"Attack"},"include:attr")],
-			diceCount: 1, diceMax: 6, dicePower: 0, AutoScript: ""
-		},
-	
-	"optionUseable": 0,
-
-	"optionLinked": 0,
-
-	"optionMystery": 0,
-	
-	"optionEquipSlots": 0,
-
-	"optionTags": 0,
-
-	"optionStyle": 0,
-		"optionIcon": 0,
-		"optionColor": 0,
-	
-	"optionLimitedUses": 0,
-		"optionUses": 0, "usesMax": 0, "useMode": "Limited",
-		"optionLightCost": 0, "lightCost": 0,
-	
-	"optionResistance": 0,
-		"optionDamageResistance": 0,
-		"optionAilmentResistance": 0,
-			"burnResist": 0, "bleedResist": 0, "damageResist": 0,
-			"repeating_ailments:customResist:ignoreDefault": {
-				ailCustomResistance: [0, isAttr({self:true},"include:rep")], ailName: "Unknown", itemAilCustomResistanceNum: 0
-			}
-}
-const itemDefaults = {
-	Weapon: {
-		type: "Weapon",
-	},
-	Outfit: {
-		"optionRollFormat": 1, repeating_rollformats: {"rollType": "Block"},
-	},
-	Augment: {},
-	Tool: {},
-	Skill: {},
-	Special: {}
-}
-
-/* Item attributes used in the Import/Export data functionality */
-const itemScriptAttrs = [
-	"description", "effect"
-]
-
-/* Item attribute check values */
-function isAttr(attrs, result) {
-	return (p) => {
-		
-		const checkAttr = (key, value) => {
-			switch (value) {
-				case true: return isTrue(p[key]);
-				case false: return isFalse(p[key]);
-				default: return (p[key] == value);
-			}
-		}
-
-		for (const [key, value] of Object.entries(attrs)) {
-			if (!checkAttr(key, value)) {
-				let [action, scope] = result.split(":");
-
-				if (action == "include") { return "exclude:" + scope; }
-				if (action == "exclude") { return "include:" + scope; }
-			}
-		}
-		return result;
-	}
-}
-
 /* Item editor open button */
 on(itemEvent("clicked", "edit-item"), function(info) {
 	let itemData = info.sourceAttribute.replace("_edit-item", "_itemData");
@@ -18274,8 +18960,8 @@ on('clicked:combatToggle', (info) => {
 function calcStagger(ST, ST_max, staggerVal, staggerMode) {
 	log({arguments})
 	switch (staggerMode) {
-		case "x": return Math.min(Math.floor(ST + (staggerVal * ST_max)), ST_max); break;
-		case "+": return Math.min(Math.floor(ST + staggerVal), ST_max); break;
+		case "x": return Math.min(Math.floor(ST + (staggerVal * ST_max)), ST_max);
+		case "+": return Math.min(Math.floor(ST + staggerVal), ST_max);
 		case "=": return Math.floor(staggerVal);
 	}
 }
@@ -18349,7 +19035,7 @@ on('clicked:repeating_ailments:displaycustom', (info) => {
 on('clicked:repeating_ailments:copycustom', (info) => {
 	const rowid = info.sourceAttribute.split('_')[2];
 
-    getAttrs([...ailmentAttributes.map(attr => `repeating_ailments_${rowid}_${attr}`)], function(values) {
+    getAttrs([...ailmentAttrs.map(attr => `repeating_ailments_${rowid}_${attr}`)], function(values) {
 	let newrowid = generateRowID();
 	let newrowattrs = Object.fromEntries(Object.entries(values).map(attr => [attr[0].replace(rowid, newrowid), attr[1]]));
 	newrowattrs[`repeating_ailments_${newrowid}_ailName`] += ` (${getTranslationByKeyCustom("Copy", "message-copy")})`;
@@ -18603,9 +19289,7 @@ function updateCustomAilments(triggerList=["OnAction"], mode="standard", roundEn
 function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=()=>{}) {
 
 	let ailPrefix = `repeating_ailments_${rowid}_`;
-	let ailmentAttrs = ["ailNum", "ailNumNextTurn", "ailDecayPause", "ailName", "ailIcon", "ailTrigger", "ailEffect", "ailEffectMode", "ailEffectVal", "ailDecayWhenHit",
-		"ailCustomResistanceNum", "ailCustomResistanceNumEgo", "ailDecayRoundEnd", "ailDecayMode", "ailDecayVal", "ailDecayMin", "ailMax", "ailMaxBehavior", "ailMessageCheck", "ailMessage"];
-	ailmentAttrs = ailmentAttrs.map(attr => `${ailPrefix}${attr}`);
+	let ailmentAttrs = ailmentAttrs.map(attr => `${ailPrefix}${attr}`);
 
     getAttrs([...ailmentAttrs, "distortState", "egoActiveState", "egoType", "settingWhisperRolls", "settingWhisperTarget", "settingMuteMessage",
 		"HP", "StagRes", "SP", "Light", "distortCounter", "difficulty", "baseSpeed", "baseLuckNum", "character_name", "THP_Sources", "TST_Sources"], function(values) {
@@ -19575,6 +20259,14 @@ function validateMathFormula(mathString, vars, errors, options={strict:false}) {
 	}
 	return true;
 }
+
+/* Collection of random value generators */
+const Random = {
+	Int(min, max) {
+		const [minCeiled, maxFloored] = [Math.ceil(min), Math.floor(max)]
+		return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
+	}
+}
 /* --- Math functionality end --- */
 
 
@@ -19645,12 +20337,43 @@ function deleteMultiple(object, ...args) {
 function length(object) {
 	return keys = Object.keys(object).length;
 }
-// Checks if a value is true or false
-function isFalse(value) {
-	return (value == false || value == "false" || value == 0 || value == undefined || value == null);
-}
-function isTrue(value) {
-	return !isFalse(value);
+
+const is = new Proxy( // In English: "When accessing "is", treat it as "Reflect.construct". .bind(null, {}) causes "{}" to always be the first argument of .construct()"
+  	Reflect.construct.bind(null, {}), { // "Other arguments of is() are included after {}. is("foo") gives "Reflect.construct({}, "foo"), which is the same as "new Object("foo")"
+		get(target, prop, val) { return Reflect.get(checkVal, prop, val); }, // "On is, when using a property accessor "is.prop", instead do "checkVal.prop" "
+		set(target, prop, val) { return Reflect.set(checkVal, prop, val); }, // "Do the same for "is.prop = value. Both of these also work for methods like "is.method()"
+		apply(target, thisArg, argumentsList) { // "On is, when making a function call is(), treat it as if "new Object(arguments)" was called, but then..."
+			is.x = argumentsList[0]; // "... set the static property x of is (which instead sets checkVal) to the first argument in new Object(arguments)..."
+			return checkVal; // "... and return the checkVal class instead of a creating an new Object instance"
+    	} // "In summary, this makes "is(v).method(u)" the same as writing "checkVal.x = v; checkVal.method(u)" "
+  	} // To whichever future dev sees this: thank you for coming to my TED talk
+);
+
+// A collection of custom data type checks
+class checkVal {
+	static x;
+
+	static Int(i, opts={}) { this.x = i; return !isNaN(parseInt(i)) && this.Opts(opts); }
+	static String(s, opts={newlines:true}) { return typeof(s) == "string" && (opts.newline) ? !s.includes("\n") : true; }
+	static ID(s, opts={}) { return is.String(s) && (opts.strict ? /^-[A-Za-z0-9-]{19}$/ : /^-.{19}$/).test(s) } // Checks if a Roll20-style id is valid
+	
+	static False(b) { return [false, "false", 0].includes(b); }
+	static True(b) { return [true, "true", 1].includes(b); }
+	static Bool(b) { return [false, true, "false", "true", 0, 1].includes(b); }
+
+	static Array(a, opts={}) { return Array.isArray(a) && this.Opts(a.length, opts); }
+	static Object(o, opts={}) { return typeof(o) == "object" && !Array.isArray(o) && this.Opts(length(o), opts); }
+	static In(o) { return (is.Object(o)) ? this.x in o : o.includes(this.x) }
+
+	static Min(min, opts={inclusive:false}) { return is.Int(this.x) && is.Int(min) && (opts.inclusive ? this.x >= min : x > min); }
+	static Max(max, opts={inclusive:false}) { return is.Int(this.x) && is.Int(max) && (opts.inclusive ? this.x <= max : x < max); }
+	static Between(min, max, opts={inclusive:false}) { return this.Opts({...opts, min: min, max: max}); }
+	
+	static Opts(opts={min:false, max:false, inclusive:false}) {
+		if (opts.min && !is.Min(opts.min, opts)) { return false; }
+		if (opts.max && !is.Max(opts.max, opts)) { return false; }
+		return true;
+	}
 }
 
 // Works as the range() Python function
