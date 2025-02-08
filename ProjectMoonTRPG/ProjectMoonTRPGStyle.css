@@ -792,6 +792,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     }
     .repcontrol_add {
         background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/heal.png');
+        background-size: 90%;
     }
 
     /* A custom add button is used instead of the default one */
@@ -2460,6 +2461,11 @@ button[type=action].challengeButton::before {
     display: flex;
     flex-wrap: wrap;
     padding: 0 5px 5px 5px;
+
+    &.inline {
+        padding: 3px 0 0 5px;
+        gap: 3px;
+    }
 }
 .itemOptionContainer label {
     width: 100%;
@@ -2479,12 +2485,30 @@ button[type=action].challengeButton::before {
     position: relative;
     box-sizing: border-box;
     padding: 10px 0 0 10px;
+    order: 10;
+
+    &.inline {
+        padding-top: 0;
+        gap: 3px;
+        
+        & label {
+            padding-top: 5px;
+        }
+    }
 }
 .itemOptionContainer > .itemOption {
     width: 33%;
+    height: 32px;
+
+    &.inline {
+        width: 32%;
+        height: 26px;
+    }
 
     &:has(> label input[type="checkbox"]:checked) {
         width: 100%;
+        height: auto;
+        order: 0;
     }
 }
 
@@ -2537,10 +2561,13 @@ button[type=action].challengeButton::before {
 
 /* Item editor - Roll Formats */
 .itemOptionContainer .rollFormatContainer {
-    padding: 6px 0 4px 0;
+    padding: 4px 0 4px 0;
 
     .repitem {
         width: 100%;
+        padding: 3px;
+        border: 2px solid var(--color-light-gray);
+        border-radius: 5px;
 
         :is(.repcontrol_move, .repcontrol_del) {
             box-sizing: border-box;
@@ -2559,6 +2586,34 @@ button[type=action].challengeButton::before {
         position: absolute;
         top: 6px;
         right: 0;
+    }
+
+    .combatRoll {
+        margin-right: 0px;
+    }
+
+    .advSelect {
+        height: 25px;
+        width: 26px;
+        margin-right: 1px;
+        color: transparent;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+    }
+    .advSelect::-ms-expand {
+        display: none;
+    }
+    .advSelect:has(> option[value="false"]:checked),
+    .advSelect option {
+        color: var(--color-white);
+    }
+    .advSelect:has(> option[value="Advantage"]:checked) {
+        background-color: var(--color-light-green) !important;
+        background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowUp.png');
+    }
+    .advSelect:has(> option[value="Disadvantage"]:checked) {
+        background-color: var(--color-HP) !important;
+        background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowDown.png');
     }
 
     .autoScriptButton {

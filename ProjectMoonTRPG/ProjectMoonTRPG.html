@@ -174,7 +174,7 @@
 	<div class="editorControls">
 
 		<!-- Item type -->
-		<select name="attr_itemType" class="darkInput itemType">
+		<select name="attr_itemEditType" class="darkInput itemType">
 			<option value="Weapon" data-i18n="item-type-weapon">Weapon</option>
 			<option value="Outfit" data-i18n="item-type-outfit">Outfit</option>
 			<option value="Augment" data-i18n="item-type-augment">Augment</option>
@@ -196,7 +196,7 @@
 	<div class="itemOptionContainer">
 
 		<!-- Option: Roll formats -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_optionRollFormat" value="true"><span>Roll Format</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionRollFormat" value="true"><span>Roll Format</span></label>
 			<div class="rollFormatContainer">
 				
 				<!-- Custom add repeating rollformat button -->
@@ -228,7 +228,7 @@
 
 						<!-- Damage type (Attack only) -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_rollType" value="Attack">
-						<select name="attr_rollDamagetype" class="whiteInput hide-item">
+						<select name="attr_rollDamageType" class="whiteInput hide-item">
 							<option value="None" data-i18n="weapon-type-None">---</option>
 							<option value="Slash" data-i18n="weapon-type-Slash">Slash</option>
 							<option value="Pierce" data-i18n="weapon-type-Pierce">Pierce</option>
@@ -247,70 +247,179 @@
 							</div>
 						</div>
 
-						<!-- Roll format AutoScript -->
-						<button type="action" class="darkButton autoScriptButton script" name="act_edit-item-autoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-						<input type="text" name="attr_rollAutoscript" hidden="true">
+						<!-- Roll advantage -->
+						<select name="attr_itemEditRollAdv" class="darkInput centerIcon advSelect">
+							<option value="false" data-i18n="item-none">---</option>
+							<option value="Advantage" data-i18n="helper-text-adv">Advantage</option>
+							<option value="Disadvantage" data-i18n="helper-text-disadv">Disadvantage</option>
+						</select>
 
+						<!-- Roll format AutoScript -->
+						<button type="action" class="darkButton autoScriptButton script" name="act_edit-rollautoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+						<input type="text" name="attr_rollautoscript" hidden="true">
+					</div>
+
+					<div class="itemOptionContainer inline">
+
+						<!-- Recycle / store roll -->
+						<div class="itemOption inline rowContainer"><label><input type="checkbox" name="attr_itemEditOptionStoreRoll" value="true"><span>Recycle</span></label>
+							<div class="rowContainer combatRoll">
+								<div class="rollFormatBlock">
+									<input type="number" class="diceCount noSpinner" name="attr_storeCount" value="0">
+									<div class="plainText">D</div>
+									<input type="number" class="diceMax noSpinner" name="attr_storeMax" value="0">
+									<div class="plainText">+</div>
+									<input type="number" class="dicePower noSpinner" name="attr_storePower" value="0">
+								</div>
+							</div>
+
+							<select name="attr_storeAdv" class="darkInput centerIcon advSelect">
+								<option value="false" data-i18n="item-none">---</option>
+								<option value="Advantage" data-i18n="helper-text-adv">Advantage</option>
+								<option value="Disadvantage" data-i18n="helper-text-disadv">Disadvantage</option>
+							</select>
+
+							<!-- Recycle AutoScript -->
+							<button type="action" class="darkButton autoScriptButton script" name="act_edit-storeautoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+							<input type="text" name="attr_storeautoscript" hidden="true">
+						</div>
+
+						<!-- Roll resource -->
+						<div class="itemOption inline rowContainer"><label><input type="checkbox" name="attr_itemEditOptionRollAction" value="true"><span>Action</span></label>
+							<input type="number" class="darkInput" name="attr_rollActionCost" value="1" min="0">
+
+							<select name="attr_rollActionType" class="whiteInput">
+								<option value="None" data-i18n="item-none">---</option>
+								<option value="Action" data-i18n="resource-action">Action</option>
+								<option value="Reaction" data-i18n="resource-reaction">Reaction</option>
+								<option value="Counter" data-i18n="resource-counter">Counter</option>
+								<option value="Block" data-i18n="resource-block">Block</option>
+								<option value="Evade" data-i18n="resource-evade">Evade</option>
+								<option value="Light_Regen" data-i18n="resource-light-regen">Light Regen</option>
+							</select>
+						</div>
+
+						<div class="itemOption inline rowContainer"><label><input type="checkbox" name="attr_itemEditOptionRollRection" value="true"><span>Rection</span></label>
+							<input type="number" class="darkInput" name="attr_rollReactionCost" value="1" min="0">
+
+							<select name="attr_rollReactionType" class="whiteInput">
+								<option value="None" data-i18n="item-none">---</option>
+								<option value="Action" data-i18n="resource-action">Action</option>
+								<option value="Reaction" data-i18n="resource-reaction">Reaction</option>
+								<option value="Counter" data-i18n="resource-counter">Counter</option>
+								<option value="Block" data-i18n="resource-block">Block</option>
+								<option value="Evade" data-i18n="resource-evade">Evade</option>
+								<option value="Light_Regen" data-i18n="resource-light-regen">Light Regen</option>
+							</select>
+						</div>
 					</div>
 				</fieldset>
 			</div>
-
-			<!-- Repeating section of between 1 and 5 roll formats -->
-			<!-- "repeating_rollformats:rollFormats": {"rollType": "Any", "diceCount": 1, "diceMax": 6, "dicePower": 0, "AutoScript": ""} -->
 		</div>
 
 		<!-- Option: Linked -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_optionLinked" value="true"><span>Linked</span></label>
-			
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionLinked" value="true"><span>Linked</span></label>
+
+			<!-- Unfinished -->
+			Linked ID: <input type="text" class="whiteInput" name="attr_linkedId" placeholder="Linked id">
+			Equip Together: <input type="checkbox" class="whiteInput" name="attr_linkedEquipTogether" value="true">
 		</div>
 
 
 		<!-- Option: Mystery -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_optionMystery" value="true"><span>Mystery</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionMystery" value="true"><span>Mystery</span></label>
 			
+			<!-- Unfinished -->
+			Mystery Activation: <input type="text" class="whiteInput" name="attr_itemEditMysteryActivation" placeholder="Mystery activation">
 		</div>
 
 
-		<!-- Option: Mystery -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_optionEquipSlots" value="true"><span>Equip slots</span></label>
+		<!-- Option: Equip Slots -->
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionEquipSlots" value="true"><span>Equip slots</span></label>
 			
+			<!-- Unfinished -->
+			Slot Type: <input type="text" class="whiteInput" name="attr_slotType" placeholder="Slot type">
+			Slot Use: <input type="number" class="whiteInput" name="attr_slotUse" placeholder="1">
 		</div>
 
 
 		<!-- Option: Tags -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_optionTags" value="true"><span>Tags</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionTags" value="true"><span>Tags</span></label>
 			<!-- Should be hidden when a game settings is disabled -->
 		</div>
 
 
 		<!-- Option: Style -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_optionStyle" value="true"><span>Style</span></label>
-			<div class="itemOption"><label><input type="checkbox" name="attr_optionIcon" value="true"><span>Icon</span></label></div>
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionStyle" value="true"><span>Style</span></label>
+			<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionIcon" value="true"><span>Icon</span></label>
+			
+				<!-- Unfinished -->
+				Icon Source: <input type="text" class="whiteInput" name="attr_iconSource" placeholder="Icon source">
+			</div>
+
+			<!-- Unfinished -->
+			Color: <input type="text" class="whiteInput" name="attr_color" placeholder="Color">
+			Accent: <input type="text" class="whiteInput" name="attr_accent" placeholder="Accent">
 		</div>
 
-		
+
 		<!-- Option: Limited uses -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_optionLimited" value="true"><span>Limited uses</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionLimited" value="true"><span>Limited uses</span></label>
 			
 			<!-- Uses -->
-			<div class="itemOption"><label><input type="checkbox" name="attr_optionUses" value="true"><span>Uses</span></label>
+			<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionUses" value="true"><span>Uses</span></label>
 				<div class="rowContainer">
 					<input type="checkbox" class="fade-toggle" name="attr_itemEditUsesMax" value="0" hidden="true">
 					<div class="mediumIcon centerIcon reusable"></div>
 					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemUsesMax" min="0" value="0"></div>
 					
+					<!-- May not look right -->
+					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemUsesCurrent" min="0" value="0"></div>
+
 					<input type="checkbox" class="hide-toggle-rev-next" name="attr_itemEditUsesMax" value="0" hidden="true">
-					<select name="attr_itemEditUseMode" class="hide-item-rev darkInput">
-						<option value="Limited" data-i18n="item-usemode-limited">Limited: Manually restore uses</option>
-						<option value="Refresh" data-i18n="item-usemode-refresh">Refresh: Restore uses on Refresh</option>
-						<option value="Loaded" data-i18n="item-usemode-loaded">Loaded: Consumes uses from Ammo item</option>
-						<option value="Ammo" data-i18n="item-usemode-ammo">Ammo: Used by Loaded items</option>
-					</select>
+					<div class="hide-item-rev">
+						<select name="attr_itemEditUseType" class="darkInput">
+							<option value="None" data-i18n="item-none">---</option>
+							<option value="Standalone" data-i18n="item-usetype-standalone">Standalone: Used like a tool</option>
+							<option value="Applied" data-i18n="item-usetype-applied">Applied: Used like a skill</option>
+							<option value="Both" data-i18n="item-usetype-both">Both: Used as a tool or skill</option>
+						</select>
+
+						<select name="attr_itemEditUseMode" class="darkInput">
+							<option value="None" data-i18n="item-none">---</option>
+							<option value="Limited" data-i18n="item-usemode-manual">Manual: Manually restore uses</option>
+							<option value="Refresh" data-i18n="item-usemode-refresh">Refresh: Restore uses on Refresh</option>
+							<option value="Recover" data-i18n="item-usemode-recover">Recover: Restore uses on Recover</option>
+							<option value="Combat" data-i18n="item-usemode-combat">Combat: Restore uses on Combat end</option>
+							<option value="Round" data-i18n="item-usemode-round">Round: Restore uses on Round end</option>
+							<option value="Loaded" data-i18n="item-usemode-loaded">Loaded: Consumes uses from Ammo item</option>
+							<option value="Ammo" data-i18n="item-usemode-ammo">Ammo: Used by Loaded items</option>
+						</select>
+					</div>
+				</div>
+			
+				<!-- Uses Resource -->
+				<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionUsesResource" value="true"><span>Uses Resource</span></label>
+					<div class="rowContainer">
+						
+						<!-- Unfinished -->
+						<div>
+							Opt. Action: <input type="checkbox" class="whiteInput" name="attr_itemEditOptionUseAction0" value="true">
+							Use Act Cost: <input type="number" class="whiteInput" name="attr_itemEditUseActionCost0" placeholder="1">
+							Use Act Type: <input type="text" class="whiteInput" name="attr_itemEditUseActionType0" placeholder="Act type">
+						</div>
+						<div>
+							Opt. Reaction: <input type="checkbox" class="whiteInput" name="attr_itemEditOptionUsesRection0" value="true">
+							Use React Cost: <input type="number" class="whiteInput" name="attr_itemEditUseReactionCost0" placeholder="1">
+							Use React Type: <input type="text" class="whiteInput" name="attr_itemEditUseReactionType0" placeholder="React type">
+						</div>
+					</div>
 				</div>
 			</div>
 
+
 			<!-- Light cost -->
-			<div class="itemOption"><label><input type="checkbox" name="attr_optionLightCost" value="true"><span>Light cost</span></label>
+			<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionLightCost" value="true"><span>Light cost</span></label>
 				<div class="rowContainer">
 					<input type="checkbox" class="fade-toggle" name="attr_itemEditLightCost" value="0" hidden="true">
 					<div class="mediumIcon centerIcon light"></div>
@@ -322,15 +431,39 @@
 
 		
 		<!-- Option: Resistances -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_optionResist" value="true"><span>Resistances</span></label>
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionResist" value="true"><span>Resistances</span></label>
 			
 			<!-- Damage Resistance -->
-			<div class="itemOption"><label><input type="checkbox" name="attr_optionResistDamage" value="true"><span>Damage resistance</span></label>
-			
+			<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionResistDamage" value="true"><span>Damage resistance</span></label>
+				<div class="rowContainer">
+
+					<!-- Unfinished -->
+					<div>
+						Pierce Mode: <input type="text" class="whiteInput" name="attr_pierceMode" placeholder="Pierce mode">
+						Pierce HP Base: <input type="number" class="whiteInput" name="attr_pierceBaseHP" placeholder="1">
+						Pierce HP Flat: <input type="number" class="whiteInput" name="attr_pierceFlatHP" placeholder="1">
+						Pierce ST Base: <input type="number" class="whiteInput" name="attr_pierceBaseST" placeholder="1">
+						Pierce ST Flat: <input type="number" class="whiteInput" name="attr_pierceFlatST" placeholder="1">
+					</div>
+					<div>
+						Slash Mode: <input type="text" class="whiteInput" name="attr_slashMode" placeholder="Slash mode">
+						Slash HP Base: <input type="number" class="whiteInput" name="attr_slashBaseHP" placeholder="1">
+						Slash HP Flat: <input type="number" class="whiteInput" name="attr_slashFlatHP" placeholder="1">
+						Slash ST Base: <input type="number" class="whiteInput" name="attr_slashBaseST" placeholder="1">
+						Slash ST Flat: <input type="number" class="whiteInput" name="attr_slashFlatST" placeholder="1">
+					</div>
+					<div>
+						Blunt Mode: <input type="text" class="whiteInput" name="attr_bluntMode" placeholder="Blunt mode">
+						Blunt HP Base: <input type="number" class="whiteInput" name="attr_bluntBaseHP" placeholder="1">
+						Blunt HP Flat: <input type="number" class="whiteInput" name="attr_bluntFlatHP" placeholder="1">
+						Blunt ST Base: <input type="number" class="whiteInput" name="attr_bluntBaseST" placeholder="1">
+						Blunt ST Flat: <input type="number" class="whiteInput" name="attr_bluntFlatST" placeholder="1">
+					</div>
+				</div>
 			</div>
 
 			<!-- Ailment Resistance -->
-			<div class="itemOption"><label><input type="checkbox" name="attr_optionResistAilments" value="true"><span>Ailment resistance</span></label>
+			<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionResistAilments" value="true"><span>Ailment resistance</span></label>
 				
 				<!-- Burn/Bleed/Damage Resist -->
 				<div class="rowContainer defaultResistDisplay">
@@ -382,14 +515,26 @@
 					</fieldset>
 				</div>
 			</div>
-		
+		</div>
+
+
+		<!-- Option: Custom UI -->
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionCustomUI" value="true"><span>Custom UI</span></label>
+			
+			<!-- Unfinishes -->
+			<input type="checkbox" class="whiteInput" name="attr_damageTypeUI" value="true">
+			<input type="checkbox" class="whiteInput" name="attr_rangeUI" value="true">
+			<input type="checkbox" class="whiteInput" name="attr_specialUI" value="true">
+			<input type="checkbox" class="whiteInput" name="attr_halfUI" value="true">
+		</div>
+
+
+		<!-- Option: Card -->
+		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionCardCombat" value="true"><span>Card</span></label>
+			<!-- Should be hidden when a game settings is disabled -->
 		</div>
 
 	</div>
-
-	<!-- data-i18n="missing-item-editor-translation" -->
-
-
 	<!-- Item options end -->
 
 	<!-- Output text field. Should be hidden before release -->
@@ -4989,7 +5134,7 @@
 			<div class="itemButtons">
 				<button type="action" class="darkInput shareButton share" name="act_share-item" data-i18n-title="share" title="Share info"></button>
 				<button type="action" class="darkInput editButton edit" name="act_edit-item" data-i18n-title="edit" title="Edit"></button>
-				<button type="action" class="darkInput autoScriptButton script" name="act_edit-item-autoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+				<button type="action" class="darkInput autoScriptButton script" name="act_edit-autoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
 				<input type="text" name="attr_autoScript" hidden="true">
 				<input type="text" name="attr_itemData" hidden="true">
 			</div>
@@ -5085,7 +5230,169 @@
 				</div>
 			</div>
 			<!-- desc end -->	
+
+
+			<!-- Basics -->
+			<div>
+				Item type: <input type="text" class="" name="attr_type" placeholder="Item type">
+				Minimized: <input type="checkbox" class="" name="attr_minimized" value="true">
+			</div>
+			
+			<!-- Equip -->
+			<div>
+				Equipped: <input type="checkbox" class="" name="attr_equipped" value="true">
+				<div>
+					Opt. Equip Slots <input type="checkbox" class="" name="attr_optionEquipSlots" value="true">
+					Slot Type: <input type="text" class="" name="attr_slotType" placeholder="Slot type">
+					Slot Use: <input type="number" class="" name="attr_slotUse" placeholder="1">
+				</div>
+			</div>
+
+			<!-- Rollformats -->
+			<div>
+				Opt. Rollformat <input type="checkbox" class="" name="attr_optionRollFormat" value="true">
+				<div>
+					Roll Type: <input type="text" class="" name="attr_rollType0" placeholder="Roll type"> <!-- Should maybe be a checkbox -->
+					Roll Mode: <input type="text" class="" name="attr_rollMode0" placeholder="Roll mode"> <!-- Should maybe be a checkbox -->
+					Roll Damage Type:  <input type="text" class="" name="attr_rollDamagetype0" placeholder="Roll damage type">
+					Roll Count: <input type="number" class="" name="attr_rollCount0" placeholder="1">
+					Roll Max: <input type="number" class="" name="attr_rollMax0" placeholder="1">
+					Roll Power: <input type="number" class="" name="attr_rollPower0" placeholder="1">
+					Roll Adv: <input type="text" class="" name="attr_rollAdv0" placeholder="Roll adv">
+					<div>
+						Opt. Resource: <input type="checkbox" class="" name="attr_optionRollResource0" value="true">
+						<div>
+							Opt. Action: <input type="checkbox" class="" name="attr_optionRollAction0" value="true">
+							Roll Act Cost: <input type="number" class="" name="attr_rollActionCost0" placeholder="1">
+							Roll Act Type: <input type="text" class="" name="attr_rollActionType0" placeholder="Act type">
+						</div>
+						<div>
+							Opt. Reaction: <input type="checkbox" class="" name="attr_optionRollRection0" value="true">
+							Roll React Cost: <input type="number" class="" name="attr_rollReactionCost0" placeholder="1">
+							Roll React Type: <input type="text" class="" name="attr_rollReactionType0" placeholder="React type">
+						</div>
+					</div>
+					<div>
+						Opt. Store: <input type="checkbox" class="" name="attr_optionStoreRoll0" value="true">
+						Store Count: <input type="number" class="" name="attr_storeCount0" placeholder="0">
+						Store Max: <input type="number" class="" name="attr_storeMax0" placeholder="0">
+						Store Power: <input type="number" class="" name="attr_storePower0" placeholder="0">
+						Store Adv: <input type="text" class="" name="attr_storeAdv0" placeholder="Store adv">
+					</div>
+					Roll AutoScript: <input type="text" class="" name="attr_rollAutoScript0" placeholder="Roll AutoScript">
+				</div>
+			</div>
+
+			<!-- Linked -->
+			<div>
+				Opt. Linked <input type="checkbox" class="" name="attr_optionLinked" value="true">
+				Linked ID: <input type="text" class="" name="attr_linkedId" placeholder="Linked id">
+				Equip Together: <input type="checkbox" class="" name="attr_linkedEquipTogether" value="true">
+			</div>
+
+			<!-- Limited uses -->
+			<div>
+				Opt. Limited <input type="checkbox" class="" name="attr_optionLimited" value="true">
+				<div>
+					Opt. Uses <input type="checkbox" class="" name="attr_optionUses" value="true">
+					Uses Type: <input type="text" class="" name="attr_usesType" placeholder="Uses type">
+					Uses Mode: <input type="text" class="" name="attr_usesMode" placeholder="Uses mode">
+					Uses Max: <input type="number" class="" name="attr_usesMax" placeholder="1">
+					Uses Current: <input type="number" class="" name="attr_usesCurrent" placeholder="1">
+					<div>
+						Opt. Resource <input type="checkbox" class="" name="attr_optionUsesResource" value="true">
+						<div>
+							Opt. Action: <input type="checkbox" class="" name="attr_optionUseAction0" value="true">
+							Use Act Cost: <input type="number" class="" name="attr_useActionCost0" placeholder="1">
+							Use Act Type: <input type="text" class="" name="attr_useActionType0" placeholder="Act type">
+						</div>
+						<div>
+							Opt. Reaction: <input type="checkbox" class="" name="attr_optionUsesRection0" value="true">
+							Use React Cost: <input type="number" class="" name="attr_useReactionCost0" placeholder="1">
+							Use React Type: <input type="text" class="" name="attr_useReactionType0" placeholder="React type">
+						</div>
+					</div>
+				</div>
+				<div>
+					Opt. Light Cost <input type="checkbox" class="" name="attr_optionLightCost" value="true">
+					Light Cost: <input type="number" class="" name="attr_lightCost" placeholder="1">
+				</div>
+			</div>
+			
+			<!-- Resistances -->
+			<div>
+				Opt. Resistance <input type="checkbox" class="" name="attr_optionResist" value="true">
+				<div>
+					Damage Resistance <input type="checkbox" class="" name="attr_optionResistDamage" value="true">
+					<div>
+						Pierce Mode: <input type="text" class="" name="attr_pierceMode" placeholder="Pierce mode">
+						Pierce HP Base: <input type="number" class="" name="attr_pierceBaseHP" placeholder="1">
+						Pierce HP Flat: <input type="number" class="" name="attr_pierceFlatHP" placeholder="1">
+						Pierce ST Base: <input type="number" class="" name="attr_pierceBaseST" placeholder="1">
+						Pierce ST Flat: <input type="number" class="" name="attr_pierceFlatST" placeholder="1">
+					</div>
+					<div>
+						Slash Mode: <input type="text" class="" name="attr_slashMode" placeholder="Slash mode">
+						Slash HP Base: <input type="number" class="" name="attr_slashBaseHP" placeholder="1">
+						Slash HP Flat: <input type="number" class="" name="attr_slashFlatHP" placeholder="1">
+						Slash ST Base: <input type="number" class="" name="attr_slashBaseST" placeholder="1">
+						Slash ST Flat: <input type="number" class="" name="attr_slashFlatST" placeholder="1">
+					</div>
+					<div>
+						Blunt Mode: <input type="text" class="" name="attr_bluntMode" placeholder="Blunt mode">
+						Blunt HP Base: <input type="number" class="" name="attr_bluntBaseHP" placeholder="1">
+						Blunt HP Flat: <input type="number" class="" name="attr_bluntFlatHP" placeholder="1">
+						Blunt ST Base: <input type="number" class="" name="attr_bluntBaseST" placeholder="1">
+						Blunt ST Flat: <input type="number" class="" name="attr_bluntFlatST" placeholder="1">
+					</div>
+				</div>
+				<div>
+					Ailment Resistance <input type="checkbox" class="" name="attr_optionResistDamage" value="true">
+					<div>
+						Bleed Res.: <input type="number" class="" name="attr_BleedResist" placeholder="0">
+						Burn Res.: <input type="number" class="" name="attr_BurnResist" placeholder="0">
+					</div>
+					<!-- Custom resistances only appear in the editor -->
+				</div>
+			</div>
+			
+			<!-- Mystery -->
+			<div>
+				Opt. Mystery <input type="checkbox" class="" name="attr_optionMystery" value="true">
+				Mystery Activation: <input type="text" class="" name="attr_mysteryActivation" placeholder="Mystery activation">
+			</div>
+
+			<!-- Tags -->
+			<div>
+				Opt. Tags <input type="checkbox" class="" name="attr_optionTags" value="true">
+				<!-- Tags require a similar solution to Custom resistances -->
+			</div>
 	
+			<!-- Styling -->
+			<div>
+				Opt. Style <input type="checkbox" class="" name="attr_optionCustomStyle" value="true">
+				<div>
+					Opt. Icon <input type="checkbox" class="" name="attr_optionIcon" value="true">
+					Icon Source: <input type="text" class="" name="attr_iconSource" placeholder="Icon source">
+				</div>
+				Color: <input type="text" class="" name="attr_color" placeholder="Color">
+				Accent: <input type="text" class="" name="attr_accent" placeholder="Accent">
+			</div>
+
+			<!-- UI elements -->
+			<div>
+				Opt. UI <input type="checkbox" class="" name="attr_optionCustomUI" value="true">
+				Damagetype UI <input type="checkbox" class="" name="attr_damageTypeUI" value="true">
+				Range UI: <input type="checkbox" class="" name="attr_rangeUI" value="true">
+				Special UI: <input type="checkbox" class="" name="attr_specialUI" value="true">
+				Half UI: <input type="checkbox" class="" name="attr_halfUI" value="true">
+			</div>
+
+			<!-- Card -->
+			<div>
+				Opt. Card <input type="checkbox" class="" name="attr_optionCardCombat" value="true">
+			</div>
+
 		</div>
 		
 	</fieldset>
@@ -15615,8 +15922,6 @@ function closeEditor(type) {
 
 
 
-// testA
-
 
 // Add custom getters and setters for ex. rollFormats[i].damagetype
 // get damagetype() instead gives damagetype.value if value exists
@@ -15658,204 +15963,263 @@ function convertInventory() {
 
 
 
-
-// An item consists of one or more itemNodes. The format for these nodes can be seen in itemFormat
-// The itemList consists of one or more items and is accessed through an itemListHandler
+/* An item consists of one or more itemNodes. The format for these nodes can be seen in itemFormat */
+/* The itemList consists of one or more items and is accessed through an itemListHandler */
 class itemNode {
-	
-	constructor(format, id, defaults, valid, style) {
+	static disabledArray = []; // Used in itemNodeHandler
+
+	constructor(type, id, formats={}) {
 		Object.defineProperties(this, {
-			valid: {writable: true, value: {}},
-			option: {writable: true, value: {}},
-			prefix: {writable: true, value: ""},
-			suffix: {writable: true, value: ""},
-			repeating: {writable: true, value: false},
-			enabled: {writable: true, value: false},
-			id: {writable: true, value: id},
+			valid: {writable: true, value: {}}, // List of attribute value validators for the node
+			attrs: {writable: true, value: {}},  // List of attribute name formats for the node
+			enabled: {writable: true, value: false}, // If a subnode and it's properties are enabled for the item. Used primarily for toggling options
+			id: {writable: true, value: id}, // The itemId of the item the node belongs to
 		});
 
-		if (defaults == undefined) {
-			if ((format?.type || format) in itemNode.format.defaults) {
-				defaults = itemNode.format.defaults[format?.type || format];
-				format = itemNode.format.base;
+		// Configures the format of the node if one wasn't provided
+		if (formats.base == undefined || formats.default == undefined) {
+			if (type in itemNode.format.defaults) {
+				formats.default = itemNode.format.defaults[type];
+				formats.base = itemNode.format.base;
 				this.enabled = true;
 			}
 		}
-		if (!valid) { valid = itemNode.format.valid; }
-		if (!style) { style = itemNode.format.style; }
+		if (!formats.valid) { formats.valid = itemNode.format.valid; }
+		if (!formats.style) { formats.style = itemNode.format.style; }
+		if (!formats.source) { formats.source = {
+			editor: {
+				prefix: "itemEdit",
+			},
+			sheet: {
+				section: type.toLowerCase() + "s",
+				id: this.id,
+			}
+		}}
 
-		if (defaults != false) {
+		// All nodes in the default format should be enabled by default. All other nodes should be disabled
+		if (formats.default != false) {
 			this.enabled = true;
 		}
-		
-		for (const [prop, value] of Object.entries(format)) {
-			if (style?.[prop]?.option) {
-				this.option[prop] = style[prop].option;
-				this.valid[prop] = (b) => is.Bool(b);
-			}
-			else if (valid[prop] && typeof valid[prop] == "function") {
-				this.valid[prop] = valid[prop];
-			}
-			this.prefix = style.prefix || "";
-			this.suffix = style.suffix || "";
 
-			if (style.repeating) {
-				this.repeating = style.repeating;
-			}
-			
-			if (is.Object(value)) {
-				this[prop] = new itemNode(value, id, defaults[prop] || false, valid[prop], style[prop]);
-			}
-			else if (prop == "array") {
-				if (is.Array(value) && value.length > 0) {
-					value.forEach((node, i) => this[i] = new itemNode(node, id, defaults.array?.[i] || false, valid[prop], style[prop]));
+		// Get any source-specific attribute name data
+		Object.defineProperties(this.attrs, {
+			sheet: {writable: true, value: formats.source.sheet},
+			editor: {writable: true, value: formats.source.editor},
+		});
+
+		
+		// Constructs the node and any subnodes
+		for (const [prop, value] of Object.entries(formats.base)) {
+
+			// Get any subnodes of the node
+			if (prop == "array" && Array.isArray(value)) {
+				for (let i = 0; i < (formats.default?.array?.length || 1); i++) {
+					let repFormat = {
+						editor: {...formats.source.editor, prefix: ""},
+						sheet: {...formats.source.sheet},
+					}
+
+					for (const source of Object.keys(formats.source)) {
+						switch (formats.style.repeating?.[source]?.type) {
+							case "index":
+								repFormat[source].index = i; break;
+							case "id":
+								repFormat[source].section = formats.style.repeating.section;
+								repFormat[source].id = generateRowID(); break;
+							case "props":
+								throw new Error("Tried to access repeating prop values, but repeating props are currently not implemented");
+								break; // Currently not implemented
+							default:
+								throw new Error("itemNode includes repeating data but has no repeating style format", this);
+						}
+					}
+					
+					this[i] = new itemNode(prop, id, { // Should not be prop. This is for testing
+						base: value[i] || value[0],
+						default: formats.default?.array?.[i] || {},
+						valid: formats.valid.array || {},
+						style: formats.style.array || {},
+						source: repFormat,
+					});
 				}
-				delete this.array;
 			}
+			else if (typeof value == "object") {
+				this[prop] = new itemNode(type, id, {
+					base: value,
+					default: formats.default[prop] || false,
+					valid: formats.valid[prop] || {},
+					style: formats.style[prop] || {},
+					source: formats.source,
+				});
+			}
+
+
+			// Get any properties of the node
 			else {
-				if (defaults && prop in defaults) {
-					this[prop] = defaults[prop];
+				if (formats.default && prop in formats.default) {
+					this[prop] = formats.default[prop];
 				} else {
 					this[prop] = value;
 				}
+			}
+
+
+			// Get any property-pecific attribute name data
+			if (formats.style?.[prop]?.option) {
+				this.attrs[prop] = "option" + formats.style[prop].option;
+			}
+			else if (prop != "array") {
+				let prefix = formats.style.prefix || "";
+				let suffix = formats.style.suffix || "";
+				let key = (prefix != "") ? capitalize(prop) : prop;
+				this.attrs[prop] = prefix + key + suffix;
+			}
+
+
+			// Get any attribute value validatation data
+			if (formats.valid?.[prop] && typeof formats.valid[prop] == "function") {
+				this.valid[prop] = formats.valid[prop];
+			} else {
+				this.valid[prop] = (b) => is.Bool(b);
 			}
 		}
 		return this;
 	}
 
+	// Assign input attribute values from the sheet and/or editor to the item
+	// Returns true if all values were used. Otherwise all unused values are returned (currently not functional)
+	input(values) {
+		return this.access(values, {lowerCase:true});
+	}
 
-	// Access an itemNode and all of its sub-nodes and either input values from or output values for the editor/sheet
-	// During input, assign input attribute values from the source(s) to the item. Returns true if all values were used
-	// During output, generates and returns a list of output attribute values for the sources
-	set input(values) {
-		let sourceStyle = {
-			editor: {
-				prefix: "itemEdit",
-			},
-			sheet: {
-				section: this.type.toLowerCase() + "s",
-				id: this.id,
-			}
-		}
-		this.#access(values, sourceStyle);
-		return length(values) == 0;
-	}
+	// Generates and returns a list of output attribute values for the sheet and editor
+	// Editor data is only generated for the item currently open in the item editor
 	get output() {
-		let sourceStyle = {
-			editor: {
-				prefix: "itemEdit",
-				index: "",
-			},
-			sheet: {
-				section: this.type.toLowerCase() + "s",
-				id: this.id,
-				index: "",
-			}
-		}
-		return this.#access(false, sourceStyle);
+		return this.access(false);
 	}
-	#access(values, sourceStyle) {
+
+	// Generates and returns a list of keys for both the editor and sheet
+	// If an event is provided the keys are returned in the event format
+	keys(event=false) {
+		return Object.entries(this.access(false, {includeDisabled:true, lowerCase:true, event}))
+			.reduce((acc, [source, values]) => { return {...acc, [source]: Object.keys(values)} }, {});
+	}
+
+	// Helper method for accessing all nodes and properties of an item
+	// Used by input, output, export, import and keys
+	access(values, options={includeDisabled:false, lowerCase:false, event:false}) {
 		let output = {editor: {}, sheet: {}}
 
-		if (!values || length(values) > 0) {
-			for (let [prop, subnode] of Object.entries(this)) {
-				
-				// Apply the property's option, suffix or prefix if they exists
-				let prefix = this.prefix;
-				let suffix = this.suffix;
-				let origprop = prop;
-				if (this.option[prop]) {
-					prop = "option" + this.option[prop];
-					prefix = "";
-					suffix = "";
-					sourceStyle.sheet.index = "";
-				}
-				else if (this.prefix) {
-					prop = capitalize(prop);
-				}
-				
-				for (let [source, style] of Object.entries(sourceStyle)) {
+		// Values generated by getAttrs() are all in lower-case, while values from item.output are in mixed-case
+		// For consistent prop-to-attr matching all attribute and property names are converted to lowercase
+		if (values && length(values) > 0) {
+			for (const source of Object.keys(values)) {
+				values[source] = Object.entries(values[source]).reduce((acc, [key, value]) => { return {...acc, [key.toLowerCase()]: value} }, {});
+			}
+		}
 
-					if (source == "editor" && this.id != itemList.editor) {
-						//continue;
-					}
+		if (!values || length(values) > 0) {
+			for (const [prop, value] of Object.entries(this)) {
+				for (const source of Object.keys(itemNode.format.sections)) {
+
+					// Only input and output editor data from the current editor target
+					if (source == "editor" && this.id != itemList.editor.target && !options.event) { continue; }
+
+					// Get the attribute name of property
+					let propAttr = this.attr(prop, source, options);
 
 					// Handle inputting values
-					if (length(values) > 0 && !is.Array(subnode)) {
-						/*let match = false;
-						
-						// Checks if prop or alias is a direct match, or if it matches with it's prefix and/or suffix
-						let regex = `^((?:${style.prefix + prefix})?${prop}(?:${suffix})?)$`;
-						if ("index" in repData) {
-							//regex =  `^((?:${this.prefix})?${prop}(?:${this.suffix})?)$`; // Need to account for repid, repsection and repindex
-						}
-						let propFormat = new RegExp(regex, "i");
-						for (const key of Object.keys(values)) {
-							match = key.match(propFormat)?.[0];
-							if (match) break;
-						}
-
-						if (match) {
-							//console.log(match, this, values[match]);
-							if (this.value?.valid(values[match].value)) {
-								if (subnode instanceof itemNode && "value" in subnode) {
-									subnode.value = values[match].value;
-								}
-							}
-							else if (this.valid(values[match].value)) {
-								if (subnode instanceof itemNode && "enabled" in subnode) {
-									subnode.enabled = (is.Bool(values[match].value)) ? values[match].value : subnode.enabled;
-								}
-							} else {
-								console.warn("Illegal item input!", this.valid, values[match].value);
-							}
-							delete values[match];
-						}*/
+					if (length(values) > 0 && propAttr in values[source]) {
+						this.modify(prop, values[source][propAttr]);
+						delete values[source][propAttr];
 					}
 
 					// Handle outputting values
-					else {
-						let outputKey = (!style.section) ? (style.prefix || "") + prefix + prop + suffix + (style.suffix || "")
-									: `repeating_${style.section}_${style.id}_${prefix + prop + suffix + style.index}`;
-						
-						if (this.enabled && parseInt(prop) != prop) {
-							if (this.option[origprop]) {
-								output[source][outputKey] = "" + this.enabled;
-							} 
-							else if (!(subnode instanceof itemNode)) {
-								output[source][outputKey] = subnode;
-							}
+					else if ((this.enabled || options.includeDisabled)) { // Ensures 
+						if (this.hasOption(prop)) {
+							output[source][propAttr] = "" + this.enabled;
+						}
+						else if (!(value instanceof itemNode)) {
+							output[source][propAttr] = value;
 						}
 					}
 				}
-
+				
 				// Handle any sub-nodes
-				if (subnode instanceof itemNode) {
-					if (this.repeating) {
-						for (const source of Object.keys(sourceStyle)) {
-							switch (this.repeating[source]?.type) {
-								case "index":
-									sourceStyle[source].index = prop; break;
-								case "id":
-									sourceStyle[source].section = this.repeating.section;
-									sourceStyle[source].id = itemList.editor.IDs[this.repeating.section][prop]; break;
-								case "props":
-									// Currently missing
-									break;
-							}
-						}
-					}
-					let newStyle = {editor: {...sourceStyle.editor}, sheet: {...sourceStyle.sheet}}
-					Object.entries(subnode.#access(values, newStyle)).reduce((acc, [source, values]) => Object.assign(output[source], values), {});
+				if (value instanceof itemNode) {
+					Object.entries(value.access(values, options)).reduce((acc, [source, subnodeOutput]) => Object.assign(output[source], subnodeOutput), {});
 				}
 			}
+			return output;
 		}
-		return output;
+	}
+
+	// Returns the attribute name of a property in either the sheet or editor
+	// If an event type is provided the attribute is returned in the event format
+	attr(prop, source, options={lowerCase:false, event:false}) {
+		if (this.attrs[prop]) {
+			let index = (this.attrs[source].index != undefined) ? this.attrs[source].index : "";
+			let prefix = this.attrs[source].prefix || "";
+			let suffix = this.attrs[source].suffix || "";
+			let key = this.attrs[prop];
+
+			if (prefix != "") key = capitalize(key);
+
+			if (this.attrs[source].section) {
+				if (options.event) {
+					prefix = `${options.event}:repeating_${this.attrs[source].section}:${prefix}`;
+				} else {
+					prefix = `repeating_${this.attrs[source].section}_${this.attrs[source].id}_${prefix}`;
+				}
+			} else if (options.event) {
+				prefix = `${options.event}:${prefix}`;
+			}
+
+			let propAttr = prefix + key + suffix + index;
+			return (options.lowerCase) ? propAttr.toLowerCase() : propAttr;
+		} else {
+			return false;
+		}
+	}
+	hasOption(prop) {
+		return this.attrs[prop]?.startsWith("option");
+	}
+
+	// Modifies an item property
+	// If a validator format was provided at item creation only valid values are accepted
+	// Adds any changes to itemList.outputValues. The changes are applied to the sheet/editor when the itemList access ends
+	modify(prop, newValue, options={source:"input"}) {
+		if (isNaN(parseInt(prop))) return; // Ensures repeating nodes are not modified (have prop names "0", "1", etc.)
+		
+		console.log(`(${options.source}) ${prop} ${this[prop]} -> ${newValue}`);
+		if (this[prop] != undefined) {
+			if (this[prop] instanceof itemNode) {
+				prop = "enabled";
+			}
+
+			if (prop in this.valid && !this.valid[prop](newValue)) {
+				console.warn(`Attempted to set the value of ${prop} to invalid value ${newValue}`, this);
+			} else {
+				if (this[prop] != newValue) {
+					console.log(`(${options.source}) Modifying ${prop} from "${this[prop]}" to "${newValue}"`);
+					this[prop] = newValue;
+
+					// Need to make sure this correctly handles options setting "enabled"
+					// If this.attrs[prop].startsWith("option"), set this.enabled = newValue, but output attr(prop): newValue
+
+					// Modify the associated attributes in the sheet/editor if applicable
+					itemList.outputValues[this.attr(prop, "sheet")] = newValue;
+					if (this.id == itemList.editor.target) {
+						itemList.outputValues[this.attr(prop, "editor")] = newValue;
+					}
+				}
+			}
+		} else {
+			console.warn(`Attempted to set the value of ${prop} but the property does not exist`, this);
+		}
 	}
 
 	// repeating is now in style. Has info on how to input and output editor and sheet data
-	// x If type == "index", set style.rep.index = i of each array element
-	// x If type == "ids", let style.rep.section = format.repeating.section and style.rep.id = itemList.editor.IDs[format.repeating.section][i] of each array element
 	//   If type == "props":
 	//     When inputing values (values != false) get repeating.editor.check, find values where key includes check.key and where check.value(value) == true. Get their ids
 	//       Then get repeating.editor.key and value, loop through the ids, find matches with id_key in values, get the key, then set this[key] = values[repeating_section_id_value] 
@@ -15866,11 +16230,19 @@ class itemNode {
 	//     When outputing values, loop over props and values, get itemList.editor.IDs[key], then output {repeating_rep.section_id_rep.key: prop, repeating_rep.section_id_rep.value: value}
 	//       When exporting, ignore this and just export [alias, prop:value, prop:value, ...]. Their repeatingProps will have the correct ids for their sheet
 
+	// Adds a new repeating subnode to the item
 	add(type) {
 		if (type == "Rollformat") {
 			this.rollformats.enabled = true;
 			this.rollformats[length(this.rollformats)] = new itemNode(this.format.base.rollformats.array[0], this.id);
 		}
+
+		// Should also allow adding
+	}
+
+	// Deletes a repeating subnode of the item with a certain id
+	delete (type, id) {
+		// Currently not implemented
 	}
 
 	static format = {
@@ -15887,15 +16259,14 @@ class itemNode {
 			},
 			rollformats: {
 				array: [{
-					type: "None", mode: "Roll", damagetype: "None", count: 0, max: 0, power: 0, adv: false,
+					type: "None", mode: "Roll", damagetype: "None", count: 0, max: 0, power: 0, adv: false, autoscript: false,
 					resource: {
-						action: {type: "Action", use: 1},
-						reaction: {type: "Reaction", use: 1},
+						action: {type: "Action", cost: 1},
+						reaction: {type: "Reaction", cost: 1},
 					},
 					store: {
-						count: 0, max: 0, power: 0, adv: false,
+						count: 0, max: 0, power: 0, adv: false, autoscript: false,
 					},
-					autoscript: false,
 				}]
 			},
 			linked: {
@@ -15904,10 +16275,10 @@ class itemNode {
 			},
 			limited: {
 				uses: {
-					type: "None", mode: "None", max: 0, current: 0,
+					type: "None", mode: "None", max: 3, current: 3,
 					resource: {
-						action: {type: "Action", use: 1},
-						reaction: {type: "None", use: 0},
+						action: {type: "Action", cost: 1},
+						reaction: {type: "None", cost: 0},
 					},
 				},
 				light: {
@@ -15916,9 +16287,9 @@ class itemNode {
 			},
 			resistances: {
 				damage: {
-					pierce: {mode: "None", hp: {base: 0, flat: 0}, st: {base: 0, flat: 0}},
-					slash: {mode: "None", hp: {base: 0, flat: 0}, st: {base: 0, flat: 0}},
-					blunt: {mode: "None", hp: {base: 0, flat: 0}, st: {base: 0, flat: 0}},
+					pierce: {mode: "None", hp: {base: 1, flat: 0}, st: {base: 1, flat: 0}},
+					slash: {mode: "None", hp: {base: 1, flat: 0}, st: {base: 1, flat: 0}},
+					blunt: {mode: "None", hp: {base: 1, flat: 0}, st: {base: 1, flat: 0}},
 				},
 				ailments: {
 					default: {Burn: 0, Bleed: 0},
@@ -16005,7 +16376,7 @@ class itemNode {
 				type: "Tool",
 				equip: {slots: {type: "Hands", value: 1}},
 				limited: {
-					uses:{type: "Standalone", mode: "Refresh", max: 3, current: 3, resource: {action: {}}},
+					uses: {type: "Standalone", mode: "Refresh", max: 3, current: 3, resource: {action: {}}},
 				},
 				style: {color: "Purple"},
 				ui: {half: true},
@@ -16061,7 +16432,10 @@ class itemNode {
 							type: (s) => is(s).In(["None", ...resourceNames]),
 							use: (i) => is.Int(i, {min: 0}),
 						},
-						reaction: this.action, // Enabled by optionRollReaction *with an index*
+						reaction: { // Enabled by optionRollReaction *with an index*
+							type: (s) => is(s).In(["None", ...resourceNames]),
+							use: (i) => is.Int(i, {min: 0}),
+						},
 						// Maybe make it so if valid(v) returns an object, you run valid(v) again on that object?
 					},
 					store: { // Enabled by optionStoreRoll *with an index*
@@ -16069,12 +16443,13 @@ class itemNode {
 						max: (i) => is.Int(i),
 						power: (i) => is.Int(i),
 						adv: (v) => is.False(v) || is(v).In(["Advantage", "Disadvantage"]),
+						autoscript: (v) => is.False(v) || is.String(v),
 					},
 					autoscript: (v) => is.False(v) || is.String(v),
 				},
 			},
 			linked: { // Enabled by optionLinked
-				itemidid: (v) => is.Bool(v) || is(v).In(itemList.IDs), // Need to make sure this works if the linked item is added after this item. Maybe add all the ids first and then add the itemNodes?
+				id: (v) => is.Bool(v) || is(v).In(itemList.IDs), // Need to make sure this works if the linked item is added after this item. Maybe add all the ids first and then add the itemNodes?
 				equipTogether: (b) => is.Bool(b),
 			},
 			limited: { // Enabled by optionLimited
@@ -16082,13 +16457,16 @@ class itemNode {
 					type: (s) => is(s).In(["None", "Standalone", "Applied", "Both"]),
 					mode: (s) => is(s).In(["None", "Manual", "Refresh", "Recover", "Loaded", "Ammo", "Combat", "Round"]),
 					max: (i) => is.Int(i, {min: 0}),
-					current: (i) => is.Int(i, {min: 0, max: this.max}),
+					current: (i) => is.Int(i, {min: 0}),
 					resource: { // Enabled by optionUsesResource
 						action: { // Enabled by optionUsesAction
 							type: (s) => is(s).In(["None", ...resourceNames]),
-							use: (i) => is.Int(i, {min: 0}),
+							cost: (i) => is.Int(i, {min: 0}),
 						},
-						reaction: this.action, // Enabled by optionUsesReaction
+						reaction: { // Enabled by optionUsesReaction
+							type: (s) => is(s).In(["None", ...resourceNames]),
+							cost: (i) => is.Int(i, {min: 0}),
+						},
 					},
 				},
 				light: { // Enabled by optionLightCost
@@ -16099,17 +16477,19 @@ class itemNode {
 				damage: { // Enabled by optionResistDamage
 					pierce: {
 						mode: (s) => is(s).In(["None", "Add", "Replace"]),
-						hp: { // Ignored when mode == "None"
-							base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
-							flat: (i) => is.Int(i),
-						},
-						st: { // Ignored when mode == "None"
-							base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
-							flat: (i) => is.Int(i),
-						},
+						hp: {base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}), flat: (i) => is.Int(i)},
+						st: {base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}), flat: (i) => is.Int(i)},
 					},
-					slash: (v) => this.pierce.valid(v), // This is intended to run the validator on pierce instead
-					blunt: (v) => this.pierce.valid(v), // It definitely doesn't work due to the validators being nested inside hp and st
+					slash: {
+						mode: (s) => is(s).In(["None", "Add", "Replace"]),
+						hp: {base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}), flat: (i) => is.Int(i)},
+						st: {base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}), flat: (i) => is.Int(i)},
+					},
+					blunt: {
+						mode: (s) => is(s).In(["None", "Add", "Replace"]),
+						hp: {base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}), flat: (i) => is.Int(i)},
+						st: {base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}), flat: (i) => is.Int(i)},
+					},
 				},
 				ailments: { // Enabled by optionResistAilments
 					default: {
@@ -16148,7 +16528,7 @@ class itemNode {
 			autoscript: (v) => is.False(v) || is.String(v),
 		},
 
-		// Contains format info about input, output, import and export data of items
+		// Contains format data for all attribute names of an item. Used for inputing and outputing data
 		style: {
 			equip: {
 				slots: {option: "EquipSlots", prefix: "slot"},
@@ -16164,11 +16544,11 @@ class itemNode {
 				array: {
 					prefix: "roll",
 					resource: {
-						option: "RollResource",
-						action: {option: "RollAction", prefix: "action"},
-						reaction: {option: "RollReaction", prefix: "reaction"},
+						option: "RollResource", prefix: "roll",
+						action: {option: "RollAction", prefix: "rollAction"},
+						reaction: {option: "RollReaction", prefix: "rollReaction"},
 					},
-					store: {option: "StoreRoll", prefix: "storeMod"},
+					store: {option: "StoreRoll", prefix: "store"},
 				},
 			},
 			linked: {option: "Linked", prefix: "linked"},
@@ -16178,8 +16558,8 @@ class itemNode {
 					option: "Uses", prefix: "uses",
 					resource: {
 						option: "UsesResource",
-						action: {option: "UsesAction", prefix: "action"},
-						reaction: {option: "UsesReaction", prefix: "reaction"},
+						action: {option: "UsesAction", prefix: "useAction"},
+						reaction: {option: "UsesReaction", prefix: "useReaction"},
 					},
 				},
 				light: {option: "LightCost", prefix: "light"},
@@ -16188,9 +16568,9 @@ class itemNode {
 				option: "Resist",
 				damage: {
 					option: "ResistDamage",
-					pierce: {prefix: "pierce", hp: {suffix: "HP"}, st: {suffix: "ST"}},
-					slash: {prefix: "slash", hp: {suffix: "HP"}, st: {suffix: "ST"}},
-					blunt: {prefix: "blunt", hp: {suffix: "HP"}, st: {suffix: "ST"}},
+					pierce: {prefix: "pierce", hp: {prefix: "pierce", suffix: "HP"}, st: {prefix: "pierce", suffix: "ST"}},
+					slash: {prefix: "slash", hp: {prefix: "slash", suffix: "HP"}, st: {prefix: "slash", suffix: "ST"}},
+					blunt: {prefix: "blunt", hp: {prefix: "blunt", suffix: "HP"}, st: {prefix: "blunt", suffix: "ST"}},
 				},
 				ailments: {
 					option: "ResistAilments",
@@ -16210,7 +16590,7 @@ class itemNode {
 					},
 				},
 			},
-			mystery: {option: "Mystery"},
+			mystery: {option: "Mystery", prefix: "mystery"},
 			tags: {
 				option: "Tags",
 				gives: {prefix: "tag"},
@@ -16218,58 +16598,117 @@ class itemNode {
 			},
 			style: {
 				option: "CustomStyle",
-				icon: {option: "Tags", prefix: "icon"},
+				icon: {option: "Icon", prefix: "icon"},
 			},
 			ui: {option: "CustomUI", suffix: "UI"},
 			card: {option: "CardCombat", prefix: "card"},
+		},
+
+		// Data about repeating sections used by items
+		sections: {
+			sheet: ["weapons", "outfits", "augments", "tools", "skills", "special", "effects"],
+			editor: ["rollformats", "ailments"],
 		}
 	}
 }
 
 
+/* Handler used for enhanced accessing of itemNodes */
+const itemNodeHandler = {
 
+	// Handle accessing nested itemNodes. Creates a new proxy for each subnode if one doesn't already exist
+	// See https://gomakethings.com/better-proxy-performance-in-vanilla-js/ for more details on how it works
+	get: function (node, prop) {
+		if (prop == "_isProxy") return true;
+		if (node[prop] instanceof itemNode && !node[prop]._isProxy) {
+			node[prop] = new Proxy(node[prop], itemNodeHandler);
+		}
+
+		// Reflect all method calls back to the itemNode
+		if (typeof node[prop] == "function") {
+			return node[prop].bind(node);
+		}
+
+		// false is returned if any previous itemNode was disabled
+		// Writing item.subnode.true.value overrides this behaviour
+		else if (node[prop] instanceof itemNode && !node.enabled) {
+			if (prop == "true") {
+				itemNode.disabledArray = [];
+				return node;
+			} else {
+				itemNode.disabledArray.push(node[prop]);
+				return node[prop];
+			}
+		} else {
+			if (prop == "toJSON") { // Needed to make JSON.stringify() work
+				itemNode.disabledArray = [];
+				return node[prop];
+			} else if (itemNode.disabledArray.length > 0) {
+				itemNode.disabledArray = [];
+				console.warn(`Attempted to get the value of ${prop} but a parent node is disabled`, node);
+				return false;
+			} else {
+				return !node.enabled || node[prop];
+			}
+		}
+	},
+
+	// item.subnode = value is the same as writing item.subnode.enabled = value
+	// If true, also enables any currently disabled parent nodes
+	set: function (node, prop, value) {
+		if (node.hasOption(prop)) {
+			if (value == true && itemNode.disabledArray.length > 0) {
+				for (let i = 0; i < itemNode.disabledArray.length; i++) {
+					itemNode.disabledArray.shift().modify("enabled", true, {source: "parent:" + prop});
+				}
+			}
+			node[prop].modify("enabled", value, {source: "set:" + prop});
+		} else {
+			itemNode.disabledArray = [];
+			node.modify(prop, value, {source: "set"});
+		}
+	},
+}
 
 
 /* Object that handles all interactions with the itemList */
-/* To access the itemList, use itemList.access(mode). Mode is one of "read" and "write" */
+/* To access the itemList, use itemList.access(mode). Mode is one of "read" or "write" */
 /*   In read mode the itemList cannot be modified. Multiple functions can read the itemList simultaneously */
-/*   In write mode the itemList can be modified. While in write mode other access wait until the current write access finishes */
+/*   In write mode the itemList can be modified. While in write mode other accesses wait until the current write access finishes */
 /* All accesses should end in itemList.endAccess(). Any itemList changes made in write mode are applied to the sheet once the access ends */
 /*   To read and write values, use "itemList.property" and "itemList.property = value" as normal */
 class itemListHandler {
 	#accessStack;
-	#output;
+	#event;
 	
 	constructor(itemList) {
 		this.#accessStack = itemList?.accessStack || []
-		this.itemList = {}
-		this.origItemList = itemList?.itemList || false;
+		this.#event = {keys: {}};
 		this.editor = {};
-		this.#output = itemList?.output || {}
+		this.itemList = {}
+		this.outputValues = itemList?.outputValues || {}
 	}
 
 	access(mode, options={editor:false}, callback=()=>{}) {
-		// Adds some test data
-		///*
-		setAttrs({itemList: JSON.stringify({
-			[generateRowID()]: {...itemNode.format.base, type:"Weapon"},
-			[generateRowID()]: {...itemNode.format.base, type:"Outfit"},
-			[generateRowID()]: {...itemNode.format.base, type:"Tool"}})
-		}, {}, () => {
-		//*/
-
+		
 		this.#accessStack.push({mode: mode});
 		console.log("Added new access: ", [...this.#accessStack]);
+		
+		// Adds some test data
+		/*
+		this.#add("Weapon");
+		this.#add("Outfit");
+		this.#add("Tool");
+
+		setAttrs({itemList: JSON.stringify(this.itemList)}, {}, () => {
+		*/
+
+		
 
 		let accessCallback = callback;
 		if (!callback.toString().includes(".endAccess")) {
 			console.warn(`itemList: ${mode} access was not ended. Adding automatic endAccess`)
 			accessCallback = () => {callback(); this.endAccess();}
-		}
-
-		// The rowids of rollformats and ailments are automatically included if they're likely to be used in the function accessing the itemList 
-		if (options.editor || (/.add\(/).test(callback.toString()) || (/.editor.IDs[\W]?[^\w\d]/).test(callback.toString())) {
-			this.editor = true;
 		}
 
 		if (this.#accessStack.length > 1 && mode == "write" || (mode == "read" && this.#accessStack.some(access => access.mode == "write"))) {
@@ -16279,31 +16718,57 @@ class itemListHandler {
 			this.#accessStack.at(-1).active = true;
 			let self = this;
 		
-			getAttrs(["itemList", "itemEditorTarget"], function(values) {
-				self.#accessEditor(values, () => {
-					self.#add(JSON.parse(values.itemList));
-					accessCallback();
-				});
+			this.#initialize(options, () => { //event(
+				accessCallback();
 			});
 		}
-		}); // Comment out when not using test data
+		//}); // Comment out when not using test data
 	}
 
-	#accessEditor(values, callback=()=>{}) {
+	#initialize(options, callback=()=>{}) {
 		let self = this;
-		if (this.editor === true) {
+		//if (length(itemList) == 0 || options.editor) {
 			getSectionIDs("ailments", function(ailmentIDs) {
 				getSectionIDs("rollformats", function(rollformatIDs) {
-					self.editor = {
-						IDs: {rollformats: rollformatIDs, ailments: ailmentIDs},
-						target: values.itemEditorTarget.split("_")[2],
+					self.editor.IDs = {rollformats: rollformatIDs, ailments: ailmentIDs};
+					let itemSections = itemNode.format.sections.sheet;
+
+					function accessItems(callback=()=>{}) {
+						let section = itemSections.pop();
+						getSectionIDs(section, function(itemIds) {
+							itemIds.forEach(itemId => {
+								self.#add(section.slice(0, -1), {id: itemId});
+							});
+							if (itemSections.length == 0) {
+								callback()
+							} else {
+								accessItems(callback);
+							}
+						})
 					}
-					callback();
+
+					accessItems(() => {
+						console.log([...self.keys, "itemEditorTarget"]);
+
+						getAttrs([...self.keys, "itemEditorTarget"], function(values) {
+							self.editor.target = values.itemEditorTarget.split("_")[2];
+							delete values.itemEditorTarget;
+							
+							console.log(values);
+							self.input(values);
+							callback();
+						});
+					});
 				});
 			});
-		} else {
-			callback();
-		}
+		//} else {
+		//	callback();
+		//} 
+	}
+
+	// Return every attribute key in the itemList
+	get keys() {
+		return this.IDs.flatMap(itemId => Object.values(this[itemId].keys())).flat();
 	}
 
 	endAccess() {
@@ -16329,10 +16794,10 @@ class itemListHandler {
 		} else {
 			console.log("All accesses finished. Applying itemList and output");
 
-			console.log(this.#output)
-			setAttrs({"itemList": this.export(), ...this.#output});
-			this.itemList = {}
-			this.#output = {}
+			console.log("Would have applied the following output:");
+			console.log(this.outputValues)
+			//setAttrs({"itemList": this.export(), ...this.outputValues});
+			this.outputValues = {}
 
 			//saveEditor("item");
 			if (this.editor.target) {
@@ -16360,57 +16825,46 @@ class itemListHandler {
 	}
 
 	// Returns every item in the itemList in the order they're displayed in the sheet
+	// Can alternatively return a single item with a specific id: "itemList[id]", or at a specific index: "itemList.item(index)"
 	get items() {
 		return this.itemList;
 	}
+	item(index=0) {
+		return this[this.IDs.at(index < this.IDs.length ? index : -1)];
+	}
 
-	// Takes in data generated from the editor and/or the sheet applies it to the associated item(s) in the itemList
-	// If values provided for an item id that doesn't exist, create a new item and assign the values to it 
-	input(values) { // "repeating_weapons_-abc_rollType0" testA
+
+	// Takes in data generated from the sheet and/or the editor and applies it to the associated item(s) in the itemList
+	input(values) {
 		if (this.#accessMode != "read") {
+
+			// Seperate editor and sheet data if it isn't already sorted
+			let inputData = this.#sortItemData(values);
 			
-			if (source == "editor" && this.editor.target) {
-				// Can include both repeating and normal values
-				// Uses the current editor target to select the correct item, and key/repkey to find the attribute
-				// For repeating values, find the index of repid in this.editor.IDs[section]. Add a new rollformat if it doesn't exist, up to a maximim of 5
-			}
-
-			else if (source == "sheet" && length(this.IDs) > 0) {
-				// Can only include repeating values
-				// Uses section and repid to find select correct item(s), and repkey to find the attribute. Uses index values for roll formats
-				// If repid isn't an item, add a new default item of type = section and assign the value to it
-			}
-
-
-			values = Object.fromEntries(this.IDs.map(id => [`repeating_weapons_${id}_bleedResist`, Random.Int(0, 10)]))
-
-			let testValues = Object.fromEntries([...Object.entries(values), ...Object.entries(values).map(([id, val]) => [id.replace("bleed", "burn"), Random.Int(0, 10)])]);
-
-			let groupedValues = Object.entries(testValues).reduce((acc, [key, value]) => {
-				let [section, repid, repkey] = key.split("_").slice(1);
-
-				if (!this.IDs.includes(repid)) { this.add(section, {id: repid}); } // Generates a new default item for new ids
-
-				if (this.itemList[repid].type.toLowerCase() == section.slice(0, -1)) { // Is ex. "weapons". Should be "weapon"
+			let inputIDs = {};
+			for (const key of Object.keys(inputData.sheet)) {
 				
-				let propValues = {[repkey]: {value}}
-					if (/\d/.test(repkey.slice(-1))) {
-						propValues = {...propValues, section: section, index: parseInt(repkey)}
-					}
-					acc[repid] = propValues;
-				} else {
-					console.warn(`Item "${repid}" with type "${section}" does not exist... somehow`);
+				// If sheet values are provided for an item id that doesn't exist, create a new item and assign the values to it
+				let [section, repid, repkey] = key.split("_").slice(1);
+				if (!this.IDs.includes(repid)) {
+					this.add(section.slice(0, -1), repid);
 				}
-				return acc;
-			}, {});
 
-			console.log(groupedValues, this.items);
-			
+				// Input the data
+				if (!inputIDs[repid]) {
+					this[repid].input(inputData);
+					inputIDs[repid] = true;
+				}
+			}
+
+			// Returns any unused values
+			return ((length(inputData.editor) + length(inputData.sheet)) == 0) || inputData;
 		} else {
-			this.#writeError("add");
+			this.#writeError("input");
 		}
 	}
 
+	// Output sheet and editor attibute data for each item in the itemlist
 	get output() {
 		return Object.values(this.items).reduce((output, item) => {
 			let itemOutput = item.output;
@@ -16420,152 +16874,41 @@ class itemListHandler {
 		}, {editor: {}, sheet: {}});
 	}
 
-
-
-
-
-
-	// Takes
-	handleEvent(type, info, options={}) {
-		// Check if the new value matches the format
-	}
-
-
-	/*
-	// Returns an array of every sheet attribute key in the current itemList
-	// Requires a key format (from itemSheetKeys)
-	keys(keyFormat, style={prefix:"", start:"", divider:"", end:""}, repstyle={divider:"_"}, ids) {
-		return Object.keys(this.#compute(keyFormat, this.itemList, style, repstyle, ids));
-	}
-
-	// Returns an object containing every sheet attribute in the current itemList
-	// Requires a key format and an itemList containing at least one item
-	attrs(keyFormat, itemList, style={prefix:"", start:"", divider:"", end:""}, repstyle={divider:"_"}, ids) {
-		return Object.fromEntries(this.#compute(keyFormat, itemList, style, repstyle, ids));
-	}
-
-	#compute(keyFormat, itemList, basestyle, repstyle, ids) {
-		
-		// Get itemIds
-		if (!ids) ids = Object.keys(itemList);
-		
-		return Object.entries(keyFormat).reduce((attrs, [key, value]) => {
-			console.log(arguments)
-
-			let style = (repstyle.prefix.includes("repeating_")) ? {...basestyle, ...repstyle} : basestyle;
-
-			// If repeating, change over to using the repeating attribute style "repeating_section_id_key"
-			if (key.includes("repeating_")) {
-				repstyle.prefix = key;
-			} else {
-				let attrValue = (value.attr && value.valid && value.valid(value.attr(itemList))) ? value.attr(itemList) : false;;
-				attrs.push([style.start + [style.prefix, key].join(style.divider) + style.end, attrValue]);
-			}
-
-			// Recursively parse the format
-			if (value.subattrs) {
-
-				// Handle index / array formats (primarily used by repeating sections)
-				if (value.index) {
-					for (let i = 0; i < itemList.length; i++) {
-						if (!value.valid || value.valid(itemList)) {
-							repstyle.prefix = [style.prefix, value.index(itemList, i)].join(repstyle.divider);
-							attrs = [...attrs, ...this.#compute(value.subattrs, value.index(itemList, i), style, repstyle, ids)];
-						}
-					}
-				}
-	
-				// Handle sub-attribute / object formats
-				else {
-					let attrValue = itemList;
-					if (value.attr) {
-						attrValue = (value.valid(itemList)) ? value.attr(itemList) : false;
-					}
-					attrs = [...attrs, ...this.#compute(value.subattrs, attrValue, style, repstyle, ids)];
-				}
-			}
-
-			console.log(attrs)
-			return attrs;
-		}, []);
-	}
-
-	add(inputData) {
-		console.log(this.#accessMode, "mode - Adding new item(s): ", inputData)
-		if (this.#accessMode != "read") {
-			let keyFormat = itemSheetKeys.repitem;
-			let itemList = {}
-			let style = {}
-
-			if (inputData.itemList) { inputData = inputData.itemList; }
-
-			// Add itemListHandlers or itemList
-			if (typeof(inputData) == "object" && length(inputData) > 0) {
-
-				// Adds one or more new items to the itemList
-				for (const [id, data] of Object.entries(inputData)) {
-					this.itemList[id] = data;
-					this.#addAccessors(id);
-
-					itemList = {...itemList, [id]: this.itemList[id]}
-				}
-
-				// Adds the new item(s) to the sheet
-				Object.assign(this.#output, this.attrs(keyFormat, itemList, style));
-			}
-
-			// Add item by type, or add a rollformat
-			else if ([...Object.keys(itemDefaults), "Rollformat"].includes(inputData)) {
-				let keyFormat, itemList, style;
-				let newid = generateRowID();
-				
-				if (inputData == "Rollformat") {
-					// Adds a new rollformat to the item open in the editor
-					this[this.editor.target].rollformats.push(itemFormat.rollformats[0]); // Need to properly set the editor to the itemList for this to work
-					this.editor.IDs.rollformats.push(newid);
-					
-					// A maximum of five rollformats are accepted
-					if (this.editor.IDs.rollformats.length >= 5) {
-						this.#output.rollFormatAddToggle = "true";
-					}
-
-					keyFormat = itemSheetKeys.editor.optionRollFormat.subattrs;
-					itemList = itemFormat.rollformats;
-					style = {prefix: "item"}
-				} else {
-					// Adds a new item to the itemList
-					this.itemList[newid] = {...itemFormat, ...itemDefaults[inputData]}; // This may not work. May need a function to apply default values
-					this.#addAccessors(newid);
-
-					itemList = {[newid]: this.itemList[newid]};
-				}
-				
-				// Adds the new item to the sheet, or the new rollformat to the editor
-				Object.assign(this.#output, this.attrs(keyFormat, itemList, style));
-			}
+	// Item data used by input/output is sorted as {sheet: {values}, editor: {values}}
+	#sortItemData(rawData) {
+		if (rawData.sheet && rawData.editor) {
+			return rawData;
 		} else {
-			this.#writeError("add");
+			let sortedData = {sheet: rawData, editor: {}}
+			for (const attr of Object.keys(rawData)) {
+				if (!attr.startsWith("repeating") || itemNode.format.sections.editor.some(source => attr.startsWith(`repeating_${source}_`))) {
+					if (this.editor.target) {
+						sortedData.editor[attr] = sortedData.sheet[attr];
+					}
+					delete sortedData.sheet[attr];
+				}
+			}
+			return sortedData;
 		}
-		return this;
 	}
-	*/
 
-	// Adds one or more new items to the itemList. Accepts itemListHandlers, itemLists or an item type (ex. "Weapon". Case sensitive)
+
+	// Adds one or more new items to the itemList. Accepts itemListHandlers, itemLists or an item type (ex. "Weapon". Case insensitive)
 	// If using an item type the item will match the default values of that item type
 	// .add("Rollformat") can alternatively be used to add a new rollformat in the editor
-	add(inputData, options={id:false}) {
+	add(inputData, options={id:false, defaults:undefined}) {
 		console.log(this.#accessMode, "mode - Adding new item(s): ", inputData)
 		if (this.#accessMode != "read") {
-			if (inputData.itemList) { inputData = inputData.itemList; }
-
+			
 			// Add items from another itemList
 			if (typeof(inputData) == "object" && length(inputData) > 0) {
+				if (inputData.itemList) { inputData = inputData.itemList; }
 
 				// Adds one or more new items to the itemList
 				for (const [id, data] of Object.entries(inputData)) {
-					this.itemList[id] = new itemNode(data, id);
+					this.itemList[id] = new Proxy(new itemNode(data.type, id, {base: data, default:false}), itemNodeHandler);
 					this.#addAccessors(id);
-					// Needs function to calculate output
+					Object.assign(this.outputValues, this[id].output.sheet);
 				}
 			}
 
@@ -16575,18 +16918,21 @@ class itemListHandler {
 				
 				if (inputData == "Rollformat") {
 					// Adds a new rollformat to the item open in the editor
-					this[this.editor.target].add(inputData); // Need to properly set the editor to the itemList for this to work
-					this.editor.IDs.rollformats.push(newid);
+					if (this.editor.target) {
+						this[this.editor.target].add("Rollformat");
+						this.editor.IDs.rollformats.push(newid);
+						let rollFormatValues = this[this.editor.target].rollformats[this.editor.IDs.rollformats.length - 1].output;
+						Object.assign(this.outputValues, rollFormatValues.editor, rollFormatValues.sheet);
+					}
 					
 					// A maximum of five rollformats are accepted
-					if (this.editor.IDs.rollformats.length >= 5) {
-						this.#output.rollFormatAddToggle = "true";
-					}
+					this.outputValues.rollFormatAddToggle = "" + (this.editor.IDs.rollformats.length >= 5);
+
 				} else {
 					// Adds a new item to the itemList
-					this.itemList[newid] = new itemNode(inputData, newid); // May work
+					this.itemList[newid] = new Proxy(new itemNode(capitalize(inputData), newid), itemNodeHandler);
 					this.#addAccessors(newid);
-					// Needs function to calculate output
+					Object.assign(this.outputValues, this[newid].output.sheet);
 				}
 			}
 		} else {
@@ -16594,10 +16940,10 @@ class itemListHandler {
 		}
 		return this;
 	}
-	#add(inputData) {
+	#add(inputData, options={}) {
 		let oldAccess = this.#accessMode;
 		this.#accessMode = "write";
-		this.add(inputData);
+		this.add(inputData, options);
 		this.#accessMode = oldAccess;
 	}
 
@@ -16649,6 +16995,7 @@ class itemListHandler {
 		delete this[itemId];
 	}
 
+
 	// Imports one or more items from an export script
 	// The items are added to the current itemList by default. "Replace" mode may be used to overwrite the itemList
 	import(itemScript, mode="Add") {
@@ -16681,12 +17028,37 @@ class itemListHandler {
 		return this; // Allows chaining
 	}
 
+
+	// Returns an array of event keys for the specified source. "type" is a type of event (ex. "change")
+	// A predicate can be provided to filter which event keys are returned
+	event(type, source, filter) {
+		if (!this.#event.keys[source]) {
+			this.#event.keys[source] = new itemNode("Effect").keys(type)[source];
+		}
+		return (filter) ? this.#event.keys[source].filter(filter).join(" ")
+						: this.#event.keys[source].join(" ");
+	}
+
+
+
+
+
+
+
+	// Takes
+	handleEvent(type, info, options={}) {
+		// Check if the new value matches the format
+	}
+
+
+
+
+
 	// Returns a subset of the itemList. Allows other handler methods to affect only part of the itemList
 	filter(predicate, useOrigList=false) {
-		let itemList = (useOrigList) ? this.origItemList : this.itemList;
 		return this.IDs
-			.filter(id => predicate(itemList[id]))
-			.reduce((acc, id) => (acc.add({[id]: itemList[id]}), acc), new itemListHandler(this));
+			.filter(id => predicate(this[id]))
+			.reduce((acc, id) => acc.#add({[id]: this[id]}), new itemListHandler(this)); // Need to make this use the same access as the base itemList
 	}
 
 	/* Some pre-made filters for commonly accessed values */
@@ -16715,6 +17087,7 @@ class itemListHandler {
 		return linkedItems;
 	}
 
+
 	/* Assorted */
 	#writeError(method) {
 		throw new Error(`Attempted to use method "${method}" in itemList without accessing in write mode`)
@@ -16725,6 +17098,17 @@ class itemListHandler {
 let itemList = new itemListHandler();
 
 
+
+
+
+
+/* Temp itemList events area */
+on(itemList.event("change", "editor", (attr => attr.includes("option"))), function(info) {
+	console.log(info);
+	itemList.access("write", {}, () => {
+		//itemList.input({[info.sourceAttribute]: info.newValue || false});
+	});
+});
 
 
 
@@ -16745,17 +17129,20 @@ let itemList = new itemListHandler();
 on("clicked:testA", function(info) {
 	console.log("Clicked button A");
 
-	itemList.access("write", {editor: true}, () => {
-		//console.log(test);
-		//console.log(test.itemList);
-		//console.log(test.items);
-		//console.log(test.IDs);
+	itemList.access("write", {editor: true}, () => { // input()
 
+		let itemId = generateRowID();
 
-		itemList.add("Weapon");
-		console.log(itemList.output);
+		let itemOutput = itemList.output;
 
-		console.log(itemList.items);
+		itemList.item(0).type = "Outfit";
+		itemList.item(0).limited.uses.resource.action = true;
+
+		//itemList[itemList.IDs[0]].rollformats["0"].type = "Custom";
+		//itemList[itemList.IDs[0]].rollformats["0"].count = "7";
+		//itemList[itemList.IDs[0]].rollformats["0"].resource.reaction.type = "Block";
+
+		console.log(itemList.items)
 	});
 });
 
@@ -16904,18 +17291,28 @@ on("clicked:clearSearchBar", function() {
 
 /*--- AutoScript functions ---*/
 
+console.log("clicked:autoScriptEdit" + itemEvent("clicked", "edit-autoscript")
+  + ["roll", "store"].reduce((acc, type) => acc += ` clicked:repeating_rollformats:edit-${type}autoscript`, ""))
+
 /* AutoScript editor open button */
-on("clicked:autoScriptEdit clicked:repeating_rollformats:edit-item-autoscript" + itemEvent("clicked", "edit-item-autoscript"), function(info) {	
+on("clicked:autoScriptEdit" + itemEvent("clicked", "edit-autoscript")
+  + ["roll", "store"].reduce((acc, type) => acc += ` clicked:repeating_rollformats:edit-${type}autoscript`, ""), function(info) {	
 	getAttrs(["autoScriptEditorTargetOld"], function(values) {
 		let target = (info.htmlAttributes.id == "autoScriptReturn") ? values.autoScriptEditorTargetOld
-				   : (info.sourceAttribute?.includes("repeating")) ? info.sourceAttribute.replace("_edit-item-", "_")
+				   : (info.sourceAttribute?.includes("repeating")) ? info.sourceAttribute.replace("_edit-", "_")
 				   : info.htmlAttributes.id;
 
 		if (target.includes("repeating")) {
 			let targetNameAttr = (target.includes("rollformats")) ? "itemEditorTargetName" : target.replace("_autoscript", "_name");
 
 			getAttrs([targetNameAttr], function(values) {
-				let targetName = `${values[targetNameAttr]}${(target.includes("rollformats")) ? ` (${getTranslationByKeyCustom("Roll format", "item-rollformat")})` : ""}`;
+				let targetName = values[targetNameAttr]
+				if (target.endsWith("rollautoscript")) {
+					targetName += ` (${getTranslationByKeyCustom("Roll format", "item-rollformat")})`;
+				}
+				else if (target.endsWith("storeautoscript")) {
+					targetName += ` (${getTranslationByKeyCustom("Recycle", "item-roll-recycle")})`;
+				}
 
 				openEditor("autoScript", target, targetName);
 			});
@@ -18892,6 +19289,48 @@ function packageAttrData(values={}, replaceList={}, dataFormat, repFormat, type=
 	return textbase;
 }
 
+
+/* Item Editor */
+/* Item attributes used in the item editor as well as their default values. Includes both normal and repeating attributes */
+/* When creating a new item, override the default values with those of the specific item created (see below) */
+/* In addition to a default value a check function can be provided. This is used in packageAttrData() */
+const itemEditorAttrs = {
+	"type": "None",
+	
+	"optionRollFormat": 0,
+		"repeating_rollformats:rollFormats:includeDefault": {
+			rollUse: "Roll", rollType: "Any", rollDamage: "None",
+			diceCount: 1, diceMax: 6, dicePower: 0, AutoScript: ""
+		},
+	
+	"optionUses": 0,
+
+	"optionLinked": 0,
+
+	"optionMystery": 0,
+	
+	"optionEquipSlots": 0,
+
+	"optionTags": 0,
+
+	"optionStyle": 0,
+		"optionIcon": 0,
+		"optionColor": 0,
+	
+	"optionLimitedUses": 0,
+		"optionUses": 0, "usesMax": 0, "useMode": "Limited",
+		"optionLightCost": 0, "lightCost": 0,
+	
+	"optionResistance": 0,
+		"optionDamageResistance": 0,
+		"optionAilmentResistance": 0,
+			"burnResist": 0, "bleedResist": 0, "damageResist": 0,
+			"repeating_ailments:customResist:ignoreDefault": {
+				ailCustomResistance: 0, ailName: "Unknown", itemAilCustomResistanceNum: 0
+			}
+}
+
+
 /* Item editor open button */
 on(itemEvent("clicked", "edit-item"), function(info) {
 	let itemData = info.sourceAttribute.replace("_edit-item", "_itemData");
@@ -20276,10 +20715,18 @@ function roundTowardsZero(value) {
 }
 // Capitalizes or uncapitalizes a string
 function capitalize(string) {
-	return string.charAt(0).toUpperCase() + string.slice(1);
+	if (typeof string == "string" && string.length > 0) {
+		return string.charAt(0).toUpperCase() + string.slice(1);
+	} else {
+		return string;
+	}
 }
 function uncapitalize(string) {
-	return string.charAt(0).toLowerCase() + string.slice(1);
+	if (typeof string == "string" && string.length > 0) {
+		return string.charAt(0).toLowerCase() + string.slice(1);
+	} else {
+		return string;
+	}
 }
 function replaceLast(string, match, replace) {
 	let i = string.lastIndexOf(match);
@@ -20353,7 +20800,7 @@ const is = new Proxy( // In English: "When accessing "is", treat it as "Reflect.
 class checkVal {
 	static x;
 
-	static Int(i, opts={}) { this.x = i; return !isNaN(parseInt(i)) && this.Opts(opts); }
+	static Int(i, opts={}) { return !isNaN(parseInt(i)) && this.Opts(i, opts); }
 	static String(s, opts={newlines:true}) { return typeof(s) == "string" && (opts.newline) ? !s.includes("\n") : true; }
 	static ID(s, opts={}) { return is.String(s) && (opts.strict ? /^-[A-Za-z0-9-]{19}$/ : /^-.{19}$/).test(s) } // Checks if a Roll20-style id is valid
 	
@@ -20361,17 +20808,19 @@ class checkVal {
 	static True(b) { return [true, "true", 1].includes(b); }
 	static Bool(b) { return [false, true, "false", "true", 0, 1].includes(b); }
 
-	static Array(a, opts={}) { return Array.isArray(a) && this.Opts(a.length, opts); }
+	static Array(a, opts={}) { console.log("Array heeeeere:", a, a.length, opts, this.Opts(a.length, opts)); return Array.isArray(a) && this.Opts(a.length, opts); }
 	static Object(o, opts={}) { return typeof(o) == "object" && !Array.isArray(o) && this.Opts(length(o), opts); }
-	static In(o) { return (is.Object(o)) ? this.x in o : o.includes(this.x) }
+	static In(o) { return (Array.isArray(o)) ? o.includes(this.x) : this.x in o }
 
-	static Min(min, opts={inclusive:false}) { return is.Int(this.x) && is.Int(min) && (opts.inclusive ? this.x >= min : x > min); }
-	static Max(max, opts={inclusive:false}) { return is.Int(this.x) && is.Int(max) && (opts.inclusive ? this.x <= max : x < max); }
-	static Between(min, max, opts={inclusive:false}) { return this.Opts({...opts, min: min, max: max}); }
+	static Min(min, opts={}) { return opts.inclusive ? this.x >= min : this.x > min; }
+	static Max(max, opts={}) { return opts.inclusive ? this.x <= max : this.x < max; }
+	static Between(min, max, opts={}) { return this.Opts(i, {...opts, min: min, max: max}); }
 	
-	static Opts(opts={min:false, max:false, inclusive:false}) {
-		if (opts.min && !is.Min(opts.min, opts)) { return false; }
-		if (opts.max && !is.Max(opts.max, opts)) { return false; }
+	static Opts(i, opts={min:false, max:false}) {
+		this.x = i;
+		if (opts.inclusive == undefined) opts.inclusive = true;
+		if (typeof opts.min == "number" && !is.Min(opts.min, opts)) { return false; }
+		if (typeof opts.max == "number" && !is.Max(opts.max, opts)) { return false; }
 		return true;
 	}
 }
