@@ -135,7 +135,7 @@
 			<div class="messageClose"><label for="messageToggle">x</label></div>
 
 			<input type="text" class="mHeader transpInput" name="attr_popup_messageHeader">
-			<textarea type="text" class="mBody transpInput" name="attr_popup_messageBody" style="overflow: hidden;">
+			<textarea type="text" class="mBody transpInput" name="attr_popup_messageBody" style="overflow: hidden;"></textarea>
 		</div>
 	</div>
 </div>
@@ -144,20 +144,27 @@
 <!-- AutoScript edit popup -->
 <input type="checkbox" class="hide-toggle-next" name="attr_autoScriptEditor_display" value="true" hidden="true">
 <div id="autoscriptEditor" class="hide-item contentContainer darkBG editorContainer">
-	<div class="editorControls">
-		<input type="checkbox" class="toggleAliasButton" name="attr_autoScriptEditorTarget" value="autoScriptAlias" hidden="true">
-		<input type="checkbox" class="toggleStylingButton" name="attr_autoScriptEditorTarget" value="autoScriptStyling" hidden="true">
-		<button type="action" id="autoScriptAlias" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-editor-aliases-title" title="Open AutoScript Alias Editor" data-i18n="autoscript-editor-aliases">AutoScript Aliases</button>
-		<button type="action" id="autoScriptStyling" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-editor-styling" title="Open AutoScript Styling Editor" data-i18n="autoscript-editor-styling">AutoScript Styling</button>
-		<button type="action" id="autoScriptReturn" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-editor-return" title="Return to Editor" data-i18n="autoscript-editor-return">Return to Editor</button>
-		<button type="action" id="autoScriptAliasDefault" class="darkInput" name="act_autoScriptDefault" data-i18n-title="autoscript-editor-aliases-reset" title="Reset Aliases to Default" data-i18n="autoscript-editor-aliases-reset">Reset Aliases to Default</button>
-		<button type="action" id="autoScriptStylingDefault" class="darkInput" name="act_autoScriptDefault" data-i18n-title="autoscript-editor-styling-reset" title="Reset Styling to Default" data-i18n="autoscript-editor-styling-reset">Reset Styling to Default</button>
-		<button type="action" id="autoScriptClose" class="darkInput centerIcon mediumIcon exit" name="act_closeAutoScriptEdit" data-i18n-title="autoscript-editor-close" title="Save and close AutoScript Editor"></button>
+	
+	<!-- Editor header  -->
+	<div class="editorHeader">
+		<label for="autoScriptInput" data-i18n="autoscript-editor">AutoScript Editor</label>
+		<input type="text" class="editorTarget" name="attr_autoScriptEditorTargetName" readonly>
+		<input type="text" name="attr_autoScriptEditorTarget" hidden="true">
+
+		<div class="editorControls">
+			<input type="checkbox" class="toggleAliasButton" name="attr_autoScriptEditorTarget" value="autoScriptAlias" hidden="true">
+			<input type="checkbox" class="toggleStylingButton" name="attr_autoScriptEditorTarget" value="autoScriptStyling" hidden="true">
+			<button type="action" id="autoScriptAlias" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-editor-aliases-title" title="Open AutoScript Alias Editor" data-i18n="autoscript-editor-aliases">AutoScript Aliases</button>
+			<button type="action" id="autoScriptStyling" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-editor-styling" title="Open AutoScript Styling Editor" data-i18n="autoscript-editor-styling">AutoScript Styling</button>
+			<button type="action" id="autoScriptReturn" class="darkInput" name="act_autoScriptEdit" data-i18n-title="autoscript-editor-return" title="Return to Editor" data-i18n="autoscript-editor-return">Return to Editor</button>
+			<button type="action" id="autoScriptAliasDefault" class="darkInput" name="act_autoScriptDefault" data-i18n-title="autoscript-editor-aliases-reset" title="Reset Aliases to Default" data-i18n="autoscript-editor-aliases-reset">Reset Aliases to Default</button>
+			<button type="action" id="autoScriptStylingDefault" class="darkInput" name="act_autoScriptDefault" data-i18n-title="autoscript-editor-styling-reset" title="Reset Styling to Default" data-i18n="autoscript-editor-styling-reset">Reset Styling to Default</button>
+			<button type="action" id="autoScriptClose" class="darkInput mediumIcon exit" name="act_closeAutoScriptEdit" data-i18n-title="autoscript-editor-close" title="Save and close AutoScript Editor"></button>
+		</div>
 	</div>
-	<label for="autoScriptInput" style="margin-left: 5px;" data-i18n="autoscript-editor">AutoScript Editor</label>
-	<input type="text" class="editorTarget darkBG" name="attr_autoScriptEditorTargetName" readonly>
-	<input type="text" name="attr_autoScriptEditorTarget" hidden="true">
-	<textarea spellcheck="false" class="editorInput" name="attr_autoScriptEditorInput"></textarea>
+
+	<!-- Editor contents  -->
+	<textarea spellcheck="false" class="editorInput lightScroll" name="attr_autoScriptEditorInput"></textarea>
 
 	<!-- Used for data storage -->
 	<input type="text" name="attr_autoScriptEditorTargetOld" hidden="true">
@@ -170,33 +177,34 @@
 
 <!-- Item edit popup -->
 <input type="checkbox" class="hide-toggle-next" name="attr_itemEditor_display" value="true" hidden="true">
-<div id="itemEditor" class="hide-item contentContainer darkBG editorContainer">
-	<div class="editorControls">
-
-		<!-- Item type -->
-		<select name="attr_itemEditType" class="darkInput itemType">
-			<option value="Weapon" data-i18n="item-type-weapon">Weapon</option>
-			<option value="Outfit" data-i18n="item-type-outfit">Outfit</option>
-			<option value="Augment" data-i18n="item-type-augment">Augment</option>
-			<option value="Tool" data-i18n="item-type-tool">Tool</option>
-			<option value="Skill" data-i18n="item-type-skill">Skill</option>
-			<option value="Special" data-i18n="item-type-special">Special</option>
-		</select>
-
-		<!-- Close editor -->
-		<button type="action" id="itemClose" class="darkInput centerIcon mediumIcon exit" name="act_closeItemEdit" data-i18n-title="item-editor-close" title="Save and close Item Editor"></button>
+<div id="itemEditor" class="hide-item contentContainer columnAlign darkBG editorContainer">
+	
+	<!-- Editor header  -->
+	<div class="editorHeader">
+		<label for="itemInput" data-i18n="item-editor">Item Editor</label>
+		<input type="text" class="editorTarget" name="attr_itemEditorTargetName" readonly>
+		<input type="text" name="attr_itemEditorTarget" hidden="true">
+		
+		<div class="editorControls">
+			<select name="attr_itemEditType" class="darkInput itemType">
+				<option value="Weapon" data-i18n="item-type-weapon">Weapon</option>
+				<option value="Outfit" data-i18n="item-type-outfit">Outfit</option>
+				<option value="Augment" data-i18n="item-type-augment">Augment</option>
+				<option value="Tool" data-i18n="item-type-tool">Tool</option>
+				<option value="Skill" data-i18n="item-type-skill">Skill</option>
+				<option value="Special" data-i18n="item-type-special">Special</option>
+			</select>
+			<button type="action" id="itemClose" class="darkInput mediumIcon exit" name="act_closeItemEdit" data-i18n-title="item-editor-close" title="Save and close Item Editor"></button>
+		</div>
 	</div>
-
-	<label for="itemInput" style="margin-left: 5px;" data-i18n="item-editor">Item Editor</label>
-	<input type="text" class="editorTarget darkBG" name="attr_itemEditorTargetName" readonly>
-	<input type="text" name="attr_itemEditorTarget" hidden="true">
-
-
-	<!-- Item options -->
+	
+	
+	<!-- Editor contents -->
+	<div class="editorScroll darkScroll">
 	<div class="itemOptionContainer">
 
 		<!-- Option: Roll formats -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionRollFormat" value="true"><span>Roll Format</span></label>
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionRollFormat" value="true"><span>Roll Format</span></label>
 			<div class="rollFormatContainer">
 				
 				<!-- Custom add repeating rollformat button -->
@@ -262,7 +270,7 @@
 					<div class="itemOptionContainer inline">
 
 						<!-- Recycle / store roll -->
-						<div class="itemOption inline rowContainer"><label><input type="checkbox" name="attr_itemEditOptionStoreRoll" value="true"><span>Recycle</span></label>
+						<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionStoreRoll" value="true"><span>Recycle</span></label>
 							<div class="rowContainer combatRoll">
 								<div class="rollFormatBlock">
 									<input type="number" class="diceCount noSpinner" name="attr_storeCount" value="0">
@@ -285,8 +293,12 @@
 						</div>
 
 						<!-- Roll resource -->
-						<div class="itemOption inline rowContainer"><label><input type="checkbox" name="attr_itemEditOptionRollAction" value="true"><span>Action</span></label>
-							<input type="number" class="darkInput" name="attr_rollActionCost" value="1" min="0">
+						<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionRollAction" value="true"><span>Action</span></label>
+							<div class="rowContainer fitContents">
+								<input type="checkbox" class="fade-toggle" name="attr_rollActionCost" value="0" hidden="true">
+								<div class="fade-item mediumIcon egoSpecial"></div>
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_rollActionCost" min="0" value="0">
+							</div>
 
 							<select name="attr_rollActionType" class="whiteInput">
 								<option value="None" data-i18n="item-none">---</option>
@@ -299,8 +311,12 @@
 							</select>
 						</div>
 
-						<div class="itemOption inline rowContainer"><label><input type="checkbox" name="attr_itemEditOptionRollRection" value="true"><span>Rection</span></label>
-							<input type="number" class="darkInput" name="attr_rollReactionCost" value="1" min="0">
+						<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionRollReaction" value="true"><span>Reaction</span></label>
+							<div class="rowContainer fitContents">
+								<input type="checkbox" class="fade-toggle" name="attr_rollReactionCost" value="0" hidden="true" checked>
+								<div class="fade-item mediumIcon reaction"></div>
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_rollReactionCost" min="0" value="0">
+							</div>
 
 							<select name="attr_rollReactionType" class="whiteInput">
 								<option value="None" data-i18n="item-none">---</option>
@@ -317,209 +333,345 @@
 			</div>
 		</div>
 
-		<!-- Option: Linked -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionLinked" value="true"><span>Linked</span></label>
 
-			<!-- Unfinished -->
-			Linked ID: <input type="text" class="whiteInput" name="attr_linkedId" placeholder="Linked id">
-			Equip Together: <input type="checkbox" class="whiteInput" name="attr_linkedEquipTogether" value="true">
-		</div>
+		<!-- Option: Resistances -->
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionResist" value="true"><span>Resistances</span></label>
+			<div class="itemOptionContainer">
+					
+				<!-- Base Damage Resistance -->
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionResistBaseDamage" value="true"><span>Base damage</span></label>
+					<div class="columnAlign">
+						
+						<!-- Slash -->
+						<div class="rowContainer">
+							<div class="mediumIcon slashNormal"></div>
+							<input type="number" class="darkInput noSpinner" name="attr_slashBaseHP" min="0" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_slashBaseST" min="0" value="1">
+							<div class="mediumIcon slashNormalSTG"></div>
 
+							<select name="attr_slashBaseMode" class="whiteInput">
+								<option value="None" data-i18n="item-none">---</option>
+								<option value="Add" data-i18n="import-type-add">Action</option>
+								<option value="Replace" data-i18n="import-type-replace">Reaction</option>
+							</select>
+						</div>
 
-		<!-- Option: Mystery -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionMystery" value="true"><span>Mystery</span></label>
-			
-			<!-- Unfinished -->
-			Mystery Activation: <input type="text" class="whiteInput" name="attr_itemEditMysteryActivation" placeholder="Mystery activation">
-		</div>
+						<!-- Pierce -->
+						<div class="rowContainer">
+							<div class="mediumIcon pierceNormal"></div>
+							<input type="number" class="darkInput noSpinner" name="attr_pierceBaseHP" min="0" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_pierceBaseST" min="0" value="1">
+							<div class="mediumIcon pierceNormalSTG"></div>
 
+							<select name="attr_pierceBaseMode" class="whiteInput">
+								<option value="None" data-i18n="item-none">---</option>
+								<option value="Add" data-i18n="import-type-add">Action</option>
+								<option value="Replace" data-i18n="import-type-replace">Reaction</option>
+							</select>
+						</div>
 
-		<!-- Option: Equip Slots -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionEquipSlots" value="true"><span>Equip slots</span></label>
-			
-			<!-- Unfinished -->
-			Slot Type: <input type="text" class="whiteInput" name="attr_slotType" placeholder="Slot type">
-			Slot Use: <input type="number" class="whiteInput" name="attr_slotUse" placeholder="1">
-		</div>
+						<!-- Blunt  -->
+						<div class="rowContainer">
+							<div class="mediumIcon bluntNormal"></div>
+							<input type="number" class="darkInput noSpinner" name="attr_bluntBaseHP" min="0" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_bluntBaseST" min="0" value="1">
+							<div class="mediumIcon bluntNormalSTG"></div>
 
+							<select name="attr_bluntBaseMode" class="whiteInput">
+								<option value="None" data-i18n="item-none">---</option>
+								<option value="Add" data-i18n="import-type-add">Action</option>
+								<option value="Replace" data-i18n="import-type-replace">Reaction</option>
+							</select>
+						</div>
+					</div>
+				</div>
 
-		<!-- Option: Tags -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionTags" value="true"><span>Tags</span></label>
-			<!-- Should be hidden when a game settings is disabled -->
-		</div>
+				<!-- Flat Damage Resistance -->
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionResistFlatDamage" value="true"><span>Flat damage</span></label>
+					<div class="columnAlign">
+						
+						<!-- Slash -->
+						<div class="rowContainer centerFlex">
+							<div class="rowContainer">
+								<input type="checkbox" class="fade-toggle" name="attr_slashFlatHP" value="0" hidden="true" checked>
+								<div class="fade-item mediumIcon slashNormal"></div>
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_slashFlatHP" min="0" value="0">
+							</div>
 
+							<div class="rowContainer">
+								<input type="checkbox" class="fade-toggle" name="attr_slashFlatST" value="0" hidden="true" checked>
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_slashFlatST" min="0" value="0">
+								<div class="fade-item mediumIcon slashNormalSTG"></div>
+							</div>
 
-		<!-- Option: Style -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionStyle" value="true"><span>Style</span></label>
-			<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionIcon" value="true"><span>Icon</span></label>
-			
-				<!-- Unfinished -->
-				Icon Source: <input type="text" class="whiteInput" name="attr_iconSource" placeholder="Icon source">
+							<select name="attr_slashFlatMode" class="whiteInput">
+								<option value="None" data-i18n="item-none">---</option>
+								<option value="Add" data-i18n="import-type-add">Action</option>
+								<option value="Replace" data-i18n="import-type-replace">Reaction</option>
+							</select>
+						</div>
+
+						<!-- Pierce -->
+						<div class="rowContainer centerFlex">
+							<div class="rowContainer">
+								<input type="checkbox" class="fade-toggle" name="attr_pierceFlatHP" value="0" hidden="true" checked>
+								<div class="fade-item mediumIcon pierceNormal"></div>
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_pierceFlatHP" min="0" value="0">
+							</div>
+
+							<div class="rowContainer">
+								<input type="checkbox" class="fade-toggle" name="attr_pierceFlatST" value="0" hidden="true" checked>
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_pierceFlatST" min="0" value="0">
+								<div class="fade-item mediumIcon pierceNormalSTG"></div>
+							</div>
+
+							<select name="attr_pierceFlatMode" class="whiteInput">
+								<option value="None" data-i18n="item-none">---</option>
+								<option value="Add" data-i18n="import-type-add">Action</option>
+								<option value="Replace" data-i18n="import-type-replace">Reaction</option>
+							</select>
+						</div>
+
+						<!-- Blunt  -->
+						<div class="rowContainer centerFlex">
+							<div class="rowContainer">
+								<input type="checkbox" class="fade-toggle" name="attr_bluntFlatHP" value="0" hidden="true" checked>
+								<div class="fade-item mediumIcon bluntNormal"></div>
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_bluntFlatHP" min="0" value="0">
+							</div>
+
+							<div class="rowContainer">
+								<input type="checkbox" class="fade-toggle" name="attr_bluntFlatST" value="0" hidden="true" checked>
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_bluntFlatST" min="0" value="0">
+								<div class="fade-item mediumIcon bluntNormalSTG"></div>
+							</div>
+
+							<select name="attr_bluntFlatMode" class="whiteInput">
+								<option value="None" data-i18n="item-none">---</option>
+								<option value="Add" data-i18n="import-type-add">Action</option>
+								<option value="Replace" data-i18n="import-type-replace">Reaction</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<!-- Ailment Resistance -->
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionResistAilments" value="true"><span>Ailments</span></label>
+					<div class="columnAlign" style="margin-top: 3px;">
+
+						<!-- Burn/Bleed/Damage Resist -->
+						<div class="ailmentResistContainer">
+							<div class="rowContainer">
+								<input type="checkbox" class="fade-toggle" name="attr_itemEditBurnResist" value="0" hidden="true" checked>
+								<div class="fade-item">
+									<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+									<div class="swap-item-rev mediumIcon burn"></div> <div class="swap-item mediumIcon burn-limbus"></div>
+								</div>
+								<input type="number" class="fade-item darkInput" name="attr_itemEditBurnResist" value="0">
+							</div>
+	
+							<div class="rowContainer">
+								<input type="checkbox" class="fade-toggle" name="attr_itemEditBleedResist" value="0" hidden="true" checked>
+								<div class="fade-item">
+									<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+									<div class="swap-item-rev mediumIcon bleed"></div> <div class="swap-item mediumIcon bleed-limbus"></div>
+								</div>
+								<input type="number"  class="fade-item darkInput" name="attr_itemEditBleedResist" value="0">
+							</div>
+	
+							<div class="rowContainer">
+								<input type="checkbox" class="fade-toggle" name="attr_itemEditDamageResist" value="0" hidden="true" checked>
+								<div class="fade-item">
+									<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+									<div class="swap-item-rev mediumIcon damageResist"></div> <div class="swap-item mediumIcon damageResist-limbus"></div>
+								</div>
+								<input type="number" class="fade-item darkInput" name="attr_itemEditDamageResist" value="0">
+							</div>
+						</div>
+	
+						<!-- Custom Resist -->
+						<div class="ailmentResistContainer">
+							<fieldset class="repeating_ailments">
+								<input type="checkbox" class="hide-toggle" name="attr_ailCustomResistance" hidden="true" value="true">
+								<div class="rowContainer hide-item">
+									<input type="checkbox" class="fade-toggle" name="attr_itemEditCustomResistanceNum" value="0" hidden="true" checked>
+									<img class="fade-item mediumIcon" name="attr_ailIconDisplay">
+									<input type="number" class="fade-item darkInput" name="attr_itemEditCustomResistanceNum" value="0">
+								</div>
+							</fieldset>
+						</div>
+
+					</div>
+				</div>
 			</div>
-
-			<!-- Unfinished -->
-			Color: <input type="text" class="whiteInput" name="attr_color" placeholder="Color">
-			Accent: <input type="text" class="whiteInput" name="attr_accent" placeholder="Accent">
 		</div>
 
 
 		<!-- Option: Limited uses -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionLimited" value="true"><span>Limited uses</span></label>
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionLimited" value="true"><span>Limited uses</span></label>
+			<div class="itemOptionContainer">
 			
-			<!-- Uses -->
-			<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionUses" value="true"><span>Uses</span></label>
-				<div class="rowContainer">
-					<input type="checkbox" class="fade-toggle" name="attr_itemEditUsesMax" value="0" hidden="true">
-					<div class="mediumIcon centerIcon reusable"></div>
-					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemUsesMax" min="0" value="0"></div>
-					
-					<!-- May not look right -->
-					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemUsesCurrent" min="0" value="0"></div>
-
-					<input type="checkbox" class="hide-toggle-rev-next" name="attr_itemEditUsesMax" value="0" hidden="true">
-					<div class="hide-item-rev">
-						<select name="attr_itemEditUseType" class="darkInput">
-							<option value="None" data-i18n="item-none">---</option>
-							<option value="Standalone" data-i18n="item-usetype-standalone">Standalone: Used like a tool</option>
-							<option value="Applied" data-i18n="item-usetype-applied">Applied: Used like a skill</option>
-							<option value="Both" data-i18n="item-usetype-both">Both: Used as a tool or skill</option>
-						</select>
-
-						<select name="attr_itemEditUseMode" class="darkInput">
-							<option value="None" data-i18n="item-none">---</option>
-							<option value="Limited" data-i18n="item-usemode-manual">Manual: Manually restore uses</option>
-							<option value="Refresh" data-i18n="item-usemode-refresh">Refresh: Restore uses on Refresh</option>
-							<option value="Recover" data-i18n="item-usemode-recover">Recover: Restore uses on Recover</option>
-							<option value="Combat" data-i18n="item-usemode-combat">Combat: Restore uses on Combat end</option>
-							<option value="Round" data-i18n="item-usemode-round">Round: Restore uses on Round end</option>
-							<option value="Loaded" data-i18n="item-usemode-loaded">Loaded: Consumes uses from Ammo item</option>
-							<option value="Ammo" data-i18n="item-usemode-ammo">Ammo: Used by Loaded items</option>
-						</select>
-					</div>
-				</div>
-			
-				<!-- Uses Resource -->
-				<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionUsesResource" value="true"><span>Uses Resource</span></label>
-					<div class="rowContainer">
-						
-						<!-- Unfinished -->
-						<div>
-							Opt. Action: <input type="checkbox" class="whiteInput" name="attr_itemEditOptionUseAction0" value="true">
-							Use Act Cost: <input type="number" class="whiteInput" name="attr_itemEditUseActionCost0" placeholder="1">
-							Use Act Type: <input type="text" class="whiteInput" name="attr_itemEditUseActionType0" placeholder="Act type">
-						</div>
-						<div>
-							Opt. Reaction: <input type="checkbox" class="whiteInput" name="attr_itemEditOptionUsesRection0" value="true">
-							Use React Cost: <input type="number" class="whiteInput" name="attr_itemEditUseReactionCost0" placeholder="1">
-							Use React Type: <input type="text" class="whiteInput" name="attr_itemEditUseReactionType0" placeholder="React type">
+				<!-- Uses charges -->
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUses" value="true"><span>Uses</span></label>
+					<div class="useCounter">
+						<input type="checkbox" class="fade-toggle" name="attr_itemEditUsesMax" value="0" hidden="true" checked>
+						<div class="fade-item mediumIcon reusable"></div>
+						<div class="darkInput useFormat">
+							<input type="number" class="fade-item useCurrent transpInput noSpinner" name="attr_itemEditUsesCurrent" min="0" value="0">
+							<div class="plainText">/</div>
+							<input type="number" class="fade-item useMax transpInput hoverSpinner" name="attr_itemEditUsesMax" min="0" value="0">
 						</div>
 					</div>
+
+					<select name="attr_itemEditUseType" class="whiteInput" style="width: 80px;">
+						<option value="None" data-i18n="item-none">---</option>
+						<option value="Standalone" data-i18n="item-usetype-standalone">Standalone: Used like a tool</option>
+						<option value="Applied" data-i18n="item-usetype-applied">Applied: Used like a skill</option>
+						<option value="Both" data-i18n="item-usetype-both">Both: Used as a tool or skill</option>
+					</select>
+
+					<select name="attr_itemEditUseMode" class="whiteInput" style="width: 80px;">
+						<option value="None" data-i18n="item-none">---</option>
+						<option value="Limited" data-i18n="item-usemode-manual">Manual: Manually restore uses</option>
+						<option value="Refresh" data-i18n="item-usemode-refresh">Refresh: Restore uses on Refresh</option>
+						<option value="Recover" data-i18n="item-usemode-recover">Recover: Restore uses on Recover</option>
+						<option value="Combat" data-i18n="item-usemode-combat">Combat: Restore uses on Combat end</option>
+						<option value="Round" data-i18n="item-usemode-round">Round: Restore uses on Round end</option>
+						<option value="Loaded" data-i18n="item-usemode-loaded">Loaded: Consumes uses from Ammo item</option>
+						<option value="Ammo" data-i18n="item-usemode-ammo">Ammo: Used by Loaded items</option>
+					</select>
 				</div>
-			</div>
 
+				<!-- Use resource -->
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUseAction" value="true"><span>Action</span></label>
+					<div class="rowContainer fitContents">
+						<input type="checkbox" class="fade-toggle" name="attr_useActionCost" value="0" hidden="true" checked>
+						<div class="fade-item mediumIcon egoSpecial"></div>
+						<input type="number" class="fade-item darkInput hoverSpinner" name="attr_useActionCost" min="0" value="0">
+					</div>
 
-			<!-- Light cost -->
-			<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionLightCost" value="true"><span>Light cost</span></label>
-				<div class="rowContainer">
-					<input type="checkbox" class="fade-toggle" name="attr_itemEditLightCost" value="0" hidden="true">
-					<div class="mediumIcon centerIcon light"></div>
-					<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemEditLightCost" min="0" value="0"></div>
+					<select name="attr_useActionType" class="whiteInput">
+						<option value="None" data-i18n="item-none">---</option>
+						<option value="Action" data-i18n="resource-action">Action</option>
+						<option value="Reaction" data-i18n="resource-reaction">Reaction</option>
+						<option value="Counter" data-i18n="resource-counter">Counter</option>
+						<option value="Block" data-i18n="resource-block">Block</option>
+						<option value="Evade" data-i18n="resource-evade">Evade</option>
+						<option value="Light_Regen" data-i18n="resource-light-regen">Light Regen</option>
+					</select>
+				</div>
+
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUsesReaction" value="true"><span>Reaction</span></label>
+					<div class="rowContainer fitContents">
+						<input type="checkbox" class="fade-toggle" name="attr_useReactionCost" value="0" hidden="true" checked>
+						<div class="fade-item mediumIcon reaction"></div>
+						<input type="number" class="fade-item darkInput hoverSpinner" name="attr_useReactionCost" min="0" value="0">
+					</div>
+
+					<select name="attr_useReactionType" class="whiteInput">
+						<option value="None" data-i18n="item-none">---</option>
+						<option value="Action" data-i18n="resource-action">Action</option>
+						<option value="Reaction" data-i18n="resource-reaction">Reaction</option>
+						<option value="Counter" data-i18n="resource-counter">Counter</option>
+						<option value="Block" data-i18n="resource-block">Block</option>
+						<option value="Evade" data-i18n="resource-evade">Evade</option>
+						<option value="Light_Regen" data-i18n="resource-light-regen">Light Regen</option>
+					</select>
+				</div>
+
+				<!-- Light cost -->
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionLightCost" value="true"><span>Light cost</span></label>
+					<div class="rowContainer fitContents">
+						<input type="checkbox" class="fade-toggle" name="attr_itemEditLightCost" value="0" hidden="true" checked>
+						<div class="fade-item mediumIcon light"></div>
+						<input type="number" class="fade-item darkInput hoverSpinner" name="attr_itemEditLightCost" min="0" value="0">
+					</div>
 				</div>
 			</div>
 		</div>
 
 
-		
-		<!-- Option: Resistances -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionResist" value="true"><span>Resistances</span></label>
+		<!-- Option: Equip Slots -->
+		<div class="itemOption inline divide"><label><input type="checkbox" name="attr_itemEditOptionEquipSlots" value="true"><span>Equip slots</span></label>
+			<input type="number" class="darkInput hoverSpinner" name="attr_slotUse" placeholder="1">
+			<input type="text" class="whiteInput" name="attr_slotType" style="width: 112px;" placeholder="Slot type">
+		</div>
+
+
+		<!-- Option: Mystery -->
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionMystery" value="true"><span>Mystery</span></label>
 			
-			<!-- Damage Resistance -->
-			<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionResistDamage" value="true"><span>Damage resistance</span></label>
+			<!-- Unfinished -->
+			<input type="text" class="whiteInput" name="attr_itemEditMysteryActivation" placeholder="Mystery activation">
+		</div>
+		
+		
+		<!-- Option: Linked -->
+		<div class="itemOption inline divide"><label><input type="checkbox" name="attr_itemEditOptionLinked" value="true"><span>Linked</span></label>
+			<div class="columnAlign">
 				<div class="rowContainer">
+					<input type="checkbox" class="whiteInput" name="attr_linkedEquipTogether" value="true" data-i18n-title="item-linked-equiptogether" title="Auto: Equip item with linked item">
+					<input type="text" class="whiteInput" name="attr_linkedName" placeholder="Linked name" style="width: 100px;">
+					<input type="text" class="whiteInput" name="attr_linkedId" placeholder="Linked id" style="width: 100px;">
 
-					<!-- Unfinished -->
-					<div>
-						Pierce Mode: <input type="text" class="whiteInput" name="attr_pierceMode" placeholder="Pierce mode">
-						Pierce HP Base: <input type="number" class="whiteInput" name="attr_pierceBaseHP" placeholder="1">
-						Pierce HP Flat: <input type="number" class="whiteInput" name="attr_pierceFlatHP" placeholder="1">
-						Pierce ST Base: <input type="number" class="whiteInput" name="attr_pierceBaseST" placeholder="1">
-						Pierce ST Flat: <input type="number" class="whiteInput" name="attr_pierceFlatST" placeholder="1">
+					<!-- Add a attribute to all repeating items which matches the currently selected link item in the editor -->
+					<!-- Style the dropdown entry for the selected item differently and have the dropdown default to the type of the item -->
+					<!-- Maybe have the dropdown be attr_linkedType -->
+
+					<!-- Add a toggle to reveal and hide the selection interface -->
+					<select name="attr_linkedType" class="whiteInput">
+						<option value="false" data-i18n="item-none">---</option>
+						<option value="weapons" data-i18n="item-type-weapon">Weapon</option>
+						<option value="outfits" data-i18n="item-type-outfit">Outfit</option>
+						<option value="augments" data-i18n="item-type-augment">Augment</option>
+						<option value="tools" data-i18n="item-type-tool">Tool</option>
+						<option value="skills" data-i18n="item-type-skill">Skill</option>
+						<option value="specials" data-i18n="item-type-special">Special</option>
+						<option value="effects" data-i18n="item-type-effect">Effect</option>
+					</select>
+				</div>
+
+				<div class="linkedItemSelector">
+					
+					<!-- Weapons -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_linkedType" value="weapons" checked>
+					<div class="hide-item rowContainer">
+						<fieldset class="repeating_weapons">
+							<input type="text" class="darkInput" name="attr_name" placeholder="Unnamed weapon">
+							<button type="action" class="darkButton" name="act_selectLinkedItem">Select item</button>
+						</fieldset>
 					</div>
-					<div>
-						Slash Mode: <input type="text" class="whiteInput" name="attr_slashMode" placeholder="Slash mode">
-						Slash HP Base: <input type="number" class="whiteInput" name="attr_slashBaseHP" placeholder="1">
-						Slash HP Flat: <input type="number" class="whiteInput" name="attr_slashFlatHP" placeholder="1">
-						Slash ST Base: <input type="number" class="whiteInput" name="attr_slashBaseST" placeholder="1">
-						Slash ST Flat: <input type="number" class="whiteInput" name="attr_slashFlatST" placeholder="1">
+
+					<!-- Outfits -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_linkedType" value="outfits" checked>
+					<div class="hide-item rowContainer">
+						<fieldset class="repeating_outfits">
+							<input type="text" class="darkInput" name="attr_name" placeholder="Unnamed outfit">
+						</fieldset>
 					</div>
-					<div>
-						Blunt Mode: <input type="text" class="whiteInput" name="attr_bluntMode" placeholder="Blunt mode">
-						Blunt HP Base: <input type="number" class="whiteInput" name="attr_bluntBaseHP" placeholder="1">
-						Blunt HP Flat: <input type="number" class="whiteInput" name="attr_bluntFlatHP" placeholder="1">
-						Blunt ST Base: <input type="number" class="whiteInput" name="attr_bluntBaseST" placeholder="1">
-						Blunt ST Flat: <input type="number" class="whiteInput" name="attr_bluntFlatST" placeholder="1">
-					</div>
+
+					<!-- Add remaining item types later-->
 				</div>
 			</div>
+		</div>
 
-			<!-- Ailment Resistance -->
-			<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionResistAilments" value="true"><span>Ailment resistance</span></label>
-				
-				<!-- Burn/Bleed/Damage Resist -->
-				<div class="rowContainer defaultResistDisplay">
-					<div class="rowContainer">
-						<input type="checkbox" class="fade-toggle" name="attr_itemEditBurnResist" value="0" hidden="true">
 
-						<div class="ailmentIconSelector centerFlex">
-							<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon burn"></div></div>
-							<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon burn-limbus"></div></div>
-						</div>
-
-						<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemEditBurnResist" value="0"></div>
-					</div>
-
-					<div class="rowContainer">
-						<input type="checkbox" class="fade-toggle" name="attr_itemEditBleedResist" value="0" hidden="true">
-
-						<div class="ailmentIconSelector rowContainer centerFlex">
-							<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon bleed"></div></div>
-							<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon bleed-limbus"></div></div>
-						</div>
-
-						<div class="status_effect_value"><input type="number"  class="ailmentNum" name="attr_itemEditBleedResist" value="0"></div>
-					</div>
-
-					<div class="rowContainer">
-						<input type="checkbox" class="fade-toggle" name="attr_itemEditDamageResist" value="0" hidden="true">
-
-						<div class="ailmentIconSelector rowContainer centerFlex">
-							<div class="icon"><input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon damageResist"></div></div>
-							<div class="icon"><input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon damageResist-limbus"></div></div>
-						</div>
-						
-						<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemEditDamageResist" value="0"></div>
-					</div>
-				</div>
-
-				<!-- Custom Ailment Resistances -->
-				<div class="customResistDisplay">
-					<fieldset class="repeating_ailments">
-						<input type="checkbox" class="hide-toggle" name="attr_ailCustomResistance" hidden="true" value="true">
-						<div class="rowContainer hide-item">
-							<input type="checkbox" class="fade-toggle" name="attr_itemAilCustomResistanceNum" value="0" hidden="true">
-							<div class="ailmentIconSelector centerFlex">
-								<div class="icon"><img name="attr_ailIconDisplay" class="skillIcon"></div>
-							</div>
-							<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_itemEditCustomResistanceNum" value="0"></div>
-						</div>
-					</fieldset>
-				</div>
+		<!-- Option: Style -->
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionStyle" value="true"><span>Style</span></label>
+			<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionIcon" value="true"><span>Icon</span></label>
+			
+				<!-- Unfinished -->
+				<input type="text" class="whiteInput" name="attr_iconSource" placeholder="Icon source">
 			</div>
+
+			<!-- Unfinished -->
+			<input type="text" class="whiteInput" name="attr_color" placeholder="Color">
+			<input type="text" class="whiteInput" name="attr_accent" placeholder="Accent">
 		</div>
 
 
 		<!-- Option: Custom UI -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionCustomUI" value="true"><span>Custom UI</span></label>
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionCustomUI" value="true"><span>Custom UI</span></label>
 			
 			<!-- Unfinishes -->
 			<input type="checkbox" class="whiteInput" name="attr_damageTypeUI" value="true">
@@ -529,16 +681,25 @@
 		</div>
 
 
+		<!-- Option: Tags -->
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionTags" value="true"><span>Tags</span></label>
+			<!-- Should be hidden when a game settings is disabled -->
+		</div>
+
+
 		<!-- Option: Card -->
-		<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionCardCombat" value="true"><span>Card</span></label>
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionCardCombat" value="true"><span>Card</span></label>
 			<!-- Should be hidden when a game settings is disabled -->
 		</div>
 
 	</div>
+	</div>
 	<!-- Item options end -->
 
 	<!-- Output text field. Should be hidden before release -->
-	<textarea spellcheck="false" class="editorInput" name="attr_itemEditorInput"></textarea>
+	 <!-- 
+	<textarea spellcheck="false" class="editorInput" name="attr_itemEditorInput" style="min-height: 100px; width: 96%; margin: 3px !important"></textarea>
+	 -->
 </div>
 
 
@@ -562,7 +723,7 @@
 
 				<!-- Status bars -->
 				<div class="bars">
-					<input id="HPbar" class="Cstat HPtext" type="number" name="attr_HP" value="30">
+					<input class="Cstat HPtext" type="number" name="attr_HP" value="30">
 					<div>
 						<input type="checkbox" class="hide-toggle" name="attr_HP_token_display" value="true" hidden="true">
 						<input id="HPbarToken" class="hide-item Tstat HPtext" type="number" name="attr_HP_token" value="">
@@ -570,7 +731,7 @@
 					<input class="Mstat HP" type="text" name="attr_HP_max" value="30">
 				</div>
 				<div class="bars">
-					<input id="STGRbar" class="Cstat egoSTGRtext" type="number" name="attr_StagRes" value="20">
+					<input class="Cstat egoSTGRtext" type="number" name="attr_StagRes" value="20">
 					<div>
 						<input type="checkbox" class="hide-toggle" name="attr_StagRes_token_display" value="true" hidden="true">
 						<input id="STGRbarToken" class="hide-item Tstat egoSTGRtext" type="number" name="attr_StagRes_token" value="">
@@ -600,25 +761,25 @@
 
 				<!-- Ailment previews -->
 				<div class="rowContainer">
-					<input type="checkbox" class="hide-toggle-rev" name="attr_tokenAilment1Num" value="0" hidden="true">
+					<input type="checkbox" class="hide-toggle-rev" name="attr_tokenAilment1Num" value="0" hidden="true" checked>
 					<div class="tokenAilment hide-item-rev">
 						<img name="attr_tokenAilment1Icon">
 						<input type="text" class="hoverSpinner" name="attr_tokenAilment1Name" hidden="true">
 						<input type="number" class="hoverSpinner" name="attr_tokenAilment1Num" min="0" value="0">
 					</div>
-					<input type="checkbox" class="hide-toggle-rev" name="attr_tokenAilment2Num" value="0" hidden="true">
+					<input type="checkbox" class="hide-toggle-rev" name="attr_tokenAilment2Num" value="0" hidden="true" checked>
 					<div class="tokenAilment hide-item-rev">
 						<img name="attr_tokenAilment2Icon">
 						<input type="text" class="hoverSpinner" name="attr_tokenAilment2Name" hidden="true">
 						<input type="number" class="hoverSpinner" name="attr_tokenAilment2Num" min="0" value="0">
 					</div>
-					<input type="checkbox" class="hide-toggle-rev" name="attr_tokenAilment3Num" value="0" hidden="true">
+					<input type="checkbox" class="hide-toggle-rev" name="attr_tokenAilment3Num" value="0" hidden="true" checked>
 					<div class="tokenAilment hide-item-rev">
 						<img name="attr_tokenAilment3Icon">
 						<input type="text" class="hoverSpinner" name="attr_tokenAilment3Name" hidden="true">
 						<input type="number" class="hoverSpinner" name="attr_tokenAilment3Num" min="0" value="0">
 					</div>
-					<input type="checkbox" class="hide-toggle-rev" name="attr_tokenAilment4Num" value="0" hidden="true">
+					<input type="checkbox" class="hide-toggle-rev" name="attr_tokenAilment4Num" value="0" hidden="true" checked>
 					<div class="tokenAilment hide-item-rev">
 						<img name="attr_tokenAilment4Icon">
 						<input type="text" class="hoverSpinner" name="attr_tokenAilment4Name" hidden="true">
@@ -724,21 +885,21 @@
 <div class="columnAlign" style="position: absolute; bottom: 0px; right: 5px;">
 
 <div class="rowContainer centerFlex" data-i18n-title="distort-loweringresults-title" title="Counter-lowering results">
-<div class="toggleable">
+<div>
 <input type="checkbox" name="attr_distortResultGood" value="Good" id="result_good" class="expand-toggle">
 <label class="status_effect_item expand-btn" for="result_good">
 <img src="https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/good.png" class="statusIcon staggered">
 </label>
 </div>
 
-<div class="toggleable">
+<div>
 <input type="checkbox" name="attr_distortResultNormal" value="Normal" id="result_normal" class="expand-toggle">
 <label class="status_effect_item expand-btn" for="result_normal">
 <img src="https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/normal.png" class="statusIcon staggered">
 </label>
 </div>
 
-<div class="toggleable">
+<div>
 <input type="checkbox" name="attr_distortResultBad" value="Bad" id="result_bad" class="expand-toggle">
 <label class="status_effect_item expand-btn" for="result_bad">
 <img src="https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/bad.png" class="statusIcon staggered">
@@ -812,55 +973,33 @@
 <div class="editCover hide-item">
 
 <div class="columnAlign">
-<div class="rowContainer">
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_burnResist_ego" value="0" hidden="true">
-
-    <div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon burn"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon burn-limbus"></div>
-	</div>
-	</div>
-
-    	<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_burnResist_ego" value="0"></div>
-</div>
-
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_bleedResist_ego" value="0" hidden="true">
-
-        <div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon bleed"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon bleed-limbus"></div>
-	</div>
-	</div>
-
-       <div class="status_effect_value"><input type="number"  class="ailmentNum" name="attr_bleedResist_ego" value="0"></div>
-</div>
-
-<div class="rowContainer">
-	<input type="checkbox" class="fade-toggle" name="attr_damageResist_ego" value="0" hidden="true">
-	
-		<div class="ailmentIconSelector rowContainer centerFlex">
-			<div class="icon">
-				<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon damageResist"></div>
+	<div class="rowContainer">
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_burnResist_ego" value="0" hidden="true" checked>
+			<div class="fade-item">
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon burn"></div> <div class="swap-item mediumIcon burn-limbus"></div>
 			</div>
-	
-			<div class="icon">
-				<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon damageResist-limbus"></div>
-			</div>
+			<input type="number" class="fade-item darkInput" name="attr_burnResist_ego" value="0">
 		</div>
-		
-		<div class="status_effect_value"><input type="number"  class="ailmentNum" name="attr_damageResist_ego" value="0"></div>
-	</div>
 
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_bleedResist_ego" value="0" hidden="true" checked>
+			<div class="fade-item">
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon bleed"></div> <div class="swap-item mediumIcon bleed-limbus"></div>
+			</div>
+			<input type="number" class="fade-item darkInput" name="attr_bleedResist_ego" value="0">
+		</div>
+
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_damageResist_ego" value="0" hidden="true" checked>
+			<div class="fade-item">
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon damageResist"></div> <div class="swap-item mediumIcon damageResist-limbus"></div>
+			</div>
+			<input type="number" class="fade-item darkInput" name="attr_damageResist_ego" value="0">
+		</div>
 	</div>
 </div>
 
@@ -869,16 +1008,9 @@
 	<fieldset class="repeating_ailments">
 		<input type="checkbox" class="hide-toggle" name="attr_ailCustomResistance" hidden="true" value="true">
 		<div class="rowContainer hide-item">
-			<input type="checkbox" class="fade-toggle" name="attr_ailCustomResistanceNumEgo" value="0" hidden="true">
-			<div class="status_effect_item rowContainer centerFlex">
-				<!-- Icon selector -->
-				<div class="ailmentIconSelector rowContainer centerFlex">
-					<div class="icon">
-					<img name="attr_ailIconDisplay" class="skillIcon">
-					</div>
-				</div>
-			</div>
-			<div class="status_effect_value"><input type="number" class="ailmentNum" name="attr_ailCustomResistanceNumEgo" value="0"></div>
+			<input type="checkbox" class="fade-toggle" name="attr_ailCustomResistanceNumEgo" value="0" hidden="true" checked>
+			<img class="fade-item mediumIcon" name="attr_ailIconDisplay">
+			<input type="number" class="fade-item darkInput" name="attr_ailCustomResistanceNumEgo" value="0">
 		</div>
 	</fieldset>
 </div>
@@ -1162,7 +1294,7 @@
 <div class="columnAlign">
 <div class="rowContainer">
 <div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_burnResist_ego" value="0" hidden="true">
+<input type="checkbox" class="fade-toggle" name="attr_burnResist_ego" value="0" hidden="true" checked>
 
         <div class="ailmentIconSelector status_effect_item rowContainer centerFlex">
 	<div class="icon">
@@ -1178,7 +1310,7 @@
 </div>
 
 <div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_bleedResist_ego" value="0" hidden="true">
+<input type="checkbox" class="fade-toggle" name="attr_bleedResist_ego" value="0" hidden="true" checked>
 
         <div class="ailmentIconSelector status_effect_item rowContainer centerFlex">
 	<div class="icon">
@@ -1194,7 +1326,7 @@
 </div>
 
 <div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_damageResist_ego" value="0" hidden="true">
+<input type="checkbox" class="fade-toggle" name="attr_damageResist_ego" value="0" hidden="true" checked>
 
 	<div class="ailmentIconSelector status_effect_item rowContainer centerFlex">
 		<div class="icon">
@@ -1215,7 +1347,7 @@
 	<fieldset class="repeating_ailments">
 		<input type="checkbox" class="hide-toggle" name="attr_ailCustomResistance" hidden="true" value="true">
 		<div class="rowContainer hide-item">
-			<input type="checkbox" class="fade-toggle" name="attr_ailCustomResistanceNumEgo" value="0" hidden="true">
+			<input type="checkbox" class="fade-toggle" name="attr_ailCustomResistanceNumEgo" value="0" hidden="true" checked>
 			<div class="status_effect_item rowContainer centerFlex">
 				<!-- Icon selector -->
 				<div class="ailmentIconSelector rowContainer centerFlex">
@@ -1550,8 +1682,8 @@
 	</div>
 </div>
 </div>
-
 </div>
+
 
 
 <!-- Damage & healing helpers -->
@@ -1595,625 +1727,437 @@
 	<input type="text" name="attr_THP_Sources" value="{}" hidden="true">
 	<input type="text" name="attr_TST_Sources" value="{}" hidden="true">
 </div>
+<!-- Damage & healing helpers end -->
 
 
+
+<!-- Status ailments -->
 <div id="ailmentBlock">
-<input type="text" name="attr_ailmentList" hidden>
+	<input type="text" name="attr_ailmentList" hidden>
 
-<div class="rowContainer sectionHeader"><button type="action" name="act_resetAilments" data-i18n-title="reset-button" title="Reset"> ! </button>
-	<h4 data-i18n="heading-ailments">Status ailments</h4>
+	<!-- Section header -->
+	<div class="rowContainer sectionHeader"><button type="action" name="act_resetAilments" data-i18n-title="reset-button" title="Reset"> ! </button>
+		<h4 data-i18n="heading-ailments">Status ailments</h4>
 
-	<button type="action" class="centerIcon next" name="act_updateAilments" data-i18n-title="helper-update-ailments" title="Update Ailments">
-		<input type="checkbox" name="attr_settingLoopEnabled" class="loopEnabledToggle" value="true" hidden="true">
-		<input type="checkbox" name="attr_prevRoundInitAttempts" class="loopSearchingToggle" value="0" hidden="true">
-		<input type="checkbox" name="attr_prevRoundInitAttempts" class="loopStandbyToggle" value="6" hidden="true">
-		<div class="autoUpdateIndicator"></div>
-		<span data-i18n="helper-text-update">Update</span>
-	</button>
-</div>
-
-<div class="contentContainer darkBG">
-
-<!-- States -->
-<div class="rowContainer centerFlex topRow ailmentStates">
-<input type="text" name="attr_PanicStateSuppressUpdate" value="false" hidden="true">
-<input type="text" name="attr_StaggerStateSuppressUpdate" value="false" hidden="true">
-<input type="text" name="attr_StaggerDurationSuppressUpdate" value="false" hidden="true">
-<input type="text" name="attr_SealStateSuppressUpdate" value="false" hidden="true">
-<input type="text" name="attr_ImmobileStateSuppressUpdate" value="false" hidden="true">
-<input type="text" name="attr_DefeatStateSuppressUpdate" value="false" hidden="true">
-
-<!-- Hostile -->
-<div>
-<input type="checkbox" class="hide-toggle" name="attr_distortState" value="true">
-<div class="toggleable hide-item">
-<input type="checkbox" name="attr_HostileState" value="Hostile" class="expand-toggle" id="state_Hostile">
-<label class="status_effect_item expand-btn rowContainer" for="state_Hostile" data-i18n-title="ailments-hostile-title" title="Hostile">
-
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle">
-	<div class="skillIcon statusIcon hide-item-rev hostile"></div>
+		<button type="action" class="centerIcon next" name="act_updateAilments" data-i18n-title="helper-update-ailments" title="Update Ailments">
+			<input type="checkbox" name="attr_settingLoopEnabled" class="loopEnabledToggle" value="true" hidden="true">
+			<input type="checkbox" name="attr_prevRoundInitAttempts" class="loopSearchingToggle" value="0" hidden="true">
+			<input type="checkbox" name="attr_prevRoundInitAttempts" class="loopStandbyToggle" value="6" hidden="true">
+			<div class="autoUpdateIndicator"></div>
+			<span data-i18n="helper-text-update">Update</span>
+		</button>
 	</div>
 
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle">
-	<div class="skillIcon statusIcon type-image hostile-limbus"></div>
+	<div class="contentContainer darkBG">
+
+	<!-- States -->
+	<div class="rowContainer centerFlex topRow ailmentStates">
+		<input type="text" name="attr_PanicStateSuppressUpdate" value="false" hidden="true">
+		<input type="text" name="attr_StaggerStateSuppressUpdate" value="false" hidden="true">
+		<input type="text" name="attr_StaggerDurationSuppressUpdate" value="false" hidden="true">
+		<input type="text" name="attr_SealStateSuppressUpdate" value="false" hidden="true">
+		<input type="text" name="attr_ImmobileStateSuppressUpdate" value="false" hidden="true">
+		<input type="text" name="attr_DefeatStateSuppressUpdate" value="false" hidden="true">
+
+		<!-- Hostile -->
+		<div><input type="checkbox" class="hide-toggle" name="attr_distortState" value="true">
+			<div class="hide-item">
+			<input type="checkbox" name="attr_HostileState" value="Hostile" class="expand-toggle" id="state_Hostile">
+			<label class="status_effect_item expand-btn rowContainer" for="state_Hostile" data-i18n-title="ailments-hostile-title" title="Hostile">
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev containIcon statusIcon hostile"></div> <div class="swap-item centerIcon statusIcon hostile-limbus"></div>
+			</label>
+		</div></div>
+
+		<!-- Panic -->
+		<div><input type="checkbox" class="hide-toggle-rev" name="attr_distortState" value="true">
+			<div class="hide-item-rev">
+			<input type="checkbox" name="attr_PanicState" value="Panic" class="expand-toggle" id="state_Panic">
+			<label class="status_effect_item expand-btn rowContainer" for="state_Panic" data-i18n-title="ailments-panic-title" title="Panic">
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev containIcon statusIcon panic"></div> <div class="swap-item centerIcon statusIcon panic-limbus"></div>
+			</label>
+		</div></div>
+
+		<!-- Stagger -->
+		<div>
+			<input type="checkbox" name="attr_StaggerState" value="Staggered" class="expand-toggle" id="state_Stagger">
+			<label class="status_effect_item expand-btn rowContainer" for="state_Stagger" data-i18n-title="ailments-stagger-title" title="Stagger">
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev containIcon statusIcon stagger"></div> <div class="swap-item centerIcon statusIcon stagger-limbus"></div>
+			</label>
+
+			<input type="number" name="attr_StaggerDuration" value="0" hidden="true">
+		</div>
+
+		<!-- Seal -->
+		<div>
+			<input type="checkbox" name="attr_SealState" value="Seal" class="expand-toggle" id="state_Seal">
+			<label class="status_effect_item expand-btn rowContainer" for="state_Seal" data-i18n-title="ailments-seal-title" title="Seal (Incapable of reactions)">
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev containIcon statusIcon seal"></div> <div class="swap-item centerIcon statusIcon seal-limbus"></div>
+			</label>
+		</div>
+
+		<!-- Immobile -->
+		<div>
+			<input type="checkbox" name="attr_ImmobileState" value="Immobile" class="expand-toggle" id="state_Immobile">
+			<label class="status_effect_item expand-btn rowContainer" for="state_Immobile" data-i18n-title="ailments-immobile-title" title="Immobile (Incapable of action/reaction)">
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev containIcon statusIcon immobile"></div> <div class="swap-item centerIcon statusIcon immobile-limbus"></div>
+			</label>
+		</div>
+
+		<!-- Defeat -->
+		<div>
+			<input type="checkbox" name="attr_DefeatState" value="Defeated" class="expand-toggle" id="state_Defeat">
+			<label class="status_effect_item expand-btn rowContainer" for="state_Defeat" data-i18n-title="ailments-defeat-title" title="Defeated (Incapable of combat)">
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev containIcon statusIcon defeat"></div> <div class="swap-item centerIcon statusIcon defeat-limbus"></div>
+			</label>
+		</div>
+
 	</div>
-
-</label>
-</div></div>
-<!-- Hostile END -->
-
-
-<div>
-<input type="checkbox" class="hide-toggle-rev" name="attr_distortState" value="true">
-<div class="toggleable hide-item-rev">
-<input type="checkbox" name="attr_PanicState" value="Panic" class="expand-toggle" id="state_Panic">
-<label class="status_effect_item expand-btn rowContainer" for="state_Panic" data-i18n-title="ailments-panic-title" title="Panic">
-
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle" >
-	<div class="skillIcon statusIcon hide-item-rev panic"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle" >
-	<div class="skillIcon statusIcon type-image panic-limbus"></div>
-	</div>
-
-</label>
-</div></div>
-
-<div class="toggleable">
-<input type="checkbox" name="attr_StaggerState" value="Staggered" id="state_Stagger" class="expand-toggle">
-<input type="number" name="attr_StaggerDuration" value="0" hidden="true">
-<label class="status_effect_item expand-btn rowContainer" for="state_Stagger" data-i18n-title="ailments-stagger-title" title="Stagger">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle" >
-	<div class="skillIcon statusIcon hide-item-rev stagger"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle" >
-	<div class="skillIcon statusIcon type-image stagger-limbus"></div>
-	</div>
-</label>
-</div>
-
-<div class="toggleable">
-<input type="checkbox" name="attr_SealState" id="state_Seal" value="Seal" class="expand-toggle">
-
-<label class="status_effect_item expand-btn rowContainer" for="state_Seal" data-i18n-title="ailments-seal-title" title="Seal (Incapable of reactions)">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle" >
-	<div class="skillIcon statusIcon hide-item-rev seal"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle">
-	<div class="skillIcon statusIcon type-image seal-limbus"></div>
-	</div>
-</label>
-</div>
-
-<div class="toggleable">
-<input type="checkbox" name="attr_ImmobileState" id="state_Immobile" value="Immobile" class="expand-toggle">
-
-<label class="status_effect_item expand-btn rowContainer" for="state_Immobile" data-i18n-title="ailments-immobile-title" title="Immobile (Incapable of action/reaction)">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle" >
-	<div class="skillIcon statusIcon hide-item-rev immobile"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle" >
-	<div class="skillIcon statusIcon type-image immobile-limbus"></div>
-	</div>
-</label>
-</div>
-
-<div class="toggleable">
-<input type="checkbox" name="attr_DefeatState" id="state_Defeat" value="Defeated" class="expand-toggle">
-
-<label class="status_effect_item expand-btn rowContainer" for="state_Defeat" data-i18n-title="ailments-defeat-title" title="Defeated (Incapable of combat)">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle" >
-	<div class="skillIcon statusIcon hide-item-rev defeat"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle" >
-	<div class="skillIcon statusIcon type-image defeat-limbus"></div>
-	</div>
-</label>
-</div>
-
-</div>
-<!-- States END -->
-
-
-<div class="rowContainer ailmentRow">
-
-<!-- Burn -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_Burn" value="0" hidden="true" checked>
-<div class="status_effect_item rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_Burn" name="act_ailmentClicker" data-i18n-title="ailments-burn" title="Burn"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon burn"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon burn-limbus"></div>
-	</div>
-
-</div>
-</div>
-<div class="status_effect_value rowContainer">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
-	<input type="checkbox" class="hide-toggle" name="attr_burnNextTurnSetting" value="true" hidden="true" checked>
-	<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Burn" min="0" value="0">
-	<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item hide-item-rev" name="attr_BurnNextTurn" min="0" value="0">
-	<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_BurnDecayPause" value="0">
-</div>
-</div>
-
-<!-- Bleed -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_Bleed" value="0" hidden="true" checked>
-<div class="status_effect_item  rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_Bleed" name="act_ailmentClicker" data-i18n-title="ailments-bleed" title="Bleed"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon bleed"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon bleed-limbus"></div>
-	</div>
-
-</div>
-
-</div>
-<div class="status_effect_value rowContainer">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
-	<input type="checkbox" class="hide-toggle" name="attr_bleedNextTurnSetting" value="true" hidden="true" checked>
-	<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Bleed" min="0" value="0">
-	<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item hide-item-rev" name="attr_BleedNextTurn" min="0" value="0">
-	<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_BleedDecayPause" value="0">
-</div>
-</div>
-
-<!-- Paralysis -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_Paralysis" value="0" hidden="true" checked>
- <div class="status_effect_item  rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_Paralysis" name="act_ailmentClicker"  data-i18n-title="ailments-paralysis" title="Paralysis"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon paralysis"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon paralysis-limbus"></div>
-	</div>
-
-</div>
-
-</div>
-                                
-
-<div class="status_effect_value rowContainer">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
-	<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" min="0" name="attr_Paralysis" value="0">
-	<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" min="0" name="attr_ParalysisNextTurn" value="0">
-	<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_ParalysisDecayPause" value="0">
-	<input type="number" name="attr_prevParalysis" value="0" hidden="true">
-</div>
-</div>
-
-                            </div> 
-
-<!-- Row 2 -->
-<div class="rowContainer ailmentRow">
-
-<!-- Fragile -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_Fragile" value="0" hidden="true" checked>   
-                <div class="status_effect_item  rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_Fragile" name="act_ailmentClicker"  data-i18n-title="ailments-fragile" title="Fragile"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon fragile"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon fragile-limbus-red"></div>
-	</div>
-
-</div>	
-</div>
-    <div class="status_effect_value rowContainer">
-		<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
-		<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner"name="attr_Fragile" value="0">
-		<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev"name="attr_FragileNextTurn" value="0">
-		<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_FragileDecayPause" value="0">
-	</div>
-</div>
-
-<!-- Protection -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_Protection" value="0" hidden="true" checked>
-
-<div class="status_effect_item  rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_Protection" name="act_ailmentClicker"  data-i18n-title="ailments-protection" title="Protection"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon protection"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon protection-limbus"></div>
-	</div>
-
-</div>	
-
-</div>
-    <div class="status_effect_value rowContainer">
-		<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
-		<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Protection" value="0">
-		<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_ProtectionNextTurn" value="0">
-		<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_ProtectionDecayPause" value="0">
-	</div>
-</div>
-
-<!-- Stagger Protection -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_StaggerProtection" value="0" hidden="true" checked>
-
-<div class="status_effect_item  rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_StaggerProtection" name="act_ailmentClicker"  data-i18n-title="ailments-stgprotection" title="Stagger Protection"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon staggerprotection"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon staggerprotection-limbus"></div>
-	</div>
-</div>	
-
-</div>
-<div class="status_effect_value rowContainer">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
-	<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_StaggerProtection" value="0">
-	<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_StaggerProtectionNextTurn" value="0">
-	<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_StaggerProtectionDecayPause" value="0">
-</div>
-</div>
-
-</div>
-
-
-<!-- Row 3 -->
-<div class="rowContainer ailmentRow">
-
-<!-- Strength -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_Strength" value="0" hidden="true" checked>
-
-<div class="status_effect_item  rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_Strength" name="act_ailmentClicker"  data-i18n-title="ailments-strength" title="Strength"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon strength"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon strength-limbus"></div>
-	</div>
-</div>	
-
-</div>
-
-<div class="status_effect_value rowContainer">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
-	<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Strength" value="0">
-	<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_StrengthNextTurn" value="0">
-	<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_StrengthDecayPause" value="0">
-</div>
-</div>
-                                
-<!-- Endurance -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_Endurance" value="0" hidden="true" checked>
-
-<div class="status_effect_item  rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_Endurance" name="act_ailmentClicker"  data-i18n-title="ailments-endurance" title="Endurance"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon endurance"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon endurance-limbus-blue"></div>
-	</div>
-</div>	
-
-</div>                               
-
-<div class="status_effect_value rowContainer">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
-	<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Endurance" value="0">
-	<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_EnduranceNextTurn" value="0">
-	<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_EnduranceDecayPause" value="0">
-</div>
-</div>
-
-<!-- Haste -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_Haste" value="0" hidden="true" checked>
-
-<div class="status_effect_item  rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_Haste" name="act_ailmentClicker"  data-i18n-title="ailments-haste" title="Haste"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon haste"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon haste-limbus"></div>
-	</div>
-</div>	
-
-</div>
-
-<div class="status_effect_value rowContainer">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
-	<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Haste" value="0">
-	<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_HasteNextTurn" value="0">
-	<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_HasteDecayPause" value="0">
-</div>
-</div>
-
-                           </div>
-
-
-<!-- Row 4 -->
-<div class="rowContainer ailmentRow">
-
-<!-- Feeble -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_Feeble" value="0" hidden="true" checked>
-
-<div class="status_effect_item  rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_Feeble" name="act_ailmentClicker"  data-i18n-title="ailments-feeble" title="Feeble"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon feeble"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon feeble-limbus"></div>
-	</div>
-</div>	
-
-</div>
-
-<div class="status_effect_value rowContainer">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
-	<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Feeble" value="0">
-	<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_FeebleNextTurn" value="0">
-	<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_FeebleDecayPause" value="0">
-</div>
-</div>
-
-<!-- Disarm -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_Disarm" value="0" hidden="true" checked>
-
-<div class="status_effect_item  rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_Disarm" name="act_ailmentClicker"  data-i18n-title="ailments-disarm" title="Disarm"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon disarm"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon disarm-limbus-blue"></div>
-	</div>
-</div>	
-
-</div>				
-
-<div class="status_effect_value rowContainer">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
-	<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Disarm" value="0">
-	<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_DisarmNextTurn" value="0">
-	<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_DisarmDecayPause" value="0">
-</div>
-</div>
-
-<!-- Bind -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_Bind" value="0" hidden="true" checked>
-
-<div class="status_effect_item  rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_Bind" name="act_ailmentClicker"  data-i18n-title="ailments-bind" title="Bind"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon bind"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon bind-limbus"></div>
-	</div>
-</div>	
-
-</div>                               
-
-<div class="status_effect_value rowContainer">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
-	<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Bind" value="0">
-	<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_BindNextTurn" value="0">
-	<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_BindDecayPause" value="0">
-</div>
-</div>
-
-                            </div>
-
-<!-- Row 5 -->
-<div class="rowContainer ailmentRow">
-
-<!-- Smoke -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_Smoke" value="0" hidden="true" checked>
-
-<div class="status_effect_item  rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_Smoke" name="act_ailmentClicker"  data-i18n-title="ailments-smoke" title="Smoke"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon smoke"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon smoke-limbus"></div>
-	</div>
-</div>	
-
-</div>                            
-
-<div class="status_effect_value rowContainer">
-	<input type="checkbox" class="hide-toggle" name="attr_smokeNextTurnSetting" value="true" hidden="true" checked>
-	<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Smoke" min="0" value="0">
-	<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item" name="attr_SmokeNextTurn" min="0" value="0">
-	<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_SmokeDecayPause" value="0">
-</div>
-</div>
-
-<!-- Charge -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_Charge" value="0" hidden="true" checked>
-
-<div class="status_effect_item  rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_Charge" name="act_ailmentClicker"  data-i18n-title="ailments-charge" title="Charge"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon charge"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon charge-limbus"></div>
-	</div>
-</div>	
-
-</div>  
-
-<div class="status_effect_value rowContainer">
-	<input type="checkbox" class="hide-toggle" name="attr_chargeNextTurnSetting" value="true" hidden="true" checked>
-	<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Charge" min="0" value="0">
-	<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item" name="attr_ChargeNextTurn" min="0" value="0">
-	<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_ChargeDecayPause" value="0">
-</div>
-</div>
-
-<!-- Fortune -->
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_Fortune" value="0" hidden="true" checked>
-
-<div class="status_effect_item  rowContainer centerFlex">
-<button type="action" class="blocker ailmentButton" id="ailment_Fortune" name="act_ailmentClicker"  data-i18n-title="ailments-fortune" title="Fortune"></button>
-
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon fortune"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon fortune-limbus"></div>
-	</div>
-</div>	
-
-</div> 
-
-<div class="status_effect_value rowContainer">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
-	<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Fortune" min="0" value="0">
-	<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_FortuneNextTurn" min="0" value="0">
-	<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_FortuneDecayPause" value="0">
-	<input type="number" name="attr_prevFortune" min="0" value="0" hidden="true">
-</div>
-</div>
-
-</div>
-
-<!-- repeating test - custom -->
-<div class="ailmentCustomDisplay">
-<fieldset class="repeating_ailments">
-
-<input type="checkbox" class="hide-container-toggle" name="attr_ailDisplay" hidden="true" value="0">
-
-<button type="action" class="blocker ailmentButton" name="act_clickercustom"></button>
-
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_ailNum" value="0" hidden="true" checked>
-	<div class="status_effect_item rowContainer centerFlex">
-		<!-- Icon selector -->
-		<div class="ailmentIconSelector rowContainer centerFlex">
-			<div class="icon">
-			<img name="attr_ailIconDisplay" class="skillIcon">
+	<!-- States END -->
+
+
+	<!-- Row 1 -->
+	<div class="rowContainer ailmentRow">
+
+		<!-- Burn -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_Burn" value="0" hidden="true" checked>
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_Burn" name="act_ailmentClicker" data-i18n-title="ailments-burn" title="Burn"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon burn"></div> <div class="swap-item mediumIcon burn-limbus"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
+				<input type="checkbox" class="hide-toggle" name="attr_burnNextTurnSetting" value="true" hidden="true" checked>
+				<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Burn" min="0" value="0">
+				<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item hide-item-rev" name="attr_BurnNextTurn" min="0" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_BurnDecayPause" value="0">
+			</div>
+		</div>
+
+		<!-- Bleed -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_Bleed" value="0" hidden="true" checked>
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_Bleed" name="act_ailmentClicker" data-i18n-title="ailments-bleed" title="Bleed"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon bleed"></div> <div class="swap-item mediumIcon bleed-limbus"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
+				<input type="checkbox" class="hide-toggle" name="attr_bleedNextTurnSetting" value="true" hidden="true" checked>
+				<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Bleed" min="0" value="0">
+				<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item hide-item-rev" name="attr_BleedNextTurn" min="0" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_BleedDecayPause" value="0">
+			</div>
+		</div>
+
+		<!-- Paralysis -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_Paralysis" value="0" hidden="true" checked>
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_Paralysis" name="act_ailmentClicker" data-i18n-title="ailments-paralysis" title="Paralysis"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon paralysis"></div> <div class="swap-item mediumIcon paralysis-limbus"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
+				<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" min="0" name="attr_Paralysis" value="0">
+				<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" min="0" name="attr_ParalysisNextTurn" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_ParalysisDecayPause" value="0">
+				<input type="number" name="attr_prevParalysis" value="0" hidden="true">
+			</div>
+		</div>
+	</div> 
+
+	<!-- Row 2 -->
+	<div class="rowContainer ailmentRow">
+
+		<!-- Fragile -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_Fragile" value="0" hidden="true" checked>   
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_Fragile" name="act_ailmentClicker" data-i18n-title="ailments-fragile" title="Fragile"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon fragile"></div> <div class="swap-item mediumIcon fragile-limbus-red"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
+				<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Fragile" value="0">
+				<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_FragileNextTurn" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_FragileDecayPause" value="0">
+			</div>
+		</div>
+
+		<!-- Protection -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_Protection" value="0" hidden="true" checked>  
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_Protection" name="act_ailmentClicker" data-i18n-title="ailments-protection" title="Protection"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon protection"></div> <div class="swap-item mediumIcon protection-limbus"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
+				<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Protection" value="0">
+				<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_ProtectionNextTurn" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_ProtectionDecayPause" value="0">
+			</div>
+		</div>
+
+		<!-- Stagger Protection -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_StaggerProtection" value="0" hidden="true" checked>
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_StaggerProtection" name="act_ailmentClicker" data-i18n-title="ailments-stgprotection" title="Stagger Protection"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon staggerprotection"></div> <div class="swap-item mediumIcon staggerprotection-limbus"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
+				<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_StaggerProtection" value="0">
+				<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_StaggerProtectionNextTurn" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_StaggerProtectionDecayPause" value="0">
 			</div>
 		</div>
 	</div>
-	<div class="status_effect_value rowContainer">
-		<input type="checkbox" class="hide-toggle" name="attr_ailNextTurn" value="true">
-		<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_ailNum" min="0" value="0">
-		<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item" name="attr_ailNumNextTurn" min="0" value="0">
-		<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_ailDecayPause" min="0" value="0">
+
+	<!-- Row 3 -->
+	<div class="rowContainer ailmentRow">
+
+		<!-- Strength -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_Strength" value="0" hidden="true" checked>
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_Strength" name="act_ailmentClicker" data-i18n-title="ailments-strength" title="Strength"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon strength"></div> <div class="swap-item mediumIcon strength-limbus"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
+				<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Strength" value="0">
+				<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_StrengthNextTurn" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_StrengthDecayPause" value="0">
+			</div>
+		</div>
+
+		<!-- Endurance -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_Endurance" value="0" hidden="true" checked>
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_Endurance" name="act_ailmentClicker" data-i18n-title="ailments-endurance" title="Endurance"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon endurance"></div> <div class="swap-item mediumIcon endurance-limbus"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
+				<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Endurance" value="0">
+				<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_EnduranceNextTurn" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_EnduranceDecayPause" value="0">
+			</div>
+		</div>
+
+		<!-- Haste -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_Haste" value="0" hidden="true" checked>
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_Haste" name="act_ailmentClicker" data-i18n-title="ailments-haste" title="Haste"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon haste"></div> <div class="swap-item mediumIcon haste-limbus"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
+				<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Haste" value="0">
+				<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_HasteNextTurn" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_HasteDecayPause" value="0">
+			</div>
+		</div>
+	</div>
+
+	<!-- Row 4 -->
+	<div class="rowContainer ailmentRow">
+
+		<!-- Feeble -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_Feeble" value="0" hidden="true" checked>
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_Feeble" name="act_ailmentClicker" data-i18n-title="ailments-feeble" title="Feeble"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon feeble"></div> <div class="swap-item mediumIcon feeble-limbus"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
+				<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Feeble" value="0">
+				<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_FeebleNextTurn" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_FeebleDecayPause" value="0">
+			</div>
+		</div>
+
+		<!-- Disarm -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_Disarm" value="0" hidden="true" checked>
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_Disarm" name="act_ailmentClicker" data-i18n-title="ailments-disarm" title="Disarm"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon disarm"></div> <div class="swap-item mediumIcon disarm-limbus-blue"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
+				<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Disarm" value="0">
+				<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_DisarmNextTurn" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_DisarmDecayPause" value="0">
+			</div>
+		</div>
+
+		<!-- Bind -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_Bind" value="0" hidden="true" checked>
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_Bind" name="act_ailmentClicker" data-i18n-title="ailments-bind" title="Bind"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon bind"></div> <div class="swap-item mediumIcon bind-limbus"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
+				<input type="number" min="0" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Bind" value="0">
+				<input type="number" min="0" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_BindNextTurn" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_BindDecayPause" value="0">
+			</div>
+		</div>
+	</div>
+
+	<!-- Row 5 -->
+	<div class="rowContainer ailmentRow">
+
+		<!-- Smoke -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_Smoke" value="0" hidden="true" checked>
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_Smoke" name="act_ailmentClicker" data-i18n-title="ailments-smoke" title="Smoke"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon smoke"></div> <div class="swap-item mediumIcon smoke-limbus"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle" name="attr_smokeNextTurnSetting" value="true" hidden="true" checked>
+				<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Smoke" min="0" value="0">
+				<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item" name="attr_SmokeNextTurn" min="0" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_SmokeDecayPause" value="0">
+			</div>
+		</div>
+
+		<!-- Charge -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_Charge" value="0" hidden="true" checked>
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_Charge" name="act_ailmentClicker" data-i18n-title="ailments-charge" title="Charge"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon charge"></div> <div class="swap-item mediumIcon charge-limbus"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle" name="attr_chargeNextTurnSetting" value="true" hidden="true" checked>
+				<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Charge" min="0" value="0">
+				<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item" name="attr_ChargeNextTurn" min="0" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_ChargeDecayPause" value="0">
+			</div>
+		</div>
+
+		<!-- Fortune -->
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_Fortune" value="0" hidden="true" checked>
+			
+			<div class="fade-item status_effect_item rowContainer centerFlex">
+				<button type="action" class="blocker ailmentButton" id="ailment_Fortune" name="act_ailmentClicker" data-i18n-title="ailments-fortune" title="Fortune"></button>
+				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
+				<div class="swap-item-rev mediumIcon fortune"></div> <div class="swap-item mediumIcon fortune-limbus"></div>
+			</div>
+
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
+				<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Fortune" min="0" value="0">
+				<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item-rev" name="attr_FortuneNextTurn" min="0" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_FortuneDecayPause" value="0">
+				<input type="number" name="attr_prevFortune" min="0" value="0" hidden="true">
+			</div>
+		</div>
+	</div>
+
+	<!-- Repeating ailments -->
+	<div class="ailmentCustomDisplay">
+	<fieldset class="repeating_ailments">
+		<input type="checkbox" class="hide-container-toggle" name="attr_ailDisplay" hidden="true" value="0">
+		<div class="rowContainer">
+			<input type="checkbox" class="fade-toggle" name="attr_ailNum" value="0" hidden="true" checked>
+			
+			<div class="fade-item status_effect_item centerFlex">
+				<button type="action" class="blocker ailmentButton" name="act_clickercustom"></button>
+				<img name="attr_ailIconDisplay" class="mediumIcon">
+			</div>
+			
+			<div class="status_effect_value rowContainer">
+				<input type="checkbox" class="hide-toggle" name="attr_ailNextTurn" value="true">
+				<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_ailNum" min="0" value="0">
+				<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item" name="attr_ailNumNextTurn" min="0" value="0">
+				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_ailDecayPause" min="0" value="0">
+			</div>
+		</div>
+
+		<input type="text" name="attr_ailName" hidden="true">
+		<input type="text" name="attr_ailTrigger" hidden="true">
+		<input type="text" name="attr_ailEffect" hidden="true">
+		<input type="text" name="attr_ailEffectMode" hidden="true">
+		<input type="text" name="attr_ailEffectVal" hidden="true">
+		<input type="text" name="attr_ailDecayMode" hidden="true">
+		<input type="text" name="attr_ailDecayVal" hidden="true">
+		<input type="text" name="attr_ailMax" hidden="true">
+		<input type="text" name="attr_ailCustomReistance" hidden="true">
+		<input type="text" name="attr_ailMessageCheck" hidden="true">
+		<input type="text" name="attr_ailMessage" hidden="true">
+
+	</fieldset>
+	</div>
+	<!-- Repeating ailments end -->
+						
 	</div>
 </div>
+<!-- Status ailments end -->
 
 
 
-<input type="text" name="attr_ailName" hidden="true">
-<input type="text" name="attr_ailTrigger" hidden="true">
-<input type="text" name="attr_ailEffect" hidden="true">
-<input type="text" name="attr_ailEffectMode" hidden="true">
-<input type="text" name="attr_ailEffectVal" hidden="true">
-<input type="text" name="attr_ailDecayMode" hidden="true">
-<input type="text" name="attr_ailDecayVal" hidden="true">
-<input type="text" name="attr_ailMax" hidden="true">
-<input type="text" name="attr_ailCustomReistance" hidden="true">
-<input type="text" name="attr_ailMessageCheck" hidden="true">
-<input type="text" name="attr_ailMessage" hidden="true">
-
-</fieldset>
-</div>
-<!-- repeating test -->
-                      
-</div>
-
-</div>
-	<!-- status ailments end -->
-
-	<!-- Observation section palette -->
-
-
+<!-- Observation section palette -->
 <input type="checkbox" class="hide-toggle" name="attr_distortState" value="true">
 <div class="hide-item">
 <div class="rowContainer sectionHeader">
@@ -2528,32 +2472,32 @@
 	
 					<!-- Target ailments -->
 					<div class="rowContainer">
-						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment1Num" value="0" hidden="true">
+						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment1Num" value="0" hidden="true" checked>
 						<div class="targetAilment hide-item-rev">
 							<img name="attr_targetAilment1Icon">
 							<input type="number" name="attr_targetAilment1Num" min="0" value="0">
 						</div>
-						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment2Num" value="0" hidden="true">
+						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment2Num" value="0" hidden="true" checked>
 						<div class="targetAilment hide-item-rev">
 							<img name="attr_targetAilment2Icon">
 							<input type="number" name="attr_targetAilment2Num" min="0" value="0">
 						</div>
-						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment3Num" value="0" hidden="true">
+						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment3Num" value="0" hidden="true" checked>
 						<div class="targetAilment hide-item-rev">
 							<img name="attr_targetAilment3Icon">
 							<input type="number" name="attr_targetAilment3Num" min="0" value="0">
 						</div>
-						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment4Num" value="0" hidden="true">
+						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment4Num" value="0" hidden="true" checked>
 						<div class="targetAilment hide-item-rev">
 							<img name="attr_targetAilment4Icon">
 							<input type="number" name="attr_targetAilment4Num" min="0" value="0">
 						</div>
-						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment5Num" value="0" hidden="true">
+						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment5Num" value="0" hidden="true" checked>
 						<div class="targetAilment hide-item-rev">
 							<img name="attr_targetAilment5Icon">
 							<input type="number" name="attr_targetAilment5Num" min="0" value="0">
 						</div>
-						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment6Num" value="0" hidden="true">
+						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment6Num" value="0" hidden="true" checked>
 						<div class="targetAilment hide-item-rev">
 							<img name="attr_targetAilment6Icon">
 							<input type="number" name="attr_targetAilment6Num" min="0" value="0">
@@ -2590,7 +2534,7 @@
 							<label for="actionSelection" class="egoSpecial resourceTypeSelector" data-i18n-title="resource-action" title="Action">
 								<input type="radio" id="actionSelection" name="attr_actionType" value="Action" hidden="true" checked>
 							</label>
-							<input type="checkbox" class="fade-toggle" name="attr_Action" value="0" hidden="true" checked="">
+							<input type="checkbox" class="fade-toggle" name="attr_Action" value="0" hidden="true" checked>
 							<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Action">
 							<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Action_max">
 							<input type="number" min="0" value="0" class="resourceBase" name="attr_Action_base">
@@ -2608,7 +2552,7 @@
 							<label for="reactionSelection" class="hide-item reaction resourceTypeSelector" data-i18n-title="helper-reaction-universal" title="Universal reaction"></label>
 							<input type="radio" id="reactionSelection" name="attr_actionType" value="Reaction" hidden="true">
 
-							<input type="checkbox" class="fade-toggle" name="attr_Reaction" value="0" hidden="true" checked="">
+							<input type="checkbox" class="fade-toggle" name="attr_Reaction" value="0" hidden="true" checked>
 							<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Reaction">
 							<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Reaction_max">
 							<input type="number" min="0" value="0" class="resourceBase" name="attr_Reaction_base">
@@ -2621,7 +2565,7 @@
 						<b data-i18n="helper-light-regen">Light Regen</b>
 						<div class="resourceTracker rowContainer">
 							<button type="action" class="light resourceTypeSelector" name="act_lightClicker" data-i18n-title="helper-light-regen" title="Light regen"></button>
-							<input type="checkbox" class="fade-toggle" name="attr_Light_Regen" value="0" hidden="true" checked="">
+							<input type="checkbox" class="fade-toggle" name="attr_Light_Regen" value="0" hidden="true" checked>
 							<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Light_Regen">
 							<input type="number" min="0" value="0" class="resourceMax noSpinner LIGHT" name="attr_Light_Regen_max">
 							<input type="number" min="0" value="0" class="resourceBase" name="attr_Light_Regen_base">
@@ -2650,7 +2594,7 @@
 						<label for="counterSelection" class="egoAtt resourceTypeSelector" data-i18n-title="helper-reaction-counter" title="Counter reaction">
 							<input type="radio" id="counterSelection" name="attr_actionType" value="Counter" hidden="true">
 						</label>
-						<input type="checkbox" class="fade-toggle" name="attr_Counter" value="0" hidden="true" checked="">
+						<input type="checkbox" class="fade-toggle" name="attr_Counter" value="0" hidden="true" checked>
 						<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Counter">
 						<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Counter_max">
 						<input type="number" min="0" value="0" class="resourceBase" name="attr_Counter_base">
@@ -2660,7 +2604,7 @@
 						<label for="blockSelection" class="egoDef resourceTypeSelector" data-i18n-title="helper-reaction-block" title="Block reaction">
 							<input type="radio" id="blockSelection" name="attr_actionType" value="Block" hidden="true">
 						</label>
-						<input type="checkbox" class="fade-toggle" name="attr_Block" value="0" hidden="true" checked="">
+						<input type="checkbox" class="fade-toggle" name="attr_Block" value="0" hidden="true" checked>
 						<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Block">
 						<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Block_max">
 						<input type="number" min="0" value="0" class="resourceBase" name="attr_Block_base">
@@ -2670,7 +2614,7 @@
 						<label for="evadeSelection" class="egoEvd resourceTypeSelector" data-i18n-title="helper-reaction-evade" title="Evade reaction">
 							<input type="radio" id="evadeSelection" name="attr_actionType" value="Evade" hidden="true">
 						</label>
-						<input type="checkbox" class="fade-toggle" name="attr_Evade" value="0" hidden="true" checked="">
+						<input type="checkbox" class="fade-toggle" name="attr_Evade" value="0" hidden="true" checked>
 						<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Evade">
 						<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Evade_max">
 						<input type="number" min="0" value="0" class="resourceBase" name="attr_Evade_base">
@@ -5267,7 +5211,7 @@
 							Roll Act Type: <input type="text" class="" name="attr_rollActionType0" placeholder="Act type">
 						</div>
 						<div>
-							Opt. Reaction: <input type="checkbox" class="" name="attr_optionRollRection0" value="true">
+							Opt. Reaction: <input type="checkbox" class="" name="attr_optionRollReaction0" value="true">
 							Roll React Cost: <input type="number" class="" name="attr_rollReactionCost0" placeholder="1">
 							Roll React Type: <input type="text" class="" name="attr_rollReactionType0" placeholder="React type">
 						</div>
@@ -5307,7 +5251,7 @@
 							Use Act Type: <input type="text" class="" name="attr_useActionType0" placeholder="Act type">
 						</div>
 						<div>
-							Opt. Reaction: <input type="checkbox" class="" name="attr_optionUsesRection0" value="true">
+							Opt. Reaction: <input type="checkbox" class="" name="attr_optionUsesReaction0" value="true">
 							Use React Cost: <input type="number" class="" name="attr_useReactionCost0" placeholder="1">
 							Use React Type: <input type="text" class="" name="attr_useReactionType0" placeholder="React type">
 						</div>
@@ -5323,31 +5267,34 @@
 			<div>
 				Opt. Resistance <input type="checkbox" class="" name="attr_optionResist" value="true">
 				<div>
-					Damage Resistance <input type="checkbox" class="" name="attr_optionResistDamage" value="true">
+					Damage Resistance <input type="checkbox" class="" name="attr_optionResistBaseDamage" value="true">
 					<div>
-						Pierce Mode: <input type="text" class="" name="attr_pierceMode" placeholder="Pierce mode">
-						Pierce HP Base: <input type="number" class="" name="attr_pierceBaseHP" placeholder="1">
-						Pierce HP Flat: <input type="number" class="" name="attr_pierceFlatHP" placeholder="1">
-						Pierce ST Base: <input type="number" class="" name="attr_pierceBaseST" placeholder="1">
-						Pierce ST Flat: <input type="number" class="" name="attr_pierceFlatST" placeholder="1">
-					</div>
-					<div>
-						Slash Mode: <input type="text" class="" name="attr_slashMode" placeholder="Slash mode">
+						Slash Mode: <input type="text" class="" name="attr_slashBaseMode" placeholder="Slash mode">
 						Slash HP Base: <input type="number" class="" name="attr_slashBaseHP" placeholder="1">
-						Slash HP Flat: <input type="number" class="" name="attr_slashFlatHP" placeholder="1">
 						Slash ST Base: <input type="number" class="" name="attr_slashBaseST" placeholder="1">
+						Slash Mode: <input type="text" class="" name="attr_slashFlatMode" placeholder="Slash mode">
+						Slash HP Flat: <input type="number" class="" name="attr_slashFlatHP" placeholder="1">
 						Slash ST Flat: <input type="number" class="" name="attr_slashFlatST" placeholder="1">
 					</div>
 					<div>
-						Blunt Mode: <input type="text" class="" name="attr_bluntMode" placeholder="Blunt mode">
+						Pierce Mode: <input type="text" class="" name="attr_pierceBaseMode" placeholder="Pierce mode">
+						Pierce HP Base: <input type="number" class="" name="attr_pierceBaseHP" placeholder="1">
+						Pierce ST Base: <input type="number" class="" name="attr_pierceBaseST" placeholder="1">
+						Pierce Mode: <input type="text" class="" name="attr_pierceFlatMode" placeholder="Pierce mode">
+						Pierce HP Flat: <input type="number" class="" name="attr_pierceFlatHP" placeholder="1">
+						Pierce ST Flat: <input type="number" class="" name="attr_pierceFlatST" placeholder="1">
+					</div>
+					<div>
+						Blunt Mode: <input type="text" class="" name="attr_bluntBaseMode" placeholder="Blunt mode">
 						Blunt HP Base: <input type="number" class="" name="attr_bluntBaseHP" placeholder="1">
-						Blunt HP Flat: <input type="number" class="" name="attr_bluntFlatHP" placeholder="1">
 						Blunt ST Base: <input type="number" class="" name="attr_bluntBaseST" placeholder="1">
+						Blunt Mode: <input type="text" class="" name="attr_bluntFlatMode" placeholder="Blunt mode">
+						Blunt HP Flat: <input type="number" class="" name="attr_bluntFlatHP" placeholder="1">
 						Blunt ST Flat: <input type="number" class="" name="attr_bluntFlatST" placeholder="1">
 					</div>
 				</div>
 				<div>
-					Ailment Resistance <input type="checkbox" class="" name="attr_optionResistDamage" value="true">
+					Ailment Resistance <input type="checkbox" class="" name="attr_optionResistFlatDamage" value="true">
 					<div>
 						Bleed Res.: <input type="number" class="" name="attr_BleedResist" placeholder="0">
 						Burn Res.: <input type="number" class="" name="attr_BurnResist" placeholder="0">
@@ -5916,7 +5863,7 @@
 <div class="columnAlign">
 <div class="rowContainer">
 <div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_burnResist" value="0" hidden="true">
+<input type="checkbox" class="fade-toggle" name="attr_burnResist" value="0" hidden="true" checked>
 
         <div class="ailmentIconSelector status_effect_item centerFlex">
 	<div class="icon">
@@ -5932,7 +5879,7 @@
 </div>
 
 <div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_bleedResist" value="0" hidden="true">
+<input type="checkbox" class="fade-toggle" name="attr_bleedResist" value="0" hidden="true" checked>
 
         <div class="ailmentIconSelector status_effect_item rowContainer centerFlex">
 	<div class="icon">
@@ -5948,7 +5895,7 @@
 	</div>
 
 <div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_damageResist" value="0" hidden="true">
+<input type="checkbox" class="fade-toggle" name="attr_damageResist" value="0" hidden="true" checked>
 
 	<div class="ailmentIconSelector status_effect_item rowContainer centerFlex">
 		<div class="icon">
@@ -5969,7 +5916,7 @@
 	<fieldset class="repeating_ailments">
 		<input type="checkbox" class="hide-toggle" name="attr_ailCustomResistance" hidden="true" value="true">
 		<div class="rowContainer hide-item">
-			<input type="checkbox" class="fade-toggle" name="attr_ailCustomResistanceNum" value="0" hidden="true">
+			<input type="checkbox" class="fade-toggle" name="attr_ailCustomResistanceNum" value="0" hidden="true" checked>
 			<div class="status_effect_item rowContainer centerFlex">
 				<!-- Icon selector -->
 				<div class="ailmentIconSelector rowContainer centerFlex">
@@ -8641,8 +8588,8 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 </div>
 
 <!-- When hit settings -->
-<input type="checkbox" class="fade-toggle" name="attr_ailTrigger" value="None" hidden="true" checked>
-<div class="hide-item columnAlign">
+<input type="checkbox" class="hide-toggle-rev-next" name="attr_ailTrigger" value="None" hidden="true" checked>
+<div class="hide-item-rev columnAlign">
 
 <!-- When hit trigger damage type -->
 <div class="rowContainer settingStyle">
@@ -8769,8 +8716,8 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 	</div>
 
 <!-- Ailment max value -->
-<input type="checkbox" class="fade-toggle" name="attr_ailMax" value="0" hidden="true" checked>
-<div class="rowContainer settingStyle">
+<input type="checkbox" class="fade-toggle-next" name="attr_ailMax" value="0" hidden="true" checked>
+<div class="fade-item rowContainer settingStyle">
 <div class="customAilText">
 <span data-i18n="message-max">Max</span>:
 </div>
@@ -8790,8 +8737,8 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 </div>
 
 <!-- Ailment message -->
-<input type="checkbox" class="fade-toggle" name="attr_ailMessageCheck" value="0" hidden="true" checked>
-<div class="columnAlign settingStyle">
+<input type="checkbox" class="fade-toggle-next" name="attr_ailMessageCheck" value="0" hidden="true" checked>
+<div class="fade-item columnAlign settingStyle">
 
  <select name="attr_ailMessageCheck" class="darkInput" value="0">
     <option data-i18n="message-nomessage" value="0" selected>No Message</option>
@@ -16260,10 +16207,8 @@ class itemNode {
 			rollformats: {
 				array: [{
 					type: "None", mode: "Roll", damagetype: "None", count: 0, max: 0, power: 0, adv: false, autoscript: false,
-					resource: {
-						action: {type: "Action", cost: 1},
-						reaction: {type: "Reaction", cost: 1},
-					},
+					action: {type: "Action", cost: 1},
+					reaction: {type: "Reaction", cost: 1},
 					store: {
 						count: 0, max: 0, power: 0, adv: false, autoscript: false,
 					},
@@ -16276,10 +16221,8 @@ class itemNode {
 			limited: {
 				uses: {
 					type: "None", mode: "None", max: 3, current: 3,
-					resource: {
-						action: {type: "Action", cost: 1},
-						reaction: {type: "None", cost: 0},
-					},
+					action: {type: "Action", cost: 1},
+					reaction: {type: "None", cost: 0},
 				},
 				light: {
 					cost: 0,
@@ -16287,9 +16230,16 @@ class itemNode {
 			},
 			resistances: {
 				damage: {
-					pierce: {mode: "None", hp: {base: 1, flat: 0}, st: {base: 1, flat: 0}},
-					slash: {mode: "None", hp: {base: 1, flat: 0}, st: {base: 1, flat: 0}},
-					blunt: {mode: "None", hp: {base: 1, flat: 0}, st: {base: 1, flat: 0}},
+					base: {
+						slash: {mode: "None", hp: 1, st: 1},
+						pierce: {mode: "None", hp: 1, st: 1},
+						blunt: {mode: "None", hp: 1, st: 1},
+					},
+					flat: {
+						slash: {mode: "None", hp: 0, st: 0},
+						pierce: {mode: "None", hp: 0, st: 0},
+						blunt: {mode: "None", hp: 0, st: 0},
+					},
 				},
 				ailments: {
 					default: {Burn: 0, Bleed: 0},
@@ -16329,8 +16279,7 @@ class itemNode {
 				equip: {slots: {type: "Hands", value: 1}},
 				rollformats: {
 					array: [
-						{type: "Attack", damagetype: "Untyped", count: 1, max: 10, power: 0,
-							resource: {action: {}, reaction: {type: "Counter"}}},
+						{type: "Attack", damagetype: "Untyped", count: 1, max: 10, power: 0, action: {}, reaction: {type: "Counter"}},
 					],
 				},
 				style: {color: "Red"},
@@ -16341,18 +16290,17 @@ class itemNode {
 				equip: {},
 				rollformats: {
 					array: [
-						{type: "Block", count: 1, max: 10, power: 0,
-							resource: {action: {}, reaction: {type: "Block"}}},
-						{type: "Evade", count: 1, max: 12, power: 0,
-							resource: {action: {}, reaction: {type: "Evade"}},
-							store: {storeable: true, mod: {power: -2}}},
+						{type: "Block", count: 1, max: 10, power: 0, action: {}, reaction: {type: "Block"}},
+						{type: "Evade", count: 1, max: 12, power: 0, action: {}, reaction: {type: "Evade"}, store: {power: -2}},
 					],
 				},
 				resistances: {
 					damage: {
-						pierce: {mode: "Replace", hp: {base: 1}, st: {base: 1}},
-						slash: {mode: "Replace", hp: {base: 1}, st: {base: 1}},
-						blunt: {mode: "Replace", hp: {base: 1}, st: {base: 1}},
+						base: {
+							slash: {mode: "Replace", hp: 1, st: 1},
+							pierce: {mode: "Replace", hp: 1, st: 1},
+							blunt: {mode: "Replace", hp: 1, st: 1},
+						},
 					},
 					ailments: {
 						default: {},
@@ -16375,8 +16323,7 @@ class itemNode {
 			Tool: {
 				type: "Tool",
 				equip: {slots: {type: "Hands", value: 1}},
-				limited: {
-					uses: {type: "Standalone", mode: "Refresh", max: 3, current: 3, resource: {action: {}}},
+				limited: {uses: {type: "Standalone", mode: "Refresh", max: 3, current: 3, action: {}},
 				},
 				style: {color: "Purple"},
 				ui: {half: true},
@@ -16387,7 +16334,7 @@ class itemNode {
 				rollformats: {
 					array: [
 						{type: "None", mode: "Applied", count: 0, max: 0, power: 0,
-							resource: {action: {type: "None", value: 0}, reaction: {type: "Node", value: 0}}},
+							action: {type: "None", value: 0}, reaction: {type: "None", value: 0}},
 					],
 				},
 				limited: {light: {cost: 1}},
@@ -16427,16 +16374,13 @@ class itemNode {
 					max: (i) => is.Int(i, (this.type == "Roll") ? {min: 0} : {}),
 					power: (i) => is.Int(i),
 					adv: (v) => is.False(v) || is(v).In(["Advantage", "Disadvantage"]),
-					resource: { // Enabled by optionRollResource *with an index*
-						action: { // Enabled by optionRollAction *with an index*
-							type: (s) => is(s).In(["None", ...resourceNames]),
-							use: (i) => is.Int(i, {min: 0}),
-						},
-						reaction: { // Enabled by optionRollReaction *with an index*
-							type: (s) => is(s).In(["None", ...resourceNames]),
-							use: (i) => is.Int(i, {min: 0}),
-						},
-						// Maybe make it so if valid(v) returns an object, you run valid(v) again on that object?
+					action: { // Enabled by optionRollAction *with an index*
+						type: (s) => is(s).In(["None", ...resourceNames]),
+						use: (i) => is.Int(i, {min: 0}),
+					},
+					reaction: { // Enabled by optionRollReaction *with an index*
+						type: (s) => is(s).In(["None", ...resourceNames]),
+						use: (i) => is.Int(i, {min: 0}),
 					},
 					store: { // Enabled by optionStoreRoll *with an index*
 						count: (i) => is.Int(i),
@@ -16458,37 +16402,54 @@ class itemNode {
 					mode: (s) => is(s).In(["None", "Manual", "Refresh", "Recover", "Loaded", "Ammo", "Combat", "Round"]),
 					max: (i) => is.Int(i, {min: 0}),
 					current: (i) => is.Int(i, {min: 0}),
-					resource: { // Enabled by optionUsesResource
-						action: { // Enabled by optionUsesAction
-							type: (s) => is(s).In(["None", ...resourceNames]),
-							cost: (i) => is.Int(i, {min: 0}),
-						},
-						reaction: { // Enabled by optionUsesReaction
-							type: (s) => is(s).In(["None", ...resourceNames]),
-							cost: (i) => is.Int(i, {min: 0}),
-						},
-					},
+				},
+				action: { // Enabled by optionUsesAction
+					type: (s) => is(s).In(["None", ...resourceNames]),
+					cost: (i) => is.Int(i, {min: 0}),
+				},
+				reaction: { // Enabled by optionUsesReaction
+					type: (s) => is(s).In(["None", ...resourceNames]),
+					cost: (i) => is.Int(i, {min: 0}),
 				},
 				light: { // Enabled by optionLightCost
 					cost: (v) => is.False(v) || is.Int(v, {min: 0}),
 				},
 			},
-			resistances: { // Enabled by optionResist (optionResistances?)
-				damage: { // Enabled by optionResistDamage
-					pierce: {
-						mode: (s) => is(s).In(["None", "Add", "Replace"]),
-						hp: {base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}), flat: (i) => is.Int(i)},
-						st: {base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}), flat: (i) => is.Int(i)},
+			resistances: { // Enabled by optionResist
+				damage: {
+					base: { // Enabled by optionResistBaseDamage
+						slash: {
+							mode: (s) => is(s).In(["None", "Add", "Replace"]),
+							hp: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+							st: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+						},
+						pierce: {
+							mode: (s) => is(s).In(["None", "Add", "Replace"]),
+							hp: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+							st: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+						},
+						blunt: {
+							mode: (s) => is(s).In(["None", "Add", "Replace"]),
+							hp: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+							st: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+						},
 					},
-					slash: {
-						mode: (s) => is(s).In(["None", "Add", "Replace"]),
-						hp: {base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}), flat: (i) => is.Int(i)},
-						st: {base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}), flat: (i) => is.Int(i)},
-					},
-					blunt: {
-						mode: (s) => is(s).In(["None", "Add", "Replace"]),
-						hp: {base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}), flat: (i) => is.Int(i)},
-						st: {base: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}), flat: (i) => is.Int(i)},
+					flat: { // Enabled by optionResistFlatDamage
+						slash: {
+							mode: (s) => is(s).In(["None", "Add", "Replace"]),
+							hp: (i) => is.Int(i),
+							st: (i) => is.Int(i),
+						},
+						pierce: {
+							mode: (s) => is(s).In(["None", "Add", "Replace"]),
+							hp: (i) => is.Int(i),
+							st: (i) => is.Int(i),
+						},
+						blunt: {
+							mode: (s) => is(s).In(["None", "Add", "Replace"]),
+							hp: (i) => is.Int(i),
+							st: (i) => is.Int(i),
+						},
 					},
 				},
 				ailments: { // Enabled by optionResistAilments
@@ -16567,10 +16528,18 @@ class itemNode {
 			resistances: {
 				option: "Resist",
 				damage: {
-					option: "ResistDamage",
-					pierce: {prefix: "pierce", hp: {prefix: "pierce", suffix: "HP"}, st: {prefix: "pierce", suffix: "ST"}},
-					slash: {prefix: "slash", hp: {prefix: "slash", suffix: "HP"}, st: {prefix: "slash", suffix: "ST"}},
-					blunt: {prefix: "blunt", hp: {prefix: "blunt", suffix: "HP"}, st: {prefix: "blunt", suffix: "ST"}},
+					base: {
+						option: "ResistBaseDamage",
+						slash: {prefix: "slashBase"},
+						pierce: {prefix: "pierceBase"},
+						blunt: {prefix: "bluntBase"},
+					},
+					flat: {
+						option: "ResistFlatDamage",
+						slash: {prefix: "slashFlat"},
+						pierce: {prefix: "pierceFlat"},
+						blunt: {prefix: "bluntFlat"},
+					}
 				},
 				ailments: {
 					option: "ResistAilments",
