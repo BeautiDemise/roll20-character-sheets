@@ -256,7 +256,7 @@
 						</div>
 
 						<!-- Roll advantage -->
-						<select name="attr_itemEditRollAdv" class="darkInput centerIcon advSelect">
+						<select name="attr_rollAdv" class="darkInput centerIcon advSelect">
 							<option value="false" data-i18n="item-none">---</option>
 							<option value="Advantage" data-i18n="helper-text-adv">Advantage</option>
 							<option value="Disadvantage" data-i18n="helper-text-disadv">Disadvantage</option>
@@ -264,13 +264,13 @@
 
 						<!-- Roll format AutoScript -->
 						<button type="action" class="darkButton autoScriptButton script" name="act_edit-rollautoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-						<input type="text" name="attr_rollautoscript" hidden="true">
+						<input type="text" name="attr_rollAutoscript" hidden="true">
 					</div>
 
 					<div class="itemOptionContainer inline">
 
 						<!-- Recycle / store roll -->
-						<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionStoreRoll" value="true"><span>Recycle</span></label>
+						<div class="itemOption inline"><label><input type="checkbox" name="attr_optionStoreRoll" value="true"><span>Recycle</span></label>
 							<div class="rowContainer combatRoll">
 								<div class="rollFormatBlock">
 									<input type="number" class="diceCount noSpinner" name="attr_storeCount" value="0">
@@ -289,11 +289,11 @@
 
 							<!-- Recycle AutoScript -->
 							<button type="action" class="darkButton autoScriptButton script" name="act_edit-storeautoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-							<input type="text" name="attr_storeautoscript" hidden="true">
+							<input type="text" name="attr_storeAutoscript" hidden="true">
 						</div>
 
-						<!-- Roll resource -->
-						<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionRollAction" value="true"><span>Action</span></label>
+						<!-- Roll action cost -->
+						<div class="itemOption inline"><label><input type="checkbox" name="attr_optionRollAction" value="true"><span>Action</span></label>
 							<div class="rowContainer fitContents">
 								<input type="checkbox" class="fade-toggle" name="attr_rollActionCost" value="0" hidden="true">
 								<div class="fade-item mediumIcon egoSpecial"></div>
@@ -311,7 +311,8 @@
 							</select>
 						</div>
 
-						<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionRollReaction" value="true"><span>Reaction</span></label>
+						<!-- Roll reaction cost -->
+						<div class="itemOption inline"><label><input type="checkbox" name="attr_optionRollReaction" value="true"><span>Reaction</span></label>
 							<div class="rowContainer fitContents">
 								<input type="checkbox" class="fade-toggle" name="attr_rollReactionCost" value="0" hidden="true" checked>
 								<div class="fade-item mediumIcon reaction"></div>
@@ -327,6 +328,15 @@
 								<option value="Evade" data-i18n="resource-evade">Evade</option>
 								<option value="Light_Regen" data-i18n="resource-light-regen">Light Regen</option>
 							</select>
+						</div>
+
+						<!-- Roll uses cost -->
+						<div class="itemOption inline"><label><input type="checkbox" name="attr_optionRollUses" value="true"><span>Uses</span></label>
+							<div class="rowContainer fitContents">
+								<input type="checkbox" class="fade-toggle" name="attr_rollUsesCost" value="0" hidden="true" checked>
+								<div class="fade-item mediumIcon reusable"></div>
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_rollUsesCost" min="0" value="0">
+							</div>
 						</div>
 					</div>
 				</fieldset>
@@ -345,11 +355,11 @@
 						<!-- Slash -->
 						<div class="rowContainer">
 							<div class="mediumIcon slashNormal"></div>
-							<input type="number" class="darkInput noSpinner" name="attr_slashBaseHP" min="0" value="1">
-							<input type="number" class="darkInput noSpinner" name="attr_slashBaseST" min="0" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditSlashBaseHP" min="0" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditSlashBaseST" min="0" value="1">
 							<div class="mediumIcon slashNormalSTG"></div>
 
-							<select name="attr_slashBaseMode" class="whiteInput">
+							<select name="attr_itemEditSlashBaseMode" class="whiteInput">
 								<option value="None" data-i18n="item-none">---</option>
 								<option value="Add" data-i18n="import-type-add">Action</option>
 								<option value="Replace" data-i18n="import-type-replace">Reaction</option>
@@ -359,11 +369,11 @@
 						<!-- Pierce -->
 						<div class="rowContainer">
 							<div class="mediumIcon pierceNormal"></div>
-							<input type="number" class="darkInput noSpinner" name="attr_pierceBaseHP" min="0" value="1">
-							<input type="number" class="darkInput noSpinner" name="attr_pierceBaseST" min="0" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditPierceBaseHP" min="0" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditPierceBaseST" min="0" value="1">
 							<div class="mediumIcon pierceNormalSTG"></div>
 
-							<select name="attr_pierceBaseMode" class="whiteInput">
+							<select name="attr_itemEditPierceBaseMode" class="whiteInput">
 								<option value="None" data-i18n="item-none">---</option>
 								<option value="Add" data-i18n="import-type-add">Action</option>
 								<option value="Replace" data-i18n="import-type-replace">Reaction</option>
@@ -373,11 +383,11 @@
 						<!-- Blunt  -->
 						<div class="rowContainer">
 							<div class="mediumIcon bluntNormal"></div>
-							<input type="number" class="darkInput noSpinner" name="attr_bluntBaseHP" min="0" value="1">
-							<input type="number" class="darkInput noSpinner" name="attr_bluntBaseST" min="0" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditBluntBaseHP" min="0" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditBluntBaseST" min="0" value="1">
 							<div class="mediumIcon bluntNormalSTG"></div>
 
-							<select name="attr_bluntBaseMode" class="whiteInput">
+							<select name="attr_itemEditBluntBaseMode" class="whiteInput">
 								<option value="None" data-i18n="item-none">---</option>
 								<option value="Add" data-i18n="import-type-add">Action</option>
 								<option value="Replace" data-i18n="import-type-replace">Reaction</option>
@@ -393,18 +403,18 @@
 						<!-- Slash -->
 						<div class="rowContainer centerFlex">
 							<div class="rowContainer">
-								<input type="checkbox" class="fade-toggle" name="attr_slashFlatHP" value="0" hidden="true" checked>
+								<input type="checkbox" class="fade-toggle" name="attr_itemEditSlashFlatHP" value="0" hidden="true" checked>
 								<div class="fade-item mediumIcon slashNormal"></div>
-								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_slashFlatHP" min="0" value="0">
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_itemEditSlashFlatHP" min="0" value="0">
 							</div>
 
 							<div class="rowContainer">
-								<input type="checkbox" class="fade-toggle" name="attr_slashFlatST" value="0" hidden="true" checked>
-								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_slashFlatST" min="0" value="0">
+								<input type="checkbox" class="fade-toggle" name="attr_itemEditSlashFlatST" value="0" hidden="true" checked>
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_itemEditSlashFlatST" min="0" value="0">
 								<div class="fade-item mediumIcon slashNormalSTG"></div>
 							</div>
 
-							<select name="attr_slashFlatMode" class="whiteInput">
+							<select name="attr_itemEditSlashFlatMode" class="whiteInput">
 								<option value="None" data-i18n="item-none">---</option>
 								<option value="Add" data-i18n="import-type-add">Action</option>
 								<option value="Replace" data-i18n="import-type-replace">Reaction</option>
@@ -414,18 +424,18 @@
 						<!-- Pierce -->
 						<div class="rowContainer centerFlex">
 							<div class="rowContainer">
-								<input type="checkbox" class="fade-toggle" name="attr_pierceFlatHP" value="0" hidden="true" checked>
+								<input type="checkbox" class="fade-toggle" name="attr_itemEditPierceFlatHP" value="0" hidden="true" checked>
 								<div class="fade-item mediumIcon pierceNormal"></div>
-								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_pierceFlatHP" min="0" value="0">
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_itemEditPierceFlatHP" min="0" value="0">
 							</div>
 
 							<div class="rowContainer">
-								<input type="checkbox" class="fade-toggle" name="attr_pierceFlatST" value="0" hidden="true" checked>
-								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_pierceFlatST" min="0" value="0">
+								<input type="checkbox" class="fade-toggle" name="attr_itemEditPierceFlatST" value="0" hidden="true" checked>
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_itemEditPierceFlatST" min="0" value="0">
 								<div class="fade-item mediumIcon pierceNormalSTG"></div>
 							</div>
 
-							<select name="attr_pierceFlatMode" class="whiteInput">
+							<select name="attr_itemEditPierceFlatMode" class="whiteInput">
 								<option value="None" data-i18n="item-none">---</option>
 								<option value="Add" data-i18n="import-type-add">Action</option>
 								<option value="Replace" data-i18n="import-type-replace">Reaction</option>
@@ -435,18 +445,18 @@
 						<!-- Blunt  -->
 						<div class="rowContainer centerFlex">
 							<div class="rowContainer">
-								<input type="checkbox" class="fade-toggle" name="attr_bluntFlatHP" value="0" hidden="true" checked>
+								<input type="checkbox" class="fade-toggle" name="attr_itemEditBluntFlatHP" value="0" hidden="true" checked>
 								<div class="fade-item mediumIcon bluntNormal"></div>
-								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_bluntFlatHP" min="0" value="0">
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_itemEditBluntFlatHP" min="0" value="0">
 							</div>
 
 							<div class="rowContainer">
-								<input type="checkbox" class="fade-toggle" name="attr_bluntFlatST" value="0" hidden="true" checked>
-								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_bluntFlatST" min="0" value="0">
+								<input type="checkbox" class="fade-toggle" name="attr_itemEditBluntFlatST" value="0" hidden="true" checked>
+								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_itemEditBluntFlatST" min="0" value="0">
 								<div class="fade-item mediumIcon bluntNormalSTG"></div>
 							</div>
 
-							<select name="attr_bluntFlatMode" class="whiteInput">
+							<select name="attr_itemEditBluntFlatMode" class="whiteInput">
 								<option value="None" data-i18n="item-none">---</option>
 								<option value="Add" data-i18n="import-type-add">Action</option>
 								<option value="Replace" data-i18n="import-type-replace">Reaction</option>
@@ -507,11 +517,73 @@
 		</div>
 
 
+		<!-- Option: Usable (Tool) -->
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionUsable" value="true"><span>Usable</span></label>
+			<div class="itemOptionContainer">
+			
+				<!-- Usable mode -->
+				<select name="attr_itemEditUsableType" class="whiteInput" style="width: 160px;">
+					<option value="None" data-i18n="item-none">---</option>
+					<option value="Standalone" data-i18n="item-usetype-standalone">Standalone: Used like a tool</option>
+					<option value="Applied" data-i18n="item-usetype-applied">Applied: Used like a skill</option>
+					<option value="Both" data-i18n="item-usetype-both">Both: Used as a tool or skill</option>
+				</select>
+
+				<!-- Usable action cost -->
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUsableAction" value="true"><span>Action</span></label>
+					<div class="rowContainer fitContents">
+						<input type="checkbox" class="fade-toggle" name="attr_itemEditUsableActionCost" value="0" hidden="true" checked>
+						<div class="fade-item mediumIcon egoSpecial"></div>
+						<input type="number" class="fade-item darkInput hoverSpinner" name="attr_itemEditUsableActionCost" min="0" value="0">
+					</div>
+
+					<select name="attr_itemEditUsableActionType" class="whiteInput">
+						<option value="None" data-i18n="item-none">---</option>
+						<option value="Action" data-i18n="resource-action">Action</option>
+						<option value="Reaction" data-i18n="resource-reaction">Reaction</option>
+						<option value="Counter" data-i18n="resource-counter">Counter</option>
+						<option value="Block" data-i18n="resource-block">Block</option>
+						<option value="Evade" data-i18n="resource-evade">Evade</option>
+						<option value="Light_Regen" data-i18n="resource-light-regen">Light Regen</option>
+					</select>
+				</div>
+
+				<!-- Usable reaction cost -->
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUsableReaction" value="true"><span>Reaction</span></label>
+					<div class="rowContainer fitContents">
+						<input type="checkbox" class="fade-toggle" name="attr_itemEditUsableReactionCost" value="0" hidden="true" checked>
+						<div class="fade-item mediumIcon reaction"></div>
+						<input type="number" class="fade-item darkInput hoverSpinner" name="attr_itemEditUsableReactionCost" min="0" value="0">
+					</div>
+
+					<select name="attr_itemEditUsableReactionType" class="whiteInput">
+						<option value="None" data-i18n="item-none">---</option>
+						<option value="Action" data-i18n="resource-action">Action</option>
+						<option value="Reaction" data-i18n="resource-reaction">Reaction</option>
+						<option value="Counter" data-i18n="resource-counter">Counter</option>
+						<option value="Block" data-i18n="resource-block">Block</option>
+						<option value="Evade" data-i18n="resource-evade">Evade</option>
+						<option value="Light_Regen" data-i18n="resource-light-regen">Light Regen</option>
+					</select>
+				</div>
+
+				<!-- Usable item uses cost -->
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUsableUses" value="true"><span>Uses</span></label>
+					<div class="rowContainer fitContents">
+						<input type="checkbox" class="fade-toggle" name="attr_itemEditUsableUsesCost" value="0" hidden="true" checked>
+						<div class="fade-item mediumIcon reusable"></div>
+						<input type="number" class="fade-item darkInput hoverSpinner" name="attr_itemEditUsableUsesCost" min="0" value="0">
+					</div>
+				</div>
+			</div>
+		</div>
+
+
 		<!-- Option: Limited uses -->
 		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionLimited" value="true"><span>Limited uses</span></label>
 			<div class="itemOptionContainer">
 			
-				<!-- Uses charges -->
+				<!-- Item uses -->
 				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUses" value="true"><span>Uses</span></label>
 					<div class="useCounter">
 						<input type="checkbox" class="fade-toggle" name="attr_itemEditUsesMax" value="0" hidden="true" checked>
@@ -523,59 +595,15 @@
 						</div>
 					</div>
 
-					<select name="attr_itemEditUseType" class="whiteInput" style="width: 80px;">
+					<select name="attr_itemEditUsesRecharge" class="whiteInput" style="width: 80px;">
 						<option value="None" data-i18n="item-none">---</option>
-						<option value="Standalone" data-i18n="item-usetype-standalone">Standalone: Used like a tool</option>
-						<option value="Applied" data-i18n="item-usetype-applied">Applied: Used like a skill</option>
-						<option value="Both" data-i18n="item-usetype-both">Both: Used as a tool or skill</option>
-					</select>
-
-					<select name="attr_itemEditUseMode" class="whiteInput" style="width: 80px;">
-						<option value="None" data-i18n="item-none">---</option>
-						<option value="Limited" data-i18n="item-usemode-manual">Manual: Manually restore uses</option>
-						<option value="Refresh" data-i18n="item-usemode-refresh">Refresh: Restore uses on Refresh</option>
-						<option value="Recover" data-i18n="item-usemode-recover">Recover: Restore uses on Recover</option>
-						<option value="Combat" data-i18n="item-usemode-combat">Combat: Restore uses on Combat end</option>
-						<option value="Round" data-i18n="item-usemode-round">Round: Restore uses on Round end</option>
-						<option value="Loaded" data-i18n="item-usemode-loaded">Loaded: Consumes uses from Ammo item</option>
-						<option value="Ammo" data-i18n="item-usemode-ammo">Ammo: Used by Loaded items</option>
-					</select>
-				</div>
-
-				<!-- Use resource -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUseAction" value="true"><span>Action</span></label>
-					<div class="rowContainer fitContents">
-						<input type="checkbox" class="fade-toggle" name="attr_useActionCost" value="0" hidden="true" checked>
-						<div class="fade-item mediumIcon egoSpecial"></div>
-						<input type="number" class="fade-item darkInput hoverSpinner" name="attr_useActionCost" min="0" value="0">
-					</div>
-
-					<select name="attr_useActionType" class="whiteInput">
-						<option value="None" data-i18n="item-none">---</option>
-						<option value="Action" data-i18n="resource-action">Action</option>
-						<option value="Reaction" data-i18n="resource-reaction">Reaction</option>
-						<option value="Counter" data-i18n="resource-counter">Counter</option>
-						<option value="Block" data-i18n="resource-block">Block</option>
-						<option value="Evade" data-i18n="resource-evade">Evade</option>
-						<option value="Light_Regen" data-i18n="resource-light-regen">Light Regen</option>
-					</select>
-				</div>
-
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUsesReaction" value="true"><span>Reaction</span></label>
-					<div class="rowContainer fitContents">
-						<input type="checkbox" class="fade-toggle" name="attr_useReactionCost" value="0" hidden="true" checked>
-						<div class="fade-item mediumIcon reaction"></div>
-						<input type="number" class="fade-item darkInput hoverSpinner" name="attr_useReactionCost" min="0" value="0">
-					</div>
-
-					<select name="attr_useReactionType" class="whiteInput">
-						<option value="None" data-i18n="item-none">---</option>
-						<option value="Action" data-i18n="resource-action">Action</option>
-						<option value="Reaction" data-i18n="resource-reaction">Reaction</option>
-						<option value="Counter" data-i18n="resource-counter">Counter</option>
-						<option value="Block" data-i18n="resource-block">Block</option>
-						<option value="Evade" data-i18n="resource-evade">Evade</option>
-						<option value="Light_Regen" data-i18n="resource-light-regen">Light Regen</option>
+						<option value="Manual" data-i18n="item-recharge-manual">Manual: Manually restore uses</option>
+						<option value="Refresh" data-i18n="item-recharge-refresh">Refresh: Restore uses on Refresh</option>
+						<option value="Recover" data-i18n="item-recharge-recover">Recover: Restore uses on Recover</option>
+						<option value="Combat" data-i18n="item-recharge-combat">Combat: Restore uses on Combat end</option>
+						<option value="Round" data-i18n="item-recharge-round">Round: Restore uses on Round end</option>
+						<option value="Loaded" data-i18n="item-recharge-loaded">Loaded: Consumes uses from Ammo item</option>
+						<option value="Ammo" data-i18n="item-recharge-ammo">Ammo: Used by Loaded items</option>
 					</select>
 				</div>
 
@@ -593,8 +621,8 @@
 
 		<!-- Option: Equip Slots -->
 		<div class="itemOption inline divide"><label><input type="checkbox" name="attr_itemEditOptionEquipSlots" value="true"><span>Equip slots</span></label>
-			<input type="number" class="darkInput hoverSpinner" name="attr_slotUse" placeholder="1">
-			<input type="text" class="whiteInput" name="attr_slotType" style="width: 112px;" placeholder="Slot type">
+			<input type="number" class="darkInput hoverSpinner" name="attr_itemEditSlotUse" placeholder="1">
+			<input type="text" class="whiteInput" name="attr_itemEditSlotType" style="width: 112px;" placeholder="Slot type">
 		</div>
 
 
@@ -610,16 +638,18 @@
 		<div class="itemOption inline divide"><label><input type="checkbox" name="attr_itemEditOptionLinked" value="true"><span>Linked</span></label>
 			<div class="columnAlign">
 				<div class="rowContainer">
-					<input type="checkbox" class="whiteInput" name="attr_linkedEquipTogether" value="true" data-i18n-title="item-linked-equiptogether" title="Auto: Equip item with linked item">
-					<input type="text" class="whiteInput" name="attr_linkedName" placeholder="Linked name" style="width: 100px;">
-					<input type="text" class="whiteInput" name="attr_linkedId" placeholder="Linked id" style="width: 100px;">
+					<input type="checkbox" class="whiteInput" name="attr_itemEditLinkedEquipTogether" value="true" data-i18n-title="item-linked-equiptogether" title="Auto: Equip item with linked item">
+					<input type="text" class="whiteInput" name="attr_itemEditLinkedName" placeholder="Linked name" style="width: 100px;">
+					<input type="text" class="whiteInput" name="attr_itemEditLinkedId" placeholder="Linked id" style="width: 100px;">
 
 					<!-- Add a attribute to all repeating items which matches the currently selected link item in the editor -->
 					<!-- Style the dropdown entry for the selected item differently and have the dropdown default to the type of the item -->
 					<!-- Maybe have the dropdown be attr_linkedType -->
 
+					<!-- Make sure an item cannot link to itself -->
+
 					<!-- Add a toggle to reveal and hide the selection interface -->
-					<select name="attr_linkedType" class="whiteInput">
+					<select name="attr_itemEditLinkedType" class="whiteInput">
 						<option value="false" data-i18n="item-none">---</option>
 						<option value="weapons" data-i18n="item-type-weapon">Weapon</option>
 						<option value="outfits" data-i18n="item-type-outfit">Outfit</option>
@@ -634,7 +664,7 @@
 				<div class="linkedItemSelector">
 					
 					<!-- Weapons -->
-					<input type="checkbox" class="hide-toggle-next" name="attr_linkedType" value="weapons" checked>
+					<input type="checkbox" class="hide-toggle-next" name="attr_itemEditLinkedType" value="weapons" checked>
 					<div class="hide-item rowContainer">
 						<fieldset class="repeating_weapons">
 							<input type="text" class="darkInput" name="attr_name" placeholder="Unnamed weapon">
@@ -643,7 +673,7 @@
 					</div>
 
 					<!-- Outfits -->
-					<input type="checkbox" class="hide-toggle-next" name="attr_linkedType" value="outfits" checked>
+					<input type="checkbox" class="hide-toggle-next" name="attr_itemEditLinkedType" value="outfits" checked>
 					<div class="hide-item rowContainer">
 						<fieldset class="repeating_outfits">
 							<input type="text" class="darkInput" name="attr_name" placeholder="Unnamed outfit">
@@ -657,16 +687,16 @@
 
 
 		<!-- Option: Style -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionStyle" value="true"><span>Style</span></label>
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionCustomStyle" value="true"><span>Style</span></label>
 			<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionIcon" value="true"><span>Icon</span></label>
 			
 				<!-- Unfinished -->
-				<input type="text" class="whiteInput" name="attr_iconSource" placeholder="Icon source">
+				<input type="text" class="whiteInput" name="attr_itemEditIconSource" placeholder="Icon source">
 			</div>
 
 			<!-- Unfinished -->
-			<input type="text" class="whiteInput" name="attr_color" placeholder="Color">
-			<input type="text" class="whiteInput" name="attr_accent" placeholder="Accent">
+			<input type="text" class="whiteInput" name="attr_itemEditColor" placeholder="Color">
+			<input type="text" class="whiteInput" name="attr_itemEditAccent" placeholder="Accent">
 		</div>
 
 
@@ -674,10 +704,10 @@
 		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionCustomUI" value="true"><span>Custom UI</span></label>
 			
 			<!-- Unfinishes -->
-			<input type="checkbox" class="whiteInput" name="attr_damageTypeUI" value="true">
-			<input type="checkbox" class="whiteInput" name="attr_rangeUI" value="true">
-			<input type="checkbox" class="whiteInput" name="attr_specialUI" value="true">
-			<input type="checkbox" class="whiteInput" name="attr_halfUI" value="true">
+			<input type="checkbox" class="whiteInput" name="attr_itemEditDamageTypeUI" value="true">
+			<input type="checkbox" class="whiteInput" name="attr_itemEditRangeUI" value="true">
+			<input type="checkbox" class="whiteInput" name="attr_itemEditSpecialUI" value="true">
+			<input type="checkbox" class="whiteInput" name="attr_itemEditHalfUI" value="true">
 		</div>
 
 
@@ -2217,7 +2247,7 @@
 	<input type="text" name="attr_baseLuckNum" value="0" hidden="true">
 	<input type="text" name="attr_luckNum" value="@{baseLuckNum}" hidden="true">
 
-	<button type="action" class="centerIcon reusable" name="act_resetUses" data-i18n-title="refresh-button" title="Refresh: Reload all weapons and reuseable tools"></button>
+	<button type="action" class="centerIcon reusable" name="act_resetUses" data-i18n-title="refresh-button" title="Refresh: Reload all weapons and reusable tools"></button>
 </div>
 
 <div class="contentContainer darkBG" id="baseStats">
@@ -15868,53 +15898,11 @@ function closeEditor(type) {
 
 
 
-
-
-// Add custom getters and setters for ex. rollFormats[i].damagetype
-// get damagetype() instead gives damagetype.value if value exists
-// set damagetype(v) instead sets damagetype.value if value exists and damagetype.valid(v)
-// better yet: have an itemNode be {key: {param: 1, param: 2, param: itemNode..., param: itemNode...}}
-
-// alias comes from format.value instead of format. Define it in the loop
-
-
-
-
-
-
 /*--- Repeating inventory ---*/
 
-
-
-function updateItemList() {
-	// As updateAilmentList, but for items. Runs whenever an item is updated or deleted
-	
-	// Change events include the new attribute value, so you may be able to modify individual attributes instead of updating everything
-	// If yes, consider changing the ailmentList over to using this method as well
-	// You'd have to find some way to only setAttrs() the new list once and not every time a value changes (Causes a lot of extra server calls when updating many attributes at once)
-}
-
-function convertInventory() {
-	// Converts all the old items into the new inventory format
-	// Runs import(itemScript, "Add") once the data is prepared
-}
-
-// Add a on:startup event that adds some empty slots when a sheet is first opened
-// If at least one old inventory item exists, use convertInventory() first, then add any unused slots in the old inventory
-
-// Consider adding the getSectionIDsOrdered function from the wiki
-// You'd have to rework it to work for multiple repeating sections at the same time
-
-
-
-
-
-
-/* An item consists of one or more itemNodes. The format for these nodes can be seen in itemFormat */
-/* The itemList consists of one or more items and is accessed through an itemListHandler */
+/* An item consists of one or more itemNodes. The format for these nodes can be seen in itemNode.format */
+/* The itemList consists of one or more items. For more details, see itemListHandler */
 class itemNode {
-	static disabledArray = []; // Used in itemNodeHandler
-
 	constructor(type, id, formats={}) {
 		Object.defineProperties(this, {
 			valid: {writable: true, value: {}}, // List of attribute value validators for the node
@@ -15948,10 +15936,11 @@ class itemNode {
 			this.enabled = true;
 		}
 
-		// Get any source-specific attribute name data
+		// Get any source-specific attribute name data ("editor" or "sheet")
 		Object.defineProperties(this.attrs, {
 			sheet: {writable: true, value: formats.source.sheet},
 			editor: {writable: true, value: formats.source.editor},
+			// Will later add export attribute name data here
 		});
 
 		
@@ -15972,7 +15961,13 @@ class itemNode {
 								repFormat[source].index = i; break;
 							case "id":
 								repFormat[source].section = formats.style.repeating.section;
-								repFormat[source].id = generateRowID(); break;
+								let sourceIDs = itemList.editor.IDs[repFormat[source].section]
+								if (sourceIDs && sourceIDs.length > i) {
+									repFormat[source].id = sourceIDs[i];
+								} else {
+									repFormat[source].id = generateRowID().toLowerCase();
+								}
+								break;
 							case "props":
 								throw new Error("Tried to access repeating prop values, but repeating props are currently not implemented");
 								break; // Currently not implemented
@@ -15981,7 +15976,7 @@ class itemNode {
 						}
 					}
 					
-					this[i] = new itemNode(prop, id, { // Should not be prop. This is for testing
+					this[i] = new itemNode(prop, id, {
 						base: value[i] || value[0],
 						default: formats.default?.array?.[i] || {},
 						valid: formats.valid.array || {},
@@ -16011,7 +16006,7 @@ class itemNode {
 			}
 
 
-			// Get any property-pecific attribute name data
+			// Get any property-specific attribute name data (ex. for options)
 			if (formats.style?.[prop]?.option) {
 				this.attrs[prop] = "option" + formats.style[prop].option;
 			}
@@ -16027,37 +16022,39 @@ class itemNode {
 			if (formats.valid?.[prop] && typeof formats.valid[prop] == "function") {
 				this.valid[prop] = formats.valid[prop];
 			} else {
+				if (!(prop in formats.valid)) {
+					console.warn(`itemNode - valid format: property "${prop}" is not in the format`, formats.valid);
+				}
 				this.valid[prop] = (b) => is.Bool(b);
 			}
 		}
 		return this;
 	}
 
-	// Assign input attribute values from the sheet and/or editor to the item
-	// Returns true if all values were used. Otherwise all unused values are returned (currently not functional)
-	input(values) {
-		return this.access(values, {lowerCase:true});
+	// Assign input attribute values from the sheet and/or editor to the item. See itemList.input() for more details
+	input(values, options={}) {
+		return this.access(values, {...options, lowerCase:true});
 	}
 
-	// Generates and returns a list of output attribute values for the sheet and editor
+	// Generates and outputs a list of attribute values for the sheet and editor. See itemList.output() for more details
 	// Editor data is only generated for the item currently open in the item editor
-	get output() {
-		return this.access(false);
+	output(options={}) {
+		return this.access(false, options);
 	}
 
-	// Generates and returns a list of keys for both the editor and sheet
-	// If an event is provided the keys are returned in the event format
+	// Generates and returns an array of keys for both the editor and sheet. See itemList.keys and itemList.event() for more details
+	// If an event is provided the keys are returned in the event key format
 	keys(event=false) {
 		return Object.entries(this.access(false, {includeDisabled:true, lowerCase:true, event}))
 			.reduce((acc, [source, values]) => { return {...acc, [source]: Object.keys(values)} }, {});
 	}
 
 	// Helper method for accessing all nodes and properties of an item
-	// Used by input, output, export, import and keys
+	// Used by input(), output(), import(), export() and keys()
 	access(values, options={includeDisabled:false, lowerCase:false, event:false}) {
 		let output = {editor: {}, sheet: {}}
 
-		// Values generated by getAttrs() are all in lower-case, while values from item.output are in mixed-case
+		// Values generated by getAttrs() are all in lower-case, while values from item.output may be in mixed-case
 		// For consistent prop-to-attr matching all attribute and property names are converted to lowercase
 		if (values && length(values) > 0) {
 			for (const source of Object.keys(values)) {
@@ -16072,19 +16069,19 @@ class itemNode {
 					// Only input and output editor data from the current editor target
 					if (source == "editor" && this.id != itemList.editor.target && !options.event) { continue; }
 
-					// Get the attribute name of property
+					// Get the attribute name of the property in the current source
 					let propAttr = this.attr(prop, source, options);
 
 					// Handle inputting values
-					if (length(values) > 0 && propAttr in values[source]) {
-						this.modify(prop, values[source][propAttr]);
+					if (values && length(values[source]) > 0 && propAttr in values[source]) {
+						this.modify(prop, values[source][propAttr], {...options, source: "input"});
 						delete values[source][propAttr];
 					}
 
 					// Handle outputting values
-					else if ((this.enabled || options.includeDisabled)) { // Ensures 
+					else if ((this.enabled || options.includeDisabled)) {
 						if (this.hasOption(prop)) {
-							output[source][propAttr] = "" + this.enabled;
+							output[source][propAttr] = "" + this[prop].enabled;
 						}
 						else if (!(value instanceof itemNode)) {
 							output[source][propAttr] = value;
@@ -16092,7 +16089,7 @@ class itemNode {
 					}
 				}
 				
-				// Handle any sub-nodes
+				// Recursively access any sub-nodes
 				if (value instanceof itemNode) {
 					Object.entries(value.access(values, options)).reduce((acc, [source, subnodeOutput]) => Object.assign(output[source], subnodeOutput), {});
 				}
@@ -16102,7 +16099,7 @@ class itemNode {
 	}
 
 	// Returns the attribute name of a property in either the sheet or editor
-	// If an event type is provided the attribute is returned in the event format
+	// If an event type is provided the attribute is returned in the event key format
 	attr(prop, source, options={lowerCase:false, event:false}) {
 		if (this.attrs[prop]) {
 			let index = (this.attrs[source].index != undefined) ? this.attrs[source].index : "";
@@ -16128,6 +16125,8 @@ class itemNode {
 			return false;
 		}
 	}
+
+	// Helper that checks if an itemNode property is associated with an option attribute
 	hasOption(prop) {
 		return this.attrs[prop]?.startsWith("option");
 	}
@@ -16135,29 +16134,35 @@ class itemNode {
 	// Modifies an item property
 	// If a validator format was provided at item creation only valid values are accepted
 	// Adds any changes to itemList.outputValues. The changes are applied to the sheet/editor when the itemList access ends
-	modify(prop, newValue, options={source:"input"}) {
-		if (isNaN(parseInt(prop))) return; // Ensures repeating nodes are not modified (have prop names "0", "1", etc.)
-		
+	modify(prop, newValue, options={source:"input", modify:false}) {
+		if (!isNaN(parseInt(prop))) return; // Ensures repeating nodes are not modified (have prop names "0", "1", etc.)
+
 		console.log(`(${options.source}) ${prop} ${this[prop]} -> ${newValue}`);
 		if (this[prop] != undefined) {
-			if (this[prop] instanceof itemNode) {
-				prop = "enabled";
-			}
-
+			
 			if (prop in this.valid && !this.valid[prop](newValue)) {
 				console.warn(`Attempted to set the value of ${prop} to invalid value ${newValue}`, this);
 			} else {
 				if (this[prop] != newValue) {
 					console.log(`(${options.source}) Modifying ${prop} from "${this[prop]}" to "${newValue}"`);
-					this[prop] = newValue;
 
-					// Need to make sure this correctly handles options setting "enabled"
-					// If this.attrs[prop].startsWith("option"), set this.enabled = newValue, but output attr(prop): newValue
+					// Makes sure enabled is set to a boolean value and not ex. "false"
+					if (this[prop] instanceof itemNode) {
+						this[prop].enabled = is.True(newValue);
+					} else if (prop == "enabled") {
+						this[prop] = is.True(newValue);
+					} else {
+						this[prop] = newValue;
+					}
 
 					// Modify the associated attributes in the sheet/editor if applicable
-					itemList.outputValues[this.attr(prop, "sheet")] = newValue;
-					if (this.id == itemList.editor.target) {
-						itemList.outputValues[this.attr(prop, "editor")] = newValue;
+					if (this.attrs[prop]) {
+						if (!options.modify || options.modify == "sheet") {
+							itemList.outputValues[this.attr(prop, "sheet")] = newValue;
+						}
+						if (this.id == itemList.editor.target && (!options.modify || options.modify == "editor")) {
+							itemList.outputValues[this.attr(prop, "editor")] = newValue;
+						}
 					}
 				}
 			}
@@ -16166,7 +16171,79 @@ class itemNode {
 		}
 	}
 
-	// repeating is now in style. Has info on how to input and output editor and sheet data
+	// Adds a new repeating subnode to the item
+	add(type) {
+		if (type == "Rollformat") {
+			this.rollformats.enabled = true;
+
+			let newFormat = new itemNode(type, this.id, {
+				base: itemNode.format.base.rollformats.array[0],
+				default: false,
+				valid: itemNode.format.valid.rollformats.array,
+				style: itemNode.format.style.rollformats.array,
+				source: {
+					editor: {
+						prefix: "",
+						id: generateRowID().toLowerCase(),
+						section: "rollformats",
+					},
+					sheet: {
+						id: this.id,
+						index: length(this.rollformats),
+						section: this.type.toLowerCase() + "s",
+					}
+				}
+			});
+
+			this.rollformats[length(this.rollformats)] = newFormat;
+			newFormat.enabled = true;
+			itemList.outputValues.rollFormatAddToggle = "" + (this.rollformats.length >= 5);
+		}
+	}
+
+	
+
+	/* Code beyond this point is unfinished */
+
+	// Deletes a repeating subnode of the item with a specific id
+	delete(type, id) {
+		if (type == "Rollformat") {
+			
+			function updateIndexes(node, oldIndex, newIndex) {
+				if (node.attrs) {
+					node.attrs.sheet.index = newIndex;
+				}
+
+				for (const subnode of Object.values(node)) {
+					if (subnode instanceof itemNode) {
+						updateIndexes(subnode, oldIndex, newIndex);
+					}
+				}
+			}
+
+			let deletedIndex = false;
+			for (const [index, node] of Object.entries(this.rollformats)) {
+				if (deletedIndex != false && index > deletedIndex) {
+					updateIndexes(this.rollformats[index], index, index-1);
+					this.rollformats[index-1] = this.rollformats[index];
+					delete this.rollformats[index];
+				}
+				else if (node.attrs.editor.id == id) {
+					delete this.rollformats[index];
+					itemList.editor.IDs.rollformats.splice(index, 1);
+					deletedIndex = index;
+				}
+			}
+
+			itemList.outputValues.rollFormatAddToggle = "" + (this.rollformats.length < 5);
+		}
+
+		// Currently not implemented
+		// Should decrease the index of all following repeating subnodes by 1
+		// This includes both the property name and the index found in attrs.sheet 
+	}
+
+	// Info on how to implement "props" style attribute keys, which will be used in item export scripts
 	//   If type == "props":
 	//     When inputing values (values != false) get repeating.editor.check, find values where key includes check.key and where check.value(value) == true. Get their ids
 	//       Then get repeating.editor.key and value, loop through the ids, find matches with id_key in values, get the key, then set this[key] = values[repeating_section_id_value] 
@@ -16177,24 +16254,12 @@ class itemNode {
 	//     When outputing values, loop over props and values, get itemList.editor.IDs[key], then output {repeating_rep.section_id_rep.key: prop, repeating_rep.section_id_rep.value: value}
 	//       When exporting, ignore this and just export [alias, prop:value, prop:value, ...]. Their repeatingProps will have the correct ids for their sheet
 
-	// Adds a new repeating subnode to the item
-	add(type) {
-		if (type == "Rollformat") {
-			this.rollformats.enabled = true;
-			this.rollformats[length(this.rollformats)] = new itemNode(this.format.base.rollformats.array[0], this.id);
-		}
+	/* Unfinished code end */
 
-		// Should also allow adding
-	}
-
-	// Deletes a repeating subnode of the item with a certain id
-	delete (type, id) {
-		// Currently not implemented
-	}
 
 	static format = {
 
-		// The base format of all items. Modified with format.defaults[type] before being added to the itemList
+		// The base format of all items. Modified with format.defaults[itemtype] before being added to the itemList
 		base: {
 			type: "Effect", rank: 0, name: "", description: "", effect: "",
 			minimized: false,
@@ -16209,20 +16274,25 @@ class itemNode {
 					type: "None", mode: "Roll", damagetype: "None", count: 0, max: 0, power: 0, adv: false, autoscript: false,
 					action: {type: "Action", cost: 1},
 					reaction: {type: "Reaction", cost: 1},
+					uses: {cost: 1},
 					store: {
 						count: 0, max: 0, power: 0, adv: false, autoscript: false,
 					},
 				}]
 			},
+			usable: {
+				type: "None",
+				action: {type: "Action", cost: 1},
+				reaction: {type: "None", cost: 0},
+				uses: {cost: 1},
+			},
 			linked: {
-				itemid: false,
+				id: false,
 				equipTogether: true,
 			},
 			limited: {
 				uses: {
-					type: "None", mode: "None", max: 3, current: 3,
-					action: {type: "Action", cost: 1},
-					reaction: {type: "None", cost: 0},
+					max: 3, current: 3, recharge: "None",
 				},
 				light: {
 					cost: 0,
@@ -16270,9 +16340,9 @@ class itemNode {
 			autoscript: false,
 		},
 
-		// Includes all default values for items of a certain type
+		// Includes all default override values for items of a certain type. If a value is not specified here the value in the base format is used
 		// All sub-nodes like "rollformats" are optional and begin off disabled by default
-		// Including a sub-node in an item's default values (even just writing "subnode: {}") enables that sub-node 
+		// Including a subnode in an item's default values (even just writing "subnode: {}") enables that subnode 
 		defaults: {
 			Weapon: {
 				type: "Weapon",
@@ -16323,8 +16393,8 @@ class itemNode {
 			Tool: {
 				type: "Tool",
 				equip: {slots: {type: "Hands", value: 1}},
-				limited: {uses: {type: "Standalone", mode: "Refresh", max: 3, current: 3, action: {}},
-				},
+				usable: {type: "Standalone", action: {}, uses: {}},
+				limited: {uses: {max: 3, current: 3, recharge: "Refresh"}},
 				style: {color: "Purple"},
 				ui: {half: true},
 			},
@@ -16334,7 +16404,7 @@ class itemNode {
 				rollformats: {
 					array: [
 						{type: "None", mode: "Applied", count: 0, max: 0, power: 0,
-							action: {type: "None", value: 0}, reaction: {type: "None", value: 0}},
+							action: {type: "None", value: 0}, reaction: {type: "None", cost: 0}},
 					],
 				},
 				limited: {light: {cost: 1}},
@@ -16376,11 +16446,14 @@ class itemNode {
 					adv: (v) => is.False(v) || is(v).In(["Advantage", "Disadvantage"]),
 					action: { // Enabled by optionRollAction *with an index*
 						type: (s) => is(s).In(["None", ...resourceNames]),
-						use: (i) => is.Int(i, {min: 0}),
+						cost: (i) => is.Int(i, {min: 0}),
 					},
 					reaction: { // Enabled by optionRollReaction *with an index*
 						type: (s) => is(s).In(["None", ...resourceNames]),
-						use: (i) => is.Int(i, {min: 0}),
+						cost: (i) => is.Int(i, {min: 0}),
+					},
+					uses: { // Enabled by optionRollUses *with an index*
+						cost: (i) => is.Int(i, {min: 0}),
 					},
 					store: { // Enabled by optionStoreRoll *with an index*
 						count: (i) => is.Int(i),
@@ -16392,27 +16465,32 @@ class itemNode {
 					autoscript: (v) => is.False(v) || is.String(v),
 				},
 			},
+			usable: { // Enabled by optionUsable
+				type: (s) => is(s).In(["None", "Standalone", "Applied", "Both"]),
+				action: { // Enabled by optionUsableReaction
+					type: (s) => is(s).In(["None", ...resourceNames]),
+					cost: (i) => is.Int(i, {min: 0}),
+				},
+				reaction: { // Enabled by optionUsableReaction
+					type: (s) => is(s).In(["None", ...resourceNames]),
+					cost: (i) => is.Int(i, {min: 0}),
+				},
+				uses: {
+					cost: (i) => is.Int(i, {min: 0}),
+				},
+			},
 			linked: { // Enabled by optionLinked
 				id: (v) => is.Bool(v) || is(v).In(itemList.IDs), // Need to make sure this works if the linked item is added after this item. Maybe add all the ids first and then add the itemNodes?
 				equipTogether: (b) => is.Bool(b),
 			},
 			limited: { // Enabled by optionLimited
 				uses: { // Enabled by optionUses
-					type: (s) => is(s).In(["None", "Standalone", "Applied", "Both"]),
-					mode: (s) => is(s).In(["None", "Manual", "Refresh", "Recover", "Loaded", "Ammo", "Combat", "Round"]),
-					max: (i) => is.Int(i, {min: 0}),
 					current: (i) => is.Int(i, {min: 0}),
-				},
-				action: { // Enabled by optionUsesAction
-					type: (s) => is(s).In(["None", ...resourceNames]),
-					cost: (i) => is.Int(i, {min: 0}),
-				},
-				reaction: { // Enabled by optionUsesReaction
-					type: (s) => is(s).In(["None", ...resourceNames]),
-					cost: (i) => is.Int(i, {min: 0}),
+					max: (i) => is.Int(i, {min: 0}),
+					recharge: (s) => is(s).In(["None", "Manual", "Refresh", "Recover", "Loaded", "Ammo", "Combat", "Round"]),
 				},
 				light: { // Enabled by optionLightCost
-					cost: (v) => is.False(v) || is.Int(v, {min: 0}),
+					cost: (i) => is.Int(i, {min: 0}),
 				},
 			},
 			resistances: { // Enabled by optionResist
@@ -16489,7 +16567,7 @@ class itemNode {
 			autoscript: (v) => is.False(v) || is.String(v),
 		},
 
-		// Contains format data for all attribute names of an item. Used for inputing and outputing data
+		// Contains format data for all attribute names of an item. Used for inputing and outputing attribute data
 		style: {
 			equip: {
 				slots: {option: "EquipSlots", prefix: "slot"},
@@ -16504,25 +16582,22 @@ class itemNode {
 				},
 				array: {
 					prefix: "roll",
-					resource: {
-						option: "RollResource", prefix: "roll",
-						action: {option: "RollAction", prefix: "rollAction"},
-						reaction: {option: "RollReaction", prefix: "rollReaction"},
-					},
+					action: {option: "RollAction", prefix: "rollAction"},
+					reaction: {option: "RollReaction", prefix: "rollReaction"},
+					uses: {option: "RollUses", prefix: "rollUses"},
 					store: {option: "StoreRoll", prefix: "store"},
 				},
+			},
+			usable: {
+				option: "Usable",
+				action: {option: "UsableAction", prefix: "usableAction"},
+				reaction: {option: "UsableReaction", prefix: "usableReaction"},
+				uses: {option: "UsableUses", prefix: "usableUses"}
 			},
 			linked: {option: "Linked", prefix: "linked"},
 			limited: {
 				option: "Limited",
-				uses: {
-					option: "Uses", prefix: "uses",
-					resource: {
-						option: "UsesResource",
-						action: {option: "UsesAction", prefix: "useAction"},
-						reaction: {option: "UsesReaction", prefix: "useReaction"},
-					},
-				},
+				uses: {option: "Uses", prefix: "uses"},
 				light: {option: "LightCost", prefix: "light"},
 			},
 			resistances: {
@@ -16582,178 +16657,159 @@ class itemNode {
 }
 
 
-/* Handler used for enhanced accessing of itemNodes */
-const itemNodeHandler = {
-
-	// Handle accessing nested itemNodes. Creates a new proxy for each subnode if one doesn't already exist
-	// See https://gomakethings.com/better-proxy-performance-in-vanilla-js/ for more details on how it works
-	get: function (node, prop) {
-		if (prop == "_isProxy") return true;
-		if (node[prop] instanceof itemNode && !node[prop]._isProxy) {
-			node[prop] = new Proxy(node[prop], itemNodeHandler);
-		}
-
-		// Reflect all method calls back to the itemNode
-		if (typeof node[prop] == "function") {
-			return node[prop].bind(node);
-		}
-
-		// false is returned if any previous itemNode was disabled
-		// Writing item.subnode.true.value overrides this behaviour
-		else if (node[prop] instanceof itemNode && !node.enabled) {
-			if (prop == "true") {
-				itemNode.disabledArray = [];
-				return node;
-			} else {
-				itemNode.disabledArray.push(node[prop]);
-				return node[prop];
-			}
-		} else {
-			if (prop == "toJSON") { // Needed to make JSON.stringify() work
-				itemNode.disabledArray = [];
-				return node[prop];
-			} else if (itemNode.disabledArray.length > 0) {
-				itemNode.disabledArray = [];
-				console.warn(`Attempted to get the value of ${prop} but a parent node is disabled`, node);
-				return false;
-			} else {
-				return !node.enabled || node[prop];
-			}
-		}
-	},
-
-	// item.subnode = value is the same as writing item.subnode.enabled = value
-	// If true, also enables any currently disabled parent nodes
-	set: function (node, prop, value) {
-		if (node.hasOption(prop)) {
-			if (value == true && itemNode.disabledArray.length > 0) {
-				for (let i = 0; i < itemNode.disabledArray.length; i++) {
-					itemNode.disabledArray.shift().modify("enabled", true, {source: "parent:" + prop});
-				}
-			}
-			node[prop].modify("enabled", value, {source: "set:" + prop});
-		} else {
-			itemNode.disabledArray = [];
-			node.modify(prop, value, {source: "set"});
-		}
-	},
-}
-
-
-/* Object that handles all interactions with the itemList */
-/* To access the itemList, use itemList.access(mode). Mode is one of "read" or "write" */
-/*   In read mode the itemList cannot be modified. Multiple functions can read the itemList simultaneously */
-/*   In write mode the itemList can be modified. While in write mode other accesses wait until the current write access finishes */
-/* All accesses should end in itemList.endAccess(). Any itemList changes made in write mode are applied to the sheet once the access ends */
-/*   To read and write values, use "itemList.property" and "itemList.property = value" as normal */
+/* The itemList handles all interactions with the repeating inventory system */
+/* To be used the itemList must be "accessed" using itemList.access(mode). For more details see access(), beginAccess(), initialize() and endAccess() */
 class itemListHandler {
 	#accessStack;
+	#charID;
 	#event;
 	
 	constructor(itemList) {
 		this.#accessStack = itemList?.accessStack || []
+		this.#charID = false;
 		this.#event = {keys: {}};
-		this.editor = {};
 		this.itemList = {}
 		this.outputValues = itemList?.outputValues || {}
+		
+		/* Handles interactions with the item editor */
+		/* itemList.editor.open() and .close() are roughly equivalent to openEditor() and closeEditor() for AutoScripts */
+		this.editor = {
+			target: false,
+			IDs: {},
+			itemList: this,
+		
+			open(itemId) {
+				if (this.target) { this.close(); }
+				this.target = itemId;
+				
+				console.log("Editing item:", this.itemList[itemId]);
+				Object.assign(this.itemList.outputValues, {
+					...this.itemList[itemId].output({includeDisabled:true}).editor,
+					itemEditorTarget: itemId,
+					itemEditorTargetName: this.itemList[itemId].name,
+					itemEditor_display: "true",
+				});
+			},
+		
+			close() {
+				this.IDs.rollformats.forEach(repid => {
+					removeRepeatingRow("repeating_rollformats_" + repid);
+				});
+
+				Object.assign(this.itemList.outputValues, {
+					itemEditorTarget: "",
+					itemEditorTargetOld: this.target,
+					itemEditorTargetName: "",
+					itemEditor_display: "0",
+				});
+				this.target = false;
+				// Later need to also set itemEditCustomAilmentResistance to it's default value of 0
+			},
+		};
 	}
 
-	access(mode, options={editor:false}, callback=()=>{}) {
-		
-		this.#accessStack.push({mode: mode});
+	/* The itemList accepts two modes of access: "read" and "write" */
+	/*   In read mode item data in the itemList can be read but not modified. Multiple accesses can read the itemList simultaneously */
+	/*   In write mode the itemList read and modified. While in write mode other accesses wait until the current access finishes */
+	access(mode, options={forceInit:false}, callback=()=>{}) {
+		this.#accessStack.push({mode: mode, charID: getActiveCharacterId()});
 		console.log("Added new access: ", [...this.#accessStack]);
-		
-		// Adds some test data
-		/*
-		this.#add("Weapon");
-		this.#add("Outfit");
-		this.#add("Tool");
 
-		setAttrs({itemList: JSON.stringify(this.itemList)}, {}, () => {
-		*/
-
-		
-
-		let accessCallback = callback;
+		let newAccess = this.#accessStack.at(-1);
+		newAccess.callback = callback;
 		if (!callback.toString().includes(".endAccess")) {
-			console.warn(`itemList: ${mode} access was not ended. Adding automatic endAccess`)
-			accessCallback = () => {callback(); this.endAccess();}
+			console.warn(`itemList: ${mode} access was not ended. Adding automatic endAccess`);
+			newAccess.callback = () => {callback(); this.endAccess();}
 		}
 
 		if (this.#accessStack.length > 1 && mode == "write" || (mode == "read" && this.#accessStack.some(access => access.mode == "write"))) {
-			console.log("This " + mode + " access will wait until the previous " + this.#accessStack[0].mode + " access ends")
-			this.#accessStack.at(-1).callback = accessCallback;
+			console.log("New " + mode + " access will wait until a previous write access ends");
 		} else {
-			this.#accessStack.at(-1).active = true;
-			let self = this;
-		
-			this.#initialize(options, () => { //event(
-				accessCallback();
-			});
+			this.#beginAccess(newAccess, options);
 		}
-		//}); // Comment out when not using test data
 	}
 
-	#initialize(options, callback=()=>{}) {
+	/* When first accessed the itemList is initialized with item data from the sheet */
+	/* Afterwards the itemList preserves the item data in memory, removing the need to use getAttrs() and getSectionIds() */
+	/* The itemList is re-initialized when a new character sheet is accessed, or when the webpage is reloaded */
+	#beginAccess(access, options={}) {
+		access.active = true;
+
+		if (this.#charID == access.charID && !options.forceInit) {
+			access.callback();
+		} else if (length(this.outputValues) > 0) {
+			setActiveCharacterId(this.#charID);
+			setAttrs(this.outputValues, {}, () => {
+				setActiveCharacterId(access.CharID);
+				this.#initialize(access);
+			});
+		} else {
+			this.#initialize(access);
+		}
+	}
+
+	/* Once accessed, items in the sheet can be added, deleted, read or modified using standard JS object accessors */
+	/* Input values are validated. Ex. itemList.rollformats[0].type = "Magic" would not work, as the value is not a valid rollformat type */
+	/* For more details on the itemList format, see itemNode.format */
+	#initialize(access) {
+		this.#charID = access.charID;
 		let self = this;
-		//if (length(itemList) == 0 || options.editor) {
-			getSectionIDs("ailments", function(ailmentIDs) {
-				getSectionIDs("rollformats", function(rollformatIDs) {
-					self.editor.IDs = {rollformats: rollformatIDs, ailments: ailmentIDs};
-					let itemSections = itemNode.format.sections.sheet;
 
-					function accessItems(callback=()=>{}) {
-						let section = itemSections.pop();
-						getSectionIDs(section, function(itemIds) {
-							itemIds.forEach(itemId => {
-								self.#add(section.slice(0, -1), {id: itemId});
-							});
-							if (itemSections.length == 0) {
-								callback()
-							} else {
-								accessItems(callback);
-							}
-						})
-					}
+		getSectionIDs("ailments", function(ailmentIDs) {
+			getSectionIDs("rollformats", function(rollformatIDs) {
+				self.editor.IDs = {rollformats: rollformatIDs, ailments: ailmentIDs};
+				let itemSections = itemNode.format.sections.sheet;
 
-					accessItems(() => {
-						console.log([...self.keys, "itemEditorTarget"]);
-
-						getAttrs([...self.keys, "itemEditorTarget"], function(values) {
-							self.editor.target = values.itemEditorTarget.split("_")[2];
-							delete values.itemEditorTarget;
-							
-							console.log(values);
-							self.input(values);
-							callback();
+				function getItems(callback=()=>{}) {
+					let section = itemSections.pop();
+					getSectionIDs(section, function(itemIds) {
+						itemIds.forEach(itemId => {
+							self.#add(section.slice(0, -1), {id: itemId});
 						});
+						if (itemSections.length == 0) {
+							callback()
+						} else {
+							getItems(callback);
+						}
+					})
+				}
+
+				getItems(() => {
+					getAttrs([...self.keys, "itemEditorTarget"], function(values) {
+						self.editor.target = values.itemEditorTarget || false;
+						if (self.editor.target) self.editor.target.toLowerCase();
+						delete values.itemEditorTarget;
+						
+						console.log([...self.keys, "itemEditorTarget"]);
+						console.log(values);
+
+						self.#input(values);
+						access.callback();
 					});
 				});
 			});
-		//} else {
-		//	callback();
-		//} 
+		});
 	}
 
-	// Return every attribute key in the itemList
-	get keys() {
-		return this.IDs.flatMap(itemId => Object.values(this[itemId].keys())).flat();
-	}
-
+	/* All accesses should end in itemList.endAccess(). This is automatically added to the callback by access() */
+	/* If another access remains in the access stack it's immediately granted access to the current itemList */
+	/* Once all accesses have finished the repeating inventory and item editor are automatically updated to match the itemList */
 	endAccess() {
 		this.#accessStack.shift();
 		console.log("Removed access: ", [...this.#accessStack]);
-
-		if (this.#accessStack.length > 0) {
-			if (!this.#accessStack[0].active) {
-				console.log("Ended previous access and allowed new " + this.#accessStack[0]?.mode + " access");
-				this.#accessStack[0].callback();
+		
+		let newAccess = this.#accessStack[0];
+		if (newAccess) {
+			if (!newAccess.active) {
+				console.log("Beginning new " + newAccess.mode + " access from stack");
+				this.#beginAccess(newAccess);
 				
-				if (this.#accessStack[0]?.mode == "read") {
+				if (newAccess.mode == "read") {
 					for (let i = 1; i < this.#accessStack.length-1; i++) {
-						if (this.#accessStack[i]?.mode == "read") {
-							console.log("Allowing access for an additional read access");
-							this.#accessStack[i].callback();
+						newAccess = this.#accessStack[i];
+						if (newAccess.charID == this.#charID && newAccess.mode == "read") {
+							console.log("Allowing a concurrent read access from the stack");
+							this.#beginAccess(newAccess);
 						} else {
 							break;
 						}
@@ -16761,22 +16817,13 @@ class itemListHandler {
 				}
 			}
 		} else {
-			console.log("All accesses finished. Applying itemList and output");
-
-			console.log("Would have applied the following output:");
-			console.log(this.outputValues)
-			//setAttrs({"itemList": this.export(), ...this.outputValues});
+			console.log("All accesses finished. Applying output values:", this.outputValues);
+			setAttrs({"itemList": this.export(), ...this.outputValues});
 			this.outputValues = {}
-
-			//saveEditor("item");
-			if (this.editor.target) {
-				console.log("Would have saved the item editor here with the following id: " + this.editor.target);
-				console.log(this.editor)
-			}
-			this.editor = {};
 		}
 	}
 
+	// Helper functions used during the access process
 	get #accessMode() {
 		return this.#accessStack[0]?.mode;
 	}
@@ -16787,14 +16834,15 @@ class itemListHandler {
 	}
 
 
-	// Returns the id of every item in the itemList in the order they're displayed in the sheet
+	// Items in the itemList are accessed through an itemId
+	// "itemList.IDs()" returns the itemId of all items in the itemList, ordered in the same order they're displayed in the sheet
 	get IDs() {
 		//  - Still need to order the indexes in the same order as they're displayed in the sheet. Requires some getSectionIDsOrdered shenanigans
 		return Object.keys(this.itemList);
 	}
 
-	// Returns every item in the itemList in the order they're displayed in the sheet
-	// Can alternatively return a single item with a specific id: "itemList[id]", or at a specific index: "itemList.item(index)"
+	// "itemList.items" returns every item in the itemList in the order they're displayed in the sheet
+	// "itemList[itemId]" or "itemList.item(index)" can be used to retrieve an item based on its id or index in the itemList
 	get items() {
 		return this.itemList;
 	}
@@ -16802,28 +16850,35 @@ class itemListHandler {
 		return this[this.IDs.at(index < this.IDs.length ? index : -1)];
 	}
 
+	// Most every property in the itemList is linked to an equivant attribute in the repeating inventory and/or item editor
+	// "itemList.keys" returns an array of every attribute key of each item in the itemList
+	get keys() {
+		return this.IDs.flatMap(itemId => Object.values(this[itemId].keys())).flat();
+	}
 
-	// Takes in data generated from the sheet and/or the editor and applies it to the associated item(s) in the itemList
-	input(values) {
-		if (this.#accessMode != "read") {
+	// In addition to standard JS set accessor, the itemList can be modified using attribute values
+	// "itemList.input(values)" is equivalent to and used in the exact same way as "setAttrs(values)"
+	input(values, options={}) {
+		if (this.#accessMode == "write") {
+			let inputData = this.#sortItemData(values); // Seperate editor and sheet data if it isn't already sorted
 
-			// Seperate editor and sheet data if it isn't already sorted
-			let inputData = this.#sortItemData(values);
-			
 			let inputIDs = {};
 			for (const key of Object.keys(inputData.sheet)) {
-				
-				// If sheet values are provided for an item id that doesn't exist, create a new item and assign the values to it
+
+				// If sheet values are provided for an itemId that doesn't exist, create a new item and assign the values to it
 				let [section, repid, repkey] = key.split("_").slice(1);
 				if (!this.IDs.includes(repid)) {
 					this.add(section.slice(0, -1), repid);
 				}
 
-				// Input the data
 				if (!inputIDs[repid]) {
-					this[repid].input(inputData);
+					this[repid].input(inputData, options);
 					inputIDs[repid] = true;
 				}
+			}
+
+			if (length(inputData.editor) > 0 && this.editor.target && !inputIDs[this.editor.target]) {
+				this[this.editor.target].input(inputData, options);
 			}
 
 			// Returns any unused values
@@ -16832,11 +16887,19 @@ class itemListHandler {
 			this.#writeError("input");
 		}
 	}
+	#input(inputData, options={}) { // Internal only input
+		let oldAccess = this.#accessMode;
+		this.#accessMode = "write";
+		this.input(inputData, options);
+		this.#accessMode = oldAccess;
+	}
 
-	// Output sheet and editor attibute data for each item in the itemlist
-	get output() {
+	// In addition to standard JS get accessor, values from the itemList can be output as attribute values
+	// "itemList.output()" is equivalent to "getAttrs(attrs)", except values for both the sheet and item editor are returned
+	// "itemList.output().source" with source = "sheet" or "editor" may be used to only retrieve one type of values
+	output(options={}) {
 		return Object.values(this.items).reduce((output, item) => {
-			let itemOutput = item.output;
+			let itemOutput = item.output(options);
 			Object.assign(output.editor, itemOutput.editor);
 			Object.assign(output.sheet, itemOutput.sheet);
 			return output;
@@ -16844,6 +16907,7 @@ class itemListHandler {
 	}
 
 	// Item data used by input/output is sorted as {sheet: {values}, editor: {values}}
+	// Any values (ex. from getAttrs()) that isn't sorted in this format is automatically sorted before use
 	#sortItemData(rawData) {
 		if (rawData.sheet && rawData.editor) {
 			return rawData;
@@ -16861,13 +16925,12 @@ class itemListHandler {
 		}
 	}
 
-
-	// Adds one or more new items to the itemList. Accepts itemListHandlers, itemLists or an item type (ex. "Weapon". Case insensitive)
-	// If using an item type the item will match the default values of that item type
-	// .add("Rollformat") can alternatively be used to add a new rollformat in the editor
+	// Adds one or more new items to the itemList. Accepts an itemList object or an item type (ex. "Weapon". Case insensitive)
+	// If an item type is provided a new item will be crated with that standard options and values of its type (see itemNode.format.defaults)
+	// "itemList.add("Rollformat")" can alternatively be used to add a new rollformat in the editor
 	add(inputData, options={id:false, defaults:undefined}) {
-		console.log(this.#accessMode, "mode - Adding new item(s): ", inputData)
-		if (this.#accessMode != "read") {
+		if (this.#accessMode == "write") {
+			console.log("Adding new item(s):", inputData);
 			
 			// Add items from another itemList
 			if (typeof(inputData) == "object" && length(inputData) > 0) {
@@ -16875,33 +16938,28 @@ class itemListHandler {
 
 				// Adds one or more new items to the itemList
 				for (const [id, data] of Object.entries(inputData)) {
-					this.itemList[id] = new Proxy(new itemNode(data.type, id, {base: data, default:false}), itemNodeHandler);
+					this.items[id] = new itemNode(data.type, id, {base: data, default:false});
 					this.#addAccessors(id);
-					Object.assign(this.outputValues, this[id].output.sheet);
+					Object.assign(this.outputValues, this.items[id].output().sheet);
 				}
 			}
 
 			// Add item by type, or add a rollformat
 			else if (is(capitalize(inputData)).In([...Object.keys(itemNode.format.defaults), "Rollformat"])) {
-				let newid = options.id || generateRowID();
+				let newid = options.id || generateRowID().toLowerCase();
 				
 				if (inputData == "Rollformat") {
-					// Adds a new rollformat to the item open in the editor
 					if (this.editor.target) {
-						this[this.editor.target].add("Rollformat");
 						this.editor.IDs.rollformats.push(newid);
-						let rollFormatValues = this[this.editor.target].rollformats[this.editor.IDs.rollformats.length - 1].output;
+						this.items[this.editor.target].add("Rollformat");
+						let rollFormatValues = this.items[this.editor.target].rollformats[this.editor.IDs.rollformats.length - 1].output();
 						Object.assign(this.outputValues, rollFormatValues.editor, rollFormatValues.sheet);
 					}
-					
-					// A maximum of five rollformats are accepted
-					this.outputValues.rollFormatAddToggle = "" + (this.editor.IDs.rollformats.length >= 5);
-
+					this.outputValues.rollFormatAddToggle = "" + (this.editor.IDs.rollformats.length >= 5); // A maximum of five rollformats are accepted
 				} else {
-					// Adds a new item to the itemList
-					this.itemList[newid] = new Proxy(new itemNode(capitalize(inputData), newid), itemNodeHandler);
+					this.items[newid] = new itemNode(capitalize(inputData), newid); // Adds a new item to the itemList
 					this.#addAccessors(newid);
-					Object.assign(this.outputValues, this[newid].output.sheet);
+					Object.assign(this.outputValues, this.items[newid].output().sheet);
 				}
 			}
 		} else {
@@ -16909,49 +16967,41 @@ class itemListHandler {
 		}
 		return this;
 	}
-	#add(inputData, options={}) {
+	#add(inputData, options={}) { // Internal only add
 		let oldAccess = this.#accessMode;
 		this.#accessMode = "write";
 		this.add(inputData, options);
 		this.#accessMode = oldAccess;
 	}
 
-	// Deletes one or more items to the itemList. Accepts one or more item ids
+	// Deletes one or more items to the itemList
+	// Accepts one itemId as a string, or two or more itemId as either an array, a number of object keys or as multiple arguments
 	delete(itemId) {
-		if (this.#accessMode != "read") {
-			let itemIds = itemId;
-			if (length(arguments) > 2) itemIds == arguments;
-			if (is.String(itemId)) itemIds == [itemId];
-			if (is.Object(itemId)) itemIds == Object.keys(itemId);
-	
-			console.log(this.#accessMode, "mode - Deleting item(s): ", itemId)
-			
-			itemIds.forEach(id => {
-				if (this.#accessMode != "read") {
-					delete this[id];
-					this.#deleteAccessors(id);
-				} else {
-					this.#writeError("delete");
-				}
+		if (this.#accessMode == "write") {
+			itemId = itemId.toLowerCase();
 
-				// Check if any items link to the item
-				// If yes, ask if those items should be unlinked or deleted. If possible, list the linked items in the query
-			});
+			console.log("Deleting item:", itemId);
+			delete this.items[itemId]
+			this.#deleteAccessors(itemId);
+
+			// Check if any items link to the item
+			// If yes, ask if those items should be unlinked or deleted. If possible, list the linked items in the query
+
 			return this;
 		} else {
-			this.#writeError("add");
+			this.#writeError("delete");
 		}
 	}
 
-	// Item id accessors (getters and setters) simplyfy accessing the itemList. Instead of writing itemList.itemList[id], itemList[id] may be used
-	// Must be added or deleted together with their associated item id
+	// The itemList has itemId accessors to simplyfy accessing the itemList. Instead of writing itemList.itemList[id], itemList[id] may be used
+	// Must be added or deleted together with their associated itemId
 	#addAccessors(itemId) {
 		Object.defineProperty(this, itemId, {
 			get() {
 				return this.itemList[itemId]
 			},
 			set(value) {
-				if (this.#accessMode != "read") {
+				if (this.#accessMode == "write") {
 					this.itemList[itemId] = value;
 				} else {
 					this.#writeError("set");
@@ -16964,11 +17014,41 @@ class itemListHandler {
 		delete this[itemId];
 	}
 
+	// Event listeners for items may use "itemList.event()" to create a string of event keys
+	// "itemList.event(type, source)" returns a string of event keys of a specific type (ex. "change") for a specific source ("editor" or "sheet")
+	// A predicate may also be provided to filter which event keys are returned (ex. itemList.event("change", "editor", key => key.includes("option"))
+	// ".event('reorder')" and ".event(type, key)" may alternatively be used to return all reorder events or all events for a specific attribute key
+	event(type, source, filter) {
+		if (["editor", "sheet"].includes(source)) {
+			if (!this.#event.keys[source]) {
+				let eventKeys = new itemNode("Effect").keys(type)[source];
+				if (source == "sheet") {
+					eventKeys = eventKeys.reduce((rows, eventkey) => {
+						return rows.concat(itemNode.format.sections.sheet.map(section => {
+							return (section != "effects") ? eventkey.replace("effects", section) : eventkey;
+						}));
+					}, []);
+				}
+				this.#event.keys[source] = eventKeys;
+			}
+			return (filter) ? this.#event.keys[source].filter(filter).join(" ")
+							: this.#event.keys[source].join(" ");
+		} else {
+			switch (source) {
+				case "reorder": return Object.keys(itemNode.format.defaults).reduce((rows, item) => rows += ` change:_reporder:${item}s`, "");
+				default: return Object.keys(itemNode.format.defaults).reduce((rows, item) => rows += ` ${type}:repeating_${item}s${(source) ? `:${source}` : ""}`, "");
+			}
+		}
+	}
+
+
+
+	/* All code beyond this point is unfinished */
 
 	// Imports one or more items from an export script
 	// The items are added to the current itemList by default. "Replace" mode may be used to overwrite the itemList
 	import(itemScript, mode="Add") {
-		if (this.#accessMode != "read") {
+		if (this.#accessMode == "write") {
 			// - Still need to send a querry to the player confirming they want to overwrite the itemList
 			this.itemList = JSON.parse(itemScript);
 		} else {
@@ -16997,31 +17077,10 @@ class itemListHandler {
 		return this; // Allows chaining
 	}
 
-
-	// Returns an array of event keys for the specified source. "type" is a type of event (ex. "change")
-	// A predicate can be provided to filter which event keys are returned
-	event(type, source, filter) {
-		if (!this.#event.keys[source]) {
-			this.#event.keys[source] = new itemNode("Effect").keys(type)[source];
-		}
-		return (filter) ? this.#event.keys[source].filter(filter).join(" ")
-						: this.#event.keys[source].join(" ");
-	}
-
-
-
-
-
-
-
 	// Takes
 	handleEvent(type, info, options={}) {
 		// Check if the new value matches the format
 	}
-
-
-
-
 
 	// Returns a subset of the itemList. Allows other handler methods to affect only part of the itemList
 	filter(predicate, useOrigList=false) {
@@ -17068,16 +17127,124 @@ let itemList = new itemListHandler();
 
 
 
+/* Initialize itemList when opening a sheet */
+on("sheet:opened", function(info) {
+	itemList.access("read", {}, () => { console.log(itemList) });
+})
 
-
-
-/* Temp itemList events area */
-on(itemList.event("change", "editor", (attr => attr.includes("option"))), function(info) {
-	console.log(info);
-	itemList.access("write", {}, () => {
-		//itemList.input({[info.sourceAttribute]: info.newValue || false});
+/* Item - Open editor */
+on(itemList.event("clicked", "edit-item"), function(info) {
+	let itemId = info.triggerName.split("_")[2];
+	itemList.access("read", {}, () => {
+		itemList.editor.open(itemId);
 	});
 });
+
+/* Item - Close editor */
+on("clicked:closeItemEdit", function(info) {
+	itemList.access("read", {}, () => {
+		itemList.editor.close();
+	});
+});
+
+/* Item - Sync editor changes */
+on(itemList.event("change", "editor"), function(info) {
+	console.log(info);
+	if (info.newValue && info.newValue != info.previousValue) {
+		itemList.access("write", {}, () => {
+			itemList.input({[info.sourceAttribute]: info.newValue}, {modify: "sheet"});
+		});
+	}
+});
+
+/* Item - Sync sheet changes */
+on(itemList.event("change", "sheet"), function(info) {
+	console.log(info);
+	if (info.newValue && info.newValue != info.previousValue) {
+		itemList.access("write", {}, () => {
+			itemList.input({[info.sourceAttribute]: info.newValue}, {modify: "editor"});
+		});
+	}
+});
+
+/* Add new item or rollformat */
+on("clicked:addItem", function(info) {
+	let itemtype = capitalize(info.htmlAttributes.id.split("_")[1]);
+	itemList.access("write", {}, () => { itemList.add(itemtype).endAccess(); });
+});
+
+/* Delete item or rollformat */
+on("remove:repeating_rollformats " + itemList.event("remove"), function(info) {
+	console.log(info);
+	let [section, repid] = info.sourceAttribute.split("_").slice(1);
+	itemList.access("write", {}, () => {
+		if (section == "rollformats") {
+			itemList[itemList.editor.target].delete("Rollformat", repid);
+		} else {
+			itemList.delete(repid);
+		}
+	});
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Opening the item editor:
+// x 1. Event call by _edit-item. Extract the item id and name
+//   2. Run openEditor("item", itemId, itemName);  
+//   3. Need itemEditorTarget, itemEditorTargetOld and itemEditorTargetName
+//     3.1. Set itemEditorTargetOld = itemList.editor.target || ""
+//     3.2. Set itemEditorTarget = itemId. Also set itemList.editor.target = itemId
+//     3.3. Set itemEditorTargetName = newTargetName
+//   4. Access the itemList and do Object.assign(itemList.outputValues, itemList.output.editor)
+//   5. setAttrs() the values collected in step 3
+
+// What could be changed here?
+// - targetOld is not needed for the item editor
+// - you only need to use getAttrs() to get the item's name
+// This could probably be an itemList method instead... like itemList.edit(id)
+
+
+
+
+/*
+on(itemEvent("clicked", "edit-item"), function(info) {
+	
+	
+	getAttrs([itemName], function(values) {
+		openEditor("item", itemData, values[itemName]);
+	});
+});
+*/
+
+
+
+
+
+
+
+
+
 
 
 
@@ -17100,12 +17267,14 @@ on("clicked:testA", function(info) {
 
 	itemList.access("write", {editor: true}, () => { // input()
 
-		let itemId = generateRowID();
+		let itemId = generateRowID().toLowerCase();
 
-		let itemOutput = itemList.output;
+		console.log(itemList.event("change", "editor", (attr => attr.includes("option"))))
 
-		itemList.item(0).type = "Outfit";
-		itemList.item(0).limited.uses.resource.action = true;
+		console.log(itemList.items)
+
+		itemList.item(0).type = "Augment";
+		itemList.item(0).limited.uses.action = false;
 
 		//itemList[itemList.IDs[0]].rollformats["0"].type = "Custom";
 		//itemList[itemList.IDs[0]].rollformats["0"].count = "7";
@@ -17169,10 +17338,37 @@ const test = new Proxy(itemList, {
 
 
 
+/* Planned item functionality */
+
+function updateItemList() {
+	// As updateAilmentList, but for items. Runs whenever an item is updated or deleted
+	
+	// Change events include the new attribute value, so you may be able to modify individual attributes instead of updating everything
+	// If yes, consider changing the ailmentList over to using this method as well
+	// You'd have to find some way to only setAttrs() the new list once and not every time a value changes (Causes a lot of extra server calls when updating many attributes at once)
+}
+
+function convertInventory() {
+	// Converts all the old items into the new inventory format
+	// Runs import(itemScript, "Add") once the data is prepared
+}
+
+// Add a on:startup event that adds some empty slots when a sheet is first opened
+// If at least one old inventory item exists, use convertInventory() first, then add any unused slots in the old inventory
+
+// Consider adding the getSectionIDsOrdered function from the wiki
+// You'd have to rework it to work for multiple repeating sections at the same time
 
 
 
 
+
+
+
+
+
+
+/* LEGACY ITEM EDITOR CODE */
 
 /*--- Repeating inventory events ---*/
 function itemEvent(event, element) {
@@ -17199,12 +17395,6 @@ on(itemEvent("change", "editor"), function(info) { // - Doesn't work. Will be up
 			}
 		}
 	});
-});
-
-/* Add repeating item or rollformat */
-on("clicked:addItem", function(info) {
-	let itemtype = capitalize(info.htmlAttributes.id.split("_")[1]);
-	itemList.access("write", {}, () => { itemList.add(itemtype).endAccess(); });
 });
 
 
@@ -19259,7 +19449,18 @@ function packageAttrData(values={}, replaceList={}, dataFormat, repFormat, type=
 }
 
 
-/* Item Editor */
+
+
+
+
+
+
+
+
+
+
+
+/* Item Editor - LEGACY CODE */
 /* Item attributes used in the item editor as well as their default values. Includes both normal and repeating attributes */
 /* When creating a new item, override the default values with those of the specific item created (see below) */
 /* In addition to a default value a check function can be provided. This is used in packageAttrData() */
@@ -19299,17 +19500,6 @@ const itemEditorAttrs = {
 			}
 }
 
-
-/* Item editor open button */
-on(itemEvent("clicked", "edit-item"), function(info) {
-	let itemData = info.sourceAttribute.replace("_edit-item", "_itemData");
-	let itemName = info.sourceAttribute.replace("_edit-item", "_name");
-	
-	getAttrs([itemName], function(values) {
-		openEditor("item", itemData, values[itemName]);
-	});
-});
-
 /* Item editor close button */
 on("clicked:closeItemEdit", function(info) {
 	saveEditor("item", itemEditorAttrs, () => {
@@ -19333,6 +19523,18 @@ on(Object.keys(itemEditorAttrs).reduce((rows, key) => {
 	saveEditor("item", itemEditorAttrs);
 });
 /*--- Export/Import functions end ---*/
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -20773,9 +20975,9 @@ class checkVal {
 	static String(s, opts={newlines:true}) { return typeof(s) == "string" && (opts.newline) ? !s.includes("\n") : true; }
 	static ID(s, opts={}) { return is.String(s) && (opts.strict ? /^-[A-Za-z0-9-]{19}$/ : /^-.{19}$/).test(s) } // Checks if a Roll20-style id is valid
 	
-	static False(b) { return [false, "false", 0].includes(b); }
-	static True(b) { return [true, "true", 1].includes(b); }
-	static Bool(b) { return [false, true, "false", "true", 0, 1].includes(b); }
+	static False(b) { return ["false", "0"].includes("" + b); }
+	static True(b) { return ["true", "1"].includes("" + b); }
+	static Bool(b) { return ["false", "true", "0", "1"].includes("" + b); }
 
 	static Array(a, opts={}) { console.log("Array heeeeere:", a, a.length, opts, this.Opts(a.length, opts)); return Array.isArray(a) && this.Opts(a.length, opts); }
 	static Object(o, opts={}) { return typeof(o) == "object" && !Array.isArray(o) && this.Opts(length(o), opts); }

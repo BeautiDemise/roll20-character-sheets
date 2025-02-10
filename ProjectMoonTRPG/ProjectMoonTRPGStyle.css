@@ -2440,6 +2440,13 @@ button[type=action].challengeButton::before {
 
 
 /* Repeating inventory and skills */
+#equipmentSection {
+    /* Fixes broken repitems */
+    .repitembroken {
+        border: 0 !important;
+    }
+}
+
 .itemContainer {
     background-color: var(--color-dark-gray);
 }
@@ -2472,7 +2479,6 @@ button[type=action].challengeButton::before {
         left: 0;
     }
 }
-
 
 /* Item uses */
 .useCounter {
@@ -2533,6 +2539,11 @@ button[type=action].challengeButton::before {
     & > .editorScroll {
         padding-bottom: 12px;
         max-height: calc(100% - 55px); /* Deducts the the editorScroll padding (22px) and editorHeader height (33px) */
+    }
+
+    /* Fixes broken repcontainers */
+    .repitembroken {
+        border: 2px solid var(--color-light-gray) !important;
     }
 }
 
@@ -2646,7 +2657,7 @@ button[type=action].challengeButton::before {
             position: absolute;
             width: 11px;
             height: calc(200px + 6px);
-            top: calc(-200px + 2px);
+            top: calc(-200px + 3px);
             left: -14px;
             border-width: 0 0 2px 2px;
             border-color: var(--color-light-gray);
