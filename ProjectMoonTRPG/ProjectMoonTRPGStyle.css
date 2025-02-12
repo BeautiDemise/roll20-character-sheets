@@ -325,7 +325,7 @@ body, .sheet-body {
 .contentContainer, .specialBlock, .augmentBlock, .skillBlock {
 	width: 100%;
     text-align: center;
-    background-color: #c3c3c3; border-radius: 3px;
+    background-color: var(--color-inventory); border-radius: 3px;
     position: relative;
     overflow: hidden;
 }
@@ -586,6 +586,12 @@ option:checked { background-color: rgba(0, 0, 0, var(--option-alpha-checked)); }
     font-weight: bold;
 }
 
+/* Generic checkboxes */
+.largeCheck {
+    height: 30px !important;
+    accent-color: var(--section-color-accent) !important;
+}
+
 /* Generic toggle checkboxes */
 .expand-toggle, .hide-toggle, .hide-toggle-rev, .hide-toggle-next, .swap-toggle {
     display: none;
@@ -643,10 +649,11 @@ input.fade-item { opacity: 80%;  --fade-opacity: 40%; }
     width: 100%;
     display: none;
 }
-:is(.hide-toggle, .hide-toggle-next):checked ~ .hide-item {
+.hide-toggle:checked ~ .hide-item, .hide-toggle-next:checked + .hide-item {
     display: inline-block;
 }
-:is(.hide-toggle, .hide-toggle-next):checked ~ .hide-item:is(.rowContainer, .columnAlign) {
+.hide-toggle:checked ~ .hide-item:is(.rowContainer, .columnAlign),
+.hide-toggle-next:checked + .hide-item:is(.rowContainer, .columnAlign) {
     display: flex;
 }
 div:has(> .hide-container-toggle:checked) { display: none; }
@@ -1277,20 +1284,18 @@ button[type=action].challengeButton::before {
     margin-top: 3px !important; 
     margin-bottom: 0px;
 }
+.disadv {
+    --section-color-accent: var(--color-HP);
+}
+.adv {
+    --section-color-accent: var(--color-light-green);
+}
 .disadvCounter {
-    border: 2px var(--color-HP) solid !important;
+    border: 2px var(--section-color-accent) solid !important;
     margin-left: 0;
 }
-.disadvCheck {
-    height: 30px !important;
-    accent-color: var(--color-HP) !important;
-}
 .advCounter {
-    border: 2px var(--color-light-green) solid !important;
-}
-.advCheck {
-    height: 30px !important;
-    accent-color: var(--color-light-green) !important;
+    border: 2px var(--section-color-accent) solid !important;
 }
 
 /* Currently unused */
@@ -2274,7 +2279,7 @@ button[type=action].challengeButton::before {
     width: 55px !important;
     appearance: none;
     text-indent: 3px;
-    border: 1px solid #c3c3c3;
+    border: 1px solid var(--color-inventory);
 }
 .outfitResistVal {
     width: 45px;
@@ -2439,6 +2444,14 @@ button[type=action].challengeButton::before {
 }
 
 
+
+
+
+
+
+
+
+
 /* Repeating inventory and skills */
 #equipmentSection {
     /* Fixes broken repitems */
@@ -2448,12 +2461,29 @@ button[type=action].challengeButton::before {
 }
 
 .itemContainer {
-    background-color: var(--color-dark-gray);
+    --section-color: var(--color-dark-gray);
+    --section-background: var(--color-inventory);
 }
 .itemContainer .contentHeader {
     flex-basis: auto;
-    background-color: transparent;
+    padding: 3px 5px;
+    background-color: var(--section-color);
 }
+.itemContainer .contentContainer {
+    background-color: var(--section-background);
+}
+.weaponContainer {
+    --section-color: var(--color-red);
+    --section-color-accent: #191919;
+}
+.outfitContainer, .toolContainer, .egoSkillContainer, .skillContainer {
+    --section-color: red;
+    --section-accent-color: red;
+}
+.equipCheck {
+    min-width: 25px;
+}
+
 
 /* Controls */
 #itemSettings:has(#hideItemSettings:checked) ~ div .itemContainer :is(.repcontrol_header, .repcontrol, .itemcontrol) {
@@ -2513,6 +2543,16 @@ button[type=action].challengeButton::before {
     height: 20px;
     background-color: var(--color-green);
 }
+
+input[list="damageModList"]::-webkit-calendar-picker-indicator {
+    display: none !important;
+}
+
+
+
+
+
+
 
 
 
@@ -2902,6 +2942,10 @@ button[type=action].challengeButton::before {
     .editorHeader {
         background-color: transparent !important;
     }
+}
+.hide-toggle-next:checked + #autoscriptEditor ~ #itemEditor {
+    top: 63%;
+    max-height: 60%;
 }
 
 
@@ -3906,6 +3950,7 @@ button[type=action].challengeButton::before {
     --color-purple: #8e7cc3;
     --color-orange: #cf8c44;
     --color-light-orange: #FC0;
+    --color-inventory: #c3c3c3;
     --color-HP: #cc4125;
     --color-STGR: #dbb748;
     --color-ego-STGR: #f1c232;
@@ -3952,12 +3997,12 @@ button[type=action].challengeButton::before {
 .LIGHT { background-color: var(--color-LIGHT) !important; }
 .LIGHTtext { color: var(--color-LIGHT) !important; }
 
-.weapon { background-color: var(--color-red) !important; }
-.outfit { background-color: var(--color-blue) !important; }
-.augment { background-color: var(--color-green) !important; }
-.tool { background-color: var(--color-purple) !important; }
+.weapon { --section-color: var(--color-red) !important; }
+.outfit { --section-color: var(--color-blue) !important; }
+.augment { --section-color: var(--color-green) !important; }
+.tool { --section-color: var(--color-purple) !important; }
 .toolText { color: var(--color-purple) !important; }
-.special { background-color: var(--color-orange) !important; }
+.special { --section-color: var(--color-orange) !important; }
 
 .ego, .skillE { background-color: var(--color-darker-gray) !important; }
 .skillN { background-color: var(--color-light-gray) !important; }
