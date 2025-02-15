@@ -294,16 +294,6 @@ body, .sheet-body {
 .rowContainer select {
     text-align: center;
 }
-
-.fitContents {
-    width: fit-content;
-}
-
-.centerFlex {
-    align-items: center;
-    justify-content: center;
-}
-
 .columnAlign {
     display: flex;
     align-items: center;
@@ -311,6 +301,14 @@ body, .sheet-body {
     justify-content: center;
     color: var(--color-white);
     position: relative;
+}
+.centerFlex {
+    align-items: center;
+    justify-content: center;
+}
+
+.fitContents {
+    width: fit-content;
 }
 
 #TopContainer { width: 100%; text-align: center; display: flex; }
@@ -322,38 +320,35 @@ body, .sheet-body {
 
 
 /* Base for all content-holding containers (equipment, skills, player profile at the top of the sheet etc.) */
-.contentContainer, .specialBlock, .augmentBlock, .skillBlock {
-	width: 100%;
-    text-align: center;
-    background-color: var(--color-inventory); border-radius: 3px;
-    position: relative;
-    overflow: hidden;
-}
-.contentHeader {
-    background-color: var(--color-dark-white);
-    width: 100%;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    text-align: left;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    flex-basis: 0;
-    height: 30px;
-}
 .contentBlock {
     width: 100%;
     display: flex;
     justify-content: start;
     align-items: start;
 }
+.contentHeader {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 36px;
+    padding: 3px 3px 3px 5px;
+    box-sizing: border-box;
+    text-align: left;
+    background-color: var(--content-color);
+}
+.contentContainer {
+    position: relative;
+	width: 100%;
+    text-align: center;
+    background-color: var(--content-background);
+    border-radius: 3px;
+    overflow: hidden;
+}
 
 
 /* Generic elements */
-.weaponRank, .outfitRank, .augmentRank, .toolRank, .specialItemRank, .egoRank, .characterRank,
-.characterLevel, .workAmount, .workPref .workPref, .disadvCounter, .advCounter, .lightCostInput {
+.rank, .characterLevel, .workAmount, .workPref .workPref, .disadvCounter, .advCounter, .lightCostInput {
     width: 25px;
     text-align: center;
     background-color: rgba(0,0,0,0.2) !important;
@@ -412,7 +407,7 @@ body, .sheet-body {
 :is(.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton, .inventoryEditButton, .searchClear, .searchOptions):hover {
     background-color: rgba(0, 0, 0, 0.3) !important;
 }
-:is(.NDice, .challengeButton, .declare, .btn, .selectTargetButton, .defenceDice, .editorControls button, .sectionHeader button:not(:first-child), .darkButton):hover {
+:is(.rollButton, .challengeButton, .declare, .btn, .selectTargetButton, .defenceDice, .editorControls button, .sectionHeader button:not(:first-child), .darkButton):hover {
     background-color: var(--color-black) !important;
 }
 .editorContainer {
@@ -480,7 +475,7 @@ body, .sheet-body {
     top: 0;
     left: 0;
 }
-.centerIcon, .NDice {
+.centerIcon {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -554,6 +549,9 @@ select {
     background-color: var(--color-dark-white);
     margin-bottom: 0px;
 }
+img:is([src=""], :not([src])) {
+    display: none;
+}
 
 /* Dropdowns */
 select:focus { background-color: rgba(0, 0, 0, var(--select-alpha-focus)) !important; }
@@ -589,12 +587,18 @@ option:checked { background-color: rgba(0, 0, 0, var(--option-alpha-checked)); }
 /* Generic checkboxes */
 .largeCheck {
     height: 30px !important;
-    accent-color: var(--section-color-accent) !important;
+    accent-color: var(--content-accent) !important;
 }
 
 /* Generic toggle checkboxes */
 .expand-toggle, .hide-toggle, .hide-toggle-rev, .hide-toggle-next, .swap-toggle {
     display: none;
+}
+.expand-toggle + div {
+    display: none;
+}
+.expand-toggle:checked + div {
+    display: inline-block !important;
 }
 .expand-btn {
     width: 35px !important;
@@ -625,36 +629,33 @@ input.fade-item { opacity: 80%;  --fade-opacity: 40%; }
 #weapon2-slash:checked ~ .expand-btn, #weapon2-pierce:checked ~ .expand-btn, #weapon2-blunt:checked ~ .expand-btn {
     opacity: 100% !important;
 }
-.expand-toggle:checked ~ .type-image {
-    opacity: 100% !important;
-}
 .swap-toggle ~ .swap-item,
 .swap-toggle:checked ~ .swap-item-rev {
-    display: none;
+    display: none !important;
 }
 .swap-toggle ~ .swap-item-rev,
 .swap-toggle:checked ~ .swap-item {
-    display: inline-block;
+    display: inline-block !important;
 }
-.hide-item-rev {
-    display: inline-block;
-}
-.hide-item-rev:is(.rowContainer, .columnAlign) {
-    display: flex;
-}
-.hide-toggle:checked ~ button, :is(.hide-toggle-rev, .hide-toggle-rev-next):checked ~ .hide-item-rev {
+.hide-item, .hide-item-flex {
+    width: 100%;
     display: none !important;
 }
-.hide-item {
-    width: 100%;
-    display: none;
+.hide-item-rev {
+    display: inline-block !important;
+}
+.hide-item-rev:is(.rowContainer, .columnAlign) {
+    display: flex !important;
+}
+.hide-toggle:checked ~ button,
+.hide-toggle-rev:checked ~ .hide-item-rev, .hide-toggle-rev-next:checked + .hide-item-rev {
+    display: none !important;
 }
 .hide-toggle:checked ~ .hide-item, .hide-toggle-next:checked + .hide-item {
-    display: inline-block;
+    display: inline-block !important;
 }
-.hide-toggle:checked ~ .hide-item:is(.rowContainer, .columnAlign),
-.hide-toggle-next:checked + .hide-item:is(.rowContainer, .columnAlign) {
-    display: flex;
+.hide-toggle:checked ~ .hide-item-flex, .hide-toggle-next:checked + .hide-item-flex {
+    display: flex !important;
 }
 div:has(> .hide-container-toggle:checked) { display: none; }
 div:has(> .hide-container-toggle-rev) { display: none; }
@@ -794,17 +795,15 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 }
 
 .repcontrol_header {
-    box-sizing: content-box;
-    width: calc(100% - 12px);
-    pointer-events: none;
-    padding-right: 4px;
-    padding-left: 8px;
+    box-sizing: border-box;
+    padding-left: 8px !important;
     color: var(--color-white);
     font-weight: bold;
+    pointer-events: none;
 }
 
 /* Custom repcontrols */
-:is(.itemContainer, .itemOptionContainer) {
+:is(.inventoryContainer, .itemOptionContainer) {
     :is(.repcontrol_edit, .repcontrol_add, .repcontrol_del, .repcontrol_move) {
         min-width: 20px;
         margin: 0;
@@ -1275,6 +1274,7 @@ button[type=action].challengeButton::before {
     background-size: contain;
     background-position: center;
     margin-top: 3px !important;
+    cursor: pointer;
 }
 .difficultyInput {
     height: 25px !important; 
@@ -1285,17 +1285,17 @@ button[type=action].challengeButton::before {
     margin-bottom: 0px;
 }
 .disadv {
-    --section-color-accent: var(--color-HP);
+    --content-accent: var(--color-HP);
 }
 .adv {
-    --section-color-accent: var(--color-light-green);
+    --content-accent: var(--color-light-green);
 }
 .disadvCounter {
-    border: 2px var(--section-color-accent) solid !important;
+    border: 2px var(--content-accent) solid !important;
     margin-left: 0;
 }
 .advCounter {
-    border: 2px var(--section-color-accent) solid !important;
+    border: 2px var(--content-accent) solid !important;
 }
 
 /* Currently unused */
@@ -1487,13 +1487,6 @@ button[type=action].challengeButton::before {
     flex-direction: column;
     padding: 0 3px 3px 3px;
 }
-#state_Stagger, #state_Panic, #state_Defeat, #state_Immobile {
-    display: hidden !important;
-}
-#state_Stagger:checked, #state_Panic:checked, #state_Defeat:checked, #state_Immobile:checked {
-    accent-color: var(--color-light-gray);
-    opacity: 100%;
-}
 
 
 /* Custom ailments display */
@@ -1549,12 +1542,6 @@ button[type=action].challengeButton::before {
 }
 .targetAndDefenceContainer .tokenName::placeholder {
     opacity: 100% !important;
-}
-.targetAndDefenceContainer :is(img[src=""], img:not([src])) {
-    display: none;
-}
-.targetAndDefenceContainer :is(img[src=""], img:not([src])) + input[type="number"] {
-    display: none;
 }
 .targetAndDefenceContainer .bars {
     height: 24px;
@@ -2107,25 +2094,24 @@ button[type=action].challengeButton::before {
 
 /* ===== Equipment and Skills ===== */
 
-/* Roll buttons around the character sheet. See Dice Roll Blocks for the roll template input fields */
-.NDice, .NDice{
-    background-color: var(--color-gray);
-    font-weight: bolder;
-    font-size: 0px;
-    width: 23px !important;
-    height: 23px !important;
-    padding: 0.0em;
-    border: 1px solid var(--color-black);
-    border-radius: 5px;
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/buttondice.png');
-    overflow: hidden;
-	line-height: 100;
-	margin-left: 5px;
-	margin-right: 2px;
-}
-
 /* Dice roll blocks, aka anything in the format "xdx+x". Not to be confused with the block reaction */
-.combatRoll { text-align: center; justify-content: end; align-items: center; margin-right: 3px; }
+.rollFormat {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    height: 26px;
+    width: 100%;
+    gap: 5px;
+}
+.rollFormatIcon {
+    margin-top: -1px;
+    margin-right: -4px;
+
+    div {
+        height: 35px;
+        width: 35px;
+    }
+}
 .rollFormatBlock {
     display: flex;
     height: 100%;
@@ -2134,22 +2120,31 @@ button[type=action].challengeButton::before {
     align-items: center;
     background-color: rgba(0,0,0,0.2);
     border-radius: 5px;
+    
+    input[type="number"] {
+        width: 26px !important;
+        background-color: transparent;
+        color: var(--color-white);
+        font-weight: bold;
+        font-size: 12pt; 
+
+        &.diceCount {
+            width: 23px !important;
+            text-align: right !important;
+        }
+        &.diceMax {
+            text-align: left !important;
+        }
+    }  
 }
-.charsheet .rollFormatBlock input[type="number"] {
-    width: 26px;
-    background-color: transparent;
-    color: var(--color-white);
-    font-weight: bold;
-    font-size: 12pt; 
-}
-.charsheet .rollFormatBlock input[type="number"]:first-child {
-    width: 23px;
-}
-.diceCount {
-    text-align: right !important;
-}
-.diceMax {
-    text-align: left !important;
+.rollButton {
+    width: 25px;
+    height: 25px;
+    border: 1px solid var(--color-black);
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-image: url(https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/buttondice.png);
+    background-color: var(--color-gray);
 }
 
 
@@ -2459,38 +2454,11 @@ button[type=action].challengeButton::before {
         border: 0 !important;
     }
 }
+.inventoryContainer {
+    max-width: 400px;
+    margin: 5px;
+    background-color: transparent;
 
-.itemContainer {
-    --section-color: var(--color-dark-gray);
-    --section-background: var(--color-inventory);
-}
-.itemContainer .contentHeader {
-    flex-basis: auto;
-    padding: 3px 5px;
-    background-color: var(--section-color);
-}
-.itemContainer .contentContainer {
-    background-color: var(--section-background);
-}
-.weaponContainer {
-    --section-color: var(--color-red);
-    --section-color-accent: #191919;
-}
-.outfitContainer, .toolContainer, .egoSkillContainer, .skillContainer {
-    --section-color: red;
-    --section-accent-color: red;
-}
-.equipCheck {
-    min-width: 25px;
-}
-
-
-/* Controls */
-#itemSettings:has(#hideItemSettings:checked) ~ div .itemContainer :is(.repcontrol_header, .repcontrol, .itemcontrol) {
-    display: none;
-}
-
-.itemContainer {
     .repcontrol {
         position: absolute;
         display: flex;
@@ -2499,7 +2467,6 @@ button[type=action].challengeButton::before {
         right: 36px;
     }
     :is(.repcontrol_edit, .repcontrol_add) {
-        font-size: 0;
         background-color: #161616;
     }
     .repcontrol_del {
@@ -2508,6 +2475,186 @@ button[type=action].challengeButton::before {
     .repcontrol_move {
         left: 0;
     }
+}
+.inventoryControls {
+    background-color: var(--color-dark-gray) !important;
+
+    .repcontrol_add {
+        position: absolute;
+        right: 4px;
+    }
+}
+
+/* Item contents */
+.itemContents {
+    align-items: stretch;
+
+    .darkInput {
+        width: 100%;
+    }
+}
+.itemHeader {
+    .itemName {
+        width: 100%;
+        color: var(--content-text);
+    }
+    .equipCheck {
+        min-width: 25px;
+        accent-color: var(--content-accent);
+    }
+}
+.itemRow {
+    width: 50%;
+
+    &.left {
+        
+    }
+    &.right {
+
+    }
+}
+
+/* Item description */
+.itemDescriptionContainer {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 1px;
+
+    &.left {
+        padding-left: 2px;
+    }
+    &.right {
+        padding-right: 2px;
+    }
+    &.bottom {
+        padding: 0 2px;
+    }
+}
+:is(.itemDescription, .itemEffect) {
+    height: 100% !important;
+    max-height: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+.itemEffect {
+    min-height: 80px;
+}
+
+/* Optional item contents */
+.itemCustomUI {
+    box-sizing: border-box;
+    padding: 4px;
+    border-bottom-right-radius: 5px;
+    background-color: var(--content-color);
+}
+:is(.itemWeaponUI, .itemAugmentUI, .itemSpecialUI) {
+    
+}
+.itemWeaponUI {
+    gap: 4px;
+}
+.itemTags {
+    width: 100%;
+    border-radius: 0;
+}
+.itemRollFormats {
+    .rollFormat {
+        height: 36px;
+        padding-right: 4px;
+        
+        --rollformat-color: var(--color-HP);
+        &:has(input[value="Block"]:checked) { --rollformat-color: var(--color-SAN); }
+        &:has(input[value="Evade"]:checked) { --rollformat-color: var(--color-ego-STGR); }
+        &:has(input[value="Prudence"]:checked) { --rollformat-color: var(--color-wisdom); }
+        &:has(input[value="Justice"]:checked) { --rollformat-color: var(--color-justice); }
+        &:has(input[value="Charm"]:checked) { --rollformat-color: var(--color-charm); }
+        &:has(input[value="Insight"]:checked) { --rollformat-color: var(--color-insight); }
+        &:has(input[value="Temperance"]:checked) { --rollformat-color: var(--color-temperance); }
+    }
+    .rollFormat:nth-child(n+3) {
+        height: 32px;
+        padding-top: 1px;
+        padding-bottom: 5px;
+
+        &:has(+ input[type="checkbox"]:not(:checked)), &:last-child {
+            border-bottom-left-radius: 5px;
+        }
+    }
+    .rollFormatBlock {
+        height: 26px;
+    }
+}
+.itemResistDamage {
+    .itemRes {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        appearance: none;
+        background-color: var(--color-dark-white);
+        height: 28px;
+        width: 50px !important;
+        margin: 0;
+        padding: 0 5px 0 0;
+        border: 1px solid var(--color-inventory);
+        font-weight: 400;
+        font-size: 14px;
+        color: var(--color-light-gray) !important;
+    
+        input[list] {
+            padding: 0 0 0 1px;
+            height: 100%;
+            width: 28px !important;
+        }
+        &::before { content: "["; }
+        &::after { content: "]"; }
+    }
+    .itemResMode {
+        &:has(option[value="Replace"]:checked) ~ .itemRes::before { content: "[x"; }
+        &:has(option[value="Add"]:checked) ~ .itemRes::before { content: "[+"; }
+    }
+}
+
+
+/* Expand header when there are no rollformats */
+.itemHeaderExpand:checked ~ .itemRow {
+    &.left .itemHeader {
+        width: 200%;
+        transform: translateX(25%);
+    }
+    &.right {
+        margin-top: 36px;
+    }
+}
+
+/* Change colors when item is a mystery */
+.itemMystery:checked + .itemContainer {
+    --content-color: var(--color-black);
+    --content-text: var(--content-mystery);
+    --content-accent: var(--content-mystery);
+
+    .rank, .darkInput:not(:is(.share, .edit, .script)) {
+        background-color: rgba(256, 256, 256, 0.1) !important;
+    }
+
+    .rollFormatBlock {
+        border: 1px solid var(--rollformat-color);
+
+        .plainText, input {
+            color: var(--rollformat-color);
+        }
+    }
+}
+
+
+
+
+
+/* Inventory Controls */
+#itemSettings:has(#hideItemSettings:checked) ~ #equipmentSection .inventoryContainer :is(.repcontrol_header, .repcontrol, .itemcontrol) {
+    display: none;
 }
 
 /* Item uses */
@@ -2570,8 +2717,8 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     align-items: normal;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50%;
+    transform: translate(5%, -50%);
+    width: 45%;
     max-height: 80%;
     padding: 0 !important;
     box-shadow: var(--color-black) 0 0 10px;
@@ -3301,12 +3448,6 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     overflow: auto;
     padding-left: 18px;
 }
-.hide-toggle-rev ~ .columnAlign.hide-item-rev:has(.settingStyle) {
-    display: inline-block;
-}
-.hide-toggle-rev + .settingStyle.hide-item-rev {
-    display: flex;
-}
 /* ===== Settings END ===== */
 
 
@@ -3720,7 +3861,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     font: 70% sans-serif;
     content: "►";
     color: limegreen;
-    margin-right: 0.25em; /* Go back here */
+    margin-right: 0.25em;
 }
 
 /* Style italic elements within the target element */
@@ -3792,37 +3933,45 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     background-color: var(--color-black);
 }
 
-.skillAtt { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Attack.png'); }
-.skillDef { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/defend.png'); }
-.skillEvd { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/evade.png'); }
+
 .skillAct { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png'); }
 .skillMass { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Wide.png'); }
 .skillSpecial { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/specialwhite.png'); }
+.itemMystery:checked + div .Act, .egoAct { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png'); }
+.itemMystery:checked + div .Mass { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoWide.png'); }
+.itemMystery:checked + div .egoSpecial { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSpecial.png'); }
 
-.egoSkills .skillAtt, .egoAtt { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAtt.png'); }
-.egoSkills .skillDef, .egoDef { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png'); }
-.egoSkills .skillEvd, .egoEvd { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoEvd.png'); }
-.egoSkills .skillAct, .egoAct { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png'); }
-.egoSkills .skillMass { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoWide.png'); }
-.egoSpecial { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSpecial.png'); }
 
-.slash { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Slash.png'); }
+
+/* Action Icons */
+.Att { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Attack.png'); }
+.Def { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/defend.png'); }
+.Evd { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/evade.png'); }
+.itemMystery:checked + div .Att, .egoAtt { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAtt.png'); }
+.itemMystery:checked + div .Def, .egoDef { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png'); }
+.itemMystery:checked + div .Evd, .egoEvd { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoEvd.png'); }
+
+.slash { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/slash.png'); }
 .pierce { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/pierce.png'); }
 .blunt { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/blunt.png'); }
-.egoSlash { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSlash.png'); }
-.egoPierce { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoPierce.png'); }
-.egoBlunt { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoBlunt.png'); }
+.itemMystery:checked + div .slash, .egoSlash { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSlash.png'); }
+.itemMystery:checked + div .pierce, .egoPierce { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoPierce.png'); }
+.itemMystery:checked + div .blunt, .egoBlunt { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoBlunt.png'); }
 
+.Inst { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Instinct.png'); }
+.Wisd { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Wisdom.png'); }
+.Just { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Justice.png'); }
+.Char { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Charm.png'); }
+.Insi { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Insight.png'); }
+.Temp { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Temperance.png'); }
+
+/* Resistance Icons */
 .slashNormal { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResSlash.png'); }
 .slashNormalSTG { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResSlashStg.png'); }
 .pierceNormal { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResPierce.png'); }
 .pierceNormalSTG { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResPierceStg.png'); }
 .bluntNormal { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResBlunt.png'); }
 .bluntNormalSTG { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResBluntStg.png'); }
-
-.defend { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/defend.png'); }
-.evade { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/evade.png'); }
-
 
 /* Ailment Icons */
 .question { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/question.png'); }
@@ -3965,6 +4114,47 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     --color-temperance: #ac609d;
 }
 
+.charsheet {
+    --content-color: var(--color-dark-gray);
+    --content-accent: var(--color-darker-gray);
+    --content-background: var(--color-inventory);
+    --content-text: var(--color-white);
+    --content-mystery: var(--color-white);
+}
+.weapon {
+    --content-color: var(--color-red);
+    --content-accent: #191919;
+    --content-mystery: var(--color-HP);
+}
+.outfit {
+    --content-color: var(--color-blue);
+    --content-accent: #191919;
+    --content-mystery: var(--color-SAN);
+}
+.augment {
+    --content-color: var(--color-green);
+}
+.tool {
+    --content-color: var(--color-purple);
+}
+.skill {
+    --content-color: var(--color-light-gray);
+}
+.special {
+    --content-color: var(--color-orange);
+}
+.effect {
+    
+}
+
+.toolText { color: var(--color-purple) !important; }
+.ego, .skillE { background-color: var(--color-darker-gray) !important; }
+
+.darkBG {
+    background-color: var(--color-gray) !important;
+    padding: 5px !important;
+}
+
 .conditioalButtonColorSelection[value="blue"]:checked ~ .conditioalButtonColor,
 .sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="blue"])  { background-color: var(--color-blue); }
 .conditioalButtonColorSelection[value="yellow"]:checked ~ .conditioalButtonColor,
@@ -3983,7 +4173,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .WHITE { background-color: var(--color-off-white) !important; }
 .BLACK { background-color: var(--color-black) !important; }
 
-.HP{ background-color: var(--color-HP) !important; }
+.HP { background-color: var(--color-HP) !important; }
 .HPtext, .instinct, .counterText { color: var(--color-HP) !important; }
 
 .STGR { background-color: var(--color-STGR) !important; }
@@ -3996,21 +4186,6 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 
 .LIGHT { background-color: var(--color-LIGHT) !important; }
 .LIGHTtext { color: var(--color-LIGHT) !important; }
-
-.weapon { --section-color: var(--color-red) !important; }
-.outfit { --section-color: var(--color-blue) !important; }
-.augment { --section-color: var(--color-green) !important; }
-.tool { --section-color: var(--color-purple) !important; }
-.toolText { color: var(--color-purple) !important; }
-.special { --section-color: var(--color-orange) !important; }
-
-.ego, .skillE { background-color: var(--color-darker-gray) !important; }
-.skillN { background-color: var(--color-light-gray) !important; }
-
-.darkBG {
-    background-color: var(--color-gray) !important;
-    padding: 5px !important;
-}
 
 .wisdom { color: var(--color-wisdom) !important; }
 .justice { color: var(--color-justice) !important; }

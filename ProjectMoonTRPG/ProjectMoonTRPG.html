@@ -177,7 +177,7 @@
 
 <!-- Item edit popup -->
 <input type="checkbox" class="hide-toggle-next" name="attr_itemEditor_display" value="true" hidden="true">
-<div id="itemEditor" class="hide-item contentContainer columnAlign darkBG editorContainer">
+<div id="itemEditor" class="hide-item-flex contentContainer columnAlign darkBG editorContainer">
 	
 	<!-- Editor header  -->
 	<div class="editorHeader">
@@ -193,6 +193,7 @@
 				<option value="Tool" data-i18n="item-type-tool">Tool</option>
 				<option value="Skill" data-i18n="item-type-skill">Skill</option>
 				<option value="Special" data-i18n="item-type-special">Special</option>
+				<option value="Effect" data-i18n="item-type-effect">Effect</option>
 			</select>
 			<button type="action" id="itemClose" class="darkInput mediumIcon exit" name="act_closeItemEdit" data-i18n-title="item-editor-close" title="Save and close Item Editor"></button>
 		</div>
@@ -204,7 +205,7 @@
 	<div class="itemOptionContainer">
 
 		<!-- Option: Roll formats -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionRollFormat" value="true"><span>Roll Format</span></label>
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionRollFormats" value="true"><span>Roll Format</span></label>
 			<div class="rollFormatContainer">
 				
 				<!-- Custom add repeating rollformat button -->
@@ -221,8 +222,8 @@
 						</select>
 
 						<!-- Roll type -->
-						<select name="attr_rollType" class="whiteInput">
-							<option value="Any" data-i18n="skill-type-None">---</option>
+						<select name="attr_rollType" class="whiteInput" >
+							<option value="None" data-i18n="skill-type-None">---</option>
 							<option value="Attack" data-i18n="skill-type-Attack">Attack</option>
 							<option value="Block" data-i18n="skill-type-Block">Block</option>
 							<option value="Evade" data-i18n="skill-type-Evade">Evade</option>
@@ -235,8 +236,8 @@
 						</select>
 
 						<!-- Damage type (Attack only) -->
-						<input type="checkbox" class="hide-toggle-next" name="attr_rollDamageType" value="Attack">
-						<select name="attr_rollDamageType" class="whiteInput hide-item">
+						<input type="checkbox" class="hide-toggle-next" name="attr_rollType" value="Attack">
+						<select name="attr_rollDamageType" class="whiteInput hide-item" style="width: 70px;">
 							<option value="None" data-i18n="weapon-type-None">---</option>
 							<option value="Slash" data-i18n="weapon-type-Slash">Slash</option>
 							<option value="Pierce" data-i18n="weapon-type-Pierce">Pierce</option>
@@ -245,7 +246,7 @@
 						</select>
 		
 						<!-- Roll format -->
-						<div class="rowContainer combatRoll">
+						<div class="rollFormat">
 							<div class="rollFormatBlock">
 								<input type="number" class="diceCount noSpinner" name="attr_rollCount" value="0">
 								<div class="plainText">D</div>
@@ -271,7 +272,7 @@
 
 						<!-- Recycle / store roll -->
 						<div class="itemOption inline"><label><input type="checkbox" name="attr_optionStoreRoll" value="true"><span>Recycle</span></label>
-							<div class="rowContainer combatRoll">
+							<div class="rollFormat">
 								<div class="rollFormatBlock">
 									<input type="number" class="diceCount noSpinner" name="attr_storeCount" value="0">
 									<div class="plainText">D</div>
@@ -355,8 +356,8 @@
 						<!-- Slash -->
 						<div class="rowContainer">
 							<div class="mediumIcon slashNormal"></div>
-							<input type="number" class="darkInput noSpinner" name="attr_itemEditSlashBaseHP" min="0" value="1">
-							<input type="number" class="darkInput noSpinner" name="attr_itemEditSlashBaseST" min="0" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditSlashBaseHP" min="0" step="any" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditSlashBaseST" min="0" step="any" value="1">
 							<div class="mediumIcon slashNormalSTG"></div>
 
 							<select name="attr_itemEditSlashBaseMode" class="whiteInput">
@@ -369,8 +370,8 @@
 						<!-- Pierce -->
 						<div class="rowContainer">
 							<div class="mediumIcon pierceNormal"></div>
-							<input type="number" class="darkInput noSpinner" name="attr_itemEditPierceBaseHP" min="0" value="1">
-							<input type="number" class="darkInput noSpinner" name="attr_itemEditPierceBaseST" min="0" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditPierceBaseHP" min="0" step="any" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditPierceBaseST" min="0" step="any" value="1">
 							<div class="mediumIcon pierceNormalSTG"></div>
 
 							<select name="attr_itemEditPierceBaseMode" class="whiteInput">
@@ -383,8 +384,8 @@
 						<!-- Blunt  -->
 						<div class="rowContainer">
 							<div class="mediumIcon bluntNormal"></div>
-							<input type="number" class="darkInput noSpinner" name="attr_itemEditBluntBaseHP" min="0" value="1">
-							<input type="number" class="darkInput noSpinner" name="attr_itemEditBluntBaseST" min="0" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditBluntBaseHP" min="0" step="any" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditBluntBaseST" min="0" step="any" value="1">
 							<div class="mediumIcon bluntNormalSTG"></div>
 
 							<select name="attr_itemEditBluntBaseMode" class="whiteInput">
@@ -665,7 +666,7 @@
 					
 					<!-- Weapons -->
 					<input type="checkbox" class="hide-toggle-next" name="attr_itemEditLinkedType" value="weapons" checked>
-					<div class="hide-item rowContainer">
+					<div class="hide-item-flex">
 						<fieldset class="repeating_weapons">
 							<input type="text" class="darkInput" name="attr_name" placeholder="Unnamed weapon">
 							<button type="action" class="darkButton" name="act_selectLinkedItem">Select item</button>
@@ -674,7 +675,7 @@
 
 					<!-- Outfits -->
 					<input type="checkbox" class="hide-toggle-next" name="attr_itemEditLinkedType" value="outfits" checked>
-					<div class="hide-item rowContainer">
+					<div class="hide-item-flex">
 						<fieldset class="repeating_outfits">
 							<input type="text" class="darkInput" name="attr_name" placeholder="Unnamed outfit">
 						</fieldset>
@@ -793,27 +794,27 @@
 				<div class="rowContainer">
 					<input type="checkbox" class="hide-toggle-rev" name="attr_tokenAilment1Num" value="0" hidden="true" checked>
 					<div class="tokenAilment hide-item-rev">
-						<img name="attr_tokenAilment1Icon">
-						<input type="text" class="hoverSpinner" name="attr_tokenAilment1Name" hidden="true">
+						<img name="attr_tokenAilment1Icon" class="valueIcon">
 						<input type="number" class="hoverSpinner" name="attr_tokenAilment1Num" min="0" value="0">
+						<input type="text" name="attr_tokenAilment1Name" hidden="true">
 					</div>
 					<input type="checkbox" class="hide-toggle-rev" name="attr_tokenAilment2Num" value="0" hidden="true" checked>
 					<div class="tokenAilment hide-item-rev">
-						<img name="attr_tokenAilment2Icon">
-						<input type="text" class="hoverSpinner" name="attr_tokenAilment2Name" hidden="true">
+						<img name="attr_tokenAilment2Icon" class="valueIcon">
 						<input type="number" class="hoverSpinner" name="attr_tokenAilment2Num" min="0" value="0">
+						<input type="text" name="attr_tokenAilment2Name" hidden="true">
 					</div>
 					<input type="checkbox" class="hide-toggle-rev" name="attr_tokenAilment3Num" value="0" hidden="true" checked>
 					<div class="tokenAilment hide-item-rev">
-						<img name="attr_tokenAilment3Icon">
-						<input type="text" class="hoverSpinner" name="attr_tokenAilment3Name" hidden="true">
+						<img name="attr_tokenAilment3Icon" class="valueIcon">
 						<input type="number" class="hoverSpinner" name="attr_tokenAilment3Num" min="0" value="0">
+						<input type="text" name="attr_tokenAilment3Name" hidden="true">
 					</div>
 					<input type="checkbox" class="hide-toggle-rev" name="attr_tokenAilment4Num" value="0" hidden="true" checked>
 					<div class="tokenAilment hide-item-rev">
-						<img name="attr_tokenAilment4Icon">
-						<input type="text" class="hoverSpinner" name="attr_tokenAilment4Name" hidden="true">
+						<img name="attr_tokenAilment4Icon" class="valueIcon">
 						<input type="number" class="hoverSpinner" name="attr_tokenAilment4Num" min="0" value="0">
+						<input type="text" name="attr_tokenAilment4Name" hidden="true">
 					</div>
 				</div>
 
@@ -867,7 +868,7 @@
         <div class="contentContainer hide-item BLACK distortProfile">
 	<div class="contentHeader rowContainer BLACK" style="position: relative;">
 		<div>
-<input class="characterRank" type="text" name="attr_charaRankCalculated" value="@{charRankBase}" placeholder="0" disabled="true" title="Rank" data-i18n-title="rank">
+<input class="rank" type="text" name="attr_charaRankCalculated" value="@{charRankBase}" placeholder="0" disabled="true" title="Rank" data-i18n-title="rank">
 		</div>
 
 		<input type="text" class="transpInput contentName" id="DistortionName" name="attr_distort_name" placeholder="Distortion Name" data-i18n-placeholder="distort-name">
@@ -1098,12 +1099,12 @@
 
 <input type="checkbox" class="hide-toggle-rev" name="attr_distortState" value="true">
         <div class="contentContainer hide-item-rev">
-	<div class="contentHeader rowContainer skillN" style="position: relative;">
+	<div class="contentHeader">
 		<input type="text" name="attr_charRankBase" value="0" hidden="true">
 
 		<div>
 		<input type="text" name="attr_charRankNum" value="0" hidden="true">
-<input class="characterRank transpInput" type="text" name="attr_charaRankCalculated" value="@{charRankBase}" placeholder="0" disabled="true" title="Rank" data-i18n-title="rank">
+<input class="rank transpInput" type="text" name="attr_charaRankCalculated" value="@{charRankBase}" placeholder="0" disabled="true" title="Rank" data-i18n-title="rank">
 		</div>
 
 <input type="text" name="attr_character_name" hidden="true">
@@ -1251,7 +1252,7 @@
 	</div>
 
 	<div class="rowContainer toolDescription centerFlex BLACK" style="padding-bottom: 5px;">
-	<input type="text" class="egoRank whiteInput" name="attr_egoRank" value="0" placeholder="0" data-i18n-title="rank" title="Rank" style="border: none;">
+	<input type="text" class="rank whiteInput" name="attr_egoRank" value="0" placeholder="0" data-i18n-title="rank" title="Rank" style="border: none;">
 
 <div class="rowContainer centerFlex BLACK" data-i18n-title="ego-activecondition" title="Activation condition">
 
@@ -1792,7 +1793,7 @@
 		<!-- Hostile -->
 		<div><input type="checkbox" class="hide-toggle" name="attr_distortState" value="true">
 			<div class="hide-item">
-			<input type="checkbox" name="attr_HostileState" value="Hostile" class="expand-toggle" id="state_Hostile">
+			<input type="checkbox" name="attr_HostileState" value="Hostile" class="expand-toggle" id="state_Hostile" hidden="true">
 			<label class="status_effect_item expand-btn rowContainer" for="state_Hostile" data-i18n-title="ailments-hostile-title" title="Hostile">
 				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
 				<div class="swap-item-rev containIcon statusIcon hostile"></div> <div class="swap-item centerIcon statusIcon hostile-limbus"></div>
@@ -1802,7 +1803,7 @@
 		<!-- Panic -->
 		<div><input type="checkbox" class="hide-toggle-rev" name="attr_distortState" value="true">
 			<div class="hide-item-rev">
-			<input type="checkbox" name="attr_PanicState" value="Panic" class="expand-toggle" id="state_Panic">
+			<input type="checkbox" name="attr_PanicState" value="Panic" class="expand-toggle" id="state_Panic" hidden="true">
 			<label class="status_effect_item expand-btn rowContainer" for="state_Panic" data-i18n-title="ailments-panic-title" title="Panic">
 				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
 				<div class="swap-item-rev containIcon statusIcon panic"></div> <div class="swap-item centerIcon statusIcon panic-limbus"></div>
@@ -1811,7 +1812,7 @@
 
 		<!-- Stagger -->
 		<div>
-			<input type="checkbox" name="attr_StaggerState" value="Staggered" class="expand-toggle" id="state_Stagger">
+			<input type="checkbox" name="attr_StaggerState" value="Staggered" class="expand-toggle" id="state_Stagger" hidden="true">
 			<label class="status_effect_item expand-btn rowContainer" for="state_Stagger" data-i18n-title="ailments-stagger-title" title="Stagger">
 				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
 				<div class="swap-item-rev containIcon statusIcon stagger"></div> <div class="swap-item centerIcon statusIcon stagger-limbus"></div>
@@ -1822,7 +1823,7 @@
 
 		<!-- Seal -->
 		<div>
-			<input type="checkbox" name="attr_SealState" value="Seal" class="expand-toggle" id="state_Seal">
+			<input type="checkbox" name="attr_SealState" value="Seal" class="expand-toggle" id="state_Seal" hidden="true">
 			<label class="status_effect_item expand-btn rowContainer" for="state_Seal" data-i18n-title="ailments-seal-title" title="Seal (Incapable of reactions)">
 				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
 				<div class="swap-item-rev containIcon statusIcon seal"></div> <div class="swap-item centerIcon statusIcon seal-limbus"></div>
@@ -1831,7 +1832,7 @@
 
 		<!-- Immobile -->
 		<div>
-			<input type="checkbox" name="attr_ImmobileState" value="Immobile" class="expand-toggle" id="state_Immobile">
+			<input type="checkbox" name="attr_ImmobileState" value="Immobile" class="expand-toggle" id="state_Immobile" hidden="true">
 			<label class="status_effect_item expand-btn rowContainer" for="state_Immobile" data-i18n-title="ailments-immobile-title" title="Immobile (Incapable of action/reaction)">
 				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
 				<div class="swap-item-rev containIcon statusIcon immobile"></div> <div class="swap-item centerIcon statusIcon immobile-limbus"></div>
@@ -1840,7 +1841,7 @@
 
 		<!-- Defeat -->
 		<div>
-			<input type="checkbox" name="attr_DefeatState" value="Defeated" class="expand-toggle" id="state_Defeat">
+			<input type="checkbox" name="attr_DefeatState" value="Defeated" class="expand-toggle" id="state_Defeat" hidden="true">
 			<label class="status_effect_item expand-btn rowContainer" for="state_Defeat" data-i18n-title="ailments-defeat-title" title="Defeated (Incapable of combat)">
 				<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
 				<div class="swap-item-rev containIcon statusIcon defeat"></div> <div class="swap-item centerIcon statusIcon defeat-limbus"></div>
@@ -1868,7 +1869,7 @@
 				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
 				<input type="checkbox" class="hide-toggle" name="attr_burnNextTurnSetting" value="true" hidden="true" checked>
 				<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Burn" min="0" value="0">
-				<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item hide-item-rev" name="attr_BurnNextTurn" min="0" value="0">
+				<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item" name="attr_BurnNextTurn" min="0" value="0">
 				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_BurnDecayPause" value="0">
 			</div>
 		</div>
@@ -1887,7 +1888,7 @@
 				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideNextTurn" value="true">
 				<input type="checkbox" class="hide-toggle" name="attr_bleedNextTurnSetting" value="true" hidden="true" checked>
 				<input type="number" class="ailmentNum ailmentNumThisTurn hoverSpinner" name="attr_Bleed" min="0" value="0">
-				<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item hide-item-rev" name="attr_BleedNextTurn" min="0" value="0">
+				<input type="number" class="ailmentNum ailmentNumNextTurn hoverSpinner hide-item" name="attr_BleedNextTurn" min="0" value="0">
 				<input type="number" class="ailmentNum ailmentNumDecayPause hoverSpinner" name="attr_BleedDecayPause" value="0">
 			</div>
 		</div>
@@ -2360,9 +2361,8 @@
 		<div class="columnAlign helpers">
 			<b data-i18n="helper-text-whisper">Whisper</b>
 
-			<label for="WhisperRolls" style="margin: 0px; padding: 0px;">
-			<input type="checkbox" id="WhisperRolls" name="attr_settingWhisperRolls" value="true" class="expand-toggle" style="display: none !important;">
-			<div class="darkButton containIcon whisper" data-i18n-title="helper-toggle-whisper" title="Toggle Whisper"></div>
+			<label class="darkButton containIcon whisper" style="margin: 0px; padding: 0px;" data-i18n-title="helper-toggle-whisper" title="Toggle Whisper">
+			<input type="checkbox" name="attr_settingWhisperRolls" value="true" class="expand-toggle" style="display: none !important;">
 			</label>
 		</div>
 
@@ -2466,13 +2466,13 @@
 	<!-- Combat options -->
 	<input type="checkbox" class="hide-toggle" name="attr_combatState" value="true" hidden="true">
 	<input type="checkbox" class="helperText" name="attr_settingHelperText" value="true" hidden="true">
-	<div class="hide-item rowContainer combatOptionsContainer helperTextContainer">
+	<div class="hide-item-flex rowContainer combatOptionsContainer helperTextContainer">
 			
 		<div class="rowContainer targetAndDefenceContainer">
 			
 			<!-- Target selector -->
 			<input type="checkbox" class="hide-toggle" name="attr_settingTargeting" value="true" hidden="true" checked>
-			<div class="hide-item rowContainer">
+			<div class="hide-item-flex rowContainer">
 				<div class="columnAlign helpers">
 					<b data-i18n="helper-text-selecttarget">Target</b>
 					<button type="action" class="darkButton selectTargetButton" name="act_selectTarget" title="Select target. Double click button to reset target" data-i18n-title="helper-text-selecttarget-title">
@@ -2504,32 +2504,32 @@
 					<div class="rowContainer">
 						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment1Num" value="0" hidden="true" checked>
 						<div class="targetAilment hide-item-rev">
-							<img name="attr_targetAilment1Icon">
+							<img name="attr_targetAilment1Icon" class="valueIcon">
 							<input type="number" name="attr_targetAilment1Num" min="0" value="0">
 						</div>
 						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment2Num" value="0" hidden="true" checked>
 						<div class="targetAilment hide-item-rev">
-							<img name="attr_targetAilment2Icon">
+							<img name="attr_targetAilment2Icon" class="valueIcon">
 							<input type="number" name="attr_targetAilment2Num" min="0" value="0">
 						</div>
 						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment3Num" value="0" hidden="true" checked>
 						<div class="targetAilment hide-item-rev">
-							<img name="attr_targetAilment3Icon">
+							<img name="attr_targetAilment3Icon" class="valueIcon">
 							<input type="number" name="attr_targetAilment3Num" min="0" value="0">
 						</div>
 						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment4Num" value="0" hidden="true" checked>
 						<div class="targetAilment hide-item-rev">
-							<img name="attr_targetAilment4Icon">
+							<img name="attr_targetAilment4Icon" class="valueIcon">
 							<input type="number" name="attr_targetAilment4Num" min="0" value="0">
 						</div>
 						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment5Num" value="0" hidden="true" checked>
 						<div class="targetAilment hide-item-rev">
-							<img name="attr_targetAilment5Icon">
+							<img name="attr_targetAilment5Icon" class="valueIcon">
 							<input type="number" name="attr_targetAilment5Num" min="0" value="0">
 						</div>
 						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment6Num" value="0" hidden="true" checked>
 						<div class="targetAilment hide-item-rev">
-							<img name="attr_targetAilment6Icon">
+							<img name="attr_targetAilment6Icon" class="valueIcon">
 							<input type="number" name="attr_targetAilment6Num" min="0" value="0">
 						</div>
 					</div>
@@ -2537,12 +2537,10 @@
 			</div>
 
 			<!-- Last defence dice -->
-			<div>
-				<input type="checkbox" class="hide-toggle" name="attr_settingLastDefenceRoll" value="true" hidden="true" checked>
-				<div class="hide-item columnAlign helpers">
-					<b data-i18n="helper-text-defencedice">Defence</b>
-					<input type="number" class="darkInput defenceDice hoverSpinner" name="attr_lastDefenceRoll" min="0" value="0" data-i18n-title="helper-text-lastdefenceroll" title="Last Defence roll"> <!-- delete this later -->
-				</div>
+			<input type="checkbox" class="hide-toggle-next" name="attr_settingLastDefenceRoll" value="true" hidden="true" checked>
+			<div class="hide-item-flex columnAlign helpers">
+				<b data-i18n="helper-text-defencedice">Defence</b>
+				<input type="number" class="darkInput defenceDice hoverSpinner" name="attr_lastDefenceRoll" min="0" value="0" data-i18n-title="helper-text-lastdefenceroll" title="Last Defence roll"> <!-- delete this later -->
 			</div>
 		</div>
 
@@ -2551,7 +2549,7 @@
 			<input type="checkbox" class="hide-toggle" name="attr_settingActionTracker" value="true" hidden="true">
 			<input type="checkbox" class="hide-toggle" name="attr_settingLightRegen" value="true" hidden="true">
 			<input type="checkbox" id="editResourceToggle" name="attr_editResourceToggle" value="true" hidden="true" checked>
-			<div class="hide-item columnAlign" style="gap: 1px;">
+			<div class="hide-item-flex columnAlign" style="gap: 1px;">
 
 				<div class="rowContainer resourceContainer">
 					<input type="text" value="0" name="attr_actionTradeReaction" hidden="true">
@@ -2617,7 +2615,7 @@
 		
 				<!-- Additional resources -->
 				<input type="checkbox" class="hide-toggle" name="attr_expandResourceToggle" value="true" hidden="true">
-				<div class="hide-item rowContainer resourceContainer">
+				<div class="hide-item-flex rowContainer resourceContainer">
 		
 					<!-- Counter / block / evade reaction tracking -->
 					<div class="resourceTracker rowContainer">
@@ -3518,7 +3516,7 @@
 	<div class="rowContainer outfit paletteButton" style="justify-content: flex-start;">
 
 		<div class="iconHolder">
-			<div class="type-image typeIcon defend"></div>
+			<div class="type-image typeIcon Def"></div>
 		</div>
 
 		<div class="rowContainer" style="left: -4px;">
@@ -5106,11 +5104,11 @@
 	
 
 	<!-- Repeating inventory: Outfits -->
-	<div class="inventorySection outfit" >
+	<div class="inventoryContainer contentContainer outfit" >
 		
 		<!-- Custom add repeating item button -->
-		<div class="itemHeader repcontrol_header">
-			<span class="itemName">Outfits</span>
+		<div class="inventoryControls contentHeader repcontrol_header">
+			<span class="inventoryName">Outfits</span>
 			<button type="action" class="btn repcontrol_add" id="add_outfit" name="act_addItem" data-i18n-title="item-add" title="Add new item">Add</button>
 		</div>
 
@@ -5118,9 +5116,11 @@
 			
 			<!-- Option: Mystery -->
 			<input type="checkbox" class="itemMystery" name="attr_optionMystery" value="true" hidden="true">
-			<div class="itemContainer">
+
+			<div class="itemContainer contentContainer">
 				
-				<!-- Item controls -->
+				<!-- Item controls. Move to the left when the item is has a lot of content on the right -->
+				<input type="checkbox" class="itemHeaderExpand" name="attr_headerExpand" value="true" hidden="true">
 				<div class="itemButtons">
 					<button type="action" class="darkInput shareButton share" name="act_share-item" data-i18n-title="share" title="Share info"></button>
 					<button type="action" class="darkInput editButton edit" name="act_edit-item" data-i18n-title="edit" title="Edit"></button>
@@ -5129,32 +5129,37 @@
 				</div>
 
 				<!-- Message overlay -->
-				<div class="itemMessage">
+				<input type="checkbox" class="hide-toggle-next" name="attr_messageDisplay" value="true" hidden="true">
+				<div class="hide-item itemMessage">
 					<textarea name="attr_messageText"></textarea>
 				</div>
 
-
-				<!-- Item contents (Left) -->
 				<div class="itemContents rowContainer">
+
+					<!-- The header takes up both rows when there are no rollformats -->
+					<input type="checkbox" class="itemHeaderExpand" name="attr_optionRollFormats" value="0" hidden="true">
+
+					<!-- Item contents (Left) -->
 					<div class="itemRow left columnAlign">
 
 						<!-- Header -->
-						<div class="itemHeader">
+						<div class="itemHeader contentHeader">
 
 							<!-- Equip checkbox -->
 							<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true">
 
 							<!-- Rank and name -->
-							<input type="text" class="itemRank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank">
+							<input type="text" class="itemRank rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank">
 							<input type="text" class="itemName transpInput" name="attr_name" data-i18n-placeholder="outfit-name" placeholder="Outfit name">
 						</div>
 
 						<!-- Option: Custom UI -->
-						<div class="itemCustomUI">
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionCustomUI" value="true" hidden="true">
+						<div class="hide-item itemCustomUI">
 							
 							<!-- Option: Weapon UI -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionWeaponUI" value="true" hidden="true">
-							<div class="hide-item itemWeaponUI">
+							<div class="hide-item itemWeaponUI rowContainer">
 								<select name="attr_rollDamageType0" class="darkInput">
 									<option value="None" data-i18n="weapon-type-None">---</option>
 									<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
@@ -5215,14 +5220,17 @@
 						<!-- Option: Tags (Left) -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionTags" value="true" hidden="true">
 						<div class="hide-item itemTags">
-							<input type="checkbox" class="hide-toggle-rev" name="attr_optionTags" value="true" hidden="true">
-							<input type="text" class="hide-item-rev" data-i18n-placeholder="item-tags-outfit" placeholder="Outfit tags">
+							<input type="checkbox" class="hide-toggle" name="attr_leftTagsDisplay" value="true" hidden="true">
+							<input type="text" class="hide-item darkInput" data-i18n-placeholder="item-tags-outfit" placeholder="Outfit tags">
 						</div>
 
 						<!-- Description (Left) -->
-						<div class="itemDescription left">
-							<textarea spellcheck="false" name="attr_description" class="itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Outfit description."></textarea>
-							<textarea spellcheck="false" name="attr_effect" class="itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Outfit effects."></textarea>
+						<div class="itemDescriptionContainer left columnAlign">
+							<input type="checkbox" class="hide-toggle-next" name="attr_leftDescDisplay" value="true" hidden="true" checked>
+							<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Outfit description."></textarea>
+
+							<input type="checkbox" class="hide-toggle-next" name="attr_leftEffectDisplay" value="true" hidden="true">
+							<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Outfit effects."></textarea>
 						</div>
 					</div>
 					
@@ -5231,17 +5239,37 @@
 					<div class="itemRow right columnAlign">
 						
 						<!-- Option: Rollformats -->
-						<div class="itemRollFormats columnAlign">
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden="true">
+						<div class="hide-item-flex itemRollFormats columnAlign">
 
 							<!-- Rollformat (0) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_rollDisplay0" value="true" hidden="true">
-							<div class="hide-item rollFormat">
-
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden="true">
+							<div class="hide-item-flex rollFormat contentHeader">
+									
 								<!-- Roll icon -->
-								<img name="attr_rollIcon0" class="rollFormatIcon">
-								<input type="text" name="attr_rollType0" hidden="true">
-								<input type="text" name="attr_rollDamageType0" hidden="true">
-
+								<div class="rollFormatIcon">
+									<input type="checkbox" class="swap-toggle" name="attr_rollType0" value="Attack" hidden="true">
+									<div class="swap-item-rev rollType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType0"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType0"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType0"><div class="Def centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType0"><div class="Evd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType0"><div class="Inst centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType0"><div class="Wisd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType0"><div class="Just centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType0"><div class="Char centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType0"><div class="Insi centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType0"><div class="Temp centerIcon"></div>
+									</div>
+									<div class="swap-item rollDamageType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType0"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType0"><div class="slash centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType0"><div class="pierce centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType0"><div class="blunt centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType0"><div class="question centerIcon"></div>
+									</div>
+								</div>
+								
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
 									<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="1" value="0">
@@ -5250,20 +5278,39 @@
 									<div class="plainText">+</div>
 									<input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
 								</div>
-
+								
 								<!-- Roll button -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden="true">
-								<button type="action" class="hide-item rollButton" name="act_itemRoll0"></button>
+								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll0"></button>
 							</div>
 
 							<!-- Rollformat (1) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_rollDisplay1" value="true" hidden="true">
-							<div class="hide-item rollFormat">
-
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden="true">
+							<div class="hide-item-flex rollFormat contentHeader">
+								
 								<!-- Roll icon -->
-								<img name="attr_rollIcon1" class="rollFormatIcon">
-								<input type="text" name="attr_rollType1" hidden="true">
-								<input type="text" name="attr_rollDamageType1" hidden="true">
+								<div class="rollFormatIcon">
+									<input type="checkbox" class="swap-toggle" name="attr_rollType1" value="Attack" hidden="true">
+									<div class="swap-item-rev rollType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType1"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType1"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType1"><div class="Def centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType1"><div class="Evd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType1"><div class="Inst centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType1"><div class="Wisd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType1"><div class="Just centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType1"><div class="Char centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType1"><div class="Insi centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType1"><div class="Temp centerIcon"></div>
+									</div>
+									<div class="swap-item rollDamageType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType1"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType1"><div class="slash centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType1"><div class="pierce centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType1"><div class="blunt centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType1"><div class="question centerIcon"></div>
+									</div>
+								</div>
 
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
@@ -5276,17 +5323,36 @@
 
 								<!-- Roll button -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden="true">
-								<button type="action" class="hide-item rollButton" name="act_itemRoll1"></button>
+								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll1"></button>
 							</div>
 
 							<!-- Rollformat (2) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_rollDisplay2" value="true" hidden="true">
-							<div class="hide-item rollFormat">
-
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden="true">
+							<div class="hide-item-flex rollFormat contentHeader">
+								
 								<!-- Roll icon -->
-								<img name="attr_rollIcon2" class="rollFormatIcon">
-								<input type="text" name="attr_rollType2" hidden="true">
-								<input type="text" name="attr_rollDamageType2" hidden="true">
+								<div class="rollFormatIcon">
+									<input type="checkbox" class="swap-toggle" name="attr_rollType2" value="Attack" hidden="true">
+									<div class="swap-item-rev rollType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType2"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType2"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType2"><div class="Def centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType2"><div class="Evd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType2"><div class="Inst centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType2"><div class="Wisd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType2"><div class="Just centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType2"><div class="Char centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType2"><div class="Insi centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType2"><div class="Temp centerIcon"></div>
+									</div>
+									<div class="swap-item rollDamageType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType2"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType2"><div class="slash centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType2"><div class="pierce centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType2"><div class="blunt centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType2"><div class="question centerIcon"></div>
+									</div>
+								</div>
 
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
@@ -5299,17 +5365,36 @@
 
 								<!-- Roll button -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden="true">
-								<button type="action" class="hide-item rollButton" name="act_itemRoll2"></button>
+								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll2"></button>
 							</div>
 
 							<!-- Rollformat (3) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_rollDisplay3" value="true" hidden="true">
-							<div class="hide-item rollFormat">
-
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden="true">
+							<div class="hide-item-flex rollFormat contentHeader">
+								
 								<!-- Roll icon -->
-								<img name="attr_rollIcon3" class="rollFormatIcon">
-								<input type="text" name="attr_rollType3" hidden="true">
-								<input type="text" name="attr_rollDamageType3" hidden="true">
+								<div class="rollFormatIcon">
+									<input type="checkbox" class="swap-toggle" name="attr_rollType3" value="Attack" hidden="true">
+									<div class="swap-item-rev rollType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType3"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType3"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType3"><div class="Def centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType3"><div class="Evd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType3"><div class="Inst centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType3"><div class="Wisd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType3"><div class="Just centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType3"><div class="Char centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType3"><div class="Insi centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType3"><div class="Temp centerIcon"></div>
+									</div>
+									<div class="swap-item rollDamageType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType3"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType3"><div class="slash centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType3"><div class="pierce centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType3"><div class="blunt centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType3"><div class="question centerIcon"></div>
+									</div>
+								</div>
 
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
@@ -5322,18 +5407,37 @@
 
 								<!-- Roll button -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden="true">
-								<button type="action" class="hide-item rollButton" name="act_itemRoll3"></button>
+								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll3"></button>
 							</div>
 
 							<!-- Rollformat (4) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_rollDisplay4" value="true" hidden="true">
-							<div class="hide-item rollFormat">
-
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden="true">
+							<div class="hide-item-flex rollFormat contentHeader">
+									
 								<!-- Roll icon -->
-								<img name="attr_rollIcon4" class="rollFormatIcon">
-								<input type="text" name="attr_rollType4" hidden="true">
-								<input type="text" name="attr_rollDamageType4" hidden="true">
-
+								<div class="rollFormatIcon">
+									<input type="checkbox" class="swap-toggle" name="attr_rollType4" value="Attack" hidden="true">
+									<div class="swap-item-rev rollType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType4"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType4"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType4"><div class="Def centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType4"><div class="Evd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType4"><div class="Inst centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType4"><div class="Wisd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType4"><div class="Just centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType4"><div class="Char centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType4"><div class="Insi centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType4"><div class="Temp centerIcon"></div>
+									</div>
+									<div class="swap-item rollDamageType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType4"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType4"><div class="slash centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType4"><div class="pierce centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType4"><div class="blunt centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType4"><div class="question centerIcon"></div>
+									</div>
+								</div>
+								
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
 									<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
@@ -5342,41 +5446,64 @@
 									<div class="plainText">+</div>
 									<input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
 								</div>
-
+								
 								<!-- Roll button -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden="true">
-								<button type="action" class="hide-item rollButton" name="act_itemRoll4"></button>
+								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll4"></button>
 							</div>
 						</div>
 
 						<!-- Option: Resistances -->
-						<div class="itemResist">
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionResist" value="true" hidden="true">
+						<div class="hide-item itemResist">
 
 							<!-- Option: Damage resistances -->
-							<div class="itemResistDamage">
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionResistBaseDamage" value="true" hidden="true">
+							<div class="hide-item itemResistDamage">
 
 								<!-- Slash -->
-								<div class="rowContainer">
-									<div class="mediumIcon slashNormal"></div>
-									<input type="number" class="darkInput noSpinner" name="attr_slashBaseHP" list="damageModList" min="0" value="1">
-									<input type="number" class="darkInput noSpinner" name="attr_slashBaseST" list="damageModList" min="0" value="1">
-									<div class="mediumIcon slashNormalSTG"></div>
+								<input type="checkbox" class="hide-toggle-rev-next" name="attr_slashBaseMode" value="None" hidden="true">
+								<div class="hide-item-rev rowContainer centerFlex">
+									<select class="itemResMode" name="attr_slashBaseMode" hidden="true">
+										<option value="None">---</option>
+										<option value="Replace">Replace</option>
+										<option value="Add">Add</option>
+									</select>
+
+									<div class="largeIcon slashNormal"></div>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_slashBaseHP" list="damageModList" min="0" step="any" value="1"></label>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_slashBaseST" list="damageModList" min="0" step="any" value="1"></label>
+									<div class="largeIcon slashNormalSTG"></div>
 								</div>
 
 								<!-- Pierce -->
-								<div class="rowContainer">
-									<div class="mediumIcon pierceNormal"></div>
-									<input type="number" class="darkInput noSpinner" name="attr_pierceBaseHP" list="damageModList" min="0" value="1">
-									<input type="number" class="darkInput noSpinner" name="attr_pierceBaseST" list="damageModList" min="0" value="1">
-									<div class="mediumIcon pierceNormalSTG"></div>
+								<input type="checkbox" class="hide-toggle-rev-next" name="attr_pierceBaseMode" value="None" hidden="true">
+								<div class="hide-item-rev rowContainer centerFlex">
+									<select class="itemResMode" name="attr_pierceBaseMode" hidden="true">
+										<option value="None">---</option>
+										<option value="Replace">Replace</option>
+										<option value="Add">Add</option>
+									</select>
+
+									<div class="largeIcon pierceNormal"></div>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_pierceBaseHP" list="damageModList" min="0" step="any" value="1"></label>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_pierceBaseST" list="damageModList" min="0" step="any" value="1"></label>
+									<div class="largeIcon pierceNormalSTG"></div>
 								</div>
 
 								<!-- Blunt -->
-								<div class="rowContainer">
-									<div class="mediumIcon bluntNormal"></div>
-									<input type="number" class="darkInput noSpinner" name="attr_bluntBaseHP" list="damageModList" min="0" value="1">
-									<input type="number" class="darkInput noSpinner" name="attr_bluntBaseST" list="damageModList" min="0" value="1">
-									<div class="mediumIcon bluntNormalSTG"></div>
+								<input type="checkbox" class="hide-toggle-rev-next" name="attr_bluntBaseMode" value="None" hidden="true">
+								<div class="hide-item-rev rowContainer centerFlex">
+									<select class="itemResMode" name="attr_bluntBaseMode" hidden="true">
+										<option value="None">---</option>
+										<option value="Replace">Replace</option>
+										<option value="Add">Add</option>
+									</select>
+
+									<div class="largeIcon bluntNormal"></div>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_bluntBaseHP" list="damageModList" min="0" step="any" value="1"></label>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_bluntBaseST" list="damageModList" min="0" step="any" value="1"></label>
+									<div class="largeIcon bluntNormalSTG"></div>
 								</div>
 							</div>
 						</div>
@@ -5384,22 +5511,28 @@
 						<!-- Option: Tags (Right) -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionTags" value="true" hidden="true">
 						<div class="hide-item itemTags">
-							<input type="checkbox" class="hide-toggle" name="attr_optionTags" value="true" hidden="true">
-							<input type="text" class="hide-item" data-i18n-placeholder="item-tags-outfit" placeholder="Outfit tags">
+							<input type="checkbox" class="hide-toggle" name="attr_rightTagsDisplay" value="true" hidden="true">
+							<input type="text" class="hide-item darkInput" data-i18n-placeholder="item-tags-outfit" placeholder="Outfit tags">
 						</div>
 
 						<!-- Description (Right) -->
-						<div class="itemDescription right">
-							<textarea spellcheck="false" name="attr_description" class="itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Outfit description."></textarea>
-							<textarea spellcheck="false" name="attr_effect" class="itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Outfit effects."></textarea>
+						<div class="itemDescriptionContainer right columnAlign">
+							<input type="checkbox" class="hide-toggle-next" name="attr_rightDescDisplay" value="true" hidden="true">
+							<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Outfit description."></textarea>
+
+							<input type="checkbox" class="hide-toggle-next" name="attr_rightEffectDisplay" value="true" hidden="true" checked>
+							<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Outfit effects."></textarea>
 						</div>
 					</div>
 				</div>
 
 				<!-- Description (Bottom) -->
-				<div class="itemDescription bottom">
-					<textarea spellcheck="false" name="attr_description" class="itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Outfit description."></textarea>
-					<textarea spellcheck="false" name="attr_effect" class="itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Outfit effects."></textarea>
+				<div class="itemDescriptionContainer bottom columnAlign">
+					<input type="checkbox" class="hide-toggle-next" name="attr_bottomDescDisplay" value="true" hidden="true">
+					<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Outfit description."></textarea>
+
+					<input type="checkbox" class="hide-toggle-next" name="attr_bottomEffectDisplay" value="true" hidden="true">
+					<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Outfit effects."></textarea>
 				</div>
 			</div>
 		</fieldset>
@@ -5450,11 +5583,11 @@
 			<div class="contentHeader">
 				<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true">
 
-				<input type="text" class="weaponRank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank">
+				<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank">
 				<input type="text" class="transpInput contentName" name="attr_name" data-i18n-placeholder="equip-weapon-name" placeholder="Weapon Name">
 	
 				<!-- Dice roll block -->
-				<div class="rowContainer combatRoll">
+				<div class="rollFormat">
 	
 					<!-- Uses indicator -->
 					<div class="buffer" style="width: 30px; height: 30px;">
@@ -5559,7 +5692,7 @@
 
 			<!-- Rollformats -->
 			<div>
-				Opt. Rollformat <input type="checkbox" class="" name="attr_optionRollFormat" value="true">
+				Opt. Rollformat <input type="checkbox" class="" name="attr_optionRollFormats" value="true">
 				<div>
 					Roll Type: <input type="text" class="" name="attr_rollType0" placeholder="Roll type"> <!-- Should maybe be a checkbox -->
 					Roll Mode: <input type="text" class="" name="attr_rollMode0" placeholder="Roll mode"> <!-- Should maybe be a checkbox -->
@@ -5632,33 +5765,6 @@
 			<div>
 				Opt. Resistance <input type="checkbox" class="" name="attr_optionResist" value="true">
 				<div>
-					Damage Resistance <input type="checkbox" class="" name="attr_optionResistBaseDamage" value="true">
-					<div>
-						Slash Mode: <input type="text" class="" name="attr_slashBaseMode" placeholder="Slash mode">
-						Slash HP Base: <input type="number" class="" name="attr_slashBaseHP" placeholder="1">
-						Slash ST Base: <input type="number" class="" name="attr_slashBaseST" placeholder="1">
-						Slash Mode: <input type="text" class="" name="attr_slashFlatMode" placeholder="Slash mode">
-						Slash HP Flat: <input type="number" class="" name="attr_slashFlatHP" placeholder="1">
-						Slash ST Flat: <input type="number" class="" name="attr_slashFlatST" placeholder="1">
-					</div>
-					<div>
-						Pierce Mode: <input type="text" class="" name="attr_pierceBaseMode" placeholder="Pierce mode">
-						Pierce HP Base: <input type="number" class="" name="attr_pierceBaseHP" placeholder="1">
-						Pierce ST Base: <input type="number" class="" name="attr_pierceBaseST" placeholder="1">
-						Pierce Mode: <input type="text" class="" name="attr_pierceFlatMode" placeholder="Pierce mode">
-						Pierce HP Flat: <input type="number" class="" name="attr_pierceFlatHP" placeholder="1">
-						Pierce ST Flat: <input type="number" class="" name="attr_pierceFlatST" placeholder="1">
-					</div>
-					<div>
-						Blunt Mode: <input type="text" class="" name="attr_bluntBaseMode" placeholder="Blunt mode">
-						Blunt HP Base: <input type="number" class="" name="attr_bluntBaseHP" placeholder="1">
-						Blunt ST Base: <input type="number" class="" name="attr_bluntBaseST" placeholder="1">
-						Blunt Mode: <input type="text" class="" name="attr_bluntFlatMode" placeholder="Blunt mode">
-						Blunt HP Flat: <input type="number" class="" name="attr_bluntFlatHP" placeholder="1">
-						Blunt ST Flat: <input type="number" class="" name="attr_bluntFlatST" placeholder="1">
-					</div>
-				</div>
-				<div>
 					Ailment Resistance <input type="checkbox" class="" name="attr_optionResistFlatDamage" value="true">
 					<div>
 						Bleed Res.: <input type="number" class="" name="attr_BleedResist" placeholder="0">
@@ -5726,7 +5832,7 @@
 
 		<!-- Weapon 1 header -->
 		<div class="contentHeader weapon">
-			<input type="text" class="weaponRank" name="attr_weapon1Rank" placeholder="0" data-i18n-title="rank" title="Rank">
+			<input type="text" class="rank" name="attr_weapon1Rank" placeholder="0" data-i18n-title="rank" title="Rank">
 			<input type="text" class="transpInput contentName" name="attr_weapon1Name" data-i18n-placeholder="equip-weapon1-name" placeholder="Weapon Name (1)">
 
 			<!-- Weapon dice roll block -->
@@ -5835,7 +5941,7 @@
 
 		<!-- Weapon 2 header -->
 		<div class="contentHeader weapon">
-			<input type="text" class="weaponRank" name="attr_weapon2Rank" placeholder="0" data-i18n-title="rank" title="Rank">
+			<input type="text" class="rank" name="attr_weapon2Rank" placeholder="0" data-i18n-title="rank" title="Rank">
 			<input type="text" class="transpInput contentName" name="attr_weapon2Name" data-i18n-placeholder="equip-weapon2-name" placeholder="Weapon Name (2)">
 
 			<!-- Weapon dice roll block -->
@@ -5947,7 +6053,7 @@
 
 		<!-- Weapon 3 header -->
 		<div class="contentHeader weapon">
-			<input type="text" class="weaponRank" name="attr_weapon3Rank" placeholder="0" data-i18n-title="rank" title="Rank">
+			<input type="text" class="rank" name="attr_weapon3Rank" placeholder="0" data-i18n-title="rank" title="Rank">
 			<input type="text" class="transpInput contentName" name="attr_weapon3Name" data-i18n-placeholder="equip-weapon3-name" placeholder="Weapon Name (3)">
 
 			<!-- Weapon dice roll block -->
@@ -6057,7 +6163,7 @@
 
 		<!-- Weapon 4 header -->
 		<div class="contentHeader weapon">
-			<input type="text" class="weaponRank" name="attr_weapon4Rank" placeholder="0" data-i18n-title="rank" title="Rank">
+			<input type="text" class="rank" name="attr_weapon4Rank" placeholder="0" data-i18n-title="rank" title="Rank">
 			<input type="text" class="transpInput contentName" name="attr_weapon4Name" data-i18n-placeholder="equip-weapon4-name" placeholder="Weapon Name (4)">
 
 			<!-- Weapon dice roll block -->
@@ -6168,7 +6274,7 @@
 
 	<!-- Augment header -->
 	<div class="contentHeader augment rowContainer" id="augment-name">
-	<input type="text" class="augmentRank" name="attr_augmentRank" placeholder="0" data-i18n-title="rank" title="Rank">
+	<input type="text" class="rank" name="attr_augmentRank" placeholder="0" data-i18n-title="rank" title="Rank">
 	<input type="text" class="transpInput contentName" name="attr_augmentName" data-i18n-placeholder="augment-name" placeholder="Augmentation name">
 
         <select name="attr_augmentType" class="darkInput contentName topRight">
@@ -6208,7 +6314,7 @@
 <!-- Weapon section END -->
 
 <!-- Outfit / Other equipment section -->
-<div class="rowContainer" style="max-width: 600px; flex-wrap: wrap;">
+<div class="rowContainer" style="max-width: 600px; flex-wrap: wrap; display: none !important"> <!-- Hides outfits and tools for testing -->
 <div class="outfitContainer">
 
 <!-- Outfit block -->
@@ -6303,7 +6409,7 @@
 <!-- Outfit header -->
 	<div class="contentHeader outfit" id="outfit-name">
 
-	<input type="text" class="outfitRank" name="attr_outfitRank" placeholder="0" data-i18n-title="rank" title="Rank">
+	<input type="text" class="rank" name="attr_outfitRank" placeholder="0" data-i18n-title="rank" title="Rank">
 		<input type="text" class="transpInput contentName" name="attr_outfitName" data-i18n-placeholder="outfit-name" placeholder="Outfit">
 
 	<!-- Outfit dice roll block -->
@@ -6521,7 +6627,7 @@
 
 	<!-- header -->
 	<div class="contentHeader tool rowContainer">
-	<input type="text" class="toolRank" name="attr_tool1Rank" placeholder="0" data-i18n-title="rank" title="Rank">
+	<input type="text" class="rank" name="attr_tool1Rank" placeholder="0" data-i18n-title="rank" title="Rank">
 	<input type="text" class="toolName transpInput" name="attr_tool1Name" data-i18n-placeholder="tool-name" placeholder="Tool name">
 
 	<input type="checkbox" id="attr_tool1Portable" name="attr_tool1Portable" value="Portable"><label for="attr_tool1Portable" class="centerIcon portable" data-i18n-title="tool-portable" title="Portable"></label> 
@@ -6586,7 +6692,7 @@
 
 	<!-- header -->
 	<div class="contentHeader tool rowContainer">
-	<input type="text" class="toolRank" name="attr_tool2Rank" placeholder="0" data-i18n-title="rank" title="Rank">
+	<input type="text" class="rank" name="attr_tool2Rank" placeholder="0" data-i18n-title="rank" title="Rank">
 	<input type="text" class="toolName transpInput" name="attr_tool2Name" data-i18n-placeholder="tool-name" placeholder="Tool name">
 
 	<input type="checkbox" id="attr_tool2Portable" name="attr_tool2Portable" value="Portable"><label for="attr_tool2Portable" class="centerIcon portable" data-i18n-title="tool-portable" title="Portable"></label> 
@@ -6658,7 +6764,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 
 	<!-- header -->
 	<div class="contentHeader tool rowContainer">
-	<input type="text" class="toolRank" name="attr_tool3Rank" placeholder="0" data-i18n-title="rank" title="Rank">
+	<input type="text" class="rank" name="attr_tool3Rank" placeholder="0" data-i18n-title="rank" title="Rank">
 	<input type="text" class="toolName transpInput" name="attr_tool3Name" data-i18n-placeholder="tool-name" placeholder="Tool name">
 
 	<input type="checkbox" id="attr_tool3Portable" name="attr_tool3Portable" value="Portable"><label for="attr_tool3Portable" class="centerIcon portable" data-i18n-title="tool-portable" title="Portable"></label> 
@@ -6725,7 +6831,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 
 	<!-- header -->
 	<div class="contentHeader tool rowContainer">
-	<input type="text" class="toolRank" name="attr_tool4Rank" placeholder="0" data-i18n-title="rank" title="Rank">
+	<input type="text" class="rank" name="attr_tool4Rank" placeholder="0" data-i18n-title="rank" title="Rank">
 	<input type="text" class="toolName transpInput" name="attr_tool4Name" data-i18n-placeholder="tool-name" placeholder="Tool name">
 
 	<input type="checkbox" id="attr_tool4Portable" name="attr_tool4Portable" value="Portable"><label for="attr_tool4Portable" class="centerIcon portable" data-i18n-title="tool-portable" title="Portable"></label> 
@@ -6811,7 +6917,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 	<!-- Header -->
 	<div class="contentHeader special" id="special1Name">
 		
-	<input type="text" type="text" class="specialItemRank" name="attr_special1Rank" placeholder="0" data-i18n-title="rank" title="Rank">
+	<input type="text" type="text" class="rank" name="attr_special1Rank" placeholder="0" data-i18n-title="rank" title="Rank">
 
 	<input type="text" class="transpInput contentName" name="attr_special1Name" data-i18n-placeholder="special-name" placeholder="Special item name">
 
@@ -6887,7 +6993,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 	<!-- Header -->
 	<div class="contentHeader special" id="special2Name">
 		
-	<input type="text" type="text" class="specialItemRank" name="attr_special2Rank" placeholder="0" data-i18n-title="rank" title="Rank">
+	<input type="text" type="text" class="rank" name="attr_special2Rank" placeholder="0" data-i18n-title="rank" title="Rank">
 
 	<input type="text" class="transpInput contentName" name="attr_special2Name" data-i18n-placeholder="special-name" placeholder="Special item name">
 
@@ -7005,7 +7111,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill1Type"><div class="type-image skillIcon skillMass"></div>
 		</div>
 
-<input class="skillRank" type="text" name="attr_egoSkill1Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
+<input class="rank" type="text" name="attr_egoSkill1Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
 
 	</div>
 
@@ -7096,7 +7202,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill2Type"><div class="type-image skillIcon skillMass"></div>
 		</div>
 
-<input class="skillRank" type="text" name="attr_egoSkill2Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
+<input class="rank" type="text" name="attr_egoSkill2Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
 
 	</div>
 
@@ -7187,7 +7293,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill3Type"><div class="type-image skillIcon skillMass"></div>
 		</div>
 
-<input class="skillRank" type="text" name="attr_egoSkill3Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
+<input class="rank" type="text" name="attr_egoSkill3Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
 
 	</div>
 
@@ -7278,7 +7384,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill4Type"><div class="type-image skillIcon skillMass"></div>
 		</div>
 
-<input class="skillRank" type="text" name="attr_egoSkill4Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
+<input class="rank" type="text" name="attr_egoSkill4Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
 
 	</div>
 
@@ -7374,7 +7480,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill5Type"><div class="type-image skillIcon skillMass"></div>
 		</div>
 
-<input class="skillRank" type="text" name="attr_egoSkill5Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
+<input class="rank" type="text" name="attr_egoSkill5Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
 
 	</div>
 
@@ -7465,7 +7571,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill6Type"><div class="type-image skillIcon skillMass"></div>
 		</div>
 
-<input class="skillRank" type="text" name="attr_egoSkill6Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
+<input class="rank" type="text" name="attr_egoSkill6Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
 
 	</div>
 
@@ -7571,7 +7677,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill1Type"><div class="type-image skillIcon skillMass weapon"></div>
 		</div>
 
-<input class="skillRank" type="text" name="attr_skill1Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
+<input class="rank" type="text" name="attr_skill1Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
 
 
 	</div>
@@ -7665,7 +7771,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill2Type"><div class="type-image skillIcon skillMass weapon"></div>
 		</div>
 
-<input class="skillRank" type="text" name="attr_skill2Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
+<input class="rank" type="text" name="attr_skill2Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
 
 
 	</div>
@@ -7759,7 +7865,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill3Type"><div class="type-image skillIcon skillMass weapon"></div>
 		</div>
 
-<input class="skillRank" type="text" name="attr_skill3Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
+<input class="rank" type="text" name="attr_skill3Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
 
 
 	</div>
@@ -7853,7 +7959,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill4Type"><div class="type-image skillIcon skillMass weapon"></div>
 		</div>
 
-<input class="skillRank" type="text" name="attr_skill4Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
+<input class="rank" type="text" name="attr_skill4Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
 
 
 	</div>
@@ -7952,7 +8058,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill5Type"><div class="type-image skillIcon skillMass weapon"></div>
 		</div>
 
-<input class="skillRank" type="text" name="attr_skill5Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
+<input class="rank" type="text" name="attr_skill5Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
 
 
 	</div>
@@ -8044,7 +8150,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill6Type"><div class="type-image skillIcon skillMass weapon"></div>
 		</div>
 
-		<input class="skillRank" type="text" name="attr_skill6Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
+		<input class="rank" type="text" name="attr_skill6Rank" value="0" placeholder="0" data-i18n-title="rank" title="Rank">
 	</div>
 
 	<div class="rowContainer centerFlex skillN"> 
@@ -8953,8 +9059,8 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 </div>
 
 <!-- When hit settings -->
-<input type="checkbox" class="hide-toggle-rev-next" name="attr_ailTrigger" value="None" hidden="true" checked>
-<div class="hide-item-rev columnAlign">
+<input type="checkbox" class="hide-toggle-next" name="attr_ailTrigger" value="WhenHit" hidden="true" checked>
+<div class="hide-item columnAlign">
 
 <!-- When hit trigger damage type -->
 <div class="rowContainer settingStyle">
@@ -14431,7 +14537,7 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 	let damageIcon = "";
 	let damageIconStyling = "style='height: 30px; width: 30px; border-right: 2px solid black;' </div>";
 	switch (damageType) {
-		case "Slash": damageIcon = "<img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Slash.png'" + damageIconStyling; break;
+		case "Slash": damageIcon = "<img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/slash.png'" + damageIconStyling; break;
 		case "Pierce": damageIcon = "<img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/pierce.png'" + damageIconStyling; break;
 		case "Blunt": damageIcon = "<img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/blunt.png'" + damageIconStyling; break;
 		case "None": damageIcon = "<img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/question.png'" + damageIconStyling; break;
@@ -15574,7 +15680,7 @@ on("clicked:shareWeapon", function(info) {
 	iconnew = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/question.png' style='width: 30px; height: 30px;'>";
 
 	if(weapontype == "Slash"){
-	iconnew = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Slash.png' style='width: 30px; height: 30px;'>";
+	iconnew = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/slash.png' style='width: 30px; height: 30px;'>";
 	}
 	else if(weapontype == "Pierce"){
 	iconnew = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/pierce.png' style='width: 30px; height: 30px;'>";
@@ -16414,7 +16520,7 @@ class itemNode {
 					}
 
 					// Handle outputting values
-					else if ((this.enabled || options.includeDisabled)) {
+					else if (this.enabled || options.includeDisabled) {
 						if (this.hasOption(prop)) {
 							output[source][propAttr] = "" + this[prop].enabled;
 						}
@@ -16436,11 +16542,16 @@ class itemNode {
 	// Returns the attribute name of a property in either the sheet or editor
 	// If an event type is provided the attribute is returned in the event key format
 	attr(prop, source, options={lowerCase:false, event:false}) {
-		if (this.attrs[prop]) {
+		if (this.attrs[prop] || (this.attrs.array && parseInt(prop) == prop)) {
 			let index = (this.attrs[source].index != undefined) ? this.attrs[source].index : "";
 			let prefix = this.attrs[source].prefix || "";
 			let suffix = this.attrs[source].suffix || "";
 			let key = this.attrs[prop];
+
+			if (parseInt(prop) == prop) {
+				key = this.attrs.array;
+				index = prop;
+			}
 
 			if (prefix != "") key = capitalize(key);
 
@@ -16463,7 +16574,11 @@ class itemNode {
 
 	// Helper that checks if an itemNode property is associated with an option attribute
 	hasOption(prop) {
-		return this.attrs[prop]?.startsWith("option");
+		if (parseInt(prop) == prop) {
+			return this.attrs.array?.startsWith("option");
+		} else {
+			return this.attrs[prop]?.startsWith("option");
+		}
 	}
 
 	// Modifies an item property
@@ -16483,9 +16598,9 @@ class itemNode {
 
 					// Makes sure enabled is set to a boolean value and not ex. "false"
 					if (this[prop] instanceof itemNode) {
-						this[prop].enabled = is.True(newValue);
+						this[prop].enabled = is.True(newValue) ? "true" : "0";
 					} else if (prop == "enabled") {
-						this[prop] = is.True(newValue);
+						this[prop] = is.True(newValue) ? "true" : "0";
 					} else {
 						this[prop] = newValue;
 					}
@@ -16510,6 +16625,7 @@ class itemNode {
 	add(type) {
 		if (type == "Rollformat") {
 			this.rollformats.enabled = true;
+			let newIndex = length(this.rollformats);
 
 			let newFormat = new itemNode(type, this.id, {
 				base: itemNode.format.base.rollformats.array[0],
@@ -16524,15 +16640,18 @@ class itemNode {
 					},
 					sheet: {
 						id: this.id,
-						index: length(this.rollformats),
+						index: newIndex,
 						section: this.type.toLowerCase() + "s",
 					}
 				}
 			});
 
-			this.rollformats[length(this.rollformats)] = newFormat;
+			this.rollformats[newIndex] = newFormat;
 			newFormat.enabled = true;
+			itemList.outputValues[`repeating_${this.type}s_${this.id}_optionRollDisplay${newIndex}`] = "true";
 			itemList.outputValues.rollFormatAddToggle = "" + (this.rollformats.length >= 5);
+
+			console.log("After adding rollformat:", itemList);
 		}
 	}
 
@@ -16570,7 +16689,12 @@ class itemNode {
 				}
 			}
 
+			if (deletedIndex !== false) {
+				itemList.outputValues[`repeating_${this.type}s_${this.id}_optionRollDisplay${deletedIndex}`] = "0";
+			}
 			itemList.outputValues.rollFormatAddToggle = "" + (this.rollformats.length < 5);
+
+			console.log("After deleting rollformat:", itemList);
 		}
 
 		// Currently not implemented
@@ -16772,7 +16896,7 @@ class itemNode {
 			},
 			rollformats: { // Enabled by optionRollFormats. Can contains between 1 and 5 formats. This is handled in itemNode.add("Rollformat")
 				array: {
-					type: (s) => is(s).In(["None", ...combatRollNames, ...statNames, "Custom"]),
+					type: (s) => is(s).In(["None", ...combatRollNames, ...statNamesFull, "Custom"]),
 					mode: (s) => is(s).In(["Roll", "Applied"]),
 					damagetype: (v) => is(v).In(["None", ...damageTypes, "Untyped"]) || is.Array(v, {min:1, max:3}), // false for non-attacks. One of "None", "Slash", "Pierce", "Blunt", "Untyped" or an object with 2+ damagetypes ("Hybrid")
 					count: (i) => is.Int(i, (this.type == "Roll") ? {min: 1} : {}), // This probably still refers to this itemNode, right? If not use itemList[this... id...]... motherfucker
@@ -16908,7 +17032,7 @@ class itemNode {
 				slots: {option: "EquipSlots", prefix: "slot"},
 			},
 			rollformats: {
-				option: "RollFormat",
+				option: "RollFormats",
 				repeating: {
 					section: "rollformats",
 					editor: {type: "id"},
@@ -16916,6 +17040,7 @@ class itemNode {
 					export: {alias: "rollFormats"},
 				},
 				array: {
+					option: "RollDisplay",
 					prefix: "roll",
 					action: {option: "RollAction", prefix: "rollAction"},
 					reaction: {option: "RollReaction", prefix: "rollReaction"},
@@ -17117,6 +17242,7 @@ class itemListHandler {
 						
 						console.log([...self.keys, "itemEditorTarget"]);
 						console.log(values);
+						console.log(self);
 
 						self.#input(values);
 						access.callback();
@@ -17358,12 +17484,21 @@ class itemListHandler {
 			if (!this.#event.keys[source]) {
 				let eventKeys = new itemNode("Effect").keys(type)[source];
 				if (source == "sheet") {
-					eventKeys = eventKeys.reduce((rows, eventkey) => {
-						return rows.concat(itemNode.format.sections.sheet.map(section => {
+					eventKeys = eventKeys.reduce((acc, eventkey) => {
+						let newkeys = itemNode.format.sections.sheet.map(section => {
 							return (section != "effects") ? eventkey.replace("effects", section) : eventkey;
-						}));
+						});
+						newkeys.forEach(key => {
+							if (key.endsWith("0")) {
+								for (let i = 1; i < 5; i++) {
+									newkeys.push(key.slice(0, -1) + i);
+								}
+							}
+						});
+						return acc.concat(newkeys);
 					}, []);
 				}
+				eventKeys = 
 				this.#event.keys[source] = eventKeys;
 			}
 			return (filter) ? this.#event.keys[source].filter(filter).join(" ")
@@ -20847,6 +20982,33 @@ function getIcon(iconFolder, iconName, settingLimbusStyle="false", returnMode="h
 	}
 	return imageUrl;
 }
+
+function getActionIcon(type, damagetype="none", ego=false) {
+	type = type.toLowerCase();
+	damagetype = damagetype.toLowerCase();
+	
+	if (statNamesFull.includes(capitalize(type))) {
+		if (type == "fortitude") type = "Instinct"; 
+		if (type == "prudence") type = "Wisdom"; 
+
+		return getIcon("stats", capitalize(type), false, "url");
+	} else {
+		if (type == "block") type = "defend";
+	
+		let iconName = (type == "attack" && damageTypes.includes(capitalize(damagetype))) ? damagetype : type;
+
+		if (is.True(ego)) {
+			switch (iconName) {
+				case "attack": iconName = "Att"; break;
+				case "defend": iconName = "Def"; break;
+				case "evade": iconName = "Evd"; break;
+			}
+			iconName = "ego" + capitalize(iconName);
+		}
+		return getIcon("icons", iconName, false, "url");
+	}
+}
+
 function getColor(color) {
 	if (color == undefined) {
 		return "#85a874";
