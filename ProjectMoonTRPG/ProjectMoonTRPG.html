@@ -182,7 +182,7 @@
 	<!-- Editor header  -->
 	<div class="editorHeader">
 		<label for="itemInput" data-i18n="item-editor">Item Editor</label>
-		<input type="text" class="editorTarget" name="attr_itemEditorTargetName" readonly>
+		<input type="text" class="editorTarget" name="attr_itemEditName" readonly>
 		<input type="text" name="attr_itemEditorTarget" hidden="true">
 		
 		<div class="editorControls">
@@ -195,6 +195,13 @@
 				<option value="Special" data-i18n="item-type-special">Special</option>
 				<option value="Effect" data-i18n="item-type-effect">Effect</option>
 			</select>
+
+			<select name="attr_itemEditLocation" class="darkInput editorLocation centerIcon arrowDown" data-i18n-title="item-editor-location" title="Change the editor's location">
+				<option value="Left">Left</option>
+				<option value="Center">Center</option>
+				<option value="Right">Right</option>
+			</select>
+
 			<button type="action" id="itemClose" class="darkInput mediumIcon exit" name="act_closeItemEdit" data-i18n-title="item-editor-close" title="Save and close Item Editor"></button>
 		</div>
 	</div>
@@ -202,7 +209,7 @@
 	
 	<!-- Editor contents -->
 	<div class="editorScroll darkScroll">
-	<div class="itemOptionContainer">
+	<div class="itemOptionContainer freeform">
 
 		<!-- Option: Roll formats -->
 		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionRollFormats" value="true"><span>Roll Format</span></label>
@@ -217,8 +224,8 @@
 
 						<!-- Standalone vs. Applied -->
 						<select name="attr_rollMode" class="whiteInput">
-							<option value="Roll">Roll</option>
-							<option value="Applied">Applied</option>
+							<option value="Roll" data-i18n="message-roll">Roll</option>
+							<option value="Applied" data-i18n="message-applied">Applied</option>
 						</select>
 
 						<!-- Roll type -->
@@ -237,7 +244,7 @@
 
 						<!-- Damage type (Attack only) -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_rollType" value="Attack">
-						<select name="attr_rollDamageType" class="whiteInput hide-item" style="width: 70px;">
+						<select name="attr_rollDamageType" class="whiteInput hide-item">
 							<option value="None" data-i18n="weapon-type-None">---</option>
 							<option value="Slash" data-i18n="weapon-type-Slash">Slash</option>
 							<option value="Pierce" data-i18n="weapon-type-Pierce">Pierce</option>
@@ -268,7 +275,7 @@
 						<input type="text" name="attr_rollAutoscript" hidden="true">
 					</div>
 
-					<div class="itemOptionContainer inline">
+					<div class="itemOptionContainer inline freeform">
 
 						<!-- Recycle / store roll -->
 						<div class="itemOption inline"><label><input type="checkbox" name="attr_optionStoreRoll" value="true"><span>Recycle</span></label>
@@ -356,8 +363,8 @@
 						<!-- Slash -->
 						<div class="rowContainer">
 							<div class="mediumIcon slashNormal"></div>
-							<input type="number" class="darkInput noSpinner" name="attr_itemEditSlashBaseHP" min="0" step="any" value="1">
-							<input type="number" class="darkInput noSpinner" name="attr_itemEditSlashBaseST" min="0" step="any" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditSlashBaseHP" step="any" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditSlashBaseST" step="any" value="1">
 							<div class="mediumIcon slashNormalSTG"></div>
 
 							<select name="attr_itemEditSlashBaseMode" class="whiteInput">
@@ -370,8 +377,8 @@
 						<!-- Pierce -->
 						<div class="rowContainer">
 							<div class="mediumIcon pierceNormal"></div>
-							<input type="number" class="darkInput noSpinner" name="attr_itemEditPierceBaseHP" min="0" step="any" value="1">
-							<input type="number" class="darkInput noSpinner" name="attr_itemEditPierceBaseST" min="0" step="any" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditPierceBaseHP" step="any" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditPierceBaseST" step="any" value="1">
 							<div class="mediumIcon pierceNormalSTG"></div>
 
 							<select name="attr_itemEditPierceBaseMode" class="whiteInput">
@@ -384,8 +391,8 @@
 						<!-- Blunt  -->
 						<div class="rowContainer">
 							<div class="mediumIcon bluntNormal"></div>
-							<input type="number" class="darkInput noSpinner" name="attr_itemEditBluntBaseHP" min="0" step="any" value="1">
-							<input type="number" class="darkInput noSpinner" name="attr_itemEditBluntBaseST" min="0" step="any" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditBluntBaseHP" step="any" value="1">
+							<input type="number" class="darkInput noSpinner" name="attr_itemEditBluntBaseST" step="any" value="1">
 							<div class="mediumIcon bluntNormalSTG"></div>
 
 							<select name="attr_itemEditBluntBaseMode" class="whiteInput">
@@ -686,29 +693,57 @@
 			</div>
 		</div>
 
-
-		<!-- Option: Style -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionCustomStyle" value="true"><span>Style</span></label>
-			<div class="itemOption"><label><input type="checkbox" name="attr_itemEditOptionIcon" value="true"><span>Icon</span></label>
-			
-				<!-- Unfinished -->
-				<input type="text" class="whiteInput" name="attr_itemEditIconSource" placeholder="Icon source">
-			</div>
-
-			<!-- Unfinished -->
-			<input type="text" class="whiteInput" name="attr_itemEditColor" placeholder="Color">
-			<input type="text" class="whiteInput" name="attr_itemEditAccent" placeholder="Accent">
-		</div>
-
-
 		<!-- Option: Custom UI -->
 		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionCustomUI" value="true"><span>Custom UI</span></label>
-			
-			<!-- Unfinishes -->
-			<input type="checkbox" class="whiteInput" name="attr_itemEditDamageTypeUI" value="true">
-			<input type="checkbox" class="whiteInput" name="attr_itemEditRangeUI" value="true">
-			<input type="checkbox" class="whiteInput" name="attr_itemEditSpecialUI" value="true">
-			<input type="checkbox" class="whiteInput" name="attr_itemEditHalfUI" value="true">
+			<div class="itemOptionContainer freeform">
+				
+				<!-- Custom colors -->
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionColor" value="true"><span>Color</span></label>
+					<select name="attr_itemEditBaseColor" class="whiteInput">
+						<option value="None" data-i18n="skill-type-None">---</option>
+						<option value="Red">Red</option>
+						<option value="Blue">Blue</option>
+						<option value="Green">Green</option>
+						<option value="Purple">Purple</option>
+						<option value="Orange">Orange</option>
+						<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
+						<option value="Prudence" data-i18n="stats-wisdom">Prudence</option>
+						<option value="Justice" data-i18n="stats-justice">Justice</option>
+						<option value="Charm" data-i18n="stats-charm">Charm</option>
+						<option value="Insight" data-i18n="stats-insight">Insight</option>
+						<option value="Temperance" data-i18n="stats-temperance">Temperance</option>
+					</select>
+		
+					<select name="attr_itemEditDecorationColor" class="whiteInput">
+						<option value="None">---</option>
+						<option value="Red">Red</option>
+						<option value="Blue">Blue</option>
+						<option value="Green">Green</option>
+						<option value="Purple">Purple</option>
+						<option value="Orange">Orange</option>
+						<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
+						<option value="Prudence" data-i18n="stats-wisdom">Prudence</option>
+						<option value="Justice" data-i18n="stats-justice">Justice</option>
+						<option value="Charm" data-i18n="stats-charm">Charm</option>
+						<option value="Insight" data-i18n="stats-insight">Insight</option>
+						<option value="Temperance" data-i18n="stats-temperance">Temperance</option>
+						<option value="Black">Black</option>
+					</select>
+				</div>
+
+				
+				<!-- Custom icon -->
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionIcon" value="true"><span>Icon</span></label>
+					<input type="text" class="whiteInput" name="attr_itemEditIconSource" placeholder="Icon source">
+					<!-- Unfinished -->
+				</div>
+
+				<!-- Custom UI elements -->
+				<div class="itemOption"><label><input type="checkbox" name="attr_itemEditWeaponUI" value="true"><span>Weapon</span></label></div>
+				<div class="itemOption"><label><input type="checkbox" name="attr_itemEditAugmentUI" value="true"><span>Augment</span></label></div>
+				<div class="itemOption"><label><input type="checkbox" name="attr_itemEditSpecialUI" value="true"><span>Special</span></label></div>
+				<div class="itemOption"><label><input type="checkbox" name="attr_itemEditHalfUI" value="true"><span>Half</span></label></div>
+			</div>
 		</div>
 
 
@@ -5113,6 +5148,12 @@
 		</div>
 
 		<fieldset class="repeating_outfits">
+
+			<!-- Minimize item. Toggled by double clicking an item's header -->
+			<input type="checkbox" class="itemMinimized" name="attr_minimized" value="true" hidden="true">
+
+			<!-- The item name takes up both rows when there are no rollformats -->
+			<input type="checkbox" class="itemNameExpand" name="attr_optionRollFormats" value="0" hidden="true">
 			
 			<!-- Option: Mystery -->
 			<input type="checkbox" class="itemMystery" name="attr_optionMystery" value="true" hidden="true">
@@ -5120,7 +5161,6 @@
 			<div class="itemContainer contentContainer">
 				
 				<!-- Item controls. Move to the left when the item is has a lot of content on the right -->
-				<input type="checkbox" class="itemHeaderExpand" name="attr_headerExpand" value="true" hidden="true">
 				<div class="itemButtons">
 					<button type="action" class="darkInput shareButton share" name="act_share-item" data-i18n-title="share" title="Share info"></button>
 					<button type="action" class="darkInput editButton edit" name="act_edit-item" data-i18n-title="edit" title="Edit"></button>
@@ -5134,32 +5174,72 @@
 					<textarea name="attr_messageText"></textarea>
 				</div>
 
-				<div class="itemContents rowContainer">
+				<!-- Option: Custom styling -->
+				<div class="itemStyle">
+					<input type="checkbox" class="styleCheck" name="attr_optionCustomUI" value="true" hidden="true">
 
-					<!-- The header takes up both rows when there are no rollformats -->
-					<input type="checkbox" class="itemHeaderExpand" name="attr_optionRollFormats" value="0" hidden="true">
+					<!-- Custom color -->
+					<input type="checkbox" class="colorCheck" name="attr_optionColor" value="true" hidden="true">
+					<select name="attr_baseColor" class="itemColor" hidden="true">
+						<option value="None">---</option>
+						<option value="Red">Red</option>
+						<option value="Blue">Blue</option>
+						<option value="Green">Green</option>
+						<option value="Purple">Purple</option>
+						<option value="Orange">Orange</option>
+						<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
+						<option value="Prudence" data-i18n="stats-wisdom">Prudence</option>
+						<option value="Justice" data-i18n="stats-justice">Justice</option>
+						<option value="Charm" data-i18n="stats-charm">Charm</option>
+						<option value="Insight" data-i18n="stats-insight">Insight</option>
+						<option value="Temperance" data-i18n="stats-temperance">Temperance</option>
+					</select>
+
+					<select name="attr_decorationColor" class="itemDeco" hidden="true">
+						<option value="None">---</option>
+						<option value="Red">Red</option>
+						<option value="Blue">Blue</option>
+						<option value="Green">Green</option>
+						<option value="Purple">Purple</option>
+						<option value="Orange">Orange</option>
+						<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
+						<option value="Prudence" data-i18n="stats-wisdom">Prudence</option>
+						<option value="Justice" data-i18n="stats-justice">Justice</option>
+						<option value="Charm" data-i18n="stats-charm">Charm</option>
+						<option value="Insight" data-i18n="stats-insight">Insight</option>
+						<option value="Temperance" data-i18n="stats-temperance">Temperance</option>
+						<option value="Black">Black</option>
+					</select>
+
+					<!-- Custom icon -->
+					<input type="checkbox" class="iconCheck" name="attr_optionIcon" value="true" hidden="true">
+					<!-- Currently unfinished -->
+
+				</div>
+
+				<!-- Item header -->
+				<div class="itemHeader contentHeader">
+
+					<!-- Equip checkbox -->
+					<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true">
+
+					<!-- Rank and name -->
+					<input type="text" class="itemRank rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank">
+					<input type="text" class="itemName transpInput" name="attr_name" data-i18n-placeholder="outfit-name" placeholder="Outfit name">
+				</div>
+
+				<div class="itemContents rowContainer">
 
 					<!-- Item contents (Left) -->
 					<div class="itemRow left columnAlign">
-
-						<!-- Header -->
-						<div class="itemHeader contentHeader">
-
-							<!-- Equip checkbox -->
-							<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true">
-
-							<!-- Rank and name -->
-							<input type="text" class="itemRank rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank">
-							<input type="text" class="itemName transpInput" name="attr_name" data-i18n-placeholder="outfit-name" placeholder="Outfit name">
-						</div>
 
 						<!-- Option: Custom UI -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionCustomUI" value="true" hidden="true">
 						<div class="hide-item itemCustomUI">
 							
 							<!-- Option: Weapon UI -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionWeaponUI" value="true" hidden="true">
-							<div class="hide-item itemWeaponUI rowContainer">
+							<input type="checkbox" class="hide-toggle-next" name="attr_weaponUI" value="true" hidden="true">
+							<div class="hide-item-flex itemWeaponUI rowContainer">
 								<select name="attr_rollDamageType0" class="darkInput">
 									<option value="None" data-i18n="weapon-type-None">---</option>
 									<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
@@ -5175,8 +5255,8 @@
 							</div>
 
 							<!-- Option: Augment UI -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionAugmentUI" value="true" hidden="true">
-							<div class="hide-item itemAugmentUI">
+							<input type="checkbox" class="hide-toggle-next" name="attr_augmentUI" value="true" hidden="true">
+							<div class="hide-item-flex itemAugmentUI">
 								<select name="attr_augmentType" class="darkInput">
 									<option data-i18n="augment-type-None" value="None">---</option>
 									<option data-i18n="augment-type-Tattoos" value="Tattoos">Tattoos</option>
@@ -5187,10 +5267,13 @@
 									<option data-i18n="augment-type-Other" value="Other">Other</option>
 								</select>
 							</div>
+						</div>
 
-							<!-- Option: Special UI -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionSpecialUI" value="true" hidden="true">
-							<div class="hide-item itemSpecialUI">
+						<!-- Option: Special UI -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionCustomUI" value="true" hidden="true">
+						<div class="hide-item">
+							<input type="checkbox" class="hide-toggle-next" name="attr_specialUI" value="true" hidden="true">
+							<div class="hide-item-flex itemSpecialUI columnAlign" style="height: 100%;">
 								<span data-i18n="special-range-text">Effect Range</span>
 								<select name="attr_specialRange" class="darkInput">
 									<option data-i18n="special-range-none" value="none">---</option>
@@ -5202,7 +5285,7 @@
 									<option data-i18n="special-range-5" value="5">Multiple Nests</option>
 									<option data-i18n="special-range-6" value="6">City</option>
 								</select>
-
+							
 								<span data-i18n="special-duration-text">Duration</span>
 								<select name="attr_specialDuration" class="darkInput">
 									<option data-i18n="special-duration-none" value="none">---</option>
@@ -5240,11 +5323,11 @@
 						
 						<!-- Option: Rollformats -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden="true">
-						<div class="hide-item-flex itemRollFormats columnAlign">
+						<div class="hide-item-flex itemRollFormats contentHeader">
 
 							<!-- Rollformat (0) -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden="true">
-							<div class="hide-item-flex rollFormat contentHeader">
+							<div class="hide-item-flex rollFormat">
 									
 								<!-- Roll icon -->
 								<div class="rollFormatIcon">
@@ -5262,7 +5345,7 @@
 										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType0"><div class="Temp centerIcon"></div>
 									</div>
 									<div class="swap-item rollDamageType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType0"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType0"><div class="Att centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType0"><div class="slash centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType0"><div class="pierce centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType0"><div class="blunt centerIcon"></div>
@@ -5272,7 +5355,7 @@
 								
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
-									<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="1" value="0">
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="1">
 									<div class="plainText">D</div>
 									<input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="10">
 									<div class="plainText">+</div>
@@ -5286,7 +5369,7 @@
 
 							<!-- Rollformat (1) -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden="true">
-							<div class="hide-item-flex rollFormat contentHeader">
+							<div class="hide-item-flex rollFormat">
 								
 								<!-- Roll icon -->
 								<div class="rollFormatIcon">
@@ -5304,7 +5387,7 @@
 										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType1"><div class="Temp centerIcon"></div>
 									</div>
 									<div class="swap-item rollDamageType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType1"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType1"><div class="Att centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType1"><div class="slash centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType1"><div class="pierce centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType1"><div class="blunt centerIcon"></div>
@@ -5314,7 +5397,7 @@
 
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
-									<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="1" value="0">
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="1">
 									<div class="plainText">D</div>
 									<input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="12">
 									<div class="plainText">+</div>
@@ -5328,7 +5411,7 @@
 
 							<!-- Rollformat (2) -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden="true">
-							<div class="hide-item-flex rollFormat contentHeader">
+							<div class="hide-item-flex rollFormat">
 								
 								<!-- Roll icon -->
 								<div class="rollFormatIcon">
@@ -5346,7 +5429,7 @@
 										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType2"><div class="Temp centerIcon"></div>
 									</div>
 									<div class="swap-item rollDamageType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType2"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType2"><div class="Att centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType2"><div class="slash centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType2"><div class="pierce centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType2"><div class="blunt centerIcon"></div>
@@ -5370,7 +5453,7 @@
 
 							<!-- Rollformat (3) -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden="true">
-							<div class="hide-item-flex rollFormat contentHeader">
+							<div class="hide-item-flex rollFormat">
 								
 								<!-- Roll icon -->
 								<div class="rollFormatIcon">
@@ -5388,7 +5471,7 @@
 										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType3"><div class="Temp centerIcon"></div>
 									</div>
 									<div class="swap-item rollDamageType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType3"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType3"><div class="Att centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType3"><div class="slash centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType3"><div class="pierce centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType3"><div class="blunt centerIcon"></div>
@@ -5412,7 +5495,7 @@
 
 							<!-- Rollformat (4) -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden="true">
-							<div class="hide-item-flex rollFormat contentHeader">
+							<div class="hide-item-flex rollFormat">
 									
 								<!-- Roll icon -->
 								<div class="rollFormatIcon">
@@ -5430,7 +5513,7 @@
 										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType4"><div class="Temp centerIcon"></div>
 									</div>
 									<div class="swap-item rollDamageType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType4"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType4"><div class="Att centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType4"><div class="slash centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType4"><div class="pierce centerIcon"></div>
 										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType4"><div class="blunt centerIcon"></div>
@@ -5471,8 +5554,8 @@
 									</select>
 
 									<div class="largeIcon slashNormal"></div>
-									<label class="itemRes"><input type="number" class="noSpinner" name="attr_slashBaseHP" list="damageModList" min="0" step="any" value="1"></label>
-									<label class="itemRes"><input type="number" class="noSpinner" name="attr_slashBaseST" list="damageModList" min="0" step="any" value="1"></label>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_slashBaseHP" list="damageModList" step="any" value="1"></label>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_slashBaseST" list="damageModList" step="any" value="1"></label>
 									<div class="largeIcon slashNormalSTG"></div>
 								</div>
 
@@ -5486,8 +5569,8 @@
 									</select>
 
 									<div class="largeIcon pierceNormal"></div>
-									<label class="itemRes"><input type="number" class="noSpinner" name="attr_pierceBaseHP" list="damageModList" min="0" step="any" value="1"></label>
-									<label class="itemRes"><input type="number" class="noSpinner" name="attr_pierceBaseST" list="damageModList" min="0" step="any" value="1"></label>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_pierceBaseHP" list="damageModList" step="any" value="1"></label>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_pierceBaseST" list="damageModList" step="any" value="1"></label>
 									<div class="largeIcon pierceNormalSTG"></div>
 								</div>
 
@@ -5501,8 +5584,8 @@
 									</select>
 
 									<div class="largeIcon bluntNormal"></div>
-									<label class="itemRes"><input type="number" class="noSpinner" name="attr_bluntBaseHP" list="damageModList" min="0" step="any" value="1"></label>
-									<label class="itemRes"><input type="number" class="noSpinner" name="attr_bluntBaseST" list="damageModList" min="0" step="any" value="1"></label>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_bluntBaseHP" list="damageModList" step="any" value="1"></label>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_bluntBaseST" list="damageModList" step="any" value="1"></label>
 									<div class="largeIcon bluntNormalSTG"></div>
 								</div>
 							</div>
@@ -5788,7 +5871,7 @@
 	
 			<!-- Styling -->
 			<div>
-				Opt. Style <input type="checkbox" class="" name="attr_optionCustomStyle" value="true">
+				Opt. Style <input type="checkbox" class="" name="attr_optionColor" value="true">
 				<div>
 					Opt. Icon <input type="checkbox" class="" name="attr_optionIcon" value="true">
 					Icon Source: <input type="text" class="" name="attr_iconSource" placeholder="Icon source">
@@ -13550,16 +13633,16 @@ function rollCombat(info) {
 
 	/* Multi-hit formatting */
 	let diceCount = 0;
-	if(combinedice1 > 1){
+	if (combinedice1 > 1) {
 		if(acounter != "0") {
-			for(let i = 0; i< acounter ;i++) {
+			for(let i = 0; i < acounter; i++) {
 				rollformat += ` {{roll${diceCount+1}=[[${advformat}${advmod}]]}}`;
 				dcounter--
 				diceCount++
 			}
 		}
-		if(dcounter > 0){
-			for(let i = 0; i< dcounter ;i++) {
+		if (dcounter > 0) {
+			for(let i = 0; i < dcounter; i++) {
 				rollformat += ` {{roll${diceCount+1}=[[${baseformat}]]}}`;
 				diceCount++
 			}
@@ -16626,6 +16709,7 @@ class itemNode {
 		if (type == "Rollformat") {
 			this.rollformats.enabled = true;
 			let newIndex = length(this.rollformats);
+			let newid = generateRowID().toLowerCase();
 
 			let newFormat = new itemNode(type, this.id, {
 				base: itemNode.format.base.rollformats.array[0],
@@ -16635,7 +16719,7 @@ class itemNode {
 				source: {
 					editor: {
 						prefix: "",
-						id: generateRowID().toLowerCase(),
+						id: newid,
 						section: "rollformats",
 					},
 					sheet: {
@@ -16648,10 +16732,17 @@ class itemNode {
 
 			this.rollformats[newIndex] = newFormat;
 			newFormat.enabled = true;
-			itemList.outputValues[`repeating_${this.type}s_${this.id}_optionRollDisplay${newIndex}`] = "true";
-			itemList.outputValues.rollFormatAddToggle = "" + (this.rollformats.length >= 5);
 
-			console.log("After adding rollformat:", itemList);
+			if (itemList.editor.target == this.id) {
+				let rollFormatValues = this.rollformats[newIndex].output();
+				itemList.outputValues = {
+					...itemList.outputValues,
+					...rollFormatValues.editor,
+					...rollFormatValues.sheet,
+					[`repeating_${this.type}s_${this.id}_optionRollDisplay${newIndex}`]: "true",
+					"rollFormatAddToggle": "" + (this.rollformats.length >= 5),
+				}
+			}
 		}
 	}
 
@@ -16684,16 +16775,15 @@ class itemNode {
 				}
 				else if (node.attrs.editor.id == id) {
 					delete this.rollformats[index];
-					itemList.editor.IDs.rollformats.splice(index, 1);
 					deletedIndex = index;
 				}
 			}
 
-			if (deletedIndex !== false) {
+			if (deletedIndex !== false && itemList.editor.target == this.id) {
 				itemList.outputValues[`repeating_${this.type}s_${this.id}_optionRollDisplay${deletedIndex}`] = "0";
+				itemList.outputValues.rollFormatAddToggle = "" + (this.rollformats.length < 5); // A maximum of five rollformats are accepted
 			}
-			itemList.outputValues.rollFormatAddToggle = "" + (this.rollformats.length < 5);
-
+			
 			console.log("After deleting rollformat:", itemList);
 		}
 
@@ -16782,16 +16872,16 @@ class itemNode {
 				gives: {},
 				requires: {},
 			},
-			style: {
+			ui: {
+				color: {
+					base: "None",
+					decoration: "None",
+				},
 				icon: {
 					source: "",
 				},
-				color: "Black",
-				accent: "None",
-			},
-			ui: {
-				damagetype: false,
-				range: false,
+				weapon: false,
+				augment: false,
 				special: false,
 				half: false,
 			},
@@ -16811,8 +16901,7 @@ class itemNode {
 						{type: "Attack", damagetype: "Untyped", count: 1, max: 10, power: 0, action: {}, reaction: {type: "Counter"}},
 					],
 				},
-				style: {color: "Red"},
-				ui: {damagetype: true, range: true},
+				ui: {weapon: true},
 			},
 			Outfit: {
 				type: "Outfit",
@@ -16836,7 +16925,6 @@ class itemNode {
 						custom: {},
 					}
 				},
-				style: {color: "Blue"},
 			},
 			Augment: {
 				type: "Augment",
@@ -16847,14 +16935,13 @@ class itemNode {
 						custom: {},
 					}
 				},
-				style: {color: "Green"},
+				ui: {augment: true}
 			},
 			Tool: {
 				type: "Tool",
 				equip: {slots: {type: "Hands", value: 1}},
 				usable: {type: "Standalone", action: {}, uses: {}},
 				limited: {uses: {max: 3, current: 3, recharge: "Refresh"}},
-				style: {color: "Purple"},
 				ui: {half: true},
 			},
 			Skill: {
@@ -16871,7 +16958,6 @@ class itemNode {
 			Special: {
 				type: "Special",
 				equip: {},
-				style: {color: "Orange"},
 				ui: {special: true}
 			},
 			Effect: {
@@ -16898,7 +16984,7 @@ class itemNode {
 				array: {
 					type: (s) => is(s).In(["None", ...combatRollNames, ...statNamesFull, "Custom"]),
 					mode: (s) => is(s).In(["Roll", "Applied"]),
-					damagetype: (v) => is(v).In(["None", ...damageTypes, "Untyped"]) || is.Array(v, {min:1, max:3}), // false for non-attacks. One of "None", "Slash", "Pierce", "Blunt", "Untyped" or an object with 2+ damagetypes ("Hybrid")
+					damagetype: (v) => is(v).In(["None", ...damageTypes, "Choose"]) || is.Array(v, {min:1, max:3}), // false for non-attacks. One of "None", "Slash", "Pierce", "Blunt", "Choose" or an object with 2+ damagetypes ("Hybrid")
 					count: (i) => is.Int(i, (this.type == "Roll") ? {min: 1} : {}), // This probably still refers to this itemNode, right? If not use itemList[this... id...]... motherfucker
 					max: (i) => is.Int(i, (this.type == "Roll") ? {min: 0} : {}),
 					power: (i) => is.Int(i),
@@ -17009,16 +17095,16 @@ class itemNode {
 				gives: {},
 				requires: {}, // See custom resistances above. Needs a similar solution
 			},
-			style: { // Enabled by optionCustomStyle
+			ui: { // Enabled by optionCustomUI
+				color: { // Enabled by optionColor
+					base: (v) => is(v).In(["None", "Red", "Blue", "Green", "Purple", "Orange", ...statNamesFull]),
+					decoration: (v) => is(v).In(["None", "Red", "Blue", "Green", "Purple", "Orange", ...statNamesFull, "Black"]),
+				},
 				icon: { // Enabled by optionIcon
 					source: (s) => is.String(s), // Is either a http image or a default icon name. Otherwise a question mark icon is displayed
 				},
-				color: (v) => is(v).In(["Red", "Blue", "Green", "Purple", "Orange", "Black"]),
-				accent: (v) => is(v).In(["None", "Red", "Blue", "Green", "Purple", "Orange", "Black"]),
-			},
-			ui: { // Enabled by optionCustomUI
-				damagetype: (b) => is.Bool(b), // The UI element has a custom event handler to update the damage type of the first roll format
-				range: (b) => is.Bool(b), // The UI element has a custom event handler to toggle optionUses
+				weapon: (b) => is.Bool(b), // The UI element has a custom event handler to update the damage type or uses of the first roll format
+				augment: (b) => is.Bool(b),
 				special: (b) => is.Bool(b),
 				half: (b) => is.Bool(b), // Ignored when possessing 2+ roll formats, ui.special or damage resistances. This is handled by CSS
 			},
@@ -17100,11 +17186,12 @@ class itemNode {
 				gives: {prefix: "tag"},
 				requires: {prefix: "tag"},
 			},
-			style: {
-				option: "CustomStyle",
+			ui: {
+				option: "CustomUI",
+				suffix: "UI",
+				color: {option: "Color", suffix: "Color"},
 				icon: {option: "Icon", prefix: "icon"},
 			},
-			ui: {option: "CustomUI", suffix: "UI"},
 			card: {option: "CardCombat", prefix: "card"},
 		},
 
@@ -17139,31 +17226,44 @@ class itemListHandler {
 			itemList: this,
 		
 			open(itemId) {
-				if (this.target) { this.close(); }
-				this.target = itemId;
-				
-				console.log("Editing item:", this.itemList[itemId]);
-				Object.assign(this.itemList.outputValues, {
-					...this.itemList[itemId].output({includeDisabled:true}).editor,
-					itemEditorTarget: itemId,
-					itemEditorTargetName: this.itemList[itemId].name,
-					itemEditor_display: "true",
+				this.itemList.access("read", {}, () => {
+					this.close(() => {
+						this.target = itemId;
+					
+						console.log("Editing item:", this.itemList[itemId]);
+						Object.assign(this.itemList.outputValues, {
+							...this.itemList[itemId].output({includeDisabled:true}).editor,
+							itemEditorTarget: itemId,
+							itemEditor_display: "true",
+						});
+						this.itemList.endAccess();
+					});
 				});
 			},
 		
-			close() {
-				this.IDs.rollformats.forEach(repid => {
-					removeRepeatingRow("repeating_rollformats_" + repid);
-				});
+			close(callback=()=>{}) {
+				this.itemList.access("read", {}, () => {
+					let self = this;
+					
+					console.log("Closing editor", self);
+					getSectionIDs("rollformats", function(idarray) {
+						idarray.forEach(id => {
+							removeRepeatingRow("repeating_rollformats_" + id);
+						});
 
-				Object.assign(this.itemList.outputValues, {
-					itemEditorTarget: "",
-					itemEditorTargetOld: this.target,
-					itemEditorTargetName: "",
-					itemEditor_display: "0",
+						if (self.target) { 
+							Object.assign(self.itemList.outputValues, {
+								itemEditorTarget: "",
+								itemEditorTargetOld: self.target,
+								itemEditor_display: "0",
+							});
+							self.target = false;
+							// Later need to also set itemEditCustomAilmentResistance to it's default value of 0
+						}
+						callback();
+						self.itemList.endAccess();
+					});
 				});
-				this.target = false;
-				// Later need to also set itemEditCustomAilmentResistance to it's default value of 0
 			},
 		};
 	}
@@ -17411,12 +17511,9 @@ class itemListHandler {
 				
 				if (inputData == "Rollformat") {
 					if (this.editor.target) {
-						this.editor.IDs.rollformats.push(newid);
-						this.items[this.editor.target].add("Rollformat");
-						let rollFormatValues = this.items[this.editor.target].rollformats[this.editor.IDs.rollformats.length - 1].output();
-						Object.assign(this.outputValues, rollFormatValues.editor, rollFormatValues.sheet);
+						let item = this.items[this.editor.target];
+						item.add("Rollformat");
 					}
-					this.outputValues.rollFormatAddToggle = "" + (this.editor.IDs.rollformats.length >= 5); // A maximum of five rollformats are accepted
 				} else {
 					this.items[newid] = new itemNode(capitalize(inputData), newid); // Adds a new item to the itemList
 					this.#addAccessors(newid);
@@ -17605,16 +17702,12 @@ on("sheet:opened", function(info) {
 /* Item - Open editor */
 on(itemList.event("clicked", "edit-item"), function(info) {
 	let itemId = info.triggerName.split("_")[2];
-	itemList.access("read", {}, () => {
-		itemList.editor.open(itemId);
-	});
+	itemList.editor.open(itemId);
 });
 
 /* Item - Close editor */
 on("clicked:closeItemEdit", function(info) {
-	itemList.access("read", {}, () => {
-		itemList.editor.close();
-	});
+	itemList.editor.close();
 });
 
 /* Item - Sync editor changes */
@@ -17656,6 +17749,28 @@ on("remove:repeating_rollformats " + itemList.event("remove"), function(info) {
 	});
 });
 
+
+
+
+/* Minimize or maximize an item when double clicking its header */
+let dcTime = new Date();
+let dcHeader = false;
+let configDcTime = 150;
+$20(".inventoryContainer .contentHeader").on("click", (e) => {
+	dcHeader = true;
+});
+$20(".inventoryContainer .repitem").on("click", (e) => {
+	let dcTimePrev = dcTime;
+	dcTime = new Date();
+
+	if (dcHeader && dcTime.getTime() - dcTimePrev.getTime() <= configDcTime) {
+		let dcRepid = e.htmlAttributes["data-reprowid"];
+		itemList.access("write", {}, () => { itemList[dcRepid].modify("minimized", is.True(itemList[dcRepid].minimized) ? "0" : "true"); });
+		dcTime = new Date(0);
+	}
+	
+	dcHeader = false;
+});
 
 
 
@@ -17932,7 +18047,7 @@ on("clicked:autoScriptEdit" + itemEvent("clicked", "edit-autoscript")
 				   : info.htmlAttributes.id;
 
 		if (target.includes("repeating")) {
-			let targetNameAttr = (target.includes("rollformats")) ? "itemEditorTargetName" : target.replace("_autoscript", "_name");
+			let targetNameAttr = (target.includes("rollformats")) ? "itemEditName" : target.replace("_autoscript", "_name");
 
 			getAttrs([targetNameAttr], function(values) {
 				let targetName = values[targetNameAttr]

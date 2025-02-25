@@ -433,16 +433,16 @@ body, .sheet-body {
 }
 .editorControls {
     position: absolute;
+    display: flex;
     top: 4px;
     right: 6px;
-    display: flex;
+    gap: 4px;
 }
 .editorControls button {
     height: 25px;
     width: auto;
     z-index: 20;
     padding: 0 4px;
-    margin-left: 6px;
     border-radius: 5px;
 }
 .editorControls select {
@@ -789,7 +789,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 /* Repcontrols disable interactions with the repeating items */
 .itemcontrol {
     position: absolute;
-    z-index: 10;
+    z-index: 100;
     right: 0px;
     top: 0px;
 }
@@ -2098,13 +2098,13 @@ button[type=action].challengeButton::before {
 .rollFormat {
     position: relative;
     display: flex;
+    align-items: center;
     justify-content: flex-end;
     height: 26px;
     width: 100%;
     gap: 5px;
 }
 .rollFormatIcon {
-    margin-top: -1px;
     margin-right: -4px;
 
     div {
@@ -2138,8 +2138,9 @@ button[type=action].challengeButton::before {
     }  
 }
 .rollButton {
-    width: 25px;
     height: 25px;
+    width: 25px;
+    min-width: 25px;
     border: 1px solid var(--color-black);
     border-radius: 5px;
     box-sizing: border-box;
@@ -2449,6 +2450,10 @@ button[type=action].challengeButton::before {
 
 /* Repeating inventory and skills */
 #equipmentSection {
+    .repitem {
+        margin-top: 4px;
+    }
+    
     /* Fixes broken repitems */
     .repitembroken {
         border: 0 !important;
@@ -2494,29 +2499,44 @@ button[type=action].challengeButton::before {
     }
 }
 .itemHeader {
+    width: calc(100% + 4px);
+    margin-right: -4px;
+    user-select: none; /* Disables selection when double clicking the header */
+    z-index: 10;
+
+    :is(.equipCheck, .rank, .itemName) {
+        z-index: 15;
+    }
     .itemName {
-        width: 100%;
+        width: calc(50% - 60px);
         color: var(--content-text);
     }
     .equipCheck {
         min-width: 25px;
         accent-color: var(--content-accent);
     }
+
+    &::after {
+        content: " ";
+        position: absolute;
+        height: 70px;
+        width: 20px;
+        top: -22px;
+        left: 0px;
+        transform: rotate(45deg);
+        background-color: var(--content-decoration);
+    }
 }
+
 .itemRow {
     width: 50%;
-
-    &.left {
-        
-    }
-    &.right {
-
-    }
+    justify-content: flex-start;
 }
 
 /* Item description */
 .itemDescriptionContainer {
     height: 100%;
+    min-height: fit-content;
     width: 100%;
     box-sizing: border-box;
     padding: 0 1px;
@@ -2535,9 +2555,12 @@ button[type=action].challengeButton::before {
     height: 100% !important;
     max-height: 100%;
     max-width: 100%;
-    padding: 0;
     margin: 0;
     border: 0;
+    box-sizing: border-box;
+}
+.itemDescription {
+    min-height: 80px; /* Update these later to look great for weight 0 items (like skills) and also like 2-3 weight */
 }
 .itemEffect {
     min-height: 80px;
@@ -2546,24 +2569,58 @@ button[type=action].challengeButton::before {
 /* Optional item contents */
 .itemCustomUI {
     box-sizing: border-box;
-    padding: 4px;
     border-bottom-right-radius: 5px;
     background-color: var(--content-color);
+    z-index: 20;
+
+    &:has(input[type="checkbox"]:checked) {
+        padding: 0 4px;
+    }
 }
-:is(.itemWeaponUI, .itemAugmentUI, .itemSpecialUI) {
-    
+.itemWeaponUI, .itemAugmentUI {
+    margin-bottom: 4px;
+
+    select {
+        height: 22px;
+        padding: 2px;
+    }
 }
 .itemWeaponUI {
     gap: 4px;
 }
+.itemSpecialUI {
+    align-items: start;
+    height: 100%;
+    width: 100%;
+    padding: 0 4px 4px;
+    box-sizing: border-box;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.5);
+
+    span {
+        margin-top: 7px;
+    }
+}
+
 .itemTags {
     width: 100%;
     border-radius: 0;
 }
+
 .itemRollFormats {
+    flex-direction: column;
+    align-items: flex-end;
+    height: fit-content;
+    padding: 0 4px;
+    margin-top: -36px;
+    border-bottom-left-radius: 5px;
+    z-index: 20;
+
     .rollFormat {
-        height: 36px;
-        padding-right: 4px;
+        justify-content: flex-start;
+        height: 26px;
+        padding: 5px 1px 5px 0;
+        overflow: hidden;
         
         --rollformat-color: var(--color-HP);
         &:has(input[value="Block"]:checked) { --rollformat-color: var(--color-SAN); }
@@ -2575,16 +2632,10 @@ button[type=action].challengeButton::before {
         &:has(input[value="Temperance"]:checked) { --rollformat-color: var(--color-temperance); }
     }
     .rollFormat:nth-child(n+3) {
-        height: 32px;
-        padding-top: 1px;
-        padding-bottom: 5px;
-
-        &:has(+ input[type="checkbox"]:not(:checked)), &:last-child {
-            border-bottom-left-radius: 5px;
-        }
+        padding-top: 0;
     }
     .rollFormatBlock {
-        height: 26px;
+        height: 24px;
     }
 }
 .itemResistDamage {
@@ -2618,28 +2669,18 @@ button[type=action].challengeButton::before {
 }
 
 
-/* Expand header when there are no rollformats */
-.itemHeaderExpand:checked ~ .itemRow {
-    &.left .itemHeader {
-        width: 200%;
-        transform: translateX(25%);
-    }
-    &.right {
-        margin-top: 36px;
-    }
-}
-
 /* Change colors when item is a mystery */
 .itemMystery:checked + .itemContainer {
-    --content-color: var(--color-black);
-    --content-text: var(--content-mystery);
-    --content-accent: var(--content-mystery);
+    --content-color: var(--color-black) !important;
+    --content-text: var(--content-mystery) !important;
+    --content-accent: var(--content-mystery) !important;
 
     .rank, .darkInput:not(:is(.share, .edit, .script)) {
         background-color: rgba(256, 256, 256, 0.1) !important;
     }
 
     .rollFormatBlock {
+        box-sizing: border-box;
         border: 1px solid var(--rollformat-color);
 
         .plainText, input {
@@ -2648,6 +2689,54 @@ button[type=action].challengeButton::before {
     }
 }
 
+/* Expand the name input when the item is minimized or there are no rollformats */
+:is(.itemMinimized:checked, .itemNameExpand:checked) ~ .itemContainer .itemName {
+    width: calc-size(100%, size - 230px);
+    transition: width 0s 550ms;
+}
+
+/* Hide all item contents when the item is minimized */
+.itemMinimized:checked ~ .itemContainer {
+    .itemContents {
+        height: 0px;
+    }
+    .itemButtons {
+        display: none !important;
+    }
+    .itemRollFormats {
+        position: absolute;
+        top: 0;
+        right: 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        width: calc(100% - 30px);
+        transition: width 0s 550ms, position 0s 550ms allow-discrete, flex-direction 0s 550ms allow-discrete;
+    }
+    .rollFormat {
+        width: 33px;
+        padding-top: 5px;
+        transition-delay: 0s, 500ms;
+    }
+    .rollFormatBlock {
+        opacity: 0;
+    }
+}
+.itemContents {
+    height: calc-size(auto, size);
+    transition: height 500ms;
+    overflow: clip;
+    overflow-clip-margin: 36px;
+
+    .rollFormat {
+        width: calc-size(fit-content, size);
+        transition: width 600ms, padding-top 0s;
+    }
+    .rollFormatBlock {
+        opacity: 1;
+        transition: opacity 600ms ease-out;
+    }
+}
 
 
 
@@ -2717,7 +2806,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     align-items: normal;
     top: 50%;
     left: 50%;
-    transform: translate(5%, -50%);
+    transform: translate(-50%, -50%);
     width: 45%;
     max-height: 80%;
     padding: 0 !important;
@@ -2728,6 +2817,33 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         max-height: calc(100% - 55px); /* Deducts the the editorScroll padding (22px) and editorHeader height (33px) */
     }
 
+    /* Control element that changes where the itemEditor displays */
+    .editorLocation {
+        width: 25px;
+        color: transparent;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+
+        &::-ms-expand {
+            display: none;
+        }
+        option {
+            color: var(--color-white);
+        }
+        &:has(> option[value="Left"]:checked) {
+            transform: rotate(90deg);
+        }
+        &:has(> option[value="Right"]:checked) {
+            transform: rotate(-90deg);
+        }
+    }
+    &:has(.editorLocation > option[value="Left"]:checked) {
+        transform: translate(-105%, -50%);
+    }
+    &:has(.editorLocation > option[value="Right"]:checked) {
+        transform: translate(5%, -50%);
+    }
+
     /* Fixes broken repcontainers */
     .repitembroken {
         border: 2px solid var(--color-light-gray) !important;
@@ -2735,7 +2851,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 }
 
 /* An item option container displays one or more item options (see below) */
-/* Item options with sub-options store these inside a nested item option container */
+/* Item options with nested sub-options store these inside a nested item option container */
 .itemOptionContainer {
     display: flex;
     flex-wrap: wrap;
@@ -2746,7 +2862,11 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     select {
         height: 26px;
         text-align: center;
-        width: fit-content;
+
+        &:not(.advSelect) {
+            max-width: fit-content;
+            min-width: 50px;
+        }
     }
 
     label {
@@ -2775,7 +2895,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     box-sizing: border-box;
     width: calc((100% - 6px)/3); /* Item options display in rows of three with 3px gaps between them */
     height: 26px;
-    padding: 8px 0 5px 8px;
+    padding: 4px 0 5px 8px;
     order: 10;
 
     & > label input[type="checkbox"] {
@@ -2796,7 +2916,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
             width: fit-content;
             top: 0;
             left: 0;
-            padding-top: 10px;
+            padding-top: 4px;
 
             span {
                 padding-left: 20px;
@@ -2810,7 +2930,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         height: auto;
         order: 0;
 
-        /* A divider that displays after each item option */
+        /* A divider is displayed after each expanded option */
         &.divide {
             padding-bottom: 12px;
             margin-bottom: 6px;
@@ -2820,8 +2940,8 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
                 padding-top: 0;
             }
 
-            label {
-                padding-top: 4px;
+            > label {
+                padding-top: 6px;
             }
         }
     }
@@ -2833,13 +2953,17 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         }
     }
 
-    /* Nested options show a line connecting them to their parent option when checked */
+    /* Nested options show a line connecting them to their parent option */
     & > .itemOptionContainer {
         padding: 6px 0 0 14px;
-        flex-direction: column;
-        flex-wrap: nowrap;
 
-        & > .itemOption::before {
+        &:not(.freeform) {
+            flex-direction: column;
+            flex-wrap: nowrap;
+        }
+
+        &:not(.freeform) > .itemOption::before,
+        &.freeform > .itemOption:has(> label input[type="checkbox"]:checked)::before {
             content: "";
             position: absolute;
             width: 11px;
@@ -2902,7 +3026,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         
         .repcontrol {
             position: absolute;
-            top: 5px;
+            top: 3px;
             right: 0;
         }
         :is(.repcontrol_edit, .repcontrol_add) {
@@ -2913,12 +3037,8 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         }
         .repcontrol_add {
             position: absolute;
-            top: 5px;
+            top: 3px;
             right: 30px;
-        }
-
-        .combatRoll {
-            margin-right: 0px;
         }
 
         .advSelect {
@@ -2928,21 +3048,21 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
             color: transparent;
             -moz-appearance: none;
             -webkit-appearance: none;
-        }
-        .advSelect::-ms-expand {
-            display: none;
-        }
-        .advSelect:has(> option[value="false"]:checked),
-        .advSelect option {
-            color: var(--color-white);
-        }
-        .advSelect:has(> option[value="Advantage"]:checked) {
-            background-color: var(--color-light-green) !important;
-            background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowUp.png');
-        }
-        .advSelect:has(> option[value="Disadvantage"]:checked) {
-            background-color: var(--color-HP) !important;
-            background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowDown.png');
+
+            &::-ms-expand {
+                display: none;
+            }
+            option, &:has(> option[value="false"]:checked) {
+                color: var(--color-white);
+            }
+            &:has(> option[value="Advantage"]:checked) {
+                background-color: var(--color-light-green) !important;
+                background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowUp.png');
+            }
+            &:has(> option[value="Disadvantage"]:checked) {
+                background-color: var(--color-HP) !important;
+                background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowDown.png');
+            }
         }
 
         .autoScriptButton {
@@ -4097,8 +4217,9 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     --color-green: #85a874;
     --color-light-green: #93c47d;
     --color-purple: #8e7cc3;
+    --color-light-purple: #aa93eb;
     --color-orange: #cf8c44;
-    --color-light-orange: #FC0;
+    --color-light-orange: #eda353;
     --color-inventory: #c3c3c3;
     --color-HP: #cc4125;
     --color-STGR: #dbb748;
@@ -4116,35 +4237,39 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 
 .charsheet {
     --content-color: var(--color-dark-gray);
-    --content-accent: var(--color-darker-gray);
+    --content-accent: #191919;
     --content-background: var(--color-inventory);
     --content-text: var(--color-white);
     --content-mystery: var(--color-white);
+    --content-decoration: transparent;
 }
-.weapon {
-    --content-color: var(--color-red);
-    --content-accent: #191919;
-    --content-mystery: var(--color-HP);
-}
-.outfit {
-    --content-color: var(--color-blue);
-    --content-accent: #191919;
-    --content-mystery: var(--color-SAN);
-}
-.augment {
-    --content-color: var(--color-green);
-}
-.tool {
-    --content-color: var(--color-purple);
-}
-.skill {
-    --content-color: var(--color-light-gray);
-}
-.special {
-    --content-color: var(--color-orange);
-}
-.effect {
-    
+.weapon, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="Red"]:checked) { --content-color: var(--color-red); --content-mystery: var(--color-HP); }
+.outfit, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="Blue"]:checked) { --content-color: var(--color-blue); --content-mystery: var(--color-SAN); }
+.augment, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="Green"]:checked) { --content-color: var(--color-green); --content-mystery: var(--color-light-green); }
+.tool, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="Purple"]:checked) { --content-color: var(--color-purple); --content-mystery: var(--color-light-purple); }
+.special, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="Orange"]:checked) { --content-color: var(--color-orange); --content-mystery: var(--color-light-orange); }
+.skill, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="None"]:checked) { --content-color: var(--color-dark-gray); }
+
+.itemContainer:has(.styleCheck:checked ~ .colorCheck:checked) {
+    &:has(.itemColor option[value="Fortitude"]:checked) { --content-color: var(--color-HP); --content-mystery: var(--color-HP); }
+    &:has(.itemColor option[value="Prudence"]:checked) { --content-color: var(--color-wisdom); --content-mystery: var(--color-wisdom); --content-text: var(--color-black); }
+    &:has(.itemColor option[value="Justice"]:checked) { --content-color: var(--color-justice); --content-mystery: var(--color-justice); }
+    &:has(.itemColor option[value="Charm"]:checked) { --content-color: var(--color-charm); --content-mystery: var(--color-charm); }
+    &:has(.itemColor option[value="Insight"]:checked) { --content-color: var(--color-insight); --content-mystery: var(--color-insight); --content-text: var(--color-black); }
+    &:has(.itemColor option[value="Temperance"]:checked) { --content-color: var(--color-temperance); --content-mystery: var(--color-temperance); }
+
+    &:has(.itemDeco option[value="Red"]:checked) { --content-decoration: var(--color-red); }
+    &:has(.itemDeco option[value="Blue"]:checked) { --content-decoration: var(--color-blue); }
+    &:has(.itemDeco option[value="Green"]:checked) { --content-decoration: var(--color-light-green); }
+    &:has(.itemDeco option[value="Purple"]:checked) { --content-decoration: var(--color-light-purple); }
+    &:has(.itemDeco option[value="Orange"]:checked) { --content-decoration: var(--color-light-orange); }
+    &:has(.itemDeco option[value="Fortitude"]:checked) { --content-decoration: var(--color-HP); }
+    &:has(.itemDeco option[value="Prudence"]:checked) { --content-decoration: var(--color-wisdom); }
+    &:has(.itemDeco option[value="Justice"]:checked) { --content-decoration: var(--color-justice); }
+    &:has(.itemDeco option[value="Charm"]:checked) { --content-decoration: var(--color-charm); }
+    &:has(.itemDeco option[value="Insight"]:checked) { --content-decoration: var(--color-insight); }
+    &:has(.itemDeco option[value="Temperance"]:checked) { --content-decoration: var(--color-temperance); }
+    &:has(.itemDeco option[value="Black"]:checked) { --content-decoration: var(--color-black); }
 }
 
 .toolText { color: var(--color-purple) !important; }
