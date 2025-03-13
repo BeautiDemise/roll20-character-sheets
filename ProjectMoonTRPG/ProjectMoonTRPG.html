@@ -9694,7 +9694,7 @@ const stylingDefault =
 (On Use, icons, Portable, blue)
 (On Hit, icons, Attack, purple)
 
-/* Action buttons */
+/* Chat buttons */
 (Apply damage, icons, damage, red)
 (Apply regen, icons, heal, green)
 (Apply ailments, icons, lose, purple)
@@ -11138,7 +11138,7 @@ function unknownTarget(returnMode="false") {
 
 /* --- Action button functionality --- */
 
-/* Creates one or more action buttons and post them to the chat */
+/* Creates one or more chat buttons and post them to the chat */
 /* Taken in a buttonList of the format: {target1: {name1: {icon, color, data, type}, name2: {...}, ...}, target2: {...}, ...} */
 /*   size: One of "half" or "third". Used for styling the width of chat buttons */
 /* The reactions option can be included to show reaction buttons. If set to a tokenId, the buttons will target that generic token (if it exists) */
@@ -14095,7 +14095,7 @@ function rollChallenge(buttonid, rollDifficulty=0, collectAutoScripts="false") {
 		}
 		finishRoll(results.rollId);
 		
-		/* Create action Buttons */
+		/* Create chat buttons */
 		createChatButtons(chatButtonList);
 	});
 	/*--- send roll end ---*/
@@ -14637,7 +14637,7 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 	startRoll((whisper + `&{template:damagecalculation} {{icon=@{dummyIcon}}} {{name=@{character_name}}} {{title=${getTranslationByKeyCustom("Damage Calculation", "heading-damagecalculation")}}} {{damagecalculations=@{dummy} }}`), (results) => {
 		finishRoll(results.rollId, {} );
 
-		/* Create action Buttons */
+		/* Create chat buttons */
 		createChatButtons(chatButtonList);
 	});
 	/* Damage calculation chat message block end */
@@ -15165,7 +15165,7 @@ on('clicked:declareAction', (info) => {
 	startRoll((whisper + "&{template:baseRoll} {{infodump=@{dummy} }}"), (results) => {
         finishRoll(results.rollId,{});
 
-		/* Create action Buttons */
+		/* Create chat buttons */
 		createChatButtons(chatButtonList);
     });
 	/*--- send roll end ---*/
@@ -16898,7 +16898,7 @@ class itemNode {
 				equip: {slots: {type: "Hands", value: 1}},
 				rollformats: {
 					array: [
-						{type: "Attack", damagetype: "Untyped", count: 1, max: 10, power: 0, action: {}, reaction: {type: "Counter"}},
+						{type: "Attack", damagetype: "Choose", count: 1, max: 10, power: 0, action: {}, reaction: {type: "Counter"}},
 					],
 				},
 				ui: {weapon: true},
@@ -17532,8 +17532,7 @@ class itemListHandler {
 		this.#accessMode = oldAccess;
 	}
 
-	// Deletes one or more items to the itemList
-	// Accepts one itemId as a string, or two or more itemId as either an array, a number of object keys or as multiple arguments
+	// Deletes one item in the itemList based on its id
 	delete(itemId) {
 		if (this.#accessMode == "write") {
 			itemId = itemId.toLowerCase();
@@ -17627,7 +17626,7 @@ class itemListHandler {
 
 	// Exports an item with a certain id, or the entire current itemList if no id is provided
 	// If chatbuttons is enabled, post a chat button to import the items
-	export(itemId, chatbuttons=false) {
+	export(itemId, options={chatbuttons: false}) {
 		if (itemId) {
 			return JSON.stringify(this[itemId]);
 		} else {
@@ -17640,7 +17639,7 @@ class itemListHandler {
 
 	// As export, but generates share messages for each item
 	// If chatbuttons is enabled, add chat buttons to import either individual items or every item
-	share(itemId, chatbuttons=false) {
+	share(itemId, options={chatbuttons: false}) {
 		return this; // Allows chaining
 	}
 
@@ -17688,6 +17687,142 @@ class itemListHandler {
 		throw new Error(`Attempted to use method "${method}" in itemList without accessing in write mode`)
 	}
 }
+
+
+
+
+// Contains a list of access objects, one for each accessed character
+//  A proxy is needed to make ex. access.items be equal to access[currentCharId].items
+//  One can directly use access[anyCharId] to override this behaviour and access the data of other characters
+//   This is also accessible to players, should they know the id of another character
+//  For the id, check if the string begins with "-" and has length = 20. Maybe make this a generaized function you could use in other places, and also check [a-z0-9\-]
+// When accessing data, convert the string to lowercaps and replace all spaces with underscores
+//  For example, "access.Resource["Light regen"]" becomes "access.resource.light_regen"
+//  Also make sure have all built in and user defined variables match this format
+// Attempting to set an object inside access, like access.items = "", posts an error message to the chat
+//  Some operations are allowed, like access.roll[0] = access.roll[1]. You could add a "datatype" prop for this, where the datatype of both objects must match
+// When generic token mode is enabled both the charId and tokenId are used when accessing data, following this format: "charId (tokenId)"
+//  This means token can now have individual... everything really. They instance from the current sheet, but after that they can be manipulated seperately
+//   Some functionality should have an option to affect all token instances, like importing items
+//  This also makes it way easier to update token instances
+//  There could theoretically be some memory issues, but I can't see these objects taking up more than a few megabytes
+// You should look into adding further settings for privating information
+//  For example, you could private your items to not make them show up in the target data when you're targeted
+// Some functionality in the sheet uses your known ids. For example, when sharing an item you're given a dropdown of every id in access
+const access = {
+	"-abc": {
+		items: {
+			// Has only repeating data. Sorted by item ids in the order they display in the sheet
+			// To reorder the entries, make them into an array, reorder them using the method on the wiki, then turn the result back into an object
+			// Make sure all other methods and variables in access.items are non-iterable, making loops only affect the itemNodes
+			// When making the validator, make all built in props/mathods unmodifiable ((v) => false)
+		},
+		ailments: {
+			// Has only repeating data. Sorted by ailment names in the order they display in the sheet
+			// May need special handling for default ailments if you don't make them into repeating ailments
+		},
+		roll: {
+			// Has a mix of repeating and roll data
+			whisper: "",
+			difficulty: 0,
+			adv: 0, // advNum in the sheet
+			disadv: 0, // disadvNum in the sheet
+			// Roll data goes here with properties "0", "1", "2", etc.
+			// The output message shows only so many rolls per row. Additional rolls bleed down to extra rows. Implement this using max-width = 100%, min-width: __px
+			store: {
+				// As roll data, but for stored rolls
+			},
+		},
+		chat: {
+			buttons: {
+				// Contains data about chat buttons
+				// "selected" stores all buttons that target any character. For example, access.chat.buttons.selected["Apply ailments"] gets the ailment button
+				// Other buttons are sorted by the name of the target(s), and are impossible to access without knowing the name of a target
+				// access.chatbuttons.target may be used to get the chat buttons matching the target name, being equivalent to access.chatbuttons[access.target.character.name]
+				// access.chatbuttons.whisper works the same, but for access.roll.whisper
+			},
+			message: "", // Stores the HTML of the output chat message. Used with ex. access.chat.message += string, or replace(access.chat.message, rep, string)
+			// May change in the future based on how the chat message code develops
+		},
+		settings: {
+			sheet: {
+				// Contains all sheet settings (from the cogwheel menu)
+			},
+			game: {
+				// Contains all game settings (from the editor tab)
+				// There values can be manipulated even if the editor is hidden and/or blocked with a password
+				//  There's not really any way you can "cheat" by changing these values which you couldn't do by just fudging numbers normally in your sheet
+				//  The one thing that could happen is players messing up the settings set by the GM, but that sounds like a table issue
+				//  Worst case you could just make these values read only, except when importing game settings or manual input in the editor
+			},
+		},
+		bar: {
+			hp: 0, hp_max: 0, "-hp": 0,
+			st: 0, st_max: 0, "-st": 0,
+			sp: 0, sp_max: 0, "-sp": 0,
+			light: 0, light_max: 0, "-light": 0,
+		},
+		speed: {
+			base: 0, this: 0, next: 0,
+		},
+		state: {
+			panicked: "false", staggered: "false", defeated: "false",
+			seal: "false", immobile: "false",
+		},
+		resource: {
+			action: 0, action_max: 0, action_base: 0,
+			reaction: 0, reaction_max: 0, reaction_base: 0,
+			counter: 0, counter_max: 0, counter_base: 0,
+			block: 0, block_max: 0, block_base: 0,
+			evade: 0, evade_max: 0, evade_base: 0,
+			light_regen: 0, light_regen_max: 0, light_regen_base: 0,
+		},
+		character: {
+			name: "", id: "", rank: 0, level: 0, xp: 0,
+			fortitude: 0, prudence: 0, justice: 0,
+			charm: 0, insight: 0, temperance: 0,
+			// Also add all character personalia here, like their occupation
+		},
+		target: {
+			// Stores all data for the target + targeting settings + the targeted token's id
+			// The target access follows the same format as access, making ex. access.target.ailments.Burn work as access.ailments.Burn, but for the target
+			// In reality, access[-abc].target points to access[-def]
+		},
+		token: {
+			// When using targeting, this should match the id of the targeted token
+			// If generic token mode is disabled for the target the tokenId is set to ""
+			id: "",
+		},
+		let: {
+			// User defined local variables. Deleted after an AutoEffect block completes
+			// Accessed using access.variable, not access.let.variable. If both let and var exist, let takes priority. You may need a proxy for this
+			// The order of priority is specifically: 1 - id, 2 - items/ailments/etc, 3 - local variable, 4 - global variable
+			// Due to this, user defined variables like "let" and "items" can never be accessed. An error message should be posted when this is attempted
+		},
+		var: {
+			// User defined global variable. Creates an attribute in the attribute tab of the sheet
+			//  Also adds the attribute name to a list of names, which are used to retrieve the attributes when refreshing the sheet
+		},
+		autoscript: {
+			// May cause some issues with nesting. You may need another solution
+			scaling: 1,
+			checkresult: "success",
+			output: {} // Is probably not needed anymore, as access.modify handles updating values
+		},
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* The actual itemListHandler instance that all other code interacts with */
 let itemList = new itemListHandler();
@@ -17845,28 +17980,8 @@ on(itemEvent("clicked", "edit-item"), function(info) {
 
 
 
-
-
 on("clicked:testA", function(info) {
 	console.log("Clicked button A");
-
-	itemList.access("write", {editor: true}, () => { // input()
-
-		let itemId = generateRowID().toLowerCase();
-
-		console.log(itemList.event("change", "editor", (attr => attr.includes("option"))))
-
-		console.log(itemList.items)
-
-		itemList.item(0).type = "Augment";
-		itemList.item(0).limited.uses.action = false;
-
-		//itemList[itemList.IDs[0]].rollformats["0"].type = "Custom";
-		//itemList[itemList.IDs[0]].rollformats["0"].count = "7";
-		//itemList[itemList.IDs[0]].rollformats["0"].resource.reaction.type = "Block";
-
-		console.log(itemList.items)
-	});
 });
 
 
@@ -18230,7 +18345,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		...valueLists.resourceMaxList
 	}
 	
-	let returnValues = { checkResult:"success", message:"" }		// Stores all modifiers and action buttons that are returned to the calling function
+	let returnValues = { checkResult:"success", message:"" }		// Stores all modifiers and chat buttons that are returned to the calling function
 	let outputLists = {												// Stores all output values that cannot be applied directly using setAttrs()
 		challengeRollList: [],
 		procList: []
@@ -18470,7 +18585,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 
 	}
 
-	/* If a message is to be sent, print the output message and attach any action buttons that exist for the AutoScript */
+	/* If a message is to be sent, print the output message and attach any chat buttons that exist for the AutoScript */
 	if (settingMuteMessage != "true" && sendMessage == "true" && outputMessage != "") {
 		
 		/* Get AutoScript styling */
@@ -18495,12 +18610,12 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		startRoll((whisper + "&{template:autoeffect} {{icon=@{dummyIcon}}} {{title=" + messageHeaderTitle + "}} {{name=@{character_name}}} {{message=@{dummy} }}"), (results) => {
 			finishRoll(results.rollId, {} );
 		
-			/* Attach any action buttons that have been created for the AutoScript*/
+			/* Attach any chat buttons that have been created for the AutoScript*/
 			createChatButtons(buttonList);
 		});
 	}
 	
-	/* Otherwise, return the message and any action buttons */
+	/* Otherwise, return the message and any chat buttons */
 	else {
 		returnValues.message = outputMessage;
 		returnValues.buttonList = buttonList;
@@ -19342,7 +19457,7 @@ function parseAutoScript(inputAutoScript, vl, al, vars, triggers=[], errors={}) 
 
 			conditional = {name: primaryCon, options: conOptions};
 
-			/* Remove the current conditional. Hinders it from being added to conditional/action buttons */
+			/* Remove the current conditional. Hinders it from being added to conditional/chat buttons */
 			if (primaryCon) { AutoEffect.splice(1,1); }
 		}
 
@@ -21662,7 +21777,7 @@ function log(...args) {
 	console.log.apply(console, [logText.slice(0,-1), ...logStyle, ...logObjects]);
 }
 
-// Helper used to package and unpackage data transferred through action buttons
+// Helper used to package and unpackage data transferred through chat buttons
 // Read more about this system at https://app.roll20.net/forum/post/10346883/adventures-with-startroll/?pageforid=10346884#post-10346884
 const Data = {
     chars: {
