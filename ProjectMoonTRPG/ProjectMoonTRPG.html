@@ -17692,31 +17692,108 @@ class itemListHandler {
 
 
 // Contains a list of access objects, one for each accessed character
-//  A proxy is needed to make ex. access.items be equal to access[currentCharId].items
-//  One can directly use access[anyCharId] to override this behaviour and access the data of other characters
-//   This is also accessible to players, should they know the id of another character
-//  For the id, check if the string begins with "-" and has length = 20. Maybe make this a generaized function you could use in other places, and also check [a-z0-9\-]
-// When accessing data, convert the string to lowercaps and replace all spaces with underscores
-//  For example, "access.Resource["Light regen"]" becomes "access.resource.light_regen"
-//  Also make sure have all built in and user defined variables match this format
-// Attempting to set an object inside access, like access.items = "", posts an error message to the chat
-//  Some operations are allowed, like access.roll[0] = access.roll[1]. You could add a "datatype" prop for this, where the datatype of both objects must match
-// When generic token mode is enabled both the charId and tokenId are used when accessing data, following this format: "charId (tokenId)"
-//  This means token can now have individual... everything really. They instance from the current sheet, but after that they can be manipulated seperately
-//   Some functionality should have an option to affect all token instances, like importing items
-//  This also makes it way easier to update token instances
-//  There could theoretically be some memory issues, but I can't see these objects taking up more than a few megabytes
+
 // You should look into adding further settings for privating information
 //  For example, you could private your items to not make them show up in the target data when you're targeted
+//  This does not stop calculated values from being revealed, like tags
 // Some functionality in the sheet uses your known ids. For example, when sharing an item you're given a dropdown of every id in access
-const access = {
-	"-abc": {
-		items: {
+
+
+// All default and user defined variables in access are written in snake_case
+const accessHandler = {
+
+	// Makes access get the data of the current character by default. Can write ex. "access.items" instead of "access[charID].items"
+	// Writing access[anyCharID] overrides this behaviour and allows accessing the data of other characters
+	get: function (node, prop) {
+		if (prop == "proxyData") {
+			return node[getActiveCharacterId()];
+		} else {
+			prop = prop.strip().toLowerCase().replace(" ", "_");
+			
+			if (is.ID(prop)) {
+				return node[prop];
+			}
+			else {
+				return node[getActiveCharacterId()][prop];
+			}
+		}
+	},
+
+	// Adds a new character ID to access
+	set: function(node, prop, value) {
+		if (is.ID(prop)) {
+			// This should eventually set up a proper dataNode for each data category (items, ailments, etc.)
+			node[prop] = value;
+		}
+		else if (is.TokenID(prop)) {
+			// Same as above, but sets 
+		}
+
+		// Used for access.token.id, access.token.selection and access.proxyData
+		else {
+			if (prop == "proxyData" && is.Object(value)) {
+				for (const [datakey, datavalue] of Object.entries(value)) {
+					node[getActiveCharacterId()][datakey] = datavalue;
+				}
+			} else {
+				prop = prop.strip().toLowerCase().replace(" ", "_");
+	
+				// Should validate the value is an ID or "", and add it to the output
+				node[prop] = value;
+
+				// Solve this similairly to itemList
+				// Instance a new node for each category and subcategory
+				// Use keys() to get all attribute keys
+				// Use getAttrsById() to get the attributes values in the requested sheet
+				// Use input() to insert the values into access
+			}
+		}
+	}
+
+	// Need to add deleteProperty(). This is important for token data which is often added and removed
+}
+
+const accessData = {
+	"-O20DGq2dC7rXhCGE2Ye": {
+		items: new Proxy({
 			// Has only repeating data. Sorted by item ids in the order they display in the sheet
 			// To reorder the entries, make them into an array, reorder them using the method on the wiki, then turn the result back into an object
 			// Make sure all other methods and variables in access.items are non-iterable, making loops only affect the itemNodes
-			// When making the validator, make all built in props/mathods unmodifiable ((v) => false)
-		},
+			// When making the validator, make all built in props/methods unmodifiable ((v) => false)
+		}, {
+			// Enhanced item access
+			// Can access specific items by id, index or name
+			// Can access multiple items using "all", "equipped", or an item type (ex. "weapons")
+
+			// You may want to make this into standard getters and setters instead
+			//  Makes accessing by index not work, which is no big loss
+			//  Means you'll have to add and delete name accessors as an item's name is updated
+			//  "all", "equipped" and item types each get their own getter
+			//  Gives the advantage of not having to add special handling for the items subnode having a Proxy, and not having to deal with the Proxy object when traversing subnodes
+			get: function (itemList, prop) {
+				if (is.ID(prop)) {
+					return itemList[prop]; // Get an item by id
+				}
+				else if (parseInt(prop) == prop) {
+					return itemList.item(prop); // Get an item by index
+				} else {
+					prop = prop.strip().toLowerCase();
+					
+					if (Object.values(itemList).some(item => item.name.toLowerCase() == prop)) {
+						return itemList.filter(item => item.name == prop).item(0); // Get an item by name
+					}
+					else if (prop == "all") { // Needs a translation
+						return itemList.items; // Get all items
+					}
+					else if (prop == "equipped") { // Needs a translation
+						return itemList.equipped.items; // Get all equipped items
+					}
+					else if (prop in itemNode.format.section.sheet) { // Needs to account for translated item type names
+						return itemList.filter(item => item.type.toLowerCase() == prop).items; // Get all items of a certain type
+					}
+				}
+			}
+		}),
 		ailments: {
 			// Has only repeating data. Sorted by ailment names in the order they display in the sheet
 			// May need special handling for default ailments if you don't make them into repeating ailments
@@ -17788,10 +17865,32 @@ const access = {
 			// The target access follows the same format as access, making ex. access.target.ailments.Burn work as access.ailments.Burn, but for the target
 			// In reality, access[-abc].target points to access[-def]
 		},
-		token: {
+		token: new Proxy({
 			// When using targeting, this should match the id of the targeted token
 			// If generic token mode is disabled for the target the tokenId is set to ""
 			id: "",
+
+			// When generic token mode is enabled, selection equals the current token id. Otherwise it should be set to ""
+			selection: "",
+
+			// When generic token mode is enabled each token gets added to access.token as access.token[tokenID]
+			//  When changing token selection, set access.token.selection = newID, and access.proxyData = access.token[newID]
+			//  This should overwrite everything in access with access.token[newID], except access.token
+			//  Afterwards, use output() and add all the values to outputValues
+			//   This does not work for items that only exist on certain tokens. These will be added when changing to the token, but will not be deleted when selecting another token
+			//   This also does not work for ailments that only exist on certain tokens for the same reasons
+			// access.token[tokenID] instances as a deep copy of access[charID], except access[charID].token which is ignored
+			// When disabling generic token mode, delete all props of access.token except id and selection
+			// When using Update, run the function on all entries in access.token instead of on access[charID]
+			//  Afterwards, do access.proxyData = access.token[tokenID] + output() to sync all changes from the current token to the sheet 
+
+			// Make it to access.token works exactly like access, except:
+			//  access.token.prop equals access[charID].token[tokenID].prop
+			//  access.token[tokenID].token is deleted
+		}, accessHandler),
+		tag: {
+			// Has only repeating data. Is not sorted
+			// Is synced to the tags of a character's currently equipped items
 		},
 		let: {
 			// User defined local variables. Deleted after an AutoEffect block completes
@@ -17811,6 +17910,56 @@ const access = {
 		},
 	}
 }
+
+// The actual access object all the other code interacts with
+const access = new Proxy(accessData, accessHandler);
+
+
+
+on("clicked:testA", function(info) {
+	console.log("Clicked button A");
+	console.log(access);
+	console.log(access.proxyData);
+	access.proxyData = {myNew: "object"}
+	console.log(access)
+	console.log(access.proxyData)
+});
+
+
+
+on("clicked:testB", function(info) {
+	console.log("Clicked button B");
+
+	itemList.access("write", {}, () => {
+		console.log(itemList)
+		let filteredItemList = itemList.filter(item => item.type == "Tool");
+		console.log(filteredItemList);
+		console.log(filteredItemList.export());
+		console.log(filteredItemList.IDs, filteredItemList[filteredItemList.IDs[0]])
+		filteredItemList[filteredItemList.IDs[0]].type = "Weapon";
+		console.log(itemList)
+		itemList.access("read", {}, () => {
+			console.log("Began second access");
+			itemList.access("write", {}, () => {
+				console.log("Began third access");
+			});
+		});
+	});
+});
+
+
+
+
+// Access TO-DO
+
+// Extend this to the access AutoEffects
+// When accessing data, convert the string to lowercaps and replace all spaces with underscores
+//  For example, "access.Resource["Light regen"]" becomes "access.resource.light_regen"
+//  Also make sure to have all built in and user defined variables match this format
+
+// Attempting assign a value to an an object inside access, like access.items = "", posts an error message to the chat
+//  You can implement this by having the ParseMath assign operation throw an error if typeof(a) == "Object"
+//  Some operations are allowed, like access.roll[0] = access.roll[1]. You could add a "datatype" prop for this, where the datatype of both objects must match
 
 
 
@@ -17969,58 +18118,6 @@ on(itemEvent("clicked", "edit-item"), function(info) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-on("clicked:testA", function(info) {
-	console.log("Clicked button A");
-});
-
-
-
-on("clicked:testB", function(info) {
-	console.log("Clicked button B");
-
-	itemList.access("write", {}, () => {
-		console.log(itemList)
-		let filteredItemList = itemList.filter(item => item.type == "Tool");
-		console.log(filteredItemList);
-		console.log(filteredItemList.export());
-		console.log(filteredItemList.IDs, filteredItemList[filteredItemList.IDs[0]])
-		filteredItemList[filteredItemList.IDs[0]].type = "Weapon";
-		console.log(itemList)
-		itemList.access("read", {}, () => {
-			console.log("Began second access");
-			itemList.access("write", {}, () => {
-				console.log("Began third access");
-			});
-		});
-	});
-});
-
-const test = new Proxy(itemList, {
-	get: function (target, prop, receiver) {
-		if (prop in target) {
-			return target[prop];
-		}
-	},
-
-	deleteProperty(target, prop) {
-		if (prop in target) {
-			delete target[prop];
-			console.log(`property removed: ${prop}`);
-			// Expected output: "property removed: texture"
-		}
-	},
-});
 
 
 
@@ -21700,7 +21797,7 @@ class checkVal {
 
 	static Int(i, opts={}) { return !isNaN(parseInt(i)) && this.Opts(i, opts); }
 	static String(s, opts={newlines:true}) { return typeof(s) == "string" && (opts.newline) ? !s.includes("\n") : true; }
-	static ID(s, opts={}) { return is.String(s) && (opts.strict ? /^-[A-Za-z0-9-]{19}$/ : /^-.{19}$/).test(s) } // Checks if a Roll20-style id is valid
+	static ID(s, opts={}) { return typeof(s) == "string" && (opts.strict ? /^-[\w-]{19}$/ : /^-.{19}$/).test(s); } // Checks if a Roll20-style id is valid
 	
 	static False(b) { return ["false", "0"].includes("" + b); }
 	static True(b) { return ["true", "1"].includes("" + b); }
