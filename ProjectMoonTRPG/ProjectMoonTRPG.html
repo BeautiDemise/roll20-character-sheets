@@ -9606,6 +9606,7 @@ const statNamesFull = [...statNames, "Fortitude", "Prudence"]
 const resourceNames = ["Action", "Reaction", "Counter", "Block", "Evade", "Light_Regen"]
 const combatRollNames = ["Attack", "Block", "Evade"]
 const damageTypes = ["Slash", "Pierce", "Blunt"]
+const advTypes = ["Advantage", "Disadvantage"]
 
 /* Contains details on the format of all AutoEffects. Used for parsing AutoScripts */
 //	 value: One of "string", "number", or false. If false the AutoEffect has no value
@@ -10194,7 +10195,7 @@ function getSectionIDsAsync(sectionName) {
 /* Custom Async Functions */
 /* Functions like getAttrs, except it gets values from another character! */
 /* Requires the character_id of the target character. Works for both players and GMs */
-function getAttrsById(actId, props) {
+function getAttrsByID(actId, props) {
     var prevActId = getActiveCharacterId();
     return new Promise((resolve,reject)=>{
             setActiveCharacterId(actId);
@@ -10937,9 +10938,9 @@ on("sheet:opened", function(info) {
 async function checkGM(targetId, charId, callback=()=>{}) {
 	if (targetId != "" && targetId != charId) {
 		if (isGM == "unset") {
-			let initialValue = await getAttrsById(targetId, ["testIsGM"]);
+			let initialValue = await getAttrsByID(targetId, ["testIsGM"]);
 			let newValue = await setAttrsById(targetId, {"testIsGM": (initialValue.testIsGM != charId) ? charId : generateRowID()});
-			let finalValue = await getAttrsById(targetId, ["testIsGM"]);
+			let finalValue = await getAttrsByID(targetId, ["testIsGM"]);
 			setActiveCharacterId(charId);
 			initialValue = initialValue.testIsGM;
 			finalValue = finalValue.testIsGM;
@@ -10992,7 +10993,7 @@ function removeTargeting(charId, package="package") {
 /* Checks if a token is an invalid target. Currently happens if genericTokenMode is enabled but the token has not been added as an instance  */
 async function isValidTarget(characterName, charId, targetId, targetTokenId, targetSettings, callback=()=>{}) {
 	if (targetSettings.genericTokenMode == "true") {
-		let values = await getAttrsById(targetId, [`repeating_tokens_${targetTokenId}_tokenId`]);
+		let values = await getAttrsByID(targetId, [`repeating_tokens_${targetTokenId}_tokenId`]);
 		setActiveCharacterId(charId);
 		
 		if (targetTokenId != values[`repeating_tokens_${targetTokenId}_tokenId`]) {
@@ -11022,7 +11023,7 @@ async function updateTargetAttrLists(settingTargeting, charId, targetId, targetT
 		let targetBarAttrs = barList.reduce((rows,bar) => [...rows, `${targetPrefix}${bar}`, `${targetPrefix}${bar}_max`], '');
 		let targetAilmentListName = (targetSettings.genericTokenMode == "true") ? `${targetPrefix}tokenAilmentList` : "ailmentList";
 
-		let values = await getAttrsById(targetId, [...targetBarAttrs, ...statNames, ...resourceNames, ...resourceNames.map(r => r+'_max'), targetAilmentListName]);
+		let values = await getAttrsByID(targetId, [...targetBarAttrs, ...statNames, ...resourceNames, ...resourceNames.map(r => r+'_max'), targetAilmentListName]);
 		setActiveCharacterId(charId);
 
 		/* Update target bar lists */
@@ -16969,9 +16970,9 @@ class itemNode {
 		valid: {
 			type: (s) => is(s).In(Object.keys(itemNode.format.defaults)),
 			rank: (i) => is.Int(i, {min: -1}),
-			name: (s) => is.String(s, {newlines:false}),
-			description: (s) => is.String(s),
-			effect: (s) => is.String(s),
+			name: (s) => is.String(s),
+			description: (s) => is.String(s, {newlines: true}),
+			effect: (s) => is.String(s, {newlines: true}),
 			minimized: (b) => is.Bool(b),
 			equip: { // Always enabled
 				equipped: (v) => is.Bool(v) || is(v).In(["Mainhand", "Offhand"]), // How do you handle this? It should be is.ID(this.linked) && is.Bool(b) || is(b).in(hand), but linked isn't in this, it's in this.parent.linked.id. You also need linked to be updated first
@@ -16988,7 +16989,7 @@ class itemNode {
 					count: (i) => is.Int(i, (this.type == "Roll") ? {min: 1} : {}), // This probably still refers to this itemNode, right? If not use itemList[this... id...]... motherfucker
 					max: (i) => is.Int(i, (this.type == "Roll") ? {min: 0} : {}),
 					power: (i) => is.Int(i),
-					adv: (v) => is.False(v) || is(v).In(["Advantage", "Disadvantage"]),
+					adv: (v) => is.False(v) || is(v).In(advTypes),
 					action: { // Enabled by optionRollAction *with an index*
 						type: (s) => is(s).In(["None", ...resourceNames]),
 						cost: (i) => is.Int(i, {min: 0}),
@@ -17004,10 +17005,10 @@ class itemNode {
 						count: (i) => is.Int(i),
 						max: (i) => is.Int(i),
 						power: (i) => is.Int(i),
-						adv: (v) => is.False(v) || is(v).In(["Advantage", "Disadvantage"]),
-						autoscript: (s) => is.String(s),
+						adv: (v) => is.False(v) || is(v).In(advTypes),
+						autoscript: (s) => is.String(s, {newlines: true}),
 					},
-					autoscript: (s) => is.String(s),
+					autoscript: (s) => is.String(s, {newlines: true}),
 				},
 			},
 			usable: { // Enabled by optionUsable
@@ -17109,7 +17110,7 @@ class itemNode {
 				half: (b) => is.Bool(b), // Ignored when possessing 2+ roll formats, ui.special or damage resistances. This is handled by CSS
 			},
 			card: {}, // Enabled by optionCardCombat
-			autoscript: (s) => is.String(s),
+			autoscript: (s) => is.String(s, {newlines: true}),
 		},
 
 		// Contains format data for all attribute names of an item. Used for inputing and outputing attribute data
@@ -17168,13 +17169,10 @@ class itemNode {
 					custom: {
 						suffix: "Resist",
 						repeating: {
-							section: "ailments",
 							editor: {
-								type: "props",
-								key: "ailName",
-								value: "itemEditCustomResistanceNum",
+								type: "id",
+								section: "ailments",
 							},
-							sheet: false,
 							export: {alias: "customResist"},
 						}
 					},
@@ -17272,6 +17270,9 @@ class itemListHandler {
 	/*   In read mode item data in the itemList can be read but not modified. Multiple accesses can read the itemList simultaneously */
 	/*   In write mode the itemList read and modified. While in write mode other accesses wait until the current access finishes */
 	access(mode, options={forceInit:false}, callback=()=>{}) {
+
+		return; // TODO: Remove this
+
 		this.#accessStack.push({mode: mode, charID: getActiveCharacterId()});
 		console.log("Added new access: ", [...this.#accessStack]);
 
@@ -17425,16 +17426,18 @@ class itemListHandler {
 
 			let inputIDs = {};
 			for (const key of Object.keys(inputData.sheet)) {
-
-				// If sheet values are provided for an itemId that doesn't exist, create a new item and assign the values to it
 				let [section, repid, repkey] = key.split("_").slice(1);
-				if (!this.IDs.includes(repid)) {
-					this.add(section.slice(0, -1), repid);
-				}
-
-				if (!inputIDs[repid]) {
-					this[repid].input(inputData, options);
-					inputIDs[repid] = true;
+				
+				// If sheet values are provided for an itemId that doesn't exist, create a new item and assign the values to it
+				if (section == "items") {
+					if (!this.IDs.includes(repid)) {
+						this.add(section.slice(0, -1), repid);
+					}
+	
+					if (!inputIDs[repid]) {
+						this[repid].input(inputData, options);
+						inputIDs[repid] = true;
+					}
 				}
 			}
 
@@ -17704,110 +17707,758 @@ const accessHandler = {
 
 	// Makes access get the data of the current character by default. Can write ex. "access.items" instead of "access[charID].items"
 	// Writing access[anyCharID] overrides this behaviour and allows accessing the data of other characters
-	get: function (node, prop) {
-		if (prop == "proxyData") {
-			return node[getActiveCharacterId()];
-		} else {
-			prop = prop.strip().toLowerCase().replace(" ", "_");
+	// Writing access.currentID allows getting all data of the current character, instead of getting a subnode
+	// Writing access._add() and other built-in access props/methods returns as normal
+	get: function (root, prop) {
+		
+		// Should here ensure access._stack isn't empty
+		
+		if (prop.startsWith("_")) { // Access AutoEffects strip leading spaces and underscores, making built-in props/methods inaccessible to users
+			return root[prop];
+		}
+		else if (prop == "currentID") {
+			return root[getActiveCharacterId()];
+		}
+		else {
+			console.log(root, prop);
+			prop = prop.trim().toLowerCase().replace(" ", "_");
 			
-			if (is.ID(prop)) {
-				return node[prop];
-			}
-			else {
-				return node[getActiveCharacterId()][prop];
+			if (prop in root) {
+				return root[prop];
+			} else {
+				return root[getActiveCharacterId()][prop];
 			}
 		}
 	},
 
-	// Adds a new character ID to access
-	set: function(node, prop, value) {
-		if (is.ID(prop)) {
-			// This should eventually set up a proper dataNode for each data category (items, ailments, etc.)
-			node[prop] = value;
-		}
-		else if (is.TokenID(prop)) {
-			// Same as above, but sets 
-		}
+	// Modifies a built-in prop (ex. "access._output"), adds new character data, or modifies existing character data
+	// Writting access[charID] = data does the following:
+	//  If access[charID] does not exist, set it to the provided data
+	//  If access[charID] does exist, add the provided data to the current data
+	set: async function(root, prop, value) {
 
-		// Used for access.token.id, access.token.selection and access.proxyData
+		// Should here ensure access._stack isn't empty
+
+		if (prop.startsWith("_") && prop in root && typeof root[prop] != "function") { // Built-in access props accept all values
+			root[prop] = value;
+		}
 		else {
-			if (prop == "proxyData" && is.Object(value)) {
-				for (const [datakey, datavalue] of Object.entries(value)) {
-					node[getActiveCharacterId()][datakey] = datavalue;
-				}
-			} else {
-				prop = prop.strip().toLowerCase().replace(" ", "_");
-	
-				// Should validate the value is an ID or "", and add it to the output
-				node[prop] = value;
-
-				// Solve this similairly to itemList
-				// Instance a new node for each category and subcategory
-				// Use keys() to get all attribute keys
-				// Use getAttrsById() to get the attributes values in the requested sheet
-				// Use input() to insert the values into access
+			// Handles access.token.id and access.token.selection
+			if (prop in root && !(root[prop] instanceof dataNode)) {
+				root.modify(prop, value);
 			}
+
+			if (prop == "currentID") {
+				prop = getActiveCharacterId();
+			}
+			if (id.ID(prop)) {
+				if (prop in root) {
+					for (const [datakey, datavalue] of Object.entries(value)) {
+						if (datavalue instanceof dataNode) {
+							root[prop][datakey] = datavalue;
+						}
+					}
+				} else {
+					root[prop] = value;
+				}
+
+				// If modifying data for an active character, sync the data to the sheet 
+				if (prop == getActiveCharacterId()) {
+					root._output = {...root._output, ...access[prop].output()}
+				}
+			}
+		}
+	},
+
+	// Deletes a character ID in access. Used primarily to delete token data
+	// Written as "delete access[charID]"
+	deleteProperty(root, prop) {
+
+		// Should here ensure access._stack isn't empty
+
+
+		if (is.ID(prop)) {
+			delete root[prop];
 		}
 	}
-
-	// Need to add deleteProperty(). This is important for token data which is often added and removed
 }
 
+// Props beginning with _ are inaccessible to AutoEffects
+// Props beginning with # are accessible to AutoEffects
 const accessData = {
-	"-O20DGq2dC7rXhCGE2Ye": {
-		items: new Proxy({
-			// Has only repeating data. Sorted by item ids in the order they display in the sheet
-			// To reorder the entries, make them into an array, reorder them using the method on the wiki, then turn the result back into an object
-			// Make sure all other methods and variables in access.items are non-iterable, making loops only affect the itemNodes
-			// When making the validator, make all built in props/methods unmodifiable ((v) => false)
-		}, {
-			// Enhanced item access
-			// Can access specific items by id, index or name
-			// Can access multiple items using "all", "equipped", or an item type (ex. "weapons")
+	_output: {}, // Change all access output code to use this object
+	_stack: [], // Change all access stack code to use variables here
+	// You may want to make output accessible using AutoEffects to enable stuff like Amplify
+	// This is however not very user friendly when used with repeating values
+	// You could add attribute keys to ex. ailments, so you could write {output[ailments.Tremor.attr] > ailments.Tremor.count}
 
-			// You may want to make this into standard getters and setters instead
-			//  Makes accessing by index not work, which is no big loss
-			//  Means you'll have to add and delete name accessors as an item's name is updated
-			//  "all", "equipped" and item types each get their own getter
-			//  Gives the advantage of not having to add special handling for the items subnode having a Proxy, and not having to deal with the Proxy object when traversing subnodes
-			get: function (itemList, prop) {
-				if (is.ID(prop)) {
-					return itemList[prop]; // Get an item by id
+
+	// Functionality related to the item editor
+	_editor: {
+		// TODO: Add a setter for the editor target. When the target is changed, run close() and/or open()
+		target: "",
+	},
+
+
+
+
+	// Adds the data of a new character if it isn't already in access
+	_add: async (charID) => { // May need a callback or async support
+		if (is.ID(charID) && !this[charID]) {
+			let newData = new dataNode();
+			let values = await getAttrsByID(charID, newData.attrs); // Make sure the worker char id is properly reset after this operation
+			newData.input(values);
+			this[charID] = newData;
+		}
+	},
+
+	// Character data appears here as "charID: charData"
+
+	"-O20DGq2dC7rXhCGE2Ye aaaaaa": { // Set the prop to a character id
+		// Add data from the base format here
+		// Get all attribute names using the current itemNode.attrs() method
+		// getAttrsByID() the attribute names + char id to get a values object
+		//  - Fix the worker char id not being reset correctly after getAttrsByID()
+		// Modify the data with a values object using the current itemNode.import() method
+	},
+}
+
+// The actual access object all the other code interacts with
+const access = new Proxy(accessData, accessHandler);
+
+
+
+
+
+
+
+
+
+// TODO
+// - Remove type from the constructor. Have it instead be specified in the default and base formats
+// - Consider changing formats over to using an access path like "items/Weapon", which gets "formats.items.weapon", as well as the matching default and validation data
+//   - A problem here is that item data uses "format.base" for the base values, and "format.default[type]" for the default values
+//   - Other than items all repeating data has only one format (ailments, tokens, etc.). As such maybe items should have special handling through itemNode
+// - The AutoEffect access code should strip underscores of the access path to make access._methods() unuseable by players
+// - Need to move item defaults to a different location
+// - Change "defaults" to "override", and allow including an override string that selects which override format to apply
+// - Make the base and validator formats of "rollformats" be their own formats seperate from items
+//   - Still need the style format for items
+//   - Stored rolls also appear in the sheet, and as such need a style format
+// - Consider adding an "_default" prop to validator formats that sets the validator for all props without a validator
+// - Make it so is.Int(v) doesn't accept float values, and add is.Float(v) that accepts both integer and float values/string representations
+// - Consider adding some pre-defined "quick values", like "Tremor" which equals "ailments.Tremor.count"
+//   - These quick values are actually strings containing access paths
+//     - When resolving a variable, check if it contains a valid math string and/or access path. If yes, resolve that string and return the value
+//     - This should be as easy as quickly using parseMath on the returned value. The only thing it may get wrong would be strings. Save strings with quotes to avoid this
+//     - You could also save these as { + path + }, indicating the value is a math string. This avoids the string issue
+//   - These are generated when initiating autoScriptMain. These values have lower priority than both local and global variables
+//   - Other things with quick values: Stats, bar values (current, max, damage), resources (current, max, base), states, character name, difficulty, adv (equals rolls.adv - rolls.disadv)
+// - Add the following extra data:
+//   - Combat state (in/out of combat)
+//   - Last defence roll
+// - Make all rolls simulate their result before autoScriptMain(), allowing AutoEffect checks to give different outcomes based on the roll result
+//   - If rolling two or more dice as part of a single roll, save the result of each dice to properly format the roll message
+//   - Maybe save this as an array access.rolls[N].diceArray? This for example allows (If {length(filter(rolls[0].diceArray, X == 1) > 0)})
+
+
+
+
+
+
+
+
+
+// Data format used for roll data. This is used for generic roll data, item rollformats and stored rolls
+
+
+
+// Issues with the roll format:
+// - Applied is only relevant for roll formats
+// - Action and reaction costs are a bit finicky for AutoEffects, being that they can be spread across multiple dice
+// - The same goes for uses spent as part of the roll
+
+const rollDataFormat = {
+	base: {
+		type: "None", mode: "Roll", damagetype: "None", count: 0, max: 0, power: 0, adv: false, autoscript: "",
+		action: {type: "Action", cost: 1},
+		reaction: {type: "Reaction", cost: 1},
+		uses: {cost: 1},
+		store: {
+			count: 0, max: 0, power: 0, adv: false, autoscript: "",
+		},
+	},
+	
+	valid: {
+		type: (s) => is(s).In(["None", ...combatRollNames, ...statNamesFull, "Custom"]),
+		mode: (s) => is(s).In(["Roll", "Applied"]), // Applied is ignored outside of roll formats
+		damagetype: (v) => is(v).In(["None", ...damageTypes, "Choose"]) || (is.Array(v, {min:1, max:3} && v.each(d => damageTypes.includes(d)))), // Allows an array of 1-3 damagetypes ("Hybrid")
+		count: (i) => is.Int(i, (this.type == "Roll") ? {min: 1} : {}), // This probably still refers to this itemNode, right? If not use itemList[this... id...]... motherfucker
+		max: (i) => is.Int(i, (this.type == "Roll") ? {min: 0} : {}),
+		power: (i) => is.Int(i),
+		adv: (v) => is.False(v) || is(v).In(advTypes),
+		action: {
+			type: (s) => is(s).In(["None", ...resourceNames]),
+			cost: (i) => is.Int(i, {min: 0}),
+		},
+		reaction: {
+			type: (s) => is(s).In(["None", ...resourceNames]),
+			cost: (i) => is.Int(i, {min: 0}),
+		},
+		uses: {
+			cost: (i) => is.Int(i, {min: 0}),
+		},
+		store: {
+			count: (i) => is.Int(i),
+			max: (i) => is.Int(i),
+			power: (i) => is.Int(i),
+			adv: (v) => is.False(v) || is(v).In(advTypes),
+			autoscript: (s) => is.String(s, {newlines: true}),
+		},
+		autoscript: (s) => is.String(s, {newlines: true}),
+	}
+}
+
+
+
+
+
+
+// Includes all default override values for items of a certain type. If a value is not specified here the value in the base format is used
+// All sub-nodes like "rollformats" are optional and begin off disabled by default
+// Including a subnode in an item's default values (even just writing "subnode: {}") enables that subnode
+const repDataDefaults = {
+	item: {
+		weapons: {
+			type: "Weapon",
+			equip: {slots: {type: "Hands", value: 1}},
+			rollformats: {
+				repeating: [
+					{type: "Attack", damagetype: "Choose", count: 1, max: 10, power: 0, action: {}, reaction: {type: "Counter"}},
+				],
+			},
+			ui: {weapon: true},
+		},
+		outfits: {
+			type: "Outfit",
+			equip: {},
+			rollformats: {
+				repeating: [
+					{type: "Block", count: 1, max: 10, power: 0, action: {}, reaction: {type: "Block"}},
+					{type: "Evade", count: 1, max: 12, power: 0, action: {}, reaction: {type: "Evade"}, store: {power: -2}},
+				],
+			},
+			resistances: {
+				damage: {
+					base: {
+						slash: {mode: "Replace", hp: 1, st: 1},
+						pierce: {mode: "Replace", hp: 1, st: 1},
+						blunt: {mode: "Replace", hp: 1, st: 1},
+					},
+				},
+				ailments: {
+					default: {},
+					custom: {},
 				}
-				else if (parseInt(prop) == prop) {
-					return itemList.item(prop); // Get an item by index
-				} else {
-					prop = prop.strip().toLowerCase();
-					
-					if (Object.values(itemList).some(item => item.name.toLowerCase() == prop)) {
-						return itemList.filter(item => item.name == prop).item(0); // Get an item by name
-					}
-					else if (prop == "all") { // Needs a translation
-						return itemList.items; // Get all items
-					}
-					else if (prop == "equipped") { // Needs a translation
-						return itemList.equipped.items; // Get all equipped items
-					}
-					else if (prop in itemNode.format.section.sheet) { // Needs to account for translated item type names
-						return itemList.filter(item => item.type.toLowerCase() == prop).items; // Get all items of a certain type
-					}
+			},
+		},
+		augments: {
+			type: "Augment",
+			equip: {},
+			resistances: {
+				ailments: {
+					default: {},
+					custom: {},
 				}
+			},
+			ui: {augment: true}
+		},
+		tools: {
+			type: "Tool",
+			equip: {slots: {type: "Hands", value: 1}},
+			usable: {type: "Standalone", action: {}, uses: {}},
+			limited: {uses: {max: 3, current: 3, recharge: "Refresh"}},
+			ui: {half: true},
+		},
+		skills: {
+			type: "Skill",
+			equip: {},
+			rollformats: {
+				repeating: [
+					{type: "None", mode: "Applied", count: 0, max: 0, power: 0, action: {type: "None", value: 0}, reaction: {type: "None", cost: 0}},
+				],
+			},
+			limited: {light: {cost: 1}},
+		},
+		special: {
+			type: "Special",
+			equip: {},
+			ui: {special: true}
+		},
+		effects: {
+			type: "Effect",
+		}
+	}
+}
+
+
+
+
+
+
+// Data formats used for repeating data (items, ailments, rolls, etc.)
+const repDataFormats = {
+	
+	// Data formats used for access.items
+	item: {
+		base: {
+			type: "Effect", rank: 0, name: "", description: "", effect: "",
+			minimized: false,
+			equip: {
+				equipped: false,
+				slots: {
+					type: "Hand", use: 0,
+				},
+			},
+			rollformats: {
+				repeating: rollDataFormat.base,
+			},
+			usable: {
+				type: "None",
+				action: {type: "Action", cost: 1},
+				reaction: {type: "None", cost: 0},
+				uses: {cost: 1},
+			},
+			linked: {
+				id: false,
+				equipTogether: true,
+			},
+			limited: {
+				uses: {
+					max: 3, current: 3, recharge: "None",
+				},
+				light: {
+					cost: 0,
+				},
+			},
+			resistances: {
+				damage: {
+					base: {
+						slash: {mode: "None", hp: 1, st: 1},
+						pierce: {mode: "None", hp: 1, st: 1},
+						blunt: {mode: "None", hp: 1, st: 1},
+					},
+					flat: {
+						slash: {mode: "None", hp: 0, st: 0},
+						pierce: {mode: "None", hp: 0, st: 0},
+						blunt: {mode: "None", hp: 0, st: 0},
+					},
+				},
+				ailments: {
+					default: {Burn: 0, Bleed: 0},
+					custom: {
+						repeating: {
+							name: "",
+							count: "",
+						}
+					},
+				},
+			},
+			mystery: {
+				activation: "None",
+			},
+			tags: {
+				gives: {},
+				requires: {},
+			},
+			ui: {
+				color: {
+					base: "None",
+					decoration: "None",
+				},
+				icon: {
+					source: "",
+				},
+				weapon: false,
+				augment: false,
+				special: false,
+				half: false,
+			},
+			card: {},
+			autoscript: "",
+		},
+	
+		// Includes functions for validating item input values
+		valid: {
+			type: (s) => is(s).In(Object.keys(itemNode.format.defaults)),
+			rank: (i) => is.Int(i, {min: -1}),
+			name: (s) => is.String(s),
+			description: (s) => is.String(s, {newlines: true}),
+			effect: (s) => is.String(s, {newlines: true}),
+			minimized: (b) => is.Bool(b),
+			equip: { // Always enabled
+				equipped: (v) => is.Bool(v) || is(v).In(["Mainhand", "Offhand"]), // How do you handle this? It should be is.ID(this.linked) && is.Bool(b) || is(b).in(hand), but linked isn't in this, it's in this.parent.linked.id. You also need linked to be updated first
+				slots: { // Enabled by optionEquipSlots
+					type: (s) => is.String(s), // String value matching a type of equip slots (like "Hand"). This would have to reference an external list of equipSlot types
+					use: (i) => is.Int(i),
+				},
+			},
+			rollformats: {}, // Enabled by optionRollFormats. Format set in repDataFormats.item
+			usable: { // Enabled by optionUsable
+				type: (s) => is(s).In(["None", "Standalone", "Applied", "Both"]),
+				action: { // Enabled by optionUsableReaction
+					type: (s) => is(s).In(["None", ...resourceNames]),
+					cost: (i) => is.Int(i, {min: 0}),
+				},
+				reaction: { // Enabled by optionUsableReaction
+					type: (s) => is(s).In(["None", ...resourceNames]),
+					cost: (i) => is.Int(i, {min: 0}),
+				},
+				uses: {
+					cost: (i) => is.Int(i, {min: 0}),
+				},
+			},
+			linked: { // Enabled by optionLinked
+				id: (v) => is.Bool(v) || is(v).In(itemList.IDs), // Need to make sure this works if the linked item is added after this item. Maybe add all the ids first and then add the itemNodes?
+				equipTogether: (b) => is.Bool(b),
+			},
+			limited: { // Enabled by optionLimited
+				uses: { // Enabled by optionUses
+					current: (i) => is.Int(i, {min: 0}),
+					max: (i) => is.Int(i, {min: 0}),
+					recharge: (s) => is(s).In(["None", "Manual", "Refresh", "Recover", "Loaded", "Ammo", "Combat", "Round"]),
+				},
+				light: { // Enabled by optionLightCost
+					cost: (i) => is.Int(i, {min: 0}),
+				},
+			},
+			resistances: { // Enabled by optionResist
+				damage: {
+					base: { // Enabled by optionResistBaseDamage
+						slash: {
+							mode: (s) => is(s).In(["None", "Add", "Replace"]),
+							hp: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+							st: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+						},
+						pierce: {
+							mode: (s) => is(s).In(["None", "Add", "Replace"]),
+							hp: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+							st: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+						},
+						blunt: {
+							mode: (s) => is(s).In(["None", "Add", "Replace"]),
+							hp: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+							st: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+						},
+					},
+					flat: { // Enabled by optionResistFlatDamage
+						slash: {
+							mode: (s) => is(s).In(["None", "Add", "Replace"]),
+							hp: (i) => is.Int(i),
+							st: (i) => is.Int(i),
+						},
+						pierce: {
+							mode: (s) => is(s).In(["None", "Add", "Replace"]),
+							hp: (i) => is.Int(i),
+							st: (i) => is.Int(i),
+						},
+						blunt: {
+							mode: (s) => is(s).In(["None", "Add", "Replace"]),
+							hp: (i) => is.Int(i),
+							st: (i) => is.Int(i),
+						},
+					},
+				},
+				ailments: { // Enabled by optionResistAilments
+					default: {
+						Burn: (i) => is.Int(i),
+						Bleed: (i) => is.Int(i),
+					},
+					custom: {
+						ailName: (i, v) => is.Values(v, "ailCustomResistanceNum").Int(i), // Needs some work. Should set key=ailName and value=ailCustomResistanceNum
+						// "*": () => (this?.values?.ailName && is.Int(this?.values?.ailCustomResistanceNum)) ? {values.ailName, values.ailResistanceNum} : false,
+						// Would here try format.valid("*") if format.valid(key) fails. If a validator returns an object o, loop over o keys and values and set this[key] = value
+						// This wouldn't help with updating already existing values however... You could just say that if no validator exists anything goes? 
+					},
+				},
+			},
+			mystery: { // Enabled by optionMystery
+				activation: (s) => is(s).In(["None", "AlwaysActive", "HalfHealth", "OnStagger", "EnemyDefeat", "AllyDefeat"]),
+			},
+			tags: { // Enabled by optionTags
+				gives: {},
+				requires: {}, // See custom resistances above. Needs a similar solution
+			},
+			ui: { // Enabled by optionCustomUI
+				color: { // Enabled by optionColor
+					base: (v) => is(v).In(["None", "Red", "Blue", "Green", "Purple", "Orange", ...statNamesFull]),
+					decoration: (v) => is(v).In(["None", "Red", "Blue", "Green", "Purple", "Orange", ...statNamesFull, "Black"]),
+				},
+				icon: { // Enabled by optionIcon
+					source: (s) => is.String(s), // Is either a http image or a default icon name. Otherwise a question mark icon is displayed
+				},
+				weapon: (b) => is.Bool(b), // The UI element has a custom event handler to update the damage type or uses of the first roll format
+				augment: (b) => is.Bool(b),
+				special: (b) => is.Bool(b),
+				half: (b) => is.Bool(b), // Ignored when possessing 2+ roll formats, ui.special or damage resistances. This is handled by CSS
+			},
+			card: {}, // Enabled by optionCardCombat
+			autoscript: (s) => is.String(s, {newlines: true}),
+		},
+	
+		// Contains format data for all attribute names of an item. Used for inputing and outputing attribute data
+		attrs: {
+			defaults: repDataDefaults.item,
+			source: {
+				editor: {
+					prefix: "itemEdit",
+				},
+				sheet: {
+					type: "id",
+					section: ["weapons", "outfits", "augments", "tools", "skills", "special", "effects"],
+				},
+			},
+			export: {alias: "items"},
+			attrs: {
+				equip: {
+					slots: {option: "EquipSlots", prefix: "slot"},
+				},
+				rollformats: {
+					option: "RollFormats",
+					repeating: {
+						attrs: {
+							option: "RollDisplay", 
+							prefix: "roll",
+							action: {option: "RollAction", prefix: "rollAction"},
+							reaction: {option: "RollReaction", prefix: "rollReaction"},
+							uses: {option: "RollUses", prefix: "rollUses"},
+							store: {option: "StoreRoll", prefix: "store"},
+						},
+						source: {
+							editor: {
+								type: "id",
+								prefix: "itemEdit", // TODO: Check that this is correct
+								section: "rollformats",
+							},
+							sheet: {
+								type: "index",
+								section: ["weapons", "outfits", "augments", "tools", "skills", "special", "effects"],
+							},
+						},
+						export: {alias: "rollFormats"},
+					},
+				},
+				usable: {
+					option: "Usable",
+					action: {option: "UsableAction", prefix: "usableAction"},
+					reaction: {option: "UsableReaction", prefix: "usableReaction"},
+					uses: {option: "UsableUses", prefix: "usableUses"}
+				},
+				linked: {option: "Linked", prefix: "linked"},
+				limited: {
+					option: "Limited",
+					uses: {option: "Uses", prefix: "uses"},
+					light: {option: "LightCost", prefix: "light"},
+				},
+				resistances: {
+					option: "Resist",
+					damage: {
+						base: {
+							option: "ResistBaseDamage",
+							slash: {prefix: "slashBase"},
+							pierce: {prefix: "pierceBase"},
+							blunt: {prefix: "bluntBase"},
+						},
+						flat: {
+							option: "ResistFlatDamage",
+							slash: {prefix: "slashFlat"},
+							pierce: {prefix: "pierceFlat"},
+							blunt: {prefix: "bluntFlat"},
+						}
+					},
+					ailments: {
+						option: "ResistAilments",
+						default: {suffix: "Resist"},
+						custom: {
+							suffix: "Resist",
+							repeating: {
+								attrs: {
+									// Need to correctly add a prefix to the count, but not to the name
+								},
+								source: {
+									editor: {
+										type: "id",
+										section: "ailments",
+									},
+								},
+								export: {alias: "customResist"},
+							},
+						},
+					},
+				},
+				mystery: {option: "Mystery", prefix: "mystery"},
+				tags: {
+					option: "Tags",
+					gives: {prefix: "tag"},
+					requires: {prefix: "tag"},
+				},
+				ui: {
+					option: "CustomUI",
+					suffix: "UI",
+					color: {option: "Color", suffix: "Color"},
+					icon: {option: "Icon", prefix: "icon"},
+				},
+				card: {option: "CardCombat", prefix: "card"},
+			},
+		},
+	},
+
+	// Data formats used for access.ailments
+	ailment: {
+		base: {
+			name: "",
+			count: 0,
+			count_immutable: 0,
+			count_next_round: 0,
+			count_pause: 0,
+			icon: "",
+			settings: {
+				display: true,
+				trigger: "None",
+				has_next_round_field: true,
+				trigger_dmg_type: "Any",
+				resistance_mode: "before", // TODO: Currently "beforeResistance"
+				decay_when_hit: true,
+				decay_round_end: true,
+				custom_resistance: true,
+			},
+			effect: {
+				type: "None",
+				mode: "+",
+				value: "-n",
+			},
+			decay: {
+				type: "0",
+				mode: "=",
+				value: "0",
+			},
+			max: {
+				mode: "None",
+				value: 0,
+			},
+			message: {
+				mode: "None", // TODO: Make this instead be true/false, since there's only two options
+				text: "[CHAR]: [DIFF] damage from [AIL]",
 			}
-		}),
+		},
+
+		valid: {
+			_default: (i) => is.Int(i, {min: 0}),
+			icon: (s) => is.String(s),
+			settings: {
+				_default: (b) => is.Bool(b),
+				trigger: (s) => is(s).In("None", "RoundEnd", "OnAction", "WhenHit"),
+				trigger_dmg_type: (s) => is(s).In("Any", "Slash", "Pierce", "Blunt"),
+				resistance_mode: (s) => is(s).In("Before", "After"),
+			},
+			effect: {
+				type: (s) => is(s).In("None", "HP", "ST", "HP+ST", "THP", "TST", "SP", "Light", "DistortCounter", "Difficulty"),
+				mode: (s) => is(s).In("+", "x", "="),
+				value: (v) => is.Effect(v),
+			},
+			decay: {
+				type: (s) => is(s).In("1", "0"),
+				mode: (s) => is(s).In("+", "x", "="),
+				value: (v) => is.Effect(v),
+			},
+			max: {
+				mode: (s) => is(s).In("None", "ClearMax", "EffectMax", "DecayMax", "EffectDecayMax", "EffectClearMax"),
+				value: (i) => is.Int(i, {min: 0}),
+			},
+			message: {
+				mode: (b) => is.Bool(b),
+				text: (s) => is.String(s, {newlines: true}),
+			}
+		},
+
+		attrs: {
+			attrs: {
+				prefix: "ail",
+				settings: {},
+				effect: {},
+				decay: {},
+				max: {},
+				message: {},
+			},
+			source: {
+				sheet: {
+					type: "id",
+					section: "ailments",
+				},
+			},
+			export: {alias: "ailments"},
+			// Oh lord... this will require a lot of aliases
+			// Alternatively, make underscores be removed so ex. "has_next_turn_field" becomes "hasNextTurnField" (capitalization doesn't matter)
+			//  - In this case you'll only need the "ail" prefix + rename some attribute fields in the sheet
+			
+		}
+	},
+
+	
+
+	// Still missing formats:
+	// - Rolls
+	//   - Note that rolls can have different sources:
+	//     - Item rolls link to the item (repeating + indexed) + editor (repeating)
+	//     - Stored rolls link to the stored rolls UI (repeating)
+	//     - Roll data doesn't link to any attributes, existing only as data used in customRoll() and autoScriptMain()
+	// - Chat buttons
+}
+
+
+
+
+// Handle repeating data as follows:
+// - In the base format, only include the nodes (items, ailments etc.) and any non-repeating props (access.token.id, etc.)
+// - Make these nodes generate as unique variants of dataNode, like access.items being an itemNode
+// - For ex. itemNode, have methods to add and delete repeating data. Have itemNode.input() automatically create new items for unknown ids
+// - In access._initialize(), access is first set up before access.input() is used. This should generate any additional repeating nodes that are needed
+//   - One issue here is how you get the values that are inserted using access.input()
+//   - Previously you generated one dummy item, used that to generate a set of attributes, and then repeated those attributes for every item id in the sheet
+//   - You may want to do the same now, with these ailment/item/rollNodes being generated *outside* of access, while the returned values are input *into* access
+//   - Alternatively, include these nodes in the base format, and then delete them after inputting the values
+
+
+
+// Data formats used for access and access.token
+// If a node contains repeatingIDs, repeatingNames or repeatingIndex, swap over to a new set of formats and generate multiple nodes
+const dataFormat = {
+	base: {
+		type: "character", // One of "character", "target" or "token". Useful for telling what data is stored in a data tree 
+		// You may want to include a way to have an access be both a character and a target, for cases where GMs have a player sheet open
+		items: {
+			// Has only repeating data. Sorted by item ids in the order they display in the sheet
+			repeating: repDataFormats.item.base, // Items have their own formats
+		},
 		ailments: {
 			// Has only repeating data. Sorted by ailment names in the order they display in the sheet
 			// May need special handling for default ailments if you don't make them into repeating ailments
+			//  - If you keep them as they are, you can add them as non-repeating data here
+			repeating: repDataFormats.ailment.base, // Ailments have their own formats
 		},
-		roll: {
-			// Has a mix of repeating and roll data
+		rolls: {
+			// Has a mix of repeating and repeating roll data
 			whisper: "",
 			difficulty: 0,
 			adv: 0, // advNum in the sheet
 			disadv: 0, // disadvNum in the sheet
 			// Roll data goes here with properties "0", "1", "2", etc.
 			// The output message shows only so many rolls per row. Additional rolls bleed down to extra rows. Implement this using max-width = 100%, min-width: __px
+			repeating: rollDataFormat.base, // Rolls have their own formats
 			store: {
-				// As roll data, but for stored rolls
+				// Not to be confused with access.rolls.N.store, which contains data about how that dice can be stored
+				// access.rolls.store contains the *actual* stored dice in the sheet
+				repeating: rollDataFormat.base, // Stored rolls use the same formats as normal rolls
 			},
 		},
 		chat: {
@@ -17817,6 +18468,9 @@ const accessData = {
 				// Other buttons are sorted by the name of the target(s), and are impossible to access without knowing the name of a target
 				// access.chatbuttons.target may be used to get the chat buttons matching the target name, being equivalent to access.chatbuttons[access.target.character.name]
 				// access.chatbuttons.whisper works the same, but for access.roll.whisper
+				// Make two getters and setters to implement these features
+
+				// There should be a format for chat buttons, but it should not be included in the base format
 			},
 			message: "", // Stores the HTML of the output chat message. Used with ex. access.chat.message += string, or replace(access.chat.message, rep, string)
 			// May change in the future based on how the chat message code develops
@@ -17833,48 +18487,59 @@ const accessData = {
 				//  Worst case you could just make these values read only, except when importing game settings or manual input in the editor
 			},
 		},
-		bar: {
-			hp: 0, hp_max: 0, "-hp": 0,
-			st: 0, st_max: 0, "-st": 0,
-			sp: 0, sp_max: 0, "-sp": 0,
-			light: 0, light_max: 0, "-light": 0,
+		bars: {
+			hp: 30, hp_max: 30, "-hp": 0,
+			st: 20, st_max: 20, "-st": 0,
+			sp: 15, sp_max: 15, "-sp": 0,
+			light: 3, light_max: 3, "-light": 0,
 		},
 		speed: {
-			base: 0, this: 0, next: 0,
+			base: 0, this_round: 0, next_round: 0,
 		},
 		state: {
-			panicked: "false", staggered: "false", defeated: "false",
-			seal: "false", immobile: "false",
+			panicked: "false", staggered: "false", stagger_duration: 2, 
+			defeated: "false", seal: "false", immobile: "false",
 		},
 		resource: {
-			action: 0, action_max: 0, action_base: 0,
-			reaction: 0, reaction_max: 0, reaction_base: 0,
+			action: 1, action_max: 1, action_base: 1,
+			reaction: 2, reaction_max: 2, reaction_base: 2,
 			counter: 0, counter_max: 0, counter_base: 0,
 			block: 0, block_max: 0, block_base: 0,
 			evade: 0, evade_max: 0, evade_base: 0,
-			light_regen: 0, light_regen_max: 0, light_regen_base: 0,
+			light_regen: 3, light_regen_max: 3, light_regen_base: 3,
 		},
 		character: {
 			name: "", id: "", rank: 0, level: 0, xp: 0,
 			fortitude: 0, prudence: 0, justice: 0,
 			charm: 0, insight: 0, temperance: 0,
-			// Also add all character personalia here, like their occupation
+			occupation: "", age: "", height: "", birthplace: "", residence: "",
+			assets: "", ahn: "", url: "", summary: "", combat_notes: "",
+			notes: "", description: "", personality: "", background: "",
 		},
 		target: {
 			// Stores all data for the target + targeting settings + the targeted token's id
 			// The target access follows the same format as access, making ex. access.target.ailments.Burn work as access.ailments.Burn, but for the target
 			// In reality, access[-abc].target points to access[-def]
 		},
-		token: new Proxy({
-			// When using targeting, this should match the id of the targeted token
-			// If generic token mode is disabled for the target the tokenId is set to ""
-			id: "",
+		token: {
+			// Change this to not be a Proxy. Instead make it have id + selection + a number of entries that point to other accesses, like access.target
+			// Does not have a format built in format. TokenNodes create a deep copy of dataFormat in repDataFormats which removes base.token
+			//  - If this format has already been created other tokenNodes simple use the existing format
+			//  - There's no need to remove valid.token. Nodes in valid that are not in base are ignored when building a data tree
 
-			// When generic token mode is enabled, selection equals the current token id. Otherwise it should be set to ""
+			// Used for targeting. This should match the id of the targeted token
+			// If generic token mode is disabled for the target the tokenId is set to ""
+			// Should never be modified on owned tokens, only targeted tokens. The targeting code handles setting this value
+			// id: "", Removed since all itemNodes have a built in id property
+
+			// Used for  When generic token mode is enabled, selection equals the current token id. Otherwise it should be set to ""
+			// Should be used for both owned tokens and targeted tokens
 			selection: "",
+			// This can be edited, which overrides the character's global variables, but not their local variables
+			// TODO: Make sure to delete let from tokens
 
 			// When generic token mode is enabled each token gets added to access.token as access.token[tokenID]
-			//  When changing token selection, set access.token.selection = newID, and access.proxyData = access.token[newID]
+			//  When changing token selection, set access.token.selection = newID, and access.currentID = access.token[newID]
 			//  This should overwrite everything in access with access.token[newID], except access.token
 			//  Afterwards, use output() and add all the values to outputValues
 			//   This does not work for items that only exist on certain tokens. These will be added when changing to the token, but will not be deleted when selecting another token
@@ -17882,47 +18547,266 @@ const accessData = {
 			// access.token[tokenID] instances as a deep copy of access[charID], except access[charID].token which is ignored
 			// When disabling generic token mode, delete all props of access.token except id and selection
 			// When using Update, run the function on all entries in access.token instead of on access[charID]
-			//  Afterwards, do access.proxyData = access.token[tokenID] + output() to sync all changes from the current token to the sheet 
+			//  Afterwards, do access.currentID = access.token[tokenID] + output() to sync all changes from the current token to the sheet 
 
-			// Make it to access.token works exactly like access, except:
+			// Make it so access.token works exactly like access, except:
 			//  access.token.prop equals access[charID].token[tokenID].prop
 			//  access.token[tokenID].token is deleted
-		}, accessHandler),
+
+			// access.output() should either ignore token data, or generate repeating attributes for the token bar
+		},
 		tag: {
 			// Has only repeating data. Is not sorted
 			// Is synced to the tags of a character's currently equipped items
+			// Updates whenever a tag is added or removed in the item editor
+			// AutoEffects can give tags:
+			// - Maybe add a Update tags trigger for this that let users run code whenever tags are recalculated
+			//   - Although in practice this is just [#Equipped, Unequipped, ... #], so it's probably not needed
+			// - Removing tags during an action does not hinder that action from executing, but it may hinder other actions from executing afterwards
+			//   - If you want to hinder an action, remove tags when an item is equipped or unequipped (see above)
 		},
-		let: {
-			// User defined local variables. Deleted after an AutoEffect block completes
+		let: { // TODO: Change this to "local"
+			// Props used in autoScriptMain()
+			scaling: 0,
+			checkresult: "success",
+			triggers: ["Permanent"],
+			// TODO: Add an "in" operation, letting you write ex. {"Permanent" in triggers}. Works for arrays, objects and strings
+			// - You can also do stuff like "someID" in items, to only do some further effects if the relevant data actually exists
+
+			// Other AutoScript stuff you may want to add:
+			// - Stuff in relation to triggers, ex. round number
+			//   - This won't let users add triggers, but they can check if a trigger is currently in effect
+
+			// User defined local variables. Reset at the start of AutoEffectMain()
+			// - Do this using "access.let = new itemNode({dataFormats.base.let, dataFormats.valid.let}));"
 			// Accessed using access.variable, not access.let.variable. If both let and var exist, let takes priority. You may need a proxy for this
 			// The order of priority is specifically: 1 - id, 2 - items/ailments/etc, 3 - local variable, 4 - global variable
 			// Due to this, user defined variables like "let" and "items" can never be accessed. An error message should be posted when this is attempted
 		},
-		var: {
+		var: { // Todo: Change this to "global"
 			// User defined global variable. Creates an attribute in the attribute tab of the sheet
-			//  Also adds the attribute name to a list of names, which are used to retrieve the attributes when refreshing the sheet
+			// - Also adds the attribute name to a list of names, which are used to retrieve the attributes when refreshing the sheet
+			// - Tokens have seperate global variables to allow ex. tracking effect countdowns (think TheBlackSilence) seperately for each token
+			//   - To implement this, token vars will have to be tracked seperately in the attribute tab
+			//   - This should not be needed for local vars, which are preserved when changing tokens
+			// - Targets also have seperate variables, which can be useful in some circumstances. They're accessed using access.target.let/var.someVar
 		},
-		autoscript: {
-			// May cause some issues with nesting. You may need another solution
-			scaling: 1,
-			checkresult: "success",
-			output: {} // Is probably not needed anymore, as access.modify handles updating values
+	},
+
+	// Includes functions for validating input values
+	// Validators for repeating data are found in repDataFormats
+	valid: {
+		type: (s) => is.String(s) && is(s.toLowerCase()).In(["character", "target", "token"]),
+		items: {
+			repeating: repDataFormats.item.valid,
 		},
-	}
+		ailments: {
+			repeating: repDataFormats.ailment.valid,
+		},
+		rolls: {
+			whisper: (s) => is.String(s),
+			difficulty: (i) => is.Int(i),
+			adv: (i) => is.Int(i, {min: 0}),
+			disadv: (i) => is.Int(i, {min: 0}),
+			repeating: rollDataFormat.valid,
+			store: {
+				repeating: rollDataFormat.valid,
+			},
+		},
+		chat: {
+			buttons: {
+				repeating: {}, // Chat buttons have their own formats
+			},
+			message: (s) => is.String(s, {newlines: true}),
+		},
+		settings: {
+			sheet: {
+				_default: (b) => is.Bool(b),
+			},
+			game: {
+				// Differs based on the setting (integers, floats, strings and booleans)
+				// These are currently repeating values, but should be converted to standard sheet values
+			},
+		},
+		bars: {
+			_default: (i) => is.Int(i),
+		},
+		speed: {
+			_default: (i) => is.Int(i),
+		},
+		state: {
+			stagger_duration: (i) => is.Int(i, {min: 0}),
+			_default: (b) => is.Bool(b),
+		},
+		resource: {
+			_default: (i) => is.Int(i, {min: 0}),
+		},
+		character: {
+			name: (s) => is.String(s),
+			id: (s) => is.String(s),
+			_default: (i) => is.Int(i),
+			occupation: (s) => is.String(s), // Does not allow newlines
+			age: (s) => is.String(s),
+			height: (s) => is.String(s),
+			birthplace: (s) => is.String(s),
+			residence: (s) => is.String(s),
+			assets: (s) => is.String(s),
+			ahn: (s) => is.String(s),
+			url: (s) => is.String(s),
+			summary: (s) => is.String(s, {newlines: true}), // Allows newlines
+			combat_notes: (s) => is.String(s, {newlines: true}),
+			notes: (s) => is.String(s, {newlines: true}),
+			description: (s) => is.String(s, {newlines: true}),
+			personality: (s) => is.String(s, {newlines: true}),
+			background: (s) => is.String(s, {newlines: true}),
+		},
+		target: (v) => is.False(v) || v instanceof dataNode, 
+		token: {
+			id: (s) => s == "" || is.ID(s),
+			selection: (s) => s == "" || is.ID(s),
+			_default: (v) => v instanceof dataNode,
+		},
+		tag: {
+			_default: (i) => is.Int(i), // Allows negative values, so you can for example have items with -99 Burn that disable all Burn skills
+		},
+		let: {
+			scaling: (i) => is.Int(i, {min: 0}),
+			checkresult: (s) => is(s).In(["success", "last success", "failure", "no target"]), // Needs translations?
+			triggers: (a) => is.Array(a),
+		},
+		var: {},
+	},
+
+	attrs: {
+		items: {
+			repeating: repDataFormats.item.attrs,
+		},
+		ailments: {
+			repeating: repDataFormats.ailment.attrs,
+		},
+		rolls: {
+			repeating: {}, // Generic rolls have no associated attributes in the sheet
+			store: {
+				repeating: {
+					attrs: {
+						// Currently not implemented
+					},
+					source: {
+						sheet: {
+							type: "id",
+							section: "storedrolls",
+						},
+					},
+					export: {alias: "storedRolls"},
+				},
+			},
+		},
+		chat: {
+			buttons: {
+				repeating: {}, // Chat buttons have their own formats
+			},
+		},
+		settings: {
+			sheet: {},
+			game: {},
+		},
+		bars: {},
+		speed: {},
+		state: {
+			suffix: "State", // Does not work with staggered (attr is "staggerState") and staggerDuration (not State suffix)
+		},
+		resource: {
+			// Believe this has a consistent prefix
+		},
+		character: {
+			prefix: "character_", // TODO: Modify all personalia to have the format character_key
+		},
+		target: {}, 
+		token: {
+			// You may be able to make this link up right with the token data
+		},
+		//tag: {},
+		//let: {},
+		//var: {},
+	},
+
+	source: {
+		sheet: {prefix: ""},
+	},
 }
 
-// The actual access object all the other code interacts with
-const access = new Proxy(accessData, accessHandler);
+
+
+/* Old item Proxy. Something similar should be added using getters and setters for access.items
+items: new Proxy({
+	// Maybe include a "format" prop here which changes the active formats for generating dataNodes
+
+	// Has only repeating data. Sorted by item ids in the order they display in the sheet
+	// To reorder the entries, make them into an array, reorder them using the method on the wiki, then turn the result back into an object
+	// Make sure all other methods and variables in access.items are non-iterable, making loops only affect the itemNodes
+	// When making the validator, make all built in props/methods unmodifiable ((v) => false)
+}, {
+	// Enhanced item access
+	// Can access specific items by id, index or name
+	// Can access multiple items using "all", "equipped", or an item type (ex. "weapons")
+
+	// You may want to make this into standard getters and setters instead
+	//  Makes accessing by index not work, which is no big loss
+	//  Means you'll have to add and delete name accessors as an item's name is updated
+	//  "all", "equipped" and item types each get their own getter
+	//  Gives the advantage of not having to add special handling for the items subnode having a Proxy, and not having to deal with the Proxy object when traversing subnodes
+	get: function (itemList, prop) {
+		if (is.ID(prop)) {
+			return itemList[prop]; // Get an item by id
+		}
+		else if (parseInt(prop) == prop) {
+			return itemList.item(prop); // Get an item by index
+		} else {
+			prop = prop.strip().toLowerCase();
+			
+			if (Object.values(itemList).some(item => item.name.toLowerCase() == prop)) {
+				return itemList.filter(item => item.name == prop).item(0); // Get an item by name
+			}
+			else if (prop == "all") { // Needs a translation
+				return itemList.items; // Get all items
+			}
+			else if (prop == "equipped") { // Needs a translation
+				return itemList.equipped.items; // Get all equipped items
+			}
+			else if (prop in itemNode.format.section.sheet) { // Needs to account for translated item type names
+				return itemList.filter(item => item.type.toLowerCase() == prop).items; // Get all items of a certain type
+			}
+		}
+	}
+}),
+*/
+
+
 
 
 
 on("clicked:testA", function(info) {
 	console.log("Clicked button A");
+	
+	let newNode = new dataNode();
+	console.log("Finishes dataNode:", newNode);
+
+	let values = {
+		sheet: {
+			"repeating_weapons_-1234_someKey": 5,
+			"repeating_outfits_-1234_someKey": 7, // Fails since the id is not unknown
+			"repeating_ailments_-abcd_someKey": 0,
+			"repeating_weapons_-3456_someKey": "test",
+			"repeating_augments_-cdef_rollMax1": 12,
+			"nonRepeatingData": 2,
+		},
+		editor: {}
+	}
+	newNode.items.input(values);
+	newNode.ailments.input(values);
+	newNode.items.delete("-1234");
+	
 	console.log(access);
-	console.log(access.proxyData);
-	access.proxyData = {myNew: "object"}
-	console.log(access)
-	console.log(access.proxyData)
 });
 
 
@@ -17930,22 +18814,502 @@ on("clicked:testA", function(info) {
 on("clicked:testB", function(info) {
 	console.log("Clicked button B");
 
-	itemList.access("write", {}, () => {
-		console.log(itemList)
-		let filteredItemList = itemList.filter(item => item.type == "Tool");
-		console.log(filteredItemList);
-		console.log(filteredItemList.export());
-		console.log(filteredItemList.IDs, filteredItemList[filteredItemList.IDs[0]])
-		filteredItemList[filteredItemList.IDs[0]].type = "Weapon";
-		console.log(itemList)
-		itemList.access("read", {}, () => {
-			console.log("Began second access");
-			itemList.access("write", {}, () => {
-				console.log("Began third access");
-			});
-		});
-	});
 });
+
+
+
+
+
+
+
+class dataNode {
+
+	constructor(formats=dataFormat, id=false, index=false) {
+		Object.defineProperties(this, {
+			valid: {writable: true, value: {}}, // List of attribute value validators for the node
+			attrs: {writable: true, value: {}},  // List of attribute name formats for the node
+			enabled: {writable: true, value: false}, // If a subnode and its properties are enabled. Used primarily for toggling item options
+			id: {writable: true, value: id}, // The repeating id associated with the node, if any
+			index: {writable: true, value: index}, // The repeating index associated with the node, if any
+			formats: {value: formats}
+		});
+
+		// Get the sources of the data, and any source-specific attribute name data
+		for (const source of Object.keys(formats.source)) {
+			Object.defineProperty(this.attrs, source, {
+				writable: true, value: formats.source[source]
+			});
+		};
+
+		// All nodes that appear in a default format should be enabled by default. All other nodes should be disabled
+		if (formats.default) {
+			this.enabled = true;
+		}
+
+		// Constructs the node and any subnodes
+		for (const [prop, value] of Object.entries(formats.base)) {
+
+			// Configures the format of repeating nodes generated by this node using add()
+			if (prop == "repeating") {
+				Object.defineProperty(this, "rep", {
+					value: {
+						base: value,
+						valid: formats.valid.repeating || false,
+						attrs: formats.attrs.repeating.attrs || false,
+						source: formats.attrs.repeating.source || false,
+						export: formats.attrs.repeating.export || false,
+						defaults: formats.attrs.repeating.defaults || false,
+					},
+				});
+			}
+
+			// Get any subnodes of the node
+			else if (is.Object(value)) {
+				this[prop] = new dataNode({
+					base: value,
+					default: formats.default?.[prop] || false,
+					valid: formats.valid?.[prop] || false,
+					attrs: formats.attrs?.[prop] || false,
+					source: formats.source[prop] || formats.source || false,
+				}, this.id, this.index);
+			}
+
+			// Get any properties of the node
+			else {
+				if (formats.default && prop in formats.default) {
+					this[prop] = formats.default[prop];
+				} else {
+					this[prop] = value;
+				}
+			}
+
+
+			// Get any property-specific attribute name data (ex. for options)
+			if (formats.attrs) {
+				if (formats.attrs[prop]?.option) {
+					this.attrs[prop] = "option" + formats.attrs[prop].option;
+				}
+				else if (prop != "repeating") {
+					let prefix = formats.attrs.prefix || "";
+					let suffix = formats.attrs.suffix || "";
+					let key = (prefix != "") ? capitalize(prop) : prop;
+					this.attrs[prop] = prefix + key + suffix;
+				}
+			}
+
+
+			// Get any attribute value validatation data
+			if (formats.valid?.[prop] && typeof formats.valid[prop] == "function") {
+				this.valid[prop] = formats.valid[prop];
+			} 
+			else if (formats.valid._default) {
+				this.valid[prop] = formats.valid._default;
+			}
+			else {
+				if (!(prop in formats.valid) && prop != "repeating") {
+					console.warn(`itemNode - valid format: property "${prop}" is not in the format`, formats.valid);
+				}
+			}
+		}
+		return this;
+	}
+		
+	// Assign input attribute values from the sheet and/or editor to the item. See itemList.input() for more details
+	input(values, options={}) {
+		
+		// Create new repeating nodes when inputting untracked repeating data
+		if (this.rep) {
+			for (const [source, params] of Object.entries(this.rep.source)) {
+				for (const key of Object.keys(values[source])) {
+					if (key.startsWith("repeating")) {
+						let [section, repid, repkey] = key.split("_").slice(1);
+						let repindex = parseInt(repkey);
+						
+						// The attribute has a section matching a data source...
+						if (params.section?.includes(section)) {
+							let repCount = Object.keys(this).filter(p => !this.formats.base[p]).length;
+							
+							// ... and the attribute has a repeating id which is *not* a subnode
+							if (params.type == "id" && !this[repid]) {
+								this.add({id: repid, index: repCount + 1, section: section});
+							}
+	
+							// ... and the attribute has the *same* id as the node, and has an unknown index
+							else if (params.type == "index" && this.id == repid && repCount < repindex) {
+								this.add({id: generateRowID(), index: repCount + 1, section: section})
+							}
+						}
+					}
+				}
+			}
+		}
+		return this.access(values, {...options, lowerCase:true});
+	}
+
+
+
+	/* TODO: Beginning of old code. Needs to be updated to the new access system */
+
+
+
+	// Generates and outputs a list of attribute values for the sheet and editor. See itemList.output() for more details
+	// Editor data is only generated for the item currently open in the item editor
+	output(options={}) {
+		return this.access(false, options);
+	}
+
+	// Generates and returns an array of keys for both the editor and sheet. See itemList.keys and itemList.event() for more details
+	// If an event is provided the keys are returned in the event key format
+	keys(event=false) {
+		return Object.entries(this.access(false, {includeDisabled:true, lowerCase:true, event}))
+			.reduce((acc, [source, values]) => { return {...acc, [source]: Object.keys(values)} }, {});
+	}
+
+	// Helper method for accessing all nodes and properties of an item
+	// Used by input(), output(), import(), export() and keys()
+	access(values, options={includeDisabled:false, lowerCase:false, event:false, unsorted:false}) {
+		
+		let output = {editor: {}, sheet: {}}
+		// TODO: Make this match the exact sources of the current node
+
+		// Values generated by getAttrs() are all in lower-case, while values from item.output may be in mixed-case
+		// For consistent prop-to-attr matching all attribute and property names are converted to lowercase
+		if (values && length(values) > 0) {
+			for (const source of Object.keys(values)) {
+				values[source] = Object.entries(values[source]).reduce((acc, [key, value]) => { return {...acc, [key.toLowerCase()]: value} }, {});
+			}
+		}
+
+		if (!values || length(values) > 0) {
+			for (const [prop, value] of Object.entries(this)) {
+				for (const source of Object.keys(output)) {
+
+					// Only input and output editor data from the current editor target
+					if (source == "editor" && this.id != access._editor.target && !options.event) { continue; }
+
+					// Get the attribute name of the property in the current source
+					let propAttr = this.attr(prop, source, options);
+
+					// Handle inputting values
+					if (values && length(values[source]) > 0 && propAttr in values[source]) {
+						this.modify(prop, values[source][propAttr], {...options, source: "input"});
+						delete values[source][propAttr];
+					}
+
+					// Handle outputting values
+					else if (this.enabled || options.includeDisabled) {
+						if (this.hasOption(prop)) {
+							output[source][propAttr] = "" + this[prop].enabled;
+						}
+						else if (!(value instanceof itemNode)) {
+							output[source][propAttr] = value;
+						}
+					}
+				}
+				
+				// Recursively access any sub-nodes
+				if (value instanceof itemNode) {
+					Object.entries(value.access(values, options)).reduce((acc, [source, subnodeOutput]) => Object.assign(output[source], subnodeOutput), {});
+				}
+			}
+			return (options.unsorted) ? {...output.editor, ...output.sheet} : output;
+		}
+	}
+
+	// Returns the attribute name of a property in either the sheet or editor
+	// If an event type is provided the attribute is returned in the event key format
+	attr(prop, source, options={lowerCase:false, event:false}) {
+		if (prop in this.attrs) {
+			let index = (this.attrs[source].index != undefined) ? this.attrs[source].index : "";
+			let prefix = this.attrs[source].prefix || "";
+			let suffix = this.attrs[source].suffix || "";
+			let key = this.attrs[prop];
+
+			if (parseInt(prop) == prop) {
+				key = this.attrs.array;
+				index = prop;
+			}
+
+			if (prefix != "") key = capitalize(key);
+
+			if (this.attrs[source].section) {
+				if (options.event) {
+					prefix = `${options.event}:repeating_${this.attrs[source].section}:${prefix}`;
+				} else {
+					prefix = `repeating_${this.attrs[source].section}_${this.attrs[source].id}_${prefix}`;
+				}
+			} else if (options.event) {
+				prefix = `${options.event}:${prefix}`;
+			}
+
+			let propAttr = prefix + key + suffix + index;
+			return (options.lowerCase) ? propAttr.toLowerCase() : propAttr;
+		} else {
+			return false;
+		}
+	}
+
+	// Helper that checks if an itemNode property is associated with an option attribute
+	hasOption(prop) {
+		if (parseInt(prop) == prop) {
+			return this.attrs.array?.startsWith("option");
+		} else {
+			return this.attrs[prop]?.startsWith("option");
+		}
+	}
+
+	// Modifies an item property
+	// If a validator format was provided at item creation only valid values are accepted
+	// Adds any changes to itemList.outputValues. The changes are applied to the sheet/editor when the itemList access ends
+	modify(prop, newValue, options={source:"input", modify:false}) {
+		if (!isNaN(parseInt(prop))) return; // Ensures repeating nodes are not modified (have prop names "0", "1", etc.)
+
+		console.log(`(${options.source}) ${prop} ${this[prop]} -> ${newValue}`);
+		if (this[prop] != undefined) {
+			
+			if (prop in this.valid && !this.valid[prop](newValue)) {
+				console.warn(`Attempted to set the value of ${prop} to invalid value ${newValue}`, this);
+			} else {
+				if (this[prop] != newValue) {
+					console.log(`(${options.source}) Modifying ${prop} from "${this[prop]}" to "${newValue}"`);
+
+					// Makes sure enabled is set to a boolean value and not ex. "false"
+					if (this[prop] instanceof itemNode) {
+						this[prop].enabled = is.True(newValue) ? "true" : "0";
+					} else if (prop == "enabled") {
+						this[prop] = is.True(newValue) ? "true" : "0";
+					} else {
+						this[prop] = newValue;
+					}
+
+					// Modify the associated attributes in the sheet/editor if applicable
+					if (this.attrs[prop]) {
+						if (!options.modify || options.modify == "sheet") {
+							itemList.outputValues[this.attr(prop, "sheet")] = newValue;
+						}
+						if (this.id == itemList.editor.target && (!options.modify || options.modify == "editor")) {
+							itemList.outputValues[this.attr(prop, "editor")] = newValue;
+						}
+					}
+				}
+			}
+		} else {
+			console.warn(`Attempted to set the value of ${prop} but the property does not exist`, this);
+		}
+	}
+
+
+	/* End of old code */
+
+
+
+	// Adds a new repeating subnode to the item
+	// Adds accessors for the id, index and name (if applicable) of a subnode
+	add(options={}) {
+		if (this.rep) {
+			let newID = options.id || this.id; // TODO: Make this use a provided index || this.id if rep.type == "index" || make a new index
+			let newIndex = options.index;
+			let repSource = {}
+			
+			for (const source of Object.keys(this.rep.source)) {
+				repSource[source] = {...this.rep.source[source]};
+				if (is.Array(repSource[source].section || false)) {
+					repSource[source].section = options.section;
+				}
+			}
+			
+			this[newID] = new dataNode({
+				base: this.rep.base,
+				default: this.rep.defaults[options.section] || false,
+				valid: this.rep.valid || false,
+				attrs: this.rep.attrs || false,
+				source: repSource,
+			}, newID, newIndex);
+
+			this.#addAccessors(this[newID], newIndex);
+
+			// Create a new repeating item by outputting the new node
+			let nodeOutput = this[newID].output();
+			if (this.rep.source.sheet) {
+				Object.assign(access._output, nodeOutput.sheet);
+			}
+			if (this.rep.source.editor && this.id == access._editor.target) {
+				Object.assign(access._output, nodeOutput.editor);
+			}
+
+			/* TODO: This code previously handled displaying new roll formats in the sheet, and hiding the button when 5+ rollformats exist
+			// - This should now be an access event when a new rollformat is created
+			
+			if (itemList.editor.target == this.id) {
+					let rollFormatValues = this.rollformats[newIndex].output();
+					itemList.outputValues = {
+						...itemList.outputValues,
+						...rollFormatValues.editor,
+						...rollFormatValues.sheet,
+						[`repeating_${this.type}s_${this.id}_optionRollDisplay${newIndex}`]: "true", // <--- This part here
+						"rollFormatAddToggle": "" + (this.rollformats.length >= 5),
+					}
+				}
+			*/
+		}
+	}
+	#addAccessors(node, index) {
+		if (node.name) {
+			Object.defineProperty(this, node.name, {
+				get() {
+					return node;
+				},
+				configurable: true,
+			});
+		}
+		Object.defineProperty(this, index, {
+			get() {
+				return Object.values(this)[index - 1];
+			},
+			configurable: true,
+		});
+	}
+	
+	// Deletes a repeating subnode of the item with a specific id
+	// Adds all accessors for the subnode
+	delete(id) {
+		if (this.rep && id in this) {
+			let node = this[id];
+			let repCount = Object.keys(this).filter(p => !this.formats.base[p]).length;
+
+			this.#deleteAccessors(node, repCount);
+			delete this[id];
+
+			// Updates the indexes of all remaining subnodes
+			let updateIndexes = (node, i) => {
+				node.index = i;
+				for (const prop in node) {
+					if (node[prop] instanceof dataNode) {
+						updateIndexes(node[prop], i);
+					}
+				}
+			}
+			for (let i = node.index; i < repCount; i++) {
+				console.log("Changing index from", this[i].index, "to", i, this[i]);
+				updateIndexes(this[i], i);
+			}
+
+			// Remove all repeating items associated with the deleted node
+			if (node.attrs.sheet.section) {
+				removeRepeatingRow(`repeating_${node.attrs.sheet.section}_${id}`);
+			}
+			if (node.attrs.editor.section) {
+				removeRepeatingRow(`repeating_${node.attrs.editor.section}_${id}`); // TODO: Check this id is correct
+			}
+		}
+	}
+	#deleteAccessors(node, index) {
+		if (node.name) {
+			delete this[node.name];
+		}
+		delete this[index];
+	}
+
+
+
+	// Creates a duplicate of the this node
+	clone() {
+		return new dataNode(this.formats, this.id, this.index).paste(this.copy());
+	}
+
+	// Copies and returns the data of this node
+	// The data can be pasted into any dataNode to override its data
+	copy() {
+		let fixEnabled = (node, copy) => {
+			copy.enabled = node.enabled;
+			for (const prop in node) {
+				if (node[prop] instanceof dataNode) {
+					fixEnabled(node[prop], copy[prop]);
+				}
+			}
+			return copy;
+		}
+		return fixEnabled(this, structuredClone(this));
+	}
+	paste(data) {
+		for (const prop in {...this, ...data}) {
+			
+			// Override repeating data
+			if (prop in data && !(prop in this)) {
+				this.add({id: prop});
+			}
+			else if (prop in this && !(prop in data)) {
+				this.delete(prop);
+			}
+
+			// Override standard data
+			if (is.Object(this[prop])) {
+				this[prop].paste(data[prop]);
+			}
+			else if (data[prop]){
+				this[prop] = data[prop];
+			}
+		}
+		return this;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// Info on how to implement "props" style attribute keys, which will be used in item export scripts
+	//   If type == "props":
+	//     When inputing values (values != false) get repeating.editor.check, find values where key includes check.key and where check.value(value) == true. Get their ids
+	//       Then get repeating.editor.key and value, loop through the ids, find matches with id_key in values, get the key, then set this[key] = values[repeating_section_id_value] 
+	//       Also save the ids to attr_editorRepeatingProps as {key: {prop1: id, prop2: id}}. When accessing itemList, it adds all props from editorRepeatingProps to editor.IDs
+	//       Change of plans: have itemList.access set up editorRepeatingProps. Have it import check-key pairs, get the attrs, check which values have check.key and check.value(value) == true
+	//         Get the ids, find attrs containing id_key, then save IDs.key = [values[key]: id, ...]
+	//         This method should be able to handle any future repeating values you add to the editor
+	//     When outputing values, loop over props and values, get itemList.editor.IDs[key], then output {repeating_rep.section_id_rep.key: prop, repeating_rep.section_id_rep.value: value}
+	//       When exporting, ignore this and just export [alias, prop:value, prop:value, ...]. Their repeatingProps will have the correct ids for their sheet
+
+	/* Unfinished code end */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -17960,10 +19324,6 @@ on("clicked:testB", function(info) {
 // Attempting assign a value to an an object inside access, like access.items = "", posts an error message to the chat
 //  You can implement this by having the ParseMath assign operation throw an error if typeof(a) == "Object"
 //  Some operations are allowed, like access.roll[0] = access.roll[1]. You could add a "datatype" prop for this, where the datatype of both objects must match
-
-
-
-
 
 
 
@@ -18105,9 +19465,6 @@ on(itemEvent("clicked", "edit-item"), function(info) {
 	});
 });
 */
-
-
-
 
 
 
@@ -21796,14 +23153,15 @@ class checkVal {
 	static x;
 
 	static Int(i, opts={}) { return !isNaN(parseInt(i)) && this.Opts(i, opts); }
-	static String(s, opts={newlines:true}) { return typeof(s) == "string" && (opts.newline) ? !s.includes("\n") : true; }
+	static String(s, opts={newlines:false}) { return typeof(s) == "string" && (opts.newline) ? !s.includes("\n") : true; }
 	static ID(s, opts={}) { return typeof(s) == "string" && (opts.strict ? /^-[\w-]{19}$/ : /^-.{19}$/).test(s); } // Checks if a Roll20-style id is valid
+	static Effect(v, opts={}) { return /^(?:-(?:\d+|n|\d+n))$|^(?:\d+)?n?$/.test(v); } // Check for ailment effects like "0", "-n" and "6n"
 	
 	static False(b) { return ["false", "0"].includes("" + b); }
 	static True(b) { return ["true", "1"].includes("" + b); }
 	static Bool(b) { return ["false", "true", "0", "1"].includes("" + b); }
 
-	static Array(a, opts={}) { console.log("Array heeeeere:", a, a.length, opts, this.Opts(a.length, opts)); return Array.isArray(a) && this.Opts(a.length, opts); }
+	static Array(a, opts={}) { return Array.isArray(a) && this.Opts(a.length, opts); }
 	static Object(o, opts={}) { return typeof(o) == "object" && !Array.isArray(o) && this.Opts(length(o), opts); }
 	static In(o) { return (Array.isArray(o)) ? o.includes(this.x) : this.x in o }
 
