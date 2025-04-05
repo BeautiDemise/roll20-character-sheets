@@ -648,7 +648,7 @@
 				<div class="rowContainer">
 					<input type="checkbox" class="whiteInput" name="attr_itemEditLinkedEquipTogether" value="true" data-i18n-title="item-linked-equiptogether" title="Auto: Equip item with linked item">
 					<input type="text" class="whiteInput" name="attr_itemEditLinkedName" placeholder="Linked name" style="width: 100px;">
-					<input type="text" class="whiteInput" name="attr_itemEditLinkedId" placeholder="Linked id" style="width: 100px;">
+					<input type="text" class="whiteInput" name="attr_itemEditLinkedItemId" placeholder="Linked id" style="width: 100px;">
 
 					<!-- Add a attribute to all repeating items which matches the currently selected link item in the editor -->
 					<!-- Style the dropdown entry for the selected item differently and have the dropdown default to the type of the item -->
@@ -5811,7 +5811,7 @@
 			<!-- Linked -->
 			<div>
 				Opt. Linked <input type="checkbox" class="" name="attr_optionLinked" value="true">
-				Linked ID: <input type="text" class="" name="attr_linkedId" placeholder="Linked id">
+				Linked ID: <input type="text" class="" name="attr_linkedItemId" placeholder="Linked id">
 				Equip Together: <input type="checkbox" class="" name="attr_linkedEquipTogether" value="true">
 			</div>
 
@@ -16837,8 +16837,8 @@ class itemNode {
 				uses: {cost: 1},
 			},
 			linked: {
-				id: false,
-				equipTogether: true,
+				itemid: false,
+				equip_together: true,
 			},
 			limited: {
 				uses: {
@@ -17026,8 +17026,8 @@ class itemNode {
 				},
 			},
 			linked: { // Enabled by optionLinked
-				id: (v) => is.Bool(v) || is(v).In(itemList.IDs), // Need to make sure this works if the linked item is added after this item. Maybe add all the ids first and then add the itemNodes?
-				equipTogether: (b) => is.Bool(b),
+				itemid: (v) => is.Bool(v) || is(v).In(itemList.IDs), // Need to make sure this works if the linked item is added after this item. Maybe add all the ids first and then add the itemNodes?
+				equip_together: (b) => is.Bool(b),
 			},
 			limited: { // Enabled by optionLimited
 				uses: { // Enabled by optionUses
@@ -17751,7 +17751,7 @@ const accessHandler = {
 			if (prop == "currentID") {
 				prop = getActiveCharacterId();
 			}
-			if (id.ID(prop)) {
+			if (is.ID(prop)) {
 				if (prop in root) {
 					for (const [datakey, datavalue] of Object.entries(value)) {
 						if (datavalue instanceof dataNode) {
@@ -17880,7 +17880,7 @@ const access = new Proxy(accessData, accessHandler);
 
 const rollDataFormat = {
 	base: {
-		type: "None", mode: "Roll", damagetype: "None", count: 0, max: 0, power: 0, adv: false, autoscript: "",
+		type: "None", mode: "Roll", damage_type: "None", count: 0, max: 0, power: 0, adv: false, autoscript: "",
 		action: {type: "Action", cost: 1},
 		reaction: {type: "Reaction", cost: 1},
 		uses: {cost: 1},
@@ -17892,7 +17892,7 @@ const rollDataFormat = {
 	valid: {
 		type: (s) => is(s).In(["None", ...combatRollNames, ...statNamesFull, "Custom"]),
 		mode: (s) => is(s).In(["Roll", "Applied"]), // Applied is ignored outside of roll formats
-		damagetype: (v) => is(v).In(["None", ...damageTypes, "Choose"]) || (is.Array(v, {min:1, max:3} && v.each(d => damageTypes.includes(d)))), // Allows an array of 1-3 damagetypes ("Hybrid")
+		damage_type: (v) => is(v).In(["None", ...damageTypes, "Choose"]) || (is.Array(v, {min:1, max:3} && v.each(d => damageTypes.includes(d)))), // Allows an array of 1-3 damagetypes ("Hybrid")
 		count: (i) => is.Int(i, (this.type == "Roll") ? {min: 1} : {}), // This probably still refers to this itemNode, right? If not use itemList[this... id...]... motherfucker
 		max: (i) => is.Int(i, (this.type == "Roll") ? {min: 0} : {}),
 		power: (i) => is.Int(i),
@@ -17934,7 +17934,7 @@ const repDataDefaults = {
 			equip: {slots: {type: "Hands", value: 1}},
 			rollformats: {
 				repeating: [
-					{type: "Attack", damagetype: "Choose", count: 1, max: 10, power: 0, action: {}, reaction: {type: "Counter"}},
+					{type: "Attack", damage_type: "Choose", count: 1, max: 10, power: 0, action: {}, reaction: {type: "Counter"}},
 				],
 			},
 			ui: {weapon: true},
@@ -18030,8 +18030,8 @@ const repDataFormats = {
 				uses: {cost: 1},
 			},
 			linked: {
-				id: false,
-				equipTogether: true,
+				itemid: false,
+				equip_together: true,
 			},
 			limited: {
 				uses: {
@@ -18119,8 +18119,8 @@ const repDataFormats = {
 				},
 			},
 			linked: { // Enabled by optionLinked
-				id: (v) => is.Bool(v) || is(v).In(itemList.IDs), // Need to make sure this works if the linked item is added after this item. Maybe add all the ids first and then add the itemNodes?
-				equipTogether: (b) => is.Bool(b),
+				itemid: (v) => is.Bool(v) || is(v).In(itemList.IDs), // Need to make sure this works if the linked item is added after this item. Maybe add all the ids first and then add the itemNodes?
+				equip_together: (b) => is.Bool(b),
 			},
 			limited: { // Enabled by optionLimited
 				uses: { // Enabled by optionUses
@@ -18229,6 +18229,7 @@ const repDataFormats = {
 						attrs: {
 							option: "RollDisplay", 
 							prefix: "roll",
+							case: "snake",
 							action: {option: "RollAction", prefix: "rollAction"},
 							reaction: {option: "RollReaction", prefix: "rollReaction"},
 							uses: {option: "RollUses", prefix: "rollUses"},
@@ -18254,7 +18255,7 @@ const repDataFormats = {
 					reaction: {option: "UsableReaction", prefix: "usableReaction"},
 					uses: {option: "UsableUses", prefix: "usableUses"}
 				},
-				linked: {option: "Linked", prefix: "linked"},
+				linked: {option: "Linked", prefix: "linked", case: "snake"},
 				limited: {
 					option: "Limited",
 					uses: {option: "Uses", prefix: "uses"},
@@ -18325,12 +18326,16 @@ const repDataFormats = {
 			settings: {
 				display: true,
 				trigger: "None",
-				has_next_round_field: true,
-				trigger_dmg_type: "Any",
-				resistance_mode: "before", // TODO: Currently "beforeResistance"
-				decay_when_hit: true,
-				decay_round_end: true,
+				has_next_round: true,
 				custom_resistance: true,
+				whenhit: {
+					damage_type: "Any",
+					decay: true,
+					resistance_mode: "before", // TODO: Currently "beforeResistance"
+				},
+				roundend: {
+					decay: true,
+				}
 			},
 			effect: {
 				type: "None",
@@ -18340,7 +18345,7 @@ const repDataFormats = {
 			decay: {
 				type: "0",
 				mode: "=",
-				value: "0",
+				value: 0,
 			},
 			max: {
 				mode: "None",
@@ -18358,8 +18363,14 @@ const repDataFormats = {
 			settings: {
 				_default: (b) => is.Bool(b),
 				trigger: (s) => is(s).In("None", "RoundEnd", "OnAction", "WhenHit"),
-				trigger_dmg_type: (s) => is(s).In("Any", "Slash", "Pierce", "Blunt"),
-				resistance_mode: (s) => is(s).In("Before", "After"),
+				whenhit: {
+					damage_type: (s) => is(s).In("Any", "Slash", "Pierce", "Blunt"),
+					decay: (b) => is.Bool(b),
+					resistance_mode: (s) => is(s).In("Before", "After"),
+				},
+				roundend: {
+					decay: (b) => is.Bool(b),
+				}
 			},
 			effect: {
 				type: (s) => is(s).In("None", "HP", "ST", "HP+ST", "THP", "TST", "SP", "Light", "DistortCounter", "Difficulty"),
@@ -18384,11 +18395,17 @@ const repDataFormats = {
 		attrs: {
 			attrs: {
 				prefix: "ail",
-				settings: {},
-				effect: {},
-				decay: {},
-				max: {},
-				message: {},
+				case: "snake",
+				settings: {
+					prefix: "ail",
+					case: "snake",
+					whenhit: {prefix: "ailWhenHit", case: "snake"},
+					roundend: {prefix: "ailRoundEnd"},
+				},
+				effect: {prefix: "ailEffect"},
+				decay: {prefix: "ailDecay"},
+				max: {prefix: "ailMax"},
+				message: {prefix: "ailMessage"},
 			},
 			source: {
 				sheet: {
@@ -18497,8 +18514,8 @@ const dataFormat = {
 			base: 0, this_round: 0, next_round: 0,
 		},
 		state: {
-			panicked: "false", staggered: "false", stagger_duration: 2, 
-			defeated: "false", seal: "false", immobile: "false",
+			staggered: "false", stagger_duration: 2, stagger_duration_max: 2,
+			panicked: "false", defeated: "false", seal: "false", immobile: "false",
 		},
 		resource: {
 			action: 1, action_max: 1, action_base: 1,
@@ -18565,7 +18582,7 @@ const dataFormat = {
 			// - Removing tags during an action does not hinder that action from executing, but it may hinder other actions from executing afterwards
 			//   - If you want to hinder an action, remove tags when an item is equipped or unequipped (see above)
 		},
-		let: { // TODO: Change this to "local"
+		local: { // TODO: Change this to "local"
 			// Props used in autoScriptMain()
 			scaling: 0,
 			checkresult: "success",
@@ -18583,7 +18600,7 @@ const dataFormat = {
 			// The order of priority is specifically: 1 - id, 2 - items/ailments/etc, 3 - local variable, 4 - global variable
 			// Due to this, user defined variables like "let" and "items" can never be accessed. An error message should be posted when this is attempted
 		},
-		var: { // Todo: Change this to "global"
+		global: { // Todo: Change this to "global"
 			// User defined global variable. Creates an attribute in the attribute tab of the sheet
 			// - Also adds the attribute name to a list of names, which are used to retrieve the attributes when refreshing the sheet
 			// - Tokens have seperate global variables to allow ex. tracking effect countdowns (think TheBlackSilence) seperately for each token
@@ -18636,6 +18653,7 @@ const dataFormat = {
 		},
 		state: {
 			stagger_duration: (i) => is.Int(i, {min: 0}),
+			stagger_duration_max: (i) => is.Int(i, {min: 1}),
 			_default: (b) => is.Bool(b),
 		},
 		resource: {
@@ -18669,12 +18687,12 @@ const dataFormat = {
 		tag: {
 			_default: (i) => is.Int(i), // Allows negative values, so you can for example have items with -99 Burn that disable all Burn skills
 		},
-		let: {
+		local: {
 			scaling: (i) => is.Int(i, {min: 0}),
 			checkresult: (s) => is(s).In(["success", "last success", "failure", "no target"]), // Needs translations?
 			triggers: (a) => is.Array(a),
 		},
-		var: {},
+		global: {},
 	},
 
 	attrs: {
@@ -18726,8 +18744,8 @@ const dataFormat = {
 			// You may be able to make this link up right with the token data
 		},
 		//tag: {},
-		//let: {},
-		//var: {},
+		//local: {},
+		//global: {},
 	},
 
 	source: {
@@ -18736,50 +18754,6 @@ const dataFormat = {
 }
 
 
-
-/* Old item Proxy. Something similar should be added using getters and setters for access.items
-items: new Proxy({
-	// Maybe include a "format" prop here which changes the active formats for generating dataNodes
-
-	// Has only repeating data. Sorted by item ids in the order they display in the sheet
-	// To reorder the entries, make them into an array, reorder them using the method on the wiki, then turn the result back into an object
-	// Make sure all other methods and variables in access.items are non-iterable, making loops only affect the itemNodes
-	// When making the validator, make all built in props/methods unmodifiable ((v) => false)
-}, {
-	// Enhanced item access
-	// Can access specific items by id, index or name
-	// Can access multiple items using "all", "equipped", or an item type (ex. "weapons")
-
-	// You may want to make this into standard getters and setters instead
-	//  Makes accessing by index not work, which is no big loss
-	//  Means you'll have to add and delete name accessors as an item's name is updated
-	//  "all", "equipped" and item types each get their own getter
-	//  Gives the advantage of not having to add special handling for the items subnode having a Proxy, and not having to deal with the Proxy object when traversing subnodes
-	get: function (itemList, prop) {
-		if (is.ID(prop)) {
-			return itemList[prop]; // Get an item by id
-		}
-		else if (parseInt(prop) == prop) {
-			return itemList.item(prop); // Get an item by index
-		} else {
-			prop = prop.strip().toLowerCase();
-			
-			if (Object.values(itemList).some(item => item.name.toLowerCase() == prop)) {
-				return itemList.filter(item => item.name == prop).item(0); // Get an item by name
-			}
-			else if (prop == "all") { // Needs a translation
-				return itemList.items; // Get all items
-			}
-			else if (prop == "equipped") { // Needs a translation
-				return itemList.equipped.items; // Get all equipped items
-			}
-			else if (prop in itemNode.format.section.sheet) { // Needs to account for translated item type names
-				return itemList.filter(item => item.type.toLowerCase() == prop).items; // Get all items of a certain type
-			}
-		}
-	}
-}),
-*/
 
 
 
@@ -18805,7 +18779,12 @@ on("clicked:testA", function(info) {
 	newNode.items.input(values);
 	newNode.ailments.input(values);
 	newNode.items.delete("-1234");
+	console.log(newNode.output());
+	console.log(newNode.keys());
+
+	console.log(newNode.items.filter(n => n.index == 2));
 	
+	access[generateRowID()] = newNode;
 	console.log(access);
 });
 
@@ -18813,7 +18792,6 @@ on("clicked:testA", function(info) {
 
 on("clicked:testB", function(info) {
 	console.log("Clicked button B");
-
 });
 
 
@@ -18828,11 +18806,17 @@ class dataNode {
 		Object.defineProperties(this, {
 			valid: {writable: true, value: {}}, // List of attribute value validators for the node
 			attrs: {writable: true, value: {}},  // List of attribute name formats for the node
-			enabled: {writable: true, value: false}, // If a subnode and its properties are enabled. Used primarily for toggling item options
+			enabled: {writable: true, value: true}, // If a subnode and its properties are enabled. Used primarily for toggling item options
 			id: {writable: true, value: id}, // The repeating id associated with the node, if any
 			index: {writable: true, value: index}, // The repeating index associated with the node, if any
-			formats: {value: formats}
+			formats: {writable: true, value: formats}
 		});
+
+		// Construct a node from a pre-existing node. Used in filter()
+		if (formats.node) {
+			return Object.defineProperties(this, Object.fromEntries(Object.entries(Object.getOwnPropertyDescriptors(formats.node))
+				.filter(([prop, value]) => !value.enumerable || value.value instanceof dataNode && (!formats.filter || formats.filter.includes(prop)))));
+		}
 
 		// Get the sources of the data, and any source-specific attribute name data
 		for (const source of Object.keys(formats.source)) {
@@ -18841,9 +18825,9 @@ class dataNode {
 			});
 		};
 
-		// All nodes that appear in a default format should be enabled by default. All other nodes should be disabled
-		if (formats.default) {
-			this.enabled = true;
+		// For item nodes, only enable nodes in that item type's default format
+		if (formats.source.editor && !formats.default) {
+			this.enabled = false;
 		}
 
 		// Constructs the node and any subnodes
@@ -18893,12 +18877,17 @@ class dataNode {
 					let prefix = formats.attrs.prefix || "";
 					let suffix = formats.attrs.suffix || "";
 					let key = (prefix != "") ? capitalize(prop) : prop;
+					
+					if (formats.attrs.case == "snake" && prop.indexOf("_") > -1) {
+						key = camelize(key);
+					}
+
 					this.attrs[prop] = prefix + key + suffix;
 				}
 			}
 
 
-			// Get any attribute value validatation data
+			// Get any attribute value validation data
 			if (formats.valid?.[prop] && typeof formats.valid[prop] == "function") {
 				this.valid[prop] = formats.valid[prop];
 			} 
@@ -18914,7 +18903,7 @@ class dataNode {
 		return this;
 	}
 		
-	// Assign input attribute values from the sheet and/or editor to the item. See itemList.input() for more details
+	// Assign input attribute values from the sheet and/or editor to the item
 	input(values, options={}) {
 		
 		// Create new repeating nodes when inputting untracked repeating data
@@ -18946,31 +18935,23 @@ class dataNode {
 		return this.access(values, {...options, lowerCase:true});
 	}
 
-
-
-	/* TODO: Beginning of old code. Needs to be updated to the new access system */
-
-
-
-	// Generates and outputs a list of attribute values for the sheet and editor. See itemList.output() for more details
+	// Generates and outputs a list of attribute values for the sheet and editor
 	// Editor data is only generated for the item currently open in the item editor
 	output(options={}) {
 		return this.access(false, options);
 	}
 
-	// Generates and returns an array of keys for both the editor and sheet. See itemList.keys and itemList.event() for more details
+	// Generates and returns an array of keys for both the editor and sheet
 	// If an event is provided the keys are returned in the event key format
-	keys(event=false) {
-		return Object.entries(this.access(false, {includeDisabled:true, lowerCase:true, event}))
-			.reduce((acc, [source, values]) => { return {...acc, [source]: Object.keys(values)} }, {});
+	keys(options={event:false}) {
+		return Object.keys(this.access(false, {includeDisabled:true, lowerCase:true, unsorted:true, event: options.event}));
 	}
 
 	// Helper method for accessing all nodes and properties of an item
 	// Used by input(), output(), import(), export() and keys()
-	access(values, options={includeDisabled:false, lowerCase:false, event:false, unsorted:false}) {
-		
-		let output = {editor: {}, sheet: {}}
-		// TODO: Make this match the exact sources of the current node
+	access(values, options={output:false, includeDisabled:false, lowerCase:false, event:false, unsorted:false}) {
+		let output = options.output || {editor: {}, sheet: {}}
+		if (!options.output) options.output = output;
 
 		// Values generated by getAttrs() are all in lower-case, while values from item.output may be in mixed-case
 		// For consistent prop-to-attr matching all attribute and property names are converted to lowercase
@@ -18985,10 +18966,11 @@ class dataNode {
 				for (const source of Object.keys(output)) {
 
 					// Only input and output editor data from the current editor target
-					if (source == "editor" && this.id != access._editor.target && !options.event) { continue; }
+					if (source == "editor" && (!this.id || this.id !== access._editor.target) && !options.event) continue;
 
 					// Get the attribute name of the property in the current source
 					let propAttr = this.attr(prop, source, options);
+					if (!propAttr) continue;
 
 					// Handle inputting values
 					if (values && length(values[source]) > 0 && propAttr in values[source]) {
@@ -18998,18 +18980,18 @@ class dataNode {
 
 					// Handle outputting values
 					else if (this.enabled || options.includeDisabled) {
-						if (this.hasOption(prop)) {
+						if (this.attrs[prop]?.startsWith("option")) {
 							output[source][propAttr] = "" + this[prop].enabled;
 						}
-						else if (!(value instanceof itemNode)) {
+						else if (!(value instanceof dataNode)) {
 							output[source][propAttr] = value;
 						}
 					}
 				}
 				
 				// Recursively access any sub-nodes
-				if (value instanceof itemNode) {
-					Object.entries(value.access(values, options)).reduce((acc, [source, subnodeOutput]) => Object.assign(output[source], subnodeOutput), {});
+				if (value instanceof dataNode) {
+					value.access(values, options);
 				}
 			}
 			return (options.unsorted) ? {...output.editor, ...output.sheet} : output;
@@ -19020,23 +19002,18 @@ class dataNode {
 	// If an event type is provided the attribute is returned in the event key format
 	attr(prop, source, options={lowerCase:false, event:false}) {
 		if (prop in this.attrs) {
-			let index = (this.attrs[source].index != undefined) ? this.attrs[source].index : "";
-			let prefix = this.attrs[source].prefix || "";
-			let suffix = this.attrs[source].suffix || "";
+			let index = (this.attrs[source]?.type == "index") ? this.index : "";
+			let prefix = this.attrs[source]?.prefix || "";
+			let suffix = this.attrs[source]?.suffix || "";
 			let key = this.attrs[prop];
-
-			if (parseInt(prop) == prop) {
-				key = this.attrs.array;
-				index = prop;
-			}
 
 			if (prefix != "") key = capitalize(key);
 
-			if (this.attrs[source].section) {
+			if (this.attrs[source]?.section) {
 				if (options.event) {
 					prefix = `${options.event}:repeating_${this.attrs[source].section}:${prefix}`;
 				} else {
-					prefix = `repeating_${this.attrs[source].section}_${this.attrs[source].id}_${prefix}`;
+					prefix = `repeating_${this.attrs[source].section}_${this.id}_${prefix}`;
 				}
 			} else if (options.event) {
 				prefix = `${options.event}:${prefix}`;
@@ -19049,18 +19026,14 @@ class dataNode {
 		}
 	}
 
-	// Helper that checks if an itemNode property is associated with an option attribute
-	hasOption(prop) {
-		if (parseInt(prop) == prop) {
-			return this.attrs.array?.startsWith("option");
-		} else {
-			return this.attrs[prop]?.startsWith("option");
-		}
-	}
+
+
+	/* TODO: Beginning of old code. Needs to be updated to the new access system */
+
 
 	// Modifies an item property
 	// If a validator format was provided at item creation only valid values are accepted
-	// Adds any changes to itemList.outputValues. The changes are applied to the sheet/editor when the itemList access ends
+	// Adds any changes to access._output. The changes are applied to the sheet/editor when the access ends
 	modify(prop, newValue, options={source:"input", modify:false}) {
 		if (!isNaN(parseInt(prop))) return; // Ensures repeating nodes are not modified (have prop names "0", "1", etc.)
 
@@ -19104,7 +19077,7 @@ class dataNode {
 
 
 	// Adds a new repeating subnode to the item
-	// Adds accessors for the id, index and name (if applicable) of a subnode
+	// Adds accessors for the id, index and name (if applicable) of the subnode
 	add(options={}) {
 		if (this.rep) {
 			let newID = options.id || this.id; // TODO: Make this use a provided index || this.id if rep.type == "index" || make a new index
@@ -19162,11 +19135,15 @@ class dataNode {
 				configurable: true,
 			});
 		}
-		Object.defineProperty(this, index, {
-			get() {
-				return Object.values(this)[index - 1];
+		Object.defineProperties(this, {
+			[index]: {
+				get() { return Object.values(this)[index - 1];},
+				configurable: true,
 			},
-			configurable: true,
+			[-index]: {
+				get() { return Object.values(this).slice(-index)[0]; },
+				configurable: true,
+			},
 		});
 	}
 	
@@ -19208,11 +19185,11 @@ class dataNode {
 			delete this[node.name];
 		}
 		delete this[index];
+		delete this[-index];
 	}
 
 
-
-	// Creates a duplicate of the this node
+	// Creates a deep copy of this node
 	clone() {
 		return new dataNode(this.formats, this.id, this.index).paste(this.copy());
 	}
@@ -19253,31 +19230,13 @@ class dataNode {
 		return this;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// Info on how to implement "props" style attribute keys, which will be used in item export scripts
-	//   If type == "props":
-	//     When inputing values (values != false) get repeating.editor.check, find values where key includes check.key and where check.value(value) == true. Get their ids
-	//       Then get repeating.editor.key and value, loop through the ids, find matches with id_key in values, get the key, then set this[key] = values[repeating_section_id_value] 
-	//       Also save the ids to attr_editorRepeatingProps as {key: {prop1: id, prop2: id}}. When accessing itemList, it adds all props from editorRepeatingProps to editor.IDs
-	//       Change of plans: have itemList.access set up editorRepeatingProps. Have it import check-key pairs, get the attrs, check which values have check.key and check.value(value) == true
-	//         Get the ids, find attrs containing id_key, then save IDs.key = [values[key]: id, ...]
-	//         This method should be able to handle any future repeating values you add to the editor
-	//     When outputing values, loop over props and values, get itemList.editor.IDs[key], then output {repeating_rep.section_id_rep.key: prop, repeating_rep.section_id_rep.value: value}
-	//       When exporting, ignore this and just export [alias, prop:value, prop:value, ...]. Their repeatingProps will have the correct ids for their sheet
-
-	/* Unfinished code end */
+	// Returns a filtered copy of the node
+	filter(predicate) {
+		return new dataNode({
+			node: this,
+			filter:	Object.keys(this).filter(prop => this[prop] instanceof dataNode && predicate(this[prop])),
+		});
+	}
 }
 
 
@@ -19297,24 +19256,7 @@ class dataNode {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Access TO-DO
+// Access TODO
 
 // Extend this to the access AutoEffects
 // When accessing data, convert the string to lowercaps and replace all spaces with underscores
@@ -23085,6 +23027,14 @@ function replaceLast(string, match, replace) {
 	if (i >= 0) string = string.slice(0, i) + replace + string.slice(i+match.length);
 	return string;
 }
+// Converts a string to camelCase
+function camelize(s) {
+	return s.replace(/(_[a-z])/ig, ($1) => {
+	  return $1.toUpperCase().replace("_", "");
+	});
+  };
+
+
 // Creates a new object property with a value, or adds the value to the property if it already exists
 // Also works for arrays, treating property as an index. If the index does not exist the value is pushed onto the array
 function modifyProp(object, property, value, mode="+", mod={addValue:undefined, setValue:undefined, max:undefined, min:undefined, round:undefined}) {
