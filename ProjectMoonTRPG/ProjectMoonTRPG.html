@@ -797,12 +797,12 @@
 					<input class="Mstat HP" type="text" name="attr_HP_max" value="30">
 				</div>
 				<div class="bars">
-					<input class="Cstat egoSTGRtext" type="number" name="attr_StagRes" value="20">
+					<input class="Cstat egoSTGRtext" type="number" name="attr_ST" value="20">
 					<div>
-						<input type="checkbox" class="hide-toggle" name="attr_StagRes_token_display" value="true" hidden="true">
-						<input id="STGRbarToken" class="hide-item Tstat egoSTGRtext" type="number" name="attr_StagRes_token" value="">
+						<input type="checkbox" class="hide-toggle" name="attr_ST_token_display" value="true" hidden="true">
+						<input id="STGRbarToken" class="hide-item Tstat egoSTGRtext" type="number" name="attr_ST_token" value="">
 					</div>
-					<input class="Mstat egoSTGR" type="text" name="attr_StagRes_max" value="20">
+					<input class="Mstat egoSTGR" type="text" name="attr_ST_max" value="20">
 				</div>
 				<div class="bars">
 					<input type="checkbox" class="hide-toggle-rev" name="attr_distortState_token" value="true">
@@ -1714,8 +1714,8 @@
 	<div class="banner egoSTGRtext"><span data-i18n="bar-stagres">Stagger Res</span>
 	<div class="rowContainer centerFlex bars">
 	<input type="checkbox" class="style-toggle-rev" name="attr_TST_Sources" value="{}" hidden="true">
-	<input id="STGRbar" class="Cstat egoSTGRtext" type="number" name="attr_StagRes" value="20">
-	<input class="Mstat egoSTGR" type="text" name="attr_StagRes_max" value="20">
+	<input id="STGRbar" class="Cstat egoSTGRtext" type="number" name="attr_ST" value="20">
+	<input class="Mstat egoSTGR" type="text" name="attr_ST_max" value="20">
 
 	</div>
 </div>
@@ -2531,7 +2531,7 @@
 					<!-- Target bars -->
 					<div class="rowContainer" style="width: 150px;">
 						<div class="bars"><input class="Cstat HPtext noSpinner" type="text" name="attr_HP_target" value="---"></div>
-						<div class="bars"><input class="Cstat egoSTGRtext noSpinner" type="text" name="attr_StagRes_target" value="---"></div>
+						<div class="bars"><input class="Cstat egoSTGRtext noSpinner" type="text" name="attr_ST_target" value="---"></div>
 						<div class="bars"><input class="Cstat SANtext noSpinner" type="text" name="attr_SP_target" value="---"></div>
 					</div>
 	
@@ -8820,7 +8820,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<div style="width: 40px;"><b data-i18n="token-bar1">Bar 1</b>:</div>
 		<select name="attr_settingBar1" class="darkInput" style="width: 56px;">
 			<option data-i18n="bar-health" value="HP" selected>Health</option>
-			<option data-i18n="bar-stagres" value="StagRes">Stagger Res</option>
+			<option data-i18n="bar-stagres" value="ST">Stagger Res</option>
 			<option data-i18n="bar-sanity" value="SP">Sanity</option>
 			<option data-i18n="token-bar-none" value="None">None</option>
 		</select>
@@ -8829,7 +8829,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<div style="width: 40px;"><b data-i18n="token-bar2">Bar 2</b>:</div>
 		<select name="attr_settingBar2" class="darkInput" style="width: 56px;">
 			<option data-i18n="bar-health" value="HP">Health</option>
-			<option data-i18n="bar-stagres" value="StagRes" selected>Stagger Res</option>
+			<option data-i18n="bar-stagres" value="ST" selected>Stagger Res</option>
 			<option data-i18n="bar-sanity" value="SP">Sanity</option>
 			<option data-i18n="token-bar-none" value="None">None</option>
 		</select>
@@ -8838,7 +8838,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		<div style="width: 40px;"><b data-i18n="token-bar3">Bar 3</b>:</div>
 		<select name="attr_settingBar3" class="darkInput" style="width: 56px;">
 			<option data-i18n="bar-health" value="HP">Health</option>
-			<option data-i18n="bar-stagres" value="StagRes">Stagger Res</option>
+			<option data-i18n="bar-stagres" value="ST">Stagger Res</option>
 			<option data-i18n="bar-sanity" value="SP" selected>Sanity</option>
 			<option data-i18n="token-bar-none" value="None">None</option>
 		</select>
@@ -9225,9 +9225,9 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 		
 		<select name="attr_ailEffect" class="whiteInput" style="width: 105px;">
 			<option data-i18n="message-none" value="None" selected>None</option>
-			<option data-i18n="bar-health-and-stagres" value="HPStagRes">Health and Stagger</option>
+			<option data-i18n="bar-health-and-stagres" value="HP+ST">Health and Stagger</option>
 			<option data-i18n="bar-health" value="HP">Health</option>
-			<option data-i18n="bar-stagres" value="StagRes">Stagger</option>
+			<option data-i18n="bar-stagres" value="ST">Stagger</option>
 			<option data-i18n="bar-health-temp" value="THP">Temp HP</option>
 			<option data-i18n="bar-stagres-temp" value="TST">Temp ST</option>
 			<option data-i18n="bar-sanity" value="SP">Sanity</option>
@@ -9602,6 +9602,7 @@ const barNamesFull = ["Health", "StagRes", "Sanity", "Light"]
 const barNamesTemp = ["THP", "TST"]
 const statNames = ["Instinct", "Wisdom", "Justice", "Charm", "Insight", "Temperance"]
 const statNamesFull = [...statNames, "Fortitude", "Prudence"]
+const stateNames = ["PanicState", "StaggerState", "StaggerDuration", "SealState", "ImmobileState", "DefeatState"];
 
 const resourceNames = ["Action", "Reaction", "Counter", "Block", "Evade", "Light_Regen"]
 const combatRollNames = ["Attack", "Block", "Evade"]
@@ -10127,7 +10128,7 @@ function setActiveCharacterId(charId) {
     var oldActId=getActiveCharacterId();
     var msg={"id":"0", "type":"setActiveCharacter", "data":charId};
     
-    if(isRunningOnServer()==false){ //if in a browser, use "dispatchEvent" to process the message
+    if (isRunningOnServer()==false) { //if in a browser, use "dispatchEvent" to process the message
         var ev = new CustomEvent("message");
         ev.data=msg; 
         self.dispatchEvent(ev);
@@ -10140,7 +10141,7 @@ var _sIn=setInterval;
 setInterval=function(callback, timeout) {
     var actId=getActiveCharacterId();
     _sIn(
-        function(){
+        function() {
             var prevActId=setActiveCharacterId(actId);
             callback();
             setActiveCharacterId(prevActId);
@@ -10151,7 +10152,7 @@ var _sto=setTimeout
 setTimeout=function(callback, timeout) {
     var actId=getActiveCharacterId();
     _sto(
-        function(){
+        function() {
             var prevActId=setActiveCharacterId(actId);
             callback();
             setActiveCharacterId(prevActId);
@@ -10369,8 +10370,8 @@ function getTokenAttrs(target="selected", setSelectMode="false", queryGenericMod
 		/* Get selected token attributes */
 		let selectAttrs = {}
 		let rollBase = `! {{token_id=[[0[@{${target}|token_id}]]]}} {{token_name=[[0[@{${target}|token_name}]]]}}
-			{{HP=[[0[@{${target}|HP}]]]}} {{StagRes=[[0[@{${target}|StagRes}]]]}} {{SP=[[0[@{${target}|SP}]]]}}
-			{{HP_max=[[0[@{${target}|HP_max}]]]}} {{StagRes_max=[[0[@{${target}|StagRes_max}]]]}} {{SP_max=[[0[@{${target}|SP_max}]]]}}
+			{{HP=[[0[@{${target}|HP}]]]}} {{ST=[[0[@{${target}|ST}]]]}} {{SP=[[0[@{${target}|SP}]]]}}
+			{{HP_max=[[0[@{${target}|HP_max}]]]}} {{ST_max=[[0[@{${target}|ST_max}]]]}} {{SP_max=[[0[@{${target}|SP_max}]]]}}
 			{{bar1=[[0[@{${target}|bar1}]]]}} {{bar2=[[0[@{${target}|bar2}]]]}} {{bar3=[[0[@{${target}|bar3}]]]}}`.replaceAll("\n","").replaceAll("\t","");
 		
 		let selectRoll = await startRoll(rollBase);
@@ -10378,10 +10379,10 @@ function getTokenAttrs(target="selected", setSelectMode="false", queryGenericMod
 			tokenName: selectRoll.results.token_name.expression.match(/^0\[(.*)\]\s*$/)[1],
 			tokenId: selectRoll.results.token_id.expression.match(/^0\[(.*)\]\s*$/)[1].replaceAll("_","Ø"),
 			HP: selectRoll.results.HP.expression.match(/^0\[(.*)\]\s*$/)[1],
-			StagRes: selectRoll.results.StagRes.expression.match(/^0\[(.*)\]\s*$/)[1],
+			ST: selectRoll.results.ST.expression.match(/^0\[(.*)\]\s*$/)[1],
 			SP: selectRoll.results.SP.expression.match(/^0\[(.*)\]\s*$/)[1],
 			HP_max: selectRoll.results.HP_max.expression.match(/^0\[(.*)\]\s*$/)[1],
-			StagRes_max: selectRoll.results.StagRes_max.expression.match(/^0\[(.*)\]\s*$/)[1],
+			ST_max: selectRoll.results.ST_max.expression.match(/^0\[(.*)\]\s*$/)[1],
 			SP_max: selectRoll.results.SP_max.expression.match(/^0\[(.*)\]\s*$/)[1],
 			bar1: selectRoll.results.bar1.expression.match(/^0\[(.*)\]\s*$/)[1],
 			bar2: selectRoll.results.bar2.expression.match(/^0\[(.*)\]\s*$/)[1],
@@ -10492,30 +10493,27 @@ function updateSelectedToken(info, callback=()=>{}) {
 		let tokenPrefix = `repeating_tokens_${info.newValue}`;
 		let tokenValues = [`${tokenPrefix}_tokenAilmentList`];
 
-		let barlist = ["HP", "StagRes", "SP", "Light"];
-		barlist.forEach(bar => {
+		barNames.forEach(bar => {
 			tokenValues.push(`${tokenPrefix}_${bar}`/*, `${tokenPrefix}_${bar}_max`,*/);
 		});
 
-		let tempbarlist = ["THP", "TST"];
-		tempbarlist.forEach(tempbar => {
+		barNamesTemp.forEach(tempbar => {
 			tokenValues.push(`${tokenPrefix}_token${tempbar}_Sources`);
 		});
 
-		let statelist = ["PanicState", "StaggerState", "StaggerDuration", "SealState", "ImmobileState", "DefeatState"];
-		statelist.forEach(state => {
+		stateNames.forEach(state => {
 			tokenValues.push(`${tokenPrefix}_token${state}`, state);
 		});
 
 		getAttrs([...tokenValues], async function(values) {
 
 			/* Set bars to that of the token instance */
-			barlist.forEach(bar => {
+			barNames.forEach(bar => {
 				output[`${bar}`] = values[`${tokenPrefix}_${bar}`];
 				/*output[`${bar}_max`] = values[`${tokenPrefix}_${bar}_max`];*/
 			});
 
-			tempbarlist.forEach(tempbar => {
+			barNamesTemp.forEach(tempbar => {
 				/* For temp bar values from ailments, add an override to make sure any ailment list updates do not change the temp bar value */
 				let tempBarSourceRaw = values[`${tokenPrefix}_token${tempbar}_Sources`];
 				let tempBarSource = Data.unpackage(tempBarSourceRaw);
@@ -10528,7 +10526,7 @@ function updateSelectedToken(info, callback=()=>{}) {
 			});
 
 			/* If a state changes between token, suppress the change event listener for the state */
-			statelist.forEach(state => {
+			stateNames.forEach(state => {
 				output[`${state}`] = values[`${tokenPrefix}_token${state}`];
 				if (output[`${state}`] != values[`${state}`]) {
 					output[`${state}SuppressUpdate`] = "true";
@@ -10564,8 +10562,7 @@ function getSelectedToken(callback=()=>{}) {
 }
 
 /* Hides token bar value in display if it matches that of the character sheet */
-let barList = ["hp", "stagres", "sp", "light"];
-barList.forEach(bar => {
+barNames.forEach(bar => {
 	on(`change:repeating_tokens:${bar} change:repeating_tokens:${bar}_token`, (info) => {
 		let attr_sheet = `${info.sourceAttribute}`;
 		let attr_token = `${info.sourceAttribute}`;
@@ -10585,14 +10582,14 @@ barList.forEach(bar => {
 });
 
 /* Sync: Token Status bars */
-barList.forEach(bar => {
+barNames.forEach(bar => {
 	on(`change:${bar} change:repeating_tokens:${bar}`, (info) => {
 		if (info.newValue) {
 			getAttrs(["tokenId_selected", "settingGenericTokenMode", "character_id", "targetedBy"], function(values) {
 				if (values.settingGenericTokenMode == "true") {
 					let selectedId = values.tokenId_selected;
 					if (selectedId != "") {
-						if (barList.includes(info.sourceAttribute)) {
+						if (barNames.some(bar => bar.toLowerCase() == info.sourceAttribute)) {
 							setAttrs({[`repeating_tokens_${selectedId}_${bar}`]:info.newValue});
 						} else {
 							if (info.sourceAttribute.includes(selectedId.toLowerCase())) {
@@ -10611,15 +10608,14 @@ barList.forEach(bar => {
 });
 
 /* Sync: Token Temporary status bars */
-let tempBarList = ["thp", "tst"];
-tempBarList.forEach(tempBar => {
+barNamesTemp.forEach(tempBar => {
 	on(`change:${tempBar}_sources`, (info) => {
 		if (info.newValue) {
 			getAttrs(["tokenId_selected", "settingGenericTokenMode"], function(values) {
 				if (values.settingGenericTokenMode == "true") {
 					let selectedId = values.tokenId_selected;
 					if (selectedId != "") {
-						if (tempBarList.includes(info.sourceAttribute.replace("_sources", ""))) {
+						if (barNamesTemp.some(bar => bar.toLowerCase() == info.sourceAttribute.replace("_sources", ""))) {
 							setAttrs({[`repeating_tokens_${selectedId}_token${tempBar}_sources`]:info.newValue});
 						}
 					}
@@ -10777,8 +10773,8 @@ async function checkGenericMode(genericMode, executeQuery, callback=()=>{}) {
 	if (genericMode != "true" && executeQuery == "true") {
 		let queryResults = await sendQuery(["enableGenericMode",
 			getTranslationByKeyCustom("Generic token mode not enabled for sheet. Enable setting?", "query-enable-generic-mode"), {
-				[getTranslationByKeyCustom("No","query-no")]:"false",
-				[getTranslationByKeyCustom("Yes","query-yes")]:"true"
+				[getTranslationByKeyCustom("No", "query-no")]: "false",
+				[getTranslationByKeyCustom("Yes", "query-yes")]: "true"
 			}
 		]);
 		if (queryResults.enableGenericMode == "true") {
@@ -10794,8 +10790,8 @@ async function checkTokenInstance(selectAttrs, setSelectMode, callback=()=>{}) {
 		if (!idarray.includes(selectAttrs.tokenId.toLowerCase()) && setSelectMode == "select") {
 			let queryResults = await sendQuery(["addTokenInstance",
 				getTranslationByKeyCustom("Token does not have a token instance. Add instance?", "query-add-token-instance"), {
-					[getTranslationByKeyCustom("No","query-no")]:"false",
-					[getTranslationByKeyCustom("Yes","query-yes")]:"true"
+					[getTranslationByKeyCustom("No", "query-no")]: "false",
+					[getTranslationByKeyCustom("Yes", "query-yes")]: "true"
 				}
 			]);
 			if (queryResults.addTokenInstance == "true") {
@@ -10811,8 +10807,8 @@ async function updateToken(selectAttrs, mode="full") {
 	getSectionIDs(`repeating_global`, idarray => {
 		let id = `repeating_global_${idarray[0]}`;
 	
-	getAttrs([`${id}_settingBar1`, `${id}_settingBar2`, `${id}_settingBar3`, "HP_max", "StagRes_max", "SP_max", "Light_max"], function(values) {
-		selectAttrs = {...selectAttrs, barHP: values.HP_max, barStagRes: values.StagRes_max, barSP: values.SP_max}
+	getAttrs([`${id}_settingBar1`, `${id}_settingBar2`, `${id}_settingBar3`, "HP_max", "ST_max", "SP_max", "Light_max"], function(values) {
+		selectAttrs = {...selectAttrs, barHP: values.HP_max, barST: values.ST_max, barSP: values.SP_max}
 		for (let i = 1; i <= 3; i++) {
 			/* Matches token bars to the correct status bars */
 			if (values[`${id}_settingBar${i}`] != "None") { selectAttrs[`bar${values[`${id}_settingBar${i}`]}`] = selectAttrs[`bar${i}`]; }
@@ -10823,7 +10819,7 @@ async function updateToken(selectAttrs, mode="full") {
 			[`${tokenPrefix}_tokenName`]:selectAttrs.tokenName,
 			[`${tokenPrefix}_tokenId`]:selectAttrs.tokenId,
 			[`${tokenPrefix}_HP`]:selectAttrs.barHP, [`${tokenPrefix}_HP_max`]:values.HP_max, // Supposed to be selectAttrs.HP_max. Currently bugged and gives the default value (30) and not the calculated value
-			[`${tokenPrefix}_StagRes`]:selectAttrs.barStagRes, [`${tokenPrefix}_StagRes_max`]:values.StagRes_max, // Supposed to be selectAttrs.StagRes_max
+			[`${tokenPrefix}_ST`]:selectAttrs.barST, [`${tokenPrefix}_ST_max`]:values.ST_max, // Supposed to be selectAttrs.ST_max
 			[`${tokenPrefix}_SP`]:selectAttrs.barSP, [`${tokenPrefix}_SP_max`]:values.SP_max, // Supposed to be selectAttrs.SP_max
 			[`${tokenPrefix}_Light`]:values.Light_max, [`${tokenPrefix}_Light_max`]:values.Light_max,
 		}
@@ -10832,7 +10828,7 @@ async function updateToken(selectAttrs, mode="full") {
 		}
 		tokenValues = {...tokenValues,
 			[`${tokenPrefix}_HP_token`]:selectAttrs.barHP,
-			[`${tokenPrefix}_StagRes_token`]:selectAttrs.barStagRes,
+			[`${tokenPrefix}_ST_token`]:selectAttrs.barST,
 			[`${tokenPrefix}_SP_token`]:selectAttrs.barSP
 		}
 		setAttrs(tokenValues);
@@ -10969,7 +10965,7 @@ async function checkGM(targetId, charId, callback=()=>{}) {
 });
 function updateTargetedBy(input, targetedBy) {
 	
-	if(isGM == "true") {
+	if (isGM == "true") {
 		if (input.remove) {
 			delete targetedBy[input.remove];
 		}
@@ -11020,7 +11016,7 @@ async function updateTargetAttrLists(settingTargeting, charId, targetId, targetT
 		
 		/* Get target attributes  */
 		let targetPrefix = (targetSettings.genericTokenMode == "true") ? `repeating_tokens_${targetTokenId}_` : "";
-		let targetBarAttrs = barList.reduce((rows,bar) => [...rows, `${targetPrefix}${bar}`, `${targetPrefix}${bar}_max`], '');
+		let targetBarAttrs = barNames.reduce((rows,bar) => [...rows, `${targetPrefix}${bar}`, `${targetPrefix}${bar}_max`], '');
 		let targetAilmentListName = (targetSettings.genericTokenMode == "true") ? `${targetPrefix}tokenAilmentList` : "ailmentList";
 
 		let values = await getAttrsByID(targetId, [...targetBarAttrs, ...statNames, ...resourceNames, ...resourceNames.map(r => r+'_max'), targetAilmentListName]);
@@ -11030,14 +11026,8 @@ async function updateTargetAttrLists(settingTargeting, charId, targetId, targetT
 		let targetBarList = {}
 		let targetBarMaxList = {}
 		let targetBarDamageList = {}
-		barList.forEach(bar => {
-			let barName = "";
-			switch (bar) {
-				case "hp": barName = "HP"; break;
-				case "stagres": barName = "ST"; break;
-				case "sp": barName = "SP"; break;
-				case "light": barName = "Light"; break;
-			}
+		barNames.forEach(bar => {
+			let barName = (bar == "light") ? "Light" : bar.toUpperCase();
 			targetBarList[`${barName}`] = parseInt(values[`${targetPrefix}${bar}`]);
 			targetBarMaxList[`${barName}`] = parseInt(values[`${targetPrefix}${bar}_max`]);
 			targetBarDamageList[`-${barName}`] = targetBarMaxList[`${barName}`] - targetBarList[`${barName}`];
@@ -11046,9 +11036,9 @@ async function updateTargetAttrLists(settingTargeting, charId, targetId, targetT
 		if (targetSettings.hideDetailsFromTargeting == "true") {
 			output = unknownTarget();
 		} else if (targetSettings.hideBarUpdate == "true") {
-			output = {"HP_target":"???", "StagRes_target":"???", "SP_target":"???"}
+			output = {"HP_target":"???", "ST_target":"???", "SP_target":"???"}
 		} else {
-			output = {"HP_target":targetBarList.HP, "StagRes_target":targetBarList.ST, "SP_target":targetBarList.SP}
+			output = {"HP_target":targetBarList.HP, "ST_target":targetBarList.ST, "SP_target":targetBarList.SP}
 		}
 
 		/* Update target ailment list */
@@ -11108,7 +11098,7 @@ function resetTarget(charId, targetId, returnMode="false") {
 		"targetTokenName": "",
 		"targetSettings": "{}",
 		"HP_target":"---",
-		"StagRes_target":"---",
+		"ST_target":"---",
 		"SP_target":"---"
 	}
 
@@ -11123,7 +11113,7 @@ function unknownTarget(returnMode="false") {
 		...resetAilmentDisplay("target", 6, "true"),
 		"targetTokenName": "?????",
 		"HP_target":"???",
-		"StagRes_target":"???",
+		"ST_target":"???",
 		"SP_target":"???"
 	}
 
@@ -11168,7 +11158,7 @@ async function createChatButtons(buttonList, options={reactions:false}) {
 
 		/* Whisper roll */
 		let whispermode = whisper = "";
-		if(whisperrolls == "true") {
+		if (whisperrolls == "true") {
 			whisper =  `/w ${whispertarget} `;
 			whispermode = "Whisper";
 		}
@@ -11251,10 +11241,10 @@ on('clicked:chatButtonDamage', async (data) => {
 			if (data.damageTypeOverride == "---") {
 				let queryResults = await sendQuery(["damageTypeOverride",
 					getTranslationByKeyCustom("Select damage type of attack", "query-damage-type"), {
-						[getTranslationByKeyCustom("---", "weapon-type-None")]:"None",
-						[getTranslationByKeyCustom("Slash","weapon-type-Slash")]:"Slash",
-						[getTranslationByKeyCustom("Pierce","weapon-type-Pierce")]:"Pierce",
-						[getTranslationByKeyCustom("Blunt","weapon-type-Blunt")]:"Blunt"
+						[getTranslationByKeyCustom("---", "weapon-type-None")]: "None",
+						[getTranslationByKeyCustom("Slash", "weapon-type-Slash")]: "Slash",
+						[getTranslationByKeyCustom("Pierce", "weapon-type-Pierce")]: "Pierce",
+						[getTranslationByKeyCustom("Blunt", "weapon-type-Blunt")]: "Blunt"
 					}
 				]);
 				data.damageTypeOverride = queryResults.damageTypeOverride;
@@ -11385,27 +11375,27 @@ getSectionIDs(`repeating_global`, idarray => {
 	}
 
 	let hpnew = parseInt(healthBase + (instinctVal * healthStatMod) + (rnum * healthRankMod));
-	let stagresnew = parseInt(staggerBase + (charmVal * staggerStatMod) + (rnum * staggerRankMod));
+	let stnew = parseInt(staggerBase + (charmVal * staggerStatMod) + (rnum * staggerRankMod));
 	let spnew = parseInt(sanityBase + (wisdomVal * sanityStatMod) + (rnum * sanityRankMod));
 	let mixVal = "";
 
-	if(healthStat == "InstinctTemperance"){
+	if (healthStat == "InstinctTemperance") {
 	mixVal = parseInt((instinctVal + temperanceVal)/2);
 	hpnew = parseInt(healthBase + (mixVal * healthStatMod) + (rnum * healthRankMod));
 	}
 
-	if(staggerStat == "CharmJustice"){
+	if (staggerStat == "CharmJustice") {
 	mixVal = parseInt((charmVal + justiceVal)/2);
-	stagresnew = parseInt(staggerBase + (mixVal * staggerStatMod) + (rnum * staggerRankMod));
+	stnew = parseInt(staggerBase + (mixVal * staggerStatMod) + (rnum * staggerRankMod));
 	}
 
-	if(sanityStat == "WisdomInsight"){
+	if (sanityStat == "WisdomInsight") {
 	mixVal = parseInt((wisdomVal + insightVal)/2);
 	spnew = parseInt(sanityBase + (mixVal * sanityStatMod) + (rnum * sanityRankMod));
 	}
 
 	let lightnew = parseInt((rnum * lightRankMod) + lightBase);
-	if(distortState == "true"){
+	if (distortState == "true") {
 	lightnew = parseInt((rnum * dlightRankMod) + dlightBase);
 	}
 
@@ -11438,7 +11428,7 @@ getSectionIDs(`repeating_global`, idarray => {
 
 	setAttrs({
 		"charRankBase":ranknew, "charRankNum":rnum,
-		"HP_max":hpnew, "StagRes_max":stagresnew, "SP_max":spnew, "Light_max":lightnew,
+		"HP_max":hpnew, "ST_max":stnew, "SP_max":spnew, "Light_max":lightnew,
 		"distortWorkBase":worknew, "attPower":newAtt, "defPower":newDef, "evdPower":newEvd,
 		"burnNextTurnSetting":burnNextTurn, "bleedNextTurnSetting":bleedNextTurn, "smokeNextTurnSetting":smokeNextTurn, "chargeNextTurnSetting":chargeNextTurn,
 		"Light_Regen_base":newLightRegenBase, "Action_base":newActionBase, "Reaction_base":newReactionBase, "actionTradeReaction":actionTradeReaction
@@ -11448,7 +11438,7 @@ getSectionIDs(`repeating_global`, idarray => {
 });
 
 /* Recalculate level */
-on("change:EXP change:repeating_global:expCalc", function(){
+on("change:EXP change:repeating_global:expCalc", function() {
 getSectionIDs(`repeating_global`, idarray => {
         let id = `repeating_global_${idarray[0]}`;
 
@@ -11561,20 +11551,20 @@ getSectionIDs(`repeating_global`, idarray => {
 
 	let light = values.Light_max;
 
-	if(prevcondition == "" || (state == "true" && prevcondition != currentcondition)){
+	if (prevcondition == "" || (state == "true" && prevcondition != currentcondition)) {
 		prevcondition = values.egoCondition;
 	}
 
-	if(origname != "" && basename == ""){
+	if (origname != "" && basename == "") {
 		basename = origname;
 		newcondition = prevcondition;
 	}
 
-	if(state == "true" && distortname != ""){
+	if (state == "true" && distortname != "") {
 		updatename = distortname;
 		newcondition = "AlwaysActive";
 	}
-	else if(state == "true" && distortname == ""){
+	else if (state == "true" && distortname == "") {
 		updatename = basename + " (" + distortstring + ")";
 		newcondition = "AlwaysActive";	
 	}
@@ -11611,10 +11601,10 @@ on("change:distort_name", function() {
 	let state = values.distortState;
 	let distortstring = getTranslationByKeyCustom("Distorted", "message-distorted");
 
-	if(state == "true" && name != ""){
+	if (state == "true" && name != "") {
 		setAttrs({"character_name":name});
 	}
-	else if(state == "true" && name == ""){
+	else if (state == "true" && name == "") {
 		setAttrs({"character_name":`${basename} (${distortstring})`});
 	}
 	});
@@ -11627,7 +11617,7 @@ on("change:character_nameBase", function() {
 	let basename = values.character_nameBase;
 	let state = values.distortState;
 
-	if(state != "true" && name != basename){
+	if (state != "true" && name != basename) {
 	setAttrs({"character_name":basename});
 	}
 	});
@@ -11640,7 +11630,7 @@ on("sheet:opened", function() {
 	let basename = values.character_nameBase;
 	let state = values.distortState;
 
-	if(state != "true" && basename != name){
+	if (state != "true" && basename != name) {
 		setAttrs({"character_nameBase":name});
 		setAttrs({"distortState":"0"});
 	}
@@ -11654,7 +11644,7 @@ on("sheet:opened", function() {
 		let token = values.character_token;
 		let selfToken = values.selfToken;
 
-		if(token != selfToken){
+		if (token != selfToken) {
 			setAttrs({"selfToken": token});
 		}
 	});
@@ -11707,7 +11697,7 @@ on("change:egoActiveState", function() {
 	let egostate = values.egoActiveState;
 	let output = {};
 
-	if(egostate == "0"){
+	if (egostate == "0") {
 		output["skillSelect"] = "0";
 	}
 	output["toolSelect"] = "";
@@ -11733,11 +11723,11 @@ on("change:distortCounter", function() {
 	let currentcounter = parseInt(values.distortCounter);
 
 	/* AutoDetect check */
-	if(detect != "0"){
-		if(currentcounter <= 0 && hostilestate == "0"){
+	if (detect != "0") {
+		if (currentcounter <= 0 && hostilestate == "0") {
 			setAttrs({"HostileState":"Hostile"});
 		}
-		else if(currentcounter > 0 && hostilestate != "0"){
+		else if (currentcounter > 0 && hostilestate != "0") {
 		setAttrs({"HostileState":"0"});
 		}
 	}
@@ -11745,12 +11735,12 @@ on("change:distortCounter", function() {
 });
 
 /* Auto: Detect Stagger */
-on("change:StagRes", function() {
+on("change:ST", function() {
 	getSectionIDs(`repeating_global`, idarray => {
         let id = `repeating_global_${idarray[0]}`;
 
-	getAttrs(["StagRes", "StaggerState", `${id}_staggerDurationMax`, "settingGenericTokenMode", "character_id", "targetedBy"], function(values) {
-	let currentstag = parseInt(values.StagRes);
+	getAttrs(["ST", "StaggerState", `${id}_staggerDurationMax`, "settingGenericTokenMode", "character_id", "targetedBy"], function(values) {
+	let currentstag = parseInt(values.ST);
 	let currentstate = values.StaggerState;
 	let statedurationmax = parseInt(values[`${id}_staggerDurationMax`]);
 
@@ -11760,7 +11750,7 @@ on("change:StagRes", function() {
 
 	/* Announce update */
 	//if (values.settingGenericTokenMode != "true") {
-	//	announceBarChange(Data.unpackage(values.targetedBy), values.character_id, 0, "StagRes_target", currentstag);
+	//	announceBarChange(Data.unpackage(values.targetedBy), values.character_id, 0, "ST_target", currentstag);
 	//}
 	});
 		});
@@ -11775,12 +11765,12 @@ on("change:SP", function() {
 	let currentsan = parseInt(values.SP);
 
 	/* AutoDetect check */
-	if(detect != "0"){
-		if(currentsan <= 0 && panicstate == "0"){
+	if (detect != "0") {
+		if (currentsan <= 0 && panicstate == "0") {
 			setAttrs({"PanicState":"Panic"});
 		}
-		else if(currentsan > 0 && panicstate != "0"){
-		setAttrs({"PanicState":"0"});
+		else if (currentsan > 0 && panicstate != "0") {
+			setAttrs({"PanicState":"0"});
 		}
 	}
 
@@ -11807,12 +11797,12 @@ on("change:HP", function() {
 	let egostate = values.egoActiveState;
 
 	/* EGO check*/
-	if(egocon == "HalfHealth" && currenthp <= halfhp && egostate != "true"){
+	if (egocon == "HalfHealth" && currenthp <= halfhp && egostate != "true") {
 		setAttrs({"egoActiveState":"true"});
 	}
 
 	/* Defeat check */
-	if(currenthp <= 0 && detect != "0" && defeatstate == "0"){
+	if (currenthp <= 0 && detect != "0" && defeatstate == "0") {
 
 		setAttrs({"DefeatState":"Defeated"});
 
@@ -11840,21 +11830,21 @@ on("change:HostileState", function() {
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 	whisper = "/w " + whispertarget;
 	}
 
-	if(overridecheck == "true"){
+	if (overridecheck == "true") {
 	messagestate = "true";
 	setAttrs({"messageOverride":"0"});
 	}
 
-	if(currentstate != "Hostile" && currentcounter == "0"){
+	if (currentstate != "Hostile" && currentcounter == "0") {
 	let newcounter = values.distortCounter_max;
 	setAttrs({"distortCounter":newcounter});
 	}
 	
-	if(messagestate != "true") {
+	if (messagestate != "true") {
 		let iconnew = getIcon("ailments", "Hostile", values.settingLimbusStyle, "markdown");
 		let langState = (currentstate == "Hostile")
 			? getTranslationByKeyCustom(" is Hostile!", "message-hostile1")
@@ -11880,11 +11870,11 @@ on("change:PanicState", function(info) {
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 	whisper = "/w " + whispertarget;
 	}
 
-	if(overridecheck == "true"){
+	if (overridecheck == "true") {
 	messagestate = "true";
 	setAttrs({"messageOverride":"0"});
 	}
@@ -11894,7 +11884,7 @@ on("change:PanicState", function(info) {
 	let autoScriptTrigger = (currentstate == "Panic") ? "Panic" : "None";
 	AutoScriptMain("", autoScriptTrigger, "true", "true", {}, ()=>{}, getTranslationByKeyCustom("Panic", "autoeffect-trigger-panic"));
 	
-	if(messagestate != "true") {
+	if (messagestate != "true") {
 		let iconnew = getIcon("ailments", "Panic", values.settingLimbusStyle, "markdown");
 		let langState = (currentstate == "Panic")
 			? getTranslationByKeyCustom(" went into Panic!", "message-panic1")
@@ -11919,11 +11909,11 @@ on("change:DefeatState", function() {
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 		whisper = "/w " + whispertarget;
 	}
 
-	if(overridecheck == "true"){
+	if (overridecheck == "true") {
 	messagestate = "true";
 	setAttrs({"messageOverride":"0"});
 	}
@@ -11932,7 +11922,7 @@ on("change:DefeatState", function() {
 	resetConditionals();
 	AutoScriptMain("", "Defeated", "true", "true", {}, ()=>{}, getTranslationByKeyCustom("Defeated", "autoeffect-trigger-defeated"));
 	
-	if(messagestate != "true" && currentstate == "Defeated"){
+	if (messagestate != "true" && currentstate == "Defeated") {
 		let iconnew = getIcon("ailments", "Defeat", values.settingLimbusStyle, "markdown");
 		let langDefeat = getTranslationByKeyCustom(" can no longer fight.", "message-defeat");
 
@@ -11949,7 +11939,7 @@ on("change:StaggerState change:StaggerDuration", function(info) {
 getSectionIDs(`repeating_global`, idarray => {
     let id = `repeating_global_${idarray[0]}`;
 
-	getAttrs([`${info.sourceAttribute}SuppressUpdate`, "StagRes", "StaggerState", "StaggerDuration", "settingWhisperRolls", "settingWhisperTarget", "settingMuteMessage", "SP", "egoCondition", "egoActiveState", "messageOverride", "distortState", `${id}_staggerSanity`, `${id}_staggerDurationMax`, "settingLimbusStyle"], function(values) {
+	getAttrs([`${info.sourceAttribute}SuppressUpdate`, "StaggerState", "StaggerDuration", "settingWhisperRolls", "settingWhisperTarget", "settingMuteMessage", "SP", "egoCondition", "egoActiveState", "messageOverride", "distortState", `${id}_staggerSanity`, `${id}_staggerDurationMax`, "settingLimbusStyle"], function(values) {
 	if (values[`${info.sourceAttribute}SuppressUpdate`] == "true") { setAttrs({[`${info.sourceAttribute}SuppressUpdate`]:"false"}); return; }
 
 	let type = (info.sourceAttribute == "staggerduration") ? "duration" : "state";
@@ -11965,15 +11955,15 @@ getSectionIDs(`repeating_global`, idarray => {
 	/* Aborts the function if staggerduration is set to its max value. Hinders a double messages when Staggered or Unstaggered (StaggerState and StaggerDuration are both changed) */
 	if (type == "duration" && stateduration == statedurationmax) { return; }
 
-	if(type == "state" && egocon == "OnStagger" && currentstate != "0"){
+	if (type == "state" && egocon == "OnStagger" && currentstate != "0") {
 		output.egoActiveState = "true";
 	}
-	if(type == "state" && currentstate == "Staggered" && values.distortState != "true") {
+	if (type == "state" && currentstate == "Staggered" && values.distortState != "true") {
 		output.SP = sanity;
 	}
 
 	let overridecheck = values.messageOverride;
-	if(overridecheck == "true"){
+	if (overridecheck == "true") {
 		messagestate = "true";
 		output.messageOverride = "0";
 	}
@@ -11989,12 +11979,12 @@ getSectionIDs(`repeating_global`, idarray => {
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 		whisper = "/w " + whispertarget;
 	}
 
 	/* Chat message */
-	if(messagestate != "true") {
+	if (messagestate != "true") {
 	let iconnew = getIcon("ailments", "FragileStagger", values.settingLimbusStyle, "markdown");
 	let langStateTrue = getTranslationByKeyCustom(" is Staggered!", "message-stagger1");
 	let langStateFalse = getTranslationByKeyCustom(" is no longer Staggered.", "message-stagger2");
@@ -12035,7 +12025,7 @@ on("change:ImmobileState", function() {
 	let messagestate = values.settingMuteMessage;
 	let overridecheck = values.messageOverride;
 
-	if(overridecheck == "true"){
+	if (overridecheck == "true") {
 		messagestate = "true";
 		setAttrs({"messageOverride":"0"});
 	}
@@ -12044,11 +12034,11 @@ on("change:ImmobileState", function() {
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 		whisper = "/w " + whispertarget;
 	}
 
-	if(messagestate != "true") {
+	if (messagestate != "true") {
 		let iconnew = getIcon("ailments", "Immobile", values.settingLimbusStyle, "markdown");
 		let langState = (currentstate == "Immobile")
 			? getTranslationByKeyCustom(" is Immobile!", "message-immobile1")
@@ -12069,7 +12059,7 @@ on("change:SealState", function() {
 	let messagestate = values.settingMuteMessage;
 	let overridecheck = values.messageOverride;
 
-	if(overridecheck == "true"){
+	if (overridecheck == "true") {
 		messagestate = "true";
 		setAttrs({"messageOverride":"0"});
 	}
@@ -12078,11 +12068,11 @@ on("change:SealState", function() {
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 	whisper = "/w " + whispertarget;
 	}
 
-	if(messagestate != "true") {
+	if (messagestate != "true") {
 		let iconnew = getIcon("ailments", "Seal", values.settingLimbusStyle, "markdown");
 		let langState = (currentstate == "Seal")
 			? getTranslationByKeyCustom(" is Sealed!", "message-seal1")
@@ -12107,7 +12097,7 @@ getSectionIDs(`repeating_global`, idarray => {
 	let disarmnum = parseInt(values.Disarm);
 
 	/* Update Evd */
-	if(evdinfluence == "EnduranceDisarm"){
+	if (evdinfluence == "EnduranceDisarm") {
 		setAttrs({"evdPositive":endurancenum, "evdNegative":disarmnum});
 	}
 	});
@@ -12137,13 +12127,13 @@ getSectionIDs(`repeating_global`, idarray => {
 	setAttrs({"calcSpeed":newspeed, "prevSpeed":newspeed});
 
 	/* Update Evd */
-	if(evdinfluence == "HasteBind"){
+	if (evdinfluence == "HasteBind") {
 	setAttrs({"evdPositive":hastenum, "evdNegative":bindnum});
 
 	}
 
-	if(turnupdate == "true"){
-	if(prevspeed != newspeed){
+	if (turnupdate == "true") {
+	if (prevspeed != newspeed) {
 	startRoll("/w @{character_name} Speed updated: [[@{calcSpeed} &{tracker}]]", (results) => {
             finishRoll(results.rollId, {} );
        			 });
@@ -12240,7 +12230,7 @@ function resetAilments(callback=()=>{}) {
 	let newsan = parseInt(values.SP);
 	let staggerdurationmax = parseInt(values[`${id}_staggerDurationMax`]);
 
-	if(newsan <= "0"){
+	if (newsan <= "0") {
 	newsan = "1";
 	}
 
@@ -12277,33 +12267,33 @@ on('clicked:resetUses', function() {
 	
 	let output = {};
 
-	if(values.tool1Reusable == "Reusable"){
+	if (values.tool1Reusable == "Reusable") {
 	output["tool1Uses"] = values.tool1Uses_max;
 	}
-	if(values.tool2Reusable == "Reusable"){
+	if (values.tool2Reusable == "Reusable") {
 	output["tool2Uses"] = values.tool2Uses_max;
 	}
-	if(values.tool3Reusable == "Reusable"){
+	if (values.tool3Reusable == "Reusable") {
 	output["tool3Uses"] = values.tool3Uses_max;
 	}
-	if(values.tool4Reusable == "Reusable"){
+	if (values.tool4Reusable == "Reusable") {
 	output["tool4Uses"] = values.tool4Uses_max;
 	}
 
-	if(values.weapon1UseType == "Reload"){
+	if (values.weapon1UseType == "Reload") {
 	output["weapon1Uses"] = values.weapon1Uses_max;
 	}
-	if(values.weapon2UseType == "Reload"){
+	if (values.weapon2UseType == "Reload") {
 	output["weapon2Uses"] = values.weapon2Uses_max;
 	}
-	if(values.weapon3UseType == "Reload"){
+	if (values.weapon3UseType == "Reload") {
 	output["weapon3Uses"] = values.weapon3Uses_max;
 	}
-	if(values.weapon4UseType == "Reload"){
+	if (values.weapon4UseType == "Reload") {
 	output["weapon4Uses"] = values.weapon4Uses_max;
 	}
 
-	if(values.egoUseType == "Reload"){
+	if (values.egoUseType == "Reload") {
 	output["egoUses"] = values.egoUses_max;
 	}
 
@@ -12319,22 +12309,22 @@ on('clicked:resetHealth', function() {
 getSectionIDs(`repeating_global`, idarray => {
     let id = `repeating_global_${idarray[0]}`;
 
-	getAttrs(["HP_max", "StagRes_max", "SP_max", "Light_max", "distortCounter_max", "egoCondition", `${id}_staggerDurationMax`], function(values) {
+	getAttrs(["HP_max", "ST_max", "SP_max", "Light_max", "distortCounter_max", "egoCondition", `${id}_staggerDurationMax`], function(values) {
 	let egocon = values.egoCondition;
 	let egonew = "0";
  	let hpnew = parseInt(values.HP_max);
-	let stagrnew = parseInt(values.StagRes_max);
+	let stnew = parseInt(values.ST_max);
 	let spnew = parseInt(values.SP_max);
 	let lightnew = parseInt(values.Light_max);
 	let counternew = parseInt(values.distortCounter_max);
 	let staggerdurationmax = parseInt(values[`${id}_staggerDurationMax`])
 
-	if(egocon == "AlwaysActive"){
+	if (egocon == "AlwaysActive") {
 		egonew = "true";
 	}
 
 	setAttrs({"messageOverride":"true"});
-	setAttrs({"HP": hpnew, "StagRes": stagrnew, "SP":spnew, "Light":lightnew, "egoActiveState":egonew, "StaggerState":"0", "StaggerDuration":staggerdurationmax, "PanicState":"0", "SealState":"0", "ImmobileState":"0", "DefeatState":"0", "distortCounter":counternew, "THP_Sources":"", "TST_Sources":""});
+	setAttrs({"HP": hpnew, "ST": stnew, "SP":spnew, "Light":lightnew, "egoActiveState":egonew, "StaggerState":"0", "StaggerDuration":staggerdurationmax, "PanicState":"0", "SealState":"0", "ImmobileState":"0", "DefeatState":"0", "distortCounter":counternew, "THP_Sources":"", "TST_Sources":""});
  	});
 	});
 });
@@ -12343,8 +12333,8 @@ getSectionIDs(`repeating_global`, idarray => {
 on('clicked:resetStats', async function() {
 	let queryResults = await sendQuery(["userConfirmation",
 		getTranslationByKeyCustom("Are you certain you want to reset the stats of your character? This will also reset any derived values (Health, Stagger Res, etc.)", "query-reset-stats"), {
-			[getTranslationByKeyCustom("No","query-no")]:"false",
-			[getTranslationByKeyCustom("Yes","query-yes")]:"true"
+			[getTranslationByKeyCustom("No", "query-no")]: "false",
+			[getTranslationByKeyCustom("Yes", "query-yes")]: "true"
 		}
 	]);
 
@@ -12363,10 +12353,10 @@ on('clicked:resetGlobal', function() {
 	getSectionIDs(`repeating_global`, idarray => {
 	let id = `repeating_global_${idarray[0]}`;
 
-	/* Translation prep */
+	/* Translation */
 	let langRulename = getTranslationByKeyCustom("Original Rulebook (Default)", "editor-rulename-placeholder") ;
 
-	setAttrs({[`${id}_ruleName`]:langRulename, [`${id}_healthBase`]:"30", [`${id}_healthStat`]:"Instinct", [`${id}_healthStatMod`]:"6", [`${id}_healthRankMod`]:"6", [`${id}_staggerBase`]:"20", [`${id}_staggerStat`]:"Charm", [`${id}_staggerStatMod`]:"4", [`${id}_staggerRankMod`]:"4", [`${id}_sanityBase`]:"15", [`${id}_sanityStat`]:"Wisdom", [`${id}_sanityStatMod`]:"3", [`${id}_sanityRankMod`]:"0", [`${id}_lightBase`]:"3", [`${id}_lightRankMod`]:"1", [`${id}_distortLightBase`]:"5", [`${id}_distortLightRankMod`]:"1", [`${id}_expCalc`]:"8", [`${id}_actionBase`]:"1", [`${id}_actionRankMod`]:"0", [`${id}_reactionBase`]:"2", [`${id}_reactionRankMod`]:"0", [`${id}_actionTradeReaction`]:"0", [`${id}_lightRegenBase`]:"3", [`${id}_lightRegenRankMod`]:"1", [`${id}_lightRegenStatMod`]:"0", [`${id}_lightRegenStaggerSelf`]:"0", [`${id}_lightRegenStaggerEnemy`]:"0", [`${id}_lightRegenDefeatEnemy`]:"0", [`${id}_lightRegenRoundEnd`]:"0", [`${id}_combatEndLightBase`]:"1", [`${id}_combatEndLightRankMod`]:"0", [`${id}_recoverHPBase`]:"8", [`${id}_recoverHPStatMod`]:"2", [`${id}_recoverHPRankMod`]:"2", [`${id}_recoverSPBase`]:"3", [`${id}_recoverSPStatMod`]:"1", [`${id}_recoverSPRankMod`]:"0", [`${id}_recoverStaggerMode`]:"x", [`${id}_recoverStaggerVal`]:"0.5", [`${id}_recoverLightBase`]:"1", [`${id}_recoverLightRankMod`]:"0",	[`${id}_attStat`]:"Instinct", [`${id}_defStat`]:"Temperance", [`${id}_evdStat`]:"Insight", [`${id}_evdAilment`]:"EnduranceDisarm", [`${id}_multiPenalty`]:"-2", [`${id}_multiStyle`]:"n", [`${id}_staggerRecoverPercent`]:"100", [`${id}_staggerRecoverBase`]:"0", [`${id}_staggerDurationMax`]:"1", [`${id}_staggerSanity`]:"5", [`${id}_settingBar1`]:"HP", [`${id}_settingBar2`]:"StagRes", [`${id}_settingBar3`]:"SP", [`${id}_burnDecayMode`]:"x", [`${id}_burnDecayVal`]:"0.5", [`${id}_burnNextTurnSetting`]:"false", [`${id}_bleedDecayMode`]:"x", [`${id}_bleedDecayVal`]:"0.5", [`${id}_bleedNextTurnSetting`]:"false", [`${id}_smokeDecayMode`]:"+", [`${id}_smokeDecayVal`]:"-1", [`${id}_smokeNextTurnSetting`]:"false", [`${id}_smokeCalculationMode`]:"/", [`${id}_smokeCalculationVal`]:"2", [`${id}_chargeDecayMode`]:"+", [`${id}_chargeDecayVal`]:"0", [`${id}_chargeNextTurnSetting`]:"false", "settingLimbusStyle":"0"});
+	setAttrs({[`${id}_ruleName`]:langRulename, [`${id}_healthBase`]:"30", [`${id}_healthStat`]:"Instinct", [`${id}_healthStatMod`]:"6", [`${id}_healthRankMod`]:"6", [`${id}_staggerBase`]:"20", [`${id}_staggerStat`]:"Charm", [`${id}_staggerStatMod`]:"4", [`${id}_staggerRankMod`]:"4", [`${id}_sanityBase`]:"15", [`${id}_sanityStat`]:"Wisdom", [`${id}_sanityStatMod`]:"3", [`${id}_sanityRankMod`]:"0", [`${id}_lightBase`]:"3", [`${id}_lightRankMod`]:"1", [`${id}_distortLightBase`]:"5", [`${id}_distortLightRankMod`]:"1", [`${id}_expCalc`]:"8", [`${id}_actionBase`]:"1", [`${id}_actionRankMod`]:"0", [`${id}_reactionBase`]:"2", [`${id}_reactionRankMod`]:"0", [`${id}_actionTradeReaction`]:"0", [`${id}_lightRegenBase`]:"3", [`${id}_lightRegenRankMod`]:"1", [`${id}_lightRegenStatMod`]:"0", [`${id}_lightRegenStaggerSelf`]:"0", [`${id}_lightRegenStaggerEnemy`]:"0", [`${id}_lightRegenDefeatEnemy`]:"0", [`${id}_lightRegenRoundEnd`]:"0", [`${id}_combatEndLightBase`]:"1", [`${id}_combatEndLightRankMod`]:"0", [`${id}_recoverHPBase`]:"8", [`${id}_recoverHPStatMod`]:"2", [`${id}_recoverHPRankMod`]:"2", [`${id}_recoverSPBase`]:"3", [`${id}_recoverSPStatMod`]:"1", [`${id}_recoverSPRankMod`]:"0", [`${id}_recoverStaggerMode`]:"x", [`${id}_recoverStaggerVal`]:"0.5", [`${id}_recoverLightBase`]:"1", [`${id}_recoverLightRankMod`]:"0",	[`${id}_attStat`]:"Instinct", [`${id}_defStat`]:"Temperance", [`${id}_evdStat`]:"Insight", [`${id}_evdAilment`]:"EnduranceDisarm", [`${id}_multiPenalty`]:"-2", [`${id}_multiStyle`]:"n", [`${id}_staggerRecoverPercent`]:"100", [`${id}_staggerRecoverBase`]:"0", [`${id}_staggerDurationMax`]:"1", [`${id}_staggerSanity`]:"5", [`${id}_settingBar1`]:"HP", [`${id}_settingBar2`]:"ST", [`${id}_settingBar3`]:"SP", [`${id}_burnDecayMode`]:"x", [`${id}_burnDecayVal`]:"0.5", [`${id}_burnNextTurnSetting`]:"false", [`${id}_bleedDecayMode`]:"x", [`${id}_bleedDecayVal`]:"0.5", [`${id}_bleedNextTurnSetting`]:"false", [`${id}_smokeDecayMode`]:"+", [`${id}_smokeDecayVal`]:"-1", [`${id}_smokeNextTurnSetting`]:"false", [`${id}_smokeCalculationMode`]:"/", [`${id}_smokeCalculationVal`]:"2", [`${id}_chargeDecayMode`]:"+", [`${id}_chargeDecayVal`]:"0", [`${id}_chargeNextTurnSetting`]:"false", "settingLimbusStyle":"0"});
     });
 });
 
@@ -12383,32 +12373,24 @@ function dataExportGlobal() {
 	let textbase = "";
 
 	getAttrs(attrkey, function(values) {
+		for (let i = 0; i< attrkey.length ;i++) {
+			tempval = values[attrkey[i]];
+			if (tempval == undefined) {
+				tempval = "";
+			}
 
-		for(let i = 0; i< attrkey.length ;i++){
-		tempval = values[attrkey[i]];
+			textbase += "[`" + exportkey[i] + "`,`" + tempval + "`]";
 
-		if(tempval == undefined){
-		tempval = "";
+			if (i < (attrkey.length - 1)) {
+				textbase += ", ";
+			}
 		}
 
-   	 	textbase += "[`" + exportkey[i] + "`,`" + tempval + "`]";
-
-		if(i < (attrkey.length - 1)){
-		textbase += ", ";
-		}
-
-		}
-
-
-	textbase = textbase.replace(/	/g, ''); /* Remove whitespace */
-	
-
-	setAttrs({"gameEditor": textbase });
-
-
-		});
+		textbase = textbase.replace(/	/g, ''); /* Remove whitespace */
+		
+		setAttrs({"gameEditor": textbase});
 	});
-
+	});
 }
 
 /* Action: Import global settings */
@@ -12436,23 +12418,13 @@ getSectionIDs(`repeating_global`, idarray => {
 	let current = values.gameEditor;
 	let source = values[`${id}gameSettingSource`];
 
-	/* Translation prep */
-	let langSync = "Sync";
-	let langGameSettings = "Game Settings";
-	let langSyncSuccess = " sync successful.";
-	let langSyncFail =  " is locked.\n Unlock before syncing.";
-	let langSyncNoChange = "No change. Current data is synced.\n(Press Import if display does not match.)";
-	let langSyncEmpty = "No change. Source data is empty.";
-
-	if(getTranslationByKey("sync-button") != false){
-	langSync = getTranslationByKey("sync-button");
-	langGameSettings = getTranslationByKey("editor-gamesettings");
-	langSyncSuccess = getTranslationByKey("pop-sync-success");
-	langSyncFail = getTranslationByKey("pop-sync-fail");
-	langSyncNoChange = getTranslationByKey("pop-sync-synced");
-	langSyncEmpty = getTranslationByKey("pop-sync-empty");
-
-	}
+	/* Translation */
+	let langSync = getTranslationByKeyCustom("Sync", "sync-button");
+	let langGameSettings = getTranslationByKeyCustom("Game Settings", "editor-gamesettings");
+	let langSyncSuccess = getTranslationByKeyCustom(" sync successful.", "pop-sync-success");
+	let langSyncFail = getTranslationByKeyCustom(" is locked.\n Unlock before syncing.", "pop-sync-fail");
+	let langSyncNoChange = getTranslationByKeyCustom("No change. Current data is synced.\n(Press Import if display does not match.)", "pop-sync-synced");
+	let langSyncEmpty = getTranslationByKeyCustom("No change. Source data is empty.", "pop-sync-empty");
 
 	let syncHeader = langSync;
 	let syncBody = "";
@@ -12460,8 +12432,8 @@ getSectionIDs(`repeating_global`, idarray => {
 	const output = {};
 
 
-	if(source != null && source != ""){
-	if(source != current && syncCheck != "true"){
+	if (source != null && source != "") {
+	if (source != current && syncCheck != "true") {
 
 	setAttrs({"gameEditor":source});
 
@@ -12472,12 +12444,12 @@ getSectionIDs(`repeating_global`, idarray => {
 	syncToggle = "true"; 
 
 		}
-	else if(source != current && syncCheck == "true"){
+	else if (source != current && syncCheck == "true") {
 	syncBody = langGameSettings + langSyncFail;
 	syncToggle = "true"; 
 
 		}
-	else if(source == current) {
+	else if (source == current) {
 	syncBody = langSyncNoChange;
 	syncToggle = "true"; 
 
@@ -12530,14 +12502,14 @@ on("change:egoCondition", function() {
 	let stagger = values.StaggerState;
 	setAttrs({"egoActiveState":"0"});
 
-	if(condition == "AlwaysActive"){
+	if (condition == "AlwaysActive") {
 	setAttrs({"egoActiveState":"true"});
 
 	}
-	else if(condition == "OnStagger" && stagger != "0"){
+	else if (condition == "OnStagger" && stagger != "0") {
 	setAttrs({"egoActiveState":"true"});
 	}
-	else if(condition == "HalfHealth" && currenthp <= halfhp){
+	else if (condition == "HalfHealth" && currenthp <= halfhp) {
 	setAttrs({"egoActiveState":"true"});
 	}
 
@@ -12545,34 +12517,34 @@ on("change:egoCondition", function() {
 });
 
 /* Checking for tool select changes */
-on("change:tool1Name change:tool2Name change:tool3Name change:tool4Name change:tool1Uses change:tool2Uses change:tool3Uses change:tool4Uses change:special1Name change:special2Name ", function(){
+on("change:tool1Name change:tool2Name change:tool3Name change:tool4Name change:tool1Uses change:tool2Uses change:tool3Uses change:tool4Uses change:special1Name change:special2Name ", function() {
 
 	setAttrs({"toolSelect":""});
 
 });
 
 /* Checking for weapon range changes */
-on("change:weapon1Range", function(){ 
-	getAttrs(["weapon1Range"], function(values){
-	if(values.weapon1Range == "Ranged"){setAttrs({"weapon1UseType":"Reload"}); }
+on("change:weapon1Range", function() { 
+	getAttrs(["weapon1Range"], function(values) {
+	if (values.weapon1Range == "Ranged") {setAttrs({"weapon1UseType":"Reload"}); }
 	else { setAttrs({"weapon1UseType":"Limitless"}); }
 	}); });
 
-on("change:weapon2Range", function(){ 
-	getAttrs(["weapon2Range"], function(values){
-	if(values.weapon2Range == "Ranged"){setAttrs({"weapon2UseType":"Reload"}); }
+on("change:weapon2Range", function() { 
+	getAttrs(["weapon2Range"], function(values) {
+	if (values.weapon2Range == "Ranged") {setAttrs({"weapon2UseType":"Reload"}); }
 	else { setAttrs({"weapon2UseType":"Limitless"}); }
 	}); });
 
-on("change:weapon3Range", function(){ 
-	getAttrs(["weapon3Range"], function(values){
-	if(values.weapon3Range == "Ranged"){setAttrs({"weapon3UseType":"Reload"}); }
+on("change:weapon3Range", function() { 
+	getAttrs(["weapon3Range"], function(values) {
+	if (values.weapon3Range == "Ranged") {setAttrs({"weapon3UseType":"Reload"}); }
 	else { setAttrs({"weapon3UseType":"Limitless"}); }
 	}); });
 
-on("change:weapon4Range", function(){ 
-	getAttrs(["weapon4Range"], function(values){
-	if(values.weapon4Range == "Ranged"){setAttrs({"weapon4UseType":"Reload"}); }
+on("change:weapon4Range", function() { 
+	getAttrs(["weapon4Range"], function(values) {
+	if (values.weapon4Range == "Ranged") {setAttrs({"weapon4UseType":"Reload"}); }
 	else { setAttrs({"weapon4UseType":"Limitless"}); }
 	}); });
 
@@ -12580,7 +12552,7 @@ on("change:weapon4Range", function(){
 on("change:skillSelect", function() {
 
 	/* Get IDs/names */
-	getAttrs(["skillSelect"], function(values){
+	getAttrs(["skillSelect"], function(values) {
     let buttonid = values.skillSelect;
 	let skillcat = buttonid.split('S')[0];
 
@@ -12597,7 +12569,7 @@ on("change:skillSelect", function() {
 	let noskill = "0";
 
 	/* Get attributes */
-	if(buttonid != "0"){
+	if (buttonid != "0") {
         getAttrs([`${name}`, `${type}`, `${rank}`, `${effect}`, `${desc}`, `${light}`, `${diceA}`, `${diceB}`, `${diceC}`, "Light"], function(values) {
 
 	let skillname = values[name];
@@ -12613,19 +12585,19 @@ on("change:skillSelect", function() {
 
 	let currentLight = values.Light;
 
-	if(currentLight < skilllight){
+	if (currentLight < skilllight) {
 	noskill = "true";
 
 	setAttrs({"selectName":skillname, "selectRank":"0", "selectType":"0", "selectEffect":skilleffect, "selectDescription":skilldesc, "selectLight":skilllight, "selectDice1":"0", "selectDice2":"0", "selectDice3":"0", "selectDefDice1":"0", "selectDefDice2":"0", "selectDefDice3":"0", "selectAtkDice1":"0", "selectAtkDice2":"0", "selectAtkDice3":"0", "selectEvdDice1":"0", "selectEvdDice2":"0", "selectEvdDice3":"0", "selectCancel":noskill});
 	}
 	else{
-	if(skilltype == "Attack" || skilltype == "Mass"){
+	if (skilltype == "Attack" || skilltype == "Mass") {
 	setAttrs({"selectAtkDice1":skilldiceA, "selectAtkDice2":skilldiceB, "selectAtkDice3":skilldiceC, "selectDefDice1":"0", "selectDefDice2":"0", "selectDefDice3":"0", "selectEvdDice1":"0", "selectEvdDice2":"0", "selectEvdDice3":"0"});
 		}
-	else if(skilltype == "Defend"){
+	else if (skilltype == "Defend") {
 	setAttrs({"selectDefDice1":skilldiceA, "selectDefDice2":skilldiceB, "selectDefDice3":skilldiceC, "selectAtkDice1":"0", "selectAtkDice2":"0", "selectAtkDice3":"0", "selectEvdDice1":"0", "selectEvdDice2":"0", "selectEvdDice3":"0"});
 		}
-	else if(skilltype == "Evade"){
+	else if (skilltype == "Evade") {
 	setAttrs({"selectEvdDice1":skilldiceA, "selectEvdDice2":skilldiceB, "selectEvdDice3":skilldiceC, "selectDefDice1":"0", "selectDefDice2":"0", "selectDefDice3":"0", "selectAtkDice1":"0", "selectAtkDice2":"0", "selectAtkDice3":"0"});
 		}
 	else {
@@ -12699,7 +12671,7 @@ function updateAilments(ailmentOverride=[], callback=()=>{}) {
 		});
 
 	getAttrs(["settingMuteMessage", "settingWhisperRolls", "settingWhisperTarget", "settingBurnImmune", "nextRoundSpeed",
-		"StaggerState", "StaggerDuration", `${id}_staggerDurationMax`, "SealState", "ImmobileState", "burnResist", "burnResist_ego", "distortState", "egoActiveState", "egoType", "HP", "StagRes_max", "settingLimbusStyle",
+		"StaggerState", "StaggerDuration", `${id}_staggerDurationMax`, "SealState", "ImmobileState", "burnResist", "burnResist_ego", "distortState", "egoActiveState", "egoType", "HP", "ST_max", "settingLimbusStyle",
 		`${id}_staggerRecoverPercent`, `${id}_staggerRecoverBase`, `${id}_burnDecayMode`, `${id}_burnDecayVal`, `${id}_smokeDecayMode`, `${id}_smokeDecayVal`, `${id}_chargeDecayMode`, `${id}_chargeDecayVal`,
 		...attributeList, "THP_Sources"], function(values) {
 
@@ -12707,7 +12679,7 @@ function updateAilments(ailmentOverride=[], callback=()=>{}) {
 	let bleednew = parseInt(values.Bleed);
 	let smokenew = 0;
 	let chargenew = 0;
-	let stagnew = "0";
+	let stnew = "0";
 
 	let nomessage = values.settingMuteMessage;
 	let burnimmune = values.settingBurnImmune;
@@ -12724,10 +12696,10 @@ function updateAilments(ailmentOverride=[], callback=()=>{}) {
 	let egostate = values.egoActiveState;
 	let egotype = values.egoType;
 
-	if(egostate == "true" && egotype == "Outfit" && distortstate != "true"){
+	if (egostate == "true" && egotype == "Outfit" && distortstate != "true") {
 	burnresist = values.burnResist_ego;
 	}
-	else if(distortstate == "true"){
+	else if (distortstate == "true") {
 	burnresist = parseInt(values.burnResist) + parseInt(values.burnResist_ego);
 	}
 
@@ -12743,12 +12715,12 @@ function updateAilments(ailmentOverride=[], callback=()=>{}) {
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 	whisper = "/w " + whispertarget;
 	}
 
 	/* Burn processing */
-	if(ailmentOverride.includes("Burn")) {
+	if (ailmentOverride.includes("Burn")) {
 		let burncurrent = parseInt(values.Burn);
 		let burndecay = parseFloat(values[`${id}_burnDecayVal`]);
 		
@@ -12756,20 +12728,20 @@ function updateAilments(ailmentOverride=[], callback=()=>{}) {
 	
 			/* Decay */
 			if (parseInt(values.BurnDecayPause) == 0) {
-				if(burndecay == "n"){
+				if (burndecay == "n") {
 				burndecay = parseInt(burncurrent);
 				}
-				else if(burndecay == "-n"){
+				else if (burndecay == "-n") {
 				burndecay = parseInt(0 - burncurrent);
 				}
 		
-				if(values[`${id}_burnDecayMode`] == "+"){
+				if (values[`${id}_burnDecayMode`] == "+") {
 				burnnew += parseInt(burncurrent) + parseInt(burndecay);
 				}
-				else if(values[`${id}_burnDecayMode`] == "x"){
+				else if (values[`${id}_burnDecayMode`] == "x") {
 				burnnew += parseInt(parseInt(burncurrent) * parseFloat(burndecay));
 				}
-				else if(values[`${id}_burnDecayMode`] == "="){
+				else if (values[`${id}_burnDecayMode`] == "=") {
 				burnnew += parseInt(burndecay);
 				}
 			}
@@ -12777,13 +12749,13 @@ function updateAilments(ailmentOverride=[], callback=()=>{}) {
 			/* Damage */
 			let burndamage = parseInt(values.Burn - burnresist);
 	
-			if(burndamage <= 0){
+			if (burndamage <= 0) {
 			burndamage = 0;
 			}
 	
 			let burnresult = parseInt(values.HP - burndamage);
 	
-			if(burnimmune == "true"){
+			if (burnimmune == "true") {
 				burnresult = parseInt(values.HP);
 				burndamage = 0;
 			}
@@ -12803,9 +12775,9 @@ function updateAilments(ailmentOverride=[], callback=()=>{}) {
 			}
 
 			/* Chat message */
-			if(nomessage != "true" && burnimmune != "true"){
+			if (nomessage != "true" && burnimmune != "true") {
 	
-			/* Translation prep */
+			/* Translation */
 			let langBurn = getTranslationByKeyCustom(" was burned for ", "message-burn");
 			let langDamage= getTranslationByKeyCustom(" damage.", "message-damage");
 			let langResist= getTranslationByKeyCustom("Resistance: ", "message-resist");
@@ -12813,7 +12785,7 @@ function updateAilments(ailmentOverride=[], callback=()=>{}) {
 	
 			let iconnew = getIcon("ailments", "Burn", values.settingLimbusStyle, "markdown");
 	
-			if(burnresist != "0"){
+			if (burnresist != "0") {
 				langResistCombined = styleText(`**(${langResist}${burnresist})**`, "opacity: 50%;");
 			}
 	
@@ -12830,27 +12802,27 @@ function updateAilments(ailmentOverride=[], callback=()=>{}) {
 	}
 
 	/* Smoke processing */
-	if(ailmentOverride.includes("Smoke")) {
+	if (ailmentOverride.includes("Smoke")) {
 		let smokecurrent = parseInt(values.Smoke);
 		let smokedecay = parseFloat(values[`${id}_smokeDecayVal`]);
 
-		if (smokecurrent > 0){
+		if (smokecurrent > 0) {
 	
 			if (parseInt(values.SmokeDecayPause) == 0) {
-				if(smokedecay == "n"){
+				if (smokedecay == "n") {
 				smokedecay = parseInt(smokecurrent);
 				}
-				else if(smokedecay == "-n"){
+				else if (smokedecay == "-n") {
 				smokedecay = parseInt(0 - smokecurrent);
 				}
 	
-				if(values[`${id}_smokeDecayMode`] == "+"){
+				if (values[`${id}_smokeDecayMode`] == "+") {
 				smokenew += parseInt(smokecurrent) + parseInt(smokedecay);
 				}
-				else if(values[`${id}_smokeDecayMode`] == "x"){
+				else if (values[`${id}_smokeDecayMode`] == "x") {
 				smokenew += parseInt(parseInt(smokecurrent) * parseFloat(smokedecay));
 				}
-				else if(values[`${id}_smokeDecayMode`] == "="){
+				else if (values[`${id}_smokeDecayMode`] == "=") {
 				smokenew += parseInt(smokedecay);
 				}
 			}
@@ -12860,27 +12832,27 @@ function updateAilments(ailmentOverride=[], callback=()=>{}) {
 	}
 
 	/* Charge processing */
-	if(ailmentOverride.includes("Charge")) {
+	if (ailmentOverride.includes("Charge")) {
 		let chargecurrent = parseInt(values.Charge);
 		let chargedecay = parseFloat(values[`${id}_chargeDecayVal`]);
 
-		if (chargecurrent > 0){
+		if (chargecurrent > 0) {
 			
 			if (parseInt(values.ChargeDecayPause) == 0) {
-				if(chargedecay == "n"){
+				if (chargedecay == "n") {
 				chargedecay = parseInt(chargecurrent);
 				}
-				else if(chargedecay == "-n"){
+				else if (chargedecay == "-n") {
 				chargedecay = parseInt(0 - chargecurrent);
 				}
 
-				if(values[`${id}_chargeDecayMode`] == "+"){
+				if (values[`${id}_chargeDecayMode`] == "+") {
 				chargenew += parseInt(chargecurrent) + parseInt(chargedecay);
 				}
-				else if(values[`${id}_chargeDecayMode`] == "x"){
+				else if (values[`${id}_chargeDecayMode`] == "x") {
 				chargenew += parseInt(parseInt(chargecurrent) * parseFloat(chargedecay));
 				}
-				else if(values[`${id}_chargeDecayMode`] == "="){
+				else if (values[`${id}_chargeDecayMode`] == "=") {
 				chargenew += parseInt(chargedecay);
 				}
 			}
@@ -12916,22 +12888,22 @@ function updateAilments(ailmentOverride=[], callback=()=>{}) {
 		});
 	
 		/* Stagger processing */
-		if(stagcheck == "Staggered"){
-			if(stagduration == 0) {
-				stagnew = parseInt((values.StagRes_max) * parseFloat(parseInt(values[`${id}_staggerRecoverPercent`])/100) + parseInt(values[`${id}_staggerRecoverBase`]));
-				output = {...output, "StaggerState":"0", "StaggerDuration":stagdurationmax, "StagRes":stagnew};
+		if (stagcheck == "Staggered") {
+			if (stagduration == 0) {
+				stnew = parseInt((values.ST_max) * parseFloat(parseInt(values[`${id}_staggerRecoverPercent`])/100) + parseInt(values[`${id}_staggerRecoverBase`]));
+				output = {...output, "StaggerState":"0", "StaggerDuration":stagdurationmax, "ST":stnew};
 			} else {
 				output = {...output, "StaggerDuration":stagduration-1};
 			}
 		}
 	
 		/* Seal processing */
-		if(sealcheck != "0"){
+		if (sealcheck != "0") {
 			output.SealState = "0";
 		}
 	
 		/* Immobile processing */
-		if(immobilecheck != "0"){
+		if (immobilecheck != "0") {
 			output.ImmobileState = "0";
 		}
 	
@@ -12962,7 +12934,7 @@ function updateAilments(ailmentOverride=[], callback=()=>{}) {
 	});
 }
 
-function updateAdvantages(changeval){
+function updateAdvantages(changeval) {
 	getAttrs(["Paralysis", "Fortune", "advState", "advNum", "disadvNum"], function(values) {
 
 	let newparalysis = Math.max(values.Paralysis - parseInt(changeval), 0);
@@ -12976,8 +12948,8 @@ function updateAdvantages(changeval){
 
 	const output = {};
 
-	if(values.Fortune > 0 || values.advNum != "0"){
-		if(values.Fortune > 0) {
+	if (values.Fortune > 0 || values.advNum != "0") {
+		if (values.Fortune > 0) {
 			output["Fortune"] = newfortune;
 			comparePos = newfortune;
 			compareNeg = newparalysis;
@@ -12985,8 +12957,8 @@ function updateAdvantages(changeval){
 			output["advNum"] = newadvnum;
 		}
 	}
-	if(values.Paralysis > 0 || values.disadvNum != "0"){
-		if(values.Paralysis > 0) {
+	if (values.Paralysis > 0 || values.disadvNum != "0") {
+		if (values.Paralysis > 0) {
 			output["Paralysis"] = newparalysis;
 			comparePos = newfortune;
 			compareNeg = newparalysis;
@@ -12995,13 +12967,13 @@ function updateAdvantages(changeval){
 		}
 	}
 
-	if(comparePos == compareNeg){
+	if (comparePos == compareNeg) {
 		output["advState"] = "0";
 	}
-	else if(comparePos > compareNeg){
+	else if (comparePos > compareNeg) {
 		output["advState"] = "Advantage";
 	}
-	else if(comparePos < compareNeg){
+	else if (comparePos < compareNeg) {
 		output["advState"] = "Disadvantage";
 	}
 
@@ -13041,10 +13013,10 @@ getAttrs(["Bleed", "BleedDecayPause", "bleedResist", "bleedResist_ego", "distort
 
 	let output = {}
 
-	if(egostate == "true" && egotype == "Outfit" && distortstate != "true"){
+	if (egostate == "true" && egotype == "Outfit" && distortstate != "true") {
 		bleedresist = values.bleedResist_ego;
 	}
-	else if(distortstate == "true"){
+	else if (distortstate == "true") {
 		bleedresist = parseInt(values.bleedResist) + parseInt(values.bleedResist_ego);
 	}
 
@@ -13062,7 +13034,7 @@ getAttrs(["Bleed", "BleedDecayPause", "bleedResist", "bleedResist_ego", "distort
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 		whisper = "/w " + whispertarget;
 	}
 
@@ -13071,20 +13043,20 @@ getAttrs(["Bleed", "BleedDecayPause", "bleedResist", "bleedResist_ego", "distort
 
 		/* Decay */
 		if (mode == "standard" || mode == "decay") {
-			if(bleeddecay == "n"){
+			if (bleeddecay == "n") {
 			bleeddecay = parseInt(bleedcurrent);
 			}
-			else if(bleeddecay == "-n"){
+			else if (bleeddecay == "-n") {
 			bleeddecay = parseInt(0 - bleedcurrent);
 			}
 	
-			if(values[`${id}_bleedDecayMode`] == "+"){
+			if (values[`${id}_bleedDecayMode`] == "+") {
 			bleednew = parseInt(bleedcurrent) + parseInt(bleeddecay);
 			}
-			else if(values[`${id}_bleedDecayMode`] == "x"){
+			else if (values[`${id}_bleedDecayMode`] == "x") {
 			bleednew = parseInt(parseInt(bleedcurrent) * parseFloat(bleeddecay));
 			}
-			else if(values[`${id}_bleedDecayMode`] == "="){
+			else if (values[`${id}_bleedDecayMode`] == "=") {
 			bleednew = parseInt(bleeddecay);
 			}
 		}
@@ -13113,15 +13085,15 @@ getAttrs(["Bleed", "BleedDecayPause", "bleedResist", "bleedResist_ego", "distort
 		}
 
 		/* Chat message */
-		if(nomessage != "true" && bleedimmune != "true"){
+		if (nomessage != "true" && bleedimmune != "true") {
 
-			/* Translation prep */
+			/* Translation */
 			let langBleed = getTranslationByKeyCustom(" bled for ", "message-bleed");
 			let langDamage= getTranslationByKeyCustom(" damage.", "message-damage");
 			let langResist= getTranslationByKeyCustom("Resistance: ", "message-resist");
 			let langResistCombined = "";
 
-			if(bleedresist != "0") {
+			if (bleedresist != "0") {
 				langResistCombined = styleText(`**(${langResist}${bleedresist})**`, "opacity: 50%;");
 			}
 
@@ -13218,7 +13190,7 @@ function rollCombat(info) {
 	let usesmax = (buttonid.includes("weapon")) ? `${buttonid}Uses_max` : "";
 	let usetype = (buttonid.includes("weapon")) ? `${buttonid}UseType` : "";
 
-	if(buttonid == "egoWeapon" || buttonid == "egoDef" || buttonid == "egoEvd"){
+	if (buttonid == "egoWeapon" || buttonid == "egoDef" || buttonid == "egoEvd") {
 	uses = "egoUses";
 	usesmax = "egoUses_max";
 	usetype = "egoUseType";
@@ -13236,34 +13208,34 @@ function rollCombat(info) {
 	let newicon = getIcon("icons", "question", "false", "url");
 
 	/* Action type formatting */
-	if(buttonid == "def" && rawcheck != "distort"){
+	if (buttonid == "def" && rawcheck != "distort") {
 		basetype = "Defend";
 		headercolor = "#7397d1";
 		newicon = getIcon("icons", "defend", "false", "url");
 	}
-	else if(buttonid == "egoDef" || (buttonid == "def" && rawcheck == "distort")) {
+	else if (buttonid == "egoDef" || (buttonid == "def" && rawcheck == "distort")) {
 		basetype = "Defend";
 		headercolor = "#000";
 		headertext = "#6d9eeb";
 		newicon = getIcon("icons", "egoDef", "false", "url");
 	}
-	else if(buttonid == "evd" && rawcheck != "distort"){
+	else if (buttonid == "evd" && rawcheck != "distort") {
 		basetype = "Evade";
 		headercolor = "#dbb748";
 		newicon = getIcon("icons", "evade", "false", "url");
 	}
-	else if(buttonid == "egoEvd" || (buttonid == "evd" && rawcheck == "distort")){
+	else if (buttonid == "egoEvd" || (buttonid == "evd" && rawcheck == "distort")) {
 		basetype = "Evade";
 		headercolor = "#000";
 		headertext = "#f1c232";
 		newicon = getIcon("icons", "egoEvd", "false", "url");
 	}
-	else if(buttonid == "act"){
+	else if (buttonid == "act") {
 		basetype = "Action";
 		headercolor = "#8e7cc3";
 		newicon = getIcon("icons", "Portable", "false", "url");
 	}
-	else if(buttonid == "egoWeapon" || rawcheck == "distort"){
+	else if (buttonid == "egoWeapon" || rawcheck == "distort") {
 		basetype = "Attack";
 		headercolor = "#000";
 		headertext = "#cc4125";
@@ -13273,11 +13245,11 @@ function rollCombat(info) {
 		headercolor = "#c25944";
 	}
 
-	if(buttonid == "egoWeapon" || buttonid == "egoDef" || buttonid == "egoEvd"){
+	if (buttonid == "egoWeapon" || buttonid == "egoDef" || buttonid == "egoEvd") {
 		effect = "egoEffect";
 		name = "egoName";
 	}
-	else if(buttonid == "def" || buttonid == "evd"){
+	else if (buttonid == "def" || buttonid == "evd") {
 		effect = "outfitEffect";
 		name = "outfitName";
 	}
@@ -13320,7 +13292,7 @@ function rollCombat(info) {
 	let limitbehavior = values[`${usetype}`];
 	let weaponuse = "";
 
-	if(limitbehavior != "Limitless" && limitbehavior != null && values.settingHideUses != "true"){
+	if (limitbehavior != "Limitless" && limitbehavior != null && values.settingHideUses != "true") {
 		weaponuse = `(${currentuses}/${maxuses})`;
 	}
 
@@ -13367,11 +13339,11 @@ function rollCombat(info) {
 	}
 
 	/* Outfit name */ 
-	if((buttonid == "def" || buttonid == "evd") && basename == ""){
+	if ((buttonid == "def" || buttonid == "evd") && basename == "") {
 		basename = getTranslationByKeyCustom("Outfit", "outfit-name");
 	}
 
-	/* Translation prep */
+	/* Translation */
 	let langFrom = getTranslationByKeyCustom("From", "message-from");
 	let langTarget = getTranslationByKeyCustom("Target", "message-target");
 	let langRoll = getTranslationByKeyCustom("Roll", "message-roll");
@@ -13384,9 +13356,9 @@ function rollCombat(info) {
 	let langDistortEffect = getTranslationByKeyCustom("Distortion Effect", "distort-effectText");
 	let langMass = getTranslationByKeyCustom("Mass Attack", "skill-type-Mass");
 
-	if(basetype == "Attack" && buttonid != "egoWeapon"){
-	weapontype = getTranslationByKey("weapon-type-" + weapontype) || "";
-	weaponrange = getTranslationByKey("weapon-type-" + weaponrange) || "";
+	if (basetype == "Attack" && buttonid != "egoWeapon") {
+		weapontype = getTranslationByKey("weapon-type-" + weapontype) || "";
+		weaponrange = getTranslationByKey("weapon-type-" + weaponrange) || "";
 	}
 
 	/* Tool */
@@ -13397,8 +13369,8 @@ function rollCombat(info) {
 	let tooldesc = "";
 	let tooleffect = "";
 
-	let langUse = "Use Tool";
-	let langEffectTool = "Tool Effects";
+	let langUse = getTranslationByKeyCustom("Use Tool", "palette-action-tool");
+	let langEffectTool = getTranslationByKeyCustom("Tool Effects", "tool-effect").replace(".","");
 
 	if (toolselect != "" && toolselect != null && toolselect != "0") {
 		toolname = values[`${toolselect}Name`];
@@ -13409,14 +13381,9 @@ function rollCombat(info) {
 		let toolreuse = values[`${toolselect}Reusable`];
 		let toolnewuses = tooluses;
 
-		if (getTranslationByKey("palette-action-tool") != false) {
-			langUse = getTranslationByKey("palette-action-tool");
-			langEffectTool = getTranslationByKey("tool-effect").replace(".","");
-		}
-
-		if(toolreuse == "Reusable"){
+		if (toolreuse == "Reusable") {
 			toolnewuses = parseInt(tooluses) - 1;
-			if(parseInt(newuses) < 0){ 
+			if (parseInt(newuses) < 0) { 
 				toolnewuses = "0";
 			}
 			output[`${toolselect}Uses`] = toolnewuses;
@@ -13436,19 +13403,19 @@ function rollCombat(info) {
 	let skillmass = "";
 	let skillinfo = "";
 
-	if(currentlight >= skillcost && rawcheck != "raw"){
+	if (currentlight >= skillcost && rawcheck != "raw") {
 
-		if(skilltype == "Mass" && basetype == "Attack"){
+		if (skilltype == "Mass" && basetype == "Attack") {
 		skilltype = "Attack";
 		skillmass = " | " + langMass;
 
-			if(buttonid == "egoWeapon" || rawcheck == "distort") {
+			if (buttonid == "egoWeapon" || rawcheck == "distort") {
 				newicon = getIcon("icons", "egoWide", "false", "url");	
 			} else {
 				newicon = getIcon("icons", "Wide", "false", "url");	
 			}
 			}
-		if(basetype == skilltype){
+		if (basetype == skilltype) {
 		skilldice1 = values.selectDice1;
 		skilldice2 = values.selectDice2;
 		skilldice3 = values.selectDice3;
@@ -13551,23 +13518,23 @@ function rollCombat(info) {
 	combinedice2 = Math.max(parseInt(basedice2) + parseInt(distortdice2) + parseInt(skilldice2) + parseInt(autoeffectdice2), 0);
 	combinedice3 = parseInt(basedice3) + parseInt(distortdice3) + parseInt(skilldice3) + parseInt(activepower) + parseInt(autoeffectdice3);
 
-	if(values.settingMultihitUses == "true" && limitbehavior != "Limitless" && limitbehavior != null){
-		if(combinedice1 > currentuses){
+	if (values.settingMultihitUses == "true" && limitbehavior != "Limitless" && limitbehavior != null) {
+		if (combinedice1 > currentuses) {
 		combinedice1 = newuses;
 		newuses = "0";
 		}
-		else if(combinedice1 <= currentuses){
+		else if (combinedice1 <= currentuses) {
 			newuses = Math.max(newuses - combinedice1, 0);
 		}
 	}
-	else if(values.settingMultihitUses != "true" && limitbehavior != "Limitless" && limitbehavior != null) {
+	else if (values.settingMultihitUses != "true" && limitbehavior != "Limitless" && limitbehavior != null) {
 		newuses = Math.max(newuses - 1, 0);
 	}
 
 	/* Multi-hit roll prep */
 	let multihitdebuff = "";
-	if(combinedice1 > 1 && multihitfull != "true"){
-		if(multistyle == "Flat"){
+	if (combinedice1 > 1 && multihitfull != "true") {
+		if (multistyle == "Flat") {
 		multihitdebuff = multipenalty;	
 		}
 		else {
@@ -13579,7 +13546,7 @@ function rollCombat(info) {
 	let baseformat = "1d" + combinedice2 + "+" + combinedice3 + "+(" + parseInt(difficulty) + ")" + multihitdebuff;
 
 	/* Raw base dice override */
-	if(rawcheck == "raw"){
+	if (rawcheck == "raw") {
 		combinedice1 = basedice1;
 		conbinedice2 = basedice2;
 		combinedice3 = basedice3;
@@ -13620,22 +13587,22 @@ function rollCombat(info) {
 			break;
 	}
 	
-	if(advstate != "0" && acounter == "0"){
+	if (advstate != "0" && acounter == "0") {
 		acounter = dcounter;
 		rollformatmessage += ") </span>";
 	}
-	else if(acounter > dcounter && advstate != "0"){
+	else if (acounter > dcounter && advstate != "0") {
 		acounter = dcounter;
 		rollformatmessage += " x" + acounter + ")</span>";
 	}
-	else if(acounter <= dcounter && advstate != "0"){
+	else if (acounter <= dcounter && advstate != "0") {
 		rollformatmessage += " x" + acounter + ")</span>";
 	}
 
 	/* Multi-hit formatting */
 	let diceCount = 0;
 	if (combinedice1 > 1) {
-		if(acounter != "0") {
+		if (acounter != "0") {
 			for(let i = 0; i < acounter; i++) {
 				rollformat += ` {{roll${diceCount+1}=[[${advformat}${advmod}]]}}`;
 				dcounter--
@@ -13654,7 +13621,7 @@ function rollCombat(info) {
 	}
 
 	let distortformat = "";
-	if(rawcheck == "distort"){
+	if (rawcheck == "distort") {
 	distortformat = "<br><div style='width: 100%; background-color: #111; height: 80px; float: left; text-align: center; color:" + headertext + "'><b>" + langDistortEffect + "</b><br><div style='overflow: auto; border-top: 1px #555 solid; height: 70px;'>" + distorteffect + "</div></div>";
 	}
 
@@ -13663,7 +13630,7 @@ function rollCombat(info) {
 	if (baseeffect == "") { baseEffectDescription = ""; }
 	if (skilleffect == "(No Skill)" || skilleffect == "") { skillEffectDescription = ""; }
 
-	if(toolselect != "" && toolselect != null && toolselect != "0") {
+	if (toolselect != "" && toolselect != null && toolselect != "0") {
 		toolDescription = "<div style='text-align: center; padding-top: 3px; padding-bottom: 3px;'><div style='text-align: left; padding: 5px;'>" + tooldesc + "</div></div>";
 		toolEffectDescription = "<br><b>" + langEffectTool + ":</b><div class='toolEffect' style='max-height: 60px; width: 96.5%; border: 1px #555 solid; overflow: auto; float: left; padding: 3px;'>" + tooleffect + "</div>";
 		if (tooleffect == "") { toolEffectDescription = ""; toolDescription = toolDescription.replaceAll(" padding-bottom: 3px;","").replaceAll(" padding: 5px;"," padding-top: 5px;"); }
@@ -13684,14 +13651,14 @@ function rollCombat(info) {
 
 	let info = header + body + autoScriptMessage;
 
-	if(simpledisplay == "true"){
+	if (simpledisplay == "true") {
 	info = header;
 	}
 
 	setAttrs({...output, "dummy":info, "Light":newlight + autoEffectLight, "advState":advstate ,"skillSelect":"0", [`${uses}`]:newuses}, () => {
 
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 	whisper = "/w " + whispertarget;
 	}
 
@@ -14034,7 +14001,7 @@ function rollChallenge(buttonid, rollDifficulty=0, collectAutoScripts="false") {
 		default: newicon = getIcon("stats", statn, "false", "url");
 	}
 
-	/* Translation prep */
+	/* Translation */
 	let langFrom = getTranslationByKeyCustom("From", "message-from");
 	let langRoll = getTranslationByKeyCustom("Roll", "message-roll");
 	let langAdv = getTranslationByKeyCustom("Adv.", "message-adv");
@@ -14074,12 +14041,12 @@ function rollChallenge(buttonid, rollDifficulty=0, collectAutoScripts="false") {
 
 	let info = header + body + autoScriptMessage;
 
-	if(simpledisplay == "true"){
+	if (simpledisplay == "true") {
 		info = header;
 	}
 
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 		whisper = "/w " + whispertarget;
 	}
 
@@ -14135,7 +14102,7 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 		`${prefix}ailCustomResistanceNum`, `${prefix}ailCustomResistanceNumEgo`, `${prefix}ailNum`, `${prefix}ailName`, `${prefix}ailIcon`], '');
 
 	/* Get attribute values */
-	getAttrs([...fieldnames, "character_name", "targetTokenId", "HP", "StagRes", "SP", "HP_max", "StagRes_max", "SP_max", "THP_Sources", "TST_Sources",
+	getAttrs([...fieldnames, "character_name", "targetTokenId", "HP", "ST", "SP", "HP_max", "ST_max", "SP_max", "THP_Sources", "TST_Sources",
 	"settingLimbusStyle", "settingWhisperRolls", "settingWhisperTarget", "settingSimpleDisplay", "settingAutoApplyDamage", "settingHideBarUpdate",
 	"baseDamage", "flatDamageHP", "flatDamageST", "damageHelperType",
 	"distortState", "egoActiveState", "egoType", "StaggerState", "damageResist", "damageResist_ego",
@@ -14156,10 +14123,10 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 	let targetTokenId = values.targetTokenId || "";
 
 	let maxHP = parseInt(values.HP_max);
-	let maxST = parseInt(values.StagRes_max);
+	let maxST = parseInt(values.ST_max);
 	let maxSP = parseInt(values.SP_max);
 	let oldHP = newHP = parseInt(values.HP);
-	let oldST = newST = parseInt(values.StagRes);
+	let oldST = newST = parseInt(values.ST);
 	let oldSP = newSP = parseInt(values.SP);
 
 	let baseDamage = overrideList.BaseDamage || parseInt(values.baseDamage);
@@ -14339,16 +14306,16 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 				/* Get effect mode. "x" and "=" apply directly to the relevant stat */
 				if (ailEffectMode == "+") {
 					switch (ailEffect) {
-						case "HPStagRes": tempSumBoth += parseInt(ailEffectVal); break;
+						case "HP+ST": tempSumBoth += parseInt(ailEffectVal); break;
 						case "HP": tempSumHp += parseInt(ailEffectVal); break;
-						case "StagRes": tempSumSt += parseInt(ailEffectVal); break;
+						case "ST": tempSumSt += parseInt(ailEffectVal); break;
 						case "SP": sumSanity += parseInt(ailEffectVal); break;
 					}
 				} else {
 					switch (true) {
-						case ailEffect == "HPStagRes": 
+						case ailEffect == "HP+ST": 
 							newHP = apply_effect_mode[ailEffectMode](newHP, parseFloat(ailEffectVal), ailCustomResistanceNum); /* No break. Intentional fall through */
-						case ailEffect == "StagRes":
+						case ailEffect == "ST":
 							newST = apply_effect_mode[ailEffectMode](newST, parseFloat(ailEffectVal), ailCustomResistanceNum);
 							ailEffectVal = newST - oldST; break;
 						case ailEffect == "HP" : 
@@ -14370,8 +14337,8 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 				/* Regen tracking  */
 				if (ailType == "Regen") {
 					switch (ailEffect) {
-						case "HPStagRes": hpStRegen += tempSumBoth;
-						case "StagRes": stRegen += tempSumSt;
+						case "HP+ST": hpStRegen += tempSumBoth;
+						case "ST": stRegen += tempSumSt;
 						case "HP": hpRegen += tempSumHp;
 						case "SP": spRegen += sumSanity;
 					}
@@ -14460,7 +14427,7 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 	if (newHP > maxHP && oldHP < newHP) { newHP = maxHP }
 	if (newST > maxST && oldST < newST) { newST = maxST }
 	if (newSP > maxSP && oldSP < newSP) { newSP = maxSP }
-	output["HP"] = newHP; output["StagRes"] = newST; output["SP"] = newSP;
+	output["HP"] = newHP; output["ST"] = newST; output["SP"] = newSP;
 	if (autoapplydamage == "true") {
 		setAttrs(output);
 	}
@@ -14486,36 +14453,21 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 	
 	/* Damage calculations block end */
 
-	/* Translation prep */
-	let langBaseDamage = "Base damage";
-	let langFlatDamageHP = "Flat HP DMG";
-	let langFlatDamageST = "Flat ST DMG";
-	let langFlatDamageSP = "Flat SP DMG";
-	let langDamage = "damage";
-	let langDealt = "dealt";
-	let langIncreasedHPDamageBy = "increased HP damage by";
-	let langSmoke = "Smoke";
-	let langFragile = "Fragile";
-	let langProtection = "Protection";
-	let langStProtection = "Stagger Protection";
-	let langDamageResistance = "Damage Resistance";
-	let langDefence = "Block";
+	/* Translation */
+	let langBaseDamage = getTranslationByKeyCustom("Base damage", "helper-text-basedamage");
+	let langFlatDamageHP = getTranslationByKeyCustom("Flat HP DMG", "helper-text-flatdamagehp");
+	let langFlatDamageST = getTranslationByKeyCustom("Flat ST DMG", "helper-text-flatdamagest");
+	let langFlatDamageSP = getTranslationByKeyCustom("Flat SP DMG", "helper-text-flatdamagesp");
+	let langDamage = getTranslationByKeyCustom("damage", "message-damage");
+	let langDealt = getTranslationByKeyCustom("dealt", "message-dealt");
+	let langIncreasedHPDamageBy = getTranslationByKeyCustom("increased HP damage by", "message-increased-HP-damage-by");
+	let langSmoke = getTranslationByKeyCustom("Smoke", "ailments-smoke");
+	let langFragile = getTranslationByKeyCustom("Fragile", "ailments-fragile");
+	let langProtection = getTranslationByKeyCustom("Protection", "ailments-protection");
+	let langStProtection = getTranslationByKeyCustom("Stagger Protection", "ailments-stgprotection");
+	let langDamageResistance = getTranslationByKeyCustom("Damage Resistance", "oufit-damage-resistance");
+	let langDefence = getTranslationByKeyCustom("Block", "autoeffect-trigger-block");
 
-	if(getTranslationByKey("helper-text-basedamage") != false){
-		langBaseDamage = getTranslationByKey("helper-text-basedamage");
-		langFlatDamageHP= getTranslationByKey("helper-text-flatdamagehp");
-		langFlatDamageST = getTranslationByKey("helper-text-flatdamagest");
-		langFlatDamageSP = getTranslationByKey("helper-text-flatdamagesp");
-		langDamage = getTranslationByKey("message-damage");
-		langDealt = getTranslationByKey("message-dealt");
-		langIncreasedHPDamageBy = getTranslationByKey("message-increased-HP-damage-by");
-		langSmoke = getTranslationByKey("ailments-smoke");
-		langFragile = getTranslationByKey("ailments-fragile");
-		langProtection = getTranslationByKey("ailments-protection");
-		langStProtection = getTranslationByKey("ailments-stgprotection");
-		langDamageResistance = getTranslationByKey("oufit-damage-resistance");
-		langDefence = getTranslationByKey("autoeffect-trigger-block");
-	}
 
 	/* Damage calculation chat message block begin */
 	let damageCalculation = "";
@@ -14568,10 +14520,10 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 		let ailmentArray = ailCalculationList[ailment];
 		
 		if (ailmentArray["count"] != 0) {
-			if (ailmentArray["effect"] == "HP" || ailmentArray["effect"] == "HPStagRes") { 
+			if (ailmentArray["effect"] == "HP" || ailmentArray["effect"] == "HP+ST") { 
 				hpDamageBody += generateDamageHelperBodyEffect(ailmentArray["name"], ailmentArray["effectVal"], ailmentArray["type"], ailmentArray["customRes"], getIcon("ailments", ailmentArray["icon"]), ailmentArray["beforeRes"], hpResistance, resHPIcon);
 			}
-			if (ailmentArray["effect"] == "StagRes" || ailmentArray["effect"] == "HPStagRes") {
+			if (ailmentArray["effect"] == "ST" || ailmentArray["effect"] == "HP+ST") {
 				stDamageBody += generateDamageHelperBodyEffect(ailmentArray["name"], ailmentArray["effectVal"], ailmentArray["type"], ailmentArray["customRes"], getIcon("ailments", ailmentArray["icon"]), ailmentArray["beforeRes"], stResistance, resSTIcon);
 			}
 			if (ailmentArray["effect"] == "SP") {
@@ -14629,7 +14581,7 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 
 	/* Whisper and roll */
 	let whisper = "";
-	if(whisperrolls == "true") {
+	if (whisperrolls == "true") {
 		whisper = "/w " + whispertarget;
 	}
 
@@ -14651,38 +14603,27 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 
 
 /* Damage helper functions beginning */
-function generateDamageHelperHeader(statName, newStat, oldStat, staggerState="0", autoapplydamage="true", hidebarupdate="false") {
-	let langBar = "HP";
-	let langDamage = "damage";
-	let langSuffered = "received";
-	let langSufferedNo = "Received no";
-	let langRegened = "Regened";
-	let langStaggered = "Regened";
+function generateDamageHelperHeader(bar, newBar, oldBar, staggerState="0", autoapplydamage="true", hidebarupdate="false") {
+	let langBar = getTranslationByKeyCustom(bar, `bar-${barNamesFull[barNames.indexOf(bar)].toLowerCase()}-shortened`);
+	let langDamage = getTranslationByKeyCustom("damage", "message-damage");
+	let langReceived = getTranslationByKeyCustom("received", "message-received");
+	let langReceivedNo = getTranslationByKeyCustom("Received no", "message-received-no");
+	let langRegened = getTranslationByKeyCustom("Regened", "message-regened-capitalized");
+	let langStaggered = getTranslationByKeyCustom("Staggered", "ailments-stagger-text");
 	
 	let updateDisplay = "";
 	let displayContent = "";
 
-	if(getTranslationByKey("message-damage") != false) {
-		langDamage = getTranslationByKey("message-damage");
-		langStaggered = getTranslationByKey("ailments-stagger-text");
-		switch (statName) {
-			case "HP": langBar = getTranslationByKey("bar-health-shortened"); break;
-			case "ST": langBar = getTranslationByKey("bar-stagres-shortened"); break;
-			case "SP": langBar = getTranslationByKey("bar-sanity-shortened"); break;
-		}
-	} else {
-		langBar = statName;
-	}
 	if (staggerState == "Staggered") { updateDisplay = `<div class="updateStatDisplay"><b>${langStaggered}!</b></div>`; }
 	else if (autoapplydamage != "true" || hidebarupdate == "true") { updateDisplay = `<div class="updateStatDisplay"><b>---</b></div>`; }
-	else { updateDisplay = `<div class="updateStatDisplay"><b>${oldStat} -> ${newStat}</b></div>`; }
+	else { updateDisplay = `<div class="updateStatDisplay"><b>${oldBar} -> ${newBar}</b></div>`; }
 
-	if (newStat < oldStat) { langSuffered = getTranslationByKey("message-received");
-		return `<div><div class="damageDisplay">${oldStat-newStat} ${langBar} ${langDamage} ${langSuffered}</div>${updateDisplay}</div>`; }
-	else if (newStat > oldStat) { langRegened = getTranslationByKey("message-regened-capitalized");
-		return `<div><div class="damageDisplay">${langRegened} ${newStat-oldStat} ${langBar}</div>${updateDisplay}</div>`; }
-	else { langSufferedNo = getTranslationByKey("message-received-no");
-		return `<div><div class="noDamage damageDisplay">${langSufferedNo} ${langBar} ${langDamage}</div>${updateDisplay}</div>` }
+	if (newBar < oldBar) {
+		return `<div><div class="damageDisplay">${oldBar-newBar} ${langBar} ${langDamage} ${langReceived}</div>${updateDisplay}</div>`; }
+	else if (newBar > oldBar) {
+		return `<div><div class="damageDisplay">${langRegened} ${newBar-oldBar} ${langBar}</div>${updateDisplay}</div>`; }
+	else {
+		return `<div><div class="damageDisplay">${langReceivedNo} ${langBar} ${langDamage}</div>${updateDisplay}</div>` }
 }
 
 function generateDamageHelperBodyEffect(effectName, effectVal, effectType, ailmentRes, iconString, resMode = "", resVal = "", resIcon = "") {
@@ -14692,13 +14633,8 @@ function generateDamageHelperBodyEffect(effectName, effectVal, effectType, ailme
 	let langResist = getTranslationByKeyCustom("Resistance: ", "message-resist");
 	let langReducedBaseDamageBy = getTranslationByKeyCustom("reduced base damage by", "message-reduced-basedamage-by");
 	
-	let langReduction = "";
-	if (effectVal < 0) {
-		langReduction = getTranslationByKeyCustom("increased damage by", "message-increased-damage-by");
-	} else {
-		langReduction = getTranslationByKeyCustom("reduced damage by", "message-reduced-damage-by");
-	}
-
+	let modifierWord = (effectVal < 0) ? "increased" : "reduced";
+	let langReduction = getTranslationByKeyCustom(`${modifierWord} damage by`, `message-${modifierWord}-damage-by`);
 
 	let message = "<div>";
 	switch (effectType) {
@@ -14792,10 +14728,10 @@ on('change:repeating_ailments:ailNum', (info) => {
 
 		if (ailTarget == "THP" || ailTarget == "TST") {
 			/* Calculate temp bar value */
-			if(ailEffectMode == "+") {
+			if (ailEffectMode == "+") {
 				tempBarVal = parseInt(ailNum) * parseFloat(ailEffectVal);
 			}
-			else if(ailEffectMode == "=" && ailNum != 0) {
+			else if (ailEffectMode == "=" && ailNum != 0) {
 				tempBarVal = parseFloat(ailEffectVal);
 				ailEffectVal = "None";
 			} else {
@@ -14845,31 +14781,31 @@ on('change:tool1Reusable change:tool2Reusable change:tool3Reusable change:tool4R
     getAttrs(["tool1Reusable", "tool1Uses", "tool1Uses_max", "tool2Reusable", "tool2Uses", "tool2Uses_max", "tool3Reusable", "tool3Uses", "tool3Uses_max", "tool4Reusable", "tool4Uses", "tool4Uses_max"], function(values) {
 	output = {};	
 
-	if(values.tool1Reusable != "Reusable"){
+	if (values.tool1Reusable != "Reusable") {
 	output["tool1Uses"] = "1";
 	}
-	else if(values.tool1Reusable == "Reusable" && parseInt(values.tool1Uses) <= 1){
+	else if (values.tool1Reusable == "Reusable" && parseInt(values.tool1Uses) <= 1) {
 	output["tool1Uses"] = values.tool1Uses_max;
 	}
 
-	if(values.tool2Reusable != "Reusable"){
+	if (values.tool2Reusable != "Reusable") {
 	output["tool2Uses"] = "1";
 	}
-	else if(values.tool2Reusable == "Reusable" && parseInt(values.tool2Uses) <= 1){
+	else if (values.tool2Reusable == "Reusable" && parseInt(values.tool2Uses) <= 1) {
 	output["tool2Uses"] = values.tool2Uses_max;
 	}
 
-	if(values.tool3Reusable != "Reusable"){
+	if (values.tool3Reusable != "Reusable") {
 	output["tool3Uses"] = "1";
 	}
-	else if(values.tool3Reusable == "Reusable" && parseInt(values.tool3Uses) <= 1){
+	else if (values.tool3Reusable == "Reusable" && parseInt(values.tool3Uses) <= 1) {
 	output["tool3Uses"] = values.tool3Uses_max;
 	}
 
-	if(values.tool4Reusable != "Reusable"){
+	if (values.tool4Reusable != "Reusable") {
 	output["tool4Uses"] = "1";
 	}
-	else if(values.tool4Reusable == "Reusable" && parseInt(values.tool4Uses) <= 1){
+	else if (values.tool4Reusable == "Reusable" && parseInt(values.tool4Uses) <= 1) {
 	output["tool4Uses"] = values.tool4Uses_max;
 	}
 
@@ -14914,43 +14850,42 @@ on('clicked:declareAction', (info) => {
 
 	let output = {};
 
-	if(distortstate == "true"){
+	if (distortstate == "true") {
 	headertext = "#8e7cc3";
 	headercolor = "#000";
 
 	}
 
 	/* Type Formatting */
-	if(actiontype == "tool"){
-	newicon = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png";
-	actiontext = "Use Tool";
+	if (actiontype == "tool") {
+		newicon = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png";
+		actiontext = "Use Tool";
 	}
-	else if(actiontype == "move"){
-	newicon = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Speed.png";
-	actiontext = "Move";
+	else if (actiontype == "move") {
+		newicon = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Speed.png";
+		actiontext = "Move";
 	}
-	else if(actiontype == "protect"){
-	newicon = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/defend.png";
-	actiontext = "Protect";
+	else if (actiontype == "protect") {
+		newicon = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/defend.png";
+		actiontext = "Protect";
+	}
+	else if (actiontype == "other") {
+		newicon = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/question.png";
+		actiontext = "Other";
+	}
 
+	if (toolselect == "egoTool") {
+		newicon = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png";
+		headertext = "#8e7cc3";
+		headercolor = "#000";
 	}
-	else if(actiontype == "other"){
-	newicon = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/question.png";
-	actiontext = "Other";
+	else if (toolselect == "egoSpecial") {
+		newicon = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSpecial.png";	
+		headertext = "#cf8c44";
+		headercolor = "#000";
 	}
-
-	if(toolselect == "egoTool"){
-	newicon = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png";
-	headertext = "#8e7cc3";
-	headercolor = "#000";
-	}
-	else if(toolselect == "egoSpecial"){
-	newicon = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSpecial.png";	
-	headertext = "#cf8c44";
-	headercolor = "#000";
-	}
-	else if(toolselect == "special1" || toolselect == "special2"){
-	newicon = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/specialwhite.png";
+	else if (toolselect == "special1" || toolselect == "special2") {
+		newicon = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/specialwhite.png";
 	}
 
 	/* Tool info */
@@ -14969,72 +14904,60 @@ on('clicked:declareAction', (info) => {
 
 	let toolinfo = "";
 
-	if(toolselect == "egoTool" || toolselect == "egoSpecial"){
-	toolname = values.egoName;
-	tooldesc = values.egoDescription;
-	tooleffect = values.egoEffect;
+	if (toolselect == "egoTool" || toolselect == "egoSpecial") {
+		toolname = values.egoName;
+		tooldesc = values.egoDescription;
+		tooleffect = values.egoEffect;
 
-	tooluses = values.egoUses;
-	toolusesmax = values.egoUses_max;
-	toolreuse = values.egoUseType;
+		tooluses = values.egoUses;
+		toolusesmax = values.egoUses_max;
+		toolreuse = values.egoUseType;
 
-		if(toolreuse != "Limitless" && toolreuse != null){
-		toolusestext = " (" + tooluses + "/" + toolusesmax + ")";
-
-		newuses = parseInt(tooluses) - 1;
-			if(parseInt(newuses) < 0){ 
-			newuses = "0";
-			}
-
-		output["egoUses"] = newuses;
+		if (toolreuse != "Limitless" && toolreuse != null) {
+			toolusestext = " (" + tooluses + "/" + toolusesmax + ")";
+			newuses = parseInt(tooluses) - 1;
+			output[`egoUses`] = (parseInt(newuses) < 0) ? "0" : newuses;
 		}
 
-		if(toolselect == "egoSpecial"){
-		specialriskNum = values.egoRisk;
-		specialrangeNum = values.egoRange;
-		specialdurationNum = values.egoDuration; 
+		if (toolselect == "egoSpecial") {
+			specialriskNum = values.egoRisk;
+			specialrangeNum = values.egoRange;
+			specialdurationNum = values.egoDuration; 
 		}
 
 	}
-	else if(toolselect == "special1" || toolselect == "special2"){
-	toolname = values[`${toolselect}Name`];
-	tooldesc = values[`${toolselect}Description`];
+	else if (toolselect == "special1" || toolselect == "special2") {
+		toolname = values[`${toolselect}Name`];
+		tooldesc = values[`${toolselect}Description`];
 
-	specialriskNum = values[`${toolselect}Risk`];
-	specialrangeNum = values[`${toolselect}Range`];
-	specialdurationNum = values[`${toolselect}Duration`]; 
-
+		specialriskNum = values[`${toolselect}Risk`];
+		specialrangeNum = values[`${toolselect}Range`];
+		specialdurationNum = values[`${toolselect}Duration`]; 
 	}
-	else if(toolselect == "" || toolselect == null){
-	toolselect = "";
+	else if (toolselect == "" || toolselect == null) {
+		toolselect = "";
 	}
 	else {
-	toolname = values[`${toolselect}Name`];
-	tooldesc = values[`${toolselect}Description`];
-	tooleffect = values[`${toolselect}Effect`];
-	tooluses = values[`${toolselect}Uses`];
-	toolusesmax = values[`${toolselect}Uses_max`];
-	toolreuse = values[`${toolselect}Reusable`];
+		toolname = values[`${toolselect}Name`];
+		tooldesc = values[`${toolselect}Description`];
+		tooleffect = values[`${toolselect}Effect`];
+		tooluses = values[`${toolselect}Uses`];
+		toolusesmax = values[`${toolselect}Uses_max`];
+		toolreuse = values[`${toolselect}Reusable`];
 
-		if(toolreuse == "Reusable"){
-		toolusestext = " (" + tooluses + "/" + toolusesmax + ")";
+		if (toolreuse == "Reusable") {
+			toolusestext = " (" + tooluses + "/" + toolusesmax + ")";
 
-		newuses = parseInt(tooluses) - 1;
-			if(parseInt(newuses) < 0){ 
-			newuses = "0";
-			}
-
-		output[`${toolselect}Uses`] = newuses;
+			newuses = parseInt(tooluses) - 1;
+			output[`${toolselect}Uses`] = (parseInt(newuses) < 0) ? "0" : newuses;
 		}
 		else {
-		toolusestext = " (1/1)";
-		output[`${toolselect}Uses`] = "0";
+			toolusestext = " (1/1)";
+			output[`${toolselect}Uses`] = "0";
 		}
-
-
 	}
 
-	if(values.settingHideUses == "true"){
+	if (values.settingHideUses == "true") {
 	toolusestext = "";
 	}
 
@@ -15084,47 +15007,30 @@ on('clicked:declareAction', (info) => {
 	let autoScriptMessage = returnValues.message || "";
 	let chatButtonList = returnValues.buttonList || {}
 
-	/* Translation prep */
-	let langFrom = "From";
-	let langTarget = "Target"
-	let langUse = "Use Tool";
-	let langSkill = "Skill";
-	let langDesc = "Description";
-	let langEffect = "Effect";
+	/* Translation */
+	let langFrom = getTranslationByKeyCustom("From", "message-from");
+	let langTarget = getTranslationByKeyCustom("Target", "message-target");
+	let langUse = getTranslationByKeyCustom("Use Tool", "palette-action-tool");
+	let langSkill = getTranslationByKeyCustom("Skill", "message-skill");
+	let langDesc = getTranslationByKeyCustom("Description", "message-desc");
+	let langEffect = getTranslationByKeyCustom("Effect", "message-effect");
 
-	let langRisk = "Risk";
-	let langRange = "Range";
-	let langDuration = "Duration";
+	let langRisk = getTranslationByKeyCustom("Risk", "special-risk-text");
+	let langRange = getTranslationByKeyCustom("Range", "special-range-text");
+	let langDuration = getTranslationByKeyCustom("Duration", "special-duration-text");
 
-
-	if(getTranslationByKey("message-from") != false){
-
-	actiontext = getTranslationByKey("palette-action-" + actiontype);
-
-	langFrom = getTranslationByKey("message-from");
-	langTarget = getTranslationByKey("message-target");
-	langUse = getTranslationByKey("palette-action-tool");
-	langSkill = getTranslationByKey("message-skill");
-	langDesc = getTranslationByKey("message-desc");
-	langEffect = getTranslationByKey("message-effect");
-
-	langRisk = getTranslationByKey("special-risk-text");
-	langRange = getTranslationByKey("special-range-text");
-	langDuration = getTranslationByKey("special-duration-text");
+	actiontext = getTranslationByKeyCustom(actiontext, "palette-action-" + actiontype);
 
 	specialrisk = getTranslationByKey("special-risk-" + specialriskNum);
 	specialrange = getTranslationByKey("special-range-" + specialrangeNum);
 	specialduration = getTranslationByKey("special-duration-" + specialdurationNum);
 
+	if (toolselect == "special1" || toolselect == "special2") {
+		tooleffect = tooldesc;
+		tooldesc = "<b>Risk</b>: " + specialrisk + "<br><b>Range</b>: " + specialrange + "<br><b>Duration</b>: " + specialduration;
 	}
-
-	if(toolselect == "special1" || toolselect == "special2"){
-	tooleffect = tooldesc;
-	tooldesc = "<b>Risk</b>: " + specialrisk + "<br><b>Range</b>: " + specialrange + "<br><b>Duration</b>: " + specialduration;
-	}
-	else if(toolselect == "egoSpecial"){
-	tooldesc = "<b>Risk</b>: " + specialrisk + "<br><b>Range</b>: " + specialrange + "<br><b>Duration</b>: " + specialduration + "<br>" + tooldesc;
-
+	else if (toolselect == "egoSpecial") {
+		tooldesc = "<b>Risk</b>: " + specialrisk + "<br><b>Range</b>: " + specialrange + "<br><b>Duration</b>: " + specialduration + "<br>" + tooldesc;
 	}
 
 	let toolDescription = "<div style='text-align: center; padding-top: 3px; padding-bottom: 3px;'><div style='text-align: left; padding: 5px;'>" + tooldesc + "</div></div>";
@@ -15132,11 +15038,11 @@ on('clicked:declareAction', (info) => {
 	if (tooldesc == "") { toolDescription = ""; }
 	if (tooleffect == "") { toolEffectDescription = ""; toolDescription = toolDescription.replaceAll(" padding-bottom: 3px;","").replaceAll(" padding: 5px;"," padding-top: 5px;"); }
 
-	if(toolselect != "" && toolselect != null && toolselect != "0") {
+	if (toolselect != "" && toolselect != null && toolselect != "0") {
 		toolinfo = "<b>" + langUse + "</b>: " +  toolname + toolusestext + "<br>" + toolDescription + toolEffectDescription;
 	}
 
-	if(currentlight >= skillcost && skilltype == "Action") {
+	if (currentlight >= skillcost && skilltype == "Action") {
 		newlight = currentlight - skillcost;
 		lightmessage = " <span style='color: #fee2b0'>(" + langSkill + ")</span>";
 
@@ -15158,7 +15064,7 @@ on('clicked:declareAction', (info) => {
 	setAttrs({"dummy":info});
 
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 	whisper = "/w " + whispertarget;
 	}
 
@@ -15263,7 +15169,7 @@ on("clicked:shareOutfit", function() {
 	"<div style='height:15px;'><div style='width: 70px; color: #c25944; float: left'>" + iconBlunt + " x" + values.outfitImmune5 + "</div> <div style='width: 70px; color: #dbb748; float: left;'>" + iconBluntSTG + " x" + values.outfitImmune6 + "</div></div>";
 
 
-	/* Translation prep */
+	/* Translation */
 	let langRank = getTranslationByKeyCustom("Rank", "rank");
 	let langDef = getTranslationByKeyCustom("Def", "message-defend");
 	let langEvd = getTranslationByKeyCustom("Evd", "message-evade");
@@ -15279,7 +15185,7 @@ on("clicked:shareOutfit", function() {
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 		whisper = "/w " + whispertarget;
 	}
 
@@ -15366,7 +15272,7 @@ function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 		whisper = "/w " + whispertarget;
 	}
 
@@ -15480,24 +15386,14 @@ on("clicked:shareAugment", function() {
 	let augmentrank = values.augmentRank;
 	let augmenttype = values.augmentType;
 
-	/* Translation prep */
-	let langRank = "Rank";
-	let langType = "Type";
-	
-	if(getTranslationByKey("rank") != false){
+	/* Translation */
+	let langRank = getTranslationByKeyCustom("Rank", "rank");
+	let langType = getTranslationByKeyCustom("Type", "message-type");
+	augmenttype = getTranslationByKeyCustom(augmenttype, "augment-type-" + augmenttype);
 
-	langRank = getTranslationByKey("rank");
-	langType = getTranslationByKey("message-type");
-
-	augmenttype = getTranslationByKey("augment-type-" + augmenttype);
-
-	}
-
-	if(augmenttype == "FullProsthesis"){
-	augmenttype = "Full Prosthesis";
-	}
-	else if(augmenttype == "Drugs"){
-	augmenttype = "Drugs/Serums";
+	switch (augmenttype) {
+		case "FullProsthesis": augmenttype = "Full Prosthesis"; break;
+		case "Drugs": augmenttype = "Drugs/Serums"; break;
 	}
 
 	header = "<div style='background-color: #85a874; overflow: hidden; height: 30px;'><div style='float: left'><img src='/' style='width: 5px; height: 30px; opacity: 0%;'></div><div style='width: 55%; overflow: hidden; height: 20px; padding-top: 5px; float: left;'><b>" + augmentname + "</b></div><div style='position: absolute; top: 5px; right: 5px;'> <b>" + langRank + ": </b>" + augmentrank + "</div></div>";
@@ -15509,18 +15405,15 @@ on("clicked:shareAugment", function() {
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
-	whisper = "/w " + whispertarget;
+	if (whisperrolls == "true") {
+		whisper = "/w " + whispertarget;
 	}
 
 	/* Send */
 	startRoll((whisper + "&{template:shareB} {{header=@{dummy} }} {{body=@{dummy2} }}"), (results) => {
-
-            finishRoll(results.rollId, {} );
-        });
-
+        finishRoll(results.rollId, {} );
     });
-
+    });
 });
 
 /*-- Share: Tools --*/
@@ -15555,40 +15448,27 @@ on("clicked:shareTool", function(info) {
 	let tooluses = values[uses];
 	let toolinfo = "";
 
-	/* Translation prep */
-	let langRank = "Rank";
-	let langPortable = "Portable";
-	let langPortableNo = "Not portable";
+	/* Translation */
+	let langRank = getTranslationByKeyCustom("Rank", "rank");
+	let langPortable = getTranslationByKeyCustom("Portable", "tool-portable");
+	let langPortableNo = getTranslationByKeyCustom("Not portable", "tool-portableNo");
 
-	let langReusable = "Reusable";
-	let langReusableNo = "Not reusable";
-
-	
-	if(getTranslationByKey("rank") != false){
-
-	langRank = getTranslationByKey("rank");
-
-	langPortable = getTranslationByKey("tool-portable");
-	langPortableNo = getTranslationByKey("tool-portableNo");
-
-	langReusable = getTranslationByKey("tool-reusable");
-	langReusableNo = getTranslationByKey("tool-reusableNo");
-
-	}
+	let langReusable = getTranslationByKeyCustom("Reusable", "tool-reusable");
+	let langReusableNo = getTranslationByKeyCustom("Not reusable", "tool-reusableNo");
 
 	/* Formatting */
 
-	if(toolportable != "Portable"){
+	if (toolportable != "Portable") {
 	toolportable = langPortableNo;
 	}
 	else { toolportable = "<b>" + langPortable + "</b>"; }
 	
-	if(toolreusable != "Reusable") {
+	if (toolreusable != "Reusable") {
 	toolreusable = langReusableNo;
 	}
 	else{ toolreusable = "<b>" + langReusable + " (" + tooluses + ")</b>"; }
 
-	if(toolreusable != " " && toolportable != " ") {
+	if (toolreusable != " " && toolportable != " ") {
 	toolinfo = toolportable + " | " + toolreusable; 
 	}
 	else { toolinfo = toolportable + toolreusable; }
@@ -15602,18 +15482,15 @@ on("clicked:shareTool", function(info) {
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 	whisper = "/w " + whispertarget;
 	}
 
 	/* Send */
 	startRoll((whisper + "&{template:shareB} {{header=@{dummy} }} {{body=@{dummy2} }}"), (results) => {
-
-            finishRoll(results.rollId, {} );
-        });
-
+        finishRoll(results.rollId, {} );
     });
-
+    });
 });
 
 
@@ -15686,25 +15563,15 @@ on("clicked:shareSpecial", function(info) {
 		default: specialduration = "---";
 	}
 
-	/* Translation prep */
-	let langRank = "Rank";
-	let langRisk = "Risk";
-	let langRange = "Range";
-	let langDuration = "Duration";
+	/* Translation */
+	let langRank = getTranslationByKeyCustom("Rank", "rank");
+	let langRisk = getTranslationByKeyCustom("Risk", "special-risk-text");
+	let langRange = getTranslationByKeyCustom("Range", "special-range-text");
+	let langDuration = getTranslationByKeyCustom("Duration", "special-duration-text");
 	
-	if(getTranslationByKey("rank") != false){
-
-	langRank = getTranslationByKey("rank");
-
-	langRisk = getTranslationByKey("special-risk-text");
-	langRange = getTranslationByKey("special-range-text");
-	langDuration = getTranslationByKey("special-duration-text");
-
 	specialrisk = getTranslationByKey("special-risk-" + specialriskNum);
 	specialrange = getTranslationByKey("special-range-" + specialrangeNum);
 	specialduration = getTranslationByKey("special-duration-" + specialdurationNum);
-
-	}
 
 	header = "<div style='background-color: #cf8c44; overflow: hidden; height: 30px;'><div style='float: left'><img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/specialwhite.png' style='width: 30px; height: 30px;'></div><div style='width: 55%; overflow: hidden; height: 20px; padding-top: 5px; float: left;'><b>" + specialname + "</b></div><div style='position: absolute; top: 5px; right: 5px;'> <b>" + langRank + ": </b>" + specialrank + "</div></div>";
 
@@ -15715,8 +15582,8 @@ on("clicked:shareSpecial", function(info) {
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
-	whisper = "/w " + whispertarget;
+	if (whisperrolls == "true") {
+		whisper = "/w " + whispertarget;
 	}
 
 	/* Send */
@@ -15763,29 +15630,18 @@ on("clicked:shareWeapon", function(info) {
 	/* Formatting */
 	iconnew = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/question.png' style='width: 30px; height: 30px;'>";
 
-	if(weapontype == "Slash"){
-	iconnew = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/slash.png' style='width: 30px; height: 30px;'>";
-	}
-	else if(weapontype == "Pierce"){
-	iconnew = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/pierce.png' style='width: 30px; height: 30px;'>";
-	}
-	else if(weapontype == "Blunt"){
-	iconnew = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/blunt.png' style='width: 30px; height: 30px;'>";
+	switch (weapontype) {
+		case "Slash": iconnew = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/slash.png' style='width: 30px; height: 30px;'>";
+		case "Pierce": iconnew = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/pierce.png' style='width: 30px; height: 30px;'>";
+		case "Blunt": iconnew = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/blunt.png' style='width: 30px; height: 30px;'>";
 	}
 
-	/* Translation prep */
-	let langRank = "Rank";
-	let langDiceType = "Att";
-
-	if(getTranslationByKey("rank") != false){
-
-	langRank = getTranslationByKey("rank");
-	langDiceType = getTranslationByKey("message-attack");
+	/* Translation */
+	let langRank = getTranslationByKeyCustom("Rank", "rank");
+	let langDiceType = getTranslationByKeyCustom("Att", "message-attack");
 
 	weapontype = getTranslationByKey("weapon-type-" + weapontype);
 	weaponrange = getTranslationByKey("weapon-type-" + weaponrange);
-
-	}
 
 	header = "<div style='background-color: #c25944; overflow: hidden; height: 30px;'><div style='float: left'>" + iconnew + "</div><div style='width: 55%; overflow: hidden; height: 20px; padding-top: 5px; float: left;'><b>" + weaponname + "</b></div><div style='position: absolute; top: 5px; right: 5px;'> <b>" + langRank + ": </b>" + weaponrank + "</div></div>";
 
@@ -15796,18 +15652,15 @@ on("clicked:shareWeapon", function(info) {
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
-	whisper = "/w " + whispertarget;
+	if (whisperrolls == "true") {
+		whisper = "/w " + whispertarget;
 	}
 
 	/* Send */
 	startRoll((whisper + "&{template:shareB} {{header=@{dummy} }} {{body=@{dummy2} }}"), (results) => {
-
-            finishRoll(results.rollId, {} );
-        });
-
+        finishRoll(results.rollId, {} );
     });
-
+    });
 });
 
 /*-- Share: Distortion --*/
@@ -15825,26 +15678,14 @@ on("clicked:shareDistort", function(info) {
 	let iconnew = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Distort.png";
 	let typecolor = "#fff";
 
-	/* Translation prep */
-	let langMod = "Mod";
-	let langWorkPref = "Preferences";
-	let langWorkResult = "Results";
-	let langWorkAmount = "Work Amount";
-	let langTaboon = "Taboos/Boons";
-	let langBehavior = "Behavior";
-	let langStory = "Story";
-	
-	if(getTranslationByKey("message-mod") != false){
-	langMod = getTranslationByKey("message-mod");
-	langWorkPref = getTranslationByKey("distort-obs-workpreference");
-	langWorkResult = getTranslationByKey("distort-loweringresults");
-	langWorkAmount = getTranslationByKey("distort-obs-work");
-	langTaboon = getTranslationByKey("distort-obs-taboon");
-	langBehavior = getTranslationByKey("distort-behavior");
-	langStory = getTranslationByKey("distort-story");
-
-	}
-
+	/* Translation */
+	let langMod = getTranslationByKeyCustom("Mod", "message-mod");
+	let langWorkPref = getTranslationByKeyCustom("Preferences", "distort-obs-workpreference");
+	let langWorkResult = getTranslationByKeyCustom("Results", "distort-loweringresults");
+	let langWorkAmount = getTranslationByKeyCustom("Work Amount", "distort-obs-work");
+	let langTaboon = getTranslationByKeyCustom("Taboos/Boons", "distort-obs-taboon");
+	let langBehavior = getTranslationByKeyCustom("Behavior", "distort-behavior");
+	let langStory = getTranslationByKeyCustom("Story", "distort-story");
 
 	/* Formatting */
 	let diceA = values.distortWeaponDice1 + "d" + values.distortWeaponDice2 + "+" + values.distortWeaponDice3;
@@ -15853,21 +15694,21 @@ on("clicked:shareDistort", function(info) {
 	let counter = values.distortCounter + "/" + values.distortCounter_max;
 
 	let distortSummary = "";
-	if(values.obsSummary == "true"){
+	if (values.obsSummary == "true") {
 	distortSummary = "<div style='padding: 3px; border-bottom: 1px #555 solid; max-height: 60px; overflow: auto;'>" + values.distort_summary + "</div>";}
 
 	let distortAppearance = "";
-	if(values.obsAppearance == "true"){
+	if (values.obsAppearance == "true") {
 	distortAppearance = "<div style='padding: 3px; border-bottom: 1px #555 solid; max-height: 50px; overflow: auto;'>" + values.distort_appearance + "</div>";
 	}
 
 	let distortAtmosphere = "";
-	if(values.obsAtmosphere == "true"){
+	if (values.obsAtmosphere == "true") {
 	distortAtmosphere = "<div style='padding: 3px; border-bottom: 1px #555 solid; max-height: 50px; overflow: auto;'>" + values.distort_atmosphere + "</div>";
 	}
 
 	let distortStory = "";
-	if(values.obsStory == "true"){
+	if (values.obsStory == "true") {
 	distortStory = "<div style='background-color:#111; padding: 5px;'><b>" + langStory + "</b></div><div style='padding: 3px; border-bottom: 1px #555 solid; max-height: 80px; overflow: auto;'>" + values.distort_story + "</div>";}
 
 	/* Work result formatting */
@@ -15875,36 +15716,36 @@ on("clicked:shareDistort", function(info) {
 	let normalIcon = "opacity: 30%";
 	let badIcon = "opacity: 30%";
 
-	if(values.distortResultGood == "Good"){
+	if (values.distortResultGood == "Good") {
 	goodIcon = "opacity: 100%";
 	}
-	if(values.distortResultNormal == "Normal"){
+	if (values.distortResultNormal == "Normal") {
 	normalIcon = "opacity: 100%";
 	}
-	if(values.distortResultBad == "Bad"){
+	if (values.distortResultBad == "Bad") {
 	badIcon = "opacity: 100%";
 	}
 
 	let distortWorkResult = "<div style='text-align: center; width: 39%; float:left; opacity: 30%;'><b>"+ langWorkResult +"</b><br> ?</div>";
-	if(values.obsWorkResults == "true"){
+	if (values.obsWorkResults == "true") {
 	distortWorkResult = "<div style='text-align: center; width: 39%; float:left;'><b>"+ langWorkResult +"</b><br> <img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/good.png' style='height: 25px; width: 25px; " + goodIcon + ";'> <img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/normal.png' style='height: 25px; width: 25px; " + normalIcon + ";'> <img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/bad.png' style='height: 25px; width: 25px; " + badIcon + ";'></div>";
 	}
 
 	/* Work preference formatting */
 
 	let distortWorkPref = "<div style='text-align: center; width: 30%; float: left; opacity: 30%;'><b>"+ langWorkPref +"</b><br><b style='color: #cc4125;'>?</b> | <b style='color: #d9d9d9;'>?</b> | <b style='color: #46bdc6;'>?</b><br><b style='color: #9c66c6;'>?</b> | <b style='color: #ffe599;'>?</b> | <b style='color: #ac609d;'>?</b></div>";
-	if(values.obsWorkPref == "true"){
+	if (values.obsWorkPref == "true") {
 	distortWorkPref = "<div style='text-align: center; width: 30%; float: left;'><b>"+ langWorkPref +"</b><br><b style='color: #cc4125;'>" + values.distortWorkInstinct + "</b> | <b style='color: #d9d9d9;'>"+ values.distortWorkWisdom +"</b> | <b style='color: #46bdc6;'>" + values.distortWorkJustice + "</b><br><b style='color: #9c66c6;'>" + values.distortWorkCharm + "</b> | <b style='color: #ffe599;'>"+ values.distortWorkInsight +"</b> | <b style='color: #ac609d;'>" + values.distortWorkTemperance + "</b></div>";
 	}
 
 	let distortWorkAmount = "<div style='text-align: center; width: 30%; float: left; opacity: 30%;'><b>" + langWorkAmount + "</b><br><span style='font-size: 25px;'>?</span></div>";
-	if(values.obsWorkAmount == "true"){
+	if (values.obsWorkAmount == "true") {
 	distortWorkAmount = "<div style='text-align: center; width: 30%; float: left;'><b>" + langWorkAmount + "</b><br><span style='font-size: 25px;'>"+ values.distortWorkBase + "</span></div>";
 	}
 
 
 	let workSection = "";
-	if(values.obsWorkAmount == "true" || values.obsWorkPref == "true" || values.obsWorkResults == "true"){
+	if (values.obsWorkAmount == "true" || values.obsWorkPref == "true" || values.obsWorkResults == "true") {
 	workSection = "<div style='width: 100%; background-color: #222; overflow: auto; height: 55px;'>" + distortWorkAmount + distortWorkPref + distortWorkResult + "</div>";}
 
 	/* Behavior/Taboo formatting */
@@ -15914,39 +15755,39 @@ on("clicked:shareDistort", function(info) {
 	let flexwidth1 = "49%";
 	let flexwidth2 = "50%";
 
-	if(values.obsBehavior != "true" || values.obsTaboon != "true"){
+	if (values.obsBehavior != "true" || values.obsTaboon != "true") {
 	flexwidth1 = "100%";
 	flexwidth2 = "100%";
 
 	}
 
-	if(values.obsBehavior == "true"){
+	if (values.obsBehavior == "true") {
 	distortBehavior = "<div style='width: " + flexwidth1 + "; float: left;'><b>" + langBehavior + ": </b><br><div style='height: 60px; overflow: auto;'>" + values.distort_behavior + "</div></div>";
 
 	}
-	if(values.obsTaboon == "true"){
+	if (values.obsTaboon == "true") {
 	distortTaboo = "<div style='width: "+ flexwidth2 + "; float: left;'><b>" + langTaboon + ": </b><br><div style='height: 60px; overflow: auto;'>" + values.distort_taboo + "</div></div>";
 	}
 	
 	let behaviorSection = "<div style='width: 100%; max-height: 80px; overflow: hidden; background-color: #222;'>"+ distortBehavior + distortTaboo  + "</div>";
 
-	if(values.obsTaboon != "true" && values.obsBehavior != "true"){
+	if (values.obsTaboon != "true" && values.obsBehavior != "true") {
 	behaviorSection = "";
 	}
 	/* Behavior section end */
 
 	let distortCounter = "";
-	if(values.obsCounter == "true"){
+	if (values.obsCounter == "true") {
 	distortCounter = "<div style='position: absolute; top: 5px; right: 5px; font-size: 20px; color: #cc4125;'> <b>" + counter + "</b></div>";
 	}
 
 	let distortDesc = "";
-	if(values.obsDesc == "true"){
+	if (values.obsDesc == "true") {
 	distortDesc = "<div style='width: 100%; max-height: 50px; overflow: hidden; background-color: #111;'><div style='height: 50px; width: 49%; border-right: 1px #555 solid; overflow: auto; color: #cc4125; float: left;'><b>" + attDesc + "</b></div><div style='height: 50px; width: 50%; overflow: auto; float: left; color: #6d9eeb;'><b>" + defDesc + "</b></div></div>";
 	}
 
 	let distortEffect = "";
-	if(values.obsEffect == "true"){
+	if (values.obsEffect == "true") {
 	distortEffect = "<div style='width: 100%; height: 60px; overflow: hidden; background-color: #111; border-top: 1px #555 solid; border-bottom: 1px #555 solid;'><div style='height: 60px; width: 49%; color: #cc4125; border-right: 1px #555 solid; overflow: auto; float: left;'>" + attEffect + "</div><div style='height: 60px; width: 50%; color: #6d9eeb; overflow: auto; float: left;'>" + defEffect + "</div></div> <div style='text-align: center; padding-top: 5px; padding-bottom: 5px; color: #fff; background-color: #000;'><b>" + langMod + ": </b> <span style=' color: #cc4125'>" + diceA + "</span> | <span style='color: #6d9eeb;'>" + diceD + "</span> | <span style='color: #dbb748'>" + diceE + "</span></div>";
 
 	}
@@ -15962,7 +15803,7 @@ on("clicked:shareDistort", function(info) {
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 	whisper = "/w " + whispertarget;
 	}
 
@@ -16008,105 +15849,78 @@ on("clicked:shareEgo", function(info) {
 		default: condition = "---";
 	}
 
-	/* Translation prep */
-	let langRank = "Rank";
-	let langDiceTypeAtt = "Att";
-	let langDiceTypeDef = "Def";
-	let langDiceTypeEvd = "Evd";
-	let langType = "Type";
-	let langEgoType = type;
+	/* Translation */
+	let langRank = getTranslationByKeyCustom("Rank", "rank");
+	let langType = getTranslationByKeyCustom("Type", "message-type");
+	let langDiceTypeAtt = getTranslationByKeyCustom("Att", "message-attack");
+	let langDiceTypeDef = getTranslationByKeyCustom("Def", "message-defend");
+	let langDiceTypeEvd = getTranslationByKeyCustom("Evd", "message-evade");
 
-	let langRisk = "Risk";
-	let langRange = "Range";
-	let langDuration = "Duration";
-	
-	if(getTranslationByKey("rank") != false){
-
-	langRank = getTranslationByKey("rank");
-	langType = getTranslationByKey("message-type");
-	langDiceTypeAtt = getTranslationByKey("message-attack");
-	langDiceTypeDef = getTranslationByKey("message-defend");
-	langDiceTypeEvd = getTranslationByKey("message-evade");
-
-	langEgoType = getTranslationByKey("ego-type-" + type);
+	let langEgoType = getTranslationByKeyCustom(type, "ego-type-" + type);
 	condition = getTranslationByKey("ego-active-" + conditionBase);
 
-	langRisk = getTranslationByKey("special-risk-text");
-	langRange = getTranslationByKey("special-range-text");
-	langDuration = getTranslationByKey("special-duration-text");
+	let langRisk = getTranslationByKeyCustom("Risk", "special-risk-text");
+	let langRange = getTranslationByKeyCustom("Range", "special-range-text");
+	let langDuration = getTranslationByKeyCustom("Duration", "special-duration-text");
 
 	specialrisk = getTranslationByKey("special-risk-" + specialriskNum);
 	specialrange = getTranslationByKey("special-range-" + specialrangeNum);
 	specialduration = getTranslationByKey("special-duration-" + specialdurationNum);
 
-	}
-
-
 	/* Formatting */
-	if(type == "Weapon"){
-	let diceA = values.egoWeaponDice1 + "d" + values.egoWeaponDice2 + "+" + values.egoWeaponDice3;
-	let weapontype = values.egoWeaponType;
-	let weaponrange = values.egoWeaponRange;
+	if (type == "Weapon") {
+		let diceA = values.egoWeaponDice1 + "d" + values.egoWeaponDice2 + "+" + values.egoWeaponDice3;
+		let weapontype = values.egoWeaponType;
+		let weaponrange = values.egoWeaponRange;
 
-	typecolor = "#cc4125";
+		typecolor = "#cc4125";
 
-	if(weapontype == "Slash"){
-	iconnew = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSlash.png";
-		}
-	else if(weapontype == "Pierce"){
-	iconnew = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoPierce.png";
-		}
-	else if(weapontype == "Blunt"){
-	iconnew = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoBlunt.png";
+		switch (weapontype) {
+			case "Slash": iconnew = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSlash.png' style='width: 30px; height: 30px;'>";
+			case "Pierce": iconnew = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoPierce.png' style='width: 30px; height: 30px;'>";
+			case "Blunt": iconnew = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoBlunt.png' style='width: 30px; height: 30px;'>";
 		}
 
-	if(getTranslationByKey("weapon-type-" + weapontype) != false){
-	weapontype = getTranslationByKey("weapon-type-" + weapontype);
-	weaponrange = getTranslationByKey("weapon-type-" + weaponrange);
+		weapontype = getTranslationByKeyCustom(weapontype, "weapon-type-" + weapontype);
+		weaponrange = getTranslationByKeyCustom(weaponrange, "weapon-type-" + weaponrange);
+
+		bottomdata = "<div style='text-align: center; padding-top: 5px; padding-bottom: 5px; color:" + typecolor + "; background-color: #000;'><b>" + langDiceTypeAtt + ": </b>" + diceA + " | " + weapontype + " | " + weaponrange + "</div>";
 	}
+	else if (type == "Outfit") {
+		typecolor = "#6d9eeb";
+		iconnew = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png";
 
-	bottomdata = "<div style='text-align: center; padding-top: 5px; padding-bottom: 5px; color:" + typecolor + "; background-color: #000;'><b>" + langDiceTypeAtt + ": </b>" + diceA + " | " + weapontype + " | " + weaponrange + "</div>";
-	
+		let diceD = values.egoDefDice1 + "d" + values.egoDefDice2 + "+" + values.egoDefDice3;
+		let diceE = values.egoEvdDice1 + "d" + values.egoEvdDice2 + "+" + values.egoEvdDice3;
 
+		let iconSlash = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResSlash.png' style='width: 25px; height: 25px;'>";
+		let iconSlashSTG = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResSlashStg.png' style='width: 25px; height: 25px;'>";
+
+		let iconPierce = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResPierce.png' style='width: 25px; height: 25px;'>";
+		let iconPierceSTG = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResPierceStg.png' style='width: 25px; height: 25px;'>";
+
+		let iconBlunt = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResBlunt.png' style='width: 25px; height: 25px;'>";
+		let iconBluntSTG = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResBluntStg.png' style='width: 25px; height: 25px;'>";
+
+		let immune = 
+		"<div style='height:15px;'><div style='width: 70px; color: #c25944; float: left'>" + iconSlash + " x" + values.egoImmune1 + "</div> <div style='width: 70px; color: #dbb748; float: left;'>" + iconSlashSTG + " x" + values.egoImmune2 + "</div></div><br>" + 
+		"<div style='height:15px;'><div style='width: 70px; color: #c25944; float: left'>" + iconPierce + " x" + values.egoImmune3 + "</div> <div style='width: 70px; color: #dbb748; float: left;'>" + iconPierceSTG + " x" + values.egoImmune4 + "</div></div><br>" +
+		"<div style='height:15px;'><div style='width: 70px; color: #c25944; float: left'>" + iconBlunt + " x" + values.egoImmune5 + "</div> <div style='width: 70px; color: #dbb748; float: left;'>" + iconBluntSTG + " x" + values.egoImmune6 + "</div></div>";
+
+		bottomdata = "<div style='background-color: #000; height: 70px;'><div style='text-align: center; padding-top: 15px; padding-bottom: 15px; color:" + typecolor + "; width: 49%; float: left;'><b>" + langDiceTypeDef + ": </b> " + diceD + "<br><span style='color: #dbb748'><b>" + langDiceTypeEvd + ": </b>" + diceE + "</span></div><div style='height: 70px; width:49%; float: left; overflow: auto;'>" + immune +"</div></div>";
 	}
-	else if(type == "Outfit"){
-	typecolor = "#6d9eeb";
-	iconnew = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png";
+	else if (type == "Tool") {
+		typecolor = "#8e7cc3";
+		iconnew = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png";
+		}
+		else if (type == "Special") {
+		typecolor = "#cf8c44";
+		iconnew = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSpecial.png";
 
-	let diceD = values.egoDefDice1 + "d" + values.egoDefDice2 + "+" + values.egoDefDice3;
-	let diceE = values.egoEvdDice1 + "d" + values.egoEvdDice2 + "+" + values.egoEvdDice3;
-
-let iconSlash = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResSlash.png' style='width: 25px; height: 25px;'>";
-	let iconSlashSTG = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResSlashStg.png' style='width: 25px; height: 25px;'>";
-
-	let iconPierce = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResPierce.png' style='width: 25px; height: 25px;'>";
-	let iconPierceSTG = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResPierceStg.png' style='width: 25px; height: 25px;'>";
-
-	let iconBlunt = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResBlunt.png' style='width: 25px; height: 25px;'>";
-	let iconBluntSTG = "<img src='https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResBluntStg.png' style='width: 25px; height: 25px;'>";
-
-	let immune = 
-	"<div style='height:15px;'><div style='width: 70px; color: #c25944; float: left'>" + iconSlash + " x" + values.egoImmune1 + "</div> <div style='width: 70px; color: #dbb748; float: left;'>" + iconSlashSTG + " x" + values.egoImmune2 + "</div></div><br>" + 
-	"<div style='height:15px;'><div style='width: 70px; color: #c25944; float: left'>" + iconPierce + " x" + values.egoImmune3 + "</div> <div style='width: 70px; color: #dbb748; float: left;'>" + iconPierceSTG + " x" + values.egoImmune4 + "</div></div><br>" +
-	"<div style='height:15px;'><div style='width: 70px; color: #c25944; float: left'>" + iconBlunt + " x" + values.egoImmune5 + "</div> <div style='width: 70px; color: #dbb748; float: left;'>" + iconBluntSTG + " x" + values.egoImmune6 + "</div></div>";
-
-	bottomdata = "<div style='background-color: #000; height: 70px;'><div style='text-align: center; padding-top: 15px; padding-bottom: 15px; color:" + typecolor + "; width: 49%; float: left;'><b>" + langDiceTypeDef + ": </b> " + diceD + "<br><span style='color: #dbb748'><b>" + langDiceTypeEvd + ": </b>" + diceE + "</span></div><div style='height: 70px; width:49%; float: left; overflow: auto;'>" + immune +"</div></div>";
-
+		bottomdata = "<div style='text-align: center; padding-top: 5px; padding-bottom: 5px; color:" + typecolor + "; background-color: #000;'><div style='text-align: left; padding: 5px;'><b>" + langRisk + ": </b>" + specialrisk + "<br> <b>" + langRange + ": </b>" + specialrange + "<br> <b>" + langDuration + ": </b>" + specialduration + "</div></div>";
 	}
-	else if(type == "Tool"){
-	typecolor = "#8e7cc3";
-iconnew = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png";
-	}
-	else if(type == "Special"){
-	typecolor = "#cf8c44";
-iconnew = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSpecial.png";
-
-	bottomdata = "<div style='text-align: center; padding-top: 5px; padding-bottom: 5px; color:" + typecolor + "; background-color: #000;'><div style='text-align: left; padding: 5px;'><b>" + langRisk + ": </b>" + specialrisk + "<br> <b>" + langRange + ": </b>" + specialrange + "<br> <b>" + langDuration + ": </b>" + specialduration + "</div></div>";
-
-
-	}
-	else if(type == "0"){
-	type = "---";
+	else if (type == "0") {
+		type = "---";
 	}
 
 	header = "<div style='background-color: #000; color: " + typecolor + "; overflow: hidden; height: 30px;'><div style='float: left'><img src='" + iconnew + "' style='width: 30px; height: 30px;'></div><div style='width: 55%; overflow: hidden; height: 20px; padding-top: 5px; float: left;'><b>" + name + "</b></div><div style='position: absolute; top: 5px; right: 5px;'> <b>"+ langRank + ": </b>" + rank + "</div></div>";
@@ -16118,7 +15932,7 @@ iconnew = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/ma
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 	whisper = "/w " + whispertarget;
 	}
 
@@ -16169,63 +15983,53 @@ on("clicked:shareSkill", function(info) {
 
 	/* Formatting */
 
-	if (skillcat == "ego"){
-	iconbg = "#000";
-	headerbg = "#000";
+	if (skillcat == "ego") {
+		iconbg = "#000";
+		headerbg = "#000";
 
-	if(skilltype == "Attack"){
-	iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAtt.png";
+		if (skilltype == "Attack") {
+			iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAtt.png";
 		}
-	else if(skilltype == "Defend"){
-	iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png";
+		else if (skilltype == "Defend") {
+			iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png";
 		}
-	else if(skilltype == "Evade"){
-	iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoEvd.png";
+		else if (skilltype == "Evade") {
+			iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoEvd.png";
 		}
-	else if(skilltype == "Action"){
-	iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png";
+		else if (skilltype == "Action") {
+			iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png";
 		}
-	else if(skilltype == "Mass"){
-	iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoWide.png";
+		else if (skilltype == "Mass") {
+			iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoWide.png";
+		}
+	} else {
+		if (skilltype == "Attack") {
+			iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Attack.png";
+			iconbg = "#c25944";
+		}
+		else if (skilltype == "Defend") {
+			iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/defend.png";
+			iconbg = "#7397d1";
+		}
+		else if (skilltype == "Evade") {
+			iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/evade.png";
+			iconbg = "#dbb748";
+		}
+		else if (skilltype == "Action") {
+			iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png";
+			iconbg = "#8e7cc3";
+		}
+		else if (skilltype == "Mass") {
+			iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Wide.png";
+			iconbg = "#c25944";
 		}
 	}
-	else{
-	if(skilltype == "Attack"){
-	iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Attack.png";
-	iconbg = "#c25944";
-		}
-	else if(skilltype == "Defend"){
-	iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/defend.png";
-	iconbg = "#7397d1";
-		}
-	else if(skilltype == "Evade"){
-	iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/evade.png";
-	iconbg = "#dbb748";
-		}
-	else if(skilltype == "Action"){
-	iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png";
-	iconbg = "#8e7cc3";
-		}
-	else if(skilltype == "Mass"){
-	iconurl = "https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Wide.png";
-	iconbg = "#c25944";
-		}
-	}
 
-	/* Translation prep */
-	let langRank = "Rank";
-	let langMod = "Mod";
-	let langCost = "Cost";
-	
-	if(getTranslationByKey("rank") != false){
-
-	langRank = getTranslationByKey("rank");
-	langMod = getTranslationByKey("message-mod");
-	langCost = getTranslationByKey("message-cost");
-
-	skilltype = getTranslationByKey("skill-type-" + skilltype);
-
-	}
+	/* Translation */
+	let langRank = getTranslationByKeyCustom("Rank", "rank");
+	let langMod = getTranslationByKeyCustom("Mod", "message-mod");
+	let langCost = getTranslationByKeyCustom("Cost", "message-cost");
+	skilltype = getTranslationByKeyCustom(skilltype, "skill-type-" + skilltype);
 
 	let iconnew = "<img src='" + iconurl + "' style='width: 28px; height: 28px; border-radius: 100px; border: 1px #fff solid; background-color: " + iconbg + ";'>";
 
@@ -16238,7 +16042,7 @@ on("clicked:shareSkill", function(info) {
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
 	let whisper = "";
-	if(whisperrolls == "true"){
+	if (whisperrolls == "true") {
 	whisper = "/w " + whispertarget;
 	}
 
@@ -16253,7 +16057,7 @@ on("clicked:shareSkill", function(info) {
 });
 
 /* Toggle: Edit Mode */
-on("clicked:editMode", function(){
+on("clicked:editMode", function() {
 	getAttrs(["settingEditMode"], function(values) {
 		setAttrs({"settingEditMode": (values.settingEditMode == "true") ? "0" : "true"});
 	});
@@ -17717,15 +17521,17 @@ const accessHandler = {
 			return root[prop];
 		}
 		else if (prop == "currentID") {
+			access._path = [getActiveCharacterId()];
 			return root[getActiveCharacterId()];
 		}
 		else {
-			console.log(root, prop);
 			prop = prop.trim().toLowerCase().replace(" ", "_");
 			
 			if (prop in root) {
+				access._path = [prop];
 				return root[prop];
 			} else {
+				access._path = [getActiveCharacterId(), prop];
 				return root[getActiveCharacterId()][prop];
 			}
 		}
@@ -17744,7 +17550,7 @@ const accessHandler = {
 		}
 		else {
 			// Handles access.token.id and access.token.selection
-			if (prop in root && !(root[prop] instanceof dataNode)) {
+			if (prop in root && !(root[prop] instanceof dataNode)) { // TODO: What exactly is this for?
 				root.modify(prop, value);
 			}
 
@@ -17792,6 +17598,8 @@ const accessData = {
 	// This is however not very user friendly when used with repeating values
 	// You could add attribute keys to ex. ailments, so you could write {output[ailments.Tremor.attr] > ailments.Tremor.count}
 
+	_path: [],
+
 
 	// Functionality related to the item editor
 	_editor: {
@@ -17806,21 +17614,34 @@ const accessData = {
 	_add: async (charID) => { // May need a callback or async support
 		if (is.ID(charID) && !this[charID]) {
 			let newData = new dataNode();
-			let values = await getAttrsByID(charID, newData.attrs); // Make sure the worker char id is properly reset after this operation
+			let values = {sheet: await getAttrsByID(charID, newData.keys())}; // Make sure the worker char id is properly reset after this operation
 			newData.input(values);
 			this[charID] = newData;
+			return newData;
 		}
 	},
 
-	// Character data appears here as "charID: charData"
+	// How to instance a new character
+	// 1. Get all inventory and ailment section ids
+	// 2. Create an item and ailment
+	//   - The item matches the type and id of the user's first weapon/outfit/augment/... If they have *no* items, do not create anything
+	//   - The ailment matches the id of the user's first ailment. If they have *no* ailments, do not create anything
+	// 3. Use newData.keys() to get all item and ailment props
+	// 4. Duplicate the keys for each section + id, then duplicate the rollformats for each index 1-5
+	// 5. Use getAttrsByID(charID, keys), then access[charID].input(values)
 
-	"-O20DGq2dC7rXhCGE2Ye aaaaaa": { // Set the prop to a character id
-		// Add data from the base format here
-		// Get all attribute names using the current itemNode.attrs() method
-		// getAttrsByID() the attribute names + char id to get a values object
-		//  - Fix the worker char id not being reset correctly after getAttrsByID()
-		// Modify the data with a values object using the current itemNode.import() method
-	},
+	// When opening a sheet, instance the character
+	// If there currently are no characters in the access, also generate event keys
+	// These event keys are saved and reused for any further characters (not tokens or targets)
+
+	// Character data appears here as "charID: charData"
+	// Set the prop to a character id
+	// Add data from the base format here
+	// Get all attribute names using the current itemNode.attrs() method
+	// getAttrsByID() the attribute names + char id to get a values object
+	//  - Fix the worker char id not being reset correctly after getAttrsByID()
+	// Modify the data with a values object using the current itemNode.import() method
+	
 }
 
 // The actual access object all the other code interacts with
@@ -18526,7 +18347,7 @@ const dataFormat = {
 			light_regen: 3, light_regen_max: 3, light_regen_base: 3,
 		},
 		character: {
-			name: "", id: "", rank: 0, level: 0, xp: 0,
+			name: "", rank: 0, level: 0, xp: 0,
 			fortitude: 0, prudence: 0, justice: 0,
 			charm: 0, insight: 0, temperance: 0,
 			occupation: "", age: "", height: "", birthplace: "", residence: "",
@@ -18661,7 +18482,6 @@ const dataFormat = {
 		},
 		character: {
 			name: (s) => is.String(s),
-			id: (s) => is.String(s),
 			_default: (i) => is.Int(i),
 			occupation: (s) => is.String(s), // Does not allow newlines
 			age: (s) => is.String(s),
@@ -18759,30 +18579,34 @@ const dataFormat = {
 
 
 
-on("clicked:testA", function(info) {
+on("clicked:testA", async function(info) {
 	console.log("Clicked button A");
 	
-	let newNode = new dataNode();
+	let newNode = await access._add(getActiveCharacterId());
 	console.log("Finishes dataNode:", newNode);
+
+	let firstID = generateRowID();
 
 	let values = {
 		sheet: {
-			"repeating_weapons_-1234_someKey": 5,
-			"repeating_outfits_-1234_someKey": 7, // Fails since the id is not unknown
-			"repeating_ailments_-abcd_someKey": 0,
-			"repeating_weapons_-3456_someKey": "test",
-			"repeating_augments_-cdef_rollMax1": 12,
+			[`repeating_weapons_${firstID}_someKey`]: 5,
+			[`repeating_outfits_${generateRowID()}_someKey`]: 7, // Fails since the id is not unknown
+			[`repeating_ailments_${generateRowID()}_someKey`]: 0,
+			[`repeating_weapons_${generateRowID()}_someKey`]: "test",
+			[`repeating_augments_${generateRowID()}_rollMax1`]: 12,
 			"nonRepeatingData": 2,
 		},
 		editor: {}
 	}
 	newNode.items.input(values);
 	newNode.ailments.input(values);
-	newNode.items.delete("-1234");
+	newNode.items.delete(firstID);
 	console.log(newNode.output());
 	console.log(newNode.keys());
 
 	console.log(newNode.items.filter(n => n.index == 2));
+
+	newNode.items[1].equip.equipped = true;
 	
 	access[generateRowID()] = newNode;
 	console.log(access);
@@ -18830,6 +18654,11 @@ class dataNode {
 			this.enabled = false;
 		}
 
+		// Root level nodes reset the access path, while other nodes add to the current path
+		let pathFunc = (formats == dataFormat) ? (p) => { access._path = [p]; } : (p) => { access._path.push(p); }
+		// TODO: Consider adding a path parameter to the constructor which is added before the current prop if access._path.length == 0
+		// - This makes it so starting an access from a non-root node adds all previous nodes to the path, creating a complete path
+
 		// Constructs the node and any subnodes
 		for (const [prop, value] of Object.entries(formats.base)) {
 
@@ -18845,11 +18674,16 @@ class dataNode {
 						defaults: formats.attrs.repeating.defaults || false,
 					},
 				});
+				if (formats.default?.repeating) {
+					for (let i = 0; i < formats.default.repeating.length; i++) {
+						this.add({id: this.id || generateRowID(), index: i + 1, section: this.formats.source.sheet.section});
+					}
+				}
 			}
 
 			// Get any subnodes of the node
 			else if (is.Object(value)) {
-				this[prop] = new dataNode({
+				this[`_${prop}`] = new dataNode({
 					base: value,
 					default: formats.default?.[prop] || false,
 					valid: formats.valid?.[prop] || false,
@@ -18861,10 +18695,25 @@ class dataNode {
 			// Get any properties of the node
 			else {
 				if (formats.default && prop in formats.default) {
-					this[prop] = formats.default[prop];
+					this[`_${prop}`] = formats.default[prop];
 				} else {
-					this[prop] = value;
+					this[`_${prop}`] = value;
 				}
+			}
+
+			// Set up accessors for subnodes and properties
+			if (`_${prop}` in this) {
+				Object.defineProperty(this, prop, {
+					get() {
+						pathFunc(prop);
+						return this[`_${prop}`];
+					},
+					set(v) {
+						pathFunc(prop);
+						this.modify(`_${prop}`, v);
+						access._path = []
+					},
+				});
 			}
 
 
@@ -18895,7 +18744,7 @@ class dataNode {
 				this.valid[prop] = formats.valid._default;
 			}
 			else {
-				if (!(prop in formats.valid) && prop != "repeating") {
+				if (formats.valid && !(prop in formats.valid) && prop != "repeating") {
 					console.warn(`itemNode - valid format: property "${prop}" is not in the format`, formats.valid);
 				}
 			}
@@ -18916,7 +18765,7 @@ class dataNode {
 						
 						// The attribute has a section matching a data source...
 						if (params.section?.includes(section)) {
-							let repCount = Object.keys(this).filter(p => !this.formats.base[p]).length;
+							let repCount = length(this) - length(this.formats.base) + 1;
 							
 							// ... and the attribute has a repeating id which is *not* a subnode
 							if (params.type == "id" && !this[repid]) {
@@ -18925,7 +18774,7 @@ class dataNode {
 	
 							// ... and the attribute has the *same* id as the node, and has an unknown index
 							else if (params.type == "index" && this.id == repid && repCount < repindex) {
-								this.add({id: generateRowID(), index: repCount + 1, section: section})
+								this.add({id: repid || generateRowID(), index: repCount + 1, section: section})
 							}
 						}
 					}
@@ -18944,10 +18793,10 @@ class dataNode {
 	// Generates and returns an array of keys for both the editor and sheet
 	// If an event is provided the keys are returned in the event key format
 	keys(options={event:false}) {
-		return Object.keys(this.access(false, {includeDisabled:true, lowerCase:true, unsorted:true, event: options.event}));
+		return Object.keys(this.access(false, {includeDisabled:true, lowerCase:true, unsorted:true, ...options}));
 	}
 
-	// Helper method for accessing all nodes and properties of an item
+	// Helper method for accessing all properties and subnodes of a node
 	// Used by input(), output(), import(), export() and keys()
 	access(values, options={output:false, includeDisabled:false, lowerCase:false, event:false, unsorted:false}) {
 		let output = options.output || {editor: {}, sheet: {}}
@@ -18974,7 +18823,7 @@ class dataNode {
 
 					// Handle inputting values
 					if (values && length(values[source]) > 0 && propAttr in values[source]) {
-						this.modify(prop, values[source][propAttr], {...options, source: "input"});
+						this.modify(prop, values[source][propAttr], {...options, source: source});
 						delete values[source][propAttr];
 					}
 
@@ -19001,6 +18850,8 @@ class dataNode {
 	// Returns the attribute name of a property in either the sheet or editor
 	// If an event type is provided the attribute is returned in the event key format
 	attr(prop, source, options={lowerCase:false, event:false}) {
+		if (prop[0] == "_") prop = prop.slice(1);
+
 		if (prop in this.attrs) {
 			let index = (this.attrs[source]?.type == "index") ? this.index : "";
 			let prefix = this.attrs[source]?.prefix || "";
@@ -19027,27 +18878,22 @@ class dataNode {
 	}
 
 
-
-	/* TODO: Beginning of old code. Needs to be updated to the new access system */
-
-
-	// Modifies an item property
-	// If a validator format was provided at item creation only valid values are accepted
+	// Modifies a property of the node
+	// If a validator format was provided at node creation only valid values are accepted
 	// Adds any changes to access._output. The changes are applied to the sheet/editor when the access ends
-	modify(prop, newValue, options={source:"input", modify:false}) {
-		if (!isNaN(parseInt(prop))) return; // Ensures repeating nodes are not modified (have prop names "0", "1", etc.)
-
-		console.log(`(${options.source}) ${prop} ${this[prop]} -> ${newValue}`);
+	modify(prop, newValue, options={source:false}) {
+		
+		console.log(`(${options.source || "Code"}) ${prop} ${this[prop]} -> ${newValue}`);
 		if (this[prop] != undefined) {
 			
 			if (prop in this.valid && !this.valid[prop](newValue)) {
 				console.warn(`Attempted to set the value of ${prop} to invalid value ${newValue}`, this);
 			} else {
 				if (this[prop] != newValue) {
-					console.log(`(${options.source}) Modifying ${prop} from "${this[prop]}" to "${newValue}"`);
+					console.log(`(${options.source || "Code"}) Modifying ${prop} from "${this[prop]}" to "${newValue}"`);
 
 					// Makes sure enabled is set to a boolean value and not ex. "false"
-					if (this[prop] instanceof itemNode) {
+					if (this[prop] instanceof dataNode) {
 						this[prop].enabled = is.True(newValue) ? "true" : "0";
 					} else if (prop == "enabled") {
 						this[prop] = is.True(newValue) ? "true" : "0";
@@ -19057,11 +18903,11 @@ class dataNode {
 
 					// Modify the associated attributes in the sheet/editor if applicable
 					if (this.attrs[prop]) {
-						if (!options.modify || options.modify == "sheet") {
-							itemList.outputValues[this.attr(prop, "sheet")] = newValue;
+						if (!options.source || options.source == "sheet") {
+							access._output[this.attr(prop, "sheet")] = newValue;
 						}
-						if (this.id == itemList.editor.target && (!options.modify || options.modify == "editor")) {
-							itemList.outputValues[this.attr(prop, "editor")] = newValue;
+						if (this.id == access._editor.target && (!options.source || options.source == "editor")) {
+							access._output[this.attr(prop, "editor")] = newValue;
 						}
 					}
 				}
@@ -19072,15 +18918,12 @@ class dataNode {
 	}
 
 
-	/* End of old code */
-
-
-
 	// Adds a new repeating subnode to the item
 	// Adds accessors for the id, index and name (if applicable) of the subnode
 	add(options={}) {
 		if (this.rep) {
-			let newID = options.id || this.id; // TODO: Make this use a provided index || this.id if rep.type == "index" || make a new index
+			let newID = options.id || this.id;
+			let newProp = newID;
 			let newIndex = options.index;
 			let repSource = {}
 			
@@ -19089,20 +18932,23 @@ class dataNode {
 				if (is.Array(repSource[source].section || false)) {
 					repSource[source].section = options.section;
 				}
+				if (this.rep.source?.[source]?.type == "index") {
+					newProp = generateRowID();
+				}
 			}
 			
-			this[newID] = new dataNode({
+			this[newProp] = new dataNode({
 				base: this.rep.base,
-				default: this.rep.defaults[options.section] || false,
+				default: this.rep.defaults?.[options.section] || this.formats.default?.repeating?.[newIndex-1] || false,
 				valid: this.rep.valid || false,
 				attrs: this.rep.attrs || false,
 				source: repSource,
 			}, newID, newIndex);
 
-			this.#addAccessors(this[newID], newIndex);
+			this.#addAccessors(this[newProp], newIndex);
 
 			// Create a new repeating item by outputting the new node
-			let nodeOutput = this[newID].output();
+			let nodeOutput = this[newProp].output();
 			if (this.rep.source.sheet) {
 				Object.assign(access._output, nodeOutput.sheet);
 			}
@@ -19127,9 +18973,10 @@ class dataNode {
 		}
 	}
 	#addAccessors(node, index) {
-		if (node.name) {
+		if ("name" in node) {
 			Object.defineProperty(this, node.name, {
 				get() {
+					access._path.push(name);
 					return node;
 				},
 				configurable: true,
@@ -19137,18 +18984,23 @@ class dataNode {
 		}
 		Object.defineProperties(this, {
 			[index]: {
-				get() { return Object.values(this)[index - 1];},
+				get() {
+					access._path.push(index);
+					return Object.values(this)[index - 1];
+				},
 				configurable: true,
 			},
 			[-index]: {
-				get() { return Object.values(this).slice(-index)[0]; },
+				get() {
+					access._path.push(-index);
+					return Object.values(this).slice(-index)[0];
+				},
 				configurable: true,
 			},
 		});
 	}
 	
-	// Deletes a repeating subnode of the item with a specific id
-	// Adds all accessors for the subnode
+	// Deletes a repeating subnode with a specific id
 	delete(id) {
 		if (this.rep && id in this) {
 			let node = this[id];
@@ -19159,10 +19011,12 @@ class dataNode {
 
 			// Updates the indexes of all remaining subnodes
 			let updateIndexes = (node, i) => {
-				node.index = i;
-				for (const prop in node) {
-					if (node[prop] instanceof dataNode) {
-						updateIndexes(node[prop], i);
+				if (!this.rep) {
+					node.index = i;
+					for (const prop in node) {
+						if (node[prop] instanceof dataNode) {
+							updateIndexes(node[prop], i);
+						}
 					}
 				}
 			}
@@ -19223,7 +19077,7 @@ class dataNode {
 			if (is.Object(this[prop])) {
 				this[prop].paste(data[prop]);
 			}
-			else if (data[prop]){
+			else if (data[prop]) {
 				this[prop] = data[prop];
 			}
 		}
@@ -19597,8 +19451,8 @@ on("clicked:autoScriptDefault", async function(info) {
 	
 	let queryResults = await sendQuery(["userConfirmation",
 		getTranslationByKeyCustom(`Are you certain you want to reset back to the default AutoEffect ${type} settings? This action can not be reversed`, `query-reset-${type}`), {
-			[getTranslationByKeyCustom("No","query-no")]:"false",
-			[getTranslationByKeyCustom("Yes","query-yes")]:"true"
+			[getTranslationByKeyCustom("No", "query-no")]: "false",
+			[getTranslationByKeyCustom("Yes", "query-yes")]: "true"
 		}
 	]);
 
@@ -19671,7 +19525,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	getAttrs([...autoScriptList, ...buttonAutoScriptList, "isFirstRound", "autoScriptStyling", "autoScriptAlias",
 	"settingMuteMessage", "settingWhisperRolls", "settingWhisperTarget", "settingLimbusStyle", "settingHideNextTurn",
 	"settingCollapseAutoEffectSections", "settingHideConditionalButtonReminder", "settingTargeting", //"settingTargetMode",
-	"HP", "HP_max", "StagRes", "StagRes_max", "SP", "SP_max", "Light", "Light_max", "THP_Sources", "TST_Sources",
+	"HP", "HP_max", "ST", "ST_max", "SP", "SP_max", "Light", "Light_max", "THP_Sources", "TST_Sources",
 	"Instinct", "Charm", "Wisdom", "Insight", "Justice", "Temperance",
 	"baseSpeed", "thisRoundSpeed", "nextRoundSpeed", "distortState", "egoActiveState", "egoType",
 	"Action", "Action_max", "Reaction", "Reaction_max", "Counter", "Counter_max", "Block", "Block_max", "Evade", "Evade_max", "Action_base", "Reaction_base",
@@ -19700,8 +19554,8 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 
 	/* Values configurable by AutoEffects */
 	/* valueLists are no longer used during execution (now handled by aeVars), but is still used during AutoScript parsing */
-	let [HP, ST, SP, Light] = [parseInt(values.HP), parseInt(values.StagRes), parseInt(values.SP), parseInt(values.Light)];
-	let [HP_max, ST_max, SP_max, Light_max] = [parseInt(values.HP_max), parseInt(values.StagRes_max), parseInt(values.SP_max), parseInt(values.Light_max)];
+	let [HP, ST, SP, Light] = [parseInt(values.HP), parseInt(values.ST), parseInt(values.SP), parseInt(values.Light)];
+	let [HP_max, ST_max, SP_max, Light_max] = [parseInt(values.HP_max), parseInt(values.ST_max), parseInt(values.SP_max), parseInt(values.Light_max)];
 	let [baseSpeed, thisRoundSpeed, nextRoundSpeed] = [parseInt(values.baseSpeed), parseInt(values.thisRoundSpeed), parseInt(values.nextRoundSpeed)]
 	let [action, reaction, counter, block, evade, light_regen] = [parseInt(values.Action), parseInt(values.Reaction), parseInt(values.Counter), parseInt(values.Block), parseInt(values.Evade), parseInt(values.Light_Regen)]
 	let [action_max, reaction_max, counter_max, block_max, evade_max, light_regen_max] = [parseInt(values.Action_max), parseInt(values.Reaction_max), parseInt(values.Counter_max), parseInt(values.Block_max), parseInt(values.Evade_max), parseInt(values.Light_Regen_max)]
@@ -19997,7 +19851,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		}
 		
 		let whisper = "";
-		if(settingWhisperRolls == "true"){
+		if (settingWhisperRolls == "true") {
 			whisper = "/w " + settingWhisperTarget;
 		}
 		
@@ -20233,7 +20087,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 			"checkResult": checkResult
 		}
 
-		if(messageFormat != "" && ![true, "self"].includes(ae.options.silent)) {
+		if (messageFormat != "" && ![true, "self"].includes(ae.options.silent)) {
 			
 			const applyInsert = (match, insert, prefix="<b>", affix="</b>") => {
 				message = message.replaceAll(match, prefix + insert + affix);
@@ -21121,7 +20975,7 @@ function autoEffectSection(header, message, collapseSections, iconFolder="icons"
 }
 
 function autoEffectTranslateMessage(message) {
-	let returnMessage = message
+	return message
 		.replaceAll("Burn", getTranslationByKeyCustom("Burn","ailments-burn"))
 		.replaceAll("Bleed", getTranslationByKeyCustom("Bleed","ailments-bleed"))
 		.replaceAll("Paralysis", getTranslationByKeyCustom("Paralysis","ailments-paralysis"))
@@ -21142,8 +20996,6 @@ function autoEffectTranslateMessage(message) {
 		.replaceAll("SP", getTranslationByKeyCustom("SP","bar-sanity-shortened"))
 		.replaceAll("THP", getTranslationByKeyCustom("THP","bar-health-temp-shortest"))
 		.replaceAll("TST", getTranslationByKeyCustom("TST","bar-stagres-temp-shortest"));
-	
-	return returnMessage;
 }
 
 /* Converts an AutoEffect from an array back into its string form */
@@ -21300,7 +21152,7 @@ function dataExport(override, target) {
 
 	/* Format key */
 	if (exporttype) {
-		if(exporttype == "All") {
+		if (exporttype == "All") {
 			attrkey = Object.keys(attrkeys).flatMap(type => attrkeys[type]);
 		} else {
 			attrkey = attrkeys[exporttype];
@@ -21639,7 +21491,7 @@ on('clicked:combatToggle', (info) => {
 	getSectionIDs(`repeating_global`, idarray => {
 	let id = `repeating_global_${idarray[0]}_`;
 
-	getAttrs(["charRankNum", "StagRes", "StagRes_max", "Light", "Light_max", `${id}combatEndStaggerMode`, `${id}combatEndStaggerVal`, `${id}combatEndLightBase`, `${id}combatEndLightRankMod`], function(values) {
+	getAttrs(["charRankNum", "ST", "ST_max", "Light", "Light_max", `${id}combatEndStaggerMode`, `${id}combatEndStaggerVal`, `${id}combatEndLightBase`, `${id}combatEndLightRankMod`], function(values) {
 		let output = {}
 
 		if (info.htmlAttributes.title == "Begin combat") {
@@ -21648,12 +21500,12 @@ on('clicked:combatToggle', (info) => {
 		} else {
 			output.combatState = "0";
 
-			let [ST, ST_max] = [parseInt(values.StagRes), parseInt(values.StagRes_max)]
+			let [ST, ST_max] = [parseInt(values.ST), parseInt(values.ST_max)]
 			let [Light, Light_max] = [parseInt(values.Light), parseInt(values.Light_max)]
 			let [staggerMode, staggerVal] = [values[`${id}combatEndStaggerMode`], parseFloat(values[`${id}combatEndStaggerVal`])]
 			let [lightBase, lightRank] = [parseFloat(values[`${id}combatEndLightBase`]), values.charRankNum * parseFloat(values[`${id}combatEndLightRankMod`])]
 
-			output.StagRes = calcStagger(ST, ST_max, staggerVal, staggerMode);
+			output.ST = calcStagger(ST, ST_max, staggerVal, staggerMode);
 			output.Light = Math.min(Light + Math.floor(lightBase + lightRank), Light_max);
 		}
 
@@ -21677,20 +21529,20 @@ on('clicked:recover', (info) => {
 	getSectionIDs(`repeating_global`, idarray => {
 	let id = `repeating_global_${idarray[0]}_`;
 
-	getAttrs([...statNames, "charRankNum", "StagRes", "StagRes_max", "HP", "HP_max", "SP", "SP_max", "Light", "Light_max", `${id}healthStat`, `${id}recoverHPBase`, `${id}recoverHPStatMod`, `${id}recoverHPRankMod`,
+	getAttrs([...statNames, "charRankNum", "ST", "ST_max", "HP", "HP_max", "SP", "SP_max", "Light", "Light_max", `${id}healthStat`, `${id}recoverHPBase`, `${id}recoverHPStatMod`, `${id}recoverHPRankMod`,
 		`${id}recoverStaggerMode`, `${id}recoverStaggerVal`, `${id}sanityStat`, `${id}recoverSPBase`, `${id}recoverSPStatMod`, `${id}recoverSPRankMod`, `${id}recoverLightBase`, `${id}recoverLightRankMod`], function(values) {
 
 		let [rank, hpStatNum, spStatNum] = [parseInt(values.charRankNum), parseInt(values[values[`${id}healthStat`]]), parseInt(values[values[`${id}sanityStat`]])]
 		let [HP, HP_max, hpBase,  HPstat, HPrank] = [parseInt(values.HP), parseInt(values.HP_max), parseFloat(values[`${id}recoverHPBase`]), hpStatNum * parseFloat(values[`${id}recoverHPStatMod`]), rank * parseFloat(values[`${id}recoverHPRankMod`])]
 		let [SP, SP_max, spBase, SPstat, SPrank] = [parseInt(values.SP), parseInt(values.SP_max), parseFloat(values[`${id}recoverSPBase`]), spStatNum * parseFloat(values[`${id}recoverSPStatMod`]), rank * parseFloat(values[`${id}recoverSPRankMod`])]
 		let [Light, Light_max, lightBase, lightRank] = [parseInt(values.Light), parseInt(values.Light_max), parseFloat(values[`${id}recoverLightBase`]), rank * parseFloat(values[`${id}recoverLightRankMod`])]
-		let [ST, ST_max, staggerMode, staggerVal] = [parseInt(values.StagRes), parseInt(values.StagRes_max), values[`${id}recoverStaggerMode`], parseFloat(values[`${id}recoverStaggerVal`])]
+		let [ST, ST_max, staggerMode, staggerVal] = [parseInt(values.ST), parseInt(values.ST_max), values[`${id}recoverStaggerMode`], parseFloat(values[`${id}recoverStaggerVal`])]
 
 		let output = {
 			HP: Math.min(Math.floor(HP + hpBase + HPstat + HPrank), HP_max),
 			SP: Math.min(Math.floor(SP + spBase + SPstat + SPrank), SP_max),
 			Light: Math.min(Math.floor(Light + lightBase + lightRank), Light_max),
-			StagRes: calcStagger(ST, ST_max, staggerVal, staggerMode)
+			ST: calcStagger(ST, ST_max, staggerVal, staggerMode)
 		}
 
 		AutoScriptMain("", "Recover", "true", "true", {}, ()=>{}, getTranslationByKeyCustom("Recover", "autoeffect-trigger-recover"));
@@ -21711,7 +21563,7 @@ on('clicked:lockSection', (info) => {
 
 	let synclock = values[`${attrname}`];
 
-	if(synclock != "true"){
+	if (synclock != "true") {
           setAttrs({ [`${attrname}`]:"true" });
 
 	}
@@ -21791,23 +21643,13 @@ getSectionIDs(`repeating_global`, idarray => {
 
 	const output = {};
 
-	/* Translation prep */
-	let langSync = "Sync";
-	let langCustomAilments = "Custom Ailments";
-	let langSyncSuccess = " sync successful.";
-	let langSyncFail =  " is locked.\n Unlock before syncing.";
-	let langSynced = "No change. Current data is synced.\n(Press Import if display does not match.)";
-	let langSyncEmpty = "No change. Source data is empty.";
-
-	if(getTranslationByKey("sync-button") != false){
-	langSync = getTranslationByKey("sync-button");
-	langCustomAilments = getTranslationByKey("editor-customailments");
-	langSyncSuccess = getTranslationByKey("pop-sync-success");
-	langSyncFail = getTranslationByKey("pop-sync-fail");
-	langSynced = getTranslationByKey("pop-sync-synced");
-	langSyncEmpty = getTranslationByKey("pop-sync-empty");
-
-	}
+	/* Translation */
+	let langSync = getTranslationByKeyCustom("Sync", "sync-button");
+	let langCustomAilments = getTranslationByKeyCustom("Custom Ailments", "editor-customailments");
+	let langSyncSuccess = getTranslationByKeyCustom(" sync successful.", "pop-sync-success");
+	let langSyncFail = getTranslationByKeyCustom(" is locked.\n Unlock before syncing.", "pop-sync-fail");
+	let langSynced = getTranslationByKeyCustom("No change. Current data is synced.\n(Press Import if display does not match.)", "pop-sync-synced");
+	let langSyncEmpty = getTranslationByKeyCustom("No change. Source data is empty.", "pop-sync-empty");
 
 	let syncHeader = langSync;
 	let syncBody = "";
@@ -21815,8 +21657,8 @@ getSectionIDs(`repeating_global`, idarray => {
 	let syncCheck = values.syncLockAilment;
 	let syncState = values.syncStateAilment;
 
-	if(source != null && source != ""){
-	if(source != current && syncCheck != "true"){
+	if (source != null && source != "") {
+	if (source != current && syncCheck != "true") {
 
 
 	setAttrs({"ailmentEditor":source});
@@ -21827,12 +21669,12 @@ getSectionIDs(`repeating_global`, idarray => {
 	syncState = "0";
 
 		}
-	else if(source != current && syncCheck == "true"){
+	else if (source != current && syncCheck == "true") {
 	syncBody = langCustomAilments + langSyncFail;
 	syncToggle = "true"; 
 
 		}
-	else if(source == current) {
+	else if (source == current) {
 	syncBody = langSynced;
 	syncToggle = "true"; 
 
@@ -21957,7 +21799,7 @@ function updateCustomAilments(triggerList=["OnAction"], mode="standard", roundEn
 				let current = v[`repeating_ailments_${id}_ailTrigger`];
 				
 				/* Update each custom ailment with the requested trigger(s). After the last valid ailment updates, callback */
-				if(triggerList.includes(current)) {
+				if (triggerList.includes(current)) {
 					updatesRemaining += 1;
 					//console.log(updatesRemaining)
 					updateCustomAilment(id, mode, roundEnd, function(returnValues) {
@@ -21995,10 +21837,8 @@ function updateCustomAilments(triggerList=["OnAction"], mode="standard", roundEn
 function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=()=>{}) {
 
 	let ailPrefix = `repeating_ailments_${rowid}_`;
-	let ailmentAttrs = ailmentAttrs.map(attr => `${ailPrefix}${attr}`);
-
-    getAttrs([...ailmentAttrs, "distortState", "egoActiveState", "egoType", "settingWhisperRolls", "settingWhisperTarget", "settingMuteMessage",
-		"HP", "StagRes", "SP", "Light", "distortCounter", "difficulty", "baseSpeed", "baseLuckNum", "character_name", "THP_Sources", "TST_Sources"], function(values) {
+    getAttrs([...ailmentAttrs.map(attr => `${ailPrefix}${attr}`), "distortState", "egoActiveState", "egoType", "settingWhisperRolls", "settingWhisperTarget", "settingMuteMessage",
+		"HP", "ST", "SP", "Light", "distortCounter", "difficulty", "baseSpeed", "baseLuckNum", "character_name", "THP_Sources", "TST_Sources"], function(values) {
 
 	let charname = values.character_name;
 	let nomessage = values.settingMuteMessage;
@@ -22084,20 +21924,20 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 	}
 
 	/* Max Behavior Check */
-	if(maxcount > 0 && count < maxcount){
-		if(maxtype == "Effect" || maxtype == "EffectClear"){
-		activateEffect = "false";
+	if (maxcount > 0 && count < maxcount) {
+		if (maxtype == "Effect" || maxtype == "EffectClear") {
+			activateEffect = "false";
 		}
-		else if(maxtype == "Decay"){
-		activateDecay = "false";
+		else if (maxtype == "Decay") {
+			activateDecay = "false";
 		}
-		else if(maxtype == "EffectDecay"){
-		activateEffect = "false";
-		activateDecay = "false";
+		else if (maxtype == "EffectDecay") {
+			activateEffect = "false";
+			activateDecay = "false";
 		}
 	}
-	else if(maxcount > 0 && count >= maxcount){
-		if(maxtype == "Clear" || maxtype == "EffectClear"){
+	else if (maxcount > 0 && count >= maxcount) {
+		if (maxtype == "Clear" || maxtype == "EffectClear") {
 		decaymode = "=";
 		decayval = 0;
 		}
@@ -22105,8 +21945,8 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 
 	/*-- Process Effect --*/
 	let effecttargetlist = [];
-	if (effecttarget == "HPStagRes") {
-		effecttargetlist.push("HP", "StagRes");
+	if (effecttarget == "HP+ST") {
+		effecttargetlist.push("HP", "ST");
 	} else {
 		effecttargetlist.push(effecttarget);
 	}
@@ -22115,7 +21955,7 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 
 		targetval = values[`${effecttargetinlist}`];
 
-		if(effecttargetinlist != "None" && effecttargetinlist != null && activateEffect == "true" && count != 0) {
+		if (effecttargetinlist != "None" && effecttargetinlist != null && activateEffect == "true" && count != 0) {
 			
 			/* Ailment is n or -n multiplied by a number */
 			if ((/([0-9]+n)/).test(effectval)) {
@@ -22133,17 +21973,14 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 				effectval = (0 - parseInt(count));
 			}
 
-			if(effectmode == "+"){
-			result = parseInt(targetval) + parseInt(effectval);
-
+			if (effectmode == "+") {
+				result = parseInt(targetval) + parseInt(effectval);
 			}
-			else if(effectmode == "x"){
-			result = parseInt(parseInt(targetval) * parseFloat(effectval));
-
+			else if (effectmode == "x") {
+				result = parseInt(parseInt(targetval) * parseFloat(effectval));
 			}
-			else if(effectmode == "="){
-			result = parseInt(effectval);
-
+			else if (effectmode == "=") {
+				result = parseInt(effectval);
 			}
 
 			change = parseInt(targetval) - parseInt(result);
@@ -22156,7 +21993,7 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 			let tempBarTarget = "";
 			let tempBar_Sources = {};
 			if (effecttargetinlist == "HP") { tempBarTarget = "THP"; tempBar_Sources = THP_Sources }
-			if (effecttargetinlist == "StagRes") { tempBarTarget = "TST"; tempBar_Sources = TST_Sources }
+			if (effecttargetinlist == "ST") { tempBarTarget = "TST"; tempBar_Sources = TST_Sources }
 			
 			let tempBarUsed = {}
 			if (change > 0 && length(tempBar_Sources) > 0) {
@@ -22179,30 +22016,30 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 
 	
 	/*-- Decay --*/
-	if(activateDecay == "true" && count >= decaymin) {
+	if (activateDecay == "true" && count >= decaymin) {
 		if ( !(trigger == "OnAction" && roundEnd == "true")) {
-			if(decayval == "n") {
+			if (decayval == "n") {
 			decayval = parseInt(count);
 			}
-			else if(decayval == "-n"){
+			else if (decayval == "-n") {
 			decayval = (0 - parseInt(count));
 			}
 	
-			if(decaymode == "+"){
+			if (decaymode == "+") {
 			newcount = parseInt(count) + parseInt(decayval);	
 			}
-			else if(decaymode == "x"){
+			else if (decaymode == "x") {
 			newcount = parseInt(parseInt(count) * parseFloat(decayval));
 			}
-			else if(decaymode == "="){
+			else if (decaymode == "=") {
 			newcount = parseInt(decayval);
 			}
 	
 			/* Overflow adjustment */
-			if(maxcount != 0 && newcount > maxcount){
+			if (maxcount != 0 && newcount > maxcount) {
 			newcount = maxcount;
 			}
-			if(newcount <= 0){
+			if (newcount <= 0) {
 			newcount = 0;
 			}
 		}
@@ -22220,7 +22057,7 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 	/*-- Decay end --*/
 
 	/* Message */
-	if(messagecheck != "0" && activateMessage == "true" && mutemessage != "true"){
+	if (messagecheck != "0" && activateMessage == "true" && mutemessage != "true") {
 
 		let langResist= getTranslationByKeyCustom("Resistance: ", "message-resist");
 		let langEffectValue = "[EVAL]";
@@ -22231,15 +22068,15 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 		let langResult = "[RESULT]";
 		let langChange = "[DIFF]";
 
-		/*if(getTranslationByKey("message-match-value") != false){
-			langEffectValue = getTranslationByKey("message-match-evalue");
-			langDecayValue = getTranslationByKey("message-match-dvalue");
-			langName = getTranslationByKey("message-match-name");
-			langCount = getTranslationByKey("message-match-count");
-			langAilName = getTranslationByKey("message-match-ailment");
-			langResult = getTranslationByKey("message-match-result");
-			langChange = getTranslationByKey("message-match-change");
-			}*/
+		/* Currently missing translations
+		let langEffectValue = getTranslationByKeyCustom("[EVAL]", "message-match-evalue");
+		let langDecayValue = getTranslationByKeyCustom("[DVAL]", "message-match-dvalue");
+		let langName = getTranslationByKeyCustom("[CHAR]", "message-match-name");
+		let langCount = getTranslationByKeyCustom("[COUNT]", "message-match-count");
+		let langAilName = getTranslationByKeyCustom("[AIL]", "message-match-ailment");
+		let langResult = getTranslationByKeyCustom("[RESULT]", "message-match-result");
+		let langChange = getTranslationByKeyCustom("[DIFF]", "message-match-change");
+		*/
 		
 		message = message.replaceAll(langEffectValue, `**${effectval}**`);
 		message = message.replaceAll(langDecayValue, `**${decayval}**`);
@@ -22270,9 +22107,9 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 		let whisperrolls = values.settingWhisperRolls;
 		let whispertarget = values.settingWhisperTarget;
 		let whisper = "";
-		if(whisperrolls == "true"){
-		whisper = "/w " + whispertarget;
-			}
+		if (whisperrolls == "true") {
+			whisper = "/w " + whispertarget;
+		}
 
 		/*--- Send roll --*/
 		startRoll((whisper + `&{template:message} {{icon=${iconnew}}} {{message=${newmessage}}}`), (results) => {
@@ -22293,7 +22130,7 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 /* Update: Edit Mode state */
 on("change:global_editMode", function() {
 getAttrs(["global_editMode"], function(values) {
-		if(values.global_editMode != "true"){
+		if (values.global_editMode != "true") {
 			setAttrs({"sheetTab":"equipment"});
 		}
 	});
@@ -22316,7 +22153,7 @@ getSectionIDs("repeating_global", function(idarray) {
 	let accesspw = values.global_access;       
 	const output = {};
 
-	if(internalpw == accesspw || internalpw == null || internalpw == ""){
+	if (internalpw == accesspw || internalpw == null || internalpw == "") {
 		state = "true";
 	} else {
 		output[`popup_messageHeader`] = langEditMode;
@@ -22366,22 +22203,13 @@ getSectionIDs("repeating_global", function(idarray) {
 	"egoSkill1AutoScript", "egoSkill2AutoScript", "egoSkill3AutoScript", "egoSkill4AutoScript", "egoSkill5AutoScript", "egoSkill6AutoScript"], function(values) {
 
 	/* Translation prep */
-	let langUpdate = "Update";
-	let langGameSettings = "Game Settings";
-	let langCustomAilments = "Custom Ailments";
-	let langGeneralSettings = "General Settings";
-	let langSyncSuccess = "Update synced.";
-	let langSyncFail = "Update detected, but section is locked.";
-
-	if(getTranslationByKey("pop-update") != false){
-
-	langUpdate = getTranslationByKey("pop-update");
-	langGameSettings = getTranslationByKey("editor-gamesettings");
-	langCustomAilments = getTranslationByKey("editor-customailments");
-	langGeneralSettings = getTranslationByKey("editor-generalsettings");
-	langSyncSuccess = getTranslationByKey("pop-update-success");
-	langSyncFail = getTranslationByKey("pop-update-fail");
-	}
+	let langUpdate = getTranslationByKeyCustom("Update", "pop-update");
+	let langGameSettings = getTranslationByKeyCustom("Game Settings", "editor-gamesettings");
+	let langCustomAilments = getTranslationByKeyCustom("Custom Ailments", "editor-customailments");
+	let langGeneralSettings = getTranslationByKeyCustom("General Settings", "editor-generalsettings");
+	let langSyncSuccess = getTranslationByKeyCustom("Update synced.", "pop-update-success");
+	let langSyncFail = getTranslationByKeyCustom("Update detected, but section is locked.", "pop-update-fail");
+	
 
 	let lockGame = values.syncLockGame;
 	let syncGame = values.syncStateGame;
@@ -22402,14 +22230,14 @@ getSectionIDs("repeating_global", function(idarray) {
 	let comparekey = rowid.toLowerCase();
 
 	/* Check: External (Default Sheet Settings) updates */
-		if(values.global_editKey.toLowerCase() != comparekey){
+		if (values.global_editKey.toLowerCase() != comparekey) {
 			output[`repeating_global_${rowid}_editKey`] = values.global_editKey;
 			output["global_editKey"] = rowid;
 
 			passCompare = values.global_editKey;
 		}
 
-		if(values.global_gameSettingSource != null && values.global_gameSettingSource.toLowerCase() != comparekey){
+		if (values.global_gameSettingSource != null && values.global_gameSettingSource.toLowerCase() != comparekey) {
 			output[`repeating_global_${rowid}_gameSettingSource`] = values.global_gameSettingSource;
 			output["global_gameSettingSource"] = rowid;
 			gameSettings = values.global_gameSettingSource;
@@ -22417,7 +22245,7 @@ getSectionIDs("repeating_global", function(idarray) {
 			updateFlagGame = "true";
 		}
 
-		if(values.global_ailmentSettingSource != null && values.global_ailmentSettingSource.toLowerCase() != comparekey){
+		if (values.global_ailmentSettingSource != null && values.global_ailmentSettingSource.toLowerCase() != comparekey) {
 			output[`repeating_global_${rowid}_ailmentSettingSource`] = values.global_ailmentSettingSource;
 			output["global_ailmentSettingSource"] = rowid;
 			ailmentSettings = values.global_ailmentSettingSource;
@@ -22425,7 +22253,7 @@ getSectionIDs("repeating_global", function(idarray) {
 			updateFlagAilments = "true";
 		}
 
-		if(values.global_generalSettingSource != null && values.global_generalSettingSource.toLowerCase() != comparekey){
+		if (values.global_generalSettingSource != null && values.global_generalSettingSource.toLowerCase() != comparekey) {
 			output[`repeating_global_${rowid}_generalSettingSource`] = values.global_generalSettingSource;
 			output["global_generalSettingSource"] = rowid;
 			generalSettings = values.global_generalSettingSource;
@@ -22435,21 +22263,21 @@ getSectionIDs("repeating_global", function(idarray) {
 
 
 	/* Check: PW updates */ 
-	if(passCompare != passInput && passCompare != ""){
+	if (passCompare != passInput && passCompare != "") {
 	output["global_accessCheck"] = "0";
 
 	}
-	else if(passCompare == passInput && passCompare != "") {
+	else if (passCompare == passInput && passCompare != "") {
 	output["global_accessCheck"] = "true";
 	}
 
-	if(passCompare == "" || passCompare == null){
+	if (passCompare == "" || passCompare == null) {
 	output["global_accessCheck"] = "true";
 	}
 
 	/* Check: Internal setting updates */
-	if(gameSettings != "" && gameSettings != null && updateFlagGame != "0"){
-		if(gameSettings != values.gameEditor && lockGame != "true"){
+	if (gameSettings != "" && gameSettings != null && updateFlagGame != "0") {
+		if (gameSettings != values.gameEditor && lockGame != "true") {
 
 			setAttrs({"gameEditor":gameSettings});
 			dataImport("gameEditor", `repeating_global_${rowid}_`, "global_");
@@ -22459,11 +22287,11 @@ getSectionIDs("repeating_global", function(idarray) {
 			syncHeader = langUpdate; 
 			syncBody += langGameSettings + ": " + langSyncSuccess + "\n";
 		}
-		else if(gameSettings != values.gameEditor && lockGame == "true"){
+		else if (gameSettings != values.gameEditor && lockGame == "true") {
 
 			output["syncStateGame"] = "true";
 
-			if(syncGame != "true"){
+			if (syncGame != "true") {
 				syncToggle = "true";
 				syncHeader = langUpdate; 
 				syncBody += langGameSettings + ": " + langSyncFail + "\n";
@@ -22471,8 +22299,8 @@ getSectionIDs("repeating_global", function(idarray) {
 		}
 	}
 
-	if(ailmentSettings != "" && ailmentSettings != null && updateFlagAilments != "0"){
-		if(ailmentSettings != values.ailmentEditor && lockAilment != "true"){
+	if (ailmentSettings != "" && ailmentSettings != null && updateFlagAilments != "0") {
+		if (ailmentSettings != values.ailmentEditor && lockAilment != "true") {
 
 			setAttrs({"ailmentEditor":ailmentSettings});
 			dataImportRepeating("ailments", "Replace");
@@ -22482,11 +22310,11 @@ getSectionIDs("repeating_global", function(idarray) {
 			syncHeader = langUpdate; 
 			syncBody += langCustomAilments + ": " + langSyncSuccess + "\n";
 		}
-		else if(ailmentSettings != values.ailmentEditor && lockAilment == "true"){
+		else if (ailmentSettings != values.ailmentEditor && lockAilment == "true") {
 
 			output["syncStateAilment"] = "true";
 
-			if(syncAilment != "true"){
+			if (syncAilment != "true") {
 				syncToggle = "true";
 				syncHeader = langUpdate; 
 				syncBody += langCustomAilments + ": " + langSyncFail + "\n";
@@ -22494,7 +22322,7 @@ getSectionIDs("repeating_global", function(idarray) {
 		}
 	}
 
-	if(generalSettings != "" && generalSettings != null && updateFlagGeneral != "0"){
+	if (generalSettings != "" && generalSettings != null && updateFlagGeneral != "0") {
 
 		setAttrs({"editorInput":generalSettings});
 		dataImport();
@@ -22537,12 +22365,12 @@ getSectionIDs("repeating_global", function(idarray) {
 	let evdInfluence = values.settingEvdInfluence;
 	let testRankPower = values.settingTestOption;
 
-	if(evdInfluence == "true"){
+	if (evdInfluence == "true") {
 	output[`repeating_global_${rowid}_evdAilment`] = "HasteBind";
 	output["settingEvdInfluence"] = "0";
 	}
 
-	if(testRankPower == "true"){
+	if (testRankPower == "true") {
 	output[`repeating_global_${rowid}_attStat`] = "Rank";
 	output["settingTestOption"] = "0";
 	}
@@ -22565,7 +22393,7 @@ getSectionIDs("repeating_global", function(idarray) {
 /* Sends one query for each argument included and returns an array of results */
 async function sendQuery(...args) {
 	let queryList = [];
-	args.forEach(arg => { if(arg != [] && arg != "") { queryList.push(arg); } });
+	args.forEach(arg => { if (arg != [] && arg != "") { queryList.push(arg); } });
 	
 	let rollBase = "! ";
 	queryList.forEach(query => {
@@ -22659,7 +22487,7 @@ function styleText(text, style) {
 
 /* Returns a translation, or a base string if no translation is available */
 function getTranslationByKeyCustom(base, key) {
-	return (getTranslationByKey(key)) ? getTranslationByKey(key) : base;
+	return getTranslationByKey(key) || base;
 }
 
 function updateStatName(stat) {
@@ -23077,7 +22905,7 @@ function splitIgnoreBetween(string, seperator, a, b, includeChars=false, allowNe
 // Deletes multiple object properties
 function deleteMultiple(object, ...args) {
 	args.forEach(arg => {
-		if (typeof arg == "string") {
+		if (is(typeof arg).In(["string", "number"])) {
 			delete object[arg];
 		}
 	});
