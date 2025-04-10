@@ -1428,23 +1428,23 @@ button[type=action].challengeButton::before {
     background-color: transparent;
     width: 25px !important;
 }
-.ailmentNum {
+.ailmentCount {
     color: var(--color-white);
     font-weight: bold;
     background-color: transparent !important;
     padding-left: 1px;
     text-align: left;
 }
-.ailmentNumThisTurn, .ailmentNumDecayPause {
+.ailmentCountThisRound, .ailmentCountPause {
     width: 30px !important;
     padding-right: 0px;
     position: absolute;
     left: 3px;
 }
-.ailmentNumDecayPause {
+.ailmentCountPause {
     color: var(--color-SAN);
 }
-.ailmentNumNextTurn {
+.ailmentCountNextRound {
     color: var(--color-lighter-gray);
     width: 28px !important;
     padding-right: 0px;
@@ -1452,22 +1452,22 @@ button[type=action].challengeButton::before {
     left: 25px;
 }
 /* If the next turn field is disabled by a hide toggle (Burn/Bleed/Smoke/Charge individual setting) or by a hide toggle rev (Global setting) the standard field is returned to it's normal styling */
-.status_effect_value .hide-toggle:not(:checked) ~ .ailmentNumThisTurn,
-.status_effect_value .hide-toggle-rev:checked ~ .ailmentNumThisTurn,
-.ailmentNumDecayPause {
+.status_effect_value .hide-toggle:not(:checked) ~ .ailmentCountThisRound,
+.status_effect_value .hide-toggle-rev:checked ~ .ailmentCountThisRound,
+.ailmentCountPause {
     width: 45.5px !important;
     padding-right: 4px;
 }
 /* This lengthy boi disables interacting with the next turn field while selecting or hovering over the current turn field (the fields partially overlap) */
-:is(.ailmentNumThisTurn:hover, .ailmentNumThisTurn:focus) + :is(.ailmentNumNextTurn) {
+:is(.ailmentCountThisRound:hover, .ailmentCountThisRound:focus) + :is(.ailmentCountNextRound) {
     pointer-events: none;
     z-index:-1;
 }
-/* When ctrl-clicking an ailment icon the decay field is reveal. "reveal-DecayPause" is set via JQuery */
-.ailmentNumDecayPause:not(.reveal-DecayPause) {
+/* When ctrl-clicking an ailment icon the decay field is reveal. "reveal-CountPause" is set via JQuery */
+.ailmentCountPause:not(.reveal-CountPause) {
     display: none;
 }
-:is(.ailmentNumNextTurn, .ailmentNumThisTurn):has(~ .reveal-DecayPause) {
+:is(.ailmentCountNextRound, .ailmentCountThisRound):has(~ .reveal-CountPause) {
     display: none !important;
 }
 
@@ -2461,7 +2461,7 @@ button[type=action].challengeButton::before {
 }
 .inventoryContainer {
     max-width: 400px;
-    margin: 5px;
+    margin: 2px 5px;
     background-color: transparent;
 
     .repcontrol {
@@ -3181,7 +3181,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     background-color: rgba(0, 0, 0, 0.2) !important;
     border-radius: 5px;
 }
-:is(.outfitContainer, .egoContainer, .distortionContainer) .ailmentNum {
+:is(.outfitContainer, .egoContainer, .distortionContainer) .ailmentCount {
     text-align: center;
 }
 :is(.outfitContainer, .egoContainer, .distortionContainer) .status_effect_item {
@@ -3578,7 +3578,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 
 /* Roll20 adds .charsheet before any styling rules that do not begin with .sheet- or .userscript- */
 /*  :is() and :where() can due to this not be used, leading to some very chucky selectors */
-/*  A lot of older styling is written directly into the roll templates and cannot be found here */
+/*  A lot of older styling rules is written directly into the roll templates and cannot be found here */
 
 /* styledText is a hacky method of adding inline HTML styling to text. This text is technically a link with no href. These rules style the link to look like normal text */
 .sheet-rolltemplate-message .sheet-styledText,
@@ -3697,7 +3697,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     border: 1px var(--color-light-gray) solid;
     padding-bottom: 1px;
 }
-/* If only one description is present, expand its width to cover the entie container*/
+/* If only one description is present, expand its width to cover the entire container*/
 .sheet-rolltemplate-baseRoll :nth-child(1 of div.userscript-descriptionContainer):not(:has(+ .userscript-descriptionContainer)) {
     width: 100% !important;
 }
@@ -4053,16 +4053,6 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     background-color: var(--color-black);
 }
 
-
-.skillAct { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png'); }
-.skillMass { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Wide.png'); }
-.skillSpecial { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/specialwhite.png'); }
-.itemMystery:checked + div .Act, .egoAct { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png'); }
-.itemMystery:checked + div .Mass { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoWide.png'); }
-.itemMystery:checked + div .egoSpecial { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSpecial.png'); }
-
-
-
 /* Action Icons */
 .Att { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Attack.png'); }
 .Def { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/defend.png'); }
@@ -4077,6 +4067,13 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .itemMystery:checked + div .slash, .egoSlash { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSlash.png'); }
 .itemMystery:checked + div .pierce, .egoPierce { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoPierce.png'); }
 .itemMystery:checked + div .blunt, .egoBlunt { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoBlunt.png'); }
+
+.Act { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png'); }
+.Mass { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Wide.png'); }
+.Special { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/specialwhite.png'); }
+.itemMystery:checked + div .Act, .egoAct { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png'); }
+.itemMystery:checked + div .Mass, .egoMass { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoWide.png'); }
+.itemMystery:checked + div .Special, .egoSpecial { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSpecial.png'); }
 
 .Inst { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Instinct.png'); }
 .Wisd { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Wisdom.png'); }
