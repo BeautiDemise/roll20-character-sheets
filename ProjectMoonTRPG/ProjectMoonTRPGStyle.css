@@ -3877,9 +3877,34 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     left: -50px;
     right: -50px;
 }
+
+
+.sheet-rolltemplate-baseRoll {
+    
+    body:has(&) .initiativedialog .ui-dialog-title {
+        &::before {
+            content: "Example text";
+        }
+        color: red;
+        font-size: 15px;
+    }
+
+    body:has(&) .initiativedialog {  /* Parses as body:has(.sheet-rolltemplate-baseRoll) .initiativedialog */
+        background-color: rgb(0, 0, 0) !important;
+        height: 200px !important;
+    }
+    
+    &::after {
+        background-color: red !important;
+        content: "";
+        width: 50px;
+        height: 50px;
+    }
+}
 .sheet-rolltemplate-darkmode .sheet-chatButtonBlocker {
     background-color: var(--surface-dark2) !important;
 }
+
 /* The blocker currently uses the standard whisper message background color. Can be set to --surface-dark2 to hide that chat buttons were whispered */
 .sheet-rolltemplate-darkmode .sheet-chatButtonBlockerWhisper {
     background-color: var(--surface-dark-gamecard) !important;

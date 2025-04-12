@@ -176,8 +176,8 @@
 
 
 <!-- Item edit popup -->
-<input type="checkbox" class="hide-toggle-next" name="attr_itemEditor_display" value="true" hidden="true">
-<div id="itemEditor" class="hide-item-flex contentContainer columnAlign darkBG editorContainer">
+<input type="checkbox" class="hide-toggle-rev-next" name="attr_itemEditorTarget" value="0" hidden="true" checked>
+<div id="itemEditor" class="hide-item-rev contentContainer columnAlign darkBG editorContainer">
 	
 	<!-- Editor header  -->
 	<div class="editorHeader">
@@ -2442,9 +2442,13 @@
 	</div>
 
 	<button type="action" name="act_testButton" class="darkButton" style="width: 60px;">?????</button>
+	<a href="#//https://someID" class="darkButton">My test link</a>
+	<a href="#https://app.roll20.net/editor/character/17431492/-O20DGq2dC7rXhCGE2Ye/true?popout=false#SomeID" class="darkButton">My other test link</a>
 
 </div>
 
+<a href="#://app.roll20.net/#someOtherID" class="darkButton">My test link</a>
+<a href="#://app.roll20.net/#someID" class="darkButton">My other test link</a>
 
 <!-- AutoEffect Conditional Buttons -->
 <div class="conditionalButtonDisplay" style="margin-top: 10px; width: calc(100% + 5px);">
@@ -9606,7 +9610,7 @@ const statNamesFull = [...statNames, "Fortitude", "Prudence"]
 const stateNames = ["PanicState", "StaggerState", "StaggerDuration", "SealState", "ImmobileState", "DefeatState"];
 
 const itemSections = ["weapons", "outfits", "augments", "tools", "skills", "special", "effects"];
-const sheetSections = [...itemSections, "rollformats", "ailments"];
+const sheetSections = [...itemSections, "ailments"];
 
 const resourceNames = ["Action", "Reaction", "Counter", "Block", "Evade", "Light_Regen"]
 const combatRollNames = ["Attack", "Block", "Evade"]
@@ -17581,42 +17585,22 @@ const accessHandler = {
 // Props beginning with _ are inaccessible to AutoEffects
 // Props beginning with # are accessible to AutoEffects
 const accessData = {
-	_output: {sheet: {}, editor: {}}, // Change all access output code to use this object
-	_stack: [], // Change all access stack code to use variables here
-	// You may want to make output accessible using AutoEffects to enable stuff like Amplify
-	// This is however not very user friendly when used with repeating values
-	// You could add attribute keys to ex. ailments, so you could write {output[ailments.Tremor.attr] > ailments.Tremor.count}
-
-	_ids: {},
-
-
-	// Functionality related to the item editor, and any other future editors
-	_editor: {
-		// TODO: Need to make this code now use access.items.editor for the editor target
-
-		get target() {
-			return this._target;
-		},
-		set target(itemID) {
-			if (itemID in access[charID].items) {
-				this.open(ID, opts);
-			} else {
-				this.close(opts);
-			}
-		},
-
-		open(itemID, opts) {
-			if (this._target != ID && this._target != "") {
-				this.close();
-			}
-			this._target = ID;
-			console.log("Open editor:", access._editor.target);
-		},
-		close(opts) {
-			console.log("Open editor:", access._editor.target);
-		}
+	_output: {
+		sheet: {}, 
+		editor: {},
+	},
+	
+	_apply() {
+		let attrs = {...access._output.sheet, ...access._output.editor}
+		access._output = {sheet: {}, editor: {}}
+		setAttrs(attrs, {}, () => {
+			console.log("Applied attributes:", attrs)
+		});
 	},
 
+	
+	_ids: {}, // Stores a sorted list of repids for each character in access
+	
 	_event: {
 		tree: {}, // Stores a branching tree of access paths leading to event callback functions. Used for triggering events
 
@@ -17702,7 +17686,7 @@ const accessData = {
 				//   - It may just be better to say eventNode should never be set outside of this method
 			}
 
-			console.log("Triggering access event:", path);
+			//console.log("Triggering access event:", path);
 				
 			for (let i = opts.i || 0; i < path.length; i++) {
 				let step = path[i];
@@ -17749,7 +17733,7 @@ const accessData = {
 							eventNode = eventNode[step];
 							accessNode = accessNode[step];
 						} else {
-							console.log("No event found for path:", path.join("."));
+							//console.log("No event found for path:", path.join("."));
 							return false;
 						}
 					} else {
@@ -17768,7 +17752,7 @@ const accessData = {
 						}
 					}
 				} else {
-					console.log("No event found for path:", path.join("."));
+					//console.log("No event found for path:", path.join("."));
 					return false;
 				}
 			}
@@ -17781,7 +17765,7 @@ const accessData = {
 				}
 				return true;
 			} else {
-				console.log("No event found for path:", path.join("."));
+				//console.log("No event found for path:", path.join("."));
 				return false;
 			}
 		},
@@ -17824,16 +17808,14 @@ const accessData = {
 		if (is.ID(ID) && !(ID in access)) {
 			let newRoot = new dataNode(dataFormat, false, false, [ID]);
 			access[ID] = newRoot;
-			access[ID].type = type;
+			newRoot.type = type;
 			
-			let editorTarget = newRoot.items.editor.target = await getAttrsByID(ID, ["itemEditorTarget"]).itemEditorTarget;
 			access._ids[ID] = await getSectionIDsOrdered(ID, sheetSections);
 
 			let repNode = null;
 			for (const [section, idArray] of Object.entries(access._ids[ID])) {
 				switch (section) {
 					case "ailments": repNode = newRoot.ailments; break;
-					case "rollformats": repNode = (editorTarget in newRoot.items) ? newRoot.items[editorTarget]?.rollformats : null; break;
 					default: repNode = newRoot.items;
 				}
 				for (const repid of idArray) {
@@ -17843,16 +17825,26 @@ const accessData = {
 
 			// All items have at least one rollformat, even when the option is disabled
 			// TODO: Move this to an access.items.add event so it also applies to items added after initialization
-			for (const itemId in newRoot.items) {
+			for (const itemId of newRoot.items.repIDs) {
 				repNode = newRoot.items[itemId].rollformats;
-				if (length(repNode) == 0) {
+				if (repNode.repCount == 0) {
 					repNode.add({id: generateRowID(), section: section, silent:true});
 				}
 			}
 
-			// Need rollformat indexes 2 to 5
-
 			let keys = newRoot.keys({unsorted:false});
+			
+			// Add in missing rollformat keys (indexes 2-5 for most items)
+			keys.sheet = keys.sheet.flatMap(key => {
+				let keyArray = [key];
+				if (/[0-9]+$/.test(key)) {
+					for (let i = 2; i <= 5; i++) {
+						keyArray.push(key.replace(/[0-9]+$/, i));
+					}
+				}
+				return keyArray;
+			});
+
 			let values = {sheet: await getAttrsByID(ID, [...keys.sheet, ...keys.editor])}
 
 			if (length(keys.editor) > 0) {
@@ -17864,6 +17856,9 @@ const accessData = {
 				}
 				console.log("values post sort", values);
 			}
+
+			console.log(keys);
+			console.log(values);
 
 			newRoot.input(values, {silent:true});
 		}
@@ -17901,16 +17896,48 @@ const accessData = {
 	//  5. Get all rollformat toggles. Delete all associated values if the toggle is disabled
 	//    - Note the code accepts rollformats while the option is disabled. The code only cares if an individual format is hidden
 	//  6. Run values.input()
-
-	// All of these setup operations should be silent. This can be done by only setting ac[charID] = newNode after it's been fully set up
-
-	// When opening a sheet, instance the character
-	// If there currently are no characters in the access, also generate event keys
-	// These event keys are saved and reused for any further characters (not tokens or targets)
 }
 
 // The actual access object all the other code interacts with
 const access = new Proxy(accessData, accessHandler);
+
+
+
+// Initialize access on startup
+on("sheet:opened", async function() {
+	
+	// Clear old rollformats from the item editor
+	let rollIDs = await getSectionIDsAsync("rollformats");
+	for (const rollID of rollIDs) {
+		removeRepeatingRow(`repeating_rollformats_${rollID}`);
+	}
+
+	// Add character data to access
+	access._add(getActiveCharacterId());
+});
+
+
+
+
+// Helper function for generating item events
+function itemEvent(trigger, target) { // edit-item
+	switch (trigger) {
+		case "reorder": return itemSections.reduce((rows, item) => rows += ` change:_reporder:${item}`, "");
+		default: return itemSections.reduce((rows, item) => rows += ` ${trigger}:repeating_${item}${(target) ? `:${target}` : ""}`, "");
+	}
+}
+
+// Event - Open/close item editor
+on(itemEvent("clicked", "edit-item"), function(info) {
+	let itemID = info.triggerName.split("_")[2];
+	access.items.editor.target = itemID;
+});
+on("clicked:closeItemEdit", function(info) {
+	console.log(info);
+	access.items.editor.target = false;
+	console.log(access.items.editor)
+});
+
 
 
 
@@ -17925,6 +17952,19 @@ const accessEventBase = {
 					eventArray: [ {func: (info) => updateItemType(info), noSilence:true}, ]
 				},
 			},
+
+			delete: {
+				eventArray: [ {func: (info) => updateItemEditor(info), noSilence:true}, ]
+			},
+
+			editor: {
+				modify: {
+					target: {
+						eventArray: [ {func: (info) => updateItemEditor(info), noSilence:true}, ]
+					},
+				},
+			},
+
 			N: { // rep id
 				modify: {
 					name: {
@@ -17994,7 +18034,7 @@ const accessEventBase = {
 				settings: {
 					modify: {
 						custom_resistance: {
-							eventArray: [ {func: (info) => updateResistances(info), noSilence:true}, ]
+							eventArray: [ {func: (info) => updateAilmentResist(info), noSilence:true}, ]
 						},
 					},
 				},
@@ -18104,8 +18144,8 @@ function resetAEInner(eventNode) {
 }
 access._event.tree = resetAccessEvents();
 
+// items.delete / items.add / items.N.modify.autoscript:
 // Recalculates user defined events from an item (AutoScript triggers)
-// Should be used whenever an item is added/deleted, or an AutoScript is modified
 function updateEvents(info) {
 	// TODO: Make this run in two types of situations:
 	//  1. An AutoScript with triggers is added/modified, or an item including an AutoScript with triggers is equipped
@@ -18123,8 +18163,47 @@ function updateEvents(info) {
 	//  - On equip, access._event.add these trigger blocks
 }
 
+// editor.modify.target: Updates the contents of the item editor to match the current editor target
+// items.delete: Closes the item editor if the target matches the deleted item
+function updateItemEditor(info) {
+	let items = access[info.charid].items;
+	let target = items.editor.target;
+
+	// Close the editor for the currently targeted item
+	if (is.ID(info.oldval) || (info.type == "delete" && target == info.oldval.id)) {
+		console.log("Close editor:", info.oldval);
+
+		// Remove all roll formats in the editor
+		for (const rollid in items[info.oldval].rollformats) {
+			removeRepeatingRow(`repeating_rollformats_${rollid}`);
+		}
+	}
+
+	// Open the editor for the newly targeted item
+	if (is.ID(info.newval)) {
+		console.log("Open editor:", info.newval);
+
+		// Output all item properties and options to the editor
+		if (items[info.newval]) {
+			items.editor.output({output: access._output});
+			items[info.newval].output({output: access._output});
+			access._apply();
+		} else {
+			console.log("Throw error: Item editor target set to unknown item id")
+		}
+	}
+}
+
 function updateItemType(info) {
 	// TODO: Move item to a different section in the sheet. Do not change the access data
+}
+
+// rollformats.add: Output the new roll. Enable a new rollDisplay in the sheet
+// rollformats.delete: Output all rolls. Disable the last rollDisplay in the sheet
+// rollformats.reorder: Output all rolls
+function updateRollFormats(info) {
+
+	// If 1 >= repCount >= 5, enable the add toggle. Otherwise disable the add toggle
 }
 
 function updateDamageResist(info) {
@@ -18790,7 +18869,6 @@ const repDataFormats = {
 						source: {
 							editor: {
 								type: "id",
-								prefix: "itemEdit", // TODO: Check that this is correct
 								section: "rollformats",
 							},
 							sheet: {
@@ -19012,7 +19090,7 @@ const dataFormat = {
 			// Has repeating item data + the item editor. Sorted by item ids in the order they display in the sheet
 			repeating: repDataFormats.item.base, // Items have their own formats
 			editor: {
-				target: "",
+				target: "0",
 			},
 		},
 		ailments: {
@@ -19170,7 +19248,7 @@ const dataFormat = {
 		items: {
 			repeating: repDataFormats.item.valid,
 			editor: {
-				target: (s) => s == "" || is.ID(s),
+				target: (v) => is.False(v) || is.ID(v),
 			},
 		},
 		ailments: {
@@ -19253,7 +19331,7 @@ const dataFormat = {
 			repeating: repDataFormats.item.attrs,
 			editor: {
 				prefix: "itemEditor",
-			}
+			},
 		},
 		ailments: {
 			repeating: repDataFormats.ailment.attrs,
@@ -19349,12 +19427,16 @@ on("clicked:testA", async function(info) {
 	newNode.items[1].equip.equipped = !is.True(newNode.items[1].equip.equipped);
 	
 	console.log(access);
+	console.log(access._ids);
 });
 
 
 on("clicked:testB", function(info) {
 	console.log("Clicked button B");
 
+	console.log(access._ids)
+
+	/*
 	let result = access._event.add(["items", 1, "equip", "modify", "equipped"], (eventInfo) => {
 		console.log("Triggered equip event!", eventInfo);
 	});
@@ -19364,14 +19446,18 @@ on("clicked:testB", function(info) {
 	} else {
 		console.log("Add failure...");
 	}
+	*/
 });
 
 
 on("clicked:testC", function(info) {
 	console.log("Clicked button C");
-	console.log(access._event.tree)
-	access.ailments[1].name = "Frostbite 2";
-	access.ailments["frostbite_2"].name = "Frostbite 5";
+
+	//access.items.add({section: "outfits"});
+
+	access.items.editor.target = access.items[1].id;
+	console.log(access._output);
+	access._apply();
 });
 
 
@@ -19387,7 +19473,7 @@ class dataNode {
 			enabled: {writable: true, value: true}, // If a subnode and its properties are enabled. Used primarily for toggling item options
 			id: {value: id}, 					   // The repeating id associated with the node, if any
 			index: {writable: true, value: index}, // The repeating index associated with the node, if any
-			_path: {value: path},
+			path: {value: path},
 			formats: {writable: true, value: formats}
 		});
 
@@ -19411,7 +19497,6 @@ class dataNode {
 
 		// Constructs the node and any subnodes
 		for (const [prop, value] of Object.entries(formats.base)) {
-			let newProp;
 
 			// Configures the format of repeating nodes generated by this node using add()
 			if (prop == "repeating") {
@@ -19434,7 +19519,7 @@ class dataNode {
 
 			// Get any subnodes of the node
 			else if (is.Object(value)) {
-				newProp = new dataNode({
+				this[`_${prop}`] = new dataNode({
 					base: value,
 					default: formats.default?.[prop] || false,
 					valid: formats.valid?.[prop] || false,
@@ -19446,32 +19531,21 @@ class dataNode {
 			// Get any properties of the node
 			else {
 				if (formats.default && prop in formats.default) {
-					newProp = formats.default[prop];
+					this[`_${prop}`] = formats.default[prop];
 				} else {
-					newProp = value;
+					this[`_${prop}`] = value;
 				}
 			}
 
-			// Ensures static subnodes and props aren't included in loops for nodes with repeating data
-			// Only works if the static data is *after* the repeating data in the base format
-			if (newProp !== undefined) {
-				Object.defineProperty(this, `_${prop}`, {
-					value: newProp,
-					enumerable: !("rep" in this),
-					writable: true,
-				});
-
-				// Set up accessors for subnodes and properties
-				Object.defineProperty(this, prop, {
-					get() {
-						return this[`_${prop}`];
-					},
-					set(v) {
-						this.modify(`_${prop}`, v);
-					},
-				});
-			}
-
+			// Set up accessors for subnodes and properties
+			Object.defineProperty(this, prop, {
+				get() {
+					return this[`_${prop}`];
+				},
+				set(v) {
+					this.modify(`_${prop}`, v);
+				},
+			});
 
 			// Get any property-specific attribute name data (ex. for options)
 			if (formats.attrs) {
@@ -19509,12 +19583,6 @@ class dataNode {
 	}
 
 
-	// Returns the access path leading to the node
-	get path() {
-		return this._path.map(step => (step == "ID") ? this.id : (step == "INDEX") ? this.index : step);
-	}
-
-		
 	// Assign input attribute values from the sheet and/or editor to the item
 	input(values, options={}) {
 		
@@ -19525,7 +19593,7 @@ class dataNode {
 					if (key.startsWith("repeating")) {
 						let [section, repid, repkey] = key.split("_").slice(1);
 						let repindex = parseInt(repkey);
-						
+
 						// The attribute has a section matching a data source...
 						if (params.section?.includes(section)) {
 							
@@ -19535,8 +19603,8 @@ class dataNode {
 							}
 	
 							// ... and the attribute has the *same* id as the node, and has an unknown index
-							else if (params.type == "index" && this.id == repid && repCount < repindex) {
-								this.add({id: repid || generateRowID(), section: section, ...options});
+							else if (params.type == "index" && this.id == repid && this.repCount < repindex) {
+								this.add({id: repid, section: section, ...options});
 							}
 						}
 					}
@@ -19559,6 +19627,7 @@ class dataNode {
 		let attrs = this.access(false, options);
 		return (options.unsorted) ? Object.keys(attrs) : {editor: Object.keys(attrs.editor), sheet: Object.keys(attrs.sheet)}
 	}
+
 
 	// Helper method for accessing all properties and subnodes of a node
 	// Used by input(), output(), import(), export() and keys()
@@ -19588,15 +19657,15 @@ class dataNode {
 					if (!propAttr) continue;
 
 					// Handle inputting values
-					if (values && length(values[source]) > 0 && propAttr in values[source]) {
+					if (values && values[source] && propAttr in values[source]) {
 						this.modify(prop, values[source][propAttr], {...options, source: source});
 						delete values[source][propAttr];
 					}
 
 					// Handle outputting values
 					else if (this.enabled || options.includeDisabled) {
-						if (this.attrs[prop]?.startsWith("option")) {
-							output[source][propAttr] = "" + this[prop].enabled;
+						if (this.attrs[snakeify(prop)]?.startsWith("option")) {
+							output[source][propAttr] = (this[prop].enabled) ? "true" : "0";
 						}
 						else if (!(value instanceof dataNode)) {
 							output[source][propAttr] = value;
@@ -19616,21 +19685,24 @@ class dataNode {
 	// Returns the attribute name of a property in either the sheet or editor
 	// If an event type is provided the attribute is returned in the event key format
 	attr(prop, source, options={lowerCase:false, event:false}) {
-		if (prop[0] == "_") prop = prop.slice(1);
+		if (prop[0] == "_") prop = snakeify(prop);
 
 		if (prop in this.attrs) {
 			let index = (this.attrs[source]?.type == "index") ? this.index : "";
 			let prefix = this.attrs[source]?.prefix || "";
 			let suffix = this.attrs[source]?.suffix || "";
 			let key = this.attrs[prop];
-
 			if (prefix != "") key = capitalize(key);
+			
+			let section = (this.attrs[source]?.section) ? this.attrs[source].section : false;
 
-			if (this.attrs[source]?.section) {
+			if (section) {
+				let id = (source == "editor") ? this.path.findLast(step => is.ID(step)) : this.id;
+
 				if (options.event) {
-					prefix = `${options.event}:repeating_${this.attrs[source].section}:${prefix}`;
+					prefix = `${options.event}:repeating_${section}}:${prefix}`;
 				} else {
-					prefix = `repeating_${this.attrs[source].section}_${this.id}_${prefix}`;
+					prefix = `repeating_${section}_${id}_${prefix}`;
 				}
 			} else if (options.event) {
 				prefix = `${options.event}:${prefix}`;
@@ -19649,22 +19721,22 @@ class dataNode {
 	// Adds any changes to access._output. The changes are applied to the sheet/editor when the access ends
 	modify(prop, newValue, options={source:false}) {
 		
-		console.log(`(${options.source || "Code"}) ${prop} ${this[prop]} -> ${newValue}`);
+		//console.log(`(${options.source || "Code"}) ${prop} ${this[prop]} -> ${newValue}`);
 		if (this[prop] != undefined) {
 			
 			if (prop in this.valid && !this.valid[prop](newValue)) {
 				console.warn(`Attempted to set the value of ${prop} to invalid value ${newValue}`, this);
 			} else {
 				if (this[prop] != newValue) {
-					console.log(`(${options.source || "Code"}) Modifying ${prop} from "${this[prop]}" to "${newValue}"`);
+					//console.log(`(${options.source || "Code"}) Modifying ${prop} from "${this[prop]}" to "${newValue}"`);
 
 					let oldValue = this[prop];
 
 					// Makes sure enabled is set to a boolean value and not ex. "false"
 					if (this[prop] instanceof dataNode) {
-						this[prop].enabled = is.True(newValue) ? "true" : "0";
+						this[prop].enabled = is.True(newValue);
 					} else if (prop == "enabled") {
-						this[prop] = is.True(newValue) ? "true" : "0";
+						this[prop] = is.True(newValue);
 					} else {
 						this[prop] = newValue;
 					}
@@ -19681,10 +19753,11 @@ class dataNode {
 						}
 					}
 
-					// Trigger a modify event
+					// Trigger a new modify event
 					access._event.trigger([...this.path, "modify", snakeify(prop)], {
-						id:this.id, index:this.index, enabled:this.enabled,
-						oldval:oldValue, newval:this[prop], silent:options.silent,
+						id:this.id, index:this.index, enabled:this.enabled, // Node info
+						type:"modify", oldval:oldValue, newval:this[prop],  // Event info
+						silent:options.silent,								// Event options
 					});
 				}
 			}
@@ -19698,16 +19771,20 @@ class dataNode {
 	// Adds accessors for the id, index and name (if applicable) of the subnode
 	add(options={}) {
 		if (this.rep) {
-			let newID = (options.id || this.id).toLowerCase(); // AutoEffects can only access props in lowercaps
+			let newID = options.id || this.id; // AutoEffects can only access props in lowercaps
 			let newProp = newID;
-			let newIndex = options.index || length(this) + 1;
+			let newIndex = options.index || this.repCount + 1;
 			let repSource = {}
 			
 			for (const source of Object.keys(this.rep.source)) {
 				repSource[source] = {...this.rep.source[source]};
+				
+				// If a node is linked to multiple repeating sections, options.section specifies which should be used
 				if (is.Array(repSource[source].section || false)) {
 					repSource[source].section = options.section;
 				}
+
+				// Nested repeating nodes are given a random id
 				if (this.rep.source?.[source]?.type == "index") {
 					newProp = generateRowID().toLowerCase();
 				}
@@ -19719,7 +19796,7 @@ class dataNode {
 				valid: this.rep.valid || false,
 				attrs: this.rep.attrs || false,
 				source: repSource,
-			}, newID, newIndex, [...this.path, this.rep.source.sheet.type.toUpperCase()]);
+			}, newID, newIndex, [...this.path, newProp]);
 
 			this.#addAccessors(this[newProp], newIndex);
 
@@ -19727,6 +19804,13 @@ class dataNode {
 			if (!options.silent) {
 				this[newProp].output({output: access._output});
 			}
+
+			// Trigger a new add event
+			access._event.trigger([...this.path, "add", newProp], {
+				id:this.id, index:this.index, enabled:this.enabled, // Node info
+				type:"add", oldval:false, newval:this[newProp],     // Event info
+				silent:options.silent,								// Event options
+			});
 
 			return this[newProp];
 
@@ -19775,13 +19859,12 @@ class dataNode {
 	delete(id) {
 		if (this.rep && id in this) {
 			let node = this[id];
-			let repCount = Object.keys(this).filter(p => !this.formats.base[p]).length;
 
-			this.#deleteAccessors(node, repCount);
+			this.#deleteAccessors(node, this.repCount);
 			delete this[id];
 
 			// Updates the indexes of all remaining subnodes
-			for (let i = node.index; i < repCount; i++) {
+			for (let i = node.index; i < this.repCount; i++) {
 				console.log("Changing index from", this[i].index, "to", i, this[i]);
 				this[i].index = i;
 			}
@@ -19793,6 +19876,13 @@ class dataNode {
 			if (node.attrs.editor.section) {
 				removeRepeatingRow(`repeating_${node.attrs.editor.section}_${id}`); // TODO: Check this id is correct
 			}
+
+			// Trigger a new delete event
+			access._event.trigger([...this.path, "delete", newProp], {
+				id:this.id, index:this.index, enabled:this.enabled, // Node info
+				type:"delete", oldval:node, newval:false,     		// Event info
+				silent:false,										// Event options
+			});
 		}
 	}
 	#deleteAccessors(node, index) {
@@ -19801,6 +19891,15 @@ class dataNode {
 		}
 		delete this[index];
 		delete this[-index];
+	}
+
+	
+	// Gets the rep ids of the node, or the amount of ids
+	get repIDs() {
+		return Object.keys(this).filter(p => is.ID(p));
+	}
+	get repCount() {
+		return this.repIDs.length
 	}
 
 
@@ -22714,7 +22813,7 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 			
 			/* Ailment is n or -n multiplied by a number */
 			if ((/([0-9]+n)/).test(effectval)) {
-				effectval = effectval.replaceAll("n","");
+				effectval = effectval.replaceAll("n",""); // TODO: parseInt removes the n, so this is probably not needed
 				effectval = parseInt(count) * parseInt(effectval)
 			}
 			else if ((/(-[0-9]+n)/).test(effectval)) {
