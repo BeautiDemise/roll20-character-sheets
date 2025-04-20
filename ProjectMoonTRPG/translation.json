@@ -295,6 +295,7 @@
 	"editor-lightregen-cap":"Light regen Cap",
 	"editor-lightregen-stagger-true":"Regen Light when Staggered",
 	"editor-lightregen-sources":"Light regen Sources",
+	"editor-lightregen-stagger-self":"Self stagger",
 	"editor-lightregen-stagger-enemy":"Enemy stagger",
 	"editor-lightregen-round-end":"Round end",
 	"editor-recover-health":"Recover Health",

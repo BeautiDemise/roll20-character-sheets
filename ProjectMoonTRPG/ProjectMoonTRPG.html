@@ -2498,16 +2498,17 @@
 	<input type="text" name="attr_calcSpeed" value="0" hidden="true">
 </div>
 
-<!-- Combat toggle -->
+<!-- Combat options -->
 <div class="status_effect" style="margin-top: 5px;">
 	<div class="contentContainer darkBG">
 
-	<!-- Combat options -->
+	<!-- When the Combat toggle is used, hide combat options when out of combat -->
+	<input type="checkbox" class="hide-toggle" name="attr_settingCombatToggle" value="0" hidden="true">
 	<input type="checkbox" class="hide-toggle" name="attr_combatState" value="true" hidden="true">
 	<input type="checkbox" class="helperText" name="attr_settingHelperText" value="true" hidden="true">
 	<div class="hide-item-flex rowContainer combatOptionsContainer helperTextContainer">
 			
-		<div class="rowContainer targetAndDefenceContainer">
+		<div class="rowContainer targetDefenceContainer">
 			
 			<!-- Target selector -->
 			<input type="checkbox" class="hide-toggle" name="attr_settingTargeting" value="true" hidden="true" checked>
@@ -2584,13 +2585,13 @@
 		</div>
 
 		<!-- Resources -->
-		<div class="columnAlign">
+		<div class="columnAlign resourceContainer">
 			<input type="checkbox" class="hide-toggle" name="attr_settingActionTracker" value="true" hidden="true">
 			<input type="checkbox" class="hide-toggle" name="attr_settingLightRegen" value="true" hidden="true">
 			<input type="checkbox" id="editResourceToggle" name="attr_editResourceToggle" value="true" hidden="true" checked>
-			<div class="hide-item-flex columnAlign" style="gap: 1px;">
+			<div class="hide-item-flex columnAlign">
 
-				<div class="rowContainer resourceContainer">
+				<div class="rowContainer resourceRow">
 					<input type="text" value="0" name="attr_actionTradeReaction" hidden="true">
 					
 					<!-- Action tracking -->
@@ -2654,7 +2655,7 @@
 		
 				<!-- Additional resources -->
 				<input type="checkbox" class="hide-toggle" name="attr_expandResourceToggle" value="true" hidden="true">
-				<div class="hide-item-flex rowContainer resourceContainer">
+				<div class="hide-item-flex rowContainer resourceRow">
 		
 					<!-- Counter / block / evade reaction tracking -->
 					<div class="resourceTracker rowContainer">
@@ -8656,7 +8657,7 @@ data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
 <div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
 <b data-i18n="editor-lightregen-sources">Light regen Sources</b>:
 </div><div class="settingStyle" style="flex-wrap: wrap; width: 320px;">
-<div><input type="number" name="attr_lightRegenStaggerSelf" value="0"><span data-i18n="ego-active-OnStagger">On stagger</span>,&nbsp;</div>
+<div><input type="number" name="attr_lightRegenStaggerSelf" value="0"><span data-i18n="editor-lightregen-stagger-self">Self stagger</span>,&nbsp;</div>
 <div><input type="number" name="attr_lightRegenStaggerEnemy" value="0"><span data-i18n="editor-lightregen-stagger-enemy">Enemy stagger</span>,&nbsp;</div>
 <div><input type="number" name="attr_lightRegenDefeatEnemy" value="0"><span data-i18n="ego-active-EnemyDefeat">Enemy defeat</span>,&nbsp;</div>
 <div><input type="number" name="attr_lightRegenRoundEnd" value="0"><span data-i18n="editor-lightregen-round-end">Round end</span></div>
@@ -9612,7 +9613,7 @@ const stateNames = ["PanicState", "StaggerState", "StaggerDuration", "SealState"
 const itemSections = ["weapons", "outfits", "augments", "tools", "skills", "special", "effects"];
 const sheetSections = [...itemSections, "ailments"];
 
-const resourceNames = ["Action", "Reaction", "Counter", "Block", "Evade", "Light_Regen"]
+const resourceNames = ["Action", "Reaction", "Universal", "Counter", "Block", "Evade", "Light_Regen"]
 const combatRollNames = ["Attack", "Block", "Evade"]
 const damageTypes = ["Slash", "Pierce", "Blunt"]
 const advTypes = ["Advantage", "Disadvantage"]
@@ -10178,12 +10179,12 @@ function getAttrsAsync(props) {
         setActiveCharacterId(prevActId); //restore activeCharcterId to what it was when the promise first ran
     });
 }
-function setAttrsAsync(propObj, options={}) {
+function setAttrsAsync(propObj, opts={}) {
     var actId=getActiveCharacterId();
     var prevActId=null;
     return new Promise((resolve,reject)=>{
             prevActId=setActiveCharacterId(actId);
-            try{ setAttrs(propObj,options,(values)=>{ resolve(values); }); }
+            try{ setAttrs(propObj,opts,(values)=>{ resolve(values); }); }
             catch{ reject(); }
     }).finally(()=>{
         setActiveCharacterId(prevActId);
@@ -10258,13 +10259,12 @@ function getJQuery(prop, onfail) {
 	});
 	return jQueryPromise;
 }
-
 /* Does not function for players
-function setAttrsById(actId, propObj, options={}) {
+function setAttrsById(actId, propObj, opts={}) {
     var prevActId = getActiveCharacterId();
     return new Promise((resolve,reject)=>{
             setActiveCharacterId(actId);
-            try{ setAttrs(propObj,options,(values)=>{
+            try{ setAttrs(propObj,opts,(values)=>{
 					setActiveCharacterId(prevActId);
 					resolve(values); }); }
             catch{ reject(); }
@@ -10273,6 +10273,54 @@ function setAttrsById(actId, propObj, options={}) {
     });
 }*/
 /* --- orcsAsync+ end --- */
+
+
+
+/* --- Custom data type functions --- */
+class checkVal {
+	static x;
+
+	static Int(i, opts={}) { return !isNaN(Number(i)) && this.Opts(Number(i), opts); }
+	static String(s, opts={newlines:false}) { return typeof(s) == "string" && (opts.newline) ? !s.includes("\n") : true; }
+	static ID(s, opts={}) { return typeof(s) == "string" && (opts.strict ? /^-[\w-]{19}$/ : /^-.{19}$/).test(s); } // Checks if a Roll20-style id is valid
+	static Effect(v, opts={}) { return /^(?:-(?:\d+|n|\d+n))$|^(?:\d+)?n?$/.test(v); } // Check for ailment effects like "0", "-n" and "6n"
+	
+	static False(b) { return ["false", "0"].includes("" + b); }
+	static True(b) { return ["true", "1"].includes("" + b); }
+	static Bool(b) { return ["false", "true", "0", "1"].includes("" + b); }
+
+	static Array(a, opts={}) { return Array.isArray(a) && this.Opts(a.length, opts); }
+	static Object(o, opts={}) { return typeof(o) == "object" && !Array.isArray(o) && this.Opts(length(o), opts); }
+	static In(o) {
+		if (arguments[0] == undefined) return false;
+		if (arguments.length > 1) o = [...arguments];
+		return (Array.isArray(o)) ? o.includes(this.x) : this.x in o;
+	}
+
+	static Min(min, opts={}) { return opts.inclusive ? this.x >= min : this.x > min; }
+	static Max(max, opts={}) { return opts.inclusive ? this.x <= max : this.x < max; }
+	static Between(min, max, opts={}) { return this.Opts(i, {...opts, min: min, max: max}); }
+	
+	static Opts(i, opts={min:false, max:false}) {
+		this.x = i;
+		if (opts.inclusive == undefined) opts.inclusive = true;
+		if (typeof opts.min == "number" && !is.Min(opts.min, opts)) { return false; }
+		if (typeof opts.max == "number" && !is.Max(opts.max, opts)) { return false; }
+		return true;
+	}
+}
+
+const is = new Proxy( // In English: "When accessing "is", treat it as "Reflect.construct". .bind(null, {}) causes "{}" to always be the first argument of .construct()"
+  	Reflect.construct.bind(null, {}), { // "Other arguments of is() are included after {}. is("foo") gives "Reflect.construct({}, "foo"), which is the same as "new Object("foo")"
+		get(target, prop, val) { return Reflect.get(checkVal, prop, val); }, // "On is, when using a property accessor "is.prop", instead do "checkVal.prop" "
+		set(target, prop, val) { return Reflect.set(checkVal, prop, val); }, // "Do the same for "is.prop = value. Both of these also work for methods like "is.method()"
+		apply(target, thisArg, argumentsList) { // "On is, when making a function call is(), treat it as if "new Object(arguments)" was called, but then..."
+			is.x = argumentsList[0]; // "... set the static property x of is (which instead sets checkVal) to the first argument in new Object(arguments)..."
+			return checkVal; // "... and return the checkVal class instead of a creating an new Object instance"
+    	} // "In summary, this makes "is(v).method(u)" the same as writing "checkVal.x = v; checkVal.method(u)" "
+  	} // To whichever future dev sees this: thank you for coming to my TED talk
+);
+/* --- Custom data type functions end --- */
 
 
 
@@ -11141,7 +11189,7 @@ function unknownTarget(returnMode="false") {
 /* Taken in a buttonList of the format: {target1: {name1: {icon, color, data, type}, name2: {...}, ...}, target2: {...}, ...} */
 /*   size: One of "half" or "third". Used for styling the width of chat buttons */
 /* The reactions option can be included to show reaction buttons. If set to a tokenId, the buttons will target that generic token (if it exists) */
-async function createChatButtons(buttonList, options={reactions:false}) {
+async function createChatButtons(buttonList, opts={reactions:false}) {
 	getAttrs(["settingHideChatButtons", "settingWhisperRolls", "settingWhisperTarget"], async function(values) {
 
 	if (values.settingHideChatButtons == "true") { return; }
@@ -11151,13 +11199,13 @@ async function createChatButtons(buttonList, options={reactions:false}) {
 	let i = 0;
 
 	/* Include reaction buttons if requested */
-	if (options.reactions !== false) {
+	if (opts.reactions !== false) {
 		/* If all buttons use selected, show the buttons to all characters. Otherwise only show reaction buttons for targeted characters */
 		if (buttonList.selected && length(buttonList) == 1) {
 			buttonList.selected = {...generateReactionButtons(), ...buttonList.selected}
 		} else {
 			for (const buttonTarget of Object.keys(buttonList).filter(key => key != "selected")) {
-				buttonList[buttonTarget] = {...generateReactionButtons(options.reactions), ...buttonList[buttonTarget]}
+				buttonList[buttonTarget] = {...generateReactionButtons(opts.reactions), ...buttonList[buttonTarget]}
 			}
 		}
 	}
@@ -15004,7 +15052,7 @@ on('clicked:declareAction', (info) => {
 
 	/* Clean AutoScript. Remove nested and undefined */
 	if (AutoScript != "") {
-		AutoScript = AutoScript.replaceAll(/\[([#][^]+?[#])\]/g, "");
+		AutoScript = AutoScript.replaceAll(/\[(#.+?#)\]/g, "");
 		AutoScript = AutoScript.replaceAll("undefined", "");
 	}
 
@@ -17520,7 +17568,7 @@ const accessHandler = {
 	// Makes access get the data of the current character by default. Can write ex. "access.items" instead of "access[charID].items"
 	// Writing access[anyCharID] overrides this behaviour and allows accessing the data of other characters
 	// Writing access.currentID allows getting all data of the current character, instead of getting a subnode
-	// Writing access._add() and other built-in access props/methods returns as normal
+	// Writing access._initialize() and other built-in access props/methods returns as normal
 	get: function (ac, prop) {
 		
 		// Should here ensure access._stack isn't empty
@@ -17557,7 +17605,7 @@ const accessHandler = {
 			}
 			if (is.ID(prop)) {
 				if (prop in ac) {
-					for (const [datakey, datavalue] of Object.entries(value)) {
+					for (const [datakey, datavalue] of value.entries) {
 						if (datavalue instanceof dataNode) {
 							ac[prop][datakey] = datavalue;
 						}
@@ -17583,28 +17631,77 @@ const accessHandler = {
 }
 
 // Props beginning with _ are inaccessible to AutoEffects
-// Props beginning with # are accessible to AutoEffects
 const accessData = {
 	_output: {
 		sheet: {}, 
 		editor: {},
 	},
+
+	_access_state: false,
+
+	get _state() {
+		return access._access_state;
+	},
+	set _state(v) {
+		if (!is(v).In(false, "event", "error", "init", "output", "sync")) {
+			console.warn(`access: "${v}" is not a supported access state`)
+			//return false;
+		}
+		//console.log("access: setting state to", v);
+		access._access_state = v;
+		//return true;
+	},
+
+	async _begin(state, callback=()=>{}) {
+		if (state) {
+			if (state == "event" && access._state) {
+				await callback(access._state);
+			} else {
+				access._state = state;
+				await callback(state);
+			}
+		}
+		access._end();
+	},
 	
-	_apply() {
+	_end() {
+		access._state = "output";
+
+		for (root of Object.values(this).filter(v => v instanceof dataNode)) {
+			root.apply(access._output);
+		}
+
+		// Apply all output values to the sheet
 		let attrs = {...access._output.sheet, ...access._output.editor}
 		access._output = {sheet: {}, editor: {}}
-		setAttrs(attrs, {}, () => {
-			console.log("Applied attributes:", attrs)
-		});
+
+		if (length(attrs) > 0) {
+			setAttrs(attrs, {}, () => {
+				console.log("Applied attributes:", attrs);
+			});
+		}
+
+		access._state = false;
 	},
 
 	
 	_ids: {}, // Stores a sorted list of repids for each character in access
+	// TODO: Remove this? Ids can be collected from nodes using node.repIDs. You just have to ensure they're sorted correctly
 	
 	_event: {
-		tree: {}, // Stores a branching tree of access paths leading to event callback functions. Used for triggering events
+		// Stores a branching tree of access paths leading to event callback functions. Used for triggering events
+		// Initializes as an array of this.new() functions. These functions are added by onAccess(), and are used for setting up the built-in events of the sheet
+		// When a character is first initialized, the tree is converted to an object containing all built-in event paths + functions
+		tree: [], 
 
-		add(path, func) {
+		// Stores the amount of times an event path appears in trigger(). Used for hindering infinite loops. Should be reset when access outputs to the sheet
+		count: {},
+
+		// Event keys used for Roll20 events
+		keys: [],
+
+		// Registers a new access event
+		new(path, opts, func) {
 			let accessNode = access;
 			let eventNode = access._event.tree;
 
@@ -17614,8 +17711,6 @@ const accessData = {
 			if (!is.ID(path[0]) && path[0] != "N") {
 				path.unshift(getActiveCharacterId());
 			}
-
-			console.log("New access event:", path);
 
 			// Validate the event path
 			// TODO: Make this into a generalized function
@@ -17633,7 +17728,7 @@ const accessData = {
 					}
 				}
 				else if (step == "N") {
-					accessNode = accessNode[1];
+					accessNode = accessNode[(i == 0) ? getActiveCharacterId() : 1];
 				}
 				else if (step in accessNode) {
 					accessNode = accessNode[step];
@@ -17652,17 +17747,24 @@ const accessData = {
 			}
 
 			if (eventNode.eventArray) {
-				eventNode.eventArray.push(func);
+				eventNode.eventArray.push({func:func, ...opts});
 			} else {
-				eventNode.eventArray = [func];
+				eventNode.eventArray = [{func:func, ...opts}];
+			}
+
+			// When updating the base event format, also update the event tree
+			if (!opts.custom) {
+				this.recalc();
 			}
 			return true;
 		},
 
+		// Navigates the event tree and triggers any events that match the provided event path
 		trigger(path, info, opts={accessNode:false, eventNode:false}) {
 			let accessNode = opts.accessNode || access;
 			let eventNode = opts.eventNode || access._event.tree;
-			
+			let pathString = (is.Array(path)) ? path.join(".") : path;
+
 			if (!is.Array(path)) {
 				// TODO: Convert string path to an array
 			}
@@ -17670,20 +17772,9 @@ const accessData = {
 				path.unshift(getActiveCharacterId());
 			}
 
-			if (opts.accessNode && !opts.eventNode) {
-				// TODO: Add a _parent prop and getter that matches the parent node. This can be used in all access paths
-				// - You could use this to figure out the path to unknown nodes
-				// - Navigate backwards and note down the props that lead to the child node (Object.keys(parent).find(prop => parent[prop] == this)
-				//   - Use parentNode.unshift(prop) to account for the path being created backwards
-				//   - Remember to remove the potential leading underscore before adding a new prop to the path
-				// - Once you reach a node without a parent, which is a root, check which id in access leads to that root
-				// - Do path.unshift([...rootID, ...parentProps]). This adds the previous steps before any steps after the initial accessNode
-				// - eventNode should remain unset for this entire process
-				
-				// If an eventNode is provided you may still want to do this
-				//   - If you trigger modify.count from access.ailments.Burn, this may also trigger access.ailments.N.modify.count events
-				//   - Although this now means you need to differentiate between eventNode:false meaning you're in access, or it meaning you have an unknown node
-				//   - It may just be better to say eventNode should never be set outside of this method
+			// Used for opts.max
+			if (!opts.i) {
+				access._event.count[pathString] = (access._event.count[pathString] || 0) + 1;
 			}
 
 			//console.log("Triggering access event:", path);
@@ -17729,8 +17820,8 @@ const accessData = {
 						}
 
 						// Move to the next step of the event path
-						if (step in accessNode) {
-							eventNode = eventNode[step];
+						if (step in accessNode) { // TODO: Make sure this works for names and indexes. If not, use if (accessNode[step] !== undefined) instead
+							eventNode = eventNode[step]; // TODO: Does this work for names/ids? If not, use eventNode = eventNode[step] || eventNode[accessNode[step].id]
 							accessNode = accessNode[step];
 						} else {
 							//console.log("No event found for path:", path.join("."));
@@ -17758,15 +17849,59 @@ const accessData = {
 			}
 			if (eventNode?.eventArray) {
 				for (event of eventNode.eventArray) {
-					if (opts.silent && !event.noSilence) {
-						return false;
-					}
-					event.func({...info, path: path, charid: path[0]}); 
+					if ((opts.silent && !event.ignoreSilent) || opts.silent == "hard") return false; // Handle silent events
+					if (access._event.count[pathString] > event.max) return false; // Handle event max trigger count
+
+					access._begin("event", event.func({...info, path: path, charid: path[0]}));
 				}
 				return true;
 			} else {
 				//console.log("No event found for path:", path.join("."));
 				return false;
+			}
+		},
+
+		// Regenerates all custom events. Built-in events are unaffected
+		recalc(idArray) {
+
+			// If no ids are provided, recalculate the events of all characters and tokens in access
+			if (!idArray) {
+				idArray = Object.keys(access).filter(prop => access[prop] instanceof dataNode && access[prop].type != "target");
+			}
+			else if (is.String(idArray)) {
+				idArray = [idArray];
+			}
+
+			// Sets up the event tree if this hasn't already been done
+			if (is.Array(this.tree)) {
+				let treeArray = this.tree;
+				this.tree = {}
+				treeArray.forEach(newEventFunc => {
+					newEventFunc();
+				});
+			}
+			
+			// Recalculate all custom events for the specified ids
+			for (const id of idArray) {
+				let autoScriptArray = []
+				
+				if (id in this.tree && id != "N") {
+					delete this.tree[charID];
+				}
+
+				// Only add events from equipped items with at least one trigger block
+				if (access[id] instanceof dataNode) {
+					for (const item of access[id].items.repNodes) {
+						if (item.equip.equipped && /\[(#.+?#)\]/g.test(item.autoscript)) {
+							autoScriptArray.concat(autoScriptToArray(item.autoscript));
+						}
+					}
+				}
+
+				// TODO: Turn the retrieved AutoEffect trigger blocks into custom events
+				if (autoScriptArray.length > 0) {
+					console.log(autoScriptArray);
+				}
 			}
 		},
 	},
@@ -17804,63 +17939,93 @@ const accessData = {
 
 
 	// Adds the data of a new character if it isn't already in access
-	_add: async (ID, type="character") => {
+	_initialize: (ID, type="character") => {
 		if (is.ID(ID) && !(ID in access)) {
-			let newRoot = new dataNode(dataFormat, false, false, [ID]);
-			access[ID] = newRoot;
-			newRoot.type = type;
-			
-			access._ids[ID] = await getSectionIDsOrdered(ID, sheetSections);
-
-			let repNode = null;
-			for (const [section, idArray] of Object.entries(access._ids[ID])) {
-				switch (section) {
-					case "ailments": repNode = newRoot.ailments; break;
-					default: repNode = newRoot.items;
-				}
-				for (const repid of idArray) {
-					if (repNode) repNode.add({id: repid, section: section, silent:true});
-				}
-			}
-
-			// All items have at least one rollformat, even when the option is disabled
-			// TODO: Move this to an access.items.add event so it also applies to items added after initialization
-			for (const itemId of newRoot.items.repIDs) {
-				repNode = newRoot.items[itemId].rollformats;
-				if (repNode.repCount == 0) {
-					repNode.add({id: generateRowID(), section: section, silent:true});
-				}
-			}
-
-			let keys = newRoot.keys({unsorted:false});
-			
-			// Add in missing rollformat keys (indexes 2-5 for most items)
-			keys.sheet = keys.sheet.flatMap(key => {
-				let keyArray = [key];
-				if (/[0-9]+$/.test(key)) {
-					for (let i = 2; i <= 5; i++) {
-						keyArray.push(key.replace(/[0-9]+$/, i));
+			access._begin("init", async () => {
+				let newRoot = new dataNode(dataFormat, false, false, [ID]);
+				access[ID] = newRoot;
+				newRoot.type = type;
+				
+				access._ids[ID] = await getSectionIDsOrdered(ID, sheetSections);
+	
+				let repNode = null;
+				for (const [section, idArray] of Object.entries(access._ids[ID])) {
+					switch (section) {
+						case "ailments": repNode = newRoot.ailments; break;
+						default: repNode = newRoot.items;
+					}
+					for (const repid of idArray) {
+						if (repNode) repNode.add({id: repid, section: section, silent:true});
 					}
 				}
-				return keyArray;
-			});
-
-			let values = {sheet: await getAttrsByID(ID, [...keys.sheet, ...keys.editor])}
-
-			if (length(keys.editor) > 0) {
-				values.editor = {}
-				console.log("values pre sort", values);
-				for (const attr in keys.editor) {
-					values.editor[attr] = values.sheet[attr];
-					delete values.sheet[attr];
+	
+				// All items have at least one rollformat, even when the option is disabled
+				// TODO: Move this to an access.items.add event so it also applies to items added after initialization
+				for (const itemId of newRoot.items.repIDs) {
+					repNode = newRoot.items[itemId].rollformats;
+					if (repNode.repCount == 0) {
+						repNode.add({id: generateRowID(), section: section, silent:true});
+					}
 				}
-				console.log("values post sort", values);
-			}
+	
+				let keys = newRoot.attrkeys({unsorted:false});
 
-			console.log(keys);
-			console.log(values);
+				// Add in missing rollformat keys (indexes 2-5 for most items)
+				keys.sheet = keys.sheet .flatMap(key => {
+					if (/[0-9]+$/.test(key)) {
+						if (key.endsWith(1)) {
+							return range(2, 6).reduce((acc, i) => [...acc, key.replace(/1$/, i)], [key]);
+						}
+						return [];
+					}
+					return key;
+				});
 
-			newRoot.input(values, {silent:true});
+				let values = {sheet: await getAttrsByID(ID, [...keys.sheet, ...keys.editor])}
+	
+				if (length(keys.editor) > 0) {
+					values.editor = {}
+					for (const attr of keys.editor) {
+						if (values.sheet[attr] !== undefined) { // Clears out some attrs that don't exist in the editor, like the item's description
+							values.editor[attr] = values.sheet[attr];
+						}
+						delete values.sheet[attr];
+					}
+				}
+	
+				console.log(keys);
+				console.log({sheet: {...values.sheet}, editor: {...values.editor}});
+	
+				// Apply retrieved values from the sheet to access
+				newRoot.input(values, {silent:"hard"});
+
+				// Add Roll20 events for syncing values to access (if they do not already exist)
+				if (access._event.keys.length == 0) {
+					let eventkeys = newRoot.attrkeys({event:"change", unsorted:false}); 											// Non-repeating attributes
+					eventkeys = {
+						sheet: eventkeys.sheet.concat(sheetSections.map(section => `change:repeating_${section}`)), 				// Repeating sheet attributes
+						editor: eventkeys.editor.concat([`change:repeating_${section}`]),										 	// Repeating editor attributes
+					}
+					access._event.keys = eventkeys;
+
+					for (const source in eventkeys) {
+						on(eventkeys[source].join(" "), function(info) {
+							access._begin("sync", async () => {
+								if (!info.newValue) { // Attributes like hp_max for some reason do not include their value in the event info
+									let values = await getAttrsAsync([info.sourceAttribute]);
+									info.newValue = values[info.sourceAttribute];
+								}
+								access.currentID.input({[source]: {[info.sourceAttribute]: info.newValue}});
+							});
+						});
+					}
+				}
+				
+				// Update the access tree to include any AutoEffect events from the new character or token
+				if (type != "target") {
+					access._event.recalc(ID);
+				}
+			});
 		}
 
 		// TODO: Make this handle targets and tokens
@@ -17913,7 +18078,7 @@ on("sheet:opened", async function() {
 	}
 
 	// Add character data to access
-	access._add(getActiveCharacterId());
+	access._initialize(getActiveCharacterId());
 });
 
 
@@ -17927,222 +18092,99 @@ function itemEvent(trigger, target) { // edit-item
 	}
 }
 
+
+
+
+
+
+
+/* Update item & ailments names */
+onAccess([["items", "N", "modify", "name"], ["ailments", "N", "modify", "name"]], {}, function(info) {
+	console.log(info);
+
+	/* Update the name accessors */
+	if (info.newval && !is.ID(info.newval) && !is.Int(info.oldval)) {
+		Object.defineProperty(info.node.parent, snakeify(info.newval), {
+			get() {
+				return info.node;
+			},
+			configurable: true,
+		});
+	}
+	if (info.oldval && !is.ID(info.oldval) && !is.Int(info.oldval)) {
+		delete info.node.parent[snakeify(info.oldval)];
+	}
+
+	/* Update editor names */
+	if (info.path[1] == "items") {
+		if (access.items.editor.target == info.node.id) {
+			access._output.editor.itemEditName = info.newval;
+		}
+		// TODO: Also update the AutoScript editor name?
+	}
+});
+
+
+
+
+
+
+
+
+
 // Event - Open/close item editor
 on(itemEvent("clicked", "edit-item"), function(info) {
 	let itemID = info.triggerName.split("_")[2];
 	access.items.editor.target = itemID;
 });
 on("clicked:closeItemEdit", function(info) {
-	console.log(info);
 	access.items.editor.target = false;
-	console.log(access.items.editor)
 });
+onAccess([
+	["items", "editor", "modify", "target"],
+	["items", "delete"]
+], {}, function(info) {
+	let items = access[info.charid].items;
+	let target = items.editor.target;
+
+	// Close the editor for the currently targeted item
+	if (is.ID(info.oldval) || (info.type == "delete" && target == info.oldval.id)) {
+		console.log("Close editor:", info.oldval);
+
+		// Remove all roll formats in the editor
+		for (const rollid in items[info.oldval].rollformats) {
+			removeRepeatingRow(`repeating_rollformats_${rollid}`);
+		}
+	}
+
+	// Open the editor for the newly targeted item
+	if (is.ID(info.newval)) {
+		console.log("Open editor:", info.newval);
+
+		// Output all item properties and options to the editor
+		if (items[info.newval]) {
+			items[info.newval].output({editor: access._output.editor}, {allProps:true});
+			items.editor.output(access._output);
+		} else {
+			console.log("Throw error: Item editor target set to unknown item id")
+		}
+	}
+});
+
+
+
+
+
+
+
+
 
 
 
 
 /* --- Access events --- */
 
-// Contains all built in access events for the sheet
-const accessEventBase = {
-	N: { // character id
-		items: {
-			modify: {
-				type: {
-					eventArray: [ {func: (info) => updateItemType(info), noSilence:true}, ]
-				},
-			},
-
-			delete: {
-				eventArray: [ {func: (info) => updateItemEditor(info), noSilence:true}, ]
-			},
-
-			editor: {
-				modify: {
-					target: {
-						eventArray: [ {func: (info) => updateItemEditor(info), noSilence:true}, ]
-					},
-				},
-			},
-
-			N: { // rep id
-				modify: {
-					name: {
-						eventArray: [ {func: (info) => updateNameAccessor(info), noSilence:true}, ]
-					},
-					index: {
-						eventArray: [ {func: (info) => updateIndexes(info), noSilence:true}, ]
-					},
-				},
-				delete: {
-					eventArray: [ {func: (info) => updateEvents(info), noSilence:true}, ]
-				},
-				equipped: {
-					modify: {
-						equip: {
-							eventArray: [
-								{func: (info) => updateEvents(info), noSilence:true},
-								{func: (info) => updateEquipment(info), noSilence:true},
-							]
-						},
-					},
-				},
-				resistances: {
-					damage: {
-						N: { // base, flat
-							N: { // slash, pierce, blunt
-								modify: {
-									N: { // mode, hp, st
-										eventArray: [ {func: (info) => updateDamageResist(info), noSilence:true}, ]
-									},
-								},
-							},
-						},
-					},
-					ailments: {
-						N: { // rep id
-							modify: {
-								name: { // name, count
-									eventArray: [
-										{func: (info) => updateNameAccessor(info), noSilence:true},
-										{func: (info) => updateAilmentResist(info), noSilence:true},
-									]
-								},
-								count: {
-									eventArray: [ {func: (info) => updateAilmentResist(info), noSilence:true}, ]
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-
-		ailments: {
-			N: { // rep id
-				modify: {
-					name: {
-						eventArray: [ {func: (info) => updateNameAccessor(info), noSilence:true}, ]
-					},
-					index: {
-						eventArray: [ {func: (info) => updateIndexes(info), noSilence:true}, ]
-					},
-					count: {
-						eventArray: [ {func: (info) => checkAilmentMax(info), noSilence:true}, ]
-					},
-				},
-				settings: {
-					modify: {
-						custom_resistance: {
-							eventArray: [ {func: (info) => updateAilmentResist(info), noSilence:true}, ]
-						},
-					},
-				},
-				max: {
-					modify: {
-						N: {
-							eventArray: [ {func: (info) => checkAilmentMax(info), noSilence:true}, ]
-						},
-					},
-				},
-			},
-		},
-
-		rolls: {
-			add: {
-				eventArray: [ {func: (info) => updateRolls(info), noSilence:true}, ]
-			},
-			delete: {
-				eventArray: [ {func: (info) => updateRolls(info), noSilence:true}, ]
-			},
-		},
-
-		settings: {
-			sheet: {
-				modify: {
-					generic_token_mode: {
-						eventArray: [ {func: (info) => updateTokens(info), noSilence:true}, ]
-					},
-				},
-			},
-			game: {
-				modify: {
-					// TODO: Missing a whole bunch of events here for recalculating derived values
-					// Use updateDerived() for most of these
-				},
-			},
-		},
-
-		bars: {
-			modify: {
-				N: {
-					eventArray: [ {func: (info) => updateBars(info), noSilence:true}, ]
-				},
-			},
-		},
-
-		resource: {
-			modify: {
-				N: {
-					eventArray: [ {func: (info) => updateResources(info), noSilence:true}, ]
-				},
-			},
-		},
-
-		state: {
-			modify: {
-				N: {
-					eventArray: [ {func: (info) => updateState(info), noSilence:true}, ]
-				},
-			},
-		},
-
-		speed: {
-			modify: {
-				N: {
-					eventArray: [ {func: (info) => updateSpeed(info), noSilence:true}, ]
-				},
-			},
-		},
-
-		character: {
-			modify: {
-				N: {
-					eventArray: [ {func: (info) => updateDerived(info), noSilence:true}, ]
-				},
-			},
-		},
-
-		tags: {
-			N: { // repid
-				modify: {
-					name: {
-						eventArray: [ {func: (info) => updateNameAccessor(info), noSilence:true}, ]
-					},
-					count: {
-						eventArray: [ {func: (info) => updateRequirements(info), noSilence:true}, ]
-					},
-				},
-			},	
-		},
-	},
-}
-
-// Resets the events tree to its base format
-function resetAccessEvents() {
-	return resetAEInner(accessEventBase);
-}
-function resetAEInner(eventNode) {
-	return Object.entries(eventNode).reduce((branch, [step, node]) => {
-		if (Array.isArray(node)) {
-			branch[step] = node.map(event => { return {...event} });
-		} else {
-			branch[step] = resetAEInner(node);
-		}
-		return branch;
-	}, {});
-}
-access._event.tree = resetAccessEvents();
+/* OLD EVENTS: Convert to onAccess() */
 
 // items.delete / items.add / items.N.modify.autoscript:
 // Recalculates user defined events from an item (AutoScript triggers)
@@ -18163,36 +18205,7 @@ function updateEvents(info) {
 	//  - On equip, access._event.add these trigger blocks
 }
 
-// editor.modify.target: Updates the contents of the item editor to match the current editor target
-// items.delete: Closes the item editor if the target matches the deleted item
-function updateItemEditor(info) {
-	let items = access[info.charid].items;
-	let target = items.editor.target;
 
-	// Close the editor for the currently targeted item
-	if (is.ID(info.oldval) || (info.type == "delete" && target == info.oldval.id)) {
-		console.log("Close editor:", info.oldval);
-
-		// Remove all roll formats in the editor
-		for (const rollid in items[info.oldval].rollformats) {
-			removeRepeatingRow(`repeating_rollformats_${rollid}`);
-		}
-	}
-
-	// Open the editor for the newly targeted item
-	if (is.ID(info.newval)) {
-		console.log("Open editor:", info.newval);
-
-		// Output all item properties and options to the editor
-		if (items[info.newval]) {
-			items.editor.output({output: access._output});
-			items[info.newval].output({output: access._output});
-			access._apply();
-		} else {
-			console.log("Throw error: Item editor target set to unknown item id")
-		}
-	}
-}
 
 function updateItemType(info) {
 	// TODO: Move item to a different section in the sheet. Do not change the access data
@@ -18368,7 +18381,7 @@ function updateIndexesInner(node, i) {
 
 
 
-
+/*
 const testTriggerBlock = `
 
 [# items[1].equip.modify.equipped, otherEvent,
@@ -18385,13 +18398,12 @@ let triggerAutoScripts = autoScriptToArray(triggerContents, "triggers");
 
 let AutoScript = "";
 
-/* Append any collected AutoScripts with a relevant trigger */
+// Append any collected AutoScripts with a relevant trigger
 triggerAutoScripts.forEach((trigger) => {
 	console.log(trigger);
 });
 
-console.log(splitIgnoreBetween("'So does it work as long as characters inside 'quotes' are paired properly?'", ",", "'", "'", true, true));
-
+*/
 	
 
 
@@ -18523,7 +18535,7 @@ const rollDataFormat = {
 	valid: {
 		type: (s) => is(s).In("None", ...combatRollNames, ...statNamesFull, "Custom"),
 		mode: (s) => is(s).In("Roll", "Applied"), // Applied is ignored outside of roll formats
-		damage_type: (v) => is(v).In("None", ...damageTypes, "Choose") || (is.Array(v, {min:1, max:3} && v.each(d => damageTypes.includes(d)))), // Allows an array of 1-3 damagetypes ("Hybrid")
+		damage_type: (v) => is(v).In("None", ...damageTypes, "Choose") || (is.Array(v, {min:1, max:3}) && v.every(d => damageTypes.includes(d))), // Allows an array of 1-3 damagetypes ("Hybrid")
 		count: (i) => is.Int(i, (this.type == "Roll") ? {min: 1} : {}), // This probably still refers to this itemNode, right? If not use itemList[this... id...]... motherfucker
 		max: (i) => is.Int(i, (this.type == "Roll") ? {min: 0} : {}),
 		power: (i) => is.Int(i),
@@ -18721,7 +18733,7 @@ const repDataFormats = {
 	
 		// Includes functions for validating item input values
 		valid: {
-			type: (s) => is(s).In(itemNode.format.defaults),
+			type: (s) => is(s).In(itemSections.map(section => capitalize(section.replace(/s$/,"")))),
 			rank: (i) => is.Int(i, {min: -1}),
 			name: (s) => is.String(s),
 			description: (s) => is.String(s, {newlines: true}),
@@ -18734,7 +18746,9 @@ const repDataFormats = {
 					use: (i) => is.Int(i),
 				},
 			},
-			rollformats: {}, // Enabled by optionRollFormats. Format set in repDataFormats.item
+			rollformats: { // Enabled by optionRollFormats
+				repeating: rollDataFormat.valid,
+			},
 			usable: { // Enabled by optionUsable
 				type: (s) => is(s).In("None", "Standalone", "Applied", "Both"),
 				action: { // Enabled by optionUsableReaction
@@ -18851,6 +18865,7 @@ const repDataFormats = {
 			},
 			export: {alias: "items"},
 			attrs: {
+				ignore: {prop: ["type"]},
 				equip: {
 					slots: {option: "EquipSlots", prefix: "slot"},
 				},
@@ -19150,8 +19165,9 @@ const dataFormat = {
 			light_regen: 3, light_regen_max: 3, light_regen_base: 3,
 		},
 		state: {
-			staggered: "false", stagger_duration: 2, stagger_duration_max: 2,
-			panicked: "false", defeated: "false", seal: "false", immobile: "false",
+			stagger: "false", stagger_duration: 2, stagger_duration_max: 2,
+			panic: "false", defeat: "false", seal: "false", immobile: "false",
+			combat: "false",
 		},
 		speed: {
 			base: 0, this_round: 0, next_round: 0,
@@ -19327,6 +19343,7 @@ const dataFormat = {
 	},
 
 	attrs: {
+		ignore: {prop: ["type"]},
 		items: {
 			repeating: repDataFormats.item.attrs,
 			editor: {
@@ -19362,8 +19379,13 @@ const dataFormat = {
 			sheet: {},
 			game: {},
 		},
-		bars: {},
-		speed: {},
+		bars: {
+			ignore: {prop: ["-hp", "-st", "-sp", "-light"]},
+		},
+		speed: {
+			suffix: "_speed",
+			ignore: {suffix: ["stagger_duration", "stagger_duration_max"]},
+		},
 		state: {
 			suffix: "State", // Does not work with staggered (attr is "staggerState") and staggerDuration (not State suffix)
 		},
@@ -19372,18 +19394,16 @@ const dataFormat = {
 		},
 		character: {
 			prefix: "character_", // TODO: Modify all personalia to have the format character_key
+			ignore: {prefix: ["fortitude", "prudence", "justice", "charm", "insight", "temperance"]},
 		},
 		target: {}, 
 		token: {
+			prefix: "token",
 			// You may be able to make this link up right with the token data
 		},
 		tags: {},
-		local: {
-			scaling: (i) => is.Int(i),
-			checkresult: (s) => is(s).In("success", "last success", "failure", "no target"),
-			event: (v) => true,
-		},
-		global: {},
+		local: false,
+		global: false,
 	},
 
 	source: {
@@ -19399,54 +19419,28 @@ const dataFormat = {
 
 on("clicked:testA", async function(info) {
 	console.log("Clicked button A");
-	
-	let newNode = await access._add(getActiveCharacterId());
-	console.log("Finishes dataNode:", newNode);
 
-	let firstID = generateRowID();
+	access._begin("update", function() {
+		access.items[1].equip.equipped = !is.True(access.items[1].equip.equipped);
 
-	let values = {
-		sheet: {
-			[`repeating_weapons_${firstID}_someKey`]: 5,
-			[`repeating_outfits_${generateRowID()}_someKey`]: 7, // Fails since the id is not unknown
-			[`repeating_ailments_${generateRowID()}_someKey`]: 0,
-			[`repeating_weapons_${generateRowID()}_someKey`]: "test",
-			[`repeating_augments_${generateRowID()}_rollMax1`]: 12,
-			"nonRepeatingData": 2,
-		},
-		editor: {}
-	}
-	//newNode.items.input(values);
-	//newNode.ailments.input(values);
-	//newNode.items.delete(firstID);
-	//console.log(newNode.output());
-	//console.log(newNode.keys());
-
-	//console.log(newNode.items.filter(n => n.index == 2));
-
-	newNode.items[1].equip.equipped = !is.True(newNode.items[1].equip.equipped);
-	
-	console.log(access);
-	console.log(access._ids);
+		console.log(access);
+	});
 });
 
 
 on("clicked:testB", function(info) {
 	console.log("Clicked button B");
 
-	console.log(access._ids)
+	access._begin("event", () => {
 
-	/*
-	let result = access._event.add(["items", 1, "equip", "modify", "equipped"], (eventInfo) => {
-		console.log("Triggered equip event!", eventInfo);
+		// Shuffle the user's current HP
+		access.bars.hp = Random.Int(1, access.bars.hp_max);
+		
+		// Increase Justice by 1 if the new HP is aove 50%
+		if (access.bars.hp >= access.bars.hp_max/2) {
+			access.character.justice += 1;
+		}
 	});
-	
-	if (result) {
-		console.log("Add success!", access._event.tree);
-	} else {
-		console.log("Add failure...");
-	}
-	*/
 });
 
 
@@ -19457,7 +19451,6 @@ on("clicked:testC", function(info) {
 
 	access.items.editor.target = access.items[1].id;
 	console.log(access._output);
-	access._apply();
 });
 
 
@@ -19465,17 +19458,23 @@ on("clicked:testC", function(info) {
 
 
 class dataNode {
+	#getImmutable = false;
+	#output = {}
 
-	constructor(formats=dataFormat, id=false, index=false, path=[]) {
+	#parent;			// The parent node of this node, if any
+	#valid = {}; 		// List of attribute value validators for the node
+	#attrs = {};  		// List of attribute name formats for the node
+	#formats;			// The raw formats used to construct this node
+
+	constructor(formats=dataFormat, id=false, parent=false, path=[]) {
 		Object.defineProperties(this, {
-			valid: {writable: true, value: {}}, // List of attribute value validators for the node
-			attrs: {writable: true, value: {}},  // List of attribute name formats for the node
-			enabled: {writable: true, value: true}, // If a subnode and its properties are enabled. Used primarily for toggling item options
-			id: {value: id}, 					   // The repeating id associated with the node, if any
-			index: {writable: true, value: index}, // The repeating index associated with the node, if any
-			path: {value: path},
-			formats: {writable: true, value: formats}
+			enabled: {writable: true, value: true}, 	// If a subnode and its properties are enabled. Used primarily for toggling item options
+			id: {value: id}, 					   		// The repeating id associated with the node, if any
+			path: {value: path},						// The access path leading to this node
 		});
+
+		this.#formats = formats;
+		this.#parent = parent;
 
 		// Construct a node from a pre-existing node. Used in filter()
 		if (formats.node) {
@@ -19485,7 +19484,7 @@ class dataNode {
 
 		// Get the sources of the data, and any source-specific attribute name data
 		for (const source of Object.keys(formats.source)) {
-			Object.defineProperty(this.attrs, source, {
+			Object.defineProperty(this.#attrs, source, {
 				writable: true, value: formats.source[source]
 			});
 		};
@@ -19512,7 +19511,7 @@ class dataNode {
 				});
 				if (formats.default?.repeating) {
 					for (let i = 1; i <= formats.default.repeating.length; i++) {
-						this.add({id: this.id || generateRowID(), index: i, section: this.formats.source.sheet.section});
+						this.add({id: this.id || generateRowID(), index: i, section: this.#formats.source.sheet.section});
 					}
 				}
 			}
@@ -19525,7 +19524,7 @@ class dataNode {
 					valid: formats.valid?.[prop] || false,
 					attrs: formats.attrs?.[prop] || false,
 					source: formats.source[prop] || formats.source || false,
-				}, this.id, this.index, [...this.path, prop]);
+				}, this.id, this, [...this.path, prop]);
 			}
 
 			// Get any properties of the node
@@ -19538,43 +19537,55 @@ class dataNode {
 			}
 
 			// Set up accessors for subnodes and properties
-			Object.defineProperty(this, prop, {
-				get() {
-					return this[`_${prop}`];
-				},
-				set(v) {
-					this.modify(`_${prop}`, v);
-				},
-			});
+			if (prop != "repeating") {
+				Object.defineProperty(this, prop, {
+					get() {
+						if (this.#getImmutable) {
+							this.#getImmutable = false;
+							if (prop instanceof dataNode) {
+								this[prop].#getImmutable = true;
+							}
+							return this[`_${prop}`];
+						}
+						return this.#output[`_${prop}`] || this[`_${prop}`];
+					},
+					set(v) {
+						this.modify(`_${prop}`, v);
+					},
+				});
 
-			// Get any property-specific attribute name data (ex. for options)
-			if (formats.attrs) {
-				if (formats.attrs[prop]?.option) {
-					this.attrs[prop] = "option" + formats.attrs[prop].option;
-				}
-				else if (prop != "repeating") {
-					let prefix = formats.attrs.prefix || "";
-					let suffix = formats.attrs.suffix || "";
-					let key = (prefix != "") ? capitalize(prop) : prop;
-					
-					if (formats.attrs.case == "snake" && prop.indexOf("_") > -1) {
-						key = camelize(key);
+				// Get any property-specific attribute name data (ex. for options)
+				if (formats.attrs) {
+					let ignore = formats.attrs.ignore;
+
+					if (formats.attrs[prop]?.option) {
+						this.#attrs[prop] = "option" + formats.attrs[prop].option.toLowerCase();
 					}
+					else if (!(ignore && is(prop).In(ignore.prop))) {
+						let prefix = !(ignore && ignore.prefix?.includes(prop)) ? formats.attrs.prefix || "" : "";
+						let suffix = !(ignore && ignore.suffix?.includes(prop)) ? formats.attrs.suffix || "" : "";
+						let key = prop;
+						
+						if (formats.attrs.case == "snake" && prop.indexOf("_") > -1) {
+							key = camelize(key);
+						}
 
-					this.attrs[prop] = prefix + key + suffix;
+						let attr = prefix + key + suffix;
+						this.#attrs[prop] = attr.toLowerCase();
+					}
 				}
 			}
 
 
 			// Get any attribute value validation data
-			if (formats.valid?.[prop] && typeof formats.valid[prop] == "function") {
-				this.valid[`_${prop}`] = formats.valid[prop];
-			} 
-			else if (formats.valid._default) {
-				this.valid[`_${prop}`] = formats.valid._default;
-			}
-			else {
-				if (formats.valid && !(prop in formats.valid) && prop != "repeating") {
+			if (formats.valid) {
+				if (formats.valid[prop] && typeof formats.valid[prop] == "function") {
+					this.#valid[`_${prop}`] = formats.valid[prop];
+				} 
+				else if (formats.valid._default) {
+					this.#valid[`_${prop}`] = formats.valid._default;
+				}
+				else if (!(prop in formats.valid) && prop != "repeating") {
 					console.warn(`itemNode - valid format: property "${prop}" is not in the format`, formats.valid);
 				}
 			}
@@ -19584,7 +19595,7 @@ class dataNode {
 
 
 	// Assign input attribute values from the sheet and/or editor to the item
-	input(values, options={}) {
+	input(values, opts={}) {
 		
 		// Create new repeating nodes when inputting untracked repeating data
 		if (this.rep) {
@@ -19599,117 +19610,147 @@ class dataNode {
 							
 							// ... and the attribute has a repeating id which is *not* a subnode
 							if (params.type == "id" && !this[repid]) {
-								this.add({id: repid, section: section, ...options});
+								this.add({id: repid, section: section, ...opts});
 							}
 	
 							// ... and the attribute has the *same* id as the node, and has an unknown index
 							else if (params.type == "index" && this.id == repid && this.repCount < repindex) {
-								this.add({id: repid, section: section, ...options});
+								this.add({id: repid, section: section, ...opts});
 							}
 						}
 					}
 				}
 			}
 		}
-		return this.access(values, {...options, lowerCase:true});
+		return this.access(values, false, opts);
 	}
 
 	// Generates and outputs a list of attribute values for the sheet and editor
 	// Editor data is only generated for the item currently open in the item editor
-	output(options={}) {
-		return this.access(false, options);
+	output(output=false, opts={}) {
+		return this.access(false, output, opts);
 	}
 
-	// Generates and returns an array of keys for both the editor and sheet
+	// As output(), but applies all output values in access
+	// Returns the applied values
+	apply(output=false, opts={}) {
+		return this.access(false, output, {apply:true, ...opts});
+	}
+
+	// Generates and returns an array of attribute keys for both the editor and sheet
 	// If an event is provided the keys are returned in the event key format
-	keys(options={}) {
-		options = {includeDisabled:true, lowerCase:true, unsorted:true, ...options}
-		let attrs = this.access(false, options);
-		return (options.unsorted) ? Object.keys(attrs) : {editor: Object.keys(attrs.editor), sheet: Object.keys(attrs.sheet)}
+	attrkeys(opts={}) {
+		opts = {allProps:true, unsorted:true, ...opts}
+		let attrs = this.access(false, false, opts);
+		return (opts.unsorted) ? Object.keys(attrs) : {editor: Object.keys(attrs.editor), sheet: Object.keys(attrs.sheet)}
 	}
 
 
 	// Helper method for accessing all properties and subnodes of a node
-	// Used by input(), output(), import(), export() and keys()
-	access(values, options={output:false, includeDisabled:false, lowerCase:false, event:false, unsorted:false}) {
-		let output = options.output || {editor: {}, sheet: {}}
-		if (!options.output) options.output = output;
-
-		// Values generated by getAttrs() are all in lower-case, while values from item.output may be in mixed-case
-		// For consistent prop-to-attr matching all attribute and property names are converted to lowercase
-		if (values && length(values) > 0) {
-			for (const source of Object.keys(values)) {
-				values[source] = Object.entries(values[source]).reduce((acc, [key, value]) => { return {...acc, [key.toLowerCase()]: value} }, {});
-			}
-		}
+	// Used by input(), output(), import(), export() and attrkeys()
+	access(values, output, opts={allProps:false, event:false, unsorted:false, apply:false}) {
+		if (!output) output = {editor:{}, sheet:{}}
 
 		if (!values || length(values) > 0) {
-			for (const [prop, value] of Object.entries(this)) {
+			for (let [prop, value] of this.entries) {
 				for (const source of Object.keys(output)) {
 
-					// Only input and output editor data from the current editor target
-					if (source == "editor" && (!this.id || this.id !== access.items.editor.target) && !options.event) continue;
-					// TODO: This does not work accessing another character (a target or a token)
-					// - Inputing values into tokens may be relevant, so this should preferably be fixed
+					// Ignore sources with no attributes
+					if (!this.#attrs[source]) continue;
+
+					if (opts.apply && prop == "_linked") {
+						console.log("apply", prop, {...value.#output});
+					}
 
 					// Get the attribute name of the property in the current source
-					let propAttr = this.attr(prop, source, options);
+					let propAttr = this.attr(prop, source, opts);
 					if (!propAttr) continue;
+
+					// Handle applying values
+					if (opts.apply) {
+						if (this[prop] instanceof dataNode && "enabled" in value.#output) {
+							this[prop].enabled = value = this.#output[prop].enabled;
+						}
+						else if (prop in this.#output) {
+							this[prop] = value = this.#output[prop];
+						}
+						
+						if (is.Bool(value) && ["is.Bool", "is.False", "is.True"].some(check => this.#valid[prop].toString().includes(check))) {
+							value = is.True(value) ? "true" : "0";
+						}
+					}
 
 					// Handle inputting values
 					if (values && values[source] && propAttr in values[source]) {
-						this.modify(prop, values[source][propAttr], {...options, source: source});
+						if (prop == "_linked" && source == "editor") {
+							console.log("modify", prop, propAttr, {...values.editor});
+						}
+
+						this.modify(prop, values[source][propAttr], {...opts, source: source});
 						delete values[source][propAttr];
 					}
 
 					// Handle outputting values
-					else if (this.enabled || options.includeDisabled) {
-						if (this.attrs[snakeify(prop)]?.startsWith("option")) {
-							output[source][propAttr] = (this[prop].enabled) ? "true" : "0";
+					else if (!opts.apply || prop in this.#output || opts.allProps) {
+						if (this.#attrs[snakeify(prop)]?.startsWith("option")) {
+							output[source][propAttr] = (value.enabled) ? "true" : "0";
 						}
 						else if (!(value instanceof dataNode)) {
 							output[source][propAttr] = value;
+						}
+					}
+
+					// Clear any applied output values
+					if (opts.apply) {
+						if (prop == "_linked") {
+							console.log("delete", prop, value.#output, this.#output)
+						}
+
+
+						if (value instanceof dataNode) {
+							delete this[prop].#output.enabled;
+						} else {
+							delete this.#output[prop];
 						}
 					}
 				}
 				
 				// Recursively access any sub-nodes
 				if (value instanceof dataNode) {
-					value.access(values, options);
+					value.access(values, output, opts);
 				}
 			}
-			return (options.unsorted) ? {...output.editor, ...output.sheet} : output;
+			return (opts.unsorted) ? {...output.editor, ...output.sheet} : output;
 		}
 	}
 
 	// Returns the attribute name of a property in either the sheet or editor
 	// If an event type is provided the attribute is returned in the event key format
-	attr(prop, source, options={lowerCase:false, event:false}) {
+	attr(prop, source, opts={event:false}) {
 		if (prop[0] == "_") prop = snakeify(prop);
 
-		if (prop in this.attrs) {
-			let index = (this.attrs[source]?.type == "index") ? this.index : "";
-			let prefix = this.attrs[source]?.prefix || "";
-			let suffix = this.attrs[source]?.suffix || "";
-			let key = this.attrs[prop];
-			if (prefix != "") key = capitalize(key);
+		if (prop in this.#attrs) {
+			let index = (this.#attrs[source]?.type == "index") ? this.index : "";
+			let prefix = this.#attrs[source]?.prefix || "";
+			let suffix = this.#attrs[source]?.suffix || "";
+			let key = this.#attrs[prop];
 			
-			let section = (this.attrs[source]?.section) ? this.attrs[source].section : false;
+			let section = (this.#attrs[source]?.section) ? this.#attrs[source].section : false;
 
 			if (section) {
 				let id = (source == "editor") ? this.path.findLast(step => is.ID(step)) : this.id;
 
-				if (options.event) {
-					prefix = `${options.event}:repeating_${section}}:${prefix}`;
+				if (opts.event) {
+					return false; // Repeating section events are easy enough to add manually
 				} else {
 					prefix = `repeating_${section}_${id}_${prefix}`;
 				}
-			} else if (options.event) {
-				prefix = `${options.event}:${prefix}`;
+			} else if (opts.event) {
+				prefix = `${opts.event}:${prefix}`;
 			}
 
-			let propAttr = prefix + key + suffix + index;
-			return (options.lowerCase) ? propAttr.toLowerCase() : propAttr;
+			let attr = prefix + key + suffix + index;
+			return attr.toLowerCase();
 		} else {
 			return false;
 		}
@@ -19719,47 +19760,31 @@ class dataNode {
 	// Modifies a property of the node
 	// If a validator format was provided at node creation only valid values are accepted
 	// Adds any changes to access._output. The changes are applied to the sheet/editor when the access ends
-	modify(prop, newValue, options={source:false}) {
+	modify(prop, newValue, opts={source:false}) {
+		let oldValue = this.#output[prop] || this[prop];
 		
-		//console.log(`(${options.source || "Code"}) ${prop} ${this[prop]} -> ${newValue}`);
-		if (this[prop] != undefined) {
-			
-			if (prop in this.valid && !this.valid[prop](newValue)) {
+		//console.log(`(${opts.source || "Code"}) ${prop} ${this[prop]} -> ${newValue}`);
+		if (oldValue !== undefined) {
+
+			if (prop in this.#valid && !this.#valid[prop](newValue)) {
 				console.warn(`Attempted to set the value of ${prop} to invalid value ${newValue}`, this);
-			} else {
-				if (this[prop] != newValue) {
-					//console.log(`(${options.source || "Code"}) Modifying ${prop} from "${this[prop]}" to "${newValue}"`);
+			} 
+			else if (oldValue != newValue) {
+				//console.log(`(${opts.source || "Code"}) Modifying ${prop} from "${this[prop]}" to "${newValue}"`);
 
-					let oldValue = this[prop];
-
-					// Makes sure enabled is set to a boolean value and not ex. "false"
-					if (this[prop] instanceof dataNode) {
-						this[prop].enabled = is.True(newValue);
-					} else if (prop == "enabled") {
-						this[prop] = is.True(newValue);
-					} else {
-						this[prop] = newValue;
-					}
-
-					// Modify the associated attributes in the sheet/editor if applicable
-					if (!options.silent) {
-						if (this.attrs[prop]) {
-							if (!options.source || options.source == "sheet") {
-								access._output.sheet[this.attr(prop, "sheet")] = newValue;
-							}
-							if (this.id == access.items.editor.target && (!options.source || options.source == "editor")) {
-								access._output.editor[this.attr(prop, "editor")] = newValue;
-							}
-						}
-					}
-
-					// Trigger a new modify event
-					access._event.trigger([...this.path, "modify", snakeify(prop)], {
-						id:this.id, index:this.index, enabled:this.enabled, // Node info
-						type:"modify", oldval:oldValue, newval:this[prop],  // Event info
-						silent:options.silent,								// Event options
-					});
+				// Makes sure enabled is set to a boolean value and not ex. "false"
+				if (this[prop] instanceof dataNode) {
+					this[prop].#output.enabled = is.True(newValue);
+				} else if (prop == "enabled") {
+					this.#output[prop] = is.True(newValue);
+				} else {
+					this.#output[prop] = newValue;
 				}
+
+				// Trigger a new modify event
+				access._event.trigger([...this.path, "modify", snakeify(prop)], {
+					node:this, type:"modify", oldval:oldValue, newval:newValue,  // Event info
+				}, opts);
 			}
 		} else {
 			console.warn(`Attempted to set the value of ${prop} but the property does not exist`, this);
@@ -19769,19 +19794,19 @@ class dataNode {
 
 	// Adds a new repeating subnode to the item
 	// Adds accessors for the id, index and name (if applicable) of the subnode
-	add(options={}) {
+	add(opts={}) {
 		if (this.rep) {
-			let newID = options.id || this.id; // AutoEffects can only access props in lowercaps
+			let newID = opts.id || this.id; // AutoEffects can only access props in lowercaps
 			let newProp = newID;
-			let newIndex = options.index || this.repCount + 1;
+			let newIndex = opts.index || this.repCount + 1;
 			let repSource = {}
 			
 			for (const source of Object.keys(this.rep.source)) {
 				repSource[source] = {...this.rep.source[source]};
 				
-				// If a node is linked to multiple repeating sections, options.section specifies which should be used
+				// If a node is linked to multiple repeating sections, opts.section specifies which should be used
 				if (is.Array(repSource[source].section || false)) {
-					repSource[source].section = options.section;
+					repSource[source].section = opts.section;
 				}
 
 				// Nested repeating nodes are given a random id
@@ -19792,25 +19817,25 @@ class dataNode {
 			
 			this[newProp] = new dataNode({
 				base: this.rep.base,
-				default: this.rep.defaults?.[options.section] || this.formats.default?.repeating?.[newIndex-1] || false,
+				default: this.rep.defaults?.[opts.section] || this.#formats.default?.repeating?.[newIndex-1] || false,
 				valid: this.rep.valid || false,
 				attrs: this.rep.attrs || false,
 				source: repSource,
-			}, newID, newIndex, [...this.path, newProp]);
+			}, newID, this, [...this.path, newProp]);
 
 			this.#addAccessors(this[newProp], newIndex);
 
 			// Create a new repeating item by outputting the new node
-			if (!options.silent) {
-				this[newProp].output({output: access._output});
+			/*
+			if (!opts.silent) {
+				this[newProp].output({allProps:true});
 			}
+			*/
 
 			// Trigger a new add event
-			access._event.trigger([...this.path, "add", newProp], {
-				id:this.id, index:this.index, enabled:this.enabled, // Node info
-				type:"add", oldval:false, newval:this[newProp],     // Event info
-				silent:options.silent,								// Event options
-			});
+			access._event.trigger([...this.path, "add"], {
+				node:this, type:"add", oldval:false, newval:this[newProp],
+			}, opts);
 
 			return this[newProp];
 
@@ -19831,24 +19856,16 @@ class dataNode {
 		}
 	}
 	#addAccessors(node, index) {
-		if ("_name" in node) {
-			Object.defineProperty(this, node._name, {
-				get() {
-					return node;
-				},
-				configurable: true,
-			});
-		}
 		Object.defineProperties(this, {
 			[index]: {
 				get() {
-					return Object.values(this)[index - 1];
+					return this[this.repIDs[index - 1]];
 				},
 				configurable: true,
 			},
 			[-index]: {
 				get() {
-					return Object.values(this).slice(-index)[0];
+					return this[this.repIDs.at(-index)];
 				},
 				configurable: true,
 			},
@@ -19878,10 +19895,8 @@ class dataNode {
 			}
 
 			// Trigger a new delete event
-			access._event.trigger([...this.path, "delete", newProp], {
-				id:this.id, index:this.index, enabled:this.enabled, // Node info
-				type:"delete", oldval:node, newval:false,     		// Event info
-				silent:false,										// Event options
+			access._event.trigger([...this.path, "delete"], {
+				node:this, type:"delete", oldval:node, newval:false,
 			});
 		}
 	}
@@ -19893,10 +19908,44 @@ class dataNode {
 		delete this[-index];
 	}
 
-	
-	// Gets the rep ids of the node, or the amount of ids
+
+	// Returns the node's repeating index
+	get index() {
+		if (!this.id) {
+			return false;
+		} else {
+			let repid = this.path.findLast(step => is.ID(step));
+			let parent = this.#parent;
+			while (!parent[repid]) parent = parent.parent;
+			return parent.repIDs.indexOf(repid) + 1;
+		}
+	}
+
+
+	// Get the node's parent node
+	get parent() {
+		return this.#parent;
+	}
+
+
+	// Custom Object.keys/values/entries that use #output values if they exist
+	get keys() {
+		return Object.keys(this);
+	}
+	get values() {
+		return this.keys.map(prop => this[snakeify(prop)]);
+	}
+	get entries() {
+		return this.keys.map(prop => [prop, this[snakeify(prop)]]);
+	}
+
+
+	// Gets the repeating ids/subnodes of this node, or the amount of these nodes
 	get repIDs() {
-		return Object.keys(this).filter(p => is.ID(p));
+		return this.keys.filter(p => is.ID(p));
+	}
+	get repNodes() {
+		return this.repIDs.map(id => this[id]);
 	}
 	get repCount() {
 		return this.repIDs.length
@@ -19905,7 +19954,7 @@ class dataNode {
 
 	// Creates a deep copy of this node
 	clone() {
-		return new dataNode(this.formats, this.id, this.index, this.path).paste(this.copy());
+		return new dataNode(this.#formats, this.id, this, this.path).paste(this.copy());
 	}
 
 	// Copies and returns the data of this node
@@ -19944,11 +19993,11 @@ class dataNode {
 		return this;
 	}
 
-	// Returns a filtered copy of the node
+	// Returns a filtered copy of the node which only includes subnodes that match a predicate
 	filter(predicate) {
 		return new dataNode({
 			node: this,
-			filter:	Object.keys(this).filter(prop => this[prop] instanceof dataNode && predicate(this[prop])),
+			filter:	this.keys.filter(prop => this[prop] instanceof dataNode && predicate(this[prop])),
 		});
 	}
 }
@@ -19957,6 +20006,88 @@ class dataNode {
 
 
 
+
+
+
+
+
+
+
+/* Functions like on(), except it uses an access event path and supports custom event info and options */
+/* The event path consists of an access path leading to a node + one of these events */
+/*  - add: Is triggered when a repeating subnode is added to a node using node.add(). newval = the new node */
+/*  - delete: Is triggered when a repeating subnode is deleted from a node using node.delete(). oldval = the deleted node */
+/*  - modify.prop: Is triggered when the property "prop" is modified using node.modify(prop, value). oldval and newval = old and new prop value */
+/*    A valid event path is for example "items[-abc].equip.modify.equipped". A path array may alternatively be used */
+/* The following options are supported: */
+/*  - custom: Should be true for AutoEffect events, and otherwise false */
+/*  - ignoreSilent: When true, the event still triggers for silenced events (silent: true/"soft"). Events with silent: "hard" are still ignored */
+/*  - max: The max amount of times an event can trigger per action. It is set to 100 if no value is provided (to avoid infinite loops) */
+/*    - The count is tracked seperately for different paths. The event "ailments.proc.N" may trigger twice for "ailments.proc.Burn" and "ailments.proc.Bleed" */
+/*    - AutoEffect events should only trigger once per action per unique path */
+/* The following event info is returned: */
+/*  - node: The dataNode object that triggered the event */
+/*  - type: The type of event, ex. "modify" */
+/*  - oldval, newval: Differs based on the event (see above) */
+/*  - path: The event path in array form. May use an array of multiple paths or path arrays */
+function onAccess(path, opts={}, callback=()=>{}) {
+	if (is.Array(path) && is.Array(path[0])) {
+		for (subpath of path) {
+			onAccess(subpath, opts, callback);
+		}
+	} else {
+		if (opts.custom) {
+			opts = {...opts, ignoreSilent:false, max: 1}
+		} else {
+			opts = {ignoreSilent:true, max: 100, ...opts}
+			path.unshift("N"); // All built-in events affect all characters
+		}
+		
+		if (is.Array(access._event.tree)) {
+			access._event.tree.push(() => {
+				access._event.new(path, opts, callback);
+			});
+		} else {
+			access._event.new(path, opts, callback);
+		}
+	}
+}
+
+// Takes in an item and updates its AutoEffect events
+function updateEventsAE(item) {
+
+
+	
+
+	// TODO: Extract all trigger blocks from item.autoscript into an array of path(s) and autoeffect execution data
+	// The output data should look something like this
+	let triggerArray = [
+		{path: ["some", "path"], effects: ["array", "of", "execution", "data"]},
+		{path: ["some", "other", "path"], effects: ["other", "execution", "data"]},
+		// For trigger blocks with multiple triggers, add multiple events with different paths but the same effects 
+	]
+
+	for (const trigger of triggerArray) {
+
+		// The final events should look something like this:
+		onAccess(trigger.path, {custom:true}, (info) => {
+			if (item.equip.equipped != "") { // Note this references the node the effect originates from, not info.node
+				
+				AE.execute(effects); // This imagined autoScriptMain() as a new object similar to access that is interacted with though methods 
+
+				// TODO: Make this add the AutoEffects to the current AutoScript execution
+				// If no execution is currently taking place, begin a new one
+				// Include a parameter that indicated this execution is not part of another action, and should send a differently styled message
+			}
+		});
+
+	}
+}
+
+
+onAccess(["items", "N", "modify", "autoscript"], {}, (info) => {
+	access._event.recalc(info.node.id);
+});
 
 
 
@@ -19973,9 +20104,12 @@ class dataNode {
 //  For example, "access.Resource["Light regen"]" becomes "access.resource.light_regen"
 //  Also make sure to have all built in and user defined variables match this format
 
-// Attempting assign a value to an an object inside access, like access.items = "", posts an error message to the chat
+// Attempting to assign a value to an an object inside access, like access.items = "", posts an error message to the chat
 //  You can implement this by having the ParseMath assign operation throw an error if typeof(a) == "Object"
 //  Some operations are allowed, like access.roll[0] = access.roll[1]. You could add a "datatype" prop for this, where the datatype of both objects must match
+
+
+
 
 
 
@@ -19989,11 +20123,7 @@ class dataNode {
 let itemList = new itemListHandler();
 
 
-
 /* Initialize itemList when opening a sheet */
-on("sheet:opened", function(info) {
-	itemList.access("read", {}, () => { console.log(itemList) });
-})
 
 /* Item - Open editor */
 on(itemList.event("clicked", "edit-item"), function(info) {
@@ -20002,13 +20132,15 @@ on(itemList.event("clicked", "edit-item"), function(info) {
 });
 
 /* Item - Close editor */
+/*
 on("clicked:closeItemEdit", function(info) {
 	itemList.editor.close();
 });
+*/
 
 /* Item - Sync editor changes */
 on(itemList.event("change", "editor"), function(info) {
-	console.log(info);
+	// console.log(info);
 	if (info.newValue && info.newValue != info.previousValue) {
 		itemList.access("write", {}, () => {
 			itemList.input({[info.sourceAttribute]: info.newValue}, {modify: "sheet"});
@@ -20018,7 +20150,7 @@ on(itemList.event("change", "editor"), function(info) {
 
 /* Item - Sync sheet changes */
 on(itemList.event("change", "sheet"), function(info) {
-	console.log(info);
+	// console.log(info);
 	if (info.newValue && info.newValue != info.previousValue) {
 		itemList.access("write", {}, () => {
 			itemList.input({[info.sourceAttribute]: info.newValue}, {modify: "editor"});
@@ -20034,7 +20166,7 @@ on("clicked:addItem", function(info) {
 
 /* Delete item or rollformat */
 on("remove:repeating_rollformats " + itemList.event("remove"), function(info) {
-	console.log(info);
+	// console.log(info);
 	let [section, repid] = info.sourceAttribute.split("_").slice(1);
 	itemList.access("write", {}, () => {
 		if (section == "rollformats") {
@@ -20228,7 +20360,7 @@ on("remove:repeating_rollformats" + itemEvent("remove"), function(info) {
 
 /* Repeating item share button */
 on(itemEvent("clicked", "shareItem"), function(info) {
-	console.log(info);
+	// console.log(info);
 });
 
 
@@ -20241,7 +20373,7 @@ on(itemEvent("reorder"), function(info) {
 
 	// Update the item order in the itemList
 
-	console.log(`${itemType} section - changed item order to: ${newOrder}`);
+	// console.log(`${itemType} section - changed item order to: ${newOrder}`);
 });
 
 
@@ -20255,9 +20387,6 @@ on("clicked:clearSearchBar", function() {
 
 
 /*--- AutoScript functions ---*/
-
-console.log("clicked:autoScriptEdit" + itemEvent("clicked", "edit-autoscript")
-  + ["roll", "store"].reduce((acc, type) => acc += ` clicked:repeating_rollformats:edit-${type}autoscript`, ""))
 
 /* AutoScript editor open button */
 on("clicked:autoScriptEdit" + itemEvent("clicked", "edit-autoscript")
@@ -20289,7 +20418,6 @@ on("clicked:autoScriptEdit" + itemEvent("clicked", "edit-autoscript")
 
 /* AutoScript editor close button */
 on("clicked:closeAutoScriptEdit", function(info) {
-	console.log(info);
 	saveEditor("autoScript", {}, () => {
 		closeEditor("autoScript");
 	});
@@ -20297,7 +20425,6 @@ on("clicked:closeAutoScriptEdit", function(info) {
 
 /* AutoScript editor sync changes */
 on("change:autoScriptEditorInput", function(info) {
-	console.log(info);
 	saveEditor("autoScript");
 });
 
@@ -20588,7 +20715,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		/* Handle conditional */
 		/* Only the first conditional of each AutoEffect is used, while the rest are stored */
 		if (AutoEffect.conditional && AutoEffect.conditional.name) {
-			const [conditional, options] = [AutoEffect.conditional.name, AutoEffect.conditional.options];
+			const [conditional, opts] = [AutoEffect.conditional.name, AutoEffect.conditional.opts];
 
 			/* Reset if new conditional doesn't match previous one */
 			if (conditional != aeConditional) { autoEffectReset(); }
@@ -20599,13 +20726,13 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 			/*   ignorefailure: If the AutoEffect is a check that fails, the conditional button is not revealed. This option suppressed this behaviour */
 			/*     Note: ignorefailure is now a standard option. The old conditional option can still be used for legacy support */
 			/* If no options are used the effect is not executed and is instead stored in a conditional button */
-			if (length(options) == 0) {
+			if (length(opts) == 0) {
 				aeType = "conditional";
 				if (!conditionalButtonList[conditional]) { conditionalButtonList[conditional] = {} }
 				modifyProp(conditionalButtonList[conditional], "AutoScript", autoEffectToString(AutoEffect.origAutoEffect));
 
 				/* If AutoEffect is Require or Consume, do not display the button if the check will fail. Ignore this rule if #IgnoreFailure is used */
-				if (["Require", "Consume"].includes(AutoEffect.name) && !options.ignoreFailure) {
+				if (["Require", "Consume"].includes(AutoEffect.name) && !opts.ignoreFailure) {
 					if (["failure", "no target"].includes(autoEffectCheck(AutoEffect).checkResult)) {
 						conditionalButtonList[conditional].doNotDisplay = true;
 					}
@@ -20771,11 +20898,11 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	}
 
 	function autoEffectOutput(ae, buttonName="", buttonAutoScript="", applyMode="add") {
-		if (ae.options.target && buttonAutoScript != "") {
-			applyOutputButton(buttonName, buttonAutoScript, ae.options.target, ae.conditional.options.chatButton || false);
+		if (ae.opts.target && buttonAutoScript != "") {
+			applyOutputButton(buttonName, buttonAutoScript, ae.opts.target, ae.conditional.opts.chatButton || false);
 		} else {
 			switch (ae.name) {
-				case "FlatDamage": applyOutputButton(buttonName, buttonAutoScript, "target", ae.conditional.options.chatButton || false); // Intentional lack of break
+				case "FlatDamage": applyOutputButton(buttonName, buttonAutoScript, "target", ae.conditional.opts.chatButton || false); // Intentional lack of break
 				case "BaseDamage": applyOutput(applyMode, ae.name + (ae.target || ""), ae.value); break;
 				case "DicePower": case "DiceMax": case "DiceCount": case "DiceAdv": applyOutput(applyMode, ae.name, ae.value); break;
 				case "Proc": applyOutput(applyMode, ae.targetAttr, true, ae.name); break;
@@ -20903,18 +21030,18 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		}
 
 		/* Handle formating for the target option */
-		if (autoEffectOptions.Target.includes(ae.name) && ae.options.target) {
-			messageFormat = (ae.options.target == "target")
+		if (autoEffectOptions.Target.includes(ae.name) && ae.opts.target) {
+			messageFormat = (ae.opts.target == "target")
 				? `${getTranslationByKeyCustom("Target", "message-target")} - ${messageFormat}`
 				: `${getTranslationByKeyCustom("Select", "message-select")} - ${messageFormat}`;
 		}
 
 		/* Handle formating for the round and duration options */
-		if (autoEffectOptions.Round.includes(ae.name) && settingHideNextRound != "true" && ae.options.round != "this") {
+		if (autoEffectOptions.Round.includes(ae.name) && settingHideNextRound != "true" && ae.opts.round != "this") {
 			messageFormat += (` ${getTranslationByKeyCustom("Next", "autoeffect-option-next")} ${getTranslationByKeyCustom("Round", "autoeffect-option-round")}`).toLowerCase();
 		}
-		if (autoEffectOptions.Duration && ae.options.duration) {
-			switch (ae.options.duration) {
+		if (autoEffectOptions.Duration && ae.opts.duration) {
+			switch (ae.opts.duration) {
 				case "combat": messageFormat += (` ${getTranslationByKeyCustom("This", "autoeffect-option-this")} ${getTranslationByKeyCustom("Combat", "autoeffect-option-combat")}`).toLowerCase(); break;
 				case "this": messageFormat += (` ${getTranslationByKeyCustom("This", "autoeffect-option-this")} ${getTranslationByKeyCustom("Round", "autoeffect-option-round")}`).toLowerCase(); break;
 				case "next": messageFormat += (` ${getTranslationByKeyCustom("Next", "autoeffect-option-next")} ${getTranslationByKeyCustom("Round", "autoeffect-option-round")}`).toLowerCase(); break;
@@ -20922,13 +21049,13 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		}
 
 		/* Handle compare modes */
-		if (ae.options.compareValue) {
-			effectVal = ae.options.compareValue + effectVal;
-			scalingVal = ae.options.compareValue + scalingVal;
+		if (ae.opts.compareValue) {
+			effectVal = ae.opts.compareValue + effectVal;
+			scalingVal = ae.opts.compareValue + scalingVal;
 		}
 
 		/* Handle value updates */
-		if (!["failure", "no target"].includes(checkResult) && countUpdate && ae.value && !ae.options.target) {
+		if (!["failure", "no target"].includes(checkResult) && countUpdate && ae.value && !ae.opts.target) {
 			messageFormat += " [[INITIAL] -> [RESULT]]";
 		}
 
@@ -20943,7 +21070,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 			"checkResult": checkResult
 		}
 
-		if (messageFormat != "" && ![true, "self"].includes(ae.options.silent)) {
+		if (messageFormat != "" && ![true, "self"].includes(ae.opts.silent)) {
 			
 			const applyInsert = (match, insert, prefix="<b>", affix="</b>") => {
 				message = message.replaceAll(match, prefix + insert + affix);
@@ -21045,11 +21172,11 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	}
 
 	function autoEffectCustomMessage(ae, messageValues = {}) {
-		let checkResultOption = ae.options.checkResult || "success";
+		let checkResultOption = ae.opts.checkResult || "success";
 		ae = {...ae, ...messageValues, format: ae.value}
 
 		/* Handle the target option */
-		if (ae.options.target) {
+		if (ae.opts.target) {
 			autoEffectOutput(ae, "", autoEffectToString(ae.origAutoEffect, {removeOptions:["Target", "Select"]}));
 		} else {
 			if (checkResultOption == ae.checkResult.replace("last ","").replace("no target","failure") || checkResultOption == "ignore") {
@@ -21068,17 +21195,17 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 			checkResult = "no target";
 		} else {
 			/* Handle the scaling option */
-			if (ae.options.scaling) {
+			if (ae.opts.scaling) {
 				let baseScaling = Math.floor(ae.countImmutable/ae.value);
-				if (parseInt(ae.options.scaling)) {
-					scaling = Math.max(Math.min(baseScaling, ae.options.scaling), 1); // If number
-				} else if ((/[{}]/).test(ae.options.scaling)) {
-					scaling = Math.max(Math.min(baseScaling, parseMath(ae.options.scaling, aeVars, {strict:true}, errorMessageList)), 1); // If math formula
+				if (parseInt(ae.opts.scaling)) {
+					scaling = Math.max(Math.min(baseScaling, ae.opts.scaling), 1); // If number
+				} else if ((/[{}]/).test(ae.opts.scaling)) {
+					scaling = Math.max(Math.min(baseScaling, parseMath(ae.opts.scaling, aeVars, {strict:true}, errorMessageList)), 1); // If math formula
 				} else {
 					scaling = Math.max(baseScaling, 1); // If boolean
 				}
-				if (ae.options.compareValue && ae.options.compareValue.includes("<")) {
-					if (!mathOperation(ae.options.compareValue, ae.countImmutable, ae.value*scaling)) {
+				if (ae.opts.compareValue && ae.opts.compareValue.includes("<")) {
+					if (!mathOperation(ae.opts.compareValue, ae.countImmutable, ae.value*scaling)) {
 						scaling++
 					}
 				}
@@ -21088,8 +21215,8 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 
 			/* Execute check */
 			if (ae.name == "Require") {
-				if (ae.options.compareValue) {
-					checkResult = mathOperation(ae.options.compareValue, ae.countImmutable, ae.value*scaling) ? "success" : "failure"
+				if (ae.opts.compareValue) {
+					checkResult = mathOperation(ae.opts.compareValue, ae.countImmutable, ae.value*scaling) ? "success" : "failure"
 				} else {
 					checkResult = (ae.countImmutable >= ae.value*scaling) ? "success" : "failure";
 				}
@@ -21120,7 +21247,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 			if (ae.name == "Consume" && checkResult != "failure") {
 				ae.value = -ae.value;
 				countUpdate = "update count";
-				autoEffectOutput(ae, "Apply ailments", `(Consume 1 ${ae.target} Scaling${-ae.value*scaling} ${([true, "target"].includes(ae.options.silent)) ? "Silent" : ""}) (Reset)`);
+				autoEffectOutput(ae, "Apply ailments", `(Consume 1 ${ae.target} Scaling${-ae.value*scaling} ${([true, "target"].includes(ae.opts.silent)) ? "Silent" : ""}) (Reset)`);
 			}
 			ae.value = Math.abs(ae.value);
 			autoEffectMessage(ae, countUpdate);
@@ -21130,7 +21257,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	}
 
 	function autoEffectReset(ae) {
-		if (ae && ae.options.target) {
+		if (ae && ae.opts.target) {
 			autoEffectOutput(ae, "", "(Reset)");
 		} else {
 			aeVars = {...aeVars, checkResult:"success", scaling:1 }
@@ -21140,8 +21267,8 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 
 	function autoEffectAilment(ae) {
 		switch (ae.name) {
-			case "Inflict": ae.options.target = "target"; break;
-			case "Give": ae.options.target = "select"; break;
+			case "Inflict": ae.opts.target = "target"; break;
+			case "Give": ae.opts.target = "select"; break;
 		}
 		autoEffectOutput(ae, "Apply ailments", autoEffectToString(ae.origAutoEffect, {changeName: "Gain", changeValue: ae.value*aeVars.scaling, removeOptions:["Target", "Select"]}));
 		autoEffectMessage(ae, "update count");
@@ -21166,7 +21293,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	function autoEffectSpeed(ae) {
 		let applyMode = "add";
 		let countUpdate = "update count";
-		switch (ae.options.duration) {
+		switch (ae.opts.duration) {
 			case "combat": ae.target = "SpeedCombat"; ae.count = aeVars.baseSpeed; applyMode = "dice"; countUpdate = false; break;
 			case "this": ae.target = "thisRoundSpeed"; ae.count = aeVars.thisRoundSpeed; break;
 			case "next": ae.target = "nextRoundSpeed"; ae.count = aeVars.nextRoundSpeed; break;
@@ -21179,7 +21306,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		if (ae.name == "BaseDamage" && (["SP", "Light"]).includes(ae.target)) {
 			ae.name = "FlatDamage";
 		}
-		autoEffectOutput(ae, "Apply damage", `(Add ${-ae.value*aeVars.scaling} ${ae.target} ${([true, "target"].includes(ae.options.silent)) ? "Silent" : ""})`, "dice");
+		autoEffectOutput(ae, "Apply damage", `(Add ${-ae.value*aeVars.scaling} ${ae.target} ${([true, "target"].includes(ae.opts.silent)) ? "Silent" : ""})`, "dice");
 		autoEffectMessage(ae);
 	}
 
@@ -21187,14 +21314,14 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		if (ae.targetAttr.includes("repeating")) { // Get the ailment id if a custom ailment
 			ae.targetAttr = ae.targetAttr.split("_")[2];
 		}
-		autoEffectOutput(ae, "Apply ailments", `(Proc ${ae.target} ${([true, "target"].includes(ae.options.silent)) ? "Silent" : ""})`, "list");
+		autoEffectOutput(ae, "Apply ailments", `(Proc ${ae.target} ${([true, "target"].includes(ae.opts.silent)) ? "Silent" : ""})`, "list");
 		autoEffectMessage(ae);
 	}
 
 	function autoEffectPause(ae) {
 		ae.targetAttr = ae.targetAttr.replace("ailCount","ail") + "CountPause";
 		ae.targetVar += "Pause";
-		autoEffectOutput(ae, "Apply ailments", `(Pause ${ae.value*aeVars.scaling} ${ae.target} ${([true, "target"].includes(ae.options.silent)) ? "Silent" : ""})`);
+		autoEffectOutput(ae, "Apply ailments", `(Pause ${ae.value*aeVars.scaling} ${ae.target} ${([true, "target"].includes(ae.opts.silent)) ? "Silent" : ""})`);
 		autoEffectMessage(ae);
 	}
 	/* --- AutoEffect functions end --- */
@@ -21561,7 +21688,7 @@ function parseAutoScript(inputAutoScript, vl, al, vars, triggers=[], errors={}) 
 				}
 			}
 
-			conditional = {name: primaryCon, options: conOptions};
+			conditional = {name: primaryCon, opts: conOptions};
 
 			/* Remove the current conditional. Hinders it from being added to conditional/chat buttons */
 			if (primaryCon) { AutoEffect.splice(1,1); }
@@ -21577,7 +21704,7 @@ function parseAutoScript(inputAutoScript, vl, al, vars, triggers=[], errors={}) 
 			targetVar: targetVar,
 			targetList: targetList,
 			targetType: targetType,
-			options: options,
+			opts: options,
 			conditional: conditional,
 			origAutoEffect: AutoEffect
 		}
@@ -22303,11 +22430,13 @@ const itemEditorAttrs = {
 }
 
 /* Item editor close button */
+/*
 on("clicked:closeItemEdit", function(info) {
 	saveEditor("item", itemEditorAttrs, () => {
 		closeEditor("item");
 	});
 });
+*/
 
 /* Item editor sync changes */
 on(Object.keys(itemEditorAttrs).reduce((rows, key) => {
@@ -23471,9 +23600,9 @@ function mathOperation(op, ...args) {
 // Options:
 //   mode: One of "math" (returns 1 value) or "function" (returns 1 or more values)
 //   strict: true/false. If false, adds unknown variables as a new variable with a value of false and treats their value as 0
-function parseMath(mathString, vars={}, options={strict:true}, errors) {
+function parseMath(mathString, vars={}, opts={strict:true}, errors) {
 	
-	if (!options.mode) options.mode = "math";
+	if (!opts.mode) opts.mode = "math";
 	let type = {new: false, current: false, old: false}
 	let currentChars = "";
 	let parsedChars = "";
@@ -23483,9 +23612,9 @@ function parseMath(mathString, vars={}, options={strict:true}, errors) {
 	let ops = []
 	let char = "";
 
-	let [openBracket, closeBracket] = (options.mode == "math") ? ["{","}"] : ["(",")"]
+	let [openBracket, closeBracket] = (opts.mode == "math") ? ["{","}"] : ["(",")"]
 
-	//console.log((options.mode == "math") ? "Parse math from string: " + mathString : "Parsing function values from string: " + mathString)
+	//console.log((opts.mode == "math") ? "Parse math from string: " + mathString : "Parsing function values from string: " + mathString)
 
 
 	const throwMathError = (errorType, errorInserts={}) => { // Change over to using an error object that has keys like "errorOperator"
@@ -23505,12 +23634,12 @@ function parseMath(mathString, vars={}, options={strict:true}, errors) {
 	}
 	
 
-	const newNumber = (number, options={}) => {
+	const newNumber = (number, opts={}) => {
 		let newNumber = parseFloat(number);
 		if (!isNaN(newNumber)) {
 			numbers.push(newNumber);
 			//console.log("New Numbers: " + newNumber);
-			if (ops.length > 0 && !options.suppressCheck) {
+			if (ops.length > 0 && !opts.suppressCheck) {
 				if (ops[ops.length-1].min <= numbers.length) {
 					checkOperator();
 				}
@@ -23546,7 +23675,7 @@ function parseMath(mathString, vars={}, options={strict:true}, errors) {
 		let nestedMathString = currentChars;
 		[inNested, currentChars] = ["", ""]
 
-		let funcNumbers = parseMath(nestedMathString, vars, {...options, mode:"function"}, errors);
+		let funcNumbers = parseMath(nestedMathString, vars, {...opts, mode:"function"}, errors);
 
 		if (funcNumbers) {
 			nestedReturnCount = funcNumbers.length;
@@ -23574,7 +23703,7 @@ function parseMath(mathString, vars={}, options={strict:true}, errors) {
 		/* Tests specifiec characters with special interactions first */
 		switch (char) {
 			case ".": if (type.current == "number") { type.new = "number"; break; }
-			case ",": if (!inNested.includes("(") && options.mode == "math") { throwMathError("Unexpected comma"); return; } else { break; }
+			case ",": if (!inNested.includes("(") && opts.mode == "math") { throwMathError("Unexpected comma"); return; } else { break; }
 			case "(": inNested += (inNested == "") ? char+"initial" : char; break;
 			case ")":
 				if (inNested.includes("(")) {
@@ -23612,7 +23741,7 @@ function parseMath(mathString, vars={}, options={strict:true}, errors) {
 				case "number": newNumber(currentChars); break;
 				case "string":
 					let varExists = Object.keys(vars).find(v => v.toLowerCase() == currentChars.toLowerCase());
-					if (!varExists && !options.strict && !(currentChars in operators)) {
+					if (!varExists && !opts.strict && !(currentChars in operators)) {
 						varExists = currentChars;
 						vars[varExists] = false;
 					}
@@ -23641,9 +23770,9 @@ function parseMath(mathString, vars={}, options={strict:true}, errors) {
 	}
 	if (!inNested) {
 		if (ops.length == 0) {
-			if (options.mode == "function" || numbers.length == 1) {
+			if (opts.mode == "function" || numbers.length == 1) {
 				//console.log("Math string parsed successfully")
-				return (options.mode == "math") ? numbers[0] : numbers
+				return (opts.mode == "math") ? numbers[0] : numbers
 			} else {
 				throwMathError("Unused values", {"[COUNT]":styleText(numbers.length-1, "color: red;")}); return;
 			}
@@ -23661,9 +23790,9 @@ function parseMath(mathString, vars={}, options={strict:true}, errors) {
 
 /* Tests if a math formula is valid and throws no errors */
 /* Returns false or true. Also returns any errors encountered if an errors object is provided */
-function validateMathFormula(mathString, vars, errors, options={strict:false}) {
+function validateMathFormula(mathString, vars, errors, opts={strict:false}) {
 	let mathErrors = {}
-	parseMath(mathString, vars, options, mathErrors);
+	parseMath(mathString, vars, opts, mathErrors);
 	if (length(mathErrors) > 0) {
 		if (errors) {
 			for (const [errorType, errorMessage] of Object.entries(mathErrors)) {
@@ -23689,6 +23818,7 @@ const Random = {
 function roundTowardsZero(value) {
 	return (value >= 0) ? Math.floor(value) : Math.ceil(value);
 }
+
 // Capitalizes or uncapitalizes a string
 function capitalize(string) {
 	if (typeof string == "string" && string.length > 0) {
@@ -23704,11 +23834,13 @@ function uncapitalize(string) {
 		return string;
 	}
 }
+
 function replaceLast(string, match, replace) {
 	let i = string.lastIndexOf(match);
 	if (i >= 0) string = string.slice(0, i) + replace + string.slice(i+match.length);
 	return string;
 }
+
 // Converts a string to camelCase
 function camelize(s) {
 	return s.replace(/^[\s_]+/g, "")            // Remove leading spaces and underscores
@@ -23722,7 +23854,6 @@ function snakeify(s) {
 	return s.replace(/^[\s_]+/g, "")            // Remove leading spaces and underscores
 			.replace(/\s/g, "_").toLowerCase();  // Replace a Bc with a_bc
 }
-
 
 // Creates a new object property with a value, or adds the value to the property if it already exists
 // Also works for arrays, treating property as an index. If the index does not exist the value is pushed onto the array
@@ -23750,6 +23881,7 @@ function modifyProp(object, property, value, mode="+", mod={addValue:undefined, 
 		else { object[property] = value; } // If object
 	}
 }
+
 // Works as split(), but ignores any seperator matches that are surrounded by characters a and b
 // Characters a and b are not included in the result unless the include argument is set to true
 function splitIgnoreBetween(string, seperator, a, b, includeChars=false, allowNesting=false) {
@@ -23763,6 +23895,7 @@ function splitIgnoreBetween(string, seperator, a, b, includeChars=false, allowNe
 		.split(seperator)
 		.map(v => { while (v.includes("ÆØÅ")) { v = v.replace("ÆØÅ", ignoreArray.shift()) }; return v; });
 }
+
 // Deletes multiple object properties
 function deleteMultiple(object, ...args) {
 	args.forEach(arg => {
@@ -23771,50 +23904,10 @@ function deleteMultiple(object, ...args) {
 		}
 	});
 }
+
 // Return the length of an object
 function length(object) {
 	return keys = Object.keys(object).length;
-}
-
-const is = new Proxy( // In English: "When accessing "is", treat it as "Reflect.construct". .bind(null, {}) causes "{}" to always be the first argument of .construct()"
-  	Reflect.construct.bind(null, {}), { // "Other arguments of is() are included after {}. is("foo") gives "Reflect.construct({}, "foo"), which is the same as "new Object("foo")"
-		get(target, prop, val) { return Reflect.get(checkVal, prop, val); }, // "On is, when using a property accessor "is.prop", instead do "checkVal.prop" "
-		set(target, prop, val) { return Reflect.set(checkVal, prop, val); }, // "Do the same for "is.prop = value. Both of these also work for methods like "is.method()"
-		apply(target, thisArg, argumentsList) { // "On is, when making a function call is(), treat it as if "new Object(arguments)" was called, but then..."
-			is.x = argumentsList[0]; // "... set the static property x of is (which instead sets checkVal) to the first argument in new Object(arguments)..."
-			return checkVal; // "... and return the checkVal class instead of a creating an new Object instance"
-    	} // "In summary, this makes "is(v).method(u)" the same as writing "checkVal.x = v; checkVal.method(u)" "
-  	} // To whichever future dev sees this: thank you for coming to my TED talk
-);
-
-// A collection of custom data type checks
-class checkVal {
-	static x;
-
-	static Int(i, opts={}) { return !isNaN(parseInt(i)) && this.Opts(i, opts); }
-	static String(s, opts={newlines:false}) { return typeof(s) == "string" && (opts.newline) ? !s.includes("\n") : true; }
-	static ID(s, opts={}) { return typeof(s) == "string" && (opts.strict ? /^-[\w-]{19}$/ : /^-.{19}$/).test(s); } // Checks if a Roll20-style id is valid
-	static Effect(v, opts={}) { return /^(?:-(?:\d+|n|\d+n))$|^(?:\d+)?n?$/.test(v); } // Check for ailment effects like "0", "-n" and "6n"
-	
-	static False(b) { return ["false", "0"].includes("" + b); }
-	static True(b) { return ["true", "1"].includes("" + b); }
-	static Bool(b) { return ["false", "true", "0", "1"].includes("" + b); }
-
-	static Array(a, opts={}) { return Array.isArray(a) && this.Opts(a.length, opts); }
-	static Object(o, opts={}) { return typeof(o) == "object" && !Array.isArray(o) && this.Opts(length(o), opts); }
-	static In(o) { if (arguments.length > 1) { o = [...arguments]; } return (Array.isArray(o)) ? o.includes(this.x) : this.x in o; }
-
-	static Min(min, opts={}) { return opts.inclusive ? this.x >= min : this.x > min; }
-	static Max(max, opts={}) { return opts.inclusive ? this.x <= max : this.x < max; }
-	static Between(min, max, opts={}) { return this.Opts(i, {...opts, min: min, max: max}); }
-	
-	static Opts(i, opts={min:false, max:false}) {
-		this.x = i;
-		if (opts.inclusive == undefined) opts.inclusive = true;
-		if (typeof opts.min == "number" && !is.Min(opts.min, opts)) { return false; }
-		if (typeof opts.max == "number" && !is.Max(opts.max, opts)) { return false; }
-		return true;
-	}
 }
 
 // Works as the range() Python function
