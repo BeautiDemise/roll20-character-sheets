@@ -821,7 +821,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
         z-index: 20;
     }
     .repcontrol_edit {
-        background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png');
+        background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png');
     }
     .repcontrol_add {
         background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/heal.png');
@@ -1010,7 +1010,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 
 /* The distort button */
 .distortIcon {
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Distort.png');
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Distort.png');
 }
 .profileHeader input[type=checkbox] {
     display:none;
@@ -1205,12 +1205,12 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     overflow: hidden;
     height: 60px;
 }
-#InstinctStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Instinct.png'); }
-#WisdomStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Wisdom.png'); }
-#JusticeStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Justice.png'); }
-#CharmStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Charm.png'); }
-#InsightStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Insight.png'); }
-#TemperanceStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Temperance.png'); }
+#InstinctStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Instinct.png'); }
+#WisdomStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Wisdom.png'); }
+#JusticeStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Justice.png'); }
+#CharmStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Charm.png'); }
+#InsightStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Insight.png'); }
+#TemperanceStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Temperance.png'); }
 
 .statInput {
 	position: absolute;
@@ -2153,7 +2153,7 @@ button[type=action].challengeButton::before {
     border: 1px solid var(--color-black);
     border-radius: 5px;
     box-sizing: border-box;
-    background-image: url(https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/buttondice.png);
+    background-image: url(https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/buttondice.png);
     background-color: var(--color-gray);
 }
 
@@ -3442,14 +3442,14 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     top: 5px;
     right: 5px;
     background-color: transparent;
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/copy.png');
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/copy.png');
     opacity: 50%;
 }
 .displayButton {
     top: 5px;
     right: 35px;
     background-color: transparent;
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view-hide.png');
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view-hide.png');
     opacity: 50%;
 }
 .lockButton {
@@ -3457,7 +3457,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     left: 5px;
     border-radius: 0px;
     background-color: transparent;
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/lock-unlock.png');
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/lock-unlock.png');
     opacity: 50%;
 }
 .inventoryEditButton {
@@ -3523,10 +3523,10 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     opacity: 100%;
 }
 .switch-toggle:checked ~ .displayButton {
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view.png');
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view.png');
 }
 .switch-toggle:checked + .lockButton {
-    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/lock.png');
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/lock.png');
     opacity: 100%;
 }
 .switch-toggle:not(:checked) + .inventoryEditButton {
@@ -4104,26 +4104,26 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 }
 
 /* Action Icons */
-.Att { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Attack.png'); }
-.Def { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/defend.png'); }
-.Evd { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/evade.png'); }
-.itemMystery:checked + div .Att, .egoAtt { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAtt.png'); }
-.itemMystery:checked + div .Def, .egoDef { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png'); }
-.itemMystery:checked + div .Evd, .egoEvd { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoEvd.png'); }
+.Att { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Attack.png'); }
+.Def { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/defend.png'); }
+.Evd { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/evade.png'); }
+.itemMystery:checked + div .Att, .egoAtt { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAtt.png'); }
+.itemMystery:checked + div .Def, .egoDef { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png'); }
+.itemMystery:checked + div .Evd, .egoEvd { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoEvd.png'); }
 
-.slash { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/slash.png'); }
-.pierce { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/pierce.png'); }
-.blunt { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/blunt.png'); }
-.itemMystery:checked + div .slash, .egoSlash { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSlash.png'); }
-.itemMystery:checked + div .pierce, .egoPierce { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoPierce.png'); }
-.itemMystery:checked + div .blunt, .egoBlunt { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoBlunt.png'); }
+.slash { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/slash.png'); }
+.pierce { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/pierce.png'); }
+.blunt { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/blunt.png'); }
+.itemMystery:checked + div .slash, .egoSlash { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSlash.png'); }
+.itemMystery:checked + div .pierce, .egoPierce { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoPierce.png'); }
+.itemMystery:checked + div .blunt, .egoBlunt { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoBlunt.png'); }
 
-.Act { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png'); }
-.Mass { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Wide.png'); }
-.Special { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/specialwhite.png'); }
-.itemMystery:checked + div .Act, .egoAct { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png'); }
-.itemMystery:checked + div .Mass, .egoMass { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoWide.png'); }
-.itemMystery:checked + div .Special, .egoSpecial { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSpecial.png'); }
+.Act { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png'); }
+.Mass { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Wide.png'); }
+.Special { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/specialwhite.png'); }
+.itemMystery:checked + div .Act, .egoAct { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png'); }
+.itemMystery:checked + div .Mass, .egoMass { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoWide.png'); }
+.itemMystery:checked + div .Special, .egoSpecial { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSpecial.png'); }
 
 .Inst { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Instinct.png'); }
 .Wisd { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Wisdom.png'); }
@@ -4133,94 +4133,94 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .Temp { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Temperance.png'); }
 
 /* Resistance Icons */
-.slashNormal { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResSlash.png'); }
-.slashNormalSTG { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResSlashStg.png'); }
-.pierceNormal { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResPierce.png'); }
-.pierceNormalSTG { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResPierceStg.png'); }
-.bluntNormal { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResBlunt.png'); }
-.bluntNormalSTG { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResBluntStg.png'); }
+.slashNormal { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResSlash.png'); }
+.slashNormalSTG { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResSlashStg.png'); }
+.pierceNormal { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResPierce.png'); }
+.pierceNormalSTG { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResPierceStg.png'); }
+.bluntNormal { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResBlunt.png'); }
+.bluntNormalSTG { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResBluntStg.png'); }
 
 /* Ailment Icons */
-.question { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/question.png'); }
+.question { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/question.png'); }
 
-.burn { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Burn.png'); }
-.burn-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Burn.png'); }
+.burn { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Burn.png'); }
+.burn-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Burn.png'); }
 
-.bleed { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Bleed.png'); }
-.bleed-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Bleed.png'); }
+.bleed { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Bleed.png'); }
+.bleed-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Bleed.png'); }
 
-.paralysis { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Paralysis.png'); }
-.paralysis-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Paralysis.png'); }
+.paralysis { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Paralysis.png'); }
+.paralysis-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Paralysis.png'); }
 
-.smoke { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Smoke.png'); }
-.smoke-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Smoke.png'); }
+.smoke { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Smoke.png'); }
+.smoke-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Smoke.png'); }
 
-.charge { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Charge.png'); }
-.charge-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Charge.png'); }
+.charge { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Charge.png'); }
+.charge-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Charge.png'); }
 
-.fortune { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Fortune.png'); }
-.fortune-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Fortune.png'); }
+.fortune { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Fortune.png'); }
+.fortune-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Fortune.png'); }
 
-.fragile { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Fragile.png'); }
-.fragile-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Fragile.png'); }
-.fragile-limbus-red { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/FragileRed.png'); }
+.fragile { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Fragile.png'); }
+.fragile-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Fragile.png'); }
+.fragile-limbus-red { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/FragileRed.png'); }
 
-.protection { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Protection.png'); }
-.protection-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Protection.png'); }
+.protection { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Protection.png'); }
+.protection-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Protection.png'); }
 
-.staggerprotection { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/StaggerProtection.png'); }
-.staggerprotection-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/limbus/StaggerProtection.png'); }
+.staggerprotection { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/StaggerProtection.png'); }
+.staggerprotection-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/limbus/StaggerProtection.png'); }
 
-.strength { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Strength.png'); }
-.strength-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Strength.png'); }
+.strength { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Strength.png'); }
+.strength-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Strength.png'); }
 
 .endurance { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Endurance.png'); }
 .endurance-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Endurance.png'); }
 .endurance-limbus-blue { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/EnduranceBlue.png'); }
 
-.haste { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Haste.png'); }
-.haste-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Haste.png'); }
+.haste { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Haste.png'); }
+.haste-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Haste.png'); }
 
-.feeble { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Feeble.png'); }
-.feeble-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Feeble.png'); }
+.feeble { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Feeble.png'); }
+.feeble-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Feeble.png'); }
 
-.disarm { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Disarm.png'); }
-.disarm-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Disarm.png'); }
-.disarm-limbus-blue { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/DisarmBlue.png'); }
+.disarm { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Disarm.png'); }
+.disarm-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Disarm.png'); }
+.disarm-limbus-blue { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/DisarmBlue.png'); }
 
-.bind { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Bind.png'); }
-.bind-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Bind.png'); }
+.bind { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Bind.png'); }
+.bind-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Bind.png'); }
 
-.panic { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Panic.png'); }
-.panic-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Panic.png'); }
-.panic-limbus-blue { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/PanicBlue.png'); }
+.panic { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Panic.png'); }
+.panic-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Panic.png'); }
+.panic-limbus-blue { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/PanicBlue.png'); }
 
-.hostile { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Hostile.png'); }
-.hostile-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Hostile.png'); }
+.hostile { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Hostile.png'); }
+.hostile-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Hostile.png'); }
 
-.stagger, .fragilestagger { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/FragileStagger.png'); }
-.stagger-limbus, .fragilestagger-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/FragileStagger.png'); }
+.stagger, .fragilestagger { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/FragileStagger.png'); }
+.stagger-limbus, .fragilestagger-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/FragileStagger.png'); }
 
-.seal { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Seal.png'); }
-.seal-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Seal.png'); }
+.seal { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Seal.png'); }
+.seal-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Seal.png'); }
 
-.immobile { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Immobile.png'); }
-.immobile-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Immobile.png'); }
+.immobile { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Immobile.png'); }
+.immobile-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Immobile.png'); }
 
-.defeat { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Defeat.png'); }
-.defeat-limbus { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Defeat.png'); }
+.defeat { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Defeat.png'); }
+.defeat-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Defeat.png'); }
 
 
 /* Assorted icons */
-.next { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/next.png'); }
-.luck { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/fortunewhite.png'); }
-.speed { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Speed.png'); }
-.whisper { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/whisper.png'); }
+.next { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/next.png'); }
+.luck { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/fortunewhite.png'); }
+.speed { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Speed.png'); }
+.whisper { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/whisper.png'); }
 .exit { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/exit.png'); }
 .option { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/gear.png'); }
 .script { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/script.png'); }
-.edit { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png'); }
-.share { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/share.png'); }
+.edit { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png'); }
+.share { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/share.png'); }
 .search { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/search.png'); }
 .arrowUp { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowUp.png'); }
 .arrowDown { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowDown.png'); }
@@ -4231,8 +4231,8 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .damageResist { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/DamageResist.png'); }
 .damageResist-limbus { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/limbus/DamageResist.png'); }
 
-.portable { background-image: url("https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png"); }
-.reusable { background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/reuse.png'); }
+.portable { background-image: url("https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png"); }
+.reusable { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/reuse.png'); }
 .heal { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/heal.png'); }
 
 /* ===== Icons END ===== */
