@@ -196,7 +196,7 @@
 				<option value="Effect" data-i18n="item-type-effect">Effect</option>
 			</select>
 
-			<select name="attr_itemEditLocation" class="darkInput editorLocation centerIcon arrowDown" data-i18n-title="item-editor-location" title="Change the editor's location">
+			<select name="attr_itemEditorLocation" class="darkInput editorLocation centerIcon arrowDown" data-i18n-title="item-editor-location" title="Change the editor's location">
 				<option value="Left">Left</option>
 				<option value="Center">Center</option>
 				<option value="Right">Right</option>
@@ -216,8 +216,7 @@
 			<div class="rollFormatContainer">
 				
 				<!-- Custom add repeating rollformat button -->
-				<input type="checkbox" class="hide-toggle-rev-next" name="attr_rollFormatAddToggle" value="true" hidden="true">
-				<button type="action" class="hide-item-rev btn repcontrol_add" id="add_rollformat" name="act_addItem" data-i18n-title="item-add-rollformat" title="Add new roll format">Add</button>
+				<button type="action" class="hide-item-rev btn repcontrol_add" id="add_rollformats" name="act_addItem" data-i18n-title="item-add-rollformat" title="Add new roll format">Add</button>
 				
 				<fieldset class="repeating_rollformats">
 					<div class="rowContainer">
@@ -1798,21 +1797,20 @@
 
 
 <!-- Status ailments -->
+<div class="rowContainer sectionHeader"><button type="action" name="act_resetAilments" data-i18n-title="reset-button" title="Reset"> ! </button>
+	<h4 data-i18n="heading-ailments">Status ailments</h4>
+
+	<button type="action" class="centerIcon next" name="act_updateAilments" data-i18n-title="helper-update-ailments" title="Update Ailments">
+		<input type="checkbox" name="attr_settingLoopEnabled" class="loopEnabledToggle" value="true" hidden="true">
+		<input type="checkbox" name="attr_prevRoundInitAttempts" class="loopSearchingToggle" value="0" hidden="true">
+		<input type="checkbox" name="attr_prevRoundInitAttempts" class="loopStandbyToggle" value="6" hidden="true">
+		<div class="autoUpdateIndicator"></div>
+		<span data-i18n="helper-text-update">Update</span>
+	</button>
+</div>
+
 <div id="ailmentBlock">
 	<input type="text" name="attr_ailmentList" hidden>
-
-	<!-- Section header -->
-	<div class="rowContainer sectionHeader"><button type="action" name="act_resetAilments" data-i18n-title="reset-button" title="Reset"> ! </button>
-		<h4 data-i18n="heading-ailments">Status ailments</h4>
-
-		<button type="action" class="centerIcon next" name="act_updateAilments" data-i18n-title="helper-update-ailments" title="Update Ailments">
-			<input type="checkbox" name="attr_settingLoopEnabled" class="loopEnabledToggle" value="true" hidden="true">
-			<input type="checkbox" name="attr_prevRoundInitAttempts" class="loopSearchingToggle" value="0" hidden="true">
-			<input type="checkbox" name="attr_prevRoundInitAttempts" class="loopStandbyToggle" value="6" hidden="true">
-			<div class="autoUpdateIndicator"></div>
-			<span data-i18n="helper-text-update">Update</span>
-		</button>
-	</div>
 
 	<div class="contentContainer darkBG">
 
@@ -5140,8 +5138,490 @@
 </datalist>
 
 <div class="contentBlock" id="equipmentSection">
+	
 
+	<!-- Repeating inventory: Weapons -->
+	<div class="inventoryContainer contentContainer weapon" >
+		
+		<!-- Custom add repeating item button -->
+		<div class="inventoryControls contentHeader repcontrol_header">
+			<span class="inventoryName">Weapons</span>
+			<button type="action" class="btn repcontrol_add" id="add_weapons" name="act_addItem" data-i18n-title="item-add" title="Add new item">Add</button>
+		</div>
 
+		<fieldset class="repeating_weapons">
+
+			<!-- Minimize item. Toggled by double clicking an item's header -->
+			<input type="checkbox" class="itemMinimized" name="attr_minimized" value="true" hidden="true">
+
+			<!-- The item name takes up both rows when there are no rollformats -->
+			<input type="checkbox" class="itemNameExpand" name="attr_optionRollFormats" value="0" hidden="true">
+			
+			<!-- Option: Mystery -->
+			<input type="checkbox" class="itemMystery" name="attr_optionMystery" value="true" hidden="true">
+
+			<div class="itemContainer contentContainer">
+				
+				<!-- Item controls. Move to the left when the item is has a lot of content on the right -->
+				<div class="itemButtons">
+					<button type="action" class="darkInput shareButton share" name="act_share-item" data-i18n-title="share" title="Share info"></button>
+					<button type="action" class="darkInput editButton edit" name="act_edit-item" data-i18n-title="edit" title="Edit"></button>
+					<button type="action" class="darkInput autoScriptButton script" name="act_edit-autoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+					<input type="text" name="attr_autoScript" hidden="true">
+				</div>
+
+				<!-- Message overlay -->
+				<input type="checkbox" class="hide-toggle-next" name="attr_messageDisplay" value="true" hidden="true">
+				<div class="hide-item itemMessage">
+					<textarea name="attr_messageText"></textarea>
+				</div>
+
+				<!-- Option: Custom styling -->
+				<div class="itemStyle">
+					<input type="checkbox" class="styleCheck" name="attr_optionCustomUI" value="true" hidden="true">
+
+					<!-- Custom color -->
+					<input type="checkbox" class="colorCheck" name="attr_optionColor" value="true" hidden="true">
+					<select name="attr_baseColor" class="itemColor" hidden="true">
+						<option value="None">---</option>
+						<option value="Red">Red</option>
+						<option value="Blue">Blue</option>
+						<option value="Green">Green</option>
+						<option value="Purple">Purple</option>
+						<option value="Orange">Orange</option>
+						<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
+						<option value="Prudence" data-i18n="stats-wisdom">Prudence</option>
+						<option value="Justice" data-i18n="stats-justice">Justice</option>
+						<option value="Charm" data-i18n="stats-charm">Charm</option>
+						<option value="Insight" data-i18n="stats-insight">Insight</option>
+						<option value="Temperance" data-i18n="stats-temperance">Temperance</option>
+					</select>
+
+					<select name="attr_decorationColor" class="itemDeco" hidden="true">
+						<option value="None">---</option>
+						<option value="Red">Red</option>
+						<option value="Blue">Blue</option>
+						<option value="Green">Green</option>
+						<option value="Purple">Purple</option>
+						<option value="Orange">Orange</option>
+						<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
+						<option value="Prudence" data-i18n="stats-wisdom">Prudence</option>
+						<option value="Justice" data-i18n="stats-justice">Justice</option>
+						<option value="Charm" data-i18n="stats-charm">Charm</option>
+						<option value="Insight" data-i18n="stats-insight">Insight</option>
+						<option value="Temperance" data-i18n="stats-temperance">Temperance</option>
+						<option value="Black">Black</option>
+					</select>
+
+					<!-- Custom icon -->
+					<input type="checkbox" class="iconCheck" name="attr_optionIcon" value="true" hidden="true">
+					<!-- Currently unfinished -->
+
+				</div>
+
+				<!-- Item header -->
+				<div class="itemHeader contentHeader">
+
+					<!-- Equip checkbox -->
+					<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true">
+
+					<!-- Rank and name -->
+					<input type="text" class="itemRank rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank">
+					<input type="text" class="itemName transpInput" name="attr_name" data-i18n-placeholder="equip-weapon-name" placeholder="Weapon name">
+				</div>
+
+				<div class="itemContents rowContainer">
+
+					<!-- Item contents (Left) -->
+					<div class="itemRow left columnAlign">
+
+						<!-- Option: Custom UI -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionCustomUI" value="true" hidden="true">
+						<div class="hide-item itemCustomUI">
+							
+							<!-- Option: Weapon UI -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_weaponUI" value="true" hidden="true">
+							<div class="hide-item-flex itemWeaponUI rowContainer">
+								<select name="attr_rollDamageType1" class="darkInput">
+									<option value="None" data-i18n="weapon-type-None">---</option>
+									<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
+									<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
+									<option data-i18n="weapon-type-Blunt" value="Blunt">Blunt</option>
+								</select>
+					
+								<select name="attr_range" class="darkInput">
+									<option value="None" data-i18n="weapon-type-None">---</option>
+									<option data-i18n="weapon-type-Melee" value="Melee">Melee</option>
+									<option data-i18n="weapon-type-Ranged" value="Ranged">Ranged</option>
+								</select>
+							</div>
+
+							<!-- Option: Augment UI -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_augmentUI" value="true" hidden="true">
+							<div class="hide-item-flex itemAugmentUI">
+								<select name="attr_augmentType" class="darkInput">
+									<option data-i18n="augment-type-None" value="None">---</option>
+									<option data-i18n="augment-type-Tattoos" value="Tattoos">Tattoos</option>
+									<option data-i18n="augment-type-Drugs" value="Drugs">Serums/Drugs</option>
+									<option data-i18n="augment-type-Surgery" value="Surgery">Surgery</option>
+									<option data-i18n="augment-type-Prosthesis" value="Prosthesis">Prosthesis</option>
+									<option data-i18n="augment-type-FullProsthesis" value="FullProsthesis">Full Prosthesis</option>
+									<option data-i18n="augment-type-Other" value="Other">Other</option>
+								</select>
+							</div>
+						</div>
+
+						<!-- Option: Special UI -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionCustomUI" value="true" hidden="true">
+						<div class="hide-item">
+							<input type="checkbox" class="hide-toggle-next" name="attr_specialUI" value="true" hidden="true">
+							<div class="hide-item-flex itemSpecialUI columnAlign" style="height: 100%;">
+								<span data-i18n="special-range-text">Effect Range</span>
+								<select name="attr_specialRange" class="darkInput">
+									<option data-i18n="special-range-none" value="none">---</option>
+									<option data-i18n="special-range-0" value="0">One or two people</option>
+									<option data-i18n="special-range-1" value="1">Street</option>
+									<option data-i18n="special-range-2" value="2">Neighborhood</option>
+									<option data-i18n="special-range-3" value="3">Residence Area</option>
+									<option data-i18n="special-range-4" value="4">Nest</option>
+									<option data-i18n="special-range-5" value="5">Multiple Nests</option>
+									<option data-i18n="special-range-6" value="6">City</option>
+								</select>
+							
+								<span data-i18n="special-duration-text">Duration</span>
+								<select name="attr_specialDuration" class="darkInput">
+									<option data-i18n="special-duration-none" value="none">---</option>
+									<option data-i18n="special-duration-0" value="0">A moment</option>
+									<option data-i18n="special-duration-1" value="1">Seconds</option>
+									<option data-i18n="special-duration-2" value="2">Minutes</option>
+									<option data-i18n="special-duration-3" value="3">Hours</option>
+									<option data-i18n="special-duration-4" value="4">Days</option>
+									<option data-i18n="special-duration-5" value="5">Weeks</option>
+									<option data-i18n="special-duration-6" value="6">Months</option>
+								</select>
+							</div>
+						</div>
+
+						<!-- Option: Tags (Left) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionTags" value="true" hidden="true">
+						<div class="hide-item itemTags">
+							<input type="checkbox" class="hide-toggle" name="attr_leftTagsDisplay" value="true" hidden="true">
+							<input type="text" class="hide-item darkInput" data-i18n-placeholder="item-tags-weapon" placeholder="Weapon tags">
+						</div>
+
+						<!-- Description (Left) -->
+						<div class="itemDescriptionContainer left columnAlign">
+							<input type="checkbox" class="hide-toggle-next" name="attr_leftDescDisplay" value="true" hidden="true" checked>
+							<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="weapon-desc" placeholder="Weapon description."></textarea>
+
+							<input type="checkbox" class="hide-toggle-next" name="attr_leftEffectDisplay" value="true" hidden="true">
+							<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="weapon-effect" placeholder="Weapon effects."></textarea>
+						</div>
+					</div>
+					
+
+					<!-- Item contents (Right) -->
+					<div class="itemRow right columnAlign">
+						
+						<!-- Option: Rollformats -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden="true">
+						<div class="hide-item-flex itemRollFormats contentHeader">
+
+							<!-- Rollformat (1) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden="true">
+							<div class="hide-item-flex rollFormat">
+									
+								<!-- Roll icon -->
+								<div class="rollFormatIcon">
+									<input type="checkbox" class="swap-toggle" name="attr_rollType1" value="Attack" hidden="true">
+									<div class="swap-item-rev rollType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType1"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType1"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType1"><div class="Def centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType1"><div class="Evd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType1"><div class="Inst centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType1"><div class="Wisd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType1"><div class="Just centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType1"><div class="Char centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType1"><div class="Insi centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType1"><div class="Temp centerIcon"></div>
+									</div>
+									<div class="swap-item rollDamageType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType1"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType1"><div class="slash centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType1"><div class="pierce centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType1"><div class="blunt centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType1"><div class="question centerIcon"></div>
+									</div>
+								</div>
+								
+								<!-- Roll format -->
+								<div class="rollFormatBlock">
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="1">
+									<div class="plainText">D</div>
+									<input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="10">
+									<div class="plainText">+</div>
+									<input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
+								</div>
+								
+								<!-- Roll button -->
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden="true">
+								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll0"></button>
+							</div>
+
+							<!-- Rollformat (2) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden="true">
+							<div class="hide-item-flex rollFormat">
+								
+								<!-- Roll icon -->
+								<div class="rollFormatIcon">
+									<input type="checkbox" class="swap-toggle" name="attr_rollType2" value="Attack" hidden="true">
+									<div class="swap-item-rev rollType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType2"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType2"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType2"><div class="Def centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType2"><div class="Evd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType2"><div class="Inst centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType2"><div class="Wisd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType2"><div class="Just centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType2"><div class="Char centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType2"><div class="Insi centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType2"><div class="Temp centerIcon"></div>
+									</div>
+									<div class="swap-item rollDamageType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType2"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType2"><div class="slash centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType2"><div class="pierce centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType2"><div class="blunt centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType2"><div class="question centerIcon"></div>
+									</div>
+								</div>
+
+								<!-- Roll format -->
+								<div class="rollFormatBlock">
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="1">
+									<div class="plainText">D</div>
+									<input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="12">
+									<div class="plainText">+</div>
+									<input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
+								</div>
+
+								<!-- Roll button -->
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden="true">
+								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll1"></button>
+							</div>
+
+							<!-- Rollformat (3) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden="true">
+							<div class="hide-item-flex rollFormat">
+								
+								<!-- Roll icon -->
+								<div class="rollFormatIcon">
+									<input type="checkbox" class="swap-toggle" name="attr_rollType3" value="Attack" hidden="true">
+									<div class="swap-item-rev rollType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType3"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType3"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType3"><div class="Def centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType3"><div class="Evd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType3"><div class="Inst centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType3"><div class="Wisd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType3"><div class="Just centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType3"><div class="Char centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType3"><div class="Insi centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType3"><div class="Temp centerIcon"></div>
+									</div>
+									<div class="swap-item rollDamageType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType3"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType3"><div class="slash centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType3"><div class="pierce centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType3"><div class="blunt centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType3"><div class="question centerIcon"></div>
+									</div>
+								</div>
+
+								<!-- Roll format -->
+								<div class="rollFormatBlock">
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
+									<div class="plainText">D</div>
+									<input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
+									<div class="plainText">+</div>
+									<input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
+								</div>
+
+								<!-- Roll button -->
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden="true">
+								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll2"></button>
+							</div>
+
+							<!-- Rollformat (4) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden="true">
+							<div class="hide-item-flex rollFormat">
+								
+								<!-- Roll icon -->
+								<div class="rollFormatIcon">
+									<input type="checkbox" class="swap-toggle" name="attr_rollType4" value="Attack" hidden="true">
+									<div class="swap-item-rev rollType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType4"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType4"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType4"><div class="Def centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType4"><div class="Evd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType4"><div class="Inst centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType4"><div class="Wisd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType4"><div class="Just centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType4"><div class="Char centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType4"><div class="Insi centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType4"><div class="Temp centerIcon"></div>
+									</div>
+									<div class="swap-item rollDamageType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType4"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType4"><div class="slash centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType4"><div class="pierce centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType4"><div class="blunt centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType4"><div class="question centerIcon"></div>
+									</div>
+								</div>
+
+								<!-- Roll format -->
+								<div class="rollFormatBlock">
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
+									<div class="plainText">D</div>
+									<input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
+									<div class="plainText">+</div>
+									<input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
+								</div>
+
+								<!-- Roll button -->
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden="true">
+								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll3"></button>
+							</div>
+
+							<!-- Rollformat (5) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay5" value="true" hidden="true">
+							<div class="hide-item-flex rollFormat">
+									
+								<!-- Roll icon -->
+								<div class="rollFormatIcon">
+									<input type="checkbox" class="swap-toggle" name="attr_rollType5" value="Attack" hidden="true">
+									<div class="swap-item-rev rollType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType5"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType5"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType5"><div class="Def centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType5"><div class="Evd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType5"><div class="Inst centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType5"><div class="Wisd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType5"><div class="Just centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType5"><div class="Char centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType5"><div class="Insi centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType5"><div class="Temp centerIcon"></div>
+									</div>
+									<div class="swap-item rollDamageType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType5"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType5"><div class="slash centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType5"><div class="pierce centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType5"><div class="blunt centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType5"><div class="question centerIcon"></div>
+									</div>
+								</div>
+								
+								<!-- Roll format -->
+								<div class="rollFormatBlock">
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount5" min="0" value="0">
+									<div class="plainText">D</div>
+									<input type="number" class="diceMax noSpinner" name="attr_rollMax5" value="0">
+									<div class="plainText">+</div>
+									<input type="number" class="dicePower noSpinner" name="attr_rollPower5" value="0">
+								</div>
+								
+								<!-- Roll button -->
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode5" value="Roll" hidden="true">
+								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll4"></button>
+							</div>
+						</div>
+
+						<!-- Option: Resistances -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionResist" value="true" hidden="true">
+						<div class="hide-item itemResist">
+
+							<!-- Option: Damage resistances -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionResistBaseDamage" value="true" hidden="true">
+							<div class="hide-item itemResistDamage">
+
+								<!-- Slash -->
+								<input type="checkbox" class="hide-toggle-rev-next" name="attr_slashBaseMode" value="None" hidden="true">
+								<div class="hide-item-rev rowContainer centerFlex">
+									<select class="itemResMode" name="attr_slashBaseMode" hidden="true">
+										<option value="None">---</option>
+										<option value="Replace">Replace</option>
+										<option value="Add">Add</option>
+									</select>
+
+									<div class="largeIcon slashNormal"></div>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_slashBaseHP" list="damageModList" step="any" value="1"></label>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_slashBaseST" list="damageModList" step="any" value="1"></label>
+									<div class="largeIcon slashNormalSTG"></div>
+								</div>
+
+								<!-- Pierce -->
+								<input type="checkbox" class="hide-toggle-rev-next" name="attr_pierceBaseMode" value="None" hidden="true">
+								<div class="hide-item-rev rowContainer centerFlex">
+									<select class="itemResMode" name="attr_pierceBaseMode" hidden="true">
+										<option value="None">---</option>
+										<option value="Replace">Replace</option>
+										<option value="Add">Add</option>
+									</select>
+
+									<div class="largeIcon pierceNormal"></div>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_pierceBaseHP" list="damageModList" step="any" value="1"></label>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_pierceBaseST" list="damageModList" step="any" value="1"></label>
+									<div class="largeIcon pierceNormalSTG"></div>
+								</div>
+
+								<!-- Blunt -->
+								<input type="checkbox" class="hide-toggle-rev-next" name="attr_bluntBaseMode" value="None" hidden="true">
+								<div class="hide-item-rev rowContainer centerFlex">
+									<select class="itemResMode" name="attr_bluntBaseMode" hidden="true">
+										<option value="None">---</option>
+										<option value="Replace">Replace</option>
+										<option value="Add">Add</option>
+									</select>
+
+									<div class="largeIcon bluntNormal"></div>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_bluntBaseHP" list="damageModList" step="any" value="1"></label>
+									<label class="itemRes"><input type="number" class="noSpinner" name="attr_bluntBaseST" list="damageModList" step="any" value="1"></label>
+									<div class="largeIcon bluntNormalSTG"></div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Option: Tags (Right) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionTags" value="true" hidden="true">
+						<div class="hide-item itemTags">
+							<input type="checkbox" class="hide-toggle" name="attr_rightTagsDisplay" value="true" hidden="true">
+							<input type="text" class="hide-item darkInput" data-i18n-placeholder="item-tags-weapon" placeholder="Weapon tags">
+						</div>
+
+						<!-- Description (Right) -->
+						<div class="itemDescriptionContainer right columnAlign">
+							<input type="checkbox" class="hide-toggle-next" name="attr_rightDescDisplay" value="true" hidden="true">
+							<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="weapon-desc" placeholder="Weapon description."></textarea>
+
+							<input type="checkbox" class="hide-toggle-next" name="attr_rightEffectDisplay" value="true" hidden="true" checked>
+							<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="weapon-effect" placeholder="Weapon effects."></textarea>
+						</div>
+					</div>
+				</div>
+
+				<!-- Description (Bottom) -->
+				<div class="itemDescriptionContainer bottom columnAlign">
+					<input type="checkbox" class="hide-toggle-next" name="attr_bottomDescDisplay" value="true" hidden="true">
+					<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="weapon-desc" placeholder="Weapon description."></textarea>
+
+					<input type="checkbox" class="hide-toggle-next" name="attr_bottomEffectDisplay" value="true" hidden="true">
+					<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="weapon-effect" placeholder="Weapon effects."></textarea>
+				</div>
+			</div>
+		</fieldset>
+	</div>
 	
 
 	<!-- Repeating inventory: Outfits -->
@@ -5246,7 +5726,7 @@
 							<!-- Option: Weapon UI -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_weaponUI" value="true" hidden="true">
 							<div class="hide-item-flex itemWeaponUI rowContainer">
-								<select name="attr_rollDamageType0" class="darkInput">
+								<select name="attr_rollDamageType1" class="darkInput">
 									<option value="None" data-i18n="weapon-type-None">---</option>
 									<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
 									<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
@@ -5331,52 +5811,10 @@
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden="true">
 						<div class="hide-item-flex itemRollFormats contentHeader">
 
-							<!-- Rollformat (0) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden="true">
-							<div class="hide-item-flex rollFormat">
-									
-								<!-- Roll icon -->
-								<div class="rollFormatIcon">
-									<input type="checkbox" class="swap-toggle" name="attr_rollType0" value="Attack" hidden="true">
-									<div class="swap-item-rev rollType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType0"><div class="question centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType0"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType0"><div class="Def centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType0"><div class="Evd centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType0"><div class="Inst centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType0"><div class="Wisd centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType0"><div class="Just centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType0"><div class="Char centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType0"><div class="Insi centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType0"><div class="Temp centerIcon"></div>
-									</div>
-									<div class="swap-item rollDamageType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType0"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType0"><div class="slash centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType0"><div class="pierce centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType0"><div class="blunt centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType0"><div class="question centerIcon"></div>
-									</div>
-								</div>
-								
-								<!-- Roll format -->
-								<div class="rollFormatBlock">
-									<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="1">
-									<div class="plainText">D</div>
-									<input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="10">
-									<div class="plainText">+</div>
-									<input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
-								</div>
-								
-								<!-- Roll button -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden="true">
-								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll0"></button>
-							</div>
-
 							<!-- Rollformat (1) -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden="true">
 							<div class="hide-item-flex rollFormat">
-								
+									
 								<!-- Roll icon -->
 								<div class="rollFormatIcon">
 									<input type="checkbox" class="swap-toggle" name="attr_rollType1" value="Attack" hidden="true">
@@ -5400,19 +5838,19 @@
 										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType1"><div class="question centerIcon"></div>
 									</div>
 								</div>
-
+								
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
 									<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="1">
 									<div class="plainText">D</div>
-									<input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="12">
+									<input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="10">
 									<div class="plainText">+</div>
 									<input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
 								</div>
-
+								
 								<!-- Roll button -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden="true">
-								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll1"></button>
+								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll0"></button>
 							</div>
 
 							<!-- Rollformat (2) -->
@@ -5445,16 +5883,16 @@
 
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
-									<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="1">
 									<div class="plainText">D</div>
-									<input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
+									<input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="12">
 									<div class="plainText">+</div>
 									<input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
 								</div>
 
 								<!-- Roll button -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden="true">
-								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll2"></button>
+								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll1"></button>
 							</div>
 
 							<!-- Rollformat (3) -->
@@ -5496,13 +5934,13 @@
 
 								<!-- Roll button -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden="true">
-								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll3"></button>
+								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll2"></button>
 							</div>
 
 							<!-- Rollformat (4) -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden="true">
 							<div class="hide-item-flex rollFormat">
-									
+								
 								<!-- Roll icon -->
 								<div class="rollFormatIcon">
 									<input type="checkbox" class="swap-toggle" name="attr_rollType4" value="Attack" hidden="true">
@@ -5526,7 +5964,7 @@
 										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType4"><div class="question centerIcon"></div>
 									</div>
 								</div>
-								
+
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
 									<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
@@ -5535,9 +5973,51 @@
 									<div class="plainText">+</div>
 									<input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
 								</div>
-								
+
 								<!-- Roll button -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden="true">
+								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll3"></button>
+							</div>
+
+							<!-- Rollformat (5) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay5" value="true" hidden="true">
+							<div class="hide-item-flex rollFormat">
+									
+								<!-- Roll icon -->
+								<div class="rollFormatIcon">
+									<input type="checkbox" class="swap-toggle" name="attr_rollType5" value="Attack" hidden="true">
+									<div class="swap-item-rev rollType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType5"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType5"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType5"><div class="Def centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType5"><div class="Evd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType5"><div class="Inst centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType5"><div class="Wisd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType5"><div class="Just centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType5"><div class="Char centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType5"><div class="Insi centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType5"><div class="Temp centerIcon"></div>
+									</div>
+									<div class="swap-item rollDamageType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType5"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType5"><div class="slash centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType5"><div class="pierce centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType5"><div class="blunt centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType5"><div class="question centerIcon"></div>
+									</div>
+								</div>
+								
+								<!-- Roll format -->
+								<div class="rollFormatBlock">
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount5" min="0" value="0">
+									<div class="plainText">D</div>
+									<input type="number" class="diceMax noSpinner" name="attr_rollMax5" value="0">
+									<div class="plainText">+</div>
+									<input type="number" class="dicePower noSpinner" name="attr_rollPower5" value="0">
+								</div>
+								
+								<!-- Roll button -->
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode5" value="Roll" hidden="true">
 								<button type="action" class="hide-item rollButton centerIcon" name="act_itemRoll4"></button>
 							</div>
 						</div>
@@ -5628,1537 +6108,20 @@
 	</div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="weaponContainer">
-
-<div class="contentContainer itemContainer weapon">
-	<div class="contentHeader repcontrol_header">
-		<span class="contentName">Weapons</span>
-
-		<!-- Custom add repeating item button. The default one makes it difficult to set different default values for different item types -->
-		<button type="action" class="btn repcontrol_add" id="add_weapon" name="act_addItem" data-i18n-title="item-add" title="Add new item">Add</button>
-	</div>
-
-	<!-- Repeating weapon block -->
-	<fieldset class="repeating_weapons">
-		<div class="contentContainer">
-			
-			<!-- Item controls -->
-			<div class="itemButtons">
-				<button type="action" class="darkInput shareButton share" name="act_share-item" data-i18n-title="share" title="Share info"></button>
-				<button type="action" class="darkInput editButton edit" name="act_edit-item" data-i18n-title="edit" title="Edit"></button>
-				<button type="action" class="darkInput autoScriptButton script" name="act_edit-autoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-				<input type="text" name="attr_autoScript" hidden="true">
-				<input type="text" name="attr_itemData" hidden="true">
-			</div>
-	
-			<!-- Weapon header -->
-			<div class="contentHeader">
-				<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true">
-
-				<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank">
-				<input type="text" class="transpInput contentName" name="attr_name" data-i18n-placeholder="equip-weapon-name" placeholder="Weapon Name">
-	
-				<!-- Dice roll block -->
-				<div class="rollFormat">
-	
-					<!-- Uses indicator -->
-					<div class="buffer" style="width: 30px; height: 30px;">
-						<input type="checkbox" class="hide-toggle-rev" name="attr_useType" value="Limitless" hidden="true" checked>
-						<div class="hide-item-rev rowContainer centerFlex" style="position: relative;">
-		
-							<input type="text" class="transpInput blocker" name="attr_uses" style="text-align: center; height: 100%;" value="5">
-		
-							<input type="checkbox" class="fade-toggle" name="attr_useType" value="Deplete" hidden="true">
-							<div class="fade-item centerIcon reusable" style="width: 30px; height: 30px;"></div>
-						</div>
-					</div>
-
-					<!-- Damage type icon -->
-					<div class="weaponIcons">
-						<div class="icon"><input type="checkbox" class="expand-toggle" value="Slash" name="attr_damageType"><div class="type-image typeIcon slash"></div></div>
-						<div class="icon"><input type="checkbox" class="expand-toggle" value="Pierce" name="attr_damageType"><div class="type-image typeIcon pierce"></div></div>
-						<div class="icon"><input type="checkbox" class="expand-toggle" value="Blunt" name="attr_damageType"><div class="type-image typeIcon blunt"></div></div>
-					</div>
-		
-					<!-- Dice format -->
-					<div class="rollFormatBlock">
-						<input type="number" class="diceCount noSpinner" name="attr_dice1" min="1" value="1">
-						<div class="plainText">D</div>
-						<input type="number" class="diceMax noSpinner" name="attr_dice2" min="0" value="0">
-						<div class="plainText">+</div>
-						<input type="number" class="dicePower noSpinner" name="attr_dice3" value="0">
-					</div>
-		
-					<!-- Roll button -->
-					<button type="action" class="NDice" id="autoroll_raw" name="act_rollCombat"></button>
-				</div>
-				<!-- Dice roll end -->
-
-			</div>
-			<!-- Header end -->
-	
-			<!-- Weapon Edit -->
-			<div>
-				<input type="checkbox" class="hide-toggle" name="attr_settingEditMode" value="true">
-				<div class="hide-item editCover">
-					<div class="settingStyle">
-						<div class="settingStyle" style="width: 60px;"><b data-i18n="message-uses">Uses</b>:	</div> 
-						<input type="text" class="transpInput" style="width: 23px;" name="attr_uses" value="5"> / 
-						<input type="number" class="darkInput" name="attr_uses_max" value="5" min="1">
-	
-						<select name="attr_useType" class="darkInput" style="width: 70px; margin-left: 5px;">
-							<option data-i18n="uses-nolimit" value="Limitless" selected>No limit</option>
-							<option data-i18n="uses-reload" value="Reload">Reload</option>
-							<option data-i18n="uses-deplete" value="Deplete">Deplete</option>
-						</select>
-					</div>
-				</div>
-			</div>
-			<!-- Weapon Edit end -->
-	
-			<!-- Weapon properties -->
-			<div class="weaponPropertySelect weapon"> 
-				<select name="attr_damageType" class="weapon_type darkInput">
-					<option value="None" data-i18n="weapon-type-None">---</option>
-					<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
-					<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
-					<option data-i18n="weapon-type-Blunt" value="Blunt">Blunt</option>
-				</select>
-	
-				<select name="attr_range" class="weapon_distance darkInput">
-					<option value="None" data-i18n="weapon-type-None">---</option>
-					<option data-i18n="weapon-type-Melee" value="Melee">Melee</option>
-					<option data-i18n="weapon-type-Ranged" value="Ranged">Ranged</option>
-				</select>
-			</div>
-	
-			<!-- Description/Effect section -->
-			<div class="rowContainer weaponInfo">
-				<div class="weaponDescription">
-					<div class="descHead"></div>
-					<textarea spellcheck="false"  name="attr_description" class="weaponDescriptionInput" data-i18n-placeholder="weapon-desc" placeholder="Weapon description."></textarea>
-				</div>
-	
-				<div class="weaponEffect">
-					<textarea spellcheck="false"  name="attr_effect" class="weaponEffectInput" data-i18n-placeholder="weapon-effect" placeholder="Weapon effects."></textarea>
-				</div>
-			</div>
-			<!-- desc end -->	
-
-
-			<!-- Basics -->
-			<div>
-				Item type: <input type="text" class="" name="attr_type" placeholder="Item type">
-				Minimized: <input type="checkbox" class="" name="attr_minimized" value="true">
-			</div>
-			
-			<!-- Equip -->
-			<div>
-				Equipped: <input type="checkbox" class="" name="attr_equipped" value="true">
-				<div>
-					Opt. Equip Slots <input type="checkbox" class="" name="attr_optionEquipSlots" value="true">
-					Slot Type: <input type="text" class="" name="attr_slotType" placeholder="Slot type">
-					Slot Use: <input type="number" class="" name="attr_slotUse" placeholder="1">
-				</div>
-			</div>
-
-			<!-- Rollformats -->
-			<div>
-				Opt. Rollformat <input type="checkbox" class="" name="attr_optionRollFormats" value="true">
-				<div>
-					Roll Type: <input type="text" class="" name="attr_rollType0" placeholder="Roll type"> <!-- Should maybe be a checkbox -->
-					Roll Mode: <input type="text" class="" name="attr_rollMode0" placeholder="Roll mode"> <!-- Should maybe be a checkbox -->
-					Roll Damage Type:  <input type="text" class="" name="attr_rollDamagetype0" placeholder="Roll damage type">
-					Roll Count: <input type="number" class="" name="attr_rollCount0" placeholder="1">
-					Roll Max: <input type="number" class="" name="attr_rollMax0" placeholder="1">
-					Roll Power: <input type="number" class="" name="attr_rollPower0" placeholder="1">
-					Roll Adv: <input type="text" class="" name="attr_rollAdv0" placeholder="Roll adv">
-					<div>
-						Opt. Resource: <input type="checkbox" class="" name="attr_optionRollResource0" value="true">
-						<div>
-							Opt. Action: <input type="checkbox" class="" name="attr_optionRollAction0" value="true">
-							Roll Act Cost: <input type="number" class="" name="attr_rollActionCost0" placeholder="1">
-							Roll Act Type: <input type="text" class="" name="attr_rollActionType0" placeholder="Act type">
-						</div>
-						<div>
-							Opt. Reaction: <input type="checkbox" class="" name="attr_optionRollReaction0" value="true">
-							Roll React Cost: <input type="number" class="" name="attr_rollReactionCost0" placeholder="1">
-							Roll React Type: <input type="text" class="" name="attr_rollReactionType0" placeholder="React type">
-						</div>
-					</div>
-					<div>
-						Opt. Store: <input type="checkbox" class="" name="attr_optionStoreRoll0" value="true">
-						Store Count: <input type="number" class="" name="attr_storeCount0" placeholder="0">
-						Store Max: <input type="number" class="" name="attr_storeMax0" placeholder="0">
-						Store Power: <input type="number" class="" name="attr_storePower0" placeholder="0">
-						Store Adv: <input type="text" class="" name="attr_storeAdv0" placeholder="Store adv">
-					</div>
-					Roll AutoScript: <input type="text" class="" name="attr_rollAutoScript0" placeholder="Roll AutoScript">
-				</div>
-			</div>
-
-			<!-- Linked -->
-			<div>
-				Opt. Linked <input type="checkbox" class="" name="attr_optionLinked" value="true">
-				Linked ID: <input type="text" class="" name="attr_linkedItemId" placeholder="Linked id">
-				Equip Together: <input type="checkbox" class="" name="attr_linkedEquipTogether" value="true">
-			</div>
-
-			<!-- Limited uses -->
-			<div>
-				Opt. Limited <input type="checkbox" class="" name="attr_optionLimited" value="true">
-				<div>
-					Opt. Uses <input type="checkbox" class="" name="attr_optionUses" value="true">
-					Uses Type: <input type="text" class="" name="attr_usesType" placeholder="Uses type">
-					Uses Mode: <input type="text" class="" name="attr_usesMode" placeholder="Uses mode">
-					Uses Max: <input type="number" class="" name="attr_usesMax" placeholder="1">
-					Uses Current: <input type="number" class="" name="attr_usesCurrent" placeholder="1">
-					<div>
-						Opt. Resource <input type="checkbox" class="" name="attr_optionUsesResource" value="true">
-						<div>
-							Opt. Action: <input type="checkbox" class="" name="attr_optionUseAction0" value="true">
-							Use Act Cost: <input type="number" class="" name="attr_useActionCost0" placeholder="1">
-							Use Act Type: <input type="text" class="" name="attr_useActionType0" placeholder="Act type">
-						</div>
-						<div>
-							Opt. Reaction: <input type="checkbox" class="" name="attr_optionUsesReaction0" value="true">
-							Use React Cost: <input type="number" class="" name="attr_useReactionCost0" placeholder="1">
-							Use React Type: <input type="text" class="" name="attr_useReactionType0" placeholder="React type">
-						</div>
-					</div>
-				</div>
-				<div>
-					Opt. Light Cost <input type="checkbox" class="" name="attr_optionLightCost" value="true">
-					Light Cost: <input type="number" class="" name="attr_lightCost" placeholder="1">
-				</div>
-			</div>
-			
-			<!-- Resistances -->
-			<div>
-				Opt. Resistance <input type="checkbox" class="" name="attr_optionResist" value="true">
-				<div>
-					Ailment Resistance <input type="checkbox" class="" name="attr_optionResistFlatDamage" value="true">
-					<div>
-						Bleed Res.: <input type="number" class="" name="attr_BleedResist" placeholder="0">
-						Burn Res.: <input type="number" class="" name="attr_BurnResist" placeholder="0">
-					</div>
-					<!-- Custom resistances only appear in the editor -->
-				</div>
-			</div>
-			
-			<!-- Mystery -->
-			<div>
-				Opt. Mystery <input type="checkbox" class="" name="attr_optionMystery" value="true">
-				Mystery Activation: <input type="text" class="" name="attr_mysteryActivation" placeholder="Mystery activation">
-			</div>
-
-			<!-- Tags -->
-			<div>
-				Opt. Tags <input type="checkbox" class="" name="attr_optionTags" value="true">
-				<!-- Tags require a similar solution to Custom resistances -->
-			</div>
-	
-			<!-- Styling -->
-			<div>
-				Opt. Style <input type="checkbox" class="" name="attr_optionColor" value="true">
-				<div>
-					Opt. Icon <input type="checkbox" class="" name="attr_optionIcon" value="true">
-					Icon Source: <input type="text" class="" name="attr_iconSource" placeholder="Icon source">
-				</div>
-				Color: <input type="text" class="" name="attr_color" placeholder="Color">
-				Accent: <input type="text" class="" name="attr_accent" placeholder="Accent">
-			</div>
-
-			<!-- UI elements -->
-			<div>
-				Opt. UI <input type="checkbox" class="" name="attr_optionCustomUI" value="true">
-				Damagetype UI <input type="checkbox" class="" name="attr_damageTypeUI" value="true">
-				Range UI: <input type="checkbox" class="" name="attr_rangeUI" value="true">
-				Special UI: <input type="checkbox" class="" name="attr_specialUI" value="true">
-				Half UI: <input type="checkbox" class="" name="attr_halfUI" value="true">
-			</div>
-
-			<!-- Card -->
-			<div>
-				Opt. Card <input type="checkbox" class="" name="attr_optionCardCombat" value="true">
-			</div>
-
-		</div>
-		
-	</fieldset>
-	</div>
-	<!-- Repeating weapon block END -->
-
-
-
-
-
-	<!-- Weapon1 block -->
-	<div class="contentContainer">
-		<div class="itemButtons">
-			<button type="action" class="darkInput shareButton share" id="share_weapon1" name="act_shareWeapon" data-i18n-title="share" title="Share info"></button>
-			<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-			<button type="action" class="darkInput autoScriptButton script" id="weapon1AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-			<input type="text" name="attr_weapon1AutoScript" hidden="true">
-		</div>
-
-		<!-- Weapon 1 header -->
-		<div class="contentHeader weapon">
-			<input type="text" class="rank" name="attr_weapon1Rank" placeholder="0" data-i18n-title="rank" title="Rank">
-			<input type="text" class="transpInput contentName" name="attr_weapon1Name" data-i18n-placeholder="equip-weapon1-name" placeholder="Weapon Name (1)">
-
-			<!-- Weapon dice roll block -->
-			<div class="rowContainer combatRoll">
-
-			<!-- Weapon1 Uses indicator -->
-			<div class="buffer" style="width: 30px; height: 30px;">
-				<input type="checkbox" class="hide-toggle-rev" name="attr_weapon1UseType" value="Limitless" hidden="true" checked>
-				<div class="hide-item-rev rowContainer centerFlex" style="position: relative;">
-
-					<input type="text" class="transpInput blocker" name="attr_weapon1Uses" style="text-align: center; height: 100%;" value="5">
-
-					<input type="checkbox" class="fade-toggle" name="attr_weapon1UseType" value="Deplete" hidden="true">
-					<div class="fade-item centerIcon reusable" style="width: 30px; height: 30px;"></div>  
-				</div>
-			</div>
-			<!-- Weapon1 Uses indicator END -->
-
-			<div class="weaponIcons">
-				<div class="icon">
-					<input type="checkbox" class="expand-toggle" value="Slash" name="attr_weapon1Type"><div class="type-image typeIcon slash"></div>
-				</div>
-
-				<div class="icon">
-					<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_weapon1Type"><div class="type-image typeIcon pierce"></div>
-				</div>
-
-				<div class="icon">
-					<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_weapon1Type"><div class="type-image typeIcon blunt"></div>
-				</div>
-			</div>
-
-			<div class="rollFormatBlock">
-				<input type="number" class="diceCount noSpinner" name="attr_weapon1Dice1" min="1" value="1">
-				<div class="plainText">D</div>
-				<input type="number" class="diceMax noSpinner" name="attr_weapon1Dice2" min="0" value="0">
-				<div class="plainText">+</div>
-				<input type="number" class="dicePower noSpinner" name="attr_weapon1Dice3" value="0">
-			</div>
-
-			<button type="action" class="NDice" id="autoroll_weapon1_raw" name="act_rollCombat"></button>
-			<!-- dice roll end -->
-
-		</div></div>
-		<!-- header end -->
-
-		<!-- Weapon1 Edit-->
-		<div>
-			<input type="checkbox" class="hide-toggle" name="attr_settingEditMode" value="true">
-			<div class="hide-item editCover">
-				<div class="settingStyle">
-					<div class="settingStyle" style="width: 60px;"><b data-i18n="message-uses">Uses</b>:	</div> 
-					<input type="text" class="transpInput" style="width: 23px;" name="attr_weapon1Uses" value="5"> / 
-					<input type="number" class="darkInput" name="attr_weapon1Uses_max" value="5" min="1">
-
-					<select name="attr_weapon1UseType" class="darkInput" style="width: 70px; margin-left: 5px;">
-						<option data-i18n="uses-nolimit" value="Limitless" selected>No limit</option>
-						<option data-i18n="uses-reload" value="Reload">Reload</option>
-						<option data-i18n="uses-deplete" value="Deplete">Deplete</option>
-					</select>
-				</div>
-			</div>
-		</div>
-		<!-- Weapon1 Edit end -->
-
-		<div class="weaponPropertySelect weapon"> 
-			<select name="attr_weapon1Type" class="weapon_type darkInput">
-				<option value="None" data-i18n="weapon-type-None">---</option>
-				<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
-				<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
-				<option data-i18n="weapon-type-Blunt" value="Blunt">Blunt</option>
-			</select>
-
-			<select name="attr_weapon1Range" class="weapon_distance darkInput">
-				<option value="None" data-i18n="weapon-type-None">---</option>
-				<option data-i18n="weapon-type-Melee" value="Melee">Melee</option>
-				<option data-i18n="weapon-type-Ranged" value="Ranged">Ranged</option>
-			</select>
-		</div>
-
-		<!-- Description/Effect section -->
-		<div class="rowContainer weaponInfo">
-			<div class="weaponDescription">
-				<div class="descHead"></div>
-				<textarea spellcheck="false"  name="attr_weapon1Description" class="weaponDescriptionInput" data-i18n-placeholder="weapon-desc" placeholder="Weapon description."></textarea>
-			</div>
-
-			<div class="weaponEffect">
-				<textarea spellcheck="false"  name="attr_weapon1Effect" class="weaponEffectInput" data-i18n-placeholder="weapon-effect" placeholder="Weapon effects."></textarea>
-			</div>
-		</div>
-		<!-- desc end -->	
-
-	</div>
-	<!-- Weapon 1 Block END -->
-
-
-	<!-- Weapon2 block -->
-	<div class="contentContainer">
-		<div class="itemButtons">
-			<button type="action" class="darkInput shareButton share" id="share_weapon2" name="act_shareWeapon" data-i18n-title="share" title="Share info"></button>
-			<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-			<button type="action" class="darkInput autoScriptButton script" id="weapon2AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-			<input type="text" name="attr_weapon2AutoScript" hidden="true">
-		</div>
-
-		<!-- Weapon 2 header -->
-		<div class="contentHeader weapon">
-			<input type="text" class="rank" name="attr_weapon2Rank" placeholder="0" data-i18n-title="rank" title="Rank">
-			<input type="text" class="transpInput contentName" name="attr_weapon2Name" data-i18n-placeholder="equip-weapon2-name" placeholder="Weapon Name (2)">
-
-			<!-- Weapon dice roll block -->
-			<div class="rowContainer combatRoll">
-
-			<!-- Weapon2 Uses indicator -->
-			<div class="buffer" style="width: 30px; height: 30px;">
-				<input type="checkbox" class="hide-toggle-rev" name="attr_weapon2UseType" value="Limitless" hidden="true" checked>
-				<div class="hide-item-rev rowContainer centerFlex" style="position: relative;">
-
-					<input type="text" class="transpInput blocker" name="attr_weapon2Uses" style="text-align: center; height: 100%;" value="5">
-
-					<input type="checkbox" class="fade-toggle" name="attr_weapon2UseType" value="Deplete" hidden="true">
-					<div class="fade-item centerIcon reusable" style="width: 30px; height: 30px;"></div>  
-				</div>
-			</div>
-			<!-- Weapon2 Uses indicator END -->
-
-			<div class="weaponIcons">
-				<div class="icon">
-					<input type="checkbox" class="expand-toggle" value="Slash" name="attr_weapon2Type"><div class="type-image typeIcon slash"></div>
-				</div>
-
-				<div class="icon">
-					<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_weapon2Type"><div class="type-image typeIcon pierce"></div>
-				</div>
-
-				<div class="icon">
-					<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_weapon2Type"><div class="type-image typeIcon blunt"></div>
-				</div>
-			</div>
-
-			<div class="rollFormatBlock">
-				<input type="number" class="diceCount noSpinner" name="attr_weapon2Dice1" min="1" value="1">
-				<div class="plainText">D</div>
-				<input type="number" class="diceMax noSpinner" name="attr_weapon2Dice2" min="0" value="0">
-				<div class="plainText">+</div>
-				<input type="number" class="dicePower noSpinner" name="attr_weapon2Dice3" value="0">
-			</div>
-
-			<button type="action" class="NDice" id="autoroll_weapon2_raw" name="act_rollCombat"></button>
-			<!-- dice roll end -->
-
-		</div></div>
-		<!-- header end -->
-
-		<!-- Weapon2 Edit-->
-		<div>
-			<input type="checkbox" class="hide-toggle" name="attr_settingEditMode" value="true">
-			<div class="hide-item editCover">
-				<div class="settingStyle">
-					<div class="settingStyle" style="width: 60px;"><b data-i18n="message-uses">Uses</b>:	</div> 
-					<input type="text" class="transpInput" style="width: 23px;" name="attr_weapon2Uses" value="5"> / 
-					<input type="number" class="darkInput" name="attr_weapon2Uses_max" value="5" min="1">
-
-					<select name="attr_weapon2UseType" class="darkInput" style="width: 70px; margin-left: 5px;">
-						<option data-i18n="uses-nolimit" value="Limitless" selected>No limit</option>
-						<option data-i18n="uses-reload" value="Reload">Reload</option>
-						<option data-i18n="uses-deplete" value="Deplete">Deplete</option>
-					</select>
-				</div>
-			</div>
-		</div>
-		<!-- Weapon2 Edit end -->
-
-		<div class="weaponPropertySelect weapon"> 
-			<select name="attr_weapon2Type" class="weapon_type darkInput">
-				<option value="None" data-i18n="weapon-type-None">---</option>
-				<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
-				<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
-				<option data-i18n="weapon-type-Blunt" value="Blunt">Blunt</option>
-			</select>
-
-			<select name="attr_weapon2Range" class="weapon_distance darkInput">
-				<option value="None" data-i18n="weapon-type-None">---</option>
-				<option data-i18n="weapon-type-Melee" value="Melee">Melee</option>
-				<option data-i18n="weapon-type-Ranged" value="Ranged">Ranged</option>
-			</select>
-		</div>
-
-		<!-- Description/Effect section -->
-		<div class="rowContainer weaponInfo">
-			<div class="weaponDescription">
-				<div class="descHead"></div>
-				<textarea spellcheck="false"  name="attr_weapon2Description" class="weaponDescriptionInput" data-i18n-placeholder="weapon-desc" placeholder="Weapon description."></textarea>
-			</div>
-
-			<div class="weaponEffect">
-				<textarea spellcheck="false"  name="attr_weapon2Effect" class="weaponEffectInput" data-i18n-placeholder="weapon-effect" placeholder="Weapon effects."></textarea>
-			</div>
-		</div>
-		<!-- desc end -->	
-
-	</div>
-	<!-- Weapon 2 Block END -->
-
-<!-- !!EXTRA!! Weapons area -->
-<input type="checkbox" class="hide-toggle" name="attr_settingExtraEquip" value="true">
-<div class="hide-item">
-
-	<!-- Weapon3 block -->
-	<div class="contentContainer">
-		<div class="itemButtons">
-			<button type="action" class="darkInput shareButton share" id="share_weapon3" name="act_shareWeapon" data-i18n-title="share" title="Share info"></button>
-			<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-			<button type="action" class="darkInput autoScriptButton script" id="weapon3AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-			<input type="text" name="attr_weapon3AutoScript" hidden="true">
-		</div>
-
-		<!-- Weapon 3 header -->
-		<div class="contentHeader weapon">
-			<input type="text" class="rank" name="attr_weapon3Rank" placeholder="0" data-i18n-title="rank" title="Rank">
-			<input type="text" class="transpInput contentName" name="attr_weapon3Name" data-i18n-placeholder="equip-weapon3-name" placeholder="Weapon Name (3)">
-
-			<!-- Weapon dice roll block -->
-			<div class="rowContainer combatRoll">
-
-			<!-- Weapon3 Uses indicator -->
-			<div class="buffer" style="width: 30px; height: 30px;">
-				<input type="checkbox" class="hide-toggle-rev" name="attr_weapon3UseType" value="Limitless" hidden="true" checked>
-				<div class="hide-item-rev rowContainer centerFlex" style="position: relative;">
-
-					<input type="text" class="transpInput blocker" name="attr_weapon3Uses" style="text-align: center; height: 100%;" value="5">
-
-					<input type="checkbox" class="fade-toggle" name="attr_weapon3UseType" value="Deplete" hidden="true">
-					<div class="fade-item centerIcon reusable" style="width: 30px; height: 30px;"></div>  
-				</div>
-			</div>
-			<!-- Weapon3 Uses indicator END -->
-
-			<div class="weaponIcons">
-				<div class="icon">
-					<input type="checkbox" class="expand-toggle" value="Slash" name="attr_weapon3Type"><div class="type-image typeIcon slash"></div>
-				</div>
-
-				<div class="icon">
-					<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_weapon3Type"><div class="type-image typeIcon pierce"></div>
-				</div>
-
-				<div class="icon">
-					<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_weapon3Type"><div class="type-image typeIcon blunt"></div>
-				</div>
-			</div>
-
-			<div class="rollFormatBlock">
-				<input type="number" class="diceCount noSpinner" name="attr_weapon3Dice1" min="1" value="1">
-				<div class="plainText">D</div>
-				<input type="number" class="diceMax noSpinner" name="attr_weapon3Dice2" min="0" value="0">
-				<div class="plainText">+</div>
-				<input type="number" class="dicePower noSpinner" name="attr_weapon3Dice3" value="0">
-			</div>
-
-			<button type="action" class="NDice" id="autoroll_weapon3_raw" name="act_rollCombat"></button>
-			<!-- dice roll end -->
-
-		</div></div>
-		<!-- header end -->
-
-		<!-- Weapon3 Edit-->
-		<div>
-			<input type="checkbox" class="hide-toggle" name="attr_settingEditMode" value="true">
-			<div class="hide-item editCover">
-				<div class="settingStyle">
-					<div class="settingStyle" style="width: 60px;"><b data-i18n="message-uses">Uses</b>:	</div> 
-					<input type="text" class="transpInput" style="width: 23px;" name="attr_weapon3Uses" value="5"> / 
-					<input type="number" class="darkInput" name="attr_weapon3Uses_max" value="5" min="1">
-
-					<select name="attr_weapon3UseType" class="darkInput" style="width: 70px; margin-left: 5px;">
-						<option data-i18n="uses-nolimit" value="Limitless" selected>No limit</option>
-						<option data-i18n="uses-reload" value="Reload">Reload</option>
-						<option data-i18n="uses-deplete" value="Deplete">Deplete</option>
-					</select>
-				</div>
-			</div>
-		</div>
-		<!-- Weapon3 Edit end -->
-
-		<div class="weaponPropertySelect weapon"> 
-			<select name="attr_weapon3Type" class="weapon_type darkInput">
-				<option value="None" data-i18n="weapon-type-None">---</option>
-				<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
-				<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
-				<option data-i18n="weapon-type-Blunt" value="Blunt">Blunt</option>
-			</select>
-
-			<select name="attr_weapon3Range" class="weapon_distance darkInput">
-				<option value="None" data-i18n="weapon-type-None">---</option>
-				<option data-i18n="weapon-type-Melee" value="Melee">Melee</option>
-				<option data-i18n="weapon-type-Ranged" value="Ranged">Ranged</option>
-			</select>
-		</div>
-
-		<!-- Description/Effect section -->
-		<div class="rowContainer weaponInfo">
-			<div class="weaponDescription">
-				<div class="descHead"></div>
-				<textarea spellcheck="false"  name="attr_weapon3Description" class="weaponDescriptionInput" data-i18n-placeholder="weapon-desc" placeholder="Weapon description."></textarea>
-			</div>
-
-			<div class="weaponEffect">
-				<textarea spellcheck="false"  name="attr_weapon3Effect" class="weaponEffectInput" data-i18n-placeholder="weapon-effect" placeholder="Weapon effects."></textarea>
-			</div>
-		</div>
-		<!-- desc end -->	
-
-	</div>
-	<!-- Weapon 3 Block END -->
-
-
-	<!-- Weapon4 block -->
-	<div class="contentContainer">
-
-		<div class="itemButtons">
-			<button type="action" class="darkInput shareButton share" id="share_weapon4" name="act_shareWeapon" data-i18n-title="share" title="Share info"></button>
-			<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-			<button type="action" class="darkInput autoScriptButton script" id="weapon4AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-			<input type="text" name="attr_weapon4AutoScript" hidden="true">
-		</div>
-
-		<!-- Weapon 4 header -->
-		<div class="contentHeader weapon">
-			<input type="text" class="rank" name="attr_weapon4Rank" placeholder="0" data-i18n-title="rank" title="Rank">
-			<input type="text" class="transpInput contentName" name="attr_weapon4Name" data-i18n-placeholder="equip-weapon4-name" placeholder="Weapon Name (4)">
-
-			<!-- Weapon dice roll block -->
-			<div class="rowContainer combatRoll">
-
-			<!-- Weapon4 Uses indicator -->
-			<div class="buffer" style="width: 30px; height: 30px;">
-				<input type="checkbox" class="hide-toggle-rev" name="attr_weapon4UseType" value="Limitless" hidden="true" checked>
-				<div class="hide-item-rev rowContainer centerFlex" style="position: relative;">
-
-					<input type="text" class="transpInput blocker" name="attr_weapon4Uses" style="text-align: center; height: 100%;" value="5">
-
-					<input type="checkbox" class="fade-toggle" name="attr_weapon4UseType" value="Deplete" hidden="true">
-					<div class="fade-item centerIcon reusable" style="width: 30px; height: 30px;"></div>  
-				</div>
-			</div>
-			<!-- Weapon4 Uses indicator END -->
-
-			<div class="weaponIcons">
-				<div class="icon">
-					<input type="checkbox" class="expand-toggle" value="Slash" name="attr_weapon4Type"><div class="type-image typeIcon slash"></div>
-				</div>
-
-				<div class="icon">
-					<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_weapon4Type"><div class="type-image typeIcon pierce"></div>
-				</div>
-
-				<div class="icon">
-					<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_weapon4Type"><div class="type-image typeIcon blunt"></div>
-				</div>
-			</div>
-
-			<div class="rollFormatBlock">
-				<input type="number" class="diceCount noSpinner" name="attr_weapon4Dice1" min="1" value="1">
-				<div class="plainText">D</div>
-				<input type="number" class="diceMax noSpinner" name="attr_weapon4Dice2" min="0" value="0">
-				<div class="plainText">+</div>
-				<input type="number" class="dicePower noSpinner" name="attr_weapon4Dice3" value="0">
-			</div>
-
-			<button type="action" class="NDice" id="autoroll_weapon4_raw" name="act_rollCombat"></button>
-			<!-- dice roll end -->
-
-		</div></div>
-		<!-- header end -->
-
-		<!-- Weapon4 Edit-->
-		<div>
-			<input type="checkbox" class="hide-toggle" name="attr_settingEditMode" value="true">
-			<div class="hide-item editCover">
-				<div class="settingStyle">
-					<div class="settingStyle" style="width: 60px;"><b data-i18n="message-uses">Uses</b>:	</div> 
-					<input type="text" class="transpInput" style="width: 23px;" name="attr_weapon4Uses" value="5"> / 
-					<input type="number" class="darkInput" name="attr_weapon4Uses_max" value="5" min="1">
-
-					<select name="attr_weapon4UseType" class="darkInput" style="width: 70px; margin-left: 5px;">
-						<option data-i18n="uses-nolimit" value="Limitless" selected>No limit</option>
-						<option data-i18n="uses-reload" value="Reload">Reload</option>
-						<option data-i18n="uses-deplete" value="Deplete">Deplete</option>
-					</select>
-				</div>
-			</div>
-		</div>
-		<!-- Weapon4 Edit end -->
-
-		<div class="weaponPropertySelect weapon"> 
-			<select name="attr_weapon4Type" class="weapon_type darkInput">
-				<option value="None" data-i18n="weapon-type-None">---</option>
-				<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
-				<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
-				<option data-i18n="weapon-type-Blunt" value="Blunt">Blunt</option>
-			</select>
-
-			<select name="attr_weapon4Range" class="weapon_distance darkInput">
-				<option value="None" data-i18n="weapon-type-None">---</option>
-				<option data-i18n="weapon-type-Melee" value="Melee">Melee</option>
-				<option data-i18n="weapon-type-Ranged" value="Ranged">Ranged</option>
-			</select>
-		</div>
-
-		<!-- Description/Effect section -->
-		<div class="rowContainer weaponInfo">
-			<div class="weaponDescription">
-				<div class="descHead"></div>
-				<textarea spellcheck="false"  name="attr_weapon4Description" class="weaponDescriptionInput" data-i18n-placeholder="weapon-desc" placeholder="Weapon description."></textarea>
-			</div>
-
-			<div class="weaponEffect">
-				<textarea spellcheck="false"  name="attr_weapon4Effect" class="weaponEffectInput" data-i18n-placeholder="weapon-effect" placeholder="Weapon effects."></textarea>
-			</div>
-		</div>
-		<!-- desc end -->	
-
-	</div>
-	<!-- Weapon 4 Block END -->
-
-</div>
-<!-- !!EXTRA!! Weapons end -->
-
-
-<!-- Augmentation block -->
-<div class="augmentBlock">
-	<div class="itemButtons">
-		<button type="action" class="darkInput shareButton share" name="act_shareAugment" data-i18n-title="share" title="Share info"></button>
-		<button type="action" class="darkInput autoScriptButton script" id="augmentAutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-		<input type="text" name="attr_augmentAutoScript" hidden="true">
-	</div>
-
-	<!-- Augment header -->
-	<div class="contentHeader augment rowContainer" id="augment-name">
-	<input type="text" class="rank" name="attr_augmentRank" placeholder="0" data-i18n-title="rank" title="Rank">
-	<input type="text" class="transpInput contentName" name="attr_augmentName" data-i18n-placeholder="augment-name" placeholder="Augmentation name">
-
-        <select name="attr_augmentType" class="darkInput contentName topRight">
-	<option data-i18n="augment-type-None" value="None">---</option>
-	<option data-i18n="augment-type-Tattoos" value="Tattoos">Tattoos</option>
-	<option data-i18n="augment-type-Drugs" value="Drugs">Serums/Drugs</option>
-	<option data-i18n="augment-type-Surgery" value="Surgery">Surgery</option>
-	<option data-i18n="augment-type-Prosthesis" value="Prosthesis">Prosthesis</option>
-	<option data-i18n="augment-type-FullProsthesis" value="FullProsthesis">Full Prosthesis</option>
-	<option data-i18n="augment-type-Other" value="Other">Other</option>
-        </select>
-
-	</div>
-
-	<!-- header end -->
-
-
-	<!-- Description/Effect section -->
-	<div class="rowContainer weaponInfo">
-
-        <div class="weaponDescription">
-       <textarea spellcheck="false"  name="attr_augmentDescription" class="augmentDescriptionInput" data-i18n-placeholder="augment-desc" placeholder="Augment description."></textarea>
-        </div>
-
-        <div class="weaponEffect">
-	<textarea spellcheck="false"  name="attr_augmentEffect" class="weaponEffectInput" data-i18n-placeholder="augment-effect" placeholder="Augment effects."></textarea>
-        </div>
-
-	</div>
-	<!-- desc end -->	
-
-	</div>
-
-<!-- Augmentation block - END -->
-
-                </div>
-<!-- Weapon section END -->
-
-<!-- Outfit / Other equipment section -->
-<div class="rowContainer" style="max-width: 600px; flex-wrap: wrap; display: none !important"> <!-- Hides outfits and tools for testing -->
-<div class="outfitContainer">
-
-<!-- Outfit block -->
-<div class="contentContainer">
-<div>
-	<div class="itemButtons">
-		<button type="action" class="darkInput shareButton share" name="act_shareOutfit" data-i18n-title="share" title="Share info"></button>
-		<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-		<button type="action" class="darkInput autoScriptButton script" id="outfitAutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-		<input type="text" name="attr_outfitAutoScript" hidden="true">
-	</div>
-
-<!-- Outfit Burn/Bleed/Damage Resist -->
-<input type="checkbox" class="hide-toggle" name="attr_settingEditMode" value="true">
-<div class="editCover hide-item">
-
-<div class="columnAlign">
-<div class="rowContainer">
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_burnResist" value="0" hidden="true" checked>
-
-        <div class="ailmentIconSelector status_effect_item centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon burn"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon burn-limbus"></div>
-	</div>
-	</div>
-
-        <div class="status_effect_value"><input type="number" class="ailmentCount" name="attr_burnResist" value="0"></div>
-</div>
-
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_bleedResist" value="0" hidden="true" checked>
-
-        <div class="ailmentIconSelector status_effect_item rowContainer centerFlex">
-	<div class="icon">
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon bleed"></div>
-	</div>
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon bleed-limbus"></div>
-	</div>
-	</div>
-
-       <div class="status_effect_value"><input type="number"  class="ailmentCount" name="attr_bleedResist" value="0"></div>
-	</div>
-
-<div class="rowContainer">
-<input type="checkbox" class="fade-toggle" name="attr_damageResist" value="0" hidden="true" checked>
-
-	<div class="ailmentIconSelector status_effect_item rowContainer centerFlex">
-		<div class="icon">
-			<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_settingLimbusStyle"><div class="hide-item-rev skillIcon damageResist"></div>
-		</div>
-
-		<div class="icon">
-			<input type="checkbox" class="expand-toggle" value="true" name="attr_settingLimbusStyle"><div class="type-image skillIcon damageResist-limbus"></div>
-		</div>
-	</div>
-	
-	<div class="status_effect_value"><input type="number" class="ailmentCount" name="attr_damageResist" value="0"></div>
-</div>
-
-</div>
-<!-- Outfit Custom Ailment Resistances -->
-<div class="customResistDisplay">
-	<fieldset class="repeating_ailments">
-		<input type="checkbox" class="hide-toggle" name="attr_ailCustomResistance" hidden="true" value="true">
-		<div class="rowContainer hide-item">
-			<input type="checkbox" class="fade-toggle" name="attr_ailCustomResistanceNum" value="0" hidden="true" checked>
-			<div class="status_effect_item rowContainer centerFlex">
-				<!-- Icon selector -->
-				<div class="ailmentIconSelector rowContainer centerFlex">
-					<div class="icon">
-					<img name="attr_ailIconDisplay" class="skillIcon">
-					</div>
-				</div>
-			</div>
-			<div class="status_effect_value"><input type="number" class="ailmentCount" name="attr_ailCustomResistanceNum" value="0"></div>
-		</div>
-	</fieldset>
 </div>
 </div>
-</div>
+<!-- Equipment section END -->
 
-<!-- Outfit Resistances -->
 
 
-<!-- Outfit header -->
-	<div class="contentHeader outfit" id="outfit-name">
 
-	<input type="text" class="rank" name="attr_outfitRank" placeholder="0" data-i18n-title="rank" title="Rank">
-		<input type="text" class="transpInput contentName" name="attr_outfitName" data-i18n-placeholder="outfit-name" placeholder="Outfit">
-
-	<!-- Outfit dice roll block -->
-	<div class="rowContainer combatRoll">
-	
-	<div class="evadeIcon typeIcon defend">
-	</div>
-
-
-		<div class="rollFormatBlock">
-		<input type="number" class="diceCount noSpinner" name="attr_defDice1" min="1" value="1">
-		<div class="plainText">D</div>
-		<input type="number" class="diceMax noSpinner" name="attr_defDice2" min="0" value="0">
-		<div class="plainText">+</div>
-		<input type="number" class="dicePower noSpinner" name="attr_defDice3" value="0">
-		</div>
-
-	<div>
-              
-<button type="action" class="NDice" id="autoroll_def_raw" name="act_rollCombat"></button>
-
-	</div>
-	<!-- dice roll end -->
-
-	</div></div>
-	<!-- header end -->
-
-	<div class="weaponRangeBox outfit"> 
-
-	<div class="rowContainer combatRoll evadeAdjust">
-
-	<div class="evadeIcon typeIcon evade">
-	</div>
-
-
-		<div class="rollFormatBlock">
-		<input type="number" class="diceCount noSpinner" name="attr_evdDice1" min="1" value="1">
-		<div class="plainText">D</div>
-		<input type="number" class="diceMax noSpinner" name="attr_evdDice2" min="0" value="0">
-		<div class="plainText">+</div>
-		<input type="number" class="dicePower noSpinner" name="attr_evdDice3" value="0">
-		</div>
-
-	<div>
-              
-<button type="action" class="NDice" id="autoroll_evd_raw" name="act_rollCombat"></button>
-
-	</div>
-
-	</div>
-	</div>
-
-
-	<!-- Description/Effect section -->
-
-<div class="rowContainer">
-
-<div class="rowContainer">
-	<textarea spellcheck="false"  name="attr_outfitEffect" class="weaponEffectInput" data-i18n-placeholder="outfit-effect" placeholder="Outfit effects."></textarea>
-
-	</div>
-
-<!-- Outfit resistance table -->
-	<div class="rowContainer resistanceChart" style="margin-top: 25px">
-		<div class="rowContainer centerFlex">
-
-<div id="outfit_res_slash">
-		<div class="resIconLeft">
-		<div class="resistIcon slashNormal"></div>
-		</div>
-
-	</div>
-
-                            <select name="attr_outfitImmune1" id="outfitImmune1" class="outfitResistVal dmg">
-				<option data-i18n="outfit-res-none" value="" selected disabled hidden>---</option>
-                                <option data-i18n="outfit-res-fatal" value="2">[x2]　　　Fatal</option>
-                                <option data-i18n="outfit-res-weak" value="1.5">[x1.5]　　Weak</option>
-                                <option data-i18n="outfit-res-normal" value="1">[x1]　　　Normal</option>
-                                <option data-i18n="outfit-res-endured" value="0.5">[x0.5]　　Endured</option>
-                                <option data-i18n="outfit-res-ineffective" value="0.25">[x0.25]　　Ineffective</option>
-                                <option data-i18n="outfit-res-immune" value="0">[x0]　　　Immune</option>
-                            </select>
-
-                            <select name="attr_outfitImmune2" id="outfitImmune2" class="outfitResistVal stg">
-				<option data-i18n="outfit-res-none" value="" selected disabled hidden>---</option>
-                                <option data-i18n="outfit-res-fatal" value="2">[x2]　　　Fatal</option>
-                                <option data-i18n="outfit-res-weak" value="1.5">[x1.5]　　Weak</option>
-                                <option data-i18n="outfit-res-normal" value="1">[x1]　　　Normal</option>
-                                <option data-i18n="outfit-res-endured" value="0.5">[x0.5]　　Endured</option>
-                                <option data-i18n="outfit-res-ineffective" value="0.25">[x0.25]　　Ineffective</option>
-                                <option data-i18n="outfit-res-immune" value="0">[x0]　　　Immune</option>
-                            </select>
-
-<div id="outfit_res_slashSTG">
-		<div class="resIconRight">
-		<div class="resistIcon slashNormalSTG"></div>
-		</div>
-
-	</div>
-
-
-		</div>
-
-		<div class="rowContainer centerFlex">
-
-
-<div id="outfit_res_pierce">
-		<div class="resIconLeft">
-		<div class="resistIcon pierceNormal"></div>
-		</div>
-
-
-	</div>
-
-
-                            <select name="attr_outfitImmune3" id="outfitImmune3" class="outfitResistVal dmg">
-				<option data-i18n="outfit-res-none" value="" selected disabled hidden>---</option>
-                                <option data-i18n="outfit-res-fatal" value="2">[x2]　　　Fatal</option>
-                                <option data-i18n="outfit-res-weak" value="1.5">[x1.5]　　Weak</option>
-                                <option data-i18n="outfit-res-normal" value="1">[x1]　　　Normal</option>
-                                <option data-i18n="outfit-res-endured" value="0.5">[x0.5]　　Endured</option>
-                                <option data-i18n="outfit-res-ineffective" value="0.25">[x0.25]　　Ineffective</option>
-                                <option data-i18n="outfit-res-immune" value="0">[x0]　　　Immune</option>
-                            </select>
-
-                            <select name="attr_outfitImmune4" id="outfitImmune4" class="outfitResistVal stg">
-				<option data-i18n="outfit-res-none" value="" selected disabled hidden>---</option>
-                                <option data-i18n="outfit-res-fatal" value="2">[x2]　　　Fatal</option>
-                                <option data-i18n="outfit-res-weak" value="1.5">[x1.5]　　Weak</option>
-                                <option data-i18n="outfit-res-normal" value="1">[x1]　　　Normal</option>
-                                <option data-i18n="outfit-res-endured" value="0.5">[x0.5]　　Endured</option>
-                                <option data-i18n="outfit-res-ineffective" value="0.25">[x0.25]　　Ineffective</option>
-                                <option data-i18n="outfit-res-immune" value="0">[x0]　　　Immune</option>
-                            </select>
-
-
-<div id="outfit_res_pierceSTG">
-		<div class="resIconRight">
-		<div class="resistIcon pierceNormalSTG"></div>
-		</div>
-
-
-	</div>
-
-
-
-		</div>
-
-		<div class="rowContainer centerFlex">
-
-
-<div id="outfit_res_blunt">
-		<div class="resIconLeft">
-		<div class="resistIcon bluntNormal"></div>
-		</div>
-
-
-	</div>
-
-
-                            <select name="attr_outfitImmune5" id="outfitImmune5" class="outfitResistVal dmg">
-				<option data-i18n="outfit-res-none" value="" selected disabled hidden>---</option>
-                                <option data-i18n="outfit-res-fatal" value="2">[x2]　　　Fatal</option>
-                                <option data-i18n="outfit-res-weak" value="1.5">[x1.5]　　Weak</option>
-                                <option data-i18n="outfit-res-normal" value="1">[x1]　　　Normal</option>
-                                <option data-i18n="outfit-res-endured" value="0.5">[x0.5]　　Endured</option>
-                                <option data-i18n="outfit-res-ineffective" value="0.25">[x0.25]　　Ineffective</option>
-                                <option data-i18n="outfit-res-immune" value="0">[x0]　　　Immune</option>
-                            </select>
-
-                            <select name="attr_outfitImmune6" id="outfitImmune6" class="outfitResistVal stg">
-				<option data-i18n="outfit-res-none" value="" selected disabled hidden>---</option>
-                                <option data-i18n="outfit-res-fatal" value="2">[x2]　　　Fatal</option>
-                                <option data-i18n="outfit-res-weak" value="1.5">[x1.5]　　Weak</option>
-                                <option data-i18n="outfit-res-normal" value="1">[x1]　　　Normal</option>
-                                <option data-i18n="outfit-res-endured" value="0.5">[x0.5]　　Endured</option>
-                                <option data-i18n="outfit-res-ineffective" value="0.25">[x0.25]　　Ineffective</option>
-                                <option data-i18n="outfit-res-immune" value="0">[x0]　　　Immune</option>
-                            </select>
-
-<div id="outfit_res_bluntSTG">
-		<div class="resIconRight">
-		<div class="resistIcon bluntNormalSTG"></div>
-		</div>
-
-	</div>
-
-
-		</div>
-</div>
-<!-- Resistance chart end -->
-</div>
-
-<div class="outfitDescription"><textarea spellcheck="false"  name="attr_outfitDescription" class="outfitDescriptionInput" data-i18n-placeholder="outfit-desc" placeholder="Outfit description."></textarea></div> 
-
-
-</div>
-
-</div>
-
-
-
-
-
-	<!-- desc end -->	
-
-	</div>
-
-
-<!-- Item section -->
-<div class="toolContainer">
-
-	<!-- Tool1 block -->
-	<div class="contentContainer half" style="margin-right: 8px;">
-
-	<!-- header -->
-	<div class="contentHeader tool rowContainer">
-	<input type="text" class="rank" name="attr_tool1Rank" placeholder="0" data-i18n-title="rank" title="Rank">
-	<input type="text" class="toolName transpInput" name="attr_tool1Name" data-i18n-placeholder="tool-name" placeholder="Tool name">
-
-	<input type="checkbox" id="attr_tool1Portable" name="attr_tool1Portable" value="Portable"><label for="attr_tool1Portable" class="centerIcon portable" data-i18n-title="tool-portable" title="Portable"></label> 
-
-	<input type="checkbox" id="attr_tool1Reusable" name="attr_tool1Reusable" value="Reusable"><label for="attr_tool1Reusable" class="centerIcon reusable" data-i18n-title="tool-reusable" title="Reusable"> 
-
-<div class="rowContainer centerFlex" style="width: 30px; height: 30px;">   
-<input type="text" class="transpInput" name="attr_tool1Uses" style="width: 100%; height: 100%; text-align: center;" value="1">
-<div class="blocker"></div>  
-</div>
-
-</label>
-
-	</div>
-	<!-- header end -->
-  
-	<!-- Tool1 Edit-->
-<input type="checkbox" class="hide-toggle" name="attr_settingEditMode" value="true">
-<div class="hide-item editCover">
-
-	<div class="settingStyle" style="margin-bottom: 3px;">
-	<div class="settingStyle" style="width: 36px;"><b data-i18n="message-icon">Icon</b>:</div> 
-	<input type="text" class="darkInput" list="iconlist" name="attr_tool1Icon" style="width: 149px;" data-i18n-placeholder="message-icon-placeholder" placeholder="Icon selection" value="Hand">
-	</div>
-	<div class="settingStyle">
-	<div class="settingStyle" style="width: 36px;"><b data-i18n="message-uses">Uses</b>:	</div> 
-
-	<input type="text" class="transpInput" style="width: 23px;" name="attr_tool1Uses" value="1"> / 
-	<input type="number" class="darkInput toolMaxInput hoverSpinner" style="width: 32px; margin-left: 2px;" name="attr_tool1Uses_max" value="3" min="1">
-
-	</div>
-
-</div>
-<!-- Tool1 Edit end -->
-
-<div class="itemButtons">
-	<button type="action" class="darkInput shareButton share" id="share_tool1" name="act_shareTool" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-	<button type="action" class="darkInput autoScriptButton script" id="tool1AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_tool1AutoScript" hidden="true">
-</div>
-
-
-	<!-- Description/Effect section -->
-
-        <div class="toolDescription">
-       <textarea spellcheck="false"  name="attr_tool1Description" class="toolDescriptionInput" data-i18n-placeholder="tool-desc" placeholder="Tool description."></textarea>
-        </div>
-
-        <div class="itemEffect">
-	<textarea spellcheck="false"  name="attr_tool1Effect" class="weaponEffectInput" data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
-        </div>
-
-	<!-- desc end -->	
-
-	</div>
-	<!-- Tool1 Block - end -->
-
-
-	<!-- Tool2 block -->
-	<div class="contentContainer half">
-
-	<!-- header -->
-	<div class="contentHeader tool rowContainer">
-	<input type="text" class="rank" name="attr_tool2Rank" placeholder="0" data-i18n-title="rank" title="Rank">
-	<input type="text" class="toolName transpInput" name="attr_tool2Name" data-i18n-placeholder="tool-name" placeholder="Tool name">
-
-	<input type="checkbox" id="attr_tool2Portable" name="attr_tool2Portable" value="Portable"><label for="attr_tool2Portable" class="centerIcon portable" data-i18n-title="tool-portable" title="Portable"></label> 
-
-	<input type="checkbox" id="attr_tool2Reusable" name="attr_tool2Reusable" value="Reusable"><label for="attr_tool2Reusable" class="centerIcon reusable" data-i18n-title="tool-reusable" title="Reusable"> 
-
-<div class="rowContainer centerFlex" style="width: 30px; height: 30px;">   
-<input type="text" class="transpInput" name="attr_tool2Uses" style="width: 100%; height: 100%; text-align: center;" value="1">
-<div class="blocker"></div>  
-</div>
-
-</label>
-
-	</div>
-	<!-- header end -->
-  
-	<!-- Tool2 Edit-->
-<input type="checkbox" class="hide-toggle" name="attr_settingEditMode" value="true">
-<div class="hide-item editCover">
-
-	<div class="settingStyle" style="margin-bottom: 3px;">
-	<div class="settingStyle" style="width: 36px;"><b data-i18n="message-icon">Icon</b>:</div> 
-	<input type="text" class="darkInput" list="iconlist" name="attr_tool2Icon" style="width: 149px;" data-i18n-placeholder="message-icon-placeholder" placeholder="Icon selection" value="Hand">
-	</div>
-	<div class="settingStyle">
-	<div class="settingStyle" style="width: 36px;"><b data-i18n="message-uses">Uses</b>:	</div> 
-
-	<input type="text" class="transpInput" style="width: 23px;" name="attr_tool2Uses" value="1"> / 
-	<input type="number" class="darkInput toolMaxInput hoverSpinner" style="width: 32px; margin-left: 2px;" name="attr_tool2Uses_max" value="3" min="1">
-
-	</div>
-
-</div>
-<!-- Tool2 Edit end -->
-
-<div class="itemButtons">
-	<button type="action" class="darkInput shareButton share" id="share_tool2" name="act_shareTool" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-	<button type="action" class="darkInput autoScriptButton script" id="tool2AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_tool2AutoScript" hidden="true">
-</div>
-
-	<!-- Description/Effect section -->
-        <div class="toolDescription">
-       <textarea spellcheck="false"  name="attr_tool2Description" class="toolDescriptionInput" data-i18n-placeholder="tool-desc" placeholder="Tool description."></textarea>
-        </div>
-
-        <div class="itemEffect">
-	<textarea spellcheck="false"  name="attr_tool2Effect" class="weaponEffectInput"
-data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
-        </div>
-
-	<!-- desc end -->	
-
-	</div>
-	<!-- Tool2 Block - end -->
-
-</div>
-<!-- Tool Block END -->
-
-<!-- !!EXTRA!! Tool section -->
-<input type="checkbox" class="hide-toggle" name="attr_settingExtraEquip" value="true">
-<div class="hide-item">
-
-<div class="toolContainer">
-
-	<!-- Tool3 block -->
-	<div class="contentContainer half" style="margin-right: 8px;">
-
-	<!-- header -->
-	<div class="contentHeader tool rowContainer">
-	<input type="text" class="rank" name="attr_tool3Rank" placeholder="0" data-i18n-title="rank" title="Rank">
-	<input type="text" class="toolName transpInput" name="attr_tool3Name" data-i18n-placeholder="tool-name" placeholder="Tool name">
-
-	<input type="checkbox" id="attr_tool3Portable" name="attr_tool3Portable" value="Portable"><label for="attr_tool3Portable" class="centerIcon portable" data-i18n-title="tool-portable" title="Portable"></label> 
-
-	<input type="checkbox" id="attr_tool3Reusable" name="attr_tool3Reusable" value="Reusable"><label for="attr_tool3Reusable" class="centerIcon reusable" data-i18n-title="tool-reusable" title="Reusable"> 
-
-<div class="rowContainer centerFlex" style="width: 30px; height: 30px;">   
-<input type="text" class="transpInput" name="attr_tool3Uses" style="width: 100%; height: 100%; text-align: center;" value="1">
-<div class="blocker"></div>  
-</div>
-
-</label>
-
-	</div>
-	<!-- header end -->
-  
-	<!-- Tool3 Edit-->
-<input type="checkbox" class="hide-toggle" name="attr_settingEditMode" value="true">
-<div class="hide-item editCover">
-
-	<div class="settingStyle" style="margin-bottom: 3px;">
-	<div class="settingStyle" style="width: 36px;"><b data-i18n="message-icon">Icon</b>:</div> 
-	<input type="text" class="darkInput" list="iconlist" name="attr_tool3Icon" style="width: 149px;" data-i18n-placeholder="message-icon-placeholder" placeholder="Icon selection" value="Hand">
-	</div>
-	<div class="settingStyle">
-	<div class="settingStyle" style="width: 36px;"><b data-i18n="message-uses">Uses</b>:	</div> 
-
-	<input type="text" class="transpInput" style="width: 23px;" name="attr_tool3Uses" value="1"> / 
-	<input type="number" class="darkInput toolMaxInput hoverSpinner" style="width: 32px; margin-left: 2px;" name="attr_tool3Uses_max" value="3" min="1">
-
-	</div>
-
-</div>
-<!-- Tool3 Edit end -->
-
-<div class="itemButtons">
-	<button type="action" class="darkInput shareButton share" id="share_tool3" name="act_shareTool" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-	<button type="action" class="darkInput autoScriptButton script" id="tool3AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_tool3AutoScript" hidden="true">
-</div>
-
-
-
-
-	<!-- Description/Effect section -->
-
-        <div class="toolDescription">
-       <textarea spellcheck="false"  name="attr_tool3Description" class="toolDescriptionInput" data-i18n-placeholder="tool-desc" placeholder="Tool description."></textarea>
-        </div>
-
-        <div class="itemEffect">
-	<textarea spellcheck="false"  name="attr_tool3Effect" class="weaponEffectInput" data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
-        </div>
-
-	<!-- desc end -->	
-
-	</div>
-	<!-- Tool3 Block - end -->
-
-
-	<!-- Tool4 block -->
-	<div class="contentContainer half">
-
-	<!-- header -->
-	<div class="contentHeader tool rowContainer">
-	<input type="text" class="rank" name="attr_tool4Rank" placeholder="0" data-i18n-title="rank" title="Rank">
-	<input type="text" class="toolName transpInput" name="attr_tool4Name" data-i18n-placeholder="tool-name" placeholder="Tool name">
-
-	<input type="checkbox" id="attr_tool4Portable" name="attr_tool4Portable" value="Portable"><label for="attr_tool4Portable" class="centerIcon portable" data-i18n-title="tool-portable" title="Portable"></label> 
-
-	<input type="checkbox" id="attr_tool4Reusable" name="attr_tool4Reusable" value="Reusable"><label for="attr_tool4Reusable" class="centerIcon reusable" data-i18n-title="tool-reusable" title="Reusable"> 
-
-<div class="rowContainer centerFlex" style="width: 30px; height: 30px;">   
-<input type="text" class="transpInput" name="attr_tool4Uses" style="width: 100%; height: 100%; text-align: center;" value="1">
-<div class="blocker"></div>  
-</div>
-
-</label>
-
-	</div>
-	<!-- header end -->
-  
-	<!-- Tool4 Edit-->
-<input type="checkbox" class="hide-toggle" name="attr_settingEditMode" value="true">
-<div class="hide-item editCover">
-
-	<div class="settingStyle" style="margin-bottom: 3px;">
-	<div class="settingStyle" style="width: 36px;"><b data-i18n="message-icon">Icon</b>:</div> 
-	<input type="text" class="darkInput" list="iconlist" name="attr_tool4Icon" style="width: 149px;" data-i18n-placeholder="message-icon-placeholder" placeholder="Icon selection" value="Hand">
-	</div>
-	<div class="settingStyle">
-	<div class="settingStyle" style="width: 36px;"><b data-i18n="message-uses">Uses</b>:	</div> 
-
-	<input type="text" class="transpInput" style="width: 23px;" name="attr_tool4Uses" value="1"> / 
-	<input type="number" class="darkInput toolMaxInput hoverSpinner" style="width: 32px; margin-left: 2px;" name="attr_tool4Uses_max" value="3" min="1">
-
-	</div>
-
-</div>
-<!-- Tool4 Edit end -->
-
-<div class="itemButtons">
-	<button type="action" class="darkInput shareButton share" id="share_tool4" name="act_shareTool" data-i18n-title="share" title="Share info"></button>
-	<button type="action" class="darkInput editButton edit" name="act_editMode" data-i18n-title="edit" title="Edit"></button>
-	<button type="action" class="darkInput autoScriptButton script" id="tool4AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-	<input type="text" name="attr_tool4AutoScript" hidden="true">
-</div>
-
-
-	<!-- Description/Effect section -->
-        <div class="toolDescription">
-       <textarea spellcheck="false"  name="attr_tool4Description" class="toolDescriptionInput" data-i18n-placeholder="tool-desc" placeholder="Tool description."></textarea>
-        </div>
-
-        <div class="itemEffect">
-	<textarea spellcheck="false"  name="attr_tool4Effect" class="weaponEffectInput" data-i18n-placeholder="tool-effect" placeholder="Tool effects."></textarea>
-        </div>
-
-	<!-- desc end -->	
-
-	</div>
-	<!-- Tool4 Block - end -->
-</div>
-</div>
-<!-- !!EXTRA!! Item Block END -->
-
-
-</div>
-
-</div>
-
-<!-- ??? -->
-
-<!-- Special Items section -->
-<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideSpecial" value="true">
-<div class="hide-item-rev rowContainer">
-<div class="contentBlock">
-
-	<!-- Special Item1 block -->
-	<div class="specialBlock">
-
-	<!-- Item buttons -->
-	<div class="itemButtons">
-		<button type="action" class="darkInput shareButton share" id="share_special1" name="act_shareSpecial" data-i18n-title="share" title="Share info"></button>
-		<button type="action" class="darkInput autoScriptButton script" id="special1AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-		<input type="text" name="attr_special1AutoScript" hidden="true">
-	</div>
-
-	<!-- Header -->
-	<div class="contentHeader special" id="special1Name">
-		
-	<input type="text" type="text" class="rank" name="attr_special1Rank" placeholder="0" data-i18n-title="rank" title="Rank">
-
-	<input type="text" class="transpInput contentName" name="attr_special1Name" data-i18n-placeholder="special-name" placeholder="Special item name">
-
-		<select name="attr_special1Risk" class="darkInput contentName topRight" data-i18n-title="special-risk-text" title="Risk Level">
-			<option data-i18n="special-risk-none" value="none">---</option>
-			<option data-i18n="special-risk-0" value="0">Canard</option>
-			<option data-i18n="special-risk-1" value="1">Urban Myth</option>
-			<option data-i18n="special-risk-2" value="2">Urban Legend</option>
-			<option data-i18n="special-risk-3" value="3">Urban Plague</option>
-			<option data-i18n="special-risk-4" value="4">Urban Nightmare</option>
-			<option data-i18n="special-risk-5" value="5">Star of the City</option>
-			<option data-i18n="special-risk-6" value="6">Impuritas Civitatis</option>
-		</select>
-
-	</div>
-	<!-- header end -->
-
-
-	<!-- Description/Effect section -->
-	<div class="rowContainer weaponInfo">
-
-	<div class="special" style="height: 110px;"> 
-
-	<div class="specialColumn">
-	<span data-i18n="special-range-text">Effect Range</span>
- 		<select name="attr_special1Range" class="specialInput darkInput" id="special1Range" style="text-align: center;">
-                          <option data-i18n="special-range-none" value="none">---</option>
-                          <option data-i18n="special-range-0" value="0">One or two people</option>
-                          <option data-i18n="special-range-1" value="1">Street</option>
-                          <option data-i18n="special-range-2" value="2">Neighborhood</option>
-                          <option data-i18n="special-range-3" value="3">Residence Area</option>
-                          <option data-i18n="special-range-4" value="4">Nest</option>
-                          <option data-i18n="special-range-5" value="5">Multiple Nests</option>
-                          <option data-i18n="special-range-6" value="6">City</option>
-               	</select>
-	</div>
-
-	<div class="specialColumn">
-	<span data-i18n="special-duration-text">Duration</span>
-		<select name="attr_special1Duration" class="specialInput darkInput" id="special1_duration" style="text-align: center;">
-			<option data-i18n="special-duration-none" value="none">---</option>
-			<option data-i18n="special-duration-0" value="0">A moment</option>
-			<option data-i18n="special-duration-1" value="1">Seconds</option>
-			<option data-i18n="special-duration-2" value="2">Minutes</option>
-			<option data-i18n="special-duration-3" value="3">Hours</option>
-			<option data-i18n="special-duration-4" value="4">Days</option>
-			<option data-i18n="special-duration-5" value="5">Weeks</option>
-			<option data-i18n="special-duration-6" value="6">Months</option>
-              	</select>
-	</div>
-
-	</div>
-
-       <textarea spellcheck="false"  name="attr_special1Description" class="specialDescriptionInput" data-i18n-placeholder="special-desc" placeholder="Special item description/effects."></textarea>
-
-	</div>
-	<!-- desc end -->	
-
-	</div>
-<!-- Special Item 1 Block END -->
-
-
-<!-- Special Item2 block -->
-	<div class="specialBlock">
-
-	<!-- Item buttons -->
-	<div class="itemButtons">
-		<button type="action" class="darkInput shareButton share" id="share_special2" name="act_shareSpecial" data-i18n-title="share" title="Share info"></button>
-		<button type="action" class="darkInput autoScriptButton script" id="special2AutoScript" name="act_autoScriptEdit" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
-		<input type="text" name="attr_special2AutoScript" hidden="true">
-	</div>
-
-	<!-- Header -->
-	<div class="contentHeader special" id="special2Name">
-		
-	<input type="text" type="text" class="rank" name="attr_special2Rank" placeholder="0" data-i18n-title="rank" title="Rank">
-
-	<input type="text" class="transpInput contentName" name="attr_special2Name" data-i18n-placeholder="special-name" placeholder="Special item name">
-
-	<select name="attr_special2Risk" class="darkInput contentName topRight" data-i18n-title="special-risk-text" title="Risk Level">
-			<option data-i18n="special-risk-none" value="none">---</option>
-			<option data-i18n="special-risk-0" value="0">Canard</option>
-			<option data-i18n="special-risk-1" value="1">Urban Myth</option>
-			<option data-i18n="special-risk-2" value="2">Urban Legend</option>
-			<option data-i18n="special-risk-3" value="3">Urban Plague</option>
-			<option data-i18n="special-risk-4" value="4">Urban Nightmare</option>
-			<option data-i18n="special-risk-5" value="5">Star of the City</option>
-			<option data-i18n="special-risk-6" value="6">Impuritas Civitatis</option>
-		</select>
-
-	</div>
-	<!-- header end -->
-
-
-	<!-- Description/Effect section -->
-	<div class="rowContainer weaponInfo">
-
-	<div class="special" style="height: 110px;"> 
-
-	<div class="specialColumn">
-	<span data-i18n="special-range-text">Effect Range</span>
- 		<select name="attr_special2Range" class="specialInput darkInput" id="special2Range" style="text-align: center;">
-                          <option data-i18n="special-range-none" value="none">---</option>
-                          <option data-i18n="special-range-0" value="0">One or two people</option>
-                          <option data-i18n="special-range-1" value="1">Street</option>
-                          <option data-i18n="special-range-2" value="2">Neighborhood</option>
-                          <option data-i18n="special-range-3" value="3">Residence Area</option>
-                          <option data-i18n="special-range-4" value="4">Nest</option>
-                          <option data-i18n="special-range-5" value="5">Multiple Nests</option>
-                          <option data-i18n="special-range-6" value="6">City</option>
-               	</select>
-	</div>
-
-	<div class="specialColumn">
-	<span data-i18n="special-duration-text">Duration</span>
-		<select name="attr_special2Duration" class="specialInput darkInput" id="special2_duration" style="text-align: center;">
-			<option data-i18n="special-duration-none" value="none">---</option>
-			<option data-i18n="special-duration-0" value="0">A moment</option>
-			<option data-i18n="special-duration-1" value="1">Seconds</option>
-			<option data-i18n="special-duration-2" value="2">Minutes</option>
-			<option data-i18n="special-duration-3" value="3">Hours</option>
-			<option data-i18n="special-duration-4" value="4">Days</option>
-			<option data-i18n="special-duration-5" value="5">Weeks</option>
-			<option data-i18n="special-duration-6" value="6">Months</option>
-              	</select>
-	</div>
-
-	</div>
-
-       <textarea spellcheck="false"  name="attr_special2Description" class="specialDescriptionInput" data-i18n-placeholder="special-desc" placeholder="Special item description/effects."></textarea>
-
-	</div>
-	<!-- desc end -->	
-
-	</div>
-<!-- Special Item2 Block END -->
-
-</div>
-
-</div>
-</div>
-</div>
-</div>
-<!-- Equipment END -->
 
 <!-- Skill section -->
-
 	<div class="sheet-body sheet-skills darkBG">
-        <div class="contentBlock" id="skillSection">
+    <div class="contentBlock" id="skillSection">
 
 <!-- EGO Skills Column -->
-            <div class="egoSkillContainer">
+    <div class="egoSkillContainer">
 
 	<!-- EGO Skill1 block -->
 	<div class="skillBlock">
@@ -16828,7 +15791,7 @@ class itemNode {
 
 		// Includes functions for validating item input values
 		valid: {
-			type: (s) => is(s).In(itemNode.format.defaults),
+			type: (s) => is(s).In("Weapon", "Outfit", "Augment", "Tool", "Skill", "Special", "Effect"),
 			rank: (i) => is.Int(i, {min: -1}),
 			name: (s) => is.String(s),
 			description: (s) => is.String(s, {newlines: true}),
@@ -17401,7 +16364,7 @@ class itemListHandler {
 			itemId = itemId.toLowerCase();
 
 			console.log("Deleting item:", itemId);
-			delete this.items[itemId]
+			delete this.items[itemId];
 			this.#deleteAccessors(itemId);
 
 			// Check if any items link to the item
@@ -17632,11 +16595,18 @@ const accessHandler = {
 
 // Props beginning with _ are inaccessible to AutoEffects
 const accessData = {
+	
+	// All values that should be applied to the sheet are added to this output object
+	// In effect, you can use access._output.prop = value in place of setAttrs(prop: value)
 	_output: {
 		sheet: {}, 
 		editor: {},
 	},
+	// TODO: This should maybe not be a single output, but instead one output for each character in access
+	// When outputting the values, use setAttrsByID(access._output[id]) for each id in access where the output isn't empty
+	// Alternatively, add an output to each root node of each access (node created with no parent)
 
+	// The current state of access. See access._begin() for more details
 	_access_state: false,
 
 	get _state() {
@@ -17647,61 +16617,83 @@ const accessData = {
 			console.warn(`access: "${v}" is not a supported access state`)
 			//return false;
 		}
-		//console.log("access: setting state to", v);
+
+		// if (v && v != "output") console.log("access: setting state to", v);
+
 		access._access_state = v;
 		//return true;
 	},
 
-	async _begin(state, callback=()=>{}) {
-		if (state) {
-			if (state == "event" && access._state) {
-				await callback(access._state);
+	// Begins a new data access "action"
+	// When used, any modified values will be saved in each node's local #output storage instead of immediately being applied
+	// "action" here means an interaction with the data access, divided into one or more states. This could for example be the "setup", "effects" and "rolling" of a roll
+	//  - The states "event" and "sync" are special. These states are only used if no other action is currently taking place
+	async _begin(newState, callback=()=>{}) {
+		let charID = getActiveCharacterId(); // TODO: Remove this after improving the access output system
+
+		if (newState) {
+			if (access._state && is(newState).In("event", "sync")) {
+				newState = false;
 			} else {
-				access._state = state;
-				await callback(state);
+				access._state = newState;
 			}
+			await callback(newState || access._state);
 		}
-		access._end();
+
+		// Only runs if the access wasn't already ended inside the callback function
+		if (newState && access._state) {
+			access._end(charID);
+		}
 	},
 	
-	_end() {
-		access._state = "output";
+	// Ends a data access "action"
+	// All actions end in an "output" state, where values modified during the action are applied to the data access and sheet
+	_end(charID) {
+		if (access._state) {
+			access._state = "output";
 
-		for (root of Object.values(this).filter(v => v instanceof dataNode)) {
-			root.apply(access._output);
-		}
-
-		// Apply all output values to the sheet
-		let attrs = {...access._output.sheet, ...access._output.editor}
-		access._output = {sheet: {}, editor: {}}
-
-		if (length(attrs) > 0) {
-			setAttrs(attrs, {}, () => {
-				console.log("Applied attributes:", attrs);
-			});
-		}
-
-		access._state = false;
-	},
-
+			if (!getActiveCharacterId()) {
+				setActiveCharacterId(charID);
+			}
 	
-	_ids: {}, // Stores a sorted list of repids for each character in access
-	// TODO: Remove this? Ids can be collected from nodes using node.repIDs. You just have to ensure they're sorted correctly
+			// TODO: Limit this to only the accesses that were involved in the action, ex. by having modify add the access id to a list
+			// For DMs with loads of tokens, or many different characters, applying every access can be a LOT of work
+			// This could maybe be done using the event counts? These begin with a character id, and every change triggers at least a modify event
+			// If no event count exists that begin with a char id, then that char id can safely be skipped
+			for (root of Object.values(this).filter(v => v instanceof dataNode)) {
+				root.apply(access._output);
+			}
+	
+			// Apply all output values to the sheet
+			let attrs = {...access._output.sheet, ...access._output.editor}
+
+			if (length(attrs) > 0) {
+				setAttrs(attrs, {}, () => {
+					console.log("Applied attributes:", attrs);
+				});
+			}
+			
+			// Cleanup
+			access._output = {sheet: {}, editor: {}}
+			access._event.count = {}
+			access._state = false;
+		}
+	},
 	
 	_event: {
 		// Stores a branching tree of access paths leading to event callback functions. Used for triggering events
-		// Initializes as an array of this.new() functions. These functions are added by onAccess(), and are used for setting up the built-in events of the sheet
+		// Initializes as an array of this.register() functions. These functions are added by onAccess(), and are used for setting up the built-in events of the sheet
 		// When a character is first initialized, the tree is converted to an object containing all built-in event paths + functions
 		tree: [], 
 
 		// Stores the amount of times an event path appears in trigger(). Used for hindering infinite loops. Should be reset when access outputs to the sheet
 		count: {},
 
-		// Event keys used for Roll20 events
+		// Event keys used for Roll20 events generated by access._initialize()
 		keys: [],
 
 		// Registers a new access event
-		new(path, opts, func) {
+		register(path, opts, func) {
 			let accessNode = access;
 			let eventNode = access._event.tree;
 
@@ -17881,6 +16873,8 @@ const accessData = {
 				});
 			}
 			
+			return; // TODO: Add this later
+
 			// Recalculate all custom events for the specified ids
 			for (const id of idArray) {
 				let autoScriptArray = []
@@ -17907,7 +16901,7 @@ const accessData = {
 	},
 
 	
-
+	
 	// List of illegal prop names
 	// Cannot be added as local or global variables
 	// Remember to remove leading underscores and converting to lowercase before comparing with these props
@@ -17938,40 +16932,46 @@ const accessData = {
 	// (Local/Global var = N) is really just "Is var in local/global? If not, is var legal? If yes, add it to local/global" + (Set var = N)
 
 
+
+
 	// Adds the data of a new character if it isn't already in access
-	_initialize: (ID, type="character") => {
+	_initialize(ID, type="character") {
 		if (is.ID(ID) && !(ID in access)) {
 			access._begin("init", async () => {
 				let newRoot = new dataNode(dataFormat, false, false, [ID]);
 				access[ID] = newRoot;
 				newRoot.type = type;
 				
-				access._ids[ID] = await getSectionIDsOrdered(ID, sheetSections);
+				let repids = await getSectionIDsOrdered(ID, sheetSections);
 	
 				let repNode = null;
-				for (const [section, idArray] of Object.entries(access._ids[ID])) {
+				for (const [section, idArray] of Object.entries(repids)) {
 					switch (section) {
 						case "ailments": repNode = newRoot.ailments; break;
 						default: repNode = newRoot.items;
 					}
 					for (const repid of idArray) {
-						if (repNode) repNode.add({id: repid, section: section, silent:true});
+						if (repNode) repNode.add({id: repid, section: section, silent:true, default:false});
 					}
 				}
-	
+
+				// If no items exist, add a dummy item for the sake of generating event keys
+				if (newRoot.items.repCount == 0) {
+					newRoot.items.add({id: "delete_me_later", section: "outfits", silent:true, default:false});
+				}
+
 				// All items have at least one rollformat, even when the option is disabled
-				// TODO: Move this to an access.items.add event so it also applies to items added after initialization
-				for (const itemId of newRoot.items.repIDs) {
-					repNode = newRoot.items[itemId].rollformats;
-					if (repNode.repCount == 0) {
-						repNode.add({id: generateRowID(), section: section, silent:true});
+				for (const item of newRoot.items.repNodes) {
+					let rollNode = item.rollformats;
+					if (rollNode.repCount == 0) {
+						rollNode.add();
 					}
 				}
-	
+
 				let keys = newRoot.attrkeys({unsorted:false});
 
 				// Add in missing rollformat keys (indexes 2-5 for most items)
-				keys.sheet = keys.sheet .flatMap(key => {
+				keys.sheet = keys.sheet.flatMap(key => {
 					if (/[0-9]+$/.test(key)) {
 						if (key.endsWith(1)) {
 							return range(2, 6).reduce((acc, i) => [...acc, key.replace(/1$/, i)], [key]);
@@ -17995,18 +16995,51 @@ const accessData = {
 	
 				console.log(keys);
 				console.log({sheet: {...values.sheet}, editor: {...values.editor}});
+
+				// Add a number of roll formats equal to the amount shown in the sheet
+				if (newRoot.items.repCount > 0) {
+					for (const item of newRoot.items.repNodes) {
+						let rollNode = item.rollformats;
+						for (let i = 2; i <= 5; i++) {
+							if (is.True(values.sheet[rollNode.attr(rollNode.repIDs[0], "sheet").slice(0, -1) + i])) {
+								rollNode.add();
+							}
+						}
+					}
+				}
+
+				if (newRoot.items["delete_me_later"]) {
+					delete newRoot.items["delete_me_later"];
+					access._output = {sheet: {}, editor: {}}
+				}
 	
 				// Apply retrieved values from the sheet to access
 				newRoot.input(values, {silent:"hard"});
 
+				// Clear old rollformats from the item editor
+				let rollIDs = await getSectionIDsAsync("rollformats");
+				for (const rollID of rollIDs) {
+					removeRepeatingRow(`repeating_rollformats_${rollID}`);
+				}
+
+				// Add new rollformats to the item editor
+				let target = newRoot.items.editor.target;
+				if (is.ID(target)) {
+					let rollformats = newRoot.items[target].rollformats;
+					for (const id of rollformats.repIDs) {
+						rollformats[id].output({editor: access._output.editor}, {allProps:true});
+					}
+				}
+
 				// Add Roll20 events for syncing values to access (if they do not already exist)
 				if (access._event.keys.length == 0) {
-					let eventkeys = newRoot.attrkeys({event:"change", unsorted:false}); 											// Non-repeating attributes
+					let eventkeys = newRoot.attrkeys({event:"change", unsorted:false}); 									// Non-repeating attributes
 					eventkeys = {
-						sheet: eventkeys.sheet.concat(sheetSections.map(section => `change:repeating_${section}`)), 				// Repeating sheet attributes
-						editor: eventkeys.editor.concat([`change:repeating_${section}`]),										 	// Repeating editor attributes
+						sheet: eventkeys.sheet.concat(sheetSections.map(section => `change:repeating_${section}`)), 		// Repeating sheet attributes
+						editor: eventkeys.editor.concat([`change:repeating_rollformats`]),									// Repeating editor attributes
 					}
-					access._event.keys = eventkeys;
+
+					console.log(eventkeys);
 
 					for (const source in eventkeys) {
 						on(eventkeys[source].join(" "), function(info) {
@@ -18068,21 +17101,65 @@ const access = new Proxy(accessData, accessHandler);
 
 
 
-// Initialize access on startup
-on("sheet:opened", async function() {
-	
-	// Clear old rollformats from the item editor
-	let rollIDs = await getSectionIDsAsync("rollformats");
-	for (const rollID of rollIDs) {
-		removeRepeatingRow(`repeating_rollformats_${rollID}`);
+/* Access events */
+
+/* Functions like on(), except it uses an access event path and supports custom event info and options */
+/* The event path consists of an access path leading to a node + one of these events */
+/*  - add: Is triggered when a repeating subnode is added to a node using node.add(). newval = the new node */
+/*  - delete: Is triggered when a repeating subnode is deleted from a node using node.delete(). oldval = the deleted node */
+/*  - modify.prop: Is triggered when the property "prop" is modified using node.modify(prop, value). oldval and newval = old and new prop value */
+/*    A valid event path is for example "items[-abc].equip.modify.equipped". A path array may alternatively be used */
+/* The following options are supported: */
+/*  - custom: Should be true for AutoEffect events, and otherwise false */
+/*  - ignoreSilent: When true, the event still triggers for silenced events (silent: true/"soft"). Events with silent: "hard" are still ignored */
+/*  - max: The max amount of times an event can trigger per action. It is set to 100 if no value is provided (to avoid infinite loops) */
+/*    - The count is tracked seperately for different paths. The event "ailments.proc.N" may trigger twice for "ailments.proc.Burn" and "ailments.proc.Bleed" */
+/*    - AutoEffect events should only trigger once per action per unique path */
+/* The following event info is returned: */
+/*  - node: The dataNode object that triggered the event */
+/*  - type: The type of event, ex. "modify" */
+/*  - source: The source of the attribute change (modify only) */
+/*  - oldval, newval: Differs based on the event (see above) */
+/*  - path: The event path in array form. May use an array of multiple paths or path arrays */
+function onAccess(path, opts={}, callback) {
+	if (typeof opts == "function") {
+		callback = opts;
+		opts = {}
 	}
 
-	// Add character data to access
-	access._initialize(getActiveCharacterId());
-});
-
-
-
+	// For normal Roll20 event strings. Return info in the Roll20 event info format
+	if (typeof path == "string" && /^(change|clicked|remove|sheet):/.test(path.trim())) {
+		on(path, (info) => {
+			access._begin("event", () => {
+				callback(info);
+			});
+		});
+	}
+	
+	// For access event paths in string or array form. Returns info in the acces event into format
+	else {
+		if (is.Array(path) && is.Array(path[0])) {
+			for (subpath of path) {
+				onAccess(subpath, opts, callback);
+			}
+		} else {
+			if (opts.custom) {
+				opts = {...opts, ignoreSilent:false, max: 1}
+			} else {
+				opts = {ignoreSilent:true, max: 100, ...opts}
+				path.unshift("N"); // All built-in events affect all characters
+			}
+			
+			if (is.Array(access._event.tree)) {
+				access._event.tree.push(() => {
+					access._event.register(path, opts, callback);
+				});
+			} else {
+				access._event.register(path, opts, callback);
+			}
+		}
+	}
+}
 
 // Helper function for generating item events
 function itemEvent(trigger, target) { // edit-item
@@ -18092,13 +17169,36 @@ function itemEvent(trigger, target) { // edit-item
 	}
 }
 
+// Initialize access on startup
+on("sheet:opened", async function() {
+	access._initialize(getActiveCharacterId());
+});
 
+/* Event - Update item type */
+onAccess(["items", "N", "modify", "type"], {}, function(info) {
+	let oldSection = itemSections.find(sect => sect.includes(info.oldval.toLowerCase()));;
+	let newSection = itemSections.find(sect => sect.includes(info.newval.toLowerCase()));;
+	let itemID = info.node.id;
 
+	function updateSources(node) {
+		if (node.attrs.sheet) node.attrs.sheet.section = newSection;
+		for (subnode of node.values) {
+			if (subnode instanceof dataNode) {
+				updateSources(subnode);
+			}
+		}
+	}
+	updateSources(info.node);
+	info.node.output(access._output, {allProps:true});
+	delete access._output.editor["itemedittype"]; // Avoids an infinite loop from the editor field cycling between the old and new value
 
+	removeRepeatingRow(`repeating_${oldSection}_${itemID}`);
+	
+	console.log(info);
+	console.log(oldSection, newSection, itemID);
+});
 
-
-
-/* Update item & ailments names */
+/* Event - Update item & ailments names */
 onAccess([["items", "N", "modify", "name"], ["ailments", "N", "modify", "name"]], {}, function(info) {
 	console.log(info);
 
@@ -18124,36 +17224,46 @@ onAccess([["items", "N", "modify", "name"], ["ailments", "N", "modify", "name"]]
 	}
 });
 
-
-
-
-
-
-
-
-
-// Event - Open/close item editor
-on(itemEvent("clicked", "edit-item"), function(info) {
-	let itemID = info.triggerName.split("_")[2];
-	access.items.editor.target = itemID;
+/* Event - Open/close item editor */
+onAccess(itemEvent("clicked", "edit-item"), {}, function(info) {
+	let [section, itemID] = info.triggerName.split("_").slice(1);
+	let editor = access.items.editor;
+	editor.target = itemID;
+	
+	if (is(section).In("weapons", "augments", "effects")) {
+		if (editor.location == "Left") editor.location = "Right";
+	} else {
+		if (editor.location == "Right") editor.location = "Left";
+	}
+	// TODO: Add special handling for sections that cover both rows (skills and special items)
+	// You can do this by using their indexes. Odd indexes are on the left, while even indexes are on the right
 });
-on("clicked:closeItemEdit", function(info) {
+onAccess("clicked:closeItemEdit", {}, function(info) {
 	access.items.editor.target = false;
 });
-onAccess([
-	["items", "editor", "modify", "target"],
-	["items", "delete"]
-], {}, function(info) {
+onAccess(["items", "delete"], {}, function(info) {
+	if (info.oldval.id == access.items.editor.target) {
+		access.items.editor.target = false;
+	}
+});
+onAccess(["items", "editor", "modify", "target"], {}, function(info) {
 	let items = access[info.charid].items;
-	let target = items.editor.target;
-
+	
 	// Close the editor for the currently targeted item
-	if (is.ID(info.oldval) || (info.type == "delete" && target == info.oldval.id)) {
+	if (is.ID(info.oldval)) {
 		console.log("Close editor:", info.oldval);
 
 		// Remove all roll formats in the editor
-		for (const rollid in items[info.oldval].rollformats) {
-			removeRepeatingRow(`repeating_rollformats_${rollid}`);
+		try {
+			for (const rollid in items[info.oldval].rollformats) {
+				removeRepeatingRow(`repeating_rollformats_${rollid}`);
+			}
+		} catch (e) { // Used when removing an item with an open editor
+			getSectionIDs("rollformats", function(idArray) {
+				for (const rollid of idArray) {
+					removeRepeatingRow(`repeating_rollformats_${rollid}`);
+				}
+			});
 		}
 	}
 
@@ -18164,12 +17274,66 @@ onAccess([
 		// Output all item properties and options to the editor
 		if (items[info.newval]) {
 			items[info.newval].output({editor: access._output.editor}, {allProps:true});
-			items.editor.output(access._output);
 		} else {
-			console.log("Throw error: Item editor target set to unknown item id")
+			console.log("Throw error: Item editor target set to unknown item id");
 		}
 	}
 });
+
+/* Event - Add/delete an item or roll format */
+onAccess("clicked:addItem " + itemEvent("remove") + " remove:repeating_rollformats", {}, function(info) {
+	let type = info.triggerName.split(":")[0];
+	let section = (info.sourceAttribute || info.htmlAttributes.id).split("_")[1];
+	let id = (section == "rollformats") ? false : generateRowID().toLowerCase();
+	
+	let node = access.items;
+	let target = node.editor.target;
+	
+	if (section == "rollformats") {
+		if (!target) return;
+		node = node[target].rollformats;
+	}
+
+	if (type == "remove") {
+		let repID = info.sourceAttribute.split("_")[2];
+		node.delete(repID);
+		node.output(access._output);
+	} else {
+		if (section == "rollformats" && node.repCount >= 5) return;
+		node.add({id:id, section:section});
+	}
+
+	// Update the number of displayed roll formats in the sheet
+	if (section == "rollformats") {
+		for (let i = 1; i <= 5; i++) {
+			console.log(node.repIDs, node.repIDs[i-1])
+			access._output.sheet[node.attr(node.repIDs[0], "sheet").slice(0, -1) + i] = (i <= node.repCount) ? "true" : "0";
+		}
+	}
+});
+
+/* Event - Minimize or maximize an item when double clicking its header */
+let dcTime = new Date();
+let dcHeader = false;
+let configDcTime = 150;
+$20(".inventoryContainer .contentHeader").on("click", (e) => {
+	dcHeader = true;
+});
+$20(".inventoryContainer .repitem").on("click", (e) => {
+	let dcTimePrev = dcTime;
+	dcTime = new Date();
+
+	if (dcHeader && dcTime.getTime() - dcTimePrev.getTime() <= configDcTime) {
+		let dcRepid = e.htmlAttributes["data-reprowid"];
+		access._begin("event", () => {
+			access.items[dcRepid].minimized = !access.items[dcRepid].minimized;
+		});
+		dcTime = new Date(0);
+	}
+	
+	dcHeader = false;
+});
+
 
 
 
@@ -18409,14 +17573,6 @@ triggerAutoScripts.forEach((trigger) => {
 
 
 
-/* Add new item or rollformat */
-on("clicked:addItem", function(info) {
-	let itemSection = info.htmlAttributes.id.split("_")[1];
-	access.items.add({id: generateRowID(), section: itemSection});
-});
-
-
-
 
 
 
@@ -18523,7 +17679,7 @@ on('change:repeating_sectionname', function() {
 
 const rollDataFormat = {
 	base: {
-		type: "None", mode: "Roll", damage_type: "None", count: 0, max: 0, power: 0, adv: false, autoscript: "",
+		type: "Effect", mode: "Roll", damage_type: "None", count: 0, max: 0, power: 0, adv: false, autoscript: "",
 		action: {type: "Action", cost: 1},
 		reaction: {type: "Reaction", cost: 1},
 		uses: {cost: 1},
@@ -18865,7 +18021,6 @@ const repDataFormats = {
 			},
 			export: {alias: "items"},
 			attrs: {
-				ignore: {prop: ["type"]},
 				equip: {
 					slots: {option: "EquipSlots", prefix: "slot"},
 				},
@@ -18896,6 +18051,7 @@ const repDataFormats = {
 				},
 				usable: {
 					option: "Usable",
+					prefix: "useable",
 					action: {option: "UsableAction", prefix: "usableAction"},
 					reaction: {option: "UsableReaction", prefix: "usableReaction"},
 					uses: {option: "UsableUses", prefix: "usableUses"}
@@ -19106,6 +18262,7 @@ const dataFormat = {
 			repeating: repDataFormats.item.base, // Items have their own formats
 			editor: {
 				target: "0",
+				location: "Center",
 			},
 		},
 		ailments: {
@@ -19265,6 +18422,7 @@ const dataFormat = {
 			repeating: repDataFormats.item.valid,
 			editor: {
 				target: (v) => is.False(v) || is.ID(v),
+				location: (s) => is(s).In("Left", "Center", "Right"),
 			},
 		},
 		ailments: {
@@ -19423,7 +18581,7 @@ on("clicked:testA", async function(info) {
 	access._begin("update", function() {
 		access.items[1].equip.equipped = !is.True(access.items[1].equip.equipped);
 
-		console.log(access);
+		console.log(access[getActiveCharacterId()]);
 	});
 });
 
@@ -19433,13 +18591,7 @@ on("clicked:testB", function(info) {
 
 	access._begin("event", () => {
 
-		// Shuffle the user's current HP
-		access.bars.hp = Random.Int(1, access.bars.hp_max);
-		
-		// Increase Justice by 1 if the new HP is aove 50%
-		if (access.bars.hp >= access.bars.hp_max/2) {
-			access.character.justice += 1;
-		}
+		access.items[1].type = "Augment";
 	});
 });
 
@@ -19463,11 +18615,11 @@ class dataNode {
 
 	#parent;			// The parent node of this node, if any
 	#valid = {}; 		// List of attribute value validators for the node
-	#attrs = {};  		// List of attribute name formats for the node
 	#formats;			// The raw formats used to construct this node
 
 	constructor(formats=dataFormat, id=false, parent=false, path=[]) {
 		Object.defineProperties(this, {
+			attrs: {writable: true, value: {}},			// List of attribute name formats for the node
 			enabled: {writable: true, value: true}, 	// If a subnode and its properties are enabled. Used primarily for toggling item options
 			id: {value: id}, 					   		// The repeating id associated with the node, if any
 			path: {value: path},						// The access path leading to this node
@@ -19484,12 +18636,12 @@ class dataNode {
 
 		// Get the sources of the data, and any source-specific attribute name data
 		for (const source of Object.keys(formats.source)) {
-			Object.defineProperty(this.#attrs, source, {
+			Object.defineProperty(this.attrs, source, {
 				writable: true, value: formats.source[source]
 			});
 		};
 
-		// For item nodes, only enable nodes in that item type's default format
+		// For item nodes, only enable nodes in that type of item's default format
 		if (formats.source.editor && !formats.default) {
 			this.enabled = false;
 		}
@@ -19540,11 +18692,11 @@ class dataNode {
 			if (prop != "repeating") {
 				Object.defineProperty(this, prop, {
 					get() {
+						if (this[`_${prop}`] instanceof dataNode) {
+							return this[`_${prop}`];
+						}
 						if (this.#getImmutable) {
 							this.#getImmutable = false;
-							if (prop instanceof dataNode) {
-								this[prop].#getImmutable = true;
-							}
 							return this[`_${prop}`];
 						}
 						return this.#output[`_${prop}`] || this[`_${prop}`];
@@ -19558,8 +18710,10 @@ class dataNode {
 				if (formats.attrs) {
 					let ignore = formats.attrs.ignore;
 
-					if (formats.attrs[prop]?.option) {
-						this.#attrs[prop] = "option" + formats.attrs[prop].option.toLowerCase();
+					if (this[prop] instanceof dataNode) { // Only subnodes which are options have associated attributes
+						if (formats.attrs[prop]?.option) {
+							this.attrs[prop] = "option" + formats.attrs[prop].option.toLowerCase();
+						}
 					}
 					else if (!(ignore && is(prop).In(ignore.prop))) {
 						let prefix = !(ignore && ignore.prefix?.includes(prop)) ? formats.attrs.prefix || "" : "";
@@ -19571,15 +18725,17 @@ class dataNode {
 						}
 
 						let attr = prefix + key + suffix;
-						this.#attrs[prop] = attr.toLowerCase();
+						this.attrs[prop] = attr.toLowerCase();
 					}
 				}
 			}
 
-
 			// Get any attribute value validation data
 			if (formats.valid) {
-				if (formats.valid[prop] && typeof formats.valid[prop] == "function") {
+				if (this[prop] instanceof dataNode) {
+					this.#valid[`_${prop}`] = (b) => is.Bool(b);
+				}
+				else if (formats.valid[prop] && typeof formats.valid[prop] == "function") {
 					this.#valid[`_${prop}`] = formats.valid[prop];
 				} 
 				else if (formats.valid._default) {
@@ -19596,32 +18752,6 @@ class dataNode {
 
 	// Assign input attribute values from the sheet and/or editor to the item
 	input(values, opts={}) {
-		
-		// Create new repeating nodes when inputting untracked repeating data
-		if (this.rep) {
-			for (const [source, params] of Object.entries(this.rep.source)) {
-				for (const key of Object.keys(values[source])) {
-					if (key.startsWith("repeating")) {
-						let [section, repid, repkey] = key.split("_").slice(1);
-						let repindex = parseInt(repkey);
-
-						// The attribute has a section matching a data source...
-						if (params.section?.includes(section)) {
-							
-							// ... and the attribute has a repeating id which is *not* a subnode
-							if (params.type == "id" && !this[repid]) {
-								this.add({id: repid, section: section, ...opts});
-							}
-	
-							// ... and the attribute has the *same* id as the node, and has an unknown index
-							else if (params.type == "index" && this.id == repid && this.repCount < repindex) {
-								this.add({id: repid, section: section, ...opts});
-							}
-						}
-					}
-				}
-			}
-		}
 		return this.access(values, false, opts);
 	}
 
@@ -19651,73 +18781,54 @@ class dataNode {
 	access(values, output, opts={allProps:false, event:false, unsorted:false, apply:false}) {
 		if (!output) output = {editor:{}, sheet:{}}
 
-		if (!values || length(values) > 0) {
-			for (let [prop, value] of this.entries) {
+		if (!values || Object.values(values).some(source => length(source) > 0)) {
+			for (const prop of this.keys) {
 				for (const source of Object.keys(output)) {
 
-					// Ignore sources with no attributes
-					if (!this.#attrs[source]) continue;
-
-					if (opts.apply && prop == "_linked") {
-						console.log("apply", prop, {...value.#output});
-					}
+					// Ignore sources with no attributes or with no open editor
+					if (source == "editor" && !opts.event && access[this.path[0]].items.editor.target != this.id) continue;
+					if (!this.attrs[source]) continue;
 
 					// Get the attribute name of the property in the current source
 					let propAttr = this.attr(prop, source, opts);
 					if (!propAttr) continue;
 
 					// Handle applying values
-					if (opts.apply) {
-						if (this[prop] instanceof dataNode && "enabled" in value.#output) {
-							this[prop].enabled = value = this.#output[prop].enabled;
-						}
-						else if (prop in this.#output) {
-							this[prop] = value = this.#output[prop];
-						}
-						
-						if (is.Bool(value) && ["is.Bool", "is.False", "is.True"].some(check => this.#valid[prop].toString().includes(check))) {
-							value = is.True(value) ? "true" : "0";
+					if (opts.apply && prop in this.#output) {
+						if (this[prop] instanceof dataNode) {
+							this[prop].enabled = this.#output[prop];
+						} else {
+							this[prop] = this.#output[prop];
 						}
 					}
 
 					// Handle inputting values
 					if (values && values[source] && propAttr in values[source]) {
-						if (prop == "_linked" && source == "editor") {
-							console.log("modify", prop, propAttr, {...values.editor});
-						}
-
 						this.modify(prop, values[source][propAttr], {...opts, source: source});
 						delete values[source][propAttr];
 					}
 
 					// Handle outputting values
 					else if (!opts.apply || prop in this.#output || opts.allProps) {
-						if (this.#attrs[snakeify(prop)]?.startsWith("option")) {
-							output[source][propAttr] = (value.enabled) ? "true" : "0";
-						}
-						else if (!(value instanceof dataNode)) {
+						if (this[prop] instanceof dataNode) {
+							output[source][propAttr] = (this[prop].enabled) ? "true" : "0";
+						} else {
+							let value = this[prop];
+							if (value === true) value = "true";
+							if (value === false) value = "0";
 							output[source][propAttr] = value;
 						}
 					}
+				}
 
-					// Clear any applied output values
-					if (opts.apply) {
-						if (prop == "_linked") {
-							console.log("delete", prop, value.#output, this.#output)
-						}
-
-
-						if (value instanceof dataNode) {
-							delete this[prop].#output.enabled;
-						} else {
-							delete this.#output[prop];
-						}
-					}
+				// Clear any applied output values
+				if (opts.apply) {
+					delete this.#output[prop];
 				}
 				
 				// Recursively access any sub-nodes
-				if (value instanceof dataNode) {
-					value.access(values, output, opts);
+				if (this[prop] instanceof dataNode) {
+					this[prop].access(values, output, opts);
 				}
 			}
 			return (opts.unsorted) ? {...output.editor, ...output.sheet} : output;
@@ -19729,13 +18840,14 @@ class dataNode {
 	attr(prop, source, opts={event:false}) {
 		if (prop[0] == "_") prop = snakeify(prop);
 
-		if (prop in this.#attrs) {
-			let index = (this.#attrs[source]?.type == "index") ? this.index : "";
-			let prefix = this.#attrs[source]?.prefix || "";
-			let suffix = this.#attrs[source]?.suffix || "";
-			let key = this.#attrs[prop];
+		if (prop in this.attrs) {
+			let index = (this.attrs[source]?.type == "index") ? this.index						// Repeating node
+					  : (this.rep?.source[source]?.type == "index") ? this[prop].index : ""; 	// Nested repeating root
+			let prefix = this.attrs[source]?.prefix || "";
+			let suffix = this.attrs[source]?.suffix || "";
+			let key = this.attrs[prop];
 			
-			let section = (this.#attrs[source]?.section) ? this.#attrs[source].section : false;
+			let section = (this.attrs[source]?.section) ? this.attrs[source].section : false;
 
 			if (section) {
 				let id = (source == "editor") ? this.path.findLast(step => is.ID(step)) : this.id;
@@ -19761,21 +18873,20 @@ class dataNode {
 	// If a validator format was provided at node creation only valid values are accepted
 	// Adds any changes to access._output. The changes are applied to the sheet/editor when the access ends
 	modify(prop, newValue, opts={source:false}) {
-		let oldValue = this.#output[prop] || this[prop];
+		let oldValue = this[prop];
+		if (newValue === undefined) newValue = "";
 		
 		//console.log(`(${opts.source || "Code"}) ${prop} ${this[prop]} -> ${newValue}`);
 		if (oldValue !== undefined) {
 
 			if (prop in this.#valid && !this.#valid[prop](newValue)) {
 				console.warn(`Attempted to set the value of ${prop} to invalid value ${newValue}`, this);
-			} 
+			}
 			else if (oldValue != newValue) {
 				//console.log(`(${opts.source || "Code"}) Modifying ${prop} from "${this[prop]}" to "${newValue}"`);
 
-				// Makes sure enabled is set to a boolean value and not ex. "false"
+				// Makes sure enabled is set to a boolean value and not ex. "0"
 				if (this[prop] instanceof dataNode) {
-					this[prop].#output.enabled = is.True(newValue);
-				} else if (prop == "enabled") {
 					this.#output[prop] = is.True(newValue);
 				} else {
 					this.#output[prop] = newValue;
@@ -19783,7 +18894,7 @@ class dataNode {
 
 				// Trigger a new modify event
 				access._event.trigger([...this.path, "modify", snakeify(prop)], {
-					node:this, type:"modify", oldval:oldValue, newval:newValue,  // Event info
+					node:this, type:"modify", source:opts.source, oldval:oldValue, newval:newValue,  // Event info
 				}, opts);
 			}
 		} else {
@@ -19805,8 +18916,9 @@ class dataNode {
 				repSource[source] = {...this.rep.source[source]};
 				
 				// If a node is linked to multiple repeating sections, opts.section specifies which should be used
-				if (is.Array(repSource[source].section || false)) {
-					repSource[source].section = opts.section;
+				// For nested repeating roots, use the root's own section
+				if (is.Array(repSource[source].section)) {
+					repSource[source].section = this.attrs?.[source].section || opts.section;
 				}
 
 				// Nested repeating nodes are given a random id
@@ -19817,7 +18929,7 @@ class dataNode {
 			
 			this[newProp] = new dataNode({
 				base: this.rep.base,
-				default: this.rep.defaults?.[opts.section] || this.#formats.default?.repeating?.[newIndex-1] || false,
+				default: (opts.default !== false) ? this.rep.defaults?.[opts.section] || this.#formats.default?.repeating?.[newIndex-1] || false : false,
 				valid: this.rep.valid || false,
 				attrs: this.rep.attrs || false,
 				source: repSource,
@@ -19825,12 +18937,13 @@ class dataNode {
 
 			this.#addAccessors(this[newProp], newIndex);
 
-			// Create a new repeating item by outputting the new node
-			/*
-			if (!opts.silent) {
-				this[newProp].output({allProps:true});
+			// Output all attributes from the new node
+			this[newProp].output(access._output, {allProps:true});
+
+			if (this.rep.attrs.option) {
+				this.attrs[newProp] = "option" + this.rep.attrs.option;
+				access._output.sheet[this.attr(newProp, "sheet")] = "true";
 			}
-			*/
 
 			// Trigger a new add event
 			access._event.trigger([...this.path, "add"], {
@@ -19838,21 +18951,6 @@ class dataNode {
 			}, opts);
 
 			return this[newProp];
-
-			/* TODO: This code previously handled displaying new roll formats in the sheet, and hiding the button when 5+ rollformats exist
-			// - This should now be an access event when a new rollformat is created
-			
-			if (itemList.editor.target == this.id) {
-					let rollFormatValues = this.rollformats[newIndex].output();
-					itemList.outputValues = {
-						...itemList.outputValues,
-						...rollFormatValues.editor,
-						...rollFormatValues.sheet,
-						[`repeating_${this.type}s_${this.id}_optionRollDisplay${newIndex}`]: "true", // <--- This part here
-						"rollFormatAddToggle": "" + (this.rollformats.length >= 5),
-					}
-				}
-			*/
 		}
 	}
 	#addAccessors(node, index) {
@@ -19877,22 +18975,16 @@ class dataNode {
 		if (this.rep && id in this) {
 			let node = this[id];
 
-			this.#deleteAccessors(node, this.repCount);
-			delete this[id];
-
-			// Updates the indexes of all remaining subnodes
-			for (let i = node.index; i < this.repCount; i++) {
-				console.log("Changing index from", this[i].index, "to", i, this[i]);
-				this[i].index = i;
-			}
-
 			// Remove all repeating items associated with the deleted node
-			if (node.attrs.sheet.section) {
+			if (node.attrs.sheet?.section) {
 				removeRepeatingRow(`repeating_${node.attrs.sheet.section}_${id}`);
 			}
-			if (node.attrs.editor.section) {
-				removeRepeatingRow(`repeating_${node.attrs.editor.section}_${id}`); // TODO: Check this id is correct
+			if (node.attrs.editor?.section) {
+				removeRepeatingRow(`repeating_${node.attrs.editor.section}_${node.path.findLast(step => is.ID(step))}`);
 			}
+
+			this.#deleteAccessors(node, this.repCount);
+			delete this[id];
 
 			// Trigger a new delete event
 			access._event.trigger([...this.path, "delete"], {
@@ -20013,45 +19105,7 @@ class dataNode {
 
 
 
-/* Functions like on(), except it uses an access event path and supports custom event info and options */
-/* The event path consists of an access path leading to a node + one of these events */
-/*  - add: Is triggered when a repeating subnode is added to a node using node.add(). newval = the new node */
-/*  - delete: Is triggered when a repeating subnode is deleted from a node using node.delete(). oldval = the deleted node */
-/*  - modify.prop: Is triggered when the property "prop" is modified using node.modify(prop, value). oldval and newval = old and new prop value */
-/*    A valid event path is for example "items[-abc].equip.modify.equipped". A path array may alternatively be used */
-/* The following options are supported: */
-/*  - custom: Should be true for AutoEffect events, and otherwise false */
-/*  - ignoreSilent: When true, the event still triggers for silenced events (silent: true/"soft"). Events with silent: "hard" are still ignored */
-/*  - max: The max amount of times an event can trigger per action. It is set to 100 if no value is provided (to avoid infinite loops) */
-/*    - The count is tracked seperately for different paths. The event "ailments.proc.N" may trigger twice for "ailments.proc.Burn" and "ailments.proc.Bleed" */
-/*    - AutoEffect events should only trigger once per action per unique path */
-/* The following event info is returned: */
-/*  - node: The dataNode object that triggered the event */
-/*  - type: The type of event, ex. "modify" */
-/*  - oldval, newval: Differs based on the event (see above) */
-/*  - path: The event path in array form. May use an array of multiple paths or path arrays */
-function onAccess(path, opts={}, callback=()=>{}) {
-	if (is.Array(path) && is.Array(path[0])) {
-		for (subpath of path) {
-			onAccess(subpath, opts, callback);
-		}
-	} else {
-		if (opts.custom) {
-			opts = {...opts, ignoreSilent:false, max: 1}
-		} else {
-			opts = {ignoreSilent:true, max: 100, ...opts}
-			path.unshift("N"); // All built-in events affect all characters
-		}
-		
-		if (is.Array(access._event.tree)) {
-			access._event.tree.push(() => {
-				access._event.new(path, opts, callback);
-			});
-		} else {
-			access._event.new(path, opts, callback);
-		}
-	}
-}
+
 
 // Takes in an item and updates its AutoEffect events
 function updateEventsAE(item) {
@@ -20158,12 +19212,6 @@ on(itemList.event("change", "sheet"), function(info) {
 	}
 });
 
-/* Add new item or rollformat */
-on("clicked:addItem", function(info) {
-	let itemtype = capitalize(info.htmlAttributes.id.split("_")[1]);
-	itemList.access("write", {}, () => { itemList.add(itemtype).endAccess(); });
-});
-
 /* Delete item or rollformat */
 on("remove:repeating_rollformats " + itemList.event("remove"), function(info) {
 	// console.log(info);
@@ -20180,25 +19228,7 @@ on("remove:repeating_rollformats " + itemList.event("remove"), function(info) {
 
 
 
-/* Minimize or maximize an item when double clicking its header */
-let dcTime = new Date();
-let dcHeader = false;
-let configDcTime = 150;
-$20(".inventoryContainer .contentHeader").on("click", (e) => {
-	dcHeader = true;
-});
-$20(".inventoryContainer .repitem").on("click", (e) => {
-	let dcTimePrev = dcTime;
-	dcTime = new Date();
 
-	if (dcHeader && dcTime.getTime() - dcTimePrev.getTime() <= configDcTime) {
-		let dcRepid = e.htmlAttributes["data-reprowid"];
-		itemList.access("write", {}, () => { itemList[dcRepid].modify("minimized", is.True(itemList[dcRepid].minimized) ? "0" : "true"); });
-		dcTime = new Date(0);
-	}
-	
-	dcHeader = false;
-});
 
 
 

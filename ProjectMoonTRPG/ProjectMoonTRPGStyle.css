@@ -2459,6 +2459,8 @@ button[type=action].challengeButton::before {
 
 /* Repeating inventory and skills */
 #equipmentSection {
+    min-height: 550px;
+
     .repitem {
         margin-top: 4px;
     }
@@ -2629,7 +2631,7 @@ button[type=action].challengeButton::before {
         justify-content: flex-start;
         height: 26px;
         padding: 5px 1px 5px 0;
-        overflow: hidden;
+        overflow: visible;
         
         --rollformat-color: var(--color-HP);
         &:has(input[value="Block"]:checked) { --rollformat-color: var(--color-SAN); }
@@ -2639,6 +2641,10 @@ button[type=action].challengeButton::before {
         &:has(input[value="Charm"]:checked) { --rollformat-color: var(--color-charm); }
         &:has(input[value="Insight"]:checked) { --rollformat-color: var(--color-insight); }
         &:has(input[value="Temperance"]:checked) { --rollformat-color: var(--color-temperance); }
+
+        &:has(~ input[type="checkbox"]:checked) {
+            display: flex !important;
+        }
     }
     .rollFormat:nth-child(n+3) {
         padding-top: 0;
@@ -3031,6 +3037,11 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
             .repcontrol_del {
                 right: 0;
             }
+
+            /* An item must have at last one rollformat */
+            &:only-child .repcontrol_del {
+                display: none;
+            }
         }
         
         .repcontrol {
@@ -3048,6 +3059,11 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
             position: absolute;
             top: 3px;
             right: 30px;
+        }
+
+        /* An item cannot have more then five rollformats */
+        .repcontrol_add:has(~ .repcontainer .repitem:nth-child(5)) {
+            display: none !important;
         }
 
         .advSelect {
@@ -4260,9 +4276,11 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     --color-rgb-LIGHT: 254, 226, 176;
     --color-TEMP: #1f9bd9c0;
     --color-wisdom: #d9d9d9;
+    --color-wisdom-dark: #afaa9f;
     --color-justice: #46bdc6;
     --color-charm: #9c66c6;
     --color-insight: #ffe599;
+    --color-insight-dark: #cfb773;
     --color-temperance: #ac609d;
 }
 
@@ -4283,10 +4301,10 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 
 .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked) {
     &:has(.itemColor option[value="Fortitude"]:checked) { --content-color: var(--color-HP); --content-mystery: var(--color-HP); }
-    &:has(.itemColor option[value="Prudence"]:checked) { --content-color: var(--color-wisdom); --content-mystery: var(--color-wisdom); --content-text: var(--color-black); }
+    &:has(.itemColor option[value="Prudence"]:checked) { --content-color: var(--color-wisdom-dark); --content-mystery: var(--color-wisdom-dark); }
     &:has(.itemColor option[value="Justice"]:checked) { --content-color: var(--color-justice); --content-mystery: var(--color-justice); }
     &:has(.itemColor option[value="Charm"]:checked) { --content-color: var(--color-charm); --content-mystery: var(--color-charm); }
-    &:has(.itemColor option[value="Insight"]:checked) { --content-color: var(--color-insight); --content-mystery: var(--color-insight); --content-text: var(--color-black); }
+    &:has(.itemColor option[value="Insight"]:checked) { --content-color: var(--color-insight-dark); --content-mystery: var(--color-insight-dark); }
     &:has(.itemColor option[value="Temperance"]:checked) { --content-color: var(--color-temperance); --content-mystery: var(--color-temperance); }
 
     &:has(.itemDeco option[value="Red"]:checked) { --content-decoration: var(--color-red); }
