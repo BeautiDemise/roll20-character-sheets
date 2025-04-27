@@ -58,7 +58,7 @@
         ○ Custom ailments
         ○ Export/Import tab
     - Roll templates
-        ○ Shared roll template styles
+        ○ Shared roll template styles"
         ○ Messages
         ○ Damage calculations
         ○ Dice rolls
@@ -66,12 +66,13 @@
         ○ Chat buttons
     - Assorted
         ○ Auto Update indicator
+        ○ Custom positioning
         ○ Experimental
     - Icons
         ○ Ailment icons
         ○ Assorted icons
     - Colors
-
+        ○ Custom colors
 */
 
 
@@ -89,6 +90,7 @@
 
 /* ===== Sheet base ===== */
 #sheetWrapper {
+    width: 100%;
     margin-top: 70px;
     margin-bottom: 30px;
 }
@@ -98,8 +100,9 @@
     min-width: 850px;
 }
 body, .sheet-body {
+    width: calc(100% - 10px);
     min-width: 800px;
-    max-width: 850px;
+    /* max-width: 850px; */
 }
 
 
@@ -450,6 +453,7 @@ body, .sheet-body {
     width: 100px;
 }
 .editorTarget {
+    width: calc(100% - 255px);
     margin-top: 2px !important;
     color: var(--color-lighter-gray);
     background-color: transparent !important;
@@ -1058,7 +1062,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 .toggleButtons {
     height: 60px;
     min-width: 800px;
-    max-width: 860px;
+    /* max-width: 860px; */
 }
 .toggleButtons button {
     height: 100%;
@@ -2460,20 +2464,35 @@ button[type=action].challengeButton::before {
 /* Repeating inventory and skills */
 #equipmentSection {
     min-height: 550px;
-
-    .repitem {
-        margin-top: 4px;
-    }
-    
-    /* Fixes broken repitems */
-    .repitembroken {
-        border: 0 !important;
-    }
+}
+:is(#equipmentSection, .inventoryContainer) .repitembroken {
+    border: 0 !important; /* Removes the red border around broken repitems */
 }
 .inventoryContainer {
-    max-width: 400px;
+    min-width: 400px;
     margin: 2px 5px;
     background-color: transparent;
+    overflow: visible;
+
+    #TopContainer & {
+        min-width: 235px;
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 0;
+
+        .itemRes {
+            width: 30px;
+            padding-left: 4px;
+
+            input[list] {
+                width: 20px;
+            }
+        }
+    }
+
+    .repitem {
+        margin-bottom: 4px;
+    }
 
     .repcontrol {
         position: absolute;
@@ -2519,7 +2538,7 @@ button[type=action].challengeButton::before {
         z-index: 15;
     }
     .itemName {
-        width: calc(50% - 60px);
+        max-width: calc(50% - 60px);
         color: var(--content-text);
     }
     .equipCheck {
@@ -2569,12 +2588,22 @@ button[type=action].challengeButton::before {
     margin: 0;
     border: 0;
     box-sizing: border-box;
+
+    &.hide-item {
+        margin-top: 2px;
+    }
+    .bottom & {
+        min-height: 75px;
+    }
 }
 .itemDescription {
     min-height: 80px; /* Update these later to look great for weight 0 items (like skills) and also like 2-3 weight */
 }
 .itemEffect {
     min-height: 80px;
+}
+.itemContainer:has(input[name*="leftEffectDisplay"]:checked) .itemButtons {
+    left: calc(50% - 91px);
 }
 
 /* Optional item contents */
@@ -2633,9 +2662,11 @@ button[type=action].challengeButton::before {
         padding: 5px 1px 5px 0;
         overflow: visible;
         
-        --rollformat-color: var(--color-HP);
+        --rollformat-color: var(--color-dark-white);
+        &:has(input[value="Attack"]:checked) { --rollformat-color: var(--color-HP); }
         &:has(input[value="Block"]:checked) { --rollformat-color: var(--color-SAN); }
         &:has(input[value="Evade"]:checked) { --rollformat-color: var(--color-ego-STGR); }
+        &:has(input[value="Fortitude"]:checked) { --rollformat-color: var(--color-HP); }
         &:has(input[value="Prudence"]:checked) { --rollformat-color: var(--color-wisdom); }
         &:has(input[value="Justice"]:checked) { --rollformat-color: var(--color-justice); }
         &:has(input[value="Charm"]:checked) { --rollformat-color: var(--color-charm); }
@@ -2653,7 +2684,15 @@ button[type=action].challengeButton::before {
         height: 24px;
     }
 }
+
+.itemResist {
+    margin-top: 1px;
+    margin-bottom: -3px;
+}
 .itemResistDamage {
+    padding: 0 3px;
+    box-sizing: border-box;
+
     .itemRes {
         display: flex;
         justify-content: center;
@@ -2661,7 +2700,7 @@ button[type=action].challengeButton::before {
         appearance: none;
         background-color: var(--color-dark-white);
         height: 28px;
-        width: 50px !important;
+        width: 50px;
         margin: 0;
         padding: 0 5px 0 0;
         border: 1px solid var(--color-inventory);
@@ -2672,7 +2711,7 @@ button[type=action].challengeButton::before {
         input[list] {
             padding: 0 0 0 1px;
             height: 100%;
-            width: 28px !important;
+            width: 28px;
         }
         &::before { content: "["; }
         &::after { content: "]"; }
@@ -2681,8 +2720,11 @@ button[type=action].challengeButton::before {
         &:has(option[value="Replace"]:checked) ~ .itemRes::before { content: "[x"; }
         &:has(option[value="Add"]:checked) ~ .itemRes::before { content: "[+"; }
     }
-}
 
+    .largeIcon {
+        margin: auto;
+    }
+}
 
 /* Change colors when item is a mystery */
 .itemMystery:checked + .itemContainer {
@@ -2705,9 +2747,12 @@ button[type=action].challengeButton::before {
 }
 
 /* Expand the name input when the item is minimized or there are no rollformats */
-:is(.itemMinimized:checked, .itemNameExpand:checked) ~ .itemContainer .itemName {
-    width: calc-size(100%, size - 230px);
+.itemMinimized:checked ~ .itemContainer .itemName {
+    width: calc-size(100%, size - 57.5%);
     transition: width 0s 550ms;
+}
+.itemNameExpand:checked ~ .itemContainer .itemName {
+    max-width: calc(100% - 70px);
 }
 
 /* Hide all item contents when the item is minimized */
@@ -2723,7 +2768,6 @@ button[type=action].challengeButton::before {
         top: 0;
         right: 0;
         flex-direction: row;
-        flex-wrap: wrap;
         justify-content: flex-end;
         width: calc(100% - 30px);
         transition: width 0s 550ms, position 0s 550ms allow-discrete, flex-direction 0s 550ms allow-discrete;
@@ -2733,8 +2777,12 @@ button[type=action].challengeButton::before {
         padding-top: 5px;
         transition-delay: 0s, 500ms;
     }
-    .rollFormatBlock {
+    .rollButton, .rollFormatBlock {
         opacity: 0;
+        transition: opacity 0s 500ms;
+    }
+    .itemDescriptionContainer.bottom {
+        height: 0px;
     }
 }
 .itemContents {
@@ -2752,7 +2800,17 @@ button[type=action].challengeButton::before {
         transition: opacity 600ms ease-out;
     }
 }
+.itemDescriptionContainer.bottom {
+    height: calc-size(auto, size);
+    min-height: 0px;
+    transition: height 500ms;
+}
 
+/* Drag item */
+.repitem.customPosition .itemContainer {
+    box-shadow: 0 0 12px -1px black;
+    transform: translate(0, -50%);
+}
 
 
 
@@ -2919,9 +2977,15 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         left: 0;
     }
 
+    .optionText {
+        color: var(--color-lighter-gray);
+        margin: 1px;
+    }
+
     /* Inline options display their contents in the same line as the option label */ 
     &.inline {
         display: flex;
+        align-items: center;
         justify-content: end;
         padding: 0 0 0 5px;
         gap: 3px;
@@ -2936,6 +3000,10 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
             span {
                 padding-left: 20px;
             }
+        }
+
+        & .rowContainer {
+            align-items: center;
         }
     }
 
@@ -3375,6 +3443,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 /* Editor tabs */
 #sheetSettings, #itemSettings {
     border-radius: 0;
+    margin-bottom: 1px;
 }
 #sheetSettings h3, #itemSettings h3 {
     background-color: var(--color-gray);
@@ -3972,6 +4041,62 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     border: 4px solid var(--color-HP);
 }
 
+/* Custom positioning */
+.x1 {--x1: 1px} .x2 {--x2: 2px} .x4 {--x4: 4px} .x8 {--x8: 8px} .x16 {--x16: 16px} .x32 {--x32: 32px}
+.x64 {--x64: 64px} .x128 {--x128: 128px} .x256 {--x256: 256px} .x512 {--x512: 512px} .x1024 {--x1024: 1024px}
+.y1 {--y1: 1px} .y2 {--y2: 2px} .y4 {--y4: 4px} .y8 {--y8: 8px} .y16 {--y16: 16px} .y32 {--y32: 32px}
+.y64 {--y64: 64px} .y128 {--y128: 128px} .y256 {--y256: 256px} .y512 {--y512: 512px} .y1024 {--y1024: 1024px}
+.negX {--negX: -1;} .negY {--negY: -1;}
+
+.dragDetector, .customPosition {
+    --offsetX: calc((var(--x1, 0px) + var(--x2, 0px) + var(--x4, 0px) + var(--x8, 0px) + var(--x16, 0px) + var(--x32, 0px)
+                  + var(--x64, 0px) + var(--x128, 0px) + var(--x256, 0px) + var(--x512, 0px) + var(--x1024, 0px)) * var(--negX, 1));
+    --offsetY: calc((var(--y1, 0px) + var(--y2, 0px) + var(--y4, 0px) + var(--y8, 0px) + var(--y16, 0px) + var(--y32, 0px)
+                  + var(--y64, 0px) + var(--y128, 0px) + var(--y256, 0px) + var(--y512, 0px) + var(--y1024, 0px)) * var(--negY, 1));
+}
+
+.dragDetector {
+    position: fixed;
+    bottom: calc(100vh - var(--offsetY, 0px)); /* Makes items minimize downwards */
+    left: var(--offsetX, 0px);
+    z-index: 1000;
+
+    [class^="drag"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform: translate(-50%, -50%);
+        border-radius: 1000px;
+        opacity: 0;
+    }
+    
+    .drag1 { width: 10px;   height: 10px;   background-color: red; }
+    .drag2 { width: 50px;   height: 50px;   background-color: orange; }
+    .drag3 { width: 100px;  height: 100px;  background-color: yellow; }
+    .drag4 { width: 200px;  height: 200px;  background-color: rgb(0, 201, 0); }
+    .drag5 { width: 300px;  height: 300px;  background-color: green; }
+    .drag6 { width: 400px;  height: 400px;  background-color: skyblue; }
+    .drag7 { width: 500px;  height: 500px;  background-color: blue; }
+    .drag8 { width: 750px;  height: 750px;  background-color: purple; }
+    .drag9 { width: 1000px; height: 1000px; background-color: violet; }
+}
+
+.repitem.customPosition {
+    position: fixed !important;
+    /* height: 0; */ /* Needed when using position: relative */
+    width: auto;
+    min-width: 400px;
+    margin: 0;
+    left: var(--offsetX, 0px);
+    top: var(--offsetY, 0px);
+    transform: translate(-50%, -50%);
+    z-index: 500;
+}
+.dragTarget {
+    pointer-events: none;
+}
+
+
 
 /* --- Experimental --- */
 
@@ -4117,6 +4242,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .itemMystery:checked + div .slash, .egoSlash { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSlash.png'); }
 .itemMystery:checked + div .pierce, .egoPierce { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoPierce.png'); }
 .itemMystery:checked + div .blunt, .egoBlunt { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoBlunt.png'); }
+.itemMystery:checked + div .rollDamageType .question { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/egoChoose.png'); }
 
 .Act { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png'); }
 .Mass { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Wide.png'); }
@@ -4297,14 +4423,24 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .augment, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="Green"]:checked) { --content-color: var(--color-green); --content-mystery: var(--color-light-green); }
 .tool, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="Purple"]:checked) { --content-color: var(--color-purple); --content-mystery: var(--color-light-purple); }
 .special, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="Orange"]:checked) { --content-color: var(--color-orange); --content-mystery: var(--color-light-orange); }
-.skill, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="None"]:checked) { --content-color: var(--color-dark-gray); }
+.skill, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="None"]:checked) { --content-color: var(--color-dark-gray); --content-mystery: var(--color-light-gray); --content-accent: #101010; }
+.effect { --content-color: var(--color-gray); --content-mystery: var(--color-light-gray); --content-accent: #111111; }
+.effect .itemMystery:not(:checked) + .itemContainer:has(.colorCheck:not(:checked)) {
+    .rollFormatBlock {
+        box-sizing: border-box;
+        border: 1px solid var(--rollformat-color);
+    }
+    .rollButton {
+        background-color: #181818;
+    }
+}
 
 .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked) {
     &:has(.itemColor option[value="Fortitude"]:checked) { --content-color: var(--color-HP); --content-mystery: var(--color-HP); }
-    &:has(.itemColor option[value="Prudence"]:checked) { --content-color: var(--color-wisdom-dark); --content-mystery: var(--color-wisdom-dark); }
+    &:has(.itemColor option[value="Prudence"]:checked) { --content-color: var(--color-wisdom-dark); --content-mystery: var(--color-wisdom); }
     &:has(.itemColor option[value="Justice"]:checked) { --content-color: var(--color-justice); --content-mystery: var(--color-justice); }
     &:has(.itemColor option[value="Charm"]:checked) { --content-color: var(--color-charm); --content-mystery: var(--color-charm); }
-    &:has(.itemColor option[value="Insight"]:checked) { --content-color: var(--color-insight-dark); --content-mystery: var(--color-insight-dark); }
+    &:has(.itemColor option[value="Insight"]:checked) { --content-color: var(--color-insight-dark); --content-mystery: var(--color-insight); }
     &:has(.itemColor option[value="Temperance"]:checked) { --content-color: var(--color-temperance); --content-mystery: var(--color-temperance); }
 
     &:has(.itemDeco option[value="Red"]:checked) { --content-decoration: var(--color-red); }
@@ -4318,7 +4454,44 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     &:has(.itemDeco option[value="Charm"]:checked) { --content-decoration: var(--color-charm); }
     &:has(.itemDeco option[value="Insight"]:checked) { --content-decoration: var(--color-insight); }
     &:has(.itemDeco option[value="Temperance"]:checked) { --content-decoration: var(--color-temperance); }
-    &:has(.itemDeco option[value="Black"]:checked) { --content-decoration: var(--color-black); }
+
+    &.customColor.background {
+        --content-color: var(--custom-color);
+        --content-mystery: var(--custom-color);
+    }
+    &.customColor.decoration {
+        --content-decoration: var(--custom-color-alt);
+    }
+}
+
+/* Custom colors */
+.red1 {--r1: 1} .red2{--r2: 2} .red4 {--r4: 4} .red8 {--r8: 8} .red16 {--r16: 16} .red32 {--r32: 32} .red64 {--r64: 64} .red128 {--r128: 128}
+._red1 {--_r1: 1}._red2 {--_r2: 2}._red4 {--_r4: 4}._red8 {--_r8: 8}._red16 {--_r16: 16}._red32 {--_r32: 32}._red64 {--_r64: 64}._red128 {--_r128: 128}
+
+
+.green1 {--g1: 1} .green2 {--g2: 2} .green4 {--g4: 4} .green8 {--g8: 8} .green16 {--g16: 16} .green32 {--g32: 32} .green64 {--g64: 64} .green128 {--g128: 128}
+._green1 {--_g1: 1}._green2 {--_g2: 2}._green4 {--_g4: 4}._green8 {--_g8: 8}._green16 {--_g16: 16}._green32 {--_g32: 32}._green64 {--_g64: 64}._green128 {--_g128: 128}
+
+.blue1 {--b1: 1} .blue2 {--b2: 2} .blue4 {--b4: 4} .blue8 {--b8: 8} .blue16 {--b16: 16} .blue32 {--b32: 32} .blue64 {--b64: 64} .blue128 {--b128: 128}
+._blue1 {--_b1: 1}._blue2 {--_b2: 2}._blue4 {--_b4: 4}._blue8 {--_b8: 8}._blue16 {--_b16: 16}._blue32 {--_b32: 32}._blue64 {--_b64: 64}._blue128 {--_b128: 128}
+
+.customColor {
+    --custom-color: rgb(
+        calc(var(--r1, 0) + var(--r2, 0) + var(--r4, 0) + var(--r8, 0) + var(--r16, 0) + var(--r32, 0) + var(--r64, 0) + var(--r128, 0)),
+        calc(var(--g1, 0) + var(--g2, 0) + var(--g4, 0) + var(--g8, 0) + var(--g16, 0) + var(--g32, 0) + var(--g64, 0) + var(--g128, 0)),
+        calc(var(--b1, 0) + var(--b2, 0) + var(--b4, 0) + var(--b8, 0) + var(--b16, 0) + var(--b32, 0) + var(--b64, 0) + var(--b128, 0))
+    );
+    --custom-color-alt: rgb(
+        calc(var(--_r1, 0) + var(--_r2, 0) + var(--_r4, 0) + var(--_r8, 0) + var(--_r16, 0) + var(--_r32, 0) + var(--_r64, 0) + var(--_r128, 0)),
+        calc(var(--_g1, 0) + var(--_g2, 0) + var(--_g4, 0) + var(--_g8, 0) + var(--_g16, 0) + var(--_g32, 0) + var(--_g64, 0) + var(--_g128, 0)),
+        calc(var(--_b1, 0) + var(--_b2, 0) + var(--_b4, 0) + var(--_b8, 0) + var(--_b16, 0) + var(--_b32, 0) + var(--_b64, 0) + var(--_b128, 0))
+    );
+
+    &:not(.itemContainer) {
+        &.background { background-color: var(--custom-color) !important; }
+        &.border { border-color: var(--custom-color) !important; }
+        &.text { color: var(--custom-color) !important; }
+    }
 }
 
 .toolText { color: var(--color-purple) !important; }
