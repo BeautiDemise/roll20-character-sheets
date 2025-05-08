@@ -223,7 +223,7 @@
 			<div class="rollFormatContainer">
 				
 				<!-- Custom add repeating rollformat button -->
-				<button type="action" class="hide-item-rev btn repcontrol_add" id="add_rollformats" name="act_addItem" data-i18n-title="item-add-rollformat" title="Add new roll format">Add</button>
+				<button type="action" class="hide-item-rev btn repcontrol_add heal" id="add_rollformats" name="act_addItem" data-i18n-title="item-add-rollformat" title="Add new roll format">Add</button>
 				
 				<fieldset class="repeating_rollformats">
 					<div class="rowContainer">
@@ -634,19 +634,19 @@
 
 
 		<!-- Option: Equip Slots -->
-		<div class="itemOption inline divide"><label><input type="checkbox" name="attr_itemEditOptionEquipSlots" value="true"><span>Equip slots</span></label>
-			<input type="number" class="darkInput hoverSpinner" name="attr_itemEditSlotUse" placeholder="1">
-			<input type="text" class="whiteInput" name="attr_itemEditSlotType" style="width: 112px;" placeholder="Slot type">
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionEquipSlots" value="true"><span>Equip slots</span></label>
+			<div class="itemOptionContainer" style="gap: 0">
+				<button type="action" class="darkButton editButton edit" name="act_edit-tagstyling" data-i18n-title="item-editor-slot-styling" title="Edit Equip Slot Styling"></button>
+
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionGiveSlots" value="true"><span>Gives</span></label>
+					<textarea spellcheck="false" class="editorInput whiteInput darkScroll" name="attr_itemEditGiveSlotsRawText" placeholder="Slot N, Slot N, ..."></textarea>
+				</div>
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionRequireSlots" value="true"><span>Requires</span></label>
+					<textarea spellcheck="false" class="editorInput whiteInput darkScroll" name="attr_itemEditRequireSlotsRawText" placeholder="Slot N, Slot N, ..."></textarea>
+				</div>
+			</div>
 		</div>
 
-
-		<!-- Option: Mystery -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionMystery" value="true"><span>Mystery</span></label>
-			
-			<!-- Unfinished -->
-			<input type="text" class="whiteInput" name="attr_itemEditMysteryActivation" placeholder="Mystery activation">
-		</div>
-		
 		
 		<!-- Option: Linked -->
 		<div class="itemOption inline divide"><label><input type="checkbox" name="attr_itemEditOptionLinked" value="true"><span>Linked</span></label>
@@ -698,6 +698,30 @@
 				</div>
 			</div>
 		</div>
+
+
+		<!-- Option: Tags -->
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionTags" value="true"><span>Tags</span></label>
+			<div class="itemOptionContainer" style="gap: 0">
+				<button type="action" class="darkButton editButton edit" name="act_edit-tagstyling" data-i18n-title="item-editor-tag-styling" title="Edit Tag Styling"></button>
+
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionGiveTags" value="true"><span>Gives</span></label>
+					<textarea spellcheck="false" class="editorInput whiteInput darkScroll" name="attr_itemEditGiveTagsRawText" placeholder="Tag N, Tag N, ..."></textarea>
+				</div>
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionRequireTags" value="true"><span>Requires</span></label>
+					<textarea spellcheck="false" class="editorInput whiteInput darkScroll" name="attr_itemEditRequireTagsRawText" placeholder="Tag N, Tag N, ..."></textarea>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Option: Mystery -->
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionMystery" value="true"><span>Mystery</span></label>
+			
+			<!-- Unfinished -->
+			<input type="text" class="whiteInput" name="attr_itemEditMysteryActivation" placeholder="Mystery activation">
+		</div>
+
 
 		<!-- Option: Custom UI -->
 		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionCustomUI" value="true"><span>Custom UI</span></label>
@@ -772,12 +796,6 @@
 				<div class="itemOption"><label><input type="checkbox" name="attr_itemEditSpecialUI" value="true"><span>Special</span></label></div>
 				<div class="itemOption"><label><input type="checkbox" name="attr_itemEditHalfUI" value="true"><span>Half</span></label></div>
 			</div>
-		</div>
-
-
-		<!-- Option: Tags -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionTags" value="true"><span>Tags</span></label>
-			<!-- Should be hidden when a game settings is disabled -->
 		</div>
 
 
@@ -1245,7 +1263,7 @@
 	<!-- Custom add repeating item button -->
 	<div class="inventoryControls contentHeader repcontrol_header">
 		<span class="inventoryName">Effects</span>
-		<button type="action" class="btn repcontrol_add" id="add_effects" name="act_addItem" data-i18n-title="item-add" title="Add new item">Add</button>
+		<button type="action" class="btn repcontrol_add heal" id="add_effects" name="act_addItem" data-i18n-title="item-add" title="Add new item">Add</button>
 	</div>
 
 	<fieldset class="repeating_effects">
@@ -1270,9 +1288,9 @@
 			</div>
 
 			<!-- Message overlay -->
-			<input type="checkbox" class="hide-toggle-next" name="attr_messageDisplay" value="true" hidden="true">
-			<div class="hide-item itemMessage">
-				<textarea name="attr_messageText"></textarea>
+			<input type="checkbox" class="hide-toggle-rev-next" name="attr_messageText" value="0" hidden="true" checked>
+			<div class="hide-item-rev itemMessage">
+				<span name="attr_messageText" spellcheck="false"></span>
 			</div>
 
 			<!-- Option: Custom styling -->
@@ -1400,13 +1418,6 @@
 								<option data-i18n="special-duration-6" value="6">Months</option>
 							</select>
 						</div>
-					</div>
-
-					<!-- Option: Tags (Left) -->
-					<input type="checkbox" class="hide-toggle-next" name="attr_optionTags" value="true" hidden="true">
-					<div class="hide-item itemTags">
-						<input type="checkbox" class="hide-toggle" name="attr_leftTagsDisplay" value="true" hidden="true">
-						<input type="text" class="hide-item darkInput" data-i18n-placeholder="item-tags" placeholder="Item tags">
 					</div>
 
 					<!-- Description (Left) -->
@@ -1686,13 +1697,6 @@
 								<div class="largeIcon bluntNormalSTG"></div>
 							</div>
 						</div>
-					</div>
-
-					<!-- Option: Tags (Right) -->
-					<input type="checkbox" class="hide-toggle-next" name="attr_optionTags" value="true" hidden="true">
-					<div class="hide-item itemTags">
-						<input type="checkbox" class="hide-toggle" name="attr_rightTagsDisplay" value="true" hidden="true">
-						<input type="text" class="hide-item darkInput" data-i18n-placeholder="item-tags" placeholder="Item tags">
 					</div>
 
 					<!-- Description (Right) -->
@@ -2642,7 +2646,7 @@ EGO block end -->
 		<div class="columnAlign resourceContainer">
 			<input type="checkbox" class="hide-toggle" name="attr_settingActionTracker" value="true" hidden="true">
 			<input type="checkbox" class="hide-toggle" name="attr_settingLightRegen" value="true" hidden="true">
-			<input type="checkbox" id="editResourceToggle" name="attr_editResourceToggle" value="true" hidden="true" checked>
+			<input type="checkbox" class="trackerEditToggle" name="attr_editResourceToggle" value="true" hidden="true" checked>
 			<div class="hide-item-flex columnAlign">
 
 				<div class="rowContainer resourceRow">
@@ -2652,14 +2656,14 @@ EGO block end -->
 					<input type="checkbox" class="hide-toggle-rev-next" name="attr_settingActionTracker" value="0" hidden="true" checked>
 					<div class="hide-item-rev helpers">
 						<b data-i18n="helper-actions">Actions</b>
-						<div class="resourceTracker rowContainer">
-							<label for="actionSelection" class="egoSpecial resourceTypeSelector" data-i18n-title="resource-action" title="Action">
+						<div class="tracker rowContainer">
+							<label for="actionSelection" class="egoSpecial trackerIcon" data-i18n-title="resource-action" title="Action">
 								<input type="radio" id="actionSelection" name="attr_actionType" value="Action" hidden="true" checked>
 							</label>
 							<input type="checkbox" class="fade-toggle" name="attr_Action" value="0" hidden="true" checked>
-							<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Action">
-							<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Action_max">
-							<input type="number" min="0" value="0" class="resourceBase" name="attr_Action_base">
+							<input type="number" min="0" value="0" class="trackerCurrent hoverSpinner" name="attr_Action">
+							<input type="number" min="0" value="0" class="trackerMax noSpinner" name="attr_Action_max">
+							<input type="number" min="0" value="0" class="trackerBase hoverSpinner" name="attr_Action_base">
 						</div>
 					</div>
 		
@@ -2668,16 +2672,16 @@ EGO block end -->
 					<input type="checkbox" class="hide-toggle-rev-next" name="attr_settingActionTracker" value="0" hidden="true" checked>
 					<div class="hide-item-rev helpers">
 						<b data-i18n="helper-reactions">Reactions</b>
-						<div class="resourceTracker rowContainer">
+						<div class="tracker rowContainer">
 							<input type="checkbox" class="hide-toggle hide-toggle-rev" name="attr_expandResourceToggle" value="true" hidden="true" checked>
-							<label for="reactionSelection" class="hide-item-rev reaction resourceTypeSelector" data-i18n-title="resource-reaction" title="Reaction"></label>
-							<label for="reactionSelection" class="hide-item reaction resourceTypeSelector" data-i18n-title="helper-reaction-universal" title="Universal reaction"></label>
+							<label for="reactionSelection" class="hide-item-rev reaction trackerIcon" data-i18n-title="resource-reaction" title="Reaction"></label>
+							<label for="reactionSelection" class="hide-item reaction trackerIcon" data-i18n-title="helper-reaction-universal" title="Universal reaction"></label>
 							<input type="radio" id="reactionSelection" name="attr_actionType" value="Reaction" hidden="true">
 
 							<input type="checkbox" class="fade-toggle" name="attr_Reaction" value="0" hidden="true" checked>
-							<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Reaction">
-							<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Reaction_max">
-							<input type="number" min="0" value="0" class="resourceBase" name="attr_Reaction_base">
+							<input type="number" min="0" value="0" class="trackerCurrent hoverSpinner" name="attr_Reaction">
+							<input type="number" min="0" value="0" class="trackerMax noSpinner" name="attr_Reaction_max">
+							<input type="number" min="0" value="0" class="trackerBase hoverSpinner" name="attr_Reaction_base">
 						</div>
 					</div>
 					
@@ -2685,12 +2689,12 @@ EGO block end -->
 					<input type="checkbox" class="hide-toggle-rev-next" name="attr_settingLightRegen" value="0" hidden="true" checked>
 					<div class="hide-item-rev columnAlign helpers">
 						<b data-i18n="helper-light-regen">Light Regen</b>
-						<div class="resourceTracker rowContainer">
-							<button type="action" class="light resourceTypeSelector" name="act_lightClicker" data-i18n-title="helper-light-regen" title="Light regen"></button>
+						<div class="tracker rowContainer">
+							<button type="action" class="light trackerIcon" name="act_lightClicker" data-i18n-title="helper-light-regen" title="Light regen"></button>
 							<input type="checkbox" class="fade-toggle" name="attr_Light_Regen" value="0" hidden="true" checked>
-							<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Light_Regen">
-							<input type="number" min="0" value="0" class="resourceMax noSpinner LIGHT" name="attr_Light_Regen_max">
-							<input type="number" min="0" value="0" class="resourceBase" name="attr_Light_Regen_base">
+							<input type="number" min="0" value="0" class="trackerCurrent hoverSpinner" name="attr_Light_Regen">
+							<input type="number" min="0" value="0" class="trackerMax noSpinner LIGHT" name="attr_Light_Regen_max">
+							<input type="number" min="0" value="0" class="trackerBase hoverSpinner" name="attr_Light_Regen_base">
 						</div>
 					</div>
 
@@ -2699,10 +2703,10 @@ EGO block end -->
 					<div class="hide-item-rev" style="margin-top: auto;">
 						<input type="checkbox" class="hide-toggle hide-toggle-rev" name="attr_expandResourceToggle" value="true" hidden="true" checked>
 						<div class="hide-item-rev">
-							<button type="action" class="darkButton resourceButton centerIcon arrowDown" name="act_expandResourceTrackers" data-i18n-title="resource-expand" title="Expand trackers"></button>
+							<button type="action" class="darkButton resourceButton centerIcon arrowDown" name="act_expandtrackers" data-i18n-title="resource-expand" title="Expand trackers"></button>
 						</div>
 						<div class="hide-item" style="max-width: 20px; margin-top: auto;">
-							<button type="action" class="darkButton resourceButton centerIcon arrowUp" name="act_expandResourceTrackers" data-i18n-title="resource-compact" title="Compact trackers"></button>
+							<button type="action" class="darkButton resourceButton centerIcon arrowUp" name="act_expandtrackers" data-i18n-title="resource-compact" title="Compact trackers"></button>
 						</div>
 					</div>
 				</div>
@@ -2712,38 +2716,38 @@ EGO block end -->
 				<div class="hide-item-flex rowContainer resourceRow">
 		
 					<!-- Counter / block / evade reaction tracking -->
-					<div class="resourceTracker rowContainer">
-						<label for="counterSelection" class="egoAtt resourceTypeSelector" data-i18n-title="helper-reaction-counter" title="Counter reaction">
+					<div class="tracker rowContainer">
+						<label for="counterSelection" class="egoAtt trackerIcon" data-i18n-title="helper-reaction-counter" title="Counter reaction">
 							<input type="radio" id="counterSelection" name="attr_actionType" value="Counter" hidden="true">
 						</label>
 						<input type="checkbox" class="fade-toggle" name="attr_Counter" value="0" hidden="true" checked>
-						<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Counter">
-						<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Counter_max">
-						<input type="number" min="0" value="0" class="resourceBase" name="attr_Counter_base">
+						<input type="number" min="0" value="0" class="trackerCurrent hoverSpinner" name="attr_Counter">
+						<input type="number" min="0" value="0" class="trackerMax noSpinner" name="attr_Counter_max">
+						<input type="number" min="0" value="0" class="trackerBase hoverSpinner" name="attr_Counter_base">
 					</div>
 						
-					<div class="resourceTracker rowContainer">
-						<label for="blockSelection" class="egoDef resourceTypeSelector" data-i18n-title="helper-reaction-block" title="Block reaction">
+					<div class="tracker rowContainer">
+						<label for="blockSelection" class="egoDef trackerIcon" data-i18n-title="helper-reaction-block" title="Block reaction">
 							<input type="radio" id="blockSelection" name="attr_actionType" value="Block" hidden="true">
 						</label>
 						<input type="checkbox" class="fade-toggle" name="attr_Block" value="0" hidden="true" checked>
-						<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Block">
-						<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Block_max">
-						<input type="number" min="0" value="0" class="resourceBase" name="attr_Block_base">
+						<input type="number" min="0" value="0" class="trackerCurrent hoverSpinner" name="attr_Block">
+						<input type="number" min="0" value="0" class="trackerMax noSpinner" name="attr_Block_max">
+						<input type="number" min="0" value="0" class="trackerBase hoverSpinner" name="attr_Block_base">
 					</div>
 		
-					<div class="resourceTracker rowContainer">
-						<label for="evadeSelection" class="egoEvd resourceTypeSelector" data-i18n-title="helper-reaction-evade" title="Evade reaction">
+					<div class="tracker rowContainer">
+						<label for="evadeSelection" class="egoEvd trackerIcon" data-i18n-title="helper-reaction-evade" title="Evade reaction">
 							<input type="radio" id="evadeSelection" name="attr_actionType" value="Evade" hidden="true">
 						</label>
 						<input type="checkbox" class="fade-toggle" name="attr_Evade" value="0" hidden="true" checked>
-						<input type="number" min="0" value="0" class="resourceCurrent hoverSpinner" name="attr_Evade">
-						<input type="number" min="0" value="0" class="resourceMax noSpinner" name="attr_Evade_max">
-						<input type="number" min="0" value="0" class="resourceBase" name="attr_Evade_base">
+						<input type="number" min="0" value="0" class="trackerCurrent hoverSpinner" name="attr_Evade">
+						<input type="number" min="0" value="0" class="trackerMax noSpinner" name="attr_Evade_max">
+						<input type="number" min="0" value="0" class="trackerBase hoverSpinner" name="attr_Evade_base">
 					</div>
 
 					<!-- Edit resources button -->
-					<button type="action" name="act_editResourceTrackers" class="darkButton resourceButton centerIcon edit" data-i18n-title="resource-edit" title="Edit base actions and reactions (per round) and light regen (per combat)"></button>
+					<button type="action" name="act_edittrackers" class="darkButton resourceButton centerIcon edit" data-i18n-title="resource-edit" title="Edit base actions and reactions (per round) and light regen (per combat)"></button>
 				</div>
 			</div>
 		</div>
@@ -5143,42 +5147,63 @@ EGO block end -->
 
 <!-- Item Settings Section. Used for both Equipment and Skills! -->
 <div class="contentContainer" id="itemSettings">
-	<div style="width: 100%;">
-		<h3 style="height: 27px;">
+	<h3 class="rowContainer">
 
-			<!-- Lock Button -->
-			<input type="checkbox" class="switch-toggle" name="attr_syncLockItems" value="true" hidden="true">
-			<button type="action" class="lockButton largeIcon" id="lock_Items" name="act_lockSection"></button>
-			<div>
-				<input type="checkbox" class="hide-toggle" name="attr_syncStateItems" value="true">
-				<div class="hide-item containIcon"></div>
-			</div>
-
-			<!-- Search Bar -->
-			<div class="searchBar">
-				<label for="itemSearch" class="searchIcon centerIcon search"></label>
-
-				<input type="text" id="itemSearch" class="searchInput" name="attr_itemSearchInput" data-i18n-title="item-search-title" title="Search for a term in an item's name, effect or description" data-i18n-placeholder="item-search" placeholder="Search for item">
-				
-				<button type="action" class="searchClear centerIcon exit" name="act_clearSearchBar" data-i18n-title="item-search-clear" title="Clear the search"></button>
-
-				<!-- Advanced Search Button -->
-				<input type="checkbox" class="switch-toggle" id="hideItemSearchOptions" name="attr_hideItemSearchOptions" value="true" hidden="true">
-				<label for="hideItemSearchOptions" class="searchOptions centerIcon option" data-i18n-title="item-search-options" title="Advanced search options"></label>
-			</div>
-			
-			<!-- Edit Button -->
-			<input type="checkbox" class="switch-toggle" id="hideItemSettings" name="attr_hideItemSettings" value="true" hidden="true">
-			<label for="hideItemSettings" class="inventoryEditButton largeIcon edit" data-i18n-title="item-edit" title="Edit items"></label>
-
-		</h3>
-	
-		<!-- Advanced Search Menu -->
-		<input type="checkbox" class="hide-toggle-rev" name="attr_hideItemSearchOptions" value="true" hidden="true" checked>
-		<div class="hide-item-rev searchOptionsMenu">
-			<!-- Add options here later in a similar style to Ruina -->
+		<!-- Lock Button -->
+		<input type="checkbox" class="switch-toggle" name="attr_syncLockItems" value="true" hidden="true">
+		<button type="action" class="lockButton largeIcon" id="lock_Items" name="act_lockSection"></button>
+		<div>
+			<input type="checkbox" class="hide-toggle" name="attr_syncStateItems" value="true">
+			<div class="hide-item containIcon"></div>
 		</div>
 
+		<!-- Search Bar -->
+		<div class="searchBar">
+			<label for="itemSearch" class="searchIcon centerIcon search"></label>
+
+			<input type="text" id="itemSearch" class="searchInput" name="attr_itemSearchInput" data-i18n-title="item-search-title" title="Search for a term in an item's name, effect or description" data-i18n-placeholder="item-search" placeholder="Search for item">
+			
+			<button type="action" class="searchClear centerIcon exit" name="act_clearSearchBar" data-i18n-title="item-search-clear" title="Clear the search"></button>
+
+			<!-- Advanced Search Button -->
+			<input type="checkbox" class="switch-toggle" id="hideItemSearchOptions" name="attr_hideItemSearchOptions" value="true" hidden="true">
+			<label for="hideItemSearchOptions" class="searchOptions centerIcon option" data-i18n-title="item-search-options" title="Advanced search options"></label>
+		</div>
+
+		<!-- Tags & equip slots -->
+		<div id="tagSection" class="rowContainer">
+			<fieldset class="repeating_tags">
+				<input type="checkbox" class="tagNoCurrent" name="attr_tagCurrent" value="0" hidden="true" checked="">
+				<input type="checkbox" class="tagNoBase" name="attr_tagBase" value="0" hidden="true" checked="">
+				<div class="tagContainer rowContainer">
+					<input type="checkbox" class="largeCheck slotToggle" name="attr_tagIsSlot" value="true" data-i18n-title="item-tag-is-slot" title="Is equip slot?" hidden="true">
+					
+					<input type="text" class="tagIcon" name="attr_tagIcon" list="iconlist" placeholder="Type for icon selection." value="Question" hidden="true">
+					<input type="text" class="tagName darkInput" name="attr_tagName" data-i18n-placeholder="item-tag-name" placeholder="Tag name" hidden="true">
+					<input type="text" class="tagColor darkInput" name="attr_tagColor" placeholder="#rrggbb" hidden="true">
+
+					<div class="tracker rowContainer">
+						<img name="attr_tagIconDisplay" class="trackerIcon mediumIcon">
+						<input type="number" value="0" class="trackerCurrent noSpinner" name="attr_tagCurrent" tabindex="-1">
+						<input type="number" value="0" class="trackerMax noSpinner" name="attr_tagMax" tabindex="-1">
+						<input type="number" value="0" class="trackerBase hoverSpinner" name="attr_tagBase">
+					</div>
+				</div>
+			</fieldset>
+
+			<button type="action" class="btn repcontrol_add heal" id="add_tags" name="act_addItem" data-i18n-title="item-add-tag" title="Add new tag/slot">Add</button>
+		</div>
+		
+		<!-- Edit Button -->
+		<input type="checkbox" class="switch-toggle" id="hideItemSettings" name="attr_hideItemSettings" value="true" hidden="true">
+		<label for="hideItemSettings" class="inventoryEditButton largeIcon edit" data-i18n-title="item-edit" title="Edit items"></label>
+
+	</h3>
+
+	<!-- Advanced Search Menu -->
+	<input type="checkbox" class="hide-toggle-rev-next" name="attr_hideItemSearchOptions" value="true" hidden="true" checked>
+	<div class="hide-item-rev searchOptionsMenu">
+		<!-- Add options here later in a similar style to Ruina -->
 	</div>
 </div>
 
@@ -5201,7 +5226,7 @@ EGO block end -->
 		<!-- Custom add repeating item button -->
 		<div class="inventoryControls contentHeader repcontrol_header">
 			<span class="inventoryName">Weapons</span>
-			<button type="action" class="btn repcontrol_add" id="add_weapons" name="act_addItem" data-i18n-title="item-add" title="Add new item">Add</button>
+			<button type="action" class="btn repcontrol_add heal" id="add_weapons" name="act_addItem" data-i18n-title="item-add" title="Add new item">Add</button>
 		</div>
 
 		<fieldset class="repeating_weapons">
@@ -5226,9 +5251,9 @@ EGO block end -->
 				</div>
 
 				<!-- Message overlay -->
-				<input type="checkbox" class="hide-toggle-next" name="attr_messageDisplay" value="true" hidden="true">
-				<div class="hide-item itemMessage">
-					<textarea name="attr_messageText"></textarea>
+				<input type="checkbox" class="hide-toggle-rev-next" name="attr_messageText" value="0" hidden="true" checked>
+				<div class="hide-item-rev itemMessage">
+					<span name="attr_messageText" spellcheck="false"></span>
 				</div>
 
 				<!-- Option: Custom styling -->
@@ -5356,13 +5381,6 @@ EGO block end -->
 									<option data-i18n="special-duration-6" value="6">Months</option>
 								</select>
 							</div>
-						</div>
-
-						<!-- Option: Tags (Left) -->
-						<input type="checkbox" class="hide-toggle-next" name="attr_optionTags" value="true" hidden="true">
-						<div class="hide-item itemTags">
-							<input type="checkbox" class="hide-toggle" name="attr_leftTagsDisplay" value="true" hidden="true">
-							<input type="text" class="hide-item darkInput" data-i18n-placeholder="item-tags" placeholder="Item tags">
 						</div>
 
 						<!-- Description (Left) -->
@@ -5649,13 +5667,6 @@ EGO block end -->
 							</div>
 						</div>
 
-						<!-- Option: Tags (Right) -->
-						<input type="checkbox" class="hide-toggle-next" name="attr_optionTags" value="true" hidden="true">
-						<div class="hide-item itemTags">
-							<input type="checkbox" class="hide-toggle" name="attr_rightTagsDisplay" value="true" hidden="true">
-							<input type="text" class="hide-item darkInput" data-i18n-placeholder="item-tags" placeholder="Item tags">
-						</div>
-
 						<!-- Description (Right) -->
 						<div class="itemDescriptionContainer right columnAlign">
 							<input type="checkbox" class="hide-toggle-next" name="attr_rightDescDisplay" value="true" hidden="true">
@@ -5686,7 +5697,7 @@ EGO block end -->
 		<!-- Custom add repeating item button -->
 		<div class="inventoryControls contentHeader repcontrol_header">
 			<span class="inventoryName">Outfits</span>
-			<button type="action" class="btn repcontrol_add" id="add_outfits" name="act_addItem" data-i18n-title="item-add" title="Add new item">Add</button>
+			<button type="action" class="btn repcontrol_add heal" id="add_outfits" name="act_addItem" data-i18n-title="item-add" title="Add new item">Add</button>
 		</div>
 
 		<fieldset class="repeating_outfits">
@@ -5711,9 +5722,9 @@ EGO block end -->
 				</div>
 
 				<!-- Message overlay -->
-				<input type="checkbox" class="hide-toggle-next" name="attr_messageDisplay" value="true" hidden="true">
-				<div class="hide-item itemMessage">
-					<textarea name="attr_messageText"></textarea>
+				<input type="checkbox" class="hide-toggle-rev-next" name="attr_messageText" value="0" hidden="true" checked>
+				<div class="hide-item-rev itemMessage">
+					<span name="attr_messageText" spellcheck="false"></span>
 				</div>
 
 				<!-- Option: Custom styling -->
@@ -5841,13 +5852,6 @@ EGO block end -->
 									<option data-i18n="special-duration-6" value="6">Months</option>
 								</select>
 							</div>
-						</div>
-
-						<!-- Option: Tags (Left) -->
-						<input type="checkbox" class="hide-toggle-next" name="attr_optionTags" value="true" hidden="true">
-						<div class="hide-item itemTags">
-							<input type="checkbox" class="hide-toggle" name="attr_leftTagsDisplay" value="true" hidden="true">
-							<input type="text" class="hide-item darkInput" data-i18n-placeholder="item-tags" placeholder="Item tags">
 						</div>
 
 						<!-- Description (Left) -->
@@ -6132,13 +6136,6 @@ EGO block end -->
 									<div class="largeIcon bluntNormalSTG"></div>
 								</div>
 							</div>
-						</div>
-
-						<!-- Option: Tags (Right) -->
-						<input type="checkbox" class="hide-toggle-next" name="attr_optionTags" value="true" hidden="true">
-						<div class="hide-item itemTags">
-							<input type="checkbox" class="hide-toggle" name="attr_rightTagsDisplay" value="true" hidden="true">
-							<input type="text" class="hide-item darkInput" data-i18n-placeholder="item-tags" placeholder="Item tags">
 						</div>
 
 						<!-- Description (Right) -->
@@ -8140,7 +8137,7 @@ EGO block end -->
 <div class="customAilText">
 <span data-i18n="message-icon">Icon</span>:
 </div>
-<input name="attr_ailIcon" list="iconlist" type="text" placeholder="Type for icon selection." value="Question">
+<input type="text" name="attr_ailIcon" list="iconlist" placeholder="Type for icon selection." value="Question">
 </div>
 
 <!-- Ailment trigger -->
@@ -8631,7 +8628,7 @@ const statNamesFull = [...statNames, "Fortitude", "Prudence"]
 const stateNames = ["PanicState", "StaggerState", "StaggerDuration", "SealState", "ImmobileState", "DefeatState"];
 
 const itemSections = ["weapons", "outfits", "augments", "tools", "skills", "special", "effects"];
-const sheetSections = [...itemSections, "ailments"];
+const sheetSections = [...itemSections, "ailments", "tags"];
 
 const resourceNames = ["Action", "Reaction", "Universal", "Counter", "Block", "Evade", "Light_Regen"]
 const combatRollNames = ["Attack", "Block", "Evade"]
@@ -9302,13 +9299,10 @@ class checkVal {
 
 	static Int(i, opts={}) { return !isNaN(Number(i)) && this.Opts(Number(i), opts); }
 	static String(s, opts={newlines:false}) { return typeof(s) == "string" && (opts.newline) ? !s.includes("\n") : true; }
-	static ID(s, opts={}) { return typeof(s) == "string" && (opts.strict ? /^-[\w-]{19}$/ : /^-.{19}$/).test(s); } // Checks if a Roll20-style id is valid
-	static Effect(v, opts={}) { return /^(?:-(?:\d+|n|\d+n))$|^(?:\d+)?n?$/.test(v); } // Check for ailment effects like "0", "-n" and "6n"
-	
-	static False(b) { return ["false", "0"].includes("" + b); }
 	static True(b) { return ["true", "1"].includes("" + b); }
+	static False(b) { return ["false", "0"].includes("" + b); }
 	static Bool(b) { return ["false", "true", "0", "1"].includes("" + b); }
-
+	
 	static Array(a, opts={}) { return Array.isArray(a) && this.Opts(a.length, opts); }
 	static Object(o, opts={}) { return typeof(o) == "object" && !Array.isArray(o) && this.Opts(length(o), opts); }
 	static In(o) {
@@ -9321,8 +9315,15 @@ class checkVal {
 	static Max(max, opts={}) { return opts.inclusive ? this.x <= max : this.x < max; }
 	static Between(min, max, opts={}) { return this.Opts(i, {...opts, min: min, max: max}); }
 
+	static ID(s, opts={}) { return typeof(s) == "string" && (opts.strict ? /^-[\w-]{19}$/ : /^-.{19}$/).test(s); } // Checks if a Roll20-style id is valid
+	static Effect(v, opts={}) { return /^(?:-(?:\d+|n|\d+n))$|^(?:\d+)?n?$/.test(v); } // Check for ailment effects like "0", "-n" and "6n"
+	static Path(p, opts={}) { return /^$/; } //navPath
+
 	static Hex(s) { return /^#?[0-9a-f]{6}$/i.test(s); }
-	
+	static PropString(s) { // Check for strings with the format "Key Value, Key Value, ..." where key is a non-empty string and value is an integer
+		return substringCount(/[^,\s][^,]*(?:\s+\d+)?/g, s) == substringCount(/,/g, s) + 1;
+	}
+
 	static Opts(i, opts={min:false, max:false}) {
 		this.x = i;
 		if (opts.inclusive == undefined) opts.inclusive = true;
@@ -11223,26 +11224,26 @@ getSectionIDs(`repeating_global`, idarray => {
 
 
 /* Auto: Update ailment and tool icons */
-on("sheet:opened", function(info) {
+on("sheet:opened", function(info) { // TODO: This looks redundant, but may be needed to load icons from ailments gained through "apply default settings?"
 	getSectionIDs(`repeating_ailments`, idarray => {
 	let fieldnames = idarray.reduce((rows,id) => [...rows, `repeating_ailments_${id}_ailIcon`, `repeating_ailments_${id}_ailIconDisplay`], '');
 	for (let i = 1; i <= 4; i++) { fieldnames = [...fieldnames, `tool${i}Icon`, `tool${i}IconDisplay`] }
 
 	getAttrs([...fieldnames,], function(values) {
-	let output = {}
-	
-	idarray.forEach(id => {
-		if (!(values[`repeating_ailments_${id}_ailIconDisplay`].includes("http"))) {
-			updateIcon("ailment", values[`repeating_ailments_${id}_ailIcon`], id, output);
+		let output = {}
+		
+		idarray.forEach(id => {
+			if (!(values[`repeating_ailments_${id}_ailIconDisplay`].includes("http"))) {
+				updateIcon("ailment", values[`repeating_ailments_${id}_ailIcon`], id, output);
+			}
+		});
+		for (let i = 1; i <= 4; i++) {
+			if (!(values["tool", `tool${i}IconDisplay`].includes("http"))) {
+				updateIcon("tool", values[`tool${i}Icon`], i, output);
+			}
 		}
-	});
-	for (let i = 1; i <= 4; i++) {
-		if (!(values["tool", `tool${i}IconDisplay`].includes("http"))) {
-			updateIcon("tool", values[`tool${i}Icon`], i, output);
-		}
-	}
-	setAttrs(output);
-	});
+		setAttrs(output);
+		});
 	});
 });
 on("change:repeating_ailments:ailIcon", function(info) {
@@ -11252,29 +11253,40 @@ on("change:tool1Icon change:tool2Icon change:tool3Icon change:tool4Icon", functi
 	updateIcon("tool", info.newValue, info.sourceAttribute.match(/tool(\d)icon/)[1]);
 });
 function updateIcon(type, baseIcon, id, returnOutput=false) {
-	baseIcon = (baseIcon) ? baseIcon : (type == "ailment") ? "Question" : "Hand";
+	if (!baseIcon) {
+		switch (type) {
+			case "tool": baseIcon = "Hand"; break;
+			default: baseIcon = "Question";
+		}
+	}
 	
 	/* If using icon from url */
-	let newicon = (baseIcon.includes("http")) ? baseIcon : "";
+	let newIcon = (baseIcon.includes("http")) ? baseIcon : "";
 
 	/* If using built in icons*/
-	if (newicon == "") {
+	if (newIcon == "") {
 		let [iconFolder, iconName] = baseIcon.split("/");
 		switch (iconFolder.toLowerCase()) {
-			case "limbus": newicon = getIcon("ailments", iconName, "true", "url"); break;
-			case "community": newicon = getIcon("community", iconName, "false", "url"); break;
-			case "question": newicon = getIcon("icons", "question", "false", "url"); break;
-			case "hand": newicon = getIcon("icons", "Portable", "false", "url"); break;
-			default: newicon = getIcon("ailments", iconFolder, "false", "url"); break;
+			case "limbus": newIcon = getIcon("ailments", iconName, "true", "url"); break;
+			case "community": newIcon = getIcon("community", iconName, "false", "url"); break;
+			case "question": newIcon = getIcon("icons", "question", "false", "url"); break;
+			case "hand": newIcon = getIcon("icons", "Portable", "false", "url"); break;
+			default: newIcon = getIcon("ailments", iconFolder, "false", "url"); break;
 		}
 	}
 
 	/* Set new icon */
-	let attrPrefix = (type == "ailment") ? `repeating_ailments_${id}_ail` : `tool${id}`;
+	let attrPrefix = "";
+	switch (type) {
+		case "tool": attrPrefix = `tool${id}`; break;
+		case "ailment": attrPrefix = `repeating_ailments_${id}_ail`; break;
+		case "tag": attrPrefix = `repeating_tags_${id}_tag`; break;
+	}
+
 	if (returnOutput) {
-		returnOutput[`${attrPrefix}IconDisplay`] = newicon;
+		returnOutput[`${attrPrefix}IconDisplay`] = newIcon;
 	} else {
-		setAttrs({[`${attrPrefix}IconDisplay`]: newicon})
+		setAttrs({[`${attrPrefix}IconDisplay`]: newIcon})
 	}
 }
 
@@ -14172,7 +14184,7 @@ on('clicked:declareAction', (info) => {
 });
 
 /* Clicked: Resource display buttons */
-on("clicked:expandResourceTrackers clicked:editResourceTrackers", function(info) {
+on("clicked:expandtrackers clicked:edittrackers", function(info) {
 	getAttrs(["expandResourceToggle", "editResourceToggle", "actionType",
 	"Action", "Action_base", "Action_max", "Reaction", "Reaction_base", "Reaction_max", "Light_Regen", "Light_Regen_base", "Light_Regen_max",
 	"Counter", "Counter_base", "Counter_max", "Block", "Block_base", "Block_max", "Evade", "Evade_base", "Evade_max"], function(values) {
@@ -16570,6 +16582,1655 @@ class itemListHandler {
 
 
 
+
+
+
+
+
+
+// Data format used for roll data. This is used for generic roll data, item rollformats and stored rolls
+
+
+// Issues with the roll format:
+// - Applied is only relevant for roll formats
+// - Action and reaction costs are a bit finicky for AutoEffects, being that they can be spread across multiple dice
+// - The same goes for uses spent as part of the roll
+
+const rollDataFormat = {
+	base: {
+		type: "Effect", mode: "Roll", damage_type: "None", count: 0, max: 0, power: 0, adv: false, autoscript: "",
+		action: {type: "Action", cost: 1},
+		reaction: {type: "Reaction", cost: 1},
+		uses: {cost: 1},
+		store: {
+			count: 0, max: 0, power: 0, adv: false, autoscript: "",
+		},
+	},
+	
+	valid: {
+		type: (s) => is(s).In("None", ...combatRollNames, ...statNamesFull, "Custom"),
+		mode: (s) => is(s).In("Roll", "Applied"), // Applied is ignored outside of roll formats
+		damage_type: (v) => is(v).In("None", ...damageTypes, "Choose") || (is.Array(v, {min:1, max:3}) && v.every(d => damageTypes.includes(d))), // Allows an array of 1-3 damagetypes ("Hybrid")
+		count: (i) => is.Int(i, (this.type == "Roll") ? {min: 1} : {}), // This probably still refers to this itemNode, right? If not use itemList[this... id...]... motherfucker
+		max: (i) => is.Int(i, (this.type == "Roll") ? {min: 0} : {}),
+		power: (i) => is.Int(i),
+		adv: (v) => is.False(v) || is(v).In(advTypes),
+		action: {
+			type: (s) => is(s).In("None", ...resourceNames),
+			cost: (i) => is.Int(i, {min: 0}),
+		},
+		reaction: {
+			type: (s) => is(s).In("None", ...resourceNames),
+			cost: (i) => is.Int(i, {min: 0}),
+		},
+		uses: {
+			cost: (i) => is.Int(i, {min: 0}),
+		},
+		store: {
+			count: (i) => is.Int(i),
+			max: (i) => is.Int(i),
+			power: (i) => is.Int(i),
+			adv: (v) => is.False(v) || is(v).In(advTypes),
+			autoscript: (s) => is.String(s, {newlines: true}),
+		},
+		autoscript: (s) => is.String(s, {newlines: true}),
+	}
+}
+
+
+const tagDataFormat = {
+	base: {
+		_key_prop: "name",
+		_value_prop: "current",
+		name: "",
+		icon: "Question",
+		color: "",
+		is_slot: false,
+		current: 0, max: 0, base: 0,
+	},
+
+	valid: {
+		name: (s) => /^\s*$/.test(s) || is.PropString(s),
+		icon: (s) => is.String(s),
+		color: (s) => s == "" || is.Hex(s),
+		is_slot: (b) => is.Bool(b),
+		_default: (i) => is.Int(i),
+	},
+
+	attrs: {
+		source: {
+			sheet: {
+				type: "id",
+				section: "tags",
+			},
+		},
+		attrs: {
+			prefix: "tag",
+			case: "snake",
+		},
+		export: {alias: "???"}, // TODO: Need export info for slots/tags (for the base values)
+	},
+
+	item: {
+		base: {
+			_repeating: {
+				_key_prop: "name",
+				_value_prop: "value",
+				name: "",
+				value: 0,
+				alt: [],
+			},
+			raw_text: "",
+		},
+
+		valid: {
+			_repeating: {
+				name: (s) => is.String(s),
+				value: (i) => is.Int(i),
+				alt: (s) => is.Array(a),
+			},
+			raw_text: (s) => /^\s*$/.test(s) || is.PropString(s),
+		}
+	},
+}
+
+
+// Includes all default override values for items of a certain type. If a value is not specified here the value in the base format is used
+// All sub-nodes like "rollformats" are optional and begin off disabled by default
+// Including a subnode in an item's default values (even just writing "subnode: {}") enables that subnode
+const repDataDefaults = {
+	item: {
+		weapons: {
+			type: "Weapon",
+			rollformats: {
+				repeating: [
+					{type: "Attack", damage_type: "Choose", count: 1, max: 10, power: 0, action: {}, reaction: {type: "Counter"}},
+				],
+			},
+			slots: {requires: {raw_text: "Hands 1"}},
+			ui: {weapon: true},
+		},
+		outfits: {
+			type: "Outfit",
+			rollformats: {
+				repeating: [
+					{type: "Block", count: 1, max: 10, power: 0, reaction: {type: "Block"}},
+					{type: "Evade", count: 1, max: 12, power: 0, reaction: {type: "Evade"}, store: {power: -2}},
+				],
+			},
+			resistances: {
+				base: {
+					slash: {mode: "Replace", hp: 1, st: 1},
+					pierce: {mode: "Replace", hp: 1, st: 1},
+					blunt: {mode: "Replace", hp: 1, st: 1},
+				},
+				ailments: {
+					default: {},
+					custom: {},
+				}
+			},
+		},
+		augments: {
+			type: "Augment",
+			resistances: {
+				ailments: {
+					default: {},
+					custom: {},
+				}
+			},
+			ui: {augment: true}
+		},
+		tools: {
+			type: "Tool",
+			usable: {type: "Standalone", action: {}, uses: {}},
+			limited: {uses: {max: 3, current: 3, recharge: "Refresh"}},
+			slots: {requires: {raw_text: "Hands 1"}},
+			ui: {half: true},
+		},
+		skills: {
+			type: "Skill",
+			rollformats: {
+				repeating: [
+					{type: "None", mode: "Applied", count: 0, max: 0, power: 0, action: {type: "None", value: 0}, reaction: {type: "None", cost: 0}},
+				],
+			},
+			limited: {light: {cost: 1}},
+		},
+		special: {
+			type: "Special",
+			ui: {special: true}
+		},
+		effects: {
+			type: "Effect",
+		}
+	}
+}
+
+
+// Data formats used for repeating data (items, ailments, rolls, etc.)
+const repDataFormats = {
+	
+	// Data formats used for access.items
+	item: {
+		base: {
+			_key_prop: "name",
+			_value_prop: "equipped",
+			type: "Effect", rank: 0, name: "", description: "", effect: "",
+			minimized: false,
+			equipped: false,
+			rollformats: {
+				_repeating: rollDataFormat.base,
+			},
+			usable: {
+				type: "None",
+				action: {type: "Action", cost: 1},
+				reaction: {type: "None", cost: 0},
+				uses: {cost: 1},
+			},
+			linked: {
+				itemid: false,
+				equip_together: true,
+			},
+			limited: {
+				uses: {
+					max: 3, current: 3, recharge: "None",
+				},
+				light: {
+					cost: 0,
+				},
+			},
+			resistances: {
+				base: {
+					slash: {mode: "None", hp: 1, st: 1},
+					pierce: {mode: "None", hp: 1, st: 1},
+					blunt: {mode: "None", hp: 1, st: 1},
+				},
+				flat: {
+					slash: {mode: "None", hp: 0, st: 0},
+					pierce: {mode: "None", hp: 0, st: 0},
+					blunt: {mode: "None", hp: 0, st: 0},
+				},
+				ailments: {
+					default: {Burn: 0, Bleed: 0},
+					custom: {
+						_repeating: {
+							name: "",
+							count: "",
+						}
+					},
+				},
+			},
+			mystery: {
+				activation: "None",
+			},
+			slots: {
+				gives: tagDataFormat.item.base,
+				requires: tagDataFormat.item.base,
+			},
+			tags: {
+				gives: tagDataFormat.item.base,
+				requires: tagDataFormat.item.base,
+			},
+			ui: {
+				color: {
+					base: "None",
+					decoration: "None",
+					custom: {
+						base: "",
+						decoration: "",
+					},
+				},
+				icon: {
+					source: "",
+				},
+				position: {
+					x: 0,
+					y: 0,
+				},
+				weapon: false,
+				augment: false,
+				special: false,
+				half: false,
+			},
+			card: {},
+			autoscript: "",
+		},
+	
+		// Includes functions for validating item input values
+		valid: {
+			type: (s) => is(s).In(itemSections.map(section => capitalize(section.replace(/s$/,"")))),
+			rank: (i) => is.Int(i, {min: -1}),
+			name: (s) => is.String(s),
+			description: (s) => is.String(s, {newlines: true}),
+			effect: (s) => is.String(s, {newlines: true}),
+			minimized: (b) => is.Bool(b),
+			equipped: (v) => is.Bool(v),
+			rollformats: { // Enabled by optionRollFormats
+				_repeating: rollDataFormat.valid,
+			},
+			usable: { // Enabled by optionUsable
+				type: (s) => is(s).In("None", "Standalone", "Applied", "Both"),
+				action: { // Enabled by optionUsableReaction
+					type: (s) => is(s).In("None", ...resourceNames),
+					cost: (i) => is.Int(i, {min: 0}),
+				},
+				reaction: { // Enabled by optionUsableReaction
+					type: (s) => is(s).In("None", ...resourceNames),
+					cost: (i) => is.Int(i, {min: 0}),
+				},
+				uses: {
+					cost: (i) => is.Int(i, {min: 0}),
+				},
+			},
+			linked: { // Enabled by optionLinked
+				itemid: (v) => is.Bool(v) || is(v).In(itemList.IDs), // Need to make sure this works if the linked item is added after this item. Maybe add all the ids first and then add the itemNodes?
+				equip_together: (b) => is.Bool(b),
+			},
+			limited: { // Enabled by optionLimited
+				uses: { // Enabled by optionUses
+					current: (i) => is.Int(i, {min: 0}),
+					max: (i) => is.Int(i, {min: 0}),
+					recharge: (s) => is(s).In("None", "Manual", "Refresh", "Recover", "Loaded", "Ammo", "Combat", "Round"),
+				},
+				light: { // Enabled by optionLightCost
+					cost: (i) => is.Int(i, {min: 0}),
+				},
+			},
+			resistances: { // Enabled by optionResist
+				base: { // Enabled by optionResistBaseDamage
+					slash: {
+						mode: (s) => is(s).In("None", "Add", "Replace"),
+						hp: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+						st: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+					},
+					pierce: {
+						mode: (s) => is(s).In("None", "Add", "Replace"),
+						hp: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+						st: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+					},
+					blunt: {
+						mode: (s) => is(s).In("None", "Add", "Replace"),
+						hp: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+						st: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
+					},
+				},
+				flat: { // Enabled by optionResistFlatDamage
+					slash: {
+						mode: (s) => is(s).In("None", "Add", "Replace"),
+						hp: (i) => is.Int(i),
+						st: (i) => is.Int(i),
+					},
+					pierce: {
+						mode: (s) => is(s).In("None", "Add", "Replace"),
+						hp: (i) => is.Int(i),
+						st: (i) => is.Int(i),
+					},
+					blunt: {
+						mode: (s) => is(s).In("None", "Add", "Replace"),
+						hp: (i) => is.Int(i),
+						st: (i) => is.Int(i),
+					},
+				},
+				ailments: { // Enabled by optionResistAilments
+					default: {
+						Burn: (i) => is.Int(i),
+						Bleed: (i) => is.Int(i),
+					},
+					custom: {
+						ailName: (i, v) => is.Values(v, "ailCustomResistanceNum").Int(i), // Needs some work. Should set key=ailName and value=ailCustomResistanceNum
+						// "*": () => (this?.values?.ailName && is.Int(this?.values?.ailCustomResistanceNum)) ? {values.ailName, values.ailResistanceNum} : false,
+						// Would here try format.valid("*") if format.valid(key) fails. If a validator returns an object o, loop over o keys and values and set this[key] = value
+						// This wouldn't help with updating already existing values however... You could just say that if no validator exists anything goes? 
+					},
+				},
+			},
+			mystery: { // Enabled by optionMystery
+				activation: (s) => is(s).In("None", "AlwaysActive", "HalfHealth", "OnStagger", "EnemyDefeat", "AllyDefeat"),
+			},
+			slots: { // Enabled by optionEquipSlots
+				gives: tagDataFormat.item.valid,
+				requires: tagDataFormat.item.valid,
+			},
+			tags: { // Enabled by optionTags
+				gives: tagDataFormat.item.valid,
+				requires: tagDataFormat.item.valid,
+			},
+			ui: { // Enabled by optionCustomUI
+				color: { // Enabled by optionColor
+					base: (v) => is(v).In("None", "Red", "Blue", "Green", "Purple", "Orange", ...statNamesFull, "Custom"),
+					decoration: (v) => is(v).In("None", "Red", "Blue", "Green", "Purple", "Orange", ...statNamesFull, "Custom"),
+					custom: {
+						base: (s) => s == "" || is.Hex(s),
+						decoration: (s) => s == "" || is.Hex(s),
+					},
+				},
+				icon: { // Enabled by optionIcon
+					source: (s) => is.String(s), // Is either a http image or a default icon name. Otherwise a question mark icon is displayed
+				},
+				position: {
+					x: (i) => is.Int(i),
+					y: (i) => is.Int(i),
+				},
+				weapon: (b) => is.Bool(b), // The UI element has a custom event handler to update the damage type or uses of the first roll format
+				augment: (b) => is.Bool(b),
+				special: (b) => is.Bool(b),
+				half: (b) => is.Bool(b), // Ignored when possessing 2+ roll formats, ui.special or damage resistances. This is handled by CSS
+			},
+			card: {}, // Enabled by optionCardCombat
+			autoscript: (s) => is.String(s, {newlines: true}),
+		},
+	
+		// Contains format data for all attribute names of an item. Used for inputing and outputing attribute data
+		attrs: {
+			defaults: repDataDefaults.item,
+			source: {
+				editor: {
+					prefix: "itemEdit",
+				},
+				sheet: {
+					type: "id",
+					section: itemSections,
+				},
+			},
+			export: {alias: "items"},
+			attrs: {
+				rollformats: {
+					option: "RollFormats",
+					_repeating: {
+						attrs: {
+							option: "RollDisplay", 
+							prefix: "roll",
+							case: "snake",
+							action: {option: "RollAction", prefix: "rollAction"},
+							reaction: {option: "RollReaction", prefix: "rollReaction"},
+							uses: {option: "RollUses", prefix: "rollUses"},
+							store: {option: "StoreRoll", prefix: "store"},
+						},
+						source: {
+							editor: {
+								type: "id",
+								section: "rollformats",
+							},
+							sheet: {
+								type: "index",
+								section: itemSections,
+							},
+						},
+						export: {alias: "rollFormats"},
+					},
+				},
+				usable: {
+					option: "Usable",
+					prefix: "useable",
+					action: {option: "UsableAction", prefix: "usableAction"},
+					reaction: {option: "UsableReaction", prefix: "usableReaction"},
+					uses: {option: "UsableUses", prefix: "usableUses"}
+				},
+				linked: {option: "Linked", prefix: "linked", case: "snake"},
+				limited: {
+					option: "Limited",
+					uses: {option: "Uses", prefix: "uses"},
+					light: {option: "LightCost", prefix: "light"},
+				},
+				resistances: {
+					option: "Resist",
+					base: {
+						option: "ResistBaseDamage",
+						slash: {prefix: "slashBase"},
+						pierce: {prefix: "pierceBase"},
+						blunt: {prefix: "bluntBase"},
+					},
+					flat: {
+						option: "ResistFlatDamage",
+						slash: {prefix: "slashFlat"},
+						pierce: {prefix: "pierceFlat"},
+						blunt: {prefix: "bluntFlat"},
+					},
+					ailments: {
+						option: "ResistAilments",
+						default: {suffix: "Resist"},
+						custom: {
+							suffix: "Resist",
+							_repeating: {
+								attrs: {
+									// Need to correctly add a prefix to the count, but not to the name
+								},
+								source: {
+									editor: {
+										type: "id",
+										section: "ailments",
+									},
+								},
+								export: {alias: "customResist"},
+							},
+						},
+					},
+				},
+				mystery: {option: "Mystery", prefix: "mystery"},
+				slots: {
+					option: "EquipSlots",
+					gives: {
+						option: "GiveSlots", prefix: "giveSlots", case: "snake",
+						_repeating: {},
+					},
+					requires: {
+						option: "RequireSlots", prefix: "requireSlots", case: "snake",
+						_repeating: {},
+					},
+				},
+				tags: {
+					option: "Tags",
+					gives: {
+						option: "GiveTags", prefix: "giveTags", case: "snake",
+						_repeating: {},
+					},
+					requires: {
+						option: "RequireTags", prefix: "requireTags", case: "snake",
+						_repeating: {},
+					},
+				},
+				ui: {
+					option: "CustomUI",
+					suffix: "UI",
+					color: {
+						option: "Color",
+						suffix: "Color",
+						custom: {
+							prefix: "custom",
+							suffix: "Color",
+						},
+					},
+					icon: {option: "Icon", prefix: "icon"},
+					position: {option: "Position", prefix: "position"},
+				},
+				card: {option: "CardCombat", prefix: "card"},
+			},
+		},
+	},
+
+	// Data formats used for access.ailments
+	ailment: {
+		base: {
+			_key_prop: "name",
+			_value_prop: "count",
+			name: "",
+			count: 0,
+			count_immutable: 0,
+			count_next_round: 0,
+			count_pause: 0,
+			icon: "",
+			settings: {
+				display: true,
+				trigger: "None",
+				next_round: true,
+				custom_resistance: true,
+				whenhit: {
+					damage_type: "Any",
+					decay: true,
+					before_resistance: true,
+					positive_type: "Regen",
+				},
+				roundend: {
+					decay: true,
+				}
+			},
+			effect: {
+				type: "None",
+				mode: "+",
+				value: "-n",
+			},
+			decay: {
+				min: "0",
+				mode: "=",
+				value: 0,
+			},
+			max: {
+				mode: "None",
+				value: 0,
+			},
+			message: {
+				send: false,
+				text: "[CHAR]: [DIFF] damage from [AIL]",
+			}
+		},
+
+		valid: {
+			_default: (i) => is.Int(i, {min: 0}),
+			name: (s) => is.String(s),
+			icon: (s) => is.String(s),
+			settings: {
+				_default: (b) => is.Bool(b),
+				trigger: (s) => is(s).In("None", "RoundEnd", "OnAction", "WhenHit"),
+				whenhit: {
+					damage_type: (s) => is(s).In("Any", "Slash", "Pierce", "Blunt"),
+					decay: (b) => is.Bool(b),
+					before_resistance: (b) => is.Bool(b),
+					positive_type: (s) => is(s).In("Regen", "Resistance"),
+				},
+				roundend: {
+					decay: (b) => is.Bool(b),
+				}
+			},
+			effect: {
+				type: (s) => is(s).In("None", "HP", "ST", "HP+ST", "THP", "TST", "SP", "Light", "DistortCounter", "Difficulty"),
+				mode: (s) => is(s).In("+", "x", "="),
+				value: (v) => is.Effect(v),
+			},
+			decay: {
+				min: (s) => is(s).In("1", "0"),
+				mode: (s) => is(s).In("+", "x", "="),
+				value: (v) => is.Effect(v),
+			},
+			max: {
+				mode: (s) => is(s).In("None", "ClearMax", "EffectMax", "DecayMax", "EffectDecayMax", "EffectClearMax"),
+				value: (i) => is.Int(i, {min: 0}),
+			},
+			message: {
+				send: (b) => is.Bool(b),
+				text: (s) => is.String(s, {newlines: true}),
+			}
+		},
+
+		attrs: {
+			attrs: {
+				prefix: "ail",
+				case: "snake",
+				settings: {
+					prefix: "ail",
+					case: "snake",
+					whenhit: {prefix: "ail", suffix: "WhenHit", case: "snake"},
+					roundend: {prefix: "ail", suffix: "RoundEnd"},
+				},
+				effect: {prefix: "ailEffect"},
+				decay: {prefix: "ailDecay"},
+				max: {prefix: "ailMax"},
+				message: {prefix: "ailMessage"},
+			},
+			source: {
+				sheet: {
+					type: "id",
+					section: "ailments",
+				},
+			},
+			export: {alias: "ailments"},
+			// Oh lord... this will require a lot of aliases
+			// Alternatively, make underscores be removed so ex. "has_next_turn_field" becomes "hasNextRoundField" (capitalization doesn't matter)
+			//  - In this case you'll only need the "ail" prefix + rename some attribute fields in the sheet
+			
+		}
+	},
+
+	
+
+	// Still missing formats:
+	// - Rolls
+	//   - Note that rolls can have different sources:
+	//     - Item rolls link to the item (repeating + indexed) + editor (repeating)
+	//     - Stored rolls link to the stored rolls UI (repeating)
+	//     - Roll data doesn't link to any attributes, existing only as data used in customRoll() and autoScriptMain()
+	// - Chat buttons
+}
+
+
+
+
+// Handle repeating data as follows:
+// - In the base format, only include the nodes (items, ailments etc.) and any non-repeating props (access.token.id, etc.)
+// - Make these nodes generate as unique variants of dataNode, like access.items being an itemNode
+// - For ex. itemNode, have methods to add and delete repeating data. Have itemNode.input() automatically create new items for unknown ids
+// - In access._initialize(), access is first set up before access.input() is used. This should generate any additional repeating nodes that are needed
+//   - One issue here is how you get the values that are inserted using access.input()
+//   - Previously you generated one dummy item, used that to generate a set of attributes, and then repeated those attributes for every item id in the sheet
+//   - You may want to do the same now, with these ailment/item/rollNodes being generated *outside* of access, while the returned values are input *into* access
+//   - Alternatively, include these nodes in the base format, and then delete them after inputting the values
+
+
+
+// Data formats used for access and access.token
+// If a node contains repeatingIDs, repeatingNames or repeatingIndex, swap over to a new set of formats and generate multiple nodes
+const dataFormat = {
+	base: {
+		type: "character", // One of "character", "target" or "token". Useful for telling what data is stored in a data tree 
+		// You may want to include a way to have an access be both a character and a target, for cases where GMs have a player sheet open
+		items: {
+			// Has repeating item data + the item editor. Sorted by item ids in the order they display in the sheet
+			_repeating: repDataFormats.item.base, // Items have their own formats
+			editor: {
+				target: "0",
+				location: "Center",
+			},
+		},
+		ailments: {
+			// Has only repeating data. Sorted by ailment names in the order they display in the sheet
+			// May need special handling for default ailments if you don't make them into repeating ailments
+			//  - If you keep them as they are, you can add them as non-repeating data here
+			_repeating: repDataFormats.ailment.base, // Ailments have their own formats
+		},
+		rolls: {
+			// Has a mix of repeating and repeating roll data
+			// The output message shows only so many rolls per row. Additional rolls bleed down to extra rows. Implement this using max-width = 100%, min-width: __px
+			_repeating: rollDataFormat.base, // Rolls that are part of the current action. Has no sheet attributes
+			store: { _repeating: rollDataFormat.base }, // Stored rolls in the sheet. Has sheet attributes
+			whisper: "",
+			difficulty: 0,
+			adv: 0, // advNum in the sheet
+			disadv: 0, // disadvNum in the sheet
+		},
+		chat: {
+			buttons: {
+				// Contains data about chat buttons
+				// "selected" stores all buttons that target any character. For example, access.chat.buttons.selected["Apply ailments"] gets the ailment button
+				// Other buttons are sorted by the name of the target(s), and are impossible to access without knowing the name of a target
+				// access.chatbuttons.target may be used to get the chat buttons matching the target name, being equivalent to access.chatbuttons[access.target.character.name]
+				// access.chatbuttons.whisper works the same, but for access.roll.whisper
+				// Make two getters and setters to implement these features
+
+				// There should be a format for chat buttons, but it should not be included in the base format
+			},
+			message: "", // Stores the HTML of the output chat message. Used with ex. access.chat.message += string, or replace(access.chat.message, rep, string)
+			// May change in the future based on how the chat message code develops
+		},
+		settings: {
+			sheet: {
+				// Contains all sheet settings (from the cogwheel menu)
+			},
+			game: {
+				// Contains all game settings (from the editor tab)
+				// There values can be manipulated even if the editor is hidden and/or blocked with a password
+				//  There's not really any way you can "cheat" by changing these values which you couldn't do by just fudging numbers normally in your sheet
+				//  The one thing that could happen is players messing up the settings set by the GM, but that sounds like a table issue
+				//  Worst case you could just make these values read only, except when importing game settings or manual input in the editor
+			},
+		},
+		bars: {
+			hp: 30, hp_max: 30, "-hp": 0,
+			st: 20, st_max: 20, "-st": 0,
+			sp: 15, sp_max: 15, "-sp": 0,
+			light: 3, light_max: 3, "-light": 0,
+		},
+		resource: {
+			action: {
+				_value_prop: "current",
+				current: 1, max: 1, base: 1,
+			},
+			reaction: {
+				_value_prop: "current",
+				current: 2, max: 2, base: 2,
+			},
+			counter: {
+				_value_prop: "current",
+				current: 0, max: 0, base: 0,
+			},
+			block: {
+				_value_prop: "current",
+				current: 0, max: 0, base: 0,
+			},
+			evade: {
+				_value_prop: "current",
+				current: 0, max: 0, base: 0,
+			},
+			light_regen: {
+				_value_prop: "current",
+				current: 3, max: 3, base: 3,
+			},
+		},
+		state: {
+			stagger: {
+				_value_prop: "state",
+				state: "false",
+				duration: {
+					_value_prop: "current",
+					current: 2, max: 2,
+				},
+			},
+			panic: "false", defeat: "false",
+			seal: "false", immobile: "false", // Should these also have a duration?
+			combat: "false",
+		},
+		speed: {
+			_value_prop: "base",
+			base: 0, this_round: 0, next_round: 0,
+		},
+		character: {
+			name: "", rank: 0, level: 0, xp: 0,
+			fortitude: 0, prudence: 0, justice: 0,
+			charm: 0, insight: 0, temperance: 0,
+			occupation: "", age: "", height: "", birthplace: "", residence: "",
+			assets: "", ahn: "", url: "", summary: "", combat_notes: "",
+			notes: "", description: "", personality: "", background: "",
+		},
+		target: {
+			// Stores all data for the target + targeting settings + the targeted token's id
+			// The target access follows the same format as access, making ex. access.target.ailments.Burn work as access.ailments.Burn, but for the target
+			// In reality, access[-abc].target points to access[-def]
+		},
+		token: {
+			// Change this to not be a Proxy. Instead make it have id + selection + a number of entries that point to other accesses, like access.target
+			// Does not have a format built in format. TokenNodes create a deep copy of dataFormat in repDataFormats which removes base.token
+			//  - If this format has already been created other tokenNodes simple use the existing format
+			//  - There's no need to remove valid.token. Nodes in valid that are not in base are ignored when building a data tree
+
+			// Used for targeting. This should match the id of the targeted token
+			// If generic token mode is disabled for the target the tokenId is set to ""
+			// Should never be modified on owned tokens, only targeted tokens. The targeting code handles setting this value
+			// id: "", Removed since all itemNodes have a built in id property
+
+			// Used for  When generic token mode is enabled, selection equals the current token id. Otherwise it should be set to ""
+			// Should be used for both owned tokens and targeted tokens
+			selection: "",
+			// This can be edited, which overrides the character's global variables, but not their local variables
+			// TODO: Make sure to delete let from tokens
+
+			// When generic token mode is enabled each token gets added to access.token as access.token[tokenID]
+			//  When changing token selection, set access.token.selection = newID, and access.currentID = access.token[newID]
+			//  This should overwrite everything in access with access.token[newID], except access.token
+			//  Afterwards, use output() and add all the values to outputValues
+			//   This does not work for items that only exist on certain tokens. These will be added when changing to the token, but will not be deleted when selecting another token
+			//   This also does not work for ailments that only exist on certain tokens for the same reasons
+			// access.token[tokenID] instances as a deep copy of access[charID], except access[charID].token which is ignored
+			// When disabling generic token mode, delete all props of access.token except id and selection
+			// When using Update, run the function on all entries in access.token instead of on access[charID]
+			//  Afterwards, do access.currentID = access.token[tokenID] + output() to sync all changes from the current token to the sheet 
+
+			// Make it so access.token works exactly like access, except:
+			//  access.token.prop equals access[charID].token[tokenID].prop
+			//  access.token[tokenID].token is deleted
+
+			// access.output() should either ignore token data, or generate repeating attributes for the token bar
+		},
+		slots: {
+			_repeating: {...tagDataFormat.base, max: 0},
+			// Has only repeating data. Is not sorted
+			// Each entry has a slots.N.max and slots.N.current value
+		}, 
+		tags: {
+			_repeating: tagDataFormat.base,
+			// Has only repeating data. Is not sorted
+			// Is synced to the tags of a character's currently equipped items
+			// Updates whenever a tag is added or removed in the item editor
+			// AutoEffects can give tags:
+			// - Maybe add a Update tags trigger for this that let users run code whenever tags are recalculated
+			//   - Although in practice this is just [#Equipped, Unequipped, ... #], so it's probably not needed
+			// - Removing tags during an action does not hinder that action from executing, but it may hinder other actions from executing afterwards
+			//   - If you want to hinder an action, remove tags when an item is equipped or unequipped (see above)
+		},
+		local: {
+			// Props used in autoScriptMain()
+			scaling: 0,
+			checkresult: "success",
+			info: {}, // Is set to an event object when executing AutoEffects added by a trigger block
+			// Is an actual object and not a dataNode. Users can modify it as they see fit
+			// As with scaling and checkresult, this is set to false when using (Reset #Hard)
+
+			// Other AutoScript stuff you may want to add:
+			// - Stuff in relation to triggers, ex. round number
+			//   - This won't let users add triggers, but they can check if a trigger is currently in effect
+
+			// User defined local variables. Reset at the start of AutoEffectMain()
+			// - Do this using "access.let = new itemNode({dataFormats.base.let, dataFormats.valid.let}));"
+			// Accessed using access.variable, not access.let.variable. If both let and var exist, let takes priority. You may need a proxy for this
+			// The order of priority is specifically: 1 - id, 2 - items/ailments/etc, 3 - local variable, 4 - global variable
+			// Due to this, user defined variables like "let" and "items" can never be accessed. An error message should be posted when this is attempted
+		},
+		global: {
+			// User defined global variable. Creates an attribute in the attribute tab of the sheet
+			// - Also adds the attribute name to a list of names, which are used to retrieve the attributes when refreshing the sheet
+			// - Tokens have seperate global variables to allow ex. tracking effect countdowns (think TheBlackSilence) seperately for each token
+			//   - To implement this, token vars will have to be tracked seperately in the attribute tab
+			//   - This should not be needed for local vars, which are preserved when changing tokens
+			// - Targets also have seperate variables, which can be useful in some circumstances. They're accessed using access.target.let/var.someVar
+		},
+	},
+
+	// Includes functions for validating input values
+	// Validators for repeating data are found in repDataFormats
+	valid: {
+		type: (s) => is.String(s) && is(s.toLowerCase()).In(["character", "target", "token"]),
+		items: {
+			_repeating: repDataFormats.item.valid,
+			editor: {
+				target: (v) => is.False(v) || is.ID(v),
+				location: (s) => is(s).In("Left", "Center", "Right"),
+			},
+		},
+		ailments: {
+			_repeating: repDataFormats.ailment.valid,
+		},
+		rolls: {
+			_repeating: rollDataFormat.valid,
+			store: { _repeating: rollDataFormat.valid },
+			whisper: (s) => is.String(s),
+			difficulty: (i) => is.Int(i),
+			adv: (i) => is.Int(i, {min: 0}),
+			disadv: (i) => is.Int(i, {min: 0}),
+		},
+		chat: {
+			buttons: {
+				_repeating: {}, // Chat buttons have their own formats
+			},
+			message: (s) => is.String(s, {newlines: true}),
+		},
+		settings: {
+			sheet: {
+				_default: (b) => is.Bool(b),
+			},
+			game: {
+				// Differs based on the setting (integers, floats, strings and booleans)
+				// These are currently repeating values, but should be converted to standard sheet values
+			},
+		},
+		bars: {
+			_default: (i) => is.Int(i),
+		},
+		resource: {
+			action: {_default: (i) => is.Int(i, {min: 0})},
+			reaction: {_default: (i) => is.Int(i, {min: 0})},
+			counter: {_default: (i) => is.Int(i, {min: 0})},
+			block: {_default: (i) => is.Int(i, {min: 0})},
+			evade: {_default: (i) => is.Int(i, {min: 0})},
+			light_regen: {_default: (i) => is.Int(i, {min: 0})},
+		},
+		state: {
+			stagger: {
+				state: (b) => is.Bool(b),
+				duration: {
+					current: (i) => is.Int(i, {min: 0}),
+					max: (i) => is.Int(i, {min: 1}),
+				},
+			},
+			_default: (b) => is.Bool(b),
+		},
+		speed: {
+			_default: (i) => is.Int(i),
+		},
+		character: {
+			name: (s) => is.String(s),
+			_default: (i) => is.Int(i),
+			occupation: (s) => is.String(s), // Does not allow newlines
+			age: (s) => is.String(s),
+			height: (s) => is.String(s),
+			birthplace: (s) => is.String(s),
+			residence: (s) => is.String(s),
+			assets: (s) => is.String(s),
+			ahn: (s) => is.String(s),
+			url: (s) => is.String(s),
+			summary: (s) => is.String(s, {newlines: true}), // Allows newlines
+			combat_notes: (s) => is.String(s, {newlines: true}),
+			notes: (s) => is.String(s, {newlines: true}),
+			description: (s) => is.String(s, {newlines: true}),
+			personality: (s) => is.String(s, {newlines: true}),
+			background: (s) => is.String(s, {newlines: true}),
+		},
+		target: (v) => is.False(v) || v instanceof dataNode, 
+		token: {
+			selection: (s) => s == "" || is.ID(s),
+			_default: (v) => v instanceof dataNode,
+		},
+		slots: {
+			_repeating: tagDataFormat.valid,
+		},
+		tags: {
+			_repeating: tagDataFormat.valid,
+		},
+		local: {
+			scaling: (i) => is.Int(i, {min: 0}),
+			checkresult: (s) => is(s).In("success", "last success", "failure", "no target"), // Needs translations?
+			info: (o) => is.Object(o),
+		},
+		global: {},
+	},
+
+	attrs: {
+		ignore: {prop: ["type"]},
+		items: {
+			_repeating: repDataFormats.item.attrs,
+			editor: {
+				prefix: "itemEditor",
+			},
+		},
+		ailments: {
+			_repeating: repDataFormats.ailment.attrs,
+		},
+		rolls: {
+			_repeating: {}, // Generic rolls have no associated attributes in the sheet
+			store: {
+				_repeating: {
+					attrs: {
+						// Currently not implemented
+					},
+					source: {
+						sheet: {
+							type: "id",
+							section: "storedrolls",
+						},
+					},
+					export: {alias: "storedRolls"},
+				},
+			},
+		},
+		chat: {
+			buttons: {
+				_repeating: {}, // Chat buttons have their own formats
+			},
+		},
+		settings: {
+			sheet: {},
+			game: {},
+		},
+		bars: {
+			ignore: {prop: ["-hp", "-st", "-sp", "-light"]},
+		},
+		resource: {
+			case: "snake",
+			action: {}, // TODO: Add attribute data for resources
+			reaction: {},
+			counter: {},
+			block: {},
+			evade: {},
+			light_regen: {},
+		},
+		state: {
+			stagger: {
+				prefix: "stagger",
+				duration: {
+					prefix: "staggerDuration",
+				},
+			},
+			suffix: "State",
+		},
+		speed: {
+			suffix: "_speed",
+		},
+		character: {
+			prefix: "character_", // TODO: Modify all personalia to have the format character_key
+			ignore: {prefix: ["fortitude", "prudence", "justice", "charm", "insight", "temperance"]},
+		},
+		target: {},
+		token: {
+			prefix: "token", // Used for selection
+		},
+		slots: {
+			_repeating: tagDataFormat.attrs,
+		},
+		tags: {
+			_repeating: tagDataFormat.attrs,
+		},
+		local: false,
+		global: false,
+	},
+
+	source: {
+		sheet: {prefix: ""},
+	},
+}
+
+
+
+
+
+
+
+on("clicked:testA", async function(info) {
+	console.log("Clicked button A");
+
+	access._begin("update", function() {
+		access.items[1].equipped = !is.True(access.items[1].equipped);
+
+		console.log(access[getActiveCharacterId()], access);
+	});
+});
+
+on("clicked:testB", function(info) {
+	console.log("Clicked button B");
+
+	//navPath
+
+	/*
+	let string = "now.this[should].be.a.valid.path[right?][which can include spaces + [and nesting]].correct";
+	let valid = new RegExp(/^(?:([^\s\.\[\]]+|(?:\[[^\[\]]+\]))\.?)+$/);
+
+	//let match = new RegExp(/([^\s\.\[\]]+)|(\[[^\[\]]+\])/g);
+	let match = new RegExp(/([^\s\.\[\]]+)|(\[)|(\])/g);
+
+	let output = []
+	console.log("Is valid", valid.test(string));
+
+	let test;
+	while((test = match.exec(string))) {
+		output.push(test[1] || test[2] || test[3]);
+	}
+	console.log(output);
+	*/
+
+
+	console.log("Math result:", newMathParser("Min(items['Sanguine Claws'].rollformats[1].max / 2, ailments.Tremor)"));
+
+
+
+
+
+});
+
+on("clicked:testC", function(info) {
+	console.log("Clicked button C");
+
+	clearHexColor(".skillhide");
+});
+
+
+
+
+
+class dataNode {
+	#getImmutable = false;
+	#output = {}
+
+	#valid = {}; 		// List of attribute value validators for the node
+	#formats;			// The raw formats used to construct this node
+
+	constructor(formats=dataFormat, id=false, parent=false, path=[]) {
+		Object.defineProperties(this, {
+			attrs: {writable: true, value: {}},			// List of attribute name formats for the node
+			enabled: {writable: true, value: true}, 	// If a subnode and its properties are enabled. Used primarily for toggling item options
+			id: {value: id}, 					   		// The repeating id associated with the node, if any
+			_parent: {writable: true, value: parent},	// The parent node of this node, if any
+			_path: {writable: true, value: path},		// The access path leading to this node
+		});
+
+		this.#formats = formats;
+
+		// Construct a node from a pre-existing node. Used in filter()
+		if (formats.node) {
+			return Object.defineProperties(this, Object.fromEntries(Object.entries(Object.getOwnPropertyDescriptors(formats.node))
+				.filter(([prop, value]) => !value.enumerable || value.value instanceof dataNode && (!formats.filter || formats.filter.includes(prop)))));
+		} else {
+			Object.defineProperties(this, {
+				parent: { get() { return this._parent; } },
+				path: { get() { return this._path; } },
+			});
+		}
+
+		// Get the sources of the data, and any source-specific attribute name data
+		for (const source of Object.keys(formats.source)) {
+			Object.defineProperty(this.attrs, source, {
+				writable: true, value: formats.source[source]
+			});
+		};
+
+		// For item nodes, only enable nodes in that type of item's default format
+		if (formats.source.editor && !formats.default) {
+			this.enabled = false;
+		}
+
+		// Allows writing "node.immutable.prop" to get the current non-output value
+		Object.defineProperty(this, "immutable", {
+			get() { return this.#getImmutable = true; }
+		});
+
+		// Get the default validator of the node if one exists
+		if ("_default" in formats.valid) {
+			this.#valid._default = formats.valid._default;
+		}
+
+		// Constructs the node and any subnodes
+		for (const [prop, value] of Object.entries(formats.base)) {
+
+			// Configures the format of repeating nodes generated by this node using add()
+			if (prop.startsWith("_")) {
+				if (prop == "_repeating") {
+					Object.defineProperty(this, "rep", {
+						value: {
+							base: value,
+							valid: formats.valid._repeating || false,
+							attrs: formats.attrs._repeating.attrs || false,
+							source: formats.attrs._repeating.source || false,
+							export: formats.attrs._repeating.export || false,
+							defaults: formats.attrs._repeating.defaults || false,
+						},
+					});
+					if (formats.default?._repeating) {
+						for (let i = 1; i <= formats.default._repeating.length; i++) {
+							this.add({id: this.id || generateRowID(), index: i, section: this.#formats.source.sheet.section});
+						}
+					}
+				}
+				else if (prop == "_key_prop") {
+					Object.defineProperty(this, "_keyProp", {value: value});
+				}
+				else if (prop == "_value_prop") {
+					Object.defineProperty(this, "_valueProp", {value: value});
+				}
+			}
+
+			// Get any subnodes of the node
+			else if (is.Object(value)) {
+				this[`_${prop}`] = new dataNode({
+					base: value,
+					default: formats.default?.[prop] || false,
+					valid: formats.valid?.[prop] || false,
+					attrs: formats.attrs?.[prop] || false,
+					source: formats.source[prop] || formats.source || false,
+				}, this.id, this, [...this._path, prop]);
+			}
+
+			// Get any properties of the node
+			else {
+				if (formats.default && prop in formats.default) {
+					this[`_${prop}`] = formats.default[prop];
+				} else {
+					this[`_${prop}`] = value;
+				}
+			}
+
+			// Set up accessors for subnodes and properties
+			if (!prop.startsWith("_")) {
+				this._addAccessors({prop:prop});
+
+				// Get any property-specific attribute name data (ex. for options)
+				if (formats.attrs) {
+					let ignore = formats.attrs.ignore;
+
+					if (this[prop] instanceof dataNode) { // Only subnodes which are options have associated attributes
+						if (formats.attrs[prop]?.option) {
+							this.attrs[prop] = "option" + formats.attrs[prop].option.toLowerCase();
+						}
+					}
+					else if (!(ignore && is(prop).In(ignore.prop))) {
+						let prefix = !(ignore && ignore.prefix?.includes(prop)) ? formats.attrs.prefix || "" : "";
+						let suffix = !(ignore && ignore.suffix?.includes(prop)) ? formats.attrs.suffix || "" : "";
+						let key = prop;
+						
+						if (formats.attrs.case == "snake" && prop.indexOf("_") > -1) {
+							key = camelize(key);
+						}
+
+						let attr = prefix + key + suffix;
+						this.attrs[prop] = attr.toLowerCase();
+					}
+				}
+			}
+
+			// Get any attribute value validation data
+			if (formats.valid) {
+				if (this[prop] instanceof dataNode) {
+					this.#valid[`_${prop}`] = (b) => is.Bool(b);
+				}
+				else if (formats.valid[prop] && typeof formats.valid[prop] == "function") {
+					this.#valid[`_${prop}`] = formats.valid[prop];
+				} 
+				else if (!this.#valid._default && !(prop in formats.valid) && !prop.startsWith("_")) {
+					console.warn(`itemNode - valid format: property "${prop}" is not in the format`, formats.valid);
+				}
+			}
+		}
+		return this;
+	}
+
+
+	// Assign input attribute values from the sheet and/or editor to the item
+	input(values, opts={}) {
+		return this.access(values, false, opts);
+	}
+
+	// Generates and outputs a list of attribute values for the sheet and editor
+	// Editor data is only generated for the item currently open in the item editor
+	output(output=false, opts={}) {
+		return this.access(false, output, opts);
+	}
+
+	// As output(), but applies all output values in access
+	// Returns the applied values
+	apply(output=false, opts={}) {
+		return this.access(false, output, {apply:true, ...opts});
+	}
+
+	// Generates and returns an array of attribute keys for both the editor and sheet
+	// If an event is provided the keys are returned in the event key format
+	attrkeys(opts={}) {
+		opts = {allProps:true, unsorted:true, ...opts}
+		let attrs = this.access(false, false, opts);
+		return (opts.unsorted) ? Object.keys(attrs) : {editor: Object.keys(attrs.editor), sheet: Object.keys(attrs.sheet)}
+	}
+
+
+	// Helper method for accessing all properties and subnodes of a node
+	// Used by input(), output(), import(), export() and attrkeys()
+	access(values, output, opts={allProps:false, event:false, unsorted:false, apply:false}) {
+		if (!output) output = {editor:{}, sheet:{}}
+
+		if (!values || Object.values(values).some(source => length(source) > 0)) {
+			for (const prop of this.keys) {
+				for (const source of Object.keys(output)) {
+
+					// Handle applying values
+					if (opts.apply && prop in this.#output) {
+						if (this[prop] instanceof dataNode) {
+							this[prop][this[prop]._valueProp || "enabled"] = this.#output[prop];
+						} else {
+							this[prop] = this.#output[prop];
+						}
+					}
+
+					// Ignore sources with no attributes or with no open editor
+					if (source == "editor" && !opts.event && access[this.path[0]].items.editor.target != this.id) continue;
+					if (!this.attrs[source]) continue;
+
+					// Get the attribute name of the property in the current source
+					let propAttr = this.attr(prop, source, opts);
+					if (!propAttr) continue;
+
+					// Handle inputting values
+					if (values && values[source] && propAttr in values[source]) {
+						this.modify(prop, values[source][propAttr], {...opts, source: source});
+						delete values[source][propAttr];
+					}
+
+					// Handle outputting values
+					else if (!opts.apply || prop in this.#output || opts.allProps) {
+						let value = this[prop];
+						
+						if (this[prop] instanceof dataNode) {
+							value = (this[prop].enabled) ? "true" : "0";
+						} else {
+							if (value === true) value = "true";
+							if (value === false) value = "0";
+						}
+						output[source][propAttr] = value;
+					}
+				}
+
+				// Clear any applied output values
+				if (opts.apply) {
+					delete this.#output[prop];
+				}
+				
+				// Recursively access any sub-nodes
+				if (this[prop] instanceof dataNode) {
+					this[prop].access(values, output, opts);
+				}
+			}
+			return (opts.unsorted) ? {...output.editor, ...output.sheet} : output;
+		}
+	}
+
+	// Returns the attribute name of a property in either the sheet or editor
+	// If an event type is provided the attribute is returned in the event key format
+	attr(prop, source, opts={event:false}) {
+		if (prop[0] == "_") prop = snakeify(prop);
+
+		if (prop in this.attrs) {
+			let index = (this.attrs[source]?.type == "index") ? this.index						// Repeating node
+					  : (this.rep?.source[source]?.type == "index") ? this[prop].index : ""; 	// Nested repeating root
+			let prefix = this.attrs[source]?.prefix || "";
+			let suffix = this.attrs[source]?.suffix || "";
+			let key = this.attrs[prop];
+			
+			let section = (this.attrs[source]?.section) ? this.attrs[source].section : false;
+
+			if (section) {
+				let id = (source == "editor") ? this.path.findLast(step => is.ID(step)) : this.id;
+
+				if (opts.event) {
+					return false; // Repeating section events are easy enough to add manually
+				} else {
+					prefix = `repeating_${section}_${id}_${prefix}`;
+				}
+			} else if (opts.event) {
+				prefix = `${opts.event}:${prefix}`;
+			}
+
+			let attr = prefix + key + suffix + index;
+			return attr.toLowerCase();
+		} else {
+			return false;
+		}
+	}
+
+
+	// Modifies a property of the node
+	// If a validator format was provided at node creation only valid values are accepted
+	// Adds any changes to access._output. The changes are applied to the sheet/editor when the access ends
+	modify(prop, newValue, opts={source:false}) {
+		let oldValue = this[prop];
+		if (newValue === undefined) newValue = "";
+		
+		//console.log(`(${opts.source || "Code"}) ${prop} ${this[prop]} -> ${newValue}`);
+		if (oldValue !== undefined) {
+
+			if (!this._valid(prop)(newValue)) {
+				console.warn(`Attempted to set the value of ${prop} to invalid value ${newValue}`, this);
+			}
+			else if (oldValue != newValue) {
+				//console.log(`(${opts.source || "Code"}) Modifying ${prop} from "${this[prop]}" to "${newValue}"`);
+
+				// Makes sure enabled is set to a boolean value and not ex. "0"
+				if (this._valid(prop).toString().includes("is.Bool")) {
+					this.#output[prop] = is.True(newValue);
+				} else {
+					this.#output[prop] = newValue;
+				}
+
+				// Trigger a new modify event
+				access._event.trigger([...this.path, "modify", snakeify(prop)], {
+					node:this, type:"modify", source:opts.source, oldval:oldValue, newval:newValue,  // Event info
+				}, opts);
+
+				// If the prop is a key prop, update the node's key prop accessor
+				if (this._keyProp == snakeify(prop) && this.parent.rep) {
+					this.parent._addAccessors({key:newValue});
+				}
+			}
+		} else {
+			console.warn(`Attempted to set the value of ${prop} but the property does not exist`, this);
+		}
+	}
+
+
+	// Returns the validator function of a prop
+	// Uses a specific validator if available. If not the default validator is used
+	// If no specific or default validator exists all values are accepted
+	_valid(prop) {
+		if (prop in this.#valid) {
+			return this.#valid[prop];
+		}
+		else if ("_default" in this.#valid) {
+			return this.#valid._default;
+		}
+		else {
+			return () => true;
+		}
+	}
+
+
+	// Adds a new repeating subnode to the item
+	// Adds accessors for the id, index and name (if applicable) of the subnode
+	add(opts={}) {
+		if (this.rep) {
+			let newID = opts.id || opts.node?.id || this.id; // AutoEffects can only access props in lowercaps
+			let newProp = opts.prop || newID;
+			let newIndex = opts.index || this.repCount + 1;
+			let repSource = {}
+
+			if (opts.node) {
+				this[newProp] = opts.node;
+			} else {
+				for (const source of Object.keys(this.rep.source || [])) {
+					repSource[source] = {...this.rep.source[source]};
+					
+					// If a node is linked to multiple repeating sections, opts.section specifies which should be used
+					// For nested repeating roots, use the root's own section
+					if (is.Array(repSource[source].section)) {
+						repSource[source].section = this.attrs?.[source].section || opts.section;
+					}
+	
+					// Nested repeating nodes are given a random id
+					if (this.rep.source?.[source]?.type == "index") {
+						newProp = generateRowID().toLowerCase();
+					}
+				}
+				
+				this[newProp] = new dataNode({
+					base: this.rep.base,
+					default: (opts.default !== false) ? this.rep.defaults?.[opts.section] || this.#formats.default?._repeating?.[newIndex-1] || false : false,
+					valid: this.rep.valid || false,
+					attrs: this.rep.attrs || false,
+					source: repSource,
+				}, newID, this, [...this.path, newProp]);
+			}
+
+			this._addAccessors({index:newIndex, key: (this[newProp]._keyProp) ? this[newProp][this[newProp]._keyProp] : false});
+
+			// Output all attributes from the new node
+			this[newProp].output(access._output, {allProps:true});
+
+			if (this.rep.attrs.option) {
+				this.attrs[newProp] = "option" + this.rep.attrs.option;
+				access._output.sheet[this.attr(newProp, "sheet")] = "true";
+			}
+
+			// Trigger a new add event
+			access._event.trigger([...this.path, "add"], {
+				node:this, type:"add", oldval:false, newval:this[newProp],
+			}, opts);
+
+			return this[newProp];
+		}
+	}
+	_addAccessors(opts={}) {
+		if (opts.key) {
+			Object.defineProperty(this, snakeify(opts.key), {
+				get() {
+					return this.repNodes.find(node => node[node._keyProp] == opts.key);
+				},
+				set(v) {
+					this.modify(this.repNodes.find(node => node[node._keyProp] == opts.key).id, v);
+				},
+				configurable: true,
+			});
+		}
+		if (opts.prop) {
+			Object.defineProperty(this, opts.prop, {
+				get() {
+					if (this[`_${opts.prop}`] instanceof dataNode) {
+						return this[`_${opts.prop}`];
+					}
+					if (this.#getImmutable) {
+						this.#getImmutable = false;
+						return this[`_${opts.prop}`];
+					}
+					return (this.#output[`_${opts.prop}`] !== undefined) ? this.#output[`_${opts.prop}`] : this[`_${opts.prop}`];
+				},
+				set(v) {
+					this.modify(`_${opts.prop}`, v);
+				},
+				configurable: true,
+			});
+		}
+		if (opts.index) {
+			Object.defineProperties(this, {
+				[opts.index]: {
+					get() {
+						return this[this.repIDs[opts.index - 1]];
+					},
+					configurable: true,
+				},
+				[-opts.index]: {
+					get() {
+						return this[this.repIDs.at(-opts.index)];
+					},
+					configurable: true,
+				},
+			});
+		}
+	}
+	
+	// Deletes a repeating subnode with a specific id
+	delete(id, opts={}) {
+		if (this.rep && id in this) {
+			let node = this[id];
+
+			// Remove all repeating items associated with the deleted node
+			if (node.attrs.sheet?.section) {
+				removeRepeatingRow(`repeating_${node.attrs.sheet.section}_${id}`);
+			}
+			if (node.attrs.editor?.section) {
+				removeRepeatingRow(`repeating_${node.attrs.editor.section}_${node.path.findLast(step => is.ID(step))}`);
+			}
+
+			this._deleteAccessors(node, this.repCount);
+			delete this[id];
+
+			// Trigger a new delete event
+			access._event.trigger([...this.path, "delete"], {
+				node:this, type:"delete", oldval:node, newval:false,
+			}, opts);
+		}
+	}
+	_deleteAccessors(node, index) {
+		if (node._name) {
+			delete this[snakeify(node._name)];
+		}
+		delete this[index];
+		delete this[-index];
+	}
+
+
+	// Returns the node's repeating index
+	get index() {
+		if (!this.id) {
+			return false;
+		} else {
+			let repid = this.path.findLast(step => is.ID(step));
+			let parent = this.parent;
+			while (!parent[repid]) parent = parent.parent;
+			return parent.repIDs.indexOf(repid) + 1;
+		}
+	}
+
+
+	// Get the node's parent node
+	get parent() {
+		return this.parent;
+	}
+
+
+	// Custom Object.keys/values/entries that use #output values if they exist
+	get keys() {
+		return Object.keys(this);
+	}
+	get values() {
+		return this.keys.map(prop => this[snakeify(prop)]);
+	}
+	get entries() {
+		return this.keys.map(prop => [prop, this[snakeify(prop)]]);
+	}
+
+
+	// Gets the repeating ids/subnodes of this node, or the amount of these nodes
+	get repIDs() {
+		return this.keys.filter(p => is.ID(p));
+	}
+	get repNodes() {
+		return this.repIDs.map(id => this[id]);
+	}
+	get repCount() {
+		return this.repIDs.length
+	}
+
+
+	// Creates a deep copy of this node
+	clone() {
+		return new dataNode(this.#formats, this.id, this, this.path).paste(this.copy());
+	}
+
+	// Copies and returns the data of this node
+	// The data can be pasted into any dataNode to override its data
+	copy() {
+		let fixEnabled = (node, copy) => {
+			copy.enabled = node.enabled;
+			for (const prop in node) {
+				if (node[prop] instanceof dataNode) {
+					fixEnabled(node[prop], copy[prop]);
+				}
+			}
+			return copy;
+		}
+		return fixEnabled(this, structuredClone(this));
+	}
+	paste(data) {
+		for (const prop in {...this, ...data}) {
+			
+			// Override repeating data
+			if (prop in data && !(prop in this)) {
+				this.add({id: prop});
+			}
+			else if (prop in this && !(prop in data)) {
+				this.delete(prop);
+			}
+
+			// Override standard data
+			if (is.Object(this[prop])) {
+				this[prop].paste(data[prop]);
+			}
+			else if (data[prop]) {
+				this[prop] = data[prop];
+			}
+		}
+		return this;
+	}
+
+	// Returns a filtered copy of the node which only includes subnodes that match a predicate
+	filter(predicate) {
+		return new dataNode({
+			node: this,
+			filter:	this.keys.filter(prop => this[prop] instanceof dataNode && predicate(this[prop])),
+		}, this.id, this.parent, this.path);
+	}
+}
+
+
+
+
 // Contains a list of access objects, one for each accessed character
 
 // You should look into adding further settings for privating information
@@ -16599,7 +18260,11 @@ const accessHandler = {
 			if (prop in ac) {
 				return ac[prop];
 			} else {
-				return ac[getActiveCharacterId()][prop];
+				if (getActiveCharacterId() in ac) {
+					return ac[getActiveCharacterId()][prop];
+				} else {
+					return null;
+				}
 			}
 		}
 	},
@@ -16723,6 +18388,9 @@ const accessData = {
 			if (length(attrs) > 0) {
 				setAttrs(attrs, {}, () => {
 					console.log("Applied attributes:", attrs);
+					access._event.trigger([charID, "output"], {
+						node:access[charID], type:"output", oldval:false, newval:attrs, // TODO: You may want to make oldval be the backup copy of access
+					});
 					callback();
 				});
 			}
@@ -16738,7 +18406,7 @@ const accessData = {
 		// Stores a branching tree of access paths leading to event callback functions. Used for triggering events
 		// Initializes as an array of this.register() functions. These functions are added by onAccess(), and are used for setting up the built-in events of the sheet
 		// When a character is first initialized, the tree is converted to an object containing all built-in event paths + functions
-		tree: [], 
+		tree: {}, 
 
 		// Stores the amount of times an action triggers an event with a specific event path. Used for hindering infinite loops. Should be reset when access outputs to the sheet
 		count: {},
@@ -16747,24 +18415,41 @@ const accessData = {
 		keys: [],
 
 		// Registers a new access event
-		register(path, opts, func) {
-			let accessNode = access;
-			let eventNode = access._event.tree;
+		register(path, eventopts, func, opts={}) {
+			let accessFormat = opts.accessFormat || dataFormat.base;
+			let eventNode = opts.eventNode || access._event.tree;
 
 			if (!is.Array(path)) {
-				// TODO: Convert string path to an array
+				path = pathStringToArray(path);
 			}
-			if (!is.ID(path[0]) && path[0] != "N") {
+
+			if (accessFormat != dataFormat.base && !opts.i && !is.ID(path[0]) && !is.Array(path[0]) && path[0] != "N") {
 				path.unshift(getActiveCharacterId());
 			}
 
 			// Validate the event path
 			// TODO: Make this into a generalized function
-			for (let i = 0; i < path.length; i++) {
+			for (let i = opts.i || 0; i < path.length; i++) {
 				let step = path[i];
 
-				if (typeof accessNode[step] == "function") {
-					if (is(step).In(["add", "delete"]) && i != path.length - 1) {
+				// For the base format, skip the first step if it's an id or N
+				if (accessFormat == dataFormat.base && i == 0 && (is.ID(step) || step == "N")) continue;
+				
+				// If a step is an array of steps, register an event for each step
+				if (is.Array(step)) {
+					for (prop of step) {
+						access._event.register([...path.slice(0, i), prop, ...path.slice(i+1)], eventopts, func, {...opts, i:i, accessFormat:accessFormat, eventNode:eventNode});
+					}
+					return true;
+				}
+
+				if (!is.ID(step) && step != "N" && /[A-Z\s]/.test(step)) {
+					step = snakeify("" + step); // '"" + ' hinders issues with number values
+					path[i] = step; // Makes sure the modified step is added to the event tree
+				}
+
+				if (is(step).In("add", "delete", "modify")) {
+					if (is(step).In("add", "delete") && i != path.length - 1) {
 						console.log("Throw error. add/delete must be the last step in the path");
 						return false;
 					}
@@ -16774,12 +18459,12 @@ const accessData = {
 					}
 				}
 				else if (step == "N") {
-					accessNode = accessNode[(i == 0) ? getActiveCharacterId() : 1];
+					accessFormat = accessFormat._repeating || Object.values(accessFormat)[0];
 				}
-				else if (step in accessNode) {
-					accessNode = accessNode[step];
+				else if (accessFormat[step] !== undefined) {
+					accessFormat = accessFormat[step];
 				} else {
-					console.log("Throw error. Subnode or path is not in access", step, accessNode);
+					console.log(`Throw error. Subnode or property "${step}" is not in access`, accessFormat);
 					return false;
 				}
 			}
@@ -16793,20 +18478,17 @@ const accessData = {
 			}
 
 			if (eventNode.eventArray) {
-				eventNode.eventArray.push({func:func, ...opts});
+				eventNode.eventArray.push({func:func, ...eventopts});
 			} else {
-				eventNode.eventArray = [{func:func, ...opts}];
-			}
-
-			// When updating the base event format, also update the event tree
-			if (!opts.custom) {
-				this.recalc();
+				eventNode.eventArray = [{func:func, ...eventopts}];
 			}
 			return true;
 		},
 
 		// Navigates the event tree and triggers any events that match the provided event path
 		trigger(path, info, opts={accessNode:false, eventNode:false}) {
+			if (opts.silent == "hard") return true;
+
 			let accessNode = opts.accessNode || access;
 			let eventNode = opts.eventNode || access._event.tree;
 			let pathString = (is.Array(path)) ? path.join(".") : path;
@@ -16823,15 +18505,17 @@ const accessData = {
 				access._event.count[pathString] = (access._event.count[pathString] || 0) + 1;
 			}
 
-			//console.log("Triggering access event:", path);
+			// if (info.silent != "hard") console.log("Triggering access event:", path, opts);
 				
 			for (let i = opts.i || 0; i < path.length; i++) {
 				let step = path[i];
-				
-				if (!is.ID(step)) step = snakeify("" + step); // '"" + ' hinders issues with number values
+
+				if (!is.ID(step) && step != "N" && /[A-Z\s]/.test(step)) {
+					step = snakeify("" + step); // '"" + ' hinders issues with number values
+				}
 
 				if (eventNode) {
-					if (step in accessNode || step == "N") {
+					if (accessNode[step] !== undefined || step == "N") {
 
 						// Validate the event path
 						if (is(step).In("add", "delete")) {
@@ -16855,18 +18539,30 @@ const accessData = {
 						else if (step == "N") {
 							for (const prop in eventNode) {
 								if (prop != step) {
-									access._event.trigger([...path.slice(0, i), prop, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[prop], eventNode:eventNode[prop]})
+									access._event.trigger([...path.slice(0, i), prop, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[prop], eventNode:eventNode[prop]});
 								}
 							}
 						}
 
 						// If the event tree includes N, move to that branch in addition to the current one
 						else if (eventNode.N && step != "N") {
-							access._event.trigger(path, info, {...opts, i:i+1, accessNode:accessNode[step], eventNode:eventNode["N"]})
+							access._event.trigger(path, info, {...opts, i:i+1, accessNode:accessNode[step], eventNode:eventNode["N"]});
+						}
+
+						// If the next step is a repid, also trigger an event for any name/index accessors associated with the repnode
+						if (accessNode.rep && is.ID(step) && accessNode[step] instanceof dataNode) {
+							let [name, index] = [snakeify(accessNode[step].name || ""), accessNode[step].index]
+
+							if (name !== "" && eventNode[name]) {
+								access._event.trigger([...path.slice(0, i), name, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[name], eventNode:eventNode[name]});
+							}
+							if (index !== false && eventNode[index]) {
+								access._event.trigger([...path.slice(0, i), index, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[index], eventNode:eventNode[index]});
+							}
 						}
 
 						// Move to the next step of the event path
-						if (step in accessNode) { // TODO: Make sure this works for names and indexes. If not, use if (accessNode[step] !== undefined) instead
+						if (accessNode[step] !== undefined) {
 							eventNode = eventNode[step]; // TODO: Does this work for names/ids? If not, use eventNode = eventNode[step] || eventNode[accessNode[step].id]
 							accessNode = accessNode[step];
 						} else {
@@ -16874,11 +18570,11 @@ const accessData = {
 							return false;
 						}
 					} else {
-						if ("local" in accessNode || "global" in accessNode) {
-							if (step in accessNode.local) {
+						if ("_local" in accessNode && "_global" in accessNode) {
+							if (accessNode.local[step] !== undefined) {
 								// Try navigating to accessNode.local[step] first
 							}
-							else if (step in accessNode.global) {
+							else if (accessNode.global[step] !== undefined) {
 								// If that fails, try navigating to accessNode.global[step]
 							}
 							else {
@@ -16895,8 +18591,9 @@ const accessData = {
 			}
 			if (eventNode?.eventArray) {
 				for (event of eventNode.eventArray) {
-					if ((opts.silent && !event.ignoreSilent) || opts.silent == "hard") return false; // Handle silent events
+					if (opts.silent && !event.ignoreSilent) return false; // Handle silent events
 					if (access._event.count[pathString] > event.max) return false; // Handle event max trigger count
+					if (opts.eventinfo) Object.assign(info, opts.eventinfo); // Handle custom event info
 
 					access._begin("event", event.func({...info, path: path, charid: path[0]}));
 				}
@@ -16904,52 +18601,6 @@ const accessData = {
 			} else {
 				//console.log("No event found for path:", path.join("."));
 				return false;
-			}
-		},
-
-		// Regenerates all custom events. Built-in events are unaffected
-		recalc(idArray) {
-
-			// If no ids are provided, recalculate the events of all characters and tokens in access
-			if (!idArray) {
-				idArray = Object.keys(access).filter(prop => access[prop] instanceof dataNode && access[prop].type != "target");
-			}
-			else if (is.String(idArray)) {
-				idArray = [idArray];
-			}
-
-			// Sets up the event tree if this hasn't already been done
-			if (is.Array(this.tree)) {
-				let treeArray = this.tree;
-				this.tree = {}
-				treeArray.forEach(newEventFunc => {
-					newEventFunc();
-				});
-			}
-			
-			return; // TODO: Add this later
-
-			// Recalculate all custom events for the specified ids
-			for (const id of idArray) {
-				let autoScriptArray = []
-				
-				if (id in this.tree && id != "N") {
-					delete this.tree[charID];
-				}
-
-				// Only add events from equipped items with at least one trigger block
-				if (access[id] instanceof dataNode) {
-					for (const item of access[id].items.repNodes) {
-						if (item.equip.equipped && /\[(#.+?#)\]/g.test(item.autoscript)) {
-							autoScriptArray.concat(autoScriptToArray(item.autoscript));
-						}
-					}
-				}
-
-				// TODO: Turn the retrieved AutoEffect trigger blocks into custom events
-				if (autoScriptArray.length > 0) {
-					console.log(autoScriptArray);
-				}
 			}
 		},
 	},
@@ -17002,16 +18653,17 @@ const accessData = {
 				for (const [section, idArray] of Object.entries(repids)) {
 					switch (section) {
 						case "ailments": repNode = newRoot.ailments; break;
+						case "tags": repNode = newRoot.tags; break;
 						default: repNode = newRoot.items;
 					}
 					for (const repid of idArray) {
-						if (repNode) repNode.add({id: repid, section: section, silent:true, default:false});
+						if (repNode) repNode.add({id:repid, section:section, silent:"hard", default:false});
 					}
 				}
 
 				// If no items exist, add a dummy item for the sake of generating event keys
 				if (newRoot.items.repCount == 0) {
-					newRoot.items.add({id: "delete_me_later", section: "outfits", silent:true, default:false});
+					newRoot.items.add({id: "delete_me_later", section: "outfits", silent:"hard", default:false});
 				}
 
 				// All items have at least one rollformat, even when the option is disabled
@@ -17113,14 +18765,18 @@ const accessData = {
 
 					// Update the access tree to include any AutoEffect events from the new character or token
 					if (type != "target") {
-						access._event.recalc(ID);
+						access._recalc.events(ID);
 					}
 	
 					// Apply any custom color or positioning data
-					for (const item of access[ID].items.repNodes) {
-						recalcCustomColors(item);
-						recalcCustomPosition(item);
+					if (type == "character") {
+						access._recalc.jquery(ID);
 					}
+
+					// Move all equip slots from access.tags to access.slots
+					// The, recalcalculate all tags and slots for all items
+					access._recalc.slots(ID);
+					access._recalc.tags(ID);
 				});
 			});
 		}
@@ -17142,22 +18798,237 @@ const accessData = {
 		//   - Alternatively you could have a trigger option like [# access.items.add #PerActionMaxN, (...) #], with N at most being 99 and by default being 1
 		//     - You could in this case also have "#PerRoundMaxN" to control how many times a trigger block executes per round
 
+
+		// How to instance a new character
+		// x1. Create a function getSectionIdsByID that gets section ids from a character. Preferably they should be ordered like getSectionIdsOrdered
+		// x2. Use this function to get all section ids of a character or target. Ignore this step for tokens
+		// x3. Create one node for each node in each section
+		//    - Rollformat ids are only used for the current editor target, which should be retrieved if type == "character"
+		//    - Other items add one rollformat if one doesn't already exist, then duplicate the resulting attributes for index 2-5
+		//    - For rollformats 2-5, only add it to the item if the display toggle for the format is enabled
+		//  4. Run access.keys(), add the rollformat toggle, duplicate the rollformat attrs for all indexes, and getAttrsByID the values
+		//    - See if you can link rollformat.enabled to the toggle. Disabling a roll format flips the toggle, and triggers a built in event that deletes the format
+		//    - Similairly, a Roll20 event detects rollformats being deleted using the UI, and then deletes the associated format in access
+		//  5. Get all rollformat toggles. Delete all associated values if the toggle is disabled
+		//    - Note the code accepts rollformats while the option is disabled. The code only cares if an individual format is hidden
+		//  6. Run values.input()
+
 		return access[ID];
 	},
 
-	// How to instance a new character
-	// x1. Create a function getSectionIdsByID that gets section ids from a character. Preferably they should be ordered like getSectionIdsOrdered
-	// x2. Use this function to get all section ids of a character or target. Ignore this step for tokens
-	// x3. Create one node for each node in each section
-	//    - Rollformat ids are only used for the current editor target, which should be retrieved if type == "character"
-	//    - Other items add one rollformat if one doesn't already exist, then duplicate the resulting attributes for index 2-5
-	//    - For rollformats 2-5, only add it to the item if the display toggle for the format is enabled
-	//  4. Run access.keys(), add the rollformat toggle, duplicate the rollformat attrs for all indexes, and getAttrsByID the values
-	//    - See if you can link rollformat.enabled to the toggle. Disabling a roll format flips the toggle, and triggers a built in event that deletes the format
-	//    - Similairly, a Roll20 event detects rollformats being deleted using the UI, and then deletes the associated format in access
-	//  5. Get all rollformat toggles. Delete all associated values if the toggle is disabled
-	//    - Note the code accepts rollformats while the option is disabled. The code only cares if an individual format is hidden
-	//  6. Run values.input()
+
+	// A collection of functions used for calculating and/or applying derived data in access
+	// "derived" here means any data which is calculated from multiple properties in access, ex. custom events from AutoScripts
+	// Should not cause any events, except for properies which cannot trigger events in any other way
+	_recalc: {
+
+		// Helper function for recalc methods that use character ids
+		parseIDs(IDs, allowedTypes=["character"]) {
+			if (!IDs) {
+				return Object.keys(access).filter(prop => access[prop] instanceof dataNode && is(access[prop].type).In(allowedTypes));
+			}
+			else if (is.String(IDs)) {
+				return [IDs];
+			}
+			else if (is.Array(IDs)) {
+				return IDs;
+			}
+			else {
+				console.log("Throw error: Invalid IDs used in access._recalc");
+				return [];
+			}
+		},
+
+		// Recalculates all custom events. Built-in events are unaffected
+		events(IDs) {
+			IDs = this.parseIDs(IDs, ["character", "token"]);
+			
+			return; // TODO: Add this later
+
+			// Recalculate all custom events for the specified ids
+			for (const charid of IDs) {
+				let autoScriptArray = []
+				
+				if (charid in access._event.tree && charid != "N") {
+					delete access._event.tree[charid];
+				}
+
+				// Only add events from equipped items with at least one trigger block
+				if (access[id] instanceof dataNode) {
+					for (const item of access[id].items.repNodes) {
+						if (item.equipped && /\[(#.+?#)\]/g.test(item.autoscript)) {
+							autoScriptArray.concat(autoScriptToArray(item.autoscript));
+						}
+					}
+				}
+
+				// TODO: Turn the retrieved AutoEffect trigger blocks into custom events
+				if (autoScriptArray.length > 0) {
+					console.log(autoScriptArray);
+				}
+			}
+		},
+
+		// Re-applies any user-defined JQuery styling
+		jquery(IDs) {
+			for (const ID of this.parseIDs(IDs)) {
+				for (const item of access[ID].items.repNodes) {
+					recalcCustomColors(item);
+					recalcCustomPosition(item);
+				}
+				for (const tag of [...access[ID].tags.repNodes, ...access[ID].slots.repNodes]) {
+					recalcCustomColors(tag);
+				}
+			}
+		},
+
+		// Moves any slots in access.tags to access.slots
+		slots(ID, opts={}) {
+			for (ID of this.parseIDs(ID)) {
+				if (!(ID in access)) continue;
+				for (const tag of access[ID].tags.repNodes) {
+					if (tag.is_slot) updateTagType(tag);
+				}
+			}
+		},
+
+		// Recalculates all tags and/or slots of one or more characters
+		tags(ID, opts={}) {
+			let targets = (opts.target) ? [opts.target] : ["tags", "slots"];
+			let types = (opts.type) ? [opts.type] : ["gives", "requires"];
+
+			// Get all relevant items
+			for (ID of this.parseIDs(ID)) {
+				if (!(ID in access)) continue;
+				let items = access[ID].items;
+				
+				// Recalculate both tags and slots unless otherwise specified
+				for (const target of targets) {
+					let sumNode = access[ID][target];
+					let tags = {}
+	
+					// Parse tags from the raw text if this hasn't been done already
+					for (const item of items.repNodes) {
+						for (type of types) {
+							let node = item[target][type];
+
+							if (node.keys.length == 1 && is.PropString(node.raw_text)) {
+								recalcTagsFromRaw(node, {silent:"hard", noRecalc:true});
+							}
+						}
+					}
+
+					// Recalculate tags and slots
+					for (const item of items.repNodes) {
+						if (item.equipped && item[target].enabled && item[target].gives.enabled) {
+							for (const tagNode of item[target].gives.repNodes) {
+								let [tag, value] = [snakeify(tagNode.name), tagNode.value];
+
+								console.log("Tag:", tag, "Value:", value);
+
+								if (!sumNode.repNodes.some(node => node.name == tagNode.name)) {
+									sumNode.add({id:generateRowID().toLowerCase(), silent:"hard"}).modify("_name", tagNode.name, {silent:"hard"});
+								}
+
+								if (!tags[tag]) tags[tag] = {current:0, max:0}
+								tags[tag].current += value;
+								tags[tag].max += value;
+							}
+						}
+					}
+
+					console.log("Sum node:", sumNode);
+
+					// Assign new tag and slot values
+					for (const tag of sumNode.repNodes.map(node => snakeify(node.name))) {
+						
+						if (!tags[tag]) tags[tag] = {current:0, max:0}
+						tags[tag].current += Number(sumNode[tag]?.base || 0);
+						tags[tag].max += Number(sumNode[tag]?.base || 0);
+						
+						console.log(tag, tags);
+
+						if (sumNode[tag]) {
+							sumNode[tag].modify("_current", tags[tag].current || 0, {noRecalc:true});
+							if (target == "slots") {
+								sumNode[tag].modify("_max", tags[tag].max || 0, {noRecalc:true});
+								sumNode[tag].modify("_is_slot", "true");
+							}
+						}
+					}
+
+					console.log(sumNode);
+				}
+
+				return;
+
+				// Recalculate equip restrictions
+				access._recalc.equip(ID);
+			}
+		},
+
+		// Recalculates all equipment requirements of one or more characters
+		equip(ID, opts={}) {
+			access._begin("recalc", () => {
+
+				let targets = (opts.target) ? [opts.target] : ["tags", "slots"];
+	
+				// Get all relevant items
+				for (ID of this.parseIDs(ID)) {
+					if (!(ID in access)) continue;
+					let items = access[ID].items;
+
+					// Recalculate equip restrictions for all items that require tags and/or slots
+					// Checks equipped items first to use slots
+					for (const item of items.repNodes.sort((a, b) => +b.equipped - +a.equipped)) {
+						let reqFailure = {}
+						let outputMessage = "";
+	
+						for (const target of targets) {
+							let reqNode = item[target].requires;
+							let sumNode = access[ID][target];
+	
+							// Check all requirements for applicable items
+							if (!(item[target].enabled && reqNode.enabled)) continue;
+								
+							for (const [prop, value] of reqNode.entries) {
+								if (prop == "_raw_text" || value === 0) continue;
+
+								if ((sumNode[prop] || 0) < value) {
+									if (!reqFailure[target]) reqFailure[target] = {}
+									reqFailure[target][(access._recalc.tagKeys[prop] || prop)] = value - (sumNode[prop] || 0);
+								}
+							}
+	
+							// Successfully passed all requirements
+							if (length(reqFailure) == 0) {
+								for (const [prop, value] of reqNode.entries) {
+
+									// Slots are reduced when used to equip an item
+									if (target == "slots" && item.equipped) {
+										sumNode[prop] -= value;
+									}
+								}
+								outputMessage = "0";
+							}
+							
+							// Failed at least one requirement
+							else if (reqFailure[target]) {
+								if (outputMessage.startsWith("0")) outputMessage = ""; // This sometimes happens for whatever reason
+								if (outputMessage != "") outputMessage += " | "; // Adds a divider between different requirements
+								outputMessage += `Missing ${target}: ${Object.entries(reqFailure[target]).reduce((acc, [key, value]) => [...acc, `${key} x${value}`], []).join(", ")}`;
+							}
+						}
+
+						// Apply item messages to the sheet
+						Object.assign(access._output.sheet, {
+							[`repeating_${item.attrs.sheet.section}_${item.id}_messageText`]: outputMessage,
+						});
+					}
+				}
+			});
+		},
+	},
 }
 
 // The actual access object all the other code interacts with
@@ -17172,7 +19043,7 @@ const access = new Proxy(accessData, accessHandler);
 /*  - add: Is triggered when a repeating subnode is added to a node using node.add(). newval = the new node */
 /*  - delete: Is triggered when a repeating subnode is deleted from a node using node.delete(). oldval = the deleted node */
 /*  - modify.prop: Is triggered when the property "prop" is modified using node.modify(prop, value). oldval and newval = old and new prop value */
-/*    A valid event path is for example "items[-abc].equip.modify.equipped". A path array may alternatively be used */
+/*    A valid event path is for example "items[-abc].modify.equipped". A path array may alternatively be used */
 /* The following options are supported: */
 /*  - custom: Should be true for AutoEffect events, and otherwise false */
 /*  - ignoreSilent: When true, the event still triggers for silenced events (silent: true/"soft"). Events with silent: "hard" are still ignored */
@@ -17200,27 +19071,20 @@ function onAccess(path, opts={}, callback) {
 		});
 	}
 	
-	// For access event paths in string or array form. Returns info in the acces event into format
+	// For access event paths in string or array form. Returns info in the access event into format
 	else {
-		if (is.Array(path) && is.Array(path[0])) {
+		if (is.Array(path) && path.every(p => is.Array(p))) {
 			for (subpath of path) {
 				onAccess(subpath, opts, callback);
 			}
 		} else {
 			if (opts.custom) {
-				opts = {...opts, ignoreSilent:false, max: 1}
+				opts = {...opts, accessFormat:access, ignoreSilent:false, max: 1}
 			} else {
 				opts = {ignoreSilent:true, max: 100, ...opts}
 				path.unshift("N"); // All built-in events affect all characters
 			}
-			
-			if (is.Array(access._event.tree)) {
-				access._event.tree.push(() => {
-					access._event.register(path, opts, callback);
-				});
-			} else {
-				access._event.register(path, opts, callback);
-			}
+			access._event.register(path, opts, callback);
 		}
 	}
 }
@@ -17238,7 +19102,8 @@ on("sheet:opened", async function() {
 	access._initialize(getActiveCharacterId());
 });
 
-/* Event - Update item type */
+
+/* Editor - Update item type */
 onAccess(["items", "N", "modify", "type"], {}, function(info) {
 	itemChangeSection(info.node, info.newval);
 });
@@ -17273,33 +19138,15 @@ function itemChangeSection(item, section, opts) {
 	return false;
 }
 
-/* Event - Update item & ailments names */
-onAccess([["items", "N", "modify", "name"], ["ailments", "N", "modify", "name"]], {}, function(info) {
-	console.log(info);
-
-	/* Update the name accessors */
-	if (info.newval && !is.ID(info.newval) && !is.Int(info.oldval)) {
-		Object.defineProperty(info.node.parent, snakeify(info.newval), {
-			get() {
-				return info.node;
-			},
-			configurable: true,
-		});
+/* Editor - Update item editor name */
+onAccess(["items", "N", "modify", "name"], {}, function(info) {
+	if (access.items.editor.target == info.node.id) {
+		access._output.editor.itemEditName = info.newval;
 	}
-	if (info.oldval && !is.ID(info.oldval) && !is.Int(info.oldval)) {
-		delete info.node.parent[snakeify(info.oldval)];
-	}
-
-	/* Update editor names */
-	if (info.path[1] == "items") {
-		if (access.items.editor.target == info.node.id) {
-			access._output.editor.itemEditName = info.newval;
-		}
-		// TODO: Also update the AutoScript editor name?
-	}
+	// TODO: Also update the AutoScript editor name?
 });
 
-/* Event - Open/close item editor */
+/* Editor - Open/close item editor */
 onAccess(itemEvent("clicked", "edit-item"), {}, function(info) {
 	let [section, itemID] = info.triggerName.split("_").slice(1);
 	let editor = access.items.editor;
@@ -17355,27 +19202,28 @@ onAccess(["items", "editor", "modify", "target"], {}, function(info) {
 	}
 });
 
-/* Event - Add/delete an item or roll format */
-onAccess("clicked:addItem " + itemEvent("remove") + " remove:repeating_rollformats", {}, function(info) {
+/* Editor - Add/delete an item, roll format or tag/equip slot */
+onAccess("clicked:addItem " + itemEvent("remove") + ["rollformats", "tags"].reduce((acc, s) => acc += ` remove:repeating_${s}`, ""), {}, function(info) {
 	let type = info.triggerName.split(":")[0];
 	let section = (info.sourceAttribute || info.htmlAttributes.id).split("_")[1];
-	let id = (section == "rollformats") ? false : generateRowID().toLowerCase();
+	let oldID = (!info.sourceAttribute) ? false : info.sourceAttribute.split("_")[2];
+	let newID = (section == "rollformats") ? false : generateRowID().toLowerCase();
 	
-	let node = access.items;
-	let target = node.editor.target;
+	let node = (section != "tags") ? access.items : (access.slots[oldID]) ? access.slots : access.tags;
+	let target = node?.editor?.target;
 	
 	if (section == "rollformats") {
 		if (!target) return;
 		node = node[target].rollformats;
 	}
-
+	
 	if (type == "remove") {
-		let repID = info.sourceAttribute.split("_")[2];
-		node.delete(repID);
-		node.output(access._output);
+		console.log("Delete", type, section, oldID, node, target);
+		node.delete(oldID);
 	} else {
 		if (section == "rollformats" && node.repCount >= 5) return;
-		node.add({id:id, section:section});
+		console.log("Add", type, section, newID, node, target);
+		node.add({id:newID, section:section});
 	}
 
 	// Update the number of displayed roll formats in the sheet
@@ -17386,7 +19234,7 @@ onAccess("clicked:addItem " + itemEvent("remove") + " remove:repeating_rollforma
 	}
 });
 
-/* Event - Minimize or maximize an item when double clicking its header */
+/* Interface - Minimize or maximize an item when double clicking its header */
 let dcTime = new Date();
 let dcHeader = false;
 let configDcTime = 150;
@@ -17408,64 +19256,192 @@ $20(".inventoryContainer .repitem").on("click", (e) => {
 	dcHeader = false;
 });
 
-/* Event - Change displayed item descriptions */
+/* Interface - Change displayed item descriptions */
 onAccess([
-	["add", "delete"].map(step => ["items", "N", "rollformats", step]), // Add or delete rollformat
-	["weapon", "augment", "special"].map(type => ["items", "N", "ui", "modify", type]), // Enable custom UI
-	damageTypes.map(type => ["items", "N", "resistances", "base", type.toLowerCase(), "modify", "mode"]), // Toggle damage resistance between Add/Replace and None
-	[["items", "N", "modify", "rollformats"], ["items", "N", "modify", "resistances"], ["items", "N", "resistances", "modify", "base"]],
-].flat(), {}, function(info) {
+	["items", "add"], // Add new item
+	["items", "N", "rollformats", ["add", "delete"]], // Add or delete rollformat
+	["items", "N", "ui", "modify", ["weapon", "augment", "special"]], // Enable custom UI
+	["items", "N", "resistances", "base", damageTypes, "modify", "mode"], // Toggle damage resistance between Add/Replace and None
+	["items", "N", "modify", ["rollformats", "resistances"]], ["items", "N", "resistances", "modify", "base"], // Toggle options
+], {}, function(info) { // TODO: Remove this later
 	
-	let item = access.items[info.node.id];
+	let item = (info.node.id) ? access.items[info.node.id] : info.newval;
 	let weight = 0;
 	
-	// Left side element weight (+)
-	if (item.ui.enabled) {
-		if (item.ui.weapon) weight++
-		if (item.ui.augment) weight++
-		if (item.ui.special) weight += 3;
-	}
+	if (item instanceof dataNode) {
 
-	// Right side element weight (-)
-	if (item.rollformats.enabled) {
-		weight -= item.rollformats.repCount - 1;
-	}
-	if (item.resistances.enabled && item.resistances.base.enabled) {
-		weight -= length(item.resistances.base.filter(type => type.mode != "None"));
-	}
-
-	let text = {
-		left: {desc:true, effect:false},
-		right: {desc:false, effect:true},
-		bottom: {desc:false, effect:false},
-	}
-
-	// Change description layout
-	if (weight >= 3) {
-		text.left.desc = false;
-
-		if (weight < 5) {
-			text.bottom.desc = true;
-		} else {
-			text.right.desc = true;
+		// Left side element weight (+)
+		if (item.ui.enabled) {
+			if (item.ui.weapon) weight++
+			if (item.ui.augment) weight++
+			if (item.ui.special) weight += 3;
 		}
-	}
-	if (weight <= -3) {
-		text.right.effect = false;
-
-		if (weight > -5) {
-			text.bottom.effect = true;
-		} else {
-			text.left.effect = true;
-		}
-	}
 	
-	for (const dir in text) {
-		for (let type in text[dir]) {
-			access._output.sheet[`repeating_${item.attrs.sheet.section}_${item.id}_${dir + type}Display`] = text[dir][type] ? "true" : "0";
+		// Right side element weight (-)
+		if (item.rollformats.enabled) {
+			weight -= item.rollformats.repCount - 1;
+		}
+		if (item.resistances.enabled && item.resistances.base.enabled) {
+			weight -= length(item.resistances.base.filter(type => type.mode != "None"));
+		}
+	
+		let text = {
+			left: {desc:true, effect:false},
+			right: {desc:false, effect:true},
+			bottom: {desc:false, effect:false},
+		}
+	
+		// Change description layout
+		if (weight >= 3) {
+			text.left.desc = false;
+	
+			if (weight < 5) {
+				text.bottom.desc = true;
+			} else {
+				text.right.desc = true;
+			}
+		}
+		if (weight <= -3) {
+			text.right.effect = false;
+	
+			if (weight > -5) {
+				text.bottom.effect = true;
+			} else {
+				text.left.effect = true;
+			}
+		}
+		
+		for (const dir in text) {
+			for (let type in text[dir]) {
+				access._output.sheet[`repeating_${item.attrs.sheet.section}_${item.id}_${dir + type}Display`] = text[dir][type] ? "true" : "0";
+			}
 		}
 	}
 });
+
+/* Item - Update tags or equip slots */
+onAccess(["items", "N", ["tags", "slots"], ["gives", "requires"], "modify", "N"], {}, function(info) {
+	let prop = info.path[6]; // "raw_text" or a tag/slot id
+	
+	// Ignore all events caused by tag recalcs
+	if (!info.noRecalc) {
+		if (prop == "raw_text") {
+			recalcTagsFromRaw(info.node);
+		} else {
+			recalcTagsFromProp(info.node, prop);
+		}
+	}
+});
+
+/* Tags - Add or modify tag */
+onAccess([["tags", "slots"], "add"], {}, function(info) {
+	info.newval.base = 1; // Tags/slots without at least 1 current or base value are automatically hidden
+	updateIcon("tag", info.newval.icon || "Question", info.newval.id, access._output.sheet);
+});
+onAccess([["tags", "slots"], "N", "modify", "icon"], {}, function(info) {
+	updateIcon("tag", info.newval, info.node.id, access._output.sheet);
+});
+
+/* Tags - Convert between tag and slot */
+onAccess([["tags", "slots"], "N", "modify", "is_slot"], {}, function(info) {
+	updateTagType(info.node);
+});
+function updateTagType(node) {
+	let [oldParent, newParent] = (is.True(node.is_slot)) ? ["tags", "slots"] : ["slots", "tags"]
+
+	delete access[oldParent][node.id]; // For some reason using node.delete() here causes an error with Roll20's code
+	access[newParent].add({node:node, silent:"hard"});
+	node._parent = access[newParent];
+	node._path = node.path.map(step => (step == oldParent) ? newParent : step);
+}
+
+/* Tags - Equip or unequip item + change tag/slot option */
+onAccess([
+	["items", "N", "modify", ["equipped", "tags", "slots"]],
+	["items", "N", ["tags", "slots"], "modify", ["gives", "requires"]],
+	[["tags", "slots"], "N", "modify", "base"]
+], {}, function(info) {
+	access._recalc.tags(info.path[0]);
+});
+
+//                    [  Tag   ]      [ Int |  Float  ]       [ / or , ]
+const tagRegExp = /\s*([^\/,]+?)(?:\s+(-?[\d]+(?:\.[\d]+)?))?\s*([\/,]|$)/g;
+
+function recalcTagsFromRaw(node, opts={}) {
+	let target = node.path.at(-2); // "tags" or "slots"
+	let type = node.path.at(-1); // "gives" or "requires"
+	
+	let tags = {}
+	let tag, value, symbol;
+	let or_node = false;
+
+	let match = []
+
+	// Extract all tag-value pairs from the raw tag text
+	while (match = tagRegExp.exec(node.raw_text)) {
+
+		// Handle alternate tag values
+		if (symbol == "/") {
+			if (type != "requires") {
+				console.warn("Tags - Throw error. The or symbol '/' may only be used for required tags/slots");
+				return;
+			}
+			if (!or_node) {
+				or_node = node[tag];
+			}
+		} else {
+			or_node = false;
+		}
+		
+		[tag, value, symbol] = [snakeify(match[1]), Number(match[2] || 1),  match[3]]
+		tags[tag] = value;
+
+		// If the tag does not alrady exist, add it as a new rep node
+		if (!node[tag]) {
+			let tagID = generateRowID().toLowerCase();
+			node.add({id:tagID, silent:"hard"}).modify("_name", match[1], {...opts, noRecalc:true});
+		
+			// If a tag has alternative (or) tag values, save their ids in node.alt
+			if (or_node) {
+				or_node._alt = [...or_node._alt, tagID];
+			}
+		}
+	}
+
+	// Assign tag values. Reset all tags not in the current raw text
+	// "noRecalc" ensures no tag recalcs are caused by these events
+	for (const tagNode of node.repNodes) {
+		tagNode.modify("_value", tags[snakeify(tagNode.name)] || 0, {...opts, noRecalc:true});
+	}
+
+	// Recalculate equip requirements if applicable
+	if (!opts.noRecalc) {
+		access._recalc.tags(node.path[0]);
+	}
+}
+
+
+function recalcTagsFromProp(node, prop) {
+	let target = node.path.at(-2);
+	let type = node.path.at(-1);
+	let root = access[node.path[0]];
+	let item = root.items[node.id];
+
+	// Recalculate equip requirements if applicable
+	access._recalc.tags(node.path[0]);
+	
+
+
+
+	// If possible, sync the change to the raw text
+	// If the tag is already in the text, replace the current occurence(s)
+	// If not, add it as a new key-value pair at the end of the string, seperated by a comma
+	// This will preserve current or statements, but will not create any new ones
+
+	// If a tag is set to 0, delete the tag + the and/or symbol before it (if possible) or after it (if at the start of the string)
+}
+
+
 
 
 /* Events - Custom colours and positioning */
@@ -17569,8 +19545,8 @@ const custom = {
 						// Drag item
 						if (is.ID(this.prevTarget)) {
 							let coords = access.items[this.prevTarget].ui.position;
-							access._event.trigger([coords.path, "modify", "x"], {node:coords, type:"modify", source:"event", oldval:coords.x, newval:this.x});
-							access._event.trigger([coords.path, "modify", "y"], {node:coords, type:"modify", source:"event", oldval:coords.y, newval:this.y});
+							access._event.trigger([...coords.path, "modify", "x"], {node:coords, type:"modify", source:"event", oldval:coords.x, newval:this.x});
+							access._event.trigger([...coords.path, "modify", "y"], {node:coords, type:"modify", source:"event", oldval:coords.y, newval:this.y});
 						}
 						
 						// Drag editor
@@ -17653,19 +19629,34 @@ onAccess([
 ], {}, (info) => {
 	recalcCustomColors(access.items[info.node.id]);
 });
-function recalcCustomColors(item) {
-	let color = item.ui.color;
-	let selector = `.repitem[data-reprowid="${color.id}"] .contentHeader`;
+onAccess([["tags", "slots"], "N", "modify", "color"], {}, function(info) {
+	recalcCustomColors(navPath([...info.path.slice(0, 3), "node"]));
+});
 
-	for (const prop of ["base", "decoration"]) {
-		let selector = `.repitem[data-reprowid="${color.id}"] .itemContainer`;
-		let style = (prop == "base") ? "background" : prop;
-		let prefix = (prop == "base") ? "" : "_";
+function recalcCustomColors(node) {
+	if (node.path[1] == "items") {
+		let color = node.ui.color;
+		let selector = `.repitem[data-reprowid="${node.id}"] .itemContainer`;
+	
+		for (const prop of ["base", "decoration"]) {
+			let style = (prop == "base") ? "background" : prop;
+			let prefix = (prop == "base") ? "" : "_";
+	
+			if (color[prop] == "Custom" && is.Hex(color.custom[prop])) {
+				custom.color.apply(selector, color.custom[prop], style, {prefix: prefix});
+			} else {
+				custom.color.clear(selector, style);
+			}
+		}
+	} else {
+		let color = node.color;
+		let selector = `.repitem[data-reprowid="${node.id}"] .tagContainer .tracker`;
 
-		if (color[prop] == "Custom" && is.Hex(color.custom[prop])) {
-			custom.color.apply(selector, color.custom[prop], style, {prefix: prefix});
+		console.log(color, selector, is.Hex(color));
+		if (is.Hex(color)) {
+			custom.color.apply(selector, color, "background");
 		} else {
-			custom.color.clear(selector, style);
+			custom.color.clear(selector, "background");
 		}
 	}
 }
@@ -17969,10 +19960,58 @@ function updateIndexesInner(node, i) {
 
 
 
+
+
+// Takes in an item and updates its AutoEffect events
+function updateEventsAE(item) {
+
+
+	
+
+	// TODO: Extract all trigger blocks from item.autoscript into an array of path(s) and autoeffect execution data
+	// The output data should look something like this
+	let triggerArray = [
+		{path: ["some", "path"], effects: ["array", "of", "execution", "data"]},
+		{path: ["some", "other", "path"], effects: ["other", "execution", "data"]},
+		// For trigger blocks with multiple triggers, add multiple events with different paths but the same effects 
+	]
+
+	for (const trigger of triggerArray) {
+
+		// The final events should look something like this:
+		onAccess(trigger.path, {custom:true}, (info) => {
+			if (item.equipped != "") { // Note this references the node the effect originates from, not info.node
+				
+				AE.execute(effects); // This imagined autoScriptMain() as a new object similar to access that is interacted with though methods 
+
+				// TODO: Make this add the AutoEffects to the current AutoScript execution
+				// If no execution is currently taking place, begin a new one
+				// Include a parameter that indicated this execution is not part of another action, and should send a differently styled message
+			}
+		});
+
+	}
+}
+
+
+onAccess(["items", "N", "modify", "autoscript"], {}, (info) => {
+	access._recalc.events(info.node.id);
+});
+
+
+
+
+
+
+
+
+
+
+
 /*
 const testTriggerBlock = `
 
-[# items[1].equip.modify.equipped, otherEvent,
+[# items[1].modify.equipped, otherEvent,
 (CustomMessage "What could this be?")
 #]
 
@@ -18000,21 +20039,39 @@ triggerAutoScripts.forEach((trigger) => {
 
 
 
-
-function navPath(path) {
+// Traverses a path through an object and returns the value at the end of the path
+// Has a special interaction with dataNodes. If the path ends in a dataNode with a defined _valueProp, the value of that property is returned instead
+//  - Ex. navPath("items[1].tags.Burn") returns tags.Burn.current
+//  - Ending the path in "node" ignores this behaviour, ex. "items[1].tags.Burn.node" returns {name: "Burn", current: 2, base: 0} 
+function navPath(path, opts={}) {
 	if (typeof path == "string") {
 		path = pathStringToArray(path);
 	}
-	return path.reduce((node, step) => (node) ? node = node[step] : false, access);
+	
+	let result = path.reduce((node, step, i) => {
+		if (opts.userPath) step = snakeify("" + step);
+
+		if (step.toLowerCase() == "node" && prop.node === undefined) {
+			return node;
+		}
+		return (node) ? node[step] || null : null;
+	}, opts.start || access);
+
+	if (result instanceof dataNode && result._valueProp && path.at(-1) != "node") {
+		return result[result._valueProp];
+	} 
+	return result;
 }
 
 
 
 function pathArrayToString(pathArray) {
-	return pathArray.join(".").replace(/\.(\d)/g, "[$1]");
+	return pathArray.join(".").replace(/\.(\d+)/g, "[$1]");
 }
 function pathStringToArray(pathString) {
-	return pathString.split(".").flatMap(step => /.+\[.+\]/.test(step) ? step.slice(0, -1).split("[") : step);
+	// TODO: Check if this works for nested paths like ailments[global[dmgType + " Ailment"]]
+	// If not you may need to parse paths one character at a time, with [] starting a recursive parsing process
+	return splitIgnoreBetween(pathString, ".", "\[", "\]").flatMap(step => /.+\[.+\]/.test(step) ? step.slice(0, -1).split("[") : step);
 }
 
 
@@ -18091,1499 +20148,6 @@ on('change:repeating_sectionname', function() {
 
 
 
-
-// Data format used for roll data. This is used for generic roll data, item rollformats and stored rolls
-
-
-
-// Issues with the roll format:
-// - Applied is only relevant for roll formats
-// - Action and reaction costs are a bit finicky for AutoEffects, being that they can be spread across multiple dice
-// - The same goes for uses spent as part of the roll
-
-const rollDataFormat = {
-	base: {
-		type: "Effect", mode: "Roll", damage_type: "None", count: 0, max: 0, power: 0, adv: false, autoscript: "",
-		action: {type: "Action", cost: 1},
-		reaction: {type: "Reaction", cost: 1},
-		uses: {cost: 1},
-		store: {
-			count: 0, max: 0, power: 0, adv: false, autoscript: "",
-		},
-	},
-	
-	valid: {
-		type: (s) => is(s).In("None", ...combatRollNames, ...statNamesFull, "Custom"),
-		mode: (s) => is(s).In("Roll", "Applied"), // Applied is ignored outside of roll formats
-		damage_type: (v) => is(v).In("None", ...damageTypes, "Choose") || (is.Array(v, {min:1, max:3}) && v.every(d => damageTypes.includes(d))), // Allows an array of 1-3 damagetypes ("Hybrid")
-		count: (i) => is.Int(i, (this.type == "Roll") ? {min: 1} : {}), // This probably still refers to this itemNode, right? If not use itemList[this... id...]... motherfucker
-		max: (i) => is.Int(i, (this.type == "Roll") ? {min: 0} : {}),
-		power: (i) => is.Int(i),
-		adv: (v) => is.False(v) || is(v).In(advTypes),
-		action: {
-			type: (s) => is(s).In("None", ...resourceNames),
-			cost: (i) => is.Int(i, {min: 0}),
-		},
-		reaction: {
-			type: (s) => is(s).In("None", ...resourceNames),
-			cost: (i) => is.Int(i, {min: 0}),
-		},
-		uses: {
-			cost: (i) => is.Int(i, {min: 0}),
-		},
-		store: {
-			count: (i) => is.Int(i),
-			max: (i) => is.Int(i),
-			power: (i) => is.Int(i),
-			adv: (v) => is.False(v) || is(v).In(advTypes),
-			autoscript: (s) => is.String(s, {newlines: true}),
-		},
-		autoscript: (s) => is.String(s, {newlines: true}),
-	}
-}
-
-
-
-
-
-
-// Includes all default override values for items of a certain type. If a value is not specified here the value in the base format is used
-// All sub-nodes like "rollformats" are optional and begin off disabled by default
-// Including a subnode in an item's default values (even just writing "subnode: {}") enables that subnode
-const repDataDefaults = {
-	item: {
-		weapons: {
-			type: "Weapon",
-			equip: {slots: {type: "Hands", value: 1}},
-			rollformats: {
-				repeating: [
-					{type: "Attack", damage_type: "Choose", count: 1, max: 10, power: 0, action: {}, reaction: {type: "Counter"}},
-				],
-			},
-			ui: {weapon: true},
-		},
-		outfits: {
-			type: "Outfit",
-			equip: {},
-			rollformats: {
-				repeating: [
-					{type: "Block", count: 1, max: 10, power: 0, reaction: {type: "Block"}},
-					{type: "Evade", count: 1, max: 12, power: 0, reaction: {type: "Evade"}, store: {power: -2}},
-				],
-			},
-			resistances: {
-				base: {
-					slash: {mode: "Replace", hp: 1, st: 1},
-					pierce: {mode: "Replace", hp: 1, st: 1},
-					blunt: {mode: "Replace", hp: 1, st: 1},
-				},
-				ailments: {
-					default: {},
-					custom: {},
-				}
-			},
-		},
-		augments: {
-			type: "Augment",
-			equip: {},
-			resistances: {
-				ailments: {
-					default: {},
-					custom: {},
-				}
-			},
-			ui: {augment: true}
-		},
-		tools: {
-			type: "Tool",
-			equip: {slots: {type: "Hands", value: 1}},
-			usable: {type: "Standalone", action: {}, uses: {}},
-			limited: {uses: {max: 3, current: 3, recharge: "Refresh"}},
-			ui: {half: true},
-		},
-		skills: {
-			type: "Skill",
-			equip: {},
-			rollformats: {
-				repeating: [
-					{type: "None", mode: "Applied", count: 0, max: 0, power: 0, action: {type: "None", value: 0}, reaction: {type: "None", cost: 0}},
-				],
-			},
-			limited: {light: {cost: 1}},
-		},
-		special: {
-			type: "Special",
-			equip: {},
-			ui: {special: true}
-		},
-		effects: {
-			type: "Effect",
-		}
-	}
-}
-
-
-
-
-
-
-// Data formats used for repeating data (items, ailments, rolls, etc.)
-const repDataFormats = {
-	
-	// Data formats used for access.items
-	item: {
-		base: {
-			type: "Effect", rank: 0, name: "", description: "", effect: "",
-			minimized: false,
-			equip: {
-				equipped: false,
-				slots: {
-					type: "Hand", use: 0,
-				},
-			},
-			rollformats: {
-				repeating: rollDataFormat.base,
-			},
-			usable: {
-				type: "None",
-				action: {type: "Action", cost: 1},
-				reaction: {type: "None", cost: 0},
-				uses: {cost: 1},
-			},
-			linked: {
-				itemid: false,
-				equip_together: true,
-			},
-			limited: {
-				uses: {
-					max: 3, current: 3, recharge: "None",
-				},
-				light: {
-					cost: 0,
-				},
-			},
-			resistances: {
-				base: {
-					slash: {mode: "None", hp: 1, st: 1},
-					pierce: {mode: "None", hp: 1, st: 1},
-					blunt: {mode: "None", hp: 1, st: 1},
-				},
-				flat: {
-					slash: {mode: "None", hp: 0, st: 0},
-					pierce: {mode: "None", hp: 0, st: 0},
-					blunt: {mode: "None", hp: 0, st: 0},
-				},
-				ailments: {
-					default: {Burn: 0, Bleed: 0},
-					custom: {
-						repeating: {
-							name: "",
-							count: "",
-						}
-					},
-				},
-			},
-			mystery: {
-				activation: "None",
-			},
-			tags: {
-				gives: {},
-				requires: {},
-			},
-			ui: {
-				color: {
-					base: "None",
-					decoration: "None",
-					custom: {
-						base: "",
-						decoration: "",
-					},
-				},
-				icon: {
-					source: "",
-				},
-				position: {
-					x: 0,
-					y: 0,
-				},
-				weapon: false,
-				augment: false,
-				special: false,
-				half: false,
-			},
-			card: {},
-			autoscript: "",
-		},
-	
-		// Includes functions for validating item input values
-		valid: {
-			type: (s) => is(s).In(itemSections.map(section => capitalize(section.replace(/s$/,"")))),
-			rank: (i) => is.Int(i, {min: -1}),
-			name: (s) => is.String(s),
-			description: (s) => is.String(s, {newlines: true}),
-			effect: (s) => is.String(s, {newlines: true}),
-			minimized: (b) => is.Bool(b),
-			equip: { // Always enabled
-				equipped: (v) => is.Bool(v) || is(v).In("Mainhand", "Offhand"), // How do you handle this? It should be is.ID(this.linked) && is.Bool(b) || is(b).in(hand), but linked isn't in this, it's in this.parent.linked.id. You also need linked to be updated first
-				slots: { // Enabled by optionEquipSlots
-					type: (s) => is.String(s), // String value matching a type of equip slots (like "Hand"). This would have to reference an external list of equipSlot types
-					use: (i) => is.Int(i),
-				},
-			},
-			rollformats: { // Enabled by optionRollFormats
-				repeating: rollDataFormat.valid,
-			},
-			usable: { // Enabled by optionUsable
-				type: (s) => is(s).In("None", "Standalone", "Applied", "Both"),
-				action: { // Enabled by optionUsableReaction
-					type: (s) => is(s).In("None", ...resourceNames),
-					cost: (i) => is.Int(i, {min: 0}),
-				},
-				reaction: { // Enabled by optionUsableReaction
-					type: (s) => is(s).In("None", ...resourceNames),
-					cost: (i) => is.Int(i, {min: 0}),
-				},
-				uses: {
-					cost: (i) => is.Int(i, {min: 0}),
-				},
-			},
-			linked: { // Enabled by optionLinked
-				itemid: (v) => is.Bool(v) || is(v).In(itemList.IDs), // Need to make sure this works if the linked item is added after this item. Maybe add all the ids first and then add the itemNodes?
-				equip_together: (b) => is.Bool(b),
-			},
-			limited: { // Enabled by optionLimited
-				uses: { // Enabled by optionUses
-					current: (i) => is.Int(i, {min: 0}),
-					max: (i) => is.Int(i, {min: 0}),
-					recharge: (s) => is(s).In("None", "Manual", "Refresh", "Recover", "Loaded", "Ammo", "Combat", "Round"),
-				},
-				light: { // Enabled by optionLightCost
-					cost: (i) => is.Int(i, {min: 0}),
-				},
-			},
-			resistances: { // Enabled by optionResist
-				base: { // Enabled by optionResistBaseDamage
-					slash: {
-						mode: (s) => is(s).In("None", "Add", "Replace"),
-						hp: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
-						st: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
-					},
-					pierce: {
-						mode: (s) => is(s).In("None", "Add", "Replace"),
-						hp: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
-						st: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
-					},
-					blunt: {
-						mode: (s) => is(s).In("None", "Add", "Replace"),
-						hp: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
-						st: (i) => is.Int(i, (this.mode == "Replace") ? {min: 0} : {}),
-					},
-				},
-				flat: { // Enabled by optionResistFlatDamage
-					slash: {
-						mode: (s) => is(s).In("None", "Add", "Replace"),
-						hp: (i) => is.Int(i),
-						st: (i) => is.Int(i),
-					},
-					pierce: {
-						mode: (s) => is(s).In("None", "Add", "Replace"),
-						hp: (i) => is.Int(i),
-						st: (i) => is.Int(i),
-					},
-					blunt: {
-						mode: (s) => is(s).In("None", "Add", "Replace"),
-						hp: (i) => is.Int(i),
-						st: (i) => is.Int(i),
-					},
-				},
-				ailments: { // Enabled by optionResistAilments
-					default: {
-						Burn: (i) => is.Int(i),
-						Bleed: (i) => is.Int(i),
-					},
-					custom: {
-						ailName: (i, v) => is.Values(v, "ailCustomResistanceNum").Int(i), // Needs some work. Should set key=ailName and value=ailCustomResistanceNum
-						// "*": () => (this?.values?.ailName && is.Int(this?.values?.ailCustomResistanceNum)) ? {values.ailName, values.ailResistanceNum} : false,
-						// Would here try format.valid("*") if format.valid(key) fails. If a validator returns an object o, loop over o keys and values and set this[key] = value
-						// This wouldn't help with updating already existing values however... You could just say that if no validator exists anything goes? 
-					},
-				},
-			},
-			mystery: { // Enabled by optionMystery
-				activation: (s) => is(s).In("None", "AlwaysActive", "HalfHealth", "OnStagger", "EnemyDefeat", "AllyDefeat"),
-			},
-			tags: { // Enabled by optionTags
-				gives: {},
-				requires: {}, // See custom resistances above. Needs a similar solution
-			},
-			ui: { // Enabled by optionCustomUI
-				color: { // Enabled by optionColor
-					base: (v) => is(v).In("None", "Red", "Blue", "Green", "Purple", "Orange", ...statNamesFull, "Custom"),
-					decoration: (v) => is(v).In("None", "Red", "Blue", "Green", "Purple", "Orange", ...statNamesFull, "Custom"),
-					custom: {
-						base: (s) => s == "" || is.Hex(s),
-						decoration: (s) => s == "" || is.Hex(s),
-					},
-				},
-				icon: { // Enabled by optionIcon
-					source: (s) => is.String(s), // Is either a http image or a default icon name. Otherwise a question mark icon is displayed
-				},
-				position: {
-					x: (i) => is.Int(i),
-					y: (i) => is.Int(i),
-				},
-				weapon: (b) => is.Bool(b), // The UI element has a custom event handler to update the damage type or uses of the first roll format
-				augment: (b) => is.Bool(b),
-				special: (b) => is.Bool(b),
-				half: (b) => is.Bool(b), // Ignored when possessing 2+ roll formats, ui.special or damage resistances. This is handled by CSS
-			},
-			card: {}, // Enabled by optionCardCombat
-			autoscript: (s) => is.String(s, {newlines: true}),
-		},
-	
-		// Contains format data for all attribute names of an item. Used for inputing and outputing attribute data
-		attrs: {
-			defaults: repDataDefaults.item,
-			source: {
-				editor: {
-					prefix: "itemEdit",
-				},
-				sheet: {
-					type: "id",
-					section: itemSections,
-				},
-			},
-			export: {alias: "items"},
-			attrs: {
-				equip: {
-					slots: {option: "EquipSlots", prefix: "slot"},
-				},
-				rollformats: {
-					option: "RollFormats",
-					repeating: {
-						attrs: {
-							option: "RollDisplay", 
-							prefix: "roll",
-							case: "snake",
-							action: {option: "RollAction", prefix: "rollAction"},
-							reaction: {option: "RollReaction", prefix: "rollReaction"},
-							uses: {option: "RollUses", prefix: "rollUses"},
-							store: {option: "StoreRoll", prefix: "store"},
-						},
-						source: {
-							editor: {
-								type: "id",
-								section: "rollformats",
-							},
-							sheet: {
-								type: "index",
-								section: itemSections,
-							},
-						},
-						export: {alias: "rollFormats"},
-					},
-				},
-				usable: {
-					option: "Usable",
-					prefix: "useable",
-					action: {option: "UsableAction", prefix: "usableAction"},
-					reaction: {option: "UsableReaction", prefix: "usableReaction"},
-					uses: {option: "UsableUses", prefix: "usableUses"}
-				},
-				linked: {option: "Linked", prefix: "linked", case: "snake"},
-				limited: {
-					option: "Limited",
-					uses: {option: "Uses", prefix: "uses"},
-					light: {option: "LightCost", prefix: "light"},
-				},
-				resistances: {
-					option: "Resist",
-					base: {
-						option: "ResistBaseDamage",
-						slash: {prefix: "slashBase"},
-						pierce: {prefix: "pierceBase"},
-						blunt: {prefix: "bluntBase"},
-					},
-					flat: {
-						option: "ResistFlatDamage",
-						slash: {prefix: "slashFlat"},
-						pierce: {prefix: "pierceFlat"},
-						blunt: {prefix: "bluntFlat"},
-					},
-					ailments: {
-						option: "ResistAilments",
-						default: {suffix: "Resist"},
-						custom: {
-							suffix: "Resist",
-							repeating: {
-								attrs: {
-									// Need to correctly add a prefix to the count, but not to the name
-								},
-								source: {
-									editor: {
-										type: "id",
-										section: "ailments",
-									},
-								},
-								export: {alias: "customResist"},
-							},
-						},
-					},
-				},
-				mystery: {option: "Mystery", prefix: "mystery"},
-				tags: {
-					option: "Tags",
-					gives: {prefix: "tag"},
-					requires: {prefix: "tag"},
-				},
-				ui: {
-					option: "CustomUI",
-					suffix: "UI",
-					color: {
-						option: "Color",
-						suffix: "Color",
-						custom: {
-							prefix: "custom",
-							suffix: "Color",
-						},
-					},
-					icon: {option: "Icon", prefix: "icon"},
-					position: {option: "Position", prefix: "position"},
-				},
-				card: {option: "CardCombat", prefix: "card"},
-			},
-		},
-	},
-
-	// Data formats used for access.ailments
-	ailment: {
-		base: {
-			name: "",
-			count: 0,
-			count_immutable: 0,
-			count_next_round: 0,
-			count_pause: 0,
-			icon: "",
-			settings: {
-				display: true,
-				trigger: "None",
-				next_round: true,
-				custom_resistance: true,
-				whenhit: {
-					damage_type: "Any",
-					decay: true,
-					before_resistance: true,
-					positive_type: "Regen",
-				},
-				roundend: {
-					decay: true,
-				}
-			},
-			effect: {
-				type: "None",
-				mode: "+",
-				value: "-n",
-			},
-			decay: {
-				min: "0",
-				mode: "=",
-				value: 0,
-			},
-			max: {
-				mode: "None",
-				value: 0,
-			},
-			message: {
-				send: false,
-				text: "[CHAR]: [DIFF] damage from [AIL]",
-			}
-		},
-
-		valid: {
-			_default: (i) => is.Int(i, {min: 0}),
-			name: (s) => is.String(s),
-			icon: (s) => is.String(s),
-			settings: {
-				_default: (b) => is.Bool(b),
-				trigger: (s) => is(s).In("None", "RoundEnd", "OnAction", "WhenHit"),
-				whenhit: {
-					damage_type: (s) => is(s).In("Any", "Slash", "Pierce", "Blunt"),
-					decay: (b) => is.Bool(b),
-					before_resistance: (b) => is.Bool(b),
-					positive_type: (s) => is(s).In("Regen", "Resistance"),
-				},
-				roundend: {
-					decay: (b) => is.Bool(b),
-				}
-			},
-			effect: {
-				type: (s) => is(s).In("None", "HP", "ST", "HP+ST", "THP", "TST", "SP", "Light", "DistortCounter", "Difficulty"),
-				mode: (s) => is(s).In("+", "x", "="),
-				value: (v) => is.Effect(v),
-			},
-			decay: {
-				min: (s) => is(s).In("1", "0"),
-				mode: (s) => is(s).In("+", "x", "="),
-				value: (v) => is.Effect(v),
-			},
-			max: {
-				mode: (s) => is(s).In("None", "ClearMax", "EffectMax", "DecayMax", "EffectDecayMax", "EffectClearMax"),
-				value: (i) => is.Int(i, {min: 0}),
-			},
-			message: {
-				send: (b) => is.Bool(b),
-				text: (s) => is.String(s, {newlines: true}),
-			}
-		},
-
-		attrs: {
-			attrs: {
-				prefix: "ail",
-				case: "snake",
-				settings: {
-					prefix: "ail",
-					case: "snake",
-					whenhit: {prefix: "ail", suffix: "WhenHit", case: "snake"},
-					roundend: {prefix: "ail", suffix: "RoundEnd"},
-				},
-				effect: {prefix: "ailEffect"},
-				decay: {prefix: "ailDecay"},
-				max: {prefix: "ailMax"},
-				message: {prefix: "ailMessage"},
-			},
-			source: {
-				sheet: {
-					type: "id",
-					section: "ailments",
-				},
-			},
-			export: {alias: "ailments"},
-			// Oh lord... this will require a lot of aliases
-			// Alternatively, make underscores be removed so ex. "has_next_turn_field" becomes "hasNextRoundField" (capitalization doesn't matter)
-			//  - In this case you'll only need the "ail" prefix + rename some attribute fields in the sheet
-			
-		}
-	},
-
-	
-
-	// Still missing formats:
-	// - Rolls
-	//   - Note that rolls can have different sources:
-	//     - Item rolls link to the item (repeating + indexed) + editor (repeating)
-	//     - Stored rolls link to the stored rolls UI (repeating)
-	//     - Roll data doesn't link to any attributes, existing only as data used in customRoll() and autoScriptMain()
-	// - Chat buttons
-}
-
-
-
-
-// Handle repeating data as follows:
-// - In the base format, only include the nodes (items, ailments etc.) and any non-repeating props (access.token.id, etc.)
-// - Make these nodes generate as unique variants of dataNode, like access.items being an itemNode
-// - For ex. itemNode, have methods to add and delete repeating data. Have itemNode.input() automatically create new items for unknown ids
-// - In access._initialize(), access is first set up before access.input() is used. This should generate any additional repeating nodes that are needed
-//   - One issue here is how you get the values that are inserted using access.input()
-//   - Previously you generated one dummy item, used that to generate a set of attributes, and then repeated those attributes for every item id in the sheet
-//   - You may want to do the same now, with these ailment/item/rollNodes being generated *outside* of access, while the returned values are input *into* access
-//   - Alternatively, include these nodes in the base format, and then delete them after inputting the values
-
-
-
-// Data formats used for access and access.token
-// If a node contains repeatingIDs, repeatingNames or repeatingIndex, swap over to a new set of formats and generate multiple nodes
-const dataFormat = {
-	base: {
-		type: "character", // One of "character", "target" or "token". Useful for telling what data is stored in a data tree 
-		// You may want to include a way to have an access be both a character and a target, for cases where GMs have a player sheet open
-		items: {
-			// Has repeating item data + the item editor. Sorted by item ids in the order they display in the sheet
-			repeating: repDataFormats.item.base, // Items have their own formats
-			editor: {
-				target: "0",
-				location: "Center",
-			},
-		},
-		ailments: {
-			// Has only repeating data. Sorted by ailment names in the order they display in the sheet
-			// May need special handling for default ailments if you don't make them into repeating ailments
-			//  - If you keep them as they are, you can add them as non-repeating data here
-			repeating: repDataFormats.ailment.base, // Ailments have their own formats
-		},
-		rolls: {
-			// Has a mix of repeating and repeating roll data
-			// The output message shows only so many rolls per row. Additional rolls bleed down to extra rows. Implement this using max-width = 100%, min-width: __px
-			repeating: rollDataFormat.base, // Rolls that are part of the current action. Has no sheet attributes
-			store: { repeating: rollDataFormat.base }, // Stored rolls in the sheet. Has sheet attributes
-			whisper: "",
-			difficulty: 0,
-			adv: 0, // advNum in the sheet
-			disadv: 0, // disadvNum in the sheet
-		},
-		chat: {
-			buttons: {
-				// Contains data about chat buttons
-				// "selected" stores all buttons that target any character. For example, access.chat.buttons.selected["Apply ailments"] gets the ailment button
-				// Other buttons are sorted by the name of the target(s), and are impossible to access without knowing the name of a target
-				// access.chatbuttons.target may be used to get the chat buttons matching the target name, being equivalent to access.chatbuttons[access.target.character.name]
-				// access.chatbuttons.whisper works the same, but for access.roll.whisper
-				// Make two getters and setters to implement these features
-
-				// There should be a format for chat buttons, but it should not be included in the base format
-			},
-			message: "", // Stores the HTML of the output chat message. Used with ex. access.chat.message += string, or replace(access.chat.message, rep, string)
-			// May change in the future based on how the chat message code develops
-		},
-		settings: {
-			sheet: {
-				// Contains all sheet settings (from the cogwheel menu)
-			},
-			game: {
-				// Contains all game settings (from the editor tab)
-				// There values can be manipulated even if the editor is hidden and/or blocked with a password
-				//  There's not really any way you can "cheat" by changing these values which you couldn't do by just fudging numbers normally in your sheet
-				//  The one thing that could happen is players messing up the settings set by the GM, but that sounds like a table issue
-				//  Worst case you could just make these values read only, except when importing game settings or manual input in the editor
-			},
-		},
-		bars: {
-			hp: 30, hp_max: 30, "-hp": 0,
-			st: 20, st_max: 20, "-st": 0,
-			sp: 15, sp_max: 15, "-sp": 0,
-			light: 3, light_max: 3, "-light": 0,
-		},
-		resource: {
-			action: 1, action_max: 1, action_base: 1,
-			reaction: 2, reaction_max: 2, reaction_base: 2,
-			counter: 0, counter_max: 0, counter_base: 0,
-			block: 0, block_max: 0, block_base: 0,
-			evade: 0, evade_max: 0, evade_base: 0,
-			light_regen: 3, light_regen_max: 3, light_regen_base: 3,
-		},
-		state: {
-			stagger: "false", stagger_duration: 2, stagger_duration_max: 2,
-			panic: "false", defeat: "false", seal: "false", immobile: "false",
-			combat: "false",
-		},
-		speed: {
-			base: 0, this_round: 0, next_round: 0,
-		},
-		character: {
-			name: "", rank: 0, level: 0, xp: 0,
-			fortitude: 0, prudence: 0, justice: 0,
-			charm: 0, insight: 0, temperance: 0,
-			occupation: "", age: "", height: "", birthplace: "", residence: "",
-			assets: "", ahn: "", url: "", summary: "", combat_notes: "",
-			notes: "", description: "", personality: "", background: "",
-		},
-		target: {
-			// Stores all data for the target + targeting settings + the targeted token's id
-			// The target access follows the same format as access, making ex. access.target.ailments.Burn work as access.ailments.Burn, but for the target
-			// In reality, access[-abc].target points to access[-def]
-		},
-		token: {
-			// Change this to not be a Proxy. Instead make it have id + selection + a number of entries that point to other accesses, like access.target
-			// Does not have a format built in format. TokenNodes create a deep copy of dataFormat in repDataFormats which removes base.token
-			//  - If this format has already been created other tokenNodes simple use the existing format
-			//  - There's no need to remove valid.token. Nodes in valid that are not in base are ignored when building a data tree
-
-			// Used for targeting. This should match the id of the targeted token
-			// If generic token mode is disabled for the target the tokenId is set to ""
-			// Should never be modified on owned tokens, only targeted tokens. The targeting code handles setting this value
-			// id: "", Removed since all itemNodes have a built in id property
-
-			// Used for  When generic token mode is enabled, selection equals the current token id. Otherwise it should be set to ""
-			// Should be used for both owned tokens and targeted tokens
-			selection: "",
-			// This can be edited, which overrides the character's global variables, but not their local variables
-			// TODO: Make sure to delete let from tokens
-
-			// When generic token mode is enabled each token gets added to access.token as access.token[tokenID]
-			//  When changing token selection, set access.token.selection = newID, and access.currentID = access.token[newID]
-			//  This should overwrite everything in access with access.token[newID], except access.token
-			//  Afterwards, use output() and add all the values to outputValues
-			//   This does not work for items that only exist on certain tokens. These will be added when changing to the token, but will not be deleted when selecting another token
-			//   This also does not work for ailments that only exist on certain tokens for the same reasons
-			// access.token[tokenID] instances as a deep copy of access[charID], except access[charID].token which is ignored
-			// When disabling generic token mode, delete all props of access.token except id and selection
-			// When using Update, run the function on all entries in access.token instead of on access[charID]
-			//  Afterwards, do access.currentID = access.token[tokenID] + output() to sync all changes from the current token to the sheet 
-
-			// Make it so access.token works exactly like access, except:
-			//  access.token.prop equals access[charID].token[tokenID].prop
-			//  access.token[tokenID].token is deleted
-
-			// access.output() should either ignore token data, or generate repeating attributes for the token bar
-		},
-		tags: {
-			// Has only repeating data. Is not sorted
-			// Is synced to the tags of a character's currently equipped items
-			// Updates whenever a tag is added or removed in the item editor
-			// AutoEffects can give tags:
-			// - Maybe add a Update tags trigger for this that let users run code whenever tags are recalculated
-			//   - Although in practice this is just [#Equipped, Unequipped, ... #], so it's probably not needed
-			// - Removing tags during an action does not hinder that action from executing, but it may hinder other actions from executing afterwards
-			//   - If you want to hinder an action, remove tags when an item is equipped or unequipped (see above)
-		},
-		local: {
-			// Props used in autoScriptMain()
-			scaling: 0,
-			checkresult: "success",
-			event: false, // Is set to an event object when executing AutoEffects added by a trigger block
-			// Is an actual object and not a dataNode. Users can modify it as they see fit
-			// As with scaling and checkresult, this is set to false when using (Reset #Hard)
-
-			// Other AutoScript stuff you may want to add:
-			// - Stuff in relation to triggers, ex. round number
-			//   - This won't let users add triggers, but they can check if a trigger is currently in effect
-
-			// User defined local variables. Reset at the start of AutoEffectMain()
-			// - Do this using "access.let = new itemNode({dataFormats.base.let, dataFormats.valid.let}));"
-			// Accessed using access.variable, not access.let.variable. If both let and var exist, let takes priority. You may need a proxy for this
-			// The order of priority is specifically: 1 - id, 2 - items/ailments/etc, 3 - local variable, 4 - global variable
-			// Due to this, user defined variables like "let" and "items" can never be accessed. An error message should be posted when this is attempted
-		},
-		global: {
-			// User defined global variable. Creates an attribute in the attribute tab of the sheet
-			// - Also adds the attribute name to a list of names, which are used to retrieve the attributes when refreshing the sheet
-			// - Tokens have seperate global variables to allow ex. tracking effect countdowns (think TheBlackSilence) seperately for each token
-			//   - To implement this, token vars will have to be tracked seperately in the attribute tab
-			//   - This should not be needed for local vars, which are preserved when changing tokens
-			// - Targets also have seperate variables, which can be useful in some circumstances. They're accessed using access.target.let/var.someVar
-		},
-	},
-
-	// Includes functions for validating input values
-	// Validators for repeating data are found in repDataFormats
-	valid: {
-		type: (s) => is.String(s) && is(s.toLowerCase()).In(["character", "target", "token"]),
-		items: {
-			repeating: repDataFormats.item.valid,
-			editor: {
-				target: (v) => is.False(v) || is.ID(v),
-				location: (s) => is(s).In("Left", "Center", "Right"),
-			},
-		},
-		ailments: {
-			repeating: repDataFormats.ailment.valid,
-		},
-		rolls: {
-			repeating: rollDataFormat.valid,
-			store: { repeating: rollDataFormat.valid },
-			whisper: (s) => is.String(s),
-			difficulty: (i) => is.Int(i),
-			adv: (i) => is.Int(i, {min: 0}),
-			disadv: (i) => is.Int(i, {min: 0}),
-		},
-		chat: {
-			buttons: {
-				repeating: {}, // Chat buttons have their own formats
-			},
-			message: (s) => is.String(s, {newlines: true}),
-		},
-		settings: {
-			sheet: {
-				_default: (b) => is.Bool(b),
-			},
-			game: {
-				// Differs based on the setting (integers, floats, strings and booleans)
-				// These are currently repeating values, but should be converted to standard sheet values
-			},
-		},
-		bars: {
-			_default: (i) => is.Int(i),
-		},
-		speed: {
-			_default: (i) => is.Int(i),
-		},
-		state: {
-			stagger_duration: (i) => is.Int(i, {min: 0}),
-			stagger_duration_max: (i) => is.Int(i, {min: 1}),
-			_default: (b) => is.Bool(b),
-		},
-		resource: {
-			_default: (i) => is.Int(i, {min: 0}),
-		},
-		character: {
-			name: (s) => is.String(s),
-			_default: (i) => is.Int(i),
-			occupation: (s) => is.String(s), // Does not allow newlines
-			age: (s) => is.String(s),
-			height: (s) => is.String(s),
-			birthplace: (s) => is.String(s),
-			residence: (s) => is.String(s),
-			assets: (s) => is.String(s),
-			ahn: (s) => is.String(s),
-			url: (s) => is.String(s),
-			summary: (s) => is.String(s, {newlines: true}), // Allows newlines
-			combat_notes: (s) => is.String(s, {newlines: true}),
-			notes: (s) => is.String(s, {newlines: true}),
-			description: (s) => is.String(s, {newlines: true}),
-			personality: (s) => is.String(s, {newlines: true}),
-			background: (s) => is.String(s, {newlines: true}),
-		},
-		target: (v) => is.False(v) || v instanceof dataNode, 
-		token: {
-			id: (s) => s == "" || is.ID(s),
-			selection: (s) => s == "" || is.ID(s),
-			_default: (v) => v instanceof dataNode,
-		},
-		tags: {
-			_default: (i) => is.Int(i), // Allows negative values, so you can for example have items with -99 Burn that disable all Burn skills
-		},
-		local: {
-			scaling: (i) => is.Int(i, {min: 0}),
-			checkresult: (s) => is(s).In("success", "last success", "failure", "no target"), // Needs translations?
-			event: (o) => is.Object(o),
-		},
-		global: {},
-	},
-
-	attrs: {
-		ignore: {prop: ["type"]},
-		items: {
-			repeating: repDataFormats.item.attrs,
-			editor: {
-				prefix: "itemEditor",
-			},
-		},
-		ailments: {
-			repeating: repDataFormats.ailment.attrs,
-		},
-		rolls: {
-			repeating: {}, // Generic rolls have no associated attributes in the sheet
-			store: {
-				repeating: {
-					attrs: {
-						// Currently not implemented
-					},
-					source: {
-						sheet: {
-							type: "id",
-							section: "storedrolls",
-						},
-					},
-					export: {alias: "storedRolls"},
-				},
-			},
-		},
-		chat: {
-			buttons: {
-				repeating: {}, // Chat buttons have their own formats
-			},
-		},
-		settings: {
-			sheet: {},
-			game: {},
-		},
-		bars: {
-			ignore: {prop: ["-hp", "-st", "-sp", "-light"]},
-		},
-		speed: {
-			suffix: "_speed",
-			ignore: {suffix: ["stagger_duration", "stagger_duration_max"]},
-		},
-		state: {
-			suffix: "State", // Does not work with staggered (attr is "staggerState") and staggerDuration (not State suffix)
-		},
-		resource: {
-			// Believe this has a consistent prefix
-		},
-		character: {
-			prefix: "character_", // TODO: Modify all personalia to have the format character_key
-			ignore: {prefix: ["fortitude", "prudence", "justice", "charm", "insight", "temperance"]},
-		},
-		target: {}, 
-		token: {
-			prefix: "token",
-			// You may be able to make this link up right with the token data
-		},
-		tags: {},
-		local: false,
-		global: false,
-	},
-
-	source: {
-		sheet: {prefix: ""},
-	},
-}
-
-
-
-
-
-
-
-on("clicked:testA", async function(info) {
-	console.log("Clicked button A");
-
-	access._begin("update", function() {
-		access.items[1].equip.equipped = !is.True(access.items[1].equip.equipped);
-
-		console.log(access[getActiveCharacterId()]);
-	});
-});
-
-on("clicked:testB", function(info) {
-	console.log("Clicked button B");
-
-	custom.color.apply(`[name="attr_itemEditCustomDecoColor"]`, "#32a852", "text");
-
-	// custom.position.apply(".repeating_outfits + div .repitem:first-child()", 200, 200);
-});
-
-on("clicked:testC", function(info) {
-	console.log("Clicked button C");
-
-	clearHexColor(".skillhide");
-});
-
-
-
-
-
-class dataNode {
-	#getImmutable = false;
-	#output = {}
-
-	#parent;			// The parent node of this node, if any
-	#valid = {}; 		// List of attribute value validators for the node
-	#formats;			// The raw formats used to construct this node
-
-	constructor(formats=dataFormat, id=false, parent=false, path=[]) {
-		Object.defineProperties(this, {
-			attrs: {writable: true, value: {}},			// List of attribute name formats for the node
-			enabled: {writable: true, value: true}, 	// If a subnode and its properties are enabled. Used primarily for toggling item options
-			id: {value: id}, 					   		// The repeating id associated with the node, if any
-			path: {value: path},						// The access path leading to this node
-		});
-
-		this.#formats = formats;
-		this.#parent = parent;
-
-		// Construct a node from a pre-existing node. Used in filter()
-		if (formats.node) {
-			return Object.defineProperties(this, Object.fromEntries(Object.entries(Object.getOwnPropertyDescriptors(formats.node))
-				.filter(([prop, value]) => !value.enumerable || value.value instanceof dataNode && (!formats.filter || formats.filter.includes(prop)))));
-		}
-
-		// Get the sources of the data, and any source-specific attribute name data
-		for (const source of Object.keys(formats.source)) {
-			Object.defineProperty(this.attrs, source, {
-				writable: true, value: formats.source[source]
-			});
-		};
-
-		// For item nodes, only enable nodes in that type of item's default format
-		if (formats.source.editor && !formats.default) {
-			this.enabled = false;
-		}
-
-		// Allows writing "node.immutable.prop" to get the current non-output value
-		Object.defineProperty(this, "immutable", {
-			get() {
-				this.#getImmutable = true;
-				return this;
-			}
-		});
-
-		// Constructs the node and any subnodes
-		for (const [prop, value] of Object.entries(formats.base)) {
-
-			// Configures the format of repeating nodes generated by this node using add()
-			if (prop == "repeating") {
-				Object.defineProperty(this, "rep", {
-					value: {
-						base: value,
-						valid: formats.valid.repeating || false,
-						attrs: formats.attrs.repeating.attrs || false,
-						source: formats.attrs.repeating.source || false,
-						export: formats.attrs.repeating.export || false,
-						defaults: formats.attrs.repeating.defaults || false,
-					},
-				});
-				if (formats.default?.repeating) {
-					for (let i = 1; i <= formats.default.repeating.length; i++) {
-						this.add({id: this.id || generateRowID(), index: i, section: this.#formats.source.sheet.section});
-					}
-				}
-			}
-
-			// Get any subnodes of the node
-			else if (is.Object(value)) {
-				this[`_${prop}`] = new dataNode({
-					base: value,
-					default: formats.default?.[prop] || false,
-					valid: formats.valid?.[prop] || false,
-					attrs: formats.attrs?.[prop] || false,
-					source: formats.source[prop] || formats.source || false,
-				}, this.id, this, [...this.path, prop]);
-			}
-
-			// Get any properties of the node
-			else {
-				if (formats.default && prop in formats.default) {
-					this[`_${prop}`] = formats.default[prop];
-				} else {
-					this[`_${prop}`] = value;
-				}
-			}
-
-			// Set up accessors for subnodes and properties
-			if (prop != "repeating") {
-				Object.defineProperty(this, prop, {
-					get() {
-						if (this[`_${prop}`] instanceof dataNode) {
-							return this[`_${prop}`];
-						}
-						if (this.#getImmutable) {
-							this.#getImmutable = false;
-							return this[`_${prop}`];
-						}
-						return (this.#output[`_${prop}`] !== undefined) ? this.#output[`_${prop}`] : this[`_${prop}`];
-					},
-					set(v) {
-						this.modify(`_${prop}`, v);
-					},
-				});
-
-				// Get any property-specific attribute name data (ex. for options)
-				if (formats.attrs) {
-					let ignore = formats.attrs.ignore;
-
-					if (this[prop] instanceof dataNode) { // Only subnodes which are options have associated attributes
-						if (formats.attrs[prop]?.option) {
-							this.attrs[prop] = "option" + formats.attrs[prop].option.toLowerCase();
-						}
-					}
-					else if (!(ignore && is(prop).In(ignore.prop))) {
-						let prefix = !(ignore && ignore.prefix?.includes(prop)) ? formats.attrs.prefix || "" : "";
-						let suffix = !(ignore && ignore.suffix?.includes(prop)) ? formats.attrs.suffix || "" : "";
-						let key = prop;
-						
-						if (formats.attrs.case == "snake" && prop.indexOf("_") > -1) {
-							key = camelize(key);
-						}
-
-						let attr = prefix + key + suffix;
-						this.attrs[prop] = attr.toLowerCase();
-					}
-				}
-			}
-
-			// Get any attribute value validation data
-			if (formats.valid) {
-				if (this[prop] instanceof dataNode) {
-					this.#valid[`_${prop}`] = (b) => is.Bool(b);
-				}
-				else if (formats.valid[prop] && typeof formats.valid[prop] == "function") {
-					this.#valid[`_${prop}`] = formats.valid[prop];
-				} 
-				else if (formats.valid._default) {
-					this.#valid[`_${prop}`] = formats.valid._default;
-				}
-				else if (!(prop in formats.valid) && prop != "repeating") {
-					console.warn(`itemNode - valid format: property "${prop}" is not in the format`, formats.valid);
-				}
-			}
-		}
-		return this;
-	}
-
-
-	// Assign input attribute values from the sheet and/or editor to the item
-	input(values, opts={}) {
-		return this.access(values, false, opts);
-	}
-
-	// Generates and outputs a list of attribute values for the sheet and editor
-	// Editor data is only generated for the item currently open in the item editor
-	output(output=false, opts={}) {
-		return this.access(false, output, opts);
-	}
-
-	// As output(), but applies all output values in access
-	// Returns the applied values
-	apply(output=false, opts={}) {
-		return this.access(false, output, {apply:true, ...opts});
-	}
-
-	// Generates and returns an array of attribute keys for both the editor and sheet
-	// If an event is provided the keys are returned in the event key format
-	attrkeys(opts={}) {
-		opts = {allProps:true, unsorted:true, ...opts}
-		let attrs = this.access(false, false, opts);
-		return (opts.unsorted) ? Object.keys(attrs) : {editor: Object.keys(attrs.editor), sheet: Object.keys(attrs.sheet)}
-	}
-
-
-	// Helper method for accessing all properties and subnodes of a node
-	// Used by input(), output(), import(), export() and attrkeys()
-	access(values, output, opts={allProps:false, event:false, unsorted:false, apply:false}) {
-		if (!output) output = {editor:{}, sheet:{}}
-
-		if (!values || Object.values(values).some(source => length(source) > 0)) {
-			for (const prop of this.keys) {
-				for (const source of Object.keys(output)) {
-
-					// Ignore sources with no attributes or with no open editor
-					if (source == "editor" && !opts.event && access[this.path[0]].items.editor.target != this.id) continue;
-					if (!this.attrs[source]) continue;
-
-					// Get the attribute name of the property in the current source
-					let propAttr = this.attr(prop, source, opts);
-					if (!propAttr) continue;
-
-					// Handle applying values
-					if (opts.apply && prop in this.#output) {
-						if (this[prop] instanceof dataNode) {
-							this[prop].enabled = this.#output[prop];
-						} else {
-							this[prop] = this.#output[prop];
-						}
-					}
-
-					// Handle inputting values
-					if (values && values[source] && propAttr in values[source]) {
-						this.modify(prop, values[source][propAttr], {...opts, source: source});
-						delete values[source][propAttr];
-					}
-
-					// Handle outputting values
-					else if (!opts.apply || prop in this.#output || opts.allProps) {
-						if (this[prop] instanceof dataNode) {
-							output[source][propAttr] = (this[prop].enabled) ? "true" : "0";
-						} else {
-							let value = this[prop];
-							if (value === true) value = "true";
-							if (value === false) value = "0";
-							output[source][propAttr] = value;
-						}
-					}
-				}
-
-				// Clear any applied output values
-				if (opts.apply) {
-					delete this.#output[prop];
-				}
-				
-				// Recursively access any sub-nodes
-				if (this[prop] instanceof dataNode) {
-					this[prop].access(values, output, opts);
-				}
-			}
-			return (opts.unsorted) ? {...output.editor, ...output.sheet} : output;
-		}
-	}
-
-	// Returns the attribute name of a property in either the sheet or editor
-	// If an event type is provided the attribute is returned in the event key format
-	attr(prop, source, opts={event:false}) {
-		if (prop[0] == "_") prop = snakeify(prop);
-
-		if (prop in this.attrs) {
-			let index = (this.attrs[source]?.type == "index") ? this.index						// Repeating node
-					  : (this.rep?.source[source]?.type == "index") ? this[prop].index : ""; 	// Nested repeating root
-			let prefix = this.attrs[source]?.prefix || "";
-			let suffix = this.attrs[source]?.suffix || "";
-			let key = this.attrs[prop];
-			
-			let section = (this.attrs[source]?.section) ? this.attrs[source].section : false;
-
-			if (section) {
-				let id = (source == "editor") ? this.path.findLast(step => is.ID(step)) : this.id;
-
-				if (opts.event) {
-					return false; // Repeating section events are easy enough to add manually
-				} else {
-					prefix = `repeating_${section}_${id}_${prefix}`;
-				}
-			} else if (opts.event) {
-				prefix = `${opts.event}:${prefix}`;
-			}
-
-			let attr = prefix + key + suffix + index;
-			return attr.toLowerCase();
-		} else {
-			return false;
-		}
-	}
-
-
-	// Modifies a property of the node
-	// If a validator format was provided at node creation only valid values are accepted
-	// Adds any changes to access._output. The changes are applied to the sheet/editor when the access ends
-	modify(prop, newValue, opts={source:false}) {
-		let oldValue = this[prop];
-		if (newValue === undefined) newValue = "";
-		
-		//console.log(`(${opts.source || "Code"}) ${prop} ${this[prop]} -> ${newValue}`);
-		if (oldValue !== undefined) {
-
-			if (prop in this.#valid && !this.#valid[prop](newValue)) {
-				console.warn(`Attempted to set the value of ${prop} to invalid value ${newValue}`, this);
-			}
-			else if (oldValue != newValue) {
-				//console.log(`(${opts.source || "Code"}) Modifying ${prop} from "${this[prop]}" to "${newValue}"`);
-
-				// Makes sure enabled is set to a boolean value and not ex. "0"
-				if (this[prop] instanceof dataNode || this.#valid[prop].toString().includes("is.Bool")) {
-					this.#output[prop] = is.True(newValue);
-				} else {
-					this.#output[prop] = newValue;
-				}
-
-				// Trigger a new modify event
-				access._event.trigger([...this.path, "modify", snakeify(prop)], {
-					node:this, type:"modify", source:opts.source, oldval:oldValue, newval:newValue,  // Event info
-				}, opts);
-			}
-		} else {
-			console.warn(`Attempted to set the value of ${prop} but the property does not exist`, this);
-		}
-	}
-
-
-	// Adds a new repeating subnode to the item
-	// Adds accessors for the id, index and name (if applicable) of the subnode
-	add(opts={}) {
-		if (this.rep) {
-			let newID = opts.id || this.id; // AutoEffects can only access props in lowercaps
-			let newProp = newID;
-			let newIndex = opts.index || this.repCount + 1;
-			let repSource = {}
-			
-			for (const source of Object.keys(this.rep.source)) {
-				repSource[source] = {...this.rep.source[source]};
-				
-				// If a node is linked to multiple repeating sections, opts.section specifies which should be used
-				// For nested repeating roots, use the root's own section
-				if (is.Array(repSource[source].section)) {
-					repSource[source].section = this.attrs?.[source].section || opts.section;
-				}
-
-				// Nested repeating nodes are given a random id
-				if (this.rep.source?.[source]?.type == "index") {
-					newProp = generateRowID().toLowerCase();
-				}
-			}
-			
-			this[newProp] = new dataNode({
-				base: this.rep.base,
-				default: (opts.default !== false) ? this.rep.defaults?.[opts.section] || this.#formats.default?.repeating?.[newIndex-1] || false : false,
-				valid: this.rep.valid || false,
-				attrs: this.rep.attrs || false,
-				source: repSource,
-			}, newID, this, [...this.path, newProp]);
-
-			this.#addAccessors(this[newProp], newIndex);
-
-			// Output all attributes from the new node
-			this[newProp].output(access._output, {allProps:true});
-
-			if (this.rep.attrs.option) {
-				this.attrs[newProp] = "option" + this.rep.attrs.option;
-				access._output.sheet[this.attr(newProp, "sheet")] = "true";
-			}
-
-			// Trigger a new add event
-			access._event.trigger([...this.path, "add"], {
-				node:this, type:"add", oldval:false, newval:this[newProp],
-			}, opts);
-
-			return this[newProp];
-		}
-	}
-	#addAccessors(node, index) {
-		Object.defineProperties(this, {
-			[index]: {
-				get() {
-					return this[this.repIDs[index - 1]];
-				},
-				configurable: true,
-			},
-			[-index]: {
-				get() {
-					return this[this.repIDs.at(-index)];
-				},
-				configurable: true,
-			},
-		});
-	}
-	
-	// Deletes a repeating subnode with a specific id
-	delete(id) {
-		if (this.rep && id in this) {
-			let node = this[id];
-
-			// Remove all repeating items associated with the deleted node
-			if (node.attrs.sheet?.section) {
-				removeRepeatingRow(`repeating_${node.attrs.sheet.section}_${id}`);
-			}
-			if (node.attrs.editor?.section) {
-				removeRepeatingRow(`repeating_${node.attrs.editor.section}_${node.path.findLast(step => is.ID(step))}`);
-			}
-
-			this.#deleteAccessors(node, this.repCount);
-			delete this[id];
-
-			// Trigger a new delete event
-			access._event.trigger([...this.path, "delete"], {
-				node:this, type:"delete", oldval:node, newval:false,
-			});
-		}
-	}
-	#deleteAccessors(node, index) {
-		if (node._name) {
-			delete this[snakeify(node._name)];
-		}
-		delete this[index];
-		delete this[-index];
-	}
-
-
-	// Returns the node's repeating index
-	get index() {
-		if (!this.id) {
-			return false;
-		} else {
-			let repid = this.path.findLast(step => is.ID(step));
-			let parent = this.#parent;
-			while (!parent[repid]) parent = parent.parent;
-			return parent.repIDs.indexOf(repid) + 1;
-		}
-	}
-
-
-	// Get the node's parent node
-	get parent() {
-		return this.#parent;
-	}
-
-
-	// Custom Object.keys/values/entries that use #output values if they exist
-	get keys() {
-		return Object.keys(this);
-	}
-	get values() {
-		return this.keys.map(prop => this[snakeify(prop)]);
-	}
-	get entries() {
-		return this.keys.map(prop => [prop, this[snakeify(prop)]]);
-	}
-
-
-	// Gets the repeating ids/subnodes of this node, or the amount of these nodes
-	get repIDs() {
-		return this.keys.filter(p => is.ID(p));
-	}
-	get repNodes() {
-		return this.repIDs.map(id => this[id]);
-	}
-	get repCount() {
-		return this.repIDs.length
-	}
-
-
-	// Creates a deep copy of this node
-	clone() {
-		return new dataNode(this.#formats, this.id, this, this.path).paste(this.copy());
-	}
-
-	// Copies and returns the data of this node
-	// The data can be pasted into any dataNode to override its data
-	copy() {
-		let fixEnabled = (node, copy) => {
-			copy.enabled = node.enabled;
-			for (const prop in node) {
-				if (node[prop] instanceof dataNode) {
-					fixEnabled(node[prop], copy[prop]);
-				}
-			}
-			return copy;
-		}
-		return fixEnabled(this, structuredClone(this));
-	}
-	paste(data) {
-		for (const prop in {...this, ...data}) {
-			
-			// Override repeating data
-			if (prop in data && !(prop in this)) {
-				this.add({id: prop});
-			}
-			else if (prop in this && !(prop in data)) {
-				this.delete(prop);
-			}
-
-			// Override standard data
-			if (is.Object(this[prop])) {
-				this[prop].paste(data[prop]);
-			}
-			else if (data[prop]) {
-				this[prop] = data[prop];
-			}
-		}
-		return this;
-	}
-
-	// Returns a filtered copy of the node which only includes subnodes that match a predicate
-	filter(predicate) {
-		return new dataNode({
-			node: this,
-			filter:	this.keys.filter(prop => this[prop] instanceof dataNode && predicate(this[prop])),
-		}, this.id, this.#parent, this.path);
-	}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Takes in an item and updates its AutoEffect events
-function updateEventsAE(item) {
-
-
-	
-
-	// TODO: Extract all trigger blocks from item.autoscript into an array of path(s) and autoeffect execution data
-	// The output data should look something like this
-	let triggerArray = [
-		{path: ["some", "path"], effects: ["array", "of", "execution", "data"]},
-		{path: ["some", "other", "path"], effects: ["other", "execution", "data"]},
-		// For trigger blocks with multiple triggers, add multiple events with different paths but the same effects 
-	]
-
-	for (const trigger of triggerArray) {
-
-		// The final events should look something like this:
-		onAccess(trigger.path, {custom:true}, (info) => {
-			if (item.equip.equipped != "") { // Note this references the node the effect originates from, not info.node
-				
-				AE.execute(effects); // This imagined autoScriptMain() as a new object similar to access that is interacted with though methods 
-
-				// TODO: Make this add the AutoEffects to the current AutoScript execution
-				// If no execution is currently taking place, begin a new one
-				// Include a parameter that indicated this execution is not part of another action, and should send a differently styled message
-			}
-		});
-
-	}
-}
-
-
-onAccess(["items", "N", "modify", "autoscript"], {}, (info) => {
-	access._event.recalc(info.node.id);
-});
 
 
 
@@ -20020,7 +20584,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		barDamageList: {"-HP":HP_max-HP, "-ST":ST_max-ST, "-SP":SP_max-SP, "-Light":Light_max-Light},
 		speedList: {"baseSpeed":baseSpeed, "thisRoundSpeed":thisRoundSpeed, "nextRoundSpeed":nextRoundSpeed},
 		resourceList: {"Action":action, "Reaction":reaction, "Counter":counter, "Block":block, "Evade":evade, "Light_Regen":light_regen},
-		resourceMaxList: {"Action_max":action_max, "Reaction_max":reaction_max, "Counter_max":counter_max, "Block_max":block_max, "Evade_max":evade_max, "Light_Regen_max":light_regen_max},
+		trackerMaxList: {"Action_max":action_max, "Reaction_max":reaction_max, "Counter_max":counter_max, "Block_max":block_max, "Evade_max":evade_max, "Light_Regen_max":light_regen_max},
 	}
 
 	let THP_Sources = (values.THP_Sources != "" && values.THP_Sources != "{}") ? JSON.parse(values.THP_Sources) : "";
@@ -20037,7 +20601,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 	/* Output storage */
 	let output = {													// Stores all attribute values to be set by autoScriptMain
 		...valueLists.resourceList,
-		...valueLists.resourceMaxList
+		...valueLists.trackerMaxList
 	}
 	
 	let returnValues = { checkResult:"success", message:"" }		// Stores all modifiers and chat buttons that are returned to the calling function
@@ -20077,7 +20641,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 
 	/* Add legacy values to aeVars */
 	Object.assign(aeVars, {
-		...valueLists.barList, ...valueLists.barMaxList, ...valueLists.barDamageList, ...valueLists.resourceList, ...valueLists.resourceMaxList,
+		...valueLists.barList, ...valueLists.barMaxList, ...valueLists.barDamageList, ...valueLists.resourceList, ...valueLists.trackerMaxList,
 		...Object.entries({...valueLists.targetBarList, ...valueLists.targetBarMaxList, ...valueLists.targetBarDamageList})
 			.reduce((acc, attr) => { return {...acc, [attr[0].replace(/([^-])/, "target$1")]:attr[1]} }, {}),
 		...Object.entries(valueLists.ailmentList)
@@ -23025,6 +23589,201 @@ function getConOptionFromTranslation(inputOption, errorString="") {
 /* Other helper functions */
 
 /* --- Math functionality --- */
+
+// Duplicate math operators for testing
+const newOperators = {
+	"+": {min: 2, max: 2, calc: (a,b) => a+b},
+	"-": {min: 2, max: 2, calc: (a,b) => a-b},
+	"*": {min: 2, max: 2, calc: (a,b) => a*b},
+	"/": {min: 2, max: 2, calc: (a,b) => a/b},
+	"%": {min: 2, max: 2, calc: (a,b) => a%b},
+	"**": {min: 2, max: 2, calc: (a,b) => a**b},
+	"<=": {min: 2, max: 2, calc: (a,b) => +(a<=b)},
+	">=": {min: 2, max: 2, calc: (a,b) => +(a>=b)},
+	"<": {min: 2, max: 2, calc: (a,b) => +(a<b)},
+	">": {min: 2, max: 2, calc: (a,b) => +(a>b)},
+	"==": {min: 2, max: 2, calc: (a,b) => +(a==b)},
+	"!=": {min: 2, max: 2, calc: (a,b) => +(a!=b)},
+	"||": {min: 2, max: 2, calc: (a,b) => +!!(a||b)},
+	"&&": {min: 2, max: 2, calc: (a,b) => +!!(a&&b)},
+	"||=": {min: 2, max: 2, calc: (a,b) => +(a||b)},
+	"&&=": {min: 2, max: 2, calc: (a,b) => +(a&&b)},
+	"!": {min: 1, max: 1, calc: (a) => !a, func:true},
+	"Min": {min: 2, max:"any", calc: (...args) => Math.min.apply(null, args), func:true},
+	"Max": {min: 2, max:"any", calc: (...args) => Math.max.apply(null, args), func:true},
+	"Floor": {min: 1, max: 1, calc: (a) => Math.floor(a), func:true},
+	"Ceil": {min: 1, max: 1, calc: (a) => Math.ceil(a), func:true},
+};
+
+
+
+
+
+// Regular expressions used for parsing math strings
+// Matches in the order they're written here
+const mathRegExpList = {
+	space: /\s+/, 										// 1: Space characters
+	string: /"[^"]*"|'[^']*'/, 							// 2: Quotes (string values)
+	operand: new RegExp(Object.keys(newOperators)		// 3: Operators
+		.filter(o => !newOperators[o].func)
+		.join("|")
+		.replace(/([\+\*\/])/g, "\\$1")
+		.replace(/(\|\|)/g, "\\|\\|")),
+	func: new RegExp(Object.keys(newOperators)			// 4: Functions
+		.filter(o => newOperators[o].func)
+		.map(o => o + "(?=\\()")
+		.join("|")),
+	nest_begin: /\(|\[/,								// 5: Begin nesting
+	nest_end: /\)|\]/,									// 6: End nesting
+	number: /\d+[\.,]\d+|\d+/,							// 7: Numbers (integer/float values)
+	step: /[\w\d]+/,									// 8: Variables (path steps)
+	dot: /\./,											// 9: Dots (path dividers)
+	comma: /,/, 										// 10: Commas (value seperators)
+}
+
+const mathRegExp = new RegExp(`(?:${Object.values(mathRegExpList).map(re => `(${re.source})`).join("|")})`, "g");
+
+var mathNesting = [];
+var prevIndex = 0;
+var newIndex = 0;
+
+function newMathParser(mathString, opts={}) {
+	let values = []
+	let ops = []
+	let path = []
+
+	let prevChars = []
+	let prevTypes = []
+	let chars = "";
+	let type = "";
+	let match = []
+
+	if (!opts.nested) {
+		mathNesting = []
+		prevIndex = 0;
+		newIndex = 0;
+		console.log(`Parsing math string:\n${mathString}`);
+	}
+	let nestValues = []
+
+	//access._begin("math", () => {
+		while (match = mathRegExp.exec(mathString)) {
+			
+			// Get the type and value of the next math operation
+			let i = match.findLastIndex((m) => m != undefined);
+			if (i > 0) {
+				prevChars.push(chars = match[i]);
+				prevTypes.push(type = Object.keys(mathRegExpList)[i-1]);
+			} else {
+				console.log("Math - Throw error. Cannot parse remaining math string"); return;
+			}
+
+			
+			// Validate the operation index
+			newIndex += chars.length;
+			prevIndex = match.index;
+
+			if (newIndex > mathString.length) break;
+			
+			// Checks that no characters remain unused at the start of the string
+			if (prevIndex + chars.length != newIndex) {
+				console.log("Math - Throw error. Unknown symbol"); return;
+			}
+	
+			// Add values from access paths
+			if (type == "step") path.push(snakeify(chars));
+			if (path.length > 1) {
+				if ((is(type).In("step", "dot", "nest_begin")) && newIndex != mathString.length) {
+					if (type == "step" && !is(prevTypes.at(-2)).In("dot", "nest_begin")) {
+						console.log("Math - Throw error: Malformed path - unexpected path step"); return;
+					}
+					else if (type == "dot" && !is(prevTypes.at(-2)).In("step", "nest_begin")) {
+						console.log("Math - Throw error: Malformed path - unexpected '.' character"); return;
+					}
+				} else {
+					let result = navPath(path, {userPath:true});
+					console.log("Path", pathArrayToString(path), "returned value", Number(result) || result);
+					
+					if (result == null) {
+						console.log("Math - Throw error: Path does not exist", pathArrayToString(path)); return;
+					}
+					values.push(Number(result) || result);
+					path = []
+				}
+			}
+
+			// Add new values, operators and functions
+			if (type == "number") values.push(Number(chars));
+			if (type == "string") values.push(chars.slice(1, -1));
+			if (is(type).In("operand", "func")) ops.push(newOperators[chars]);
+
+			// Handle nesting
+			if (type == "nest_end") {
+				let nestBracket = mathNesting.pop();
+
+				if ((nestBracket == "(") ? chars != ")" : chars != "]") {
+					console.log("Math - Throw error: Unexpected bracket", chars); return;
+				}
+				break;
+			}
+			if (type == "nest_begin") {
+				mathNesting.push(chars);
+
+				let result = newMathParser(mathString, {nested:true});
+
+				if (result === undefined) return; // Error has already been printed inside the nested parser
+
+				if (chars == "(") {
+					values = values.concat(result); // New values
+				} else {
+					if (path.length) {
+						path = path.concat(result); // New path step, or array of steps
+					} else {
+						values.push(result); // New array value
+					}
+				}
+			}
+
+			// Execute operators and functions
+			let op = ops.at(-1);
+
+			if (type != "func" && op && op.func && op.min > values.length) {
+				console.log("Math - Throw error: Not enough values provided for function");
+			}
+			else if (ops.length && op.min <= values.length) {
+				let vals = values.splice(-Math.min(op.max, values.length));
+				
+				values.push(ops.pop().calc.apply(op, vals));
+				console.log("Math: Executing", Object.keys(newOperators).find(key => newOperators[key] == op), vals, "=", values[0]);
+			}
+
+			// Handle value seperators
+			if (type == "comma") {
+				if (!opts.nested || values.length != 1) {
+					console.log("Math - Throw error: Unexpected comma"); return;
+				}
+				nestValues.push(values[0]);
+				values = [];
+			}
+		}
+
+		// Validate generated math value(s)
+		if (values.length == 0) { console.log("Math - Throw error: Math string returned no values"); return; }
+		if (values.length > 1) { console.log("Math - Throw error: Unused values in math string", values); return; }
+		if (ops.length > 0) { console.log("Math - Throw error: Unused operators in math string", ops); return; }
+
+		return (opts.nested) ? nestValues.concat(values) : values[0];
+	//});
+}
+
+
+
+
+
+
+
+/* Math functionality - OLD */
+
 const operators = {
 	"+": {min: 2, max: 2, calc: (a,b) => a+b},
 	"-": {min: 2, max: 2, calc: (a,b) => a-b},
@@ -23348,8 +24107,8 @@ function modifyProp(object, property, value, mode="+", mod={addValue:undefined, 
 // Characters a and b are not included in the result unless the include argument is set to true
 function splitIgnoreBetween(string, seperator, a, b, includeChars=false, allowNesting=false) {
 	if (!b) b = a;
-	let formatInner = (allowNesting) ? ".*?" : `[^${a}${b}]*`;
-	let formatOuter = (includeChars) ? `(\\${a}${formatInner}\\${b})` : `${a}(${formatInner})${b}`;
+	let formatInner = (allowNesting) ? ".*?" : `[^\\${a}\\${b}]*`;
+	let formatOuter = (includeChars) ? `(\\${a}${formatInner}\\${b})` : `\\${a}(${formatInner})\\${b}`;
 	let between = new RegExp(formatOuter, "g");
 
 	let ignoreArray = [];
@@ -23370,6 +24129,12 @@ function deleteMultiple(object, ...args) {
 // Return the length of an object
 function length(object) {
 	return keys = Object.keys(object).length;
+}
+
+// Return the amount of occurences of a substring in a string
+// May also use a regular expression
+function substringCount(substring, string) {
+	return (string.match(new RegExp(substring), "ig") || []).length;
 }
 
 // Works as the range() Python function

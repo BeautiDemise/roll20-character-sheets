@@ -262,7 +262,10 @@ body, .sheet-body {
     color: var(--color-white);
     opacity: 50%;
 }
-:is(textarea, .CharSmallNotes, .CharDetail, .egoIdeologyInput)::placeholder {
+.whiteInput::placeholder {
+    color: var(--color-white) !important;
+}
+:is(textarea, .CharSmallNotes, .CharDetail)::placeholder {
     color: var(--color-darker-gray);
     opacity: 30%;
 }
@@ -623,7 +626,7 @@ input.fade-item { opacity: 80%;  --fade-opacity: 40%; }
 .fade-toggle:checked ~ .fade-item, .fade-toggle-next:checked + .fade-item {
     opacity: var(--fade-opacity);
 }
-.fade-toggle:checked ~ .resourceCurrent {
+.fade-toggle:checked ~ .trackerCurrent {
     color: rgba(255, 255, 255, 0.5);
 }
 
@@ -807,7 +810,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 }
 
 /* Custom repcontrols */
-:is(.inventoryContainer, .itemOptionContainer) {
+:is(.inventoryContainer, .itemOptionContainer, #itemSettings) {
     :is(.repcontrol_edit, .repcontrol_add, .repcontrol_del, .repcontrol_move) {
         min-width: 20px;
         margin: 0;
@@ -828,8 +831,13 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
         background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png');
     }
     .repcontrol_add {
-        background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/heal.png');
         background-size: 90%;
+    }
+    .repcontrol_del {
+        right: 0;
+    }
+    .repcontrol_move {
+        left: 0;
     }
 
     /* A custom add button is used instead of the default one */
@@ -1622,55 +1630,61 @@ button[type=action].challengeButton::before {
 .resourceRow {
     gap: 4px;
 }
-.resourceTracker {
-    width: auto !important;
-    border-radius: 3px;
-    background-color: var(--color-dark-gray);
-}
-.resourceTracker :is(.resourceCurrent, .resourceMax, .resourceBase, .resourceTypeSelector) {
-    background-color: transparent;
-    height: 20px !important;
-    padding: 0;
-    color: white;
-    font-weight: bold;
-    font-size: 12pt;
-    appearance: textfield;
-}
-.resourceTracker .resourceCurrent {
-    float: left;
-    width: calc(40% + 4px) !important;
-    padding-left: calc(5% - 2px) !important;
-}
-.resourceTracker .resourceMax {
-    position: absolute;
-    background-color: var(--resource-color);
-    right: 0;
-    width: calc(55% - 13px) !important;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    text-align: center;
-    color: rgb(0, 0, 0, 0.5);
-}
-.resourceTracker .resourceBase {
-    width: calc(95% - 9px) !important;
-    padding-left: calc(37% - 8px);
-}
-.resourceTypeSelector {
-    width: 20px !important;
-    margin: 0 !important;
-    background-size: 22px;
-    background-position: left;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    padding-right: calc(15% - 6px) !important;
-}
 .resourceButton {
     height: 18px !important;
     width: 18px !important;
     min-width: 18px;
     padding: 0 !important;
 }
-.resourceTracker:has(input[type=radio]:checked)::before {
+.tracker {
+    height: 20px;
+    width: auto !important;
+    border-radius: 3px;
+    background-color: var(--color-dark-gray);
+
+    --tracker-color: var(--color-darker-white);
+    --tracker-icon-offset: 6px;
+    --tracker-current-offset: 2px;
+    --tracker-max-offset: 13px;
+    --tracker-base-offset: 8px;
+}
+.tracker :is(.trackerCurrent, .trackerMax, .trackerBase, .trackerIcon) {
+    background-color: transparent;
+    height: 100% !important;
+    padding: 0;
+    color: white;
+    font-weight: bold;
+    font-size: 12pt;
+    appearance: textfield;
+}
+.tracker .trackerCurrent {
+    float: left;
+    width: calc(40% + 4px) !important;
+    padding-left: calc(5% - var(--tracker-current-offset)) !important;
+}
+.tracker .trackerMax {
+    position: absolute;
+    background-color: var(--tracker-color);
+    right: 0;
+    width: calc(55% - var(--tracker-max-offset)) !important;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    text-align: center;
+    color: rgb(0, 0, 0, 0.5);
+}
+.tracker .trackerBase {
+    width: calc(95% - 9px) !important;
+    padding-left: calc(37% - var(--tracker-base-offset));
+}
+.trackerIcon {
+    margin: 0 !important;
+    background-size: 22px;
+    background-position: left;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    padding-right: calc(15% - var(--tracker-icon-offset)) !important;
+}
+.tracker:has(input[type=radio]:checked)::before {
     content: " ";
     position: absolute;
     top: 0;
@@ -1678,28 +1692,35 @@ button[type=action].challengeButton::before {
     height: 20px;
     width: 100%;
     box-sizing: border-box;
-    border: 1px solid var(--resource-color);
+    border: 1px solid var(--tracker-color);
     border-radius: 3px;
     pointer-events: none;
     z-index: 5;
 }
-#editResourceToggle:checked + div :is(.resourceCurrent, .resourceMax) {
+.trackerEditToggle:checked + div :is(.trackerCurrent, .trackerMax) {
     display: none !important;
 }
-#editResourceToggle:not(:checked) + div .resourceBase {
+.trackerEditToggle:not(:checked) + div .trackerBase {
     display: none !important;
 }
-.resourceTracker:has(.reaction) { --resource-color: var(--color-darker-white); }
-.resourceTracker:has(.egoSpecial) { --resource-color: var(--color-orange); }
-.resourceTracker:has(.egoAtt) { --resource-color: var(--color-red); }
-.resourceTracker:has(.egoDef) { --resource-color: var(--color-blue); }
-.resourceTracker:has(.egoEvd) { --resource-color: var(--color-STGR); }
+.tracker .hide-toggle:not(:checked) ~ label.hide-item {
+    display: none !important;
+}
 
-.resourceContainer:has(.hide-toggle-rev-next[name="attr_settingActionTracker"]:checked) .resourceTracker:has(.light) {
-    width: 265px !important;
-}
-.resourceTracker .hide-toggle:not(:checked) ~ label.hide-item {
-    display: none !important;
+/* Resource specific tracker styling */
+.resourceContainer {
+    .trackerIcon {
+        width: 20px !important;
+    }
+    .tracker:has(.reaction) { --tracker-color: var(--color-darker-white); }
+    .tracker:has(.egoSpecial) { --tracker-color: var(--color-orange); }
+    .tracker:has(.egoAtt) { --tracker-color: var(--color-red); }
+    .tracker:has(.egoDef) { --tracker-color: var(--color-blue); }
+    .tracker:has(.egoEvd) { --tracker-color: var(--color-STGR); }
+
+    &:has(.hide-toggle-rev-next[name="attr_settingActionTracker"]:checked) .tracker:has(.light) {
+        width: 265px !important;
+    }
 }
 
 
@@ -2464,8 +2485,9 @@ button[type=action].challengeButton::before {
 /* Repeating inventory and skills */
 #equipmentSection {
     min-height: 550px;
+    margin-top: 3px;
 }
-:is(#equipmentSection, .inventoryContainer) .repitembroken {
+:is(#equipmentSection, .inventoryContainer, #itemSettings) .repitembroken {
     border: 0 !important; /* Removes the red border around broken repitems */
 }
 .inventoryContainer {
@@ -2497,18 +2519,12 @@ button[type=action].challengeButton::before {
     .repcontrol {
         position: absolute;
         display: flex;
-        z-index: 20;
+        z-index: 25;
         top: 4px;
         right: 36px;
     }
     :is(.repcontrol_edit, .repcontrol_add) {
         background-color: #161616;
-    }
-    .repcontrol_del {
-        right: 0;
-    }
-    .repcontrol_move {
-        left: 0;
     }
 }
 .inventoryControls {
@@ -2519,6 +2535,113 @@ button[type=action].challengeButton::before {
         right: 4px;
     }
 }
+
+/* Inventory tags & equip slots */
+#tagSection {
+    width: calc(100% - 340px);
+    margin-left: 12px;
+    gap: 4px;
+
+    .repcontainer {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+        gap: 4px;
+    }
+
+    /* Tag icons and base values can be edited while editmode is enabled */
+    #itemSettings:has(#hideItemSettings:not(:checked)) & .repcontainer.editmode {
+        .repitem {
+            width: 100%;
+        }
+        .tracker::after {
+            content: " ";
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            top: -7px;
+            right: -7px;
+            transform: rotate(45deg);
+            background-color: var(--tracker-color);
+        }
+        :is(.slotToggle, .tagIcon, .tagName, .tagColor) {
+            display: block !important;
+        }
+        :is(.trackerCurrent, .trackerMax) {
+            display: none !important;
+        }
+    }
+    .repcontainer:not(.editmode) {
+        .trackerBase {
+            display: none !important;
+        }
+
+        /* Hide trackers with no current or base value */
+        .repitem:has(.tagNoCurrent:checked + .tagNoBase:checked) {
+            display: none !important;
+        }
+    }
+    .itemcontrol {
+        width: 0;
+        background-color: transparent;
+    }
+    :is(.repcontrol_del, .repcontrol_move) {
+        box-sizing: border-box;
+        height: auto;
+        margin: 0;
+    }
+    .repcontrol_move {
+        left: -90px;
+    }
+
+    .tagContainer {
+        width: 60px;
+        align-items: center;
+        gap: 2px;
+
+        /* Tracker styling */
+        .tracker {
+            min-width: 60px;
+            height: 25px;
+            overflow: hidden;
+            --tracker-icon-offset: 8px;
+            --tracker-max-offset: 16px;
+            --tracker-base-offset: 16px;
+        }
+        :is(.trackerCurrent, .trackerMax) {
+           pointer-events: none;
+        }
+
+        /* Slot styling */
+        &:has(.slotToggle:checked) {
+            min-width: 80px;
+        }
+        &:has(.slotToggle:not(:checked)) {
+            .tracker {
+                --tracker-current-offset: -2px;
+            }
+            .trackerMax {
+                display: none !important;
+            }
+        }
+
+        /* Tag settings */
+        .tagIcon, .tagName {
+            width: 85px;
+        }
+        .tagColor {
+            width: 62px;
+        }
+        .slotToggle {
+            min-width: 15px;
+            height: 25px !important;
+            margin-right: 2px;
+            accent-color: var(--color-LIGHT) !important;
+        }
+    }
+}
+
 
 /* Item contents */
 .itemContents {
@@ -2532,10 +2655,10 @@ button[type=action].challengeButton::before {
     width: calc(100% + 4px);
     margin-right: -4px;
     user-select: none; /* Disables selection when double clicking the header */
-    z-index: 10;
+    z-index: 20;
 
     :is(.equipCheck, .rank, .itemName) {
-        z-index: 15;
+        z-index: 25;
     }
     .itemName {
         max-width: calc(50% - 60px);
@@ -2555,6 +2678,38 @@ button[type=action].challengeButton::before {
         left: 0px;
         transform: rotate(45deg);
         background-color: var(--content-decoration);
+    }
+}
+
+.itemMessage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.65);
+    z-index: 30;
+    user-select: none;
+
+    span {
+        position: absolute;
+        width: 80%;
+        padding: 5px 10%;
+        margin: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 0;
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--color-LIGHT);
+        background: transparent;
+        text-shadow: 0 2px 12px var(--color-black), 0 2px 20px var(--color-black);
+        pointer-events: none;
+    }
+
+    &:has(~ .itemHeader .equipCheck:checked) {
+        z-index: 15; /* Displays the messages below the header when an item is equipped */
     }
 }
 
@@ -2611,7 +2766,7 @@ button[type=action].challengeButton::before {
     box-sizing: border-box;
     border-bottom-right-radius: 5px;
     background-color: var(--content-color);
-    z-index: 20;
+    z-index: 10;
 
     &:has(input[type="checkbox"]:checked) {
         padding: 0 4px;
@@ -2642,11 +2797,6 @@ button[type=action].challengeButton::before {
     }
 }
 
-.itemTags {
-    width: 100%;
-    border-radius: 0;
-}
-
 .itemRollFormats {
     flex-direction: column;
     align-items: flex-end;
@@ -2654,7 +2804,7 @@ button[type=action].challengeButton::before {
     padding: 0 4px;
     margin-top: -36px;
     border-bottom-left-radius: 5px;
-    z-index: 20;
+    z-index: 25;
 
     .rollFormat {
         justify-content: flex-start;
@@ -2808,13 +2958,12 @@ button[type=action].challengeButton::before {
 
 /* Drag item */
 .repitem.customPosition .itemContainer {
-    box-shadow: 0 0 12px -1px black;
+    box-shadow: 0 0 12px -1px var(--color-black);
     transform: translate(0, -50%);
 }
 
-
-
 /* Inventory Controls */
+#itemSettings:has(#hideItemSettings:checked) :is(.repcontrol_add, .repcontrol, .itemcontrol),
 #itemSettings:has(#hideItemSettings:checked) ~ #equipmentSection .inventoryContainer :is(.repcontrol_header, .repcontrol, .itemcontrol) {
     display: none;
 }
@@ -2839,6 +2988,15 @@ button[type=action].challengeButton::before {
         width: 36px !important;
     }
 }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2977,6 +3135,13 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         left: 0;
     }
 
+    .editorInput {
+        width: 200px;
+        height: 18px;
+        min-height: 18px;
+        margin-bottom: 2px;
+        border: 0;
+    }
     .optionText {
         color: var(--color-lighter-gray);
         margin: 1px;
@@ -3024,7 +3189,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
             }
 
             > label {
-                padding-top: 6px;
+                padding-top: 5px;
             }
         }
     }
@@ -3084,6 +3249,19 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         opacity: 100%;
     }
 
+    :is(.repcontrol_edit, .repcontrol_add, .editButton) {
+        box-sizing: border-box;
+        height: 25px;
+        width: 25px;
+        padding: 0;
+    }
+    .editButton {
+        position: absolute;
+        top: 5px;
+        right: 0;
+        border-radius: 3px;
+    }
+
     /* Item editor - Roll Formats */
     .rollFormatContainer {
         padding: 4px 0 4px 0;
@@ -3099,12 +3277,6 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
                 height: auto;
                 margin: 0;
             }
-            .repcontrol_move {
-                left: 0;
-            }
-            .repcontrol_del {
-                right: 0;
-            }
 
             /* An item must have at last one rollformat */
             &:only-child .repcontrol_del {
@@ -3116,12 +3288,6 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
             position: absolute;
             top: 3px;
             right: 0;
-        }
-        :is(.repcontrol_edit, .repcontrol_add) {
-            box-sizing: border-box;
-            height: 25px;
-            width: 25px;
-            padding: 0;
         }
         .repcontrol_add {
             position: absolute;
@@ -3197,7 +3363,6 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     }
 }
 
-
 /* Item buttons (AutoScript, edit, share) */
 .itemButtons {
     position: absolute;
@@ -3205,7 +3370,14 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     bottom: 5px;
     right: 5px;
     gap: 5px;
+    z-index: 100; /* Displays the checkbox above any item messages */
 }
+
+
+
+
+
+
 
 /* Edit cover. Used to modify weapon/tool uses, outfit resistances ect. */
 .editCover {
@@ -3443,11 +3615,10 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 /* Editor tabs */
 #sheetSettings, #itemSettings {
     border-radius: 0;
-    margin-bottom: 1px;
 }
 #sheetSettings h3, #itemSettings h3 {
     background-color: var(--color-gray);
-    padding: 5px;
+    padding: 5px 0;
     position: relative;
 }
 #itemSettings .editorButtonContainer {
@@ -3458,9 +3629,9 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 }
 
 .searchBar {
-    position: absolute;
+    position: relative;
     width: 30%;
-    left: 40px;
+    margin-left: 40px;
     background-color: transparent;
     box-sizing: border-box;
     border-bottom: 2px solid var(--color-lighter-gray);
@@ -4464,6 +4635,10 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     }
 }
 
+.tracker.customColor.background {
+    --tracker-color: var(--custom-color);
+}
+
 /* Custom colors */
 .red1 {--r1: 1} .red2{--r2: 2} .red4 {--r4: 4} .red8 {--r8: 8} .red16 {--r16: 16} .red32 {--r32: 32} .red64 {--r64: 64} .red128 {--r128: 128}
 ._red1 {--_r1: 1}._red2 {--_r2: 2}._red4 {--_r4: 4}._red8 {--_r8: 8}._red16 {--_r16: 16}._red32 {--_r32: 32}._red64 {--_r64: 64}._red128 {--_r128: 128}
@@ -4487,7 +4662,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         calc(var(--_b1, 0) + var(--_b2, 0) + var(--_b4, 0) + var(--_b8, 0) + var(--_b16, 0) + var(--_b32, 0) + var(--_b64, 0) + var(--_b128, 0))
     );
 
-    &:not(.itemContainer) {
+    &:not(.itemContainer, .tracker) {
         &.background { background-color: var(--custom-color) !important; }
         &.border { border-color: var(--custom-color) !important; }
         &.text { color: var(--custom-color) !important; }
