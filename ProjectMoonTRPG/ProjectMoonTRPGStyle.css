@@ -398,10 +398,10 @@ body, .sheet-body {
     width: 45px;
     height: 25px;
 }
-.copyButton, .displayButton, .lockButton, .inventoryEditButton {
+.copyButton, .displayToggle, .lockButton, .inventoryEditButton {
     position: absolute;
 }
-.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton, .inventoryEditButton {
+.shareButton, .editButton, .autoScriptButton, .copyButton, .displayToggle, .lockButton, .inventoryEditButton {
     height: 25px;
     width: 25px;
     z-index: 9;
@@ -410,7 +410,7 @@ body, .sheet-body {
     background-position: center;
     background-repeat: no-repeat;
 }
-:is(.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton, .inventoryEditButton, .searchClear, .searchOptions):hover {
+:is(.shareButton, .editButton, .autoScriptButton, .copyButton, .displayToggle, .lockButton, .inventoryEditButton, .searchClear, .searchOptions):hover {
     background-color: rgba(0, 0, 0, 0.3) !important;
 }
 :is(.rollButton, .challengeButton, .declare, .btn, .selectTargetButton, .defenceDice, .editorControls button, .sectionHeader button:not(:first-child), .darkButton):hover {
@@ -2538,7 +2538,7 @@ button[type=action].challengeButton::before {
 
 /* Inventory tags & equip slots */
 #tagSection {
-    width: calc(100% - 340px);
+    width: calc(100% - 339px);
     margin-left: 12px;
     gap: 4px;
 
@@ -2565,7 +2565,7 @@ button[type=action].challengeButton::before {
             transform: rotate(45deg);
             background-color: var(--tracker-color);
         }
-        :is(.slotToggle, .tagIcon, .tagName, .tagColor) {
+        :is(.slotToggle, .displayToggle, .tagIcon, .tagName, .tagColor) {
             display: block !important;
         }
         :is(.trackerCurrent, .trackerMax) {
@@ -2577,8 +2577,15 @@ button[type=action].challengeButton::before {
             display: none !important;
         }
 
-        /* Hide trackers with no current or base value */
+        /* Hide trackers with no value */
         .repitem:has(.tagNoCurrent:checked + .tagNoBase:checked) {
+            display: none;
+
+            &:has(.slotToggle:checked):has(.tagNoMax:not(:checked)) {
+                display: block !important;
+            }
+        }
+        .repitem:has(.displayToggle input[type="checkbox"]:not(:checked)) {
             display: none !important;
         }
     }
@@ -2628,7 +2635,7 @@ button[type=action].challengeButton::before {
 
         /* Tag settings */
         .tagIcon, .tagName {
-            width: 85px;
+            width: 76px;
         }
         .tagColor {
             width: 62px;
@@ -2638,6 +2645,17 @@ button[type=action].challengeButton::before {
             height: 25px !important;
             margin-right: 2px;
             accent-color: var(--color-LIGHT) !important;
+        }
+        .displayToggle {
+            position: static;
+            display: none;
+            min-width: 25px;
+            margin: 0;
+            margin-left: -2px;
+
+            &:has(input[type="checkbox"]:checked) {
+                opacity: 90%;
+            }
         }
     }
 }
@@ -3249,17 +3267,11 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         opacity: 100%;
     }
 
-    :is(.repcontrol_edit, .repcontrol_add, .editButton) {
+    :is(.repcontrol_edit, .repcontrol_add) {
         box-sizing: border-box;
         height: 25px;
         width: 25px;
         padding: 0;
-    }
-    .editButton {
-        position: absolute;
-        top: 5px;
-        right: 0;
-        border-radius: 3px;
     }
 
     /* Item editor - Roll Formats */
@@ -3685,12 +3697,18 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/copy.png');
     opacity: 50%;
 }
-.displayButton {
+.displayToggle {
+    margin: 0;
+    padding: 0;
     top: 5px;
     right: 35px;
     background-color: transparent;
     background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view-hide.png');
     opacity: 50%;
+
+    input[type="checkbox"] {
+        display: none;
+    }
 }
 .lockButton {
     top: 3px;
@@ -3762,7 +3780,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     border-right: 12px solid var(--color-white);
     opacity: 100%;
 }
-.switch-toggle:checked ~ .displayButton {
+.displayToggle:has(input[type="checkbox"]:checked) {
     background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view.png');
 }
 .switch-toggle:checked + .lockButton {
@@ -4407,7 +4425,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .itemMystery:checked + div .Def, .egoDef { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png'); }
 .itemMystery:checked + div .Evd, .egoEvd { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoEvd.png'); }
 
-.slash { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/slash.png'); }
+.slash { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/slash.png'); }
 .pierce { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/pierce.png'); }
 .blunt { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/blunt.png'); }
 .itemMystery:checked + div .slash, .egoSlash { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSlash.png'); }

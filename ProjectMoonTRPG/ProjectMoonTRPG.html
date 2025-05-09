@@ -636,8 +636,6 @@
 		<!-- Option: Equip Slots -->
 		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionEquipSlots" value="true"><span>Equip slots</span></label>
 			<div class="itemOptionContainer" style="gap: 0">
-				<button type="action" class="darkButton editButton edit" name="act_edit-tagstyling" data-i18n-title="item-editor-slot-styling" title="Edit Equip Slot Styling"></button>
-
 				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionGiveSlots" value="true"><span>Gives</span></label>
 					<textarea spellcheck="false" class="editorInput whiteInput darkScroll" name="attr_itemEditGiveSlotsRawText" placeholder="Slot N, Slot N, ..."></textarea>
 				</div>
@@ -703,8 +701,6 @@
 		<!-- Option: Tags -->
 		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionTags" value="true"><span>Tags</span></label>
 			<div class="itemOptionContainer" style="gap: 0">
-				<button type="action" class="darkButton editButton edit" name="act_edit-tagstyling" data-i18n-title="item-editor-tag-styling" title="Edit Tag Styling"></button>
-
 				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionGiveTags" value="true"><span>Gives</span></label>
 					<textarea spellcheck="false" class="editorInput whiteInput darkScroll" name="attr_itemEditGiveTagsRawText" placeholder="Tag N, Tag N, ..."></textarea>
 				</div>
@@ -5175,8 +5171,12 @@ EGO block end -->
 			<fieldset class="repeating_tags">
 				<input type="checkbox" class="tagNoCurrent" name="attr_tagCurrent" value="0" hidden="true" checked="">
 				<input type="checkbox" class="tagNoBase" name="attr_tagBase" value="0" hidden="true" checked="">
+				<input type="checkbox" class="tagNoMax" name="attr_tagMax" value="0" hidden="true" checked="">
 				<div class="tagContainer rowContainer">
-					<input type="checkbox" class="largeCheck slotToggle" name="attr_tagIsSlot" value="true" data-i18n-title="item-tag-is-slot" title="Is equip slot?" hidden="true">
+					<label class="displayToggle mediumIcon" data-i18n-title="item-tag-hide" title="Hide tag/slot">
+						<input type="checkbox" name="attr_tagDisplay" value="true" hidden="true">
+					</label>
+					<input type="checkbox" class="largeCheck slotToggle" name="attr_tagIsSlot" value="true" data-i18n-title="item-tag-is-slot" title="Is equip slot" hidden="true">
 					
 					<input type="text" class="tagIcon" name="attr_tagIcon" list="iconlist" placeholder="Type for icon selection." value="Question" hidden="true">
 					<input type="text" class="tagName darkInput" name="attr_tagName" data-i18n-placeholder="item-tag-name" placeholder="Tag name" hidden="true">
@@ -5196,7 +5196,7 @@ EGO block end -->
 		
 		<!-- Edit Button -->
 		<input type="checkbox" class="switch-toggle" id="hideItemSettings" name="attr_hideItemSettings" value="true" hidden="true">
-		<label for="hideItemSettings" class="inventoryEditButton largeIcon edit" data-i18n-title="item-edit" title="Edit items"></label>
+		<label for="hideItemSettings" class="inventoryEditButton largeIcon edit" data-i18n-title="item-edit" title="Edit inventory"></label>
 
 	</h3>
 
@@ -8110,8 +8110,9 @@ EGO block end -->
 <fieldset class="repeating_ailments">
 <button type="action" class="copyButton" name="act_copycustom"></button>
 
-<input type="checkbox" class="switch-toggle" name="attr_ailDisplay" value="true" hidden="true" checked>
-<button type="action" class="displayButton" name="act_displaycustom"></button>
+<label class="displayToggle mediumIcon">
+	<input type="checkbox" name="attr_ailDisplay" value="true" hidden="true" checked>
+</label>
 
 <div class="columnAlign">
 <div class="rowContainer settingStyle">
@@ -16646,6 +16647,7 @@ const tagDataFormat = {
 		icon: "Question",
 		color: "",
 		is_slot: false,
+		display: true,
 		current: 0, max: 0, base: 0,
 	},
 
@@ -16654,6 +16656,7 @@ const tagDataFormat = {
 		icon: (s) => is.String(s),
 		color: (s) => s == "" || is.Hex(s),
 		is_slot: (b) => is.Bool(b),
+		display: (b) => is.Bool(b),
 		_default: (i) => is.Int(i),
 	},
 
@@ -16678,7 +16681,6 @@ const tagDataFormat = {
 				_value_prop: "value",
 				name: "",
 				value: 0,
-				alt: [],
 			},
 			raw_text: "",
 		},
@@ -16687,7 +16689,6 @@ const tagDataFormat = {
 			_repeating: {
 				name: (s) => is.String(s),
 				value: (i) => is.Int(i),
-				alt: (s) => is.Array(a),
 			},
 			raw_text: (s) => /^\s*$/.test(s) || is.PropString(s),
 		}
@@ -17398,11 +17399,6 @@ const dataFormat = {
 
 			// access.output() should either ignore token data, or generate repeating attributes for the token bar
 		},
-		slots: {
-			_repeating: {...tagDataFormat.base, max: 0},
-			// Has only repeating data. Is not sorted
-			// Each entry has a slots.N.max and slots.N.current value
-		}, 
 		tags: {
 			_repeating: tagDataFormat.base,
 			// Has only repeating data. Is not sorted
@@ -17414,6 +17410,7 @@ const dataFormat = {
 			// - Removing tags during an action does not hinder that action from executing, but it may hinder other actions from executing afterwards
 			//   - If you want to hinder an action, remove tags when an item is equipped or unequipped (see above)
 		},
+		slots: (n) => n.tags, // Slots are stored in access.tags
 		local: {
 			// Props used in autoScriptMain()
 			scaling: 0,
@@ -17526,12 +17523,10 @@ const dataFormat = {
 			selection: (s) => s == "" || is.ID(s),
 			_default: (v) => v instanceof dataNode,
 		},
-		slots: {
-			_repeating: tagDataFormat.valid,
-		},
 		tags: {
 			_repeating: tagDataFormat.valid,
 		},
+		slots: {},
 		local: {
 			scaling: (i) => is.Int(i, {min: 0}),
 			checkresult: (s) => is(s).In("success", "last success", "failure", "no target"), // Needs translations?
@@ -17609,12 +17604,10 @@ const dataFormat = {
 		token: {
 			prefix: "token", // Used for selection
 		},
-		slots: {
-			_repeating: tagDataFormat.attrs,
-		},
 		tags: {
 			_repeating: tagDataFormat.attrs,
 		},
+		slots: {},
 		local: false,
 		global: false,
 	},
@@ -17674,7 +17667,11 @@ on("clicked:testB", function(info) {
 on("clicked:testC", function(info) {
 	console.log("Clicked button C");
 
-	clearHexColor(".skillhide");
+	access._begin("update", function() {
+		let gives = access.items[snakeify("Sanguine Claws")].slots.gives.bleed;
+		console.log("Change Bleed from", gives.value, "to", (gives.value == 3) ? 5 : 3)
+		gives.value = (gives.value == 3) ? 5 : 3;
+	});
 });
 
 
@@ -17724,7 +17721,10 @@ class dataNode {
 
 		// Allows writing "node.immutable.prop" to get the current non-output value
 		Object.defineProperty(this, "immutable", {
-			get() { return this.#getImmutable = true; }
+			get() {
+				this.#getImmutable = true;
+				return this;
+			}
 		});
 
 		// Get the default validator of the node if one exists
@@ -17771,6 +17771,11 @@ class dataNode {
 					attrs: formats.attrs?.[prop] || false,
 					source: formats.source[prop] || formats.source || false,
 				}, this.id, this, [...this._path, prop]);
+			}
+
+			// Get any subnodes that reference other subnodes
+			else if (typeof value == "function") {
+				this[`_${prop}`] = value(this);
 			}
 
 			// Get any properties of the node
@@ -18773,10 +18778,8 @@ const accessData = {
 						access._recalc.jquery(ID);
 					}
 
-					// Move all equip slots from access.tags to access.slots
-					// The, recalcalculate all tags and slots for all items
-					access._recalc.slots(ID);
-					access._recalc.tags(ID);
+					// Update any equipment restrictions
+					access._recalc.equip(ID);
 				});
 			});
 		}
@@ -18882,18 +18885,9 @@ const accessData = {
 			}
 		},
 
-		// Moves any slots in access.tags to access.slots
-		slots(ID, opts={}) {
-			for (ID of this.parseIDs(ID)) {
-				if (!(ID in access)) continue;
-				for (const tag of access[ID].tags.repNodes) {
-					if (tag.is_slot) updateTagType(tag);
-				}
-			}
-		},
-
-		// Recalculates all tags and/or slots of one or more characters
-		tags(ID, opts={}) {
+		// Recalculates all equipment requirements of one or more characters
+		// Includes tags, slots and/or linked items
+		equip(ID, opts={}) {
 			let targets = (opts.target) ? [opts.target] : ["tags", "slots"];
 			let types = (opts.type) ? [opts.type] : ["gives", "requires"];
 
@@ -18901,132 +18895,101 @@ const accessData = {
 			for (ID of this.parseIDs(ID)) {
 				if (!(ID in access)) continue;
 				let items = access[ID].items;
+				let tags = access[ID].tags;
+				let tagData = {}
 				
 				// Recalculate both tags and slots unless otherwise specified
 				for (const target of targets) {
-					let sumNode = access[ID][target];
-					let tags = {}
-	
-					// Parse tags from the raw text if this hasn't been done already
 					for (const item of items.repNodes) {
+
+						// Parse tags from the raw text if this hasn't been done already
 						for (type of types) {
 							let node = item[target][type];
 
-							if (node.keys.length == 1 && is.PropString(node.raw_text)) {
+							if (node.repCount == 0 && !/^\s*$/.test(node.raw_text)) {
 								recalcTagsFromRaw(node, {silent:"hard", noRecalc:true});
 							}
 						}
-					}
 
-					// Recalculate tags and slots
-					for (const item of items.repNodes) {
+						// Only gain tags and slots from equipped items
 						if (item.equipped && item[target].enabled && item[target].gives.enabled) {
 							for (const tagNode of item[target].gives.repNodes) {
 								let [tag, value] = [snakeify(tagNode.name), tagNode.value];
 
-								console.log("Tag:", tag, "Value:", value);
-
-								if (!sumNode.repNodes.some(node => node.name == tagNode.name)) {
-									sumNode.add({id:generateRowID().toLowerCase(), silent:"hard"}).modify("_name", tagNode.name, {silent:"hard"});
+								if (!tags.repNodes.some(node => node.name.toLowerCase() == tagNode.name.toLowerCase())) {
+									tags.add({id:generateRowID().toLowerCase(), silent:"hard"}).modify("_name", tagNode.name, {silent:"hard"});
 								}
 
-								if (!tags[tag]) tags[tag] = {current:0, max:0}
-								tags[tag].current += value;
-								tags[tag].max += value;
+								if (!tagData[tag]) tagData[tag] = {current:0, max:0}
+								tagData[tag].current += value;
+								tagData[tag].max += value;
+								tagData[tag].is_slot = (target == "slots");
 							}
 						}
 					}
-
-					console.log("Sum node:", sumNode);
-
-					// Assign new tag and slot values
-					for (const tag of sumNode.repNodes.map(node => snakeify(node.name))) {
-						
-						if (!tags[tag]) tags[tag] = {current:0, max:0}
-						tags[tag].current += Number(sumNode[tag]?.base || 0);
-						tags[tag].max += Number(sumNode[tag]?.base || 0);
-						
-						console.log(tag, tags);
-
-						if (sumNode[tag]) {
-							sumNode[tag].modify("_current", tags[tag].current || 0, {noRecalc:true});
-							if (target == "slots") {
-								sumNode[tag].modify("_max", tags[tag].max || 0, {noRecalc:true});
-								sumNode[tag].modify("_is_slot", "true");
-							}
-						}
-					}
-
-					console.log(sumNode);
 				}
 
-				return;
+				// Add in any base values, as well as tags not currently gained from any items
+				for (const tag of tags.repNodes.map(node => snakeify(node.name))) {
+					if (!tagData[tag]) tagData[tag] = {current:0, max:0, is_slot:tags[tag]?.is_slot || false}
+					tagData[tag].current += Number(tags[tag]?.base || 0);
+					tagData[tag].max += Number(tags[tag]?.base || 0);
+				}
 
-				// Recalculate equip restrictions
-				access._recalc.equip(ID);
-			}
-		},
+				// Recalculate equip restrictions for all items that require tags and/or slots
+				// Checks equipped items first to use slots
+				for (const item of items.repNodes.sort((a, b) => +b.equipped - +a.equipped)) {
+					let reqFailure = {}
+					let outputMessage = "";
 
-		// Recalculates all equipment requirements of one or more characters
-		equip(ID, opts={}) {
-			access._begin("recalc", () => {
+					for (const target of targets) {
+						let reqNode = item[target].requires;
 
-				let targets = (opts.target) ? [opts.target] : ["tags", "slots"];
-	
-				// Get all relevant items
-				for (ID of this.parseIDs(ID)) {
-					if (!(ID in access)) continue;
-					let items = access[ID].items;
-
-					// Recalculate equip restrictions for all items that require tags and/or slots
-					// Checks equipped items first to use slots
-					for (const item of items.repNodes.sort((a, b) => +b.equipped - +a.equipped)) {
-						let reqFailure = {}
-						let outputMessage = "";
-	
-						for (const target of targets) {
-							let reqNode = item[target].requires;
-							let sumNode = access[ID][target];
-	
-							// Check all requirements for applicable items
-							if (!(item[target].enabled && reqNode.enabled)) continue;
-								
-							for (const [prop, value] of reqNode.entries) {
-								if (prop == "_raw_text" || value === 0) continue;
-
-								if ((sumNode[prop] || 0) < value) {
-									if (!reqFailure[target]) reqFailure[target] = {}
-									reqFailure[target][(access._recalc.tagKeys[prop] || prop)] = value - (sumNode[prop] || 0);
-								}
-							}
-	
-							// Successfully passed all requirements
-							if (length(reqFailure) == 0) {
-								for (const [prop, value] of reqNode.entries) {
-
-									// Slots are reduced when used to equip an item
-									if (target == "slots" && item.equipped) {
-										sumNode[prop] -= value;
-									}
-								}
-								outputMessage = "0";
-							}
+						// Check all requirements for applicable items
+						if (!(item[target].enabled && reqNode.enabled)) continue;
 							
-							// Failed at least one requirement
-							else if (reqFailure[target]) {
-								if (outputMessage.startsWith("0")) outputMessage = ""; // This sometimes happens for whatever reason
-								if (outputMessage != "") outputMessage += " | "; // Adds a divider between different requirements
-								outputMessage += `Missing ${target}: ${Object.entries(reqFailure[target]).reduce((acc, [key, value]) => [...acc, `${key} x${value}`], []).join(", ")}`;
+						for (const tag of reqNode.repNodes) {
+							let current = tagData[snakeify(tag.name)]?.current || 0;
+
+							if (current < tag.value) {
+								if (!reqFailure[target]) reqFailure[target] = {}
+								reqFailure[target][tag.name] = tag.value - current;
 							}
 						}
 
-						// Apply item messages to the sheet
-						Object.assign(access._output.sheet, {
-							[`repeating_${item.attrs.sheet.section}_${item.id}_messageText`]: outputMessage,
-						});
+						// Slots are reduced when used to equip an item
+						for (const tag of reqNode.repNodes) {
+							if (target == "slots" && item.equipped) {
+								tagData[snakeify(tag.name)].current -= tag.value;
+							}
+						}
+
+						// Output a message detailing which requirements failed, if any 
+						if (length(reqFailure) == 0) {
+							outputMessage = "0";
+						}
+						else if (reqFailure[target]) {
+							if (outputMessage.startsWith("0")) outputMessage = ""; // This sometimes happens for whatever reason
+							if (outputMessage != "") outputMessage += " | "; // Adds a divider between different requirements
+							outputMessage += `Missing ${target}: ${Object.entries(reqFailure[target]).reduce((acc, [key, value]) => [...acc, `${key} x${value}`], []).join(", ")}`;
+						}
+					}
+
+					// Apply item messages to the sheet
+					Object.assign(access._output.sheet, {
+						[`repeating_${item.attrs.sheet.section}_${item.id}_messageText`]: outputMessage,
+					});
+				}
+
+				// Assign new tag and slot values
+				for (const tag of tags.repNodes.map(node => snakeify(node.name))) {
+					if (tags[tag]) {
+						tags[tag].modify("_current", tagData[tag].current || 0, {eventinfo: {noRecalc:true}});
+						tags[tag].modify("_max", tagData[tag].max || 0, {eventinfo: {noRecalc:true}});
+						tags[tag].modify("_is_slot", tagData[tag].is_slot, {eventinfo: {noRecalc:true}});
 					}
 				}
-			});
+			}
 		},
 	},
 }
@@ -19209,7 +19172,7 @@ onAccess("clicked:addItem " + itemEvent("remove") + ["rollformats", "tags"].redu
 	let oldID = (!info.sourceAttribute) ? false : info.sourceAttribute.split("_")[2];
 	let newID = (section == "rollformats") ? false : generateRowID().toLowerCase();
 	
-	let node = (section != "tags") ? access.items : (access.slots[oldID]) ? access.slots : access.tags;
+	let node = (section == "tags") ? access.tags : access.items;
 	let target = node?.editor?.target;
 	
 	if (section == "rollformats") {
@@ -19320,125 +19283,88 @@ onAccess([
 });
 
 /* Item - Update tags or equip slots */
-onAccess(["items", "N", ["tags", "slots"], ["gives", "requires"], "modify", "N"], {}, function(info) {
-	let prop = info.path[6]; // "raw_text" or a tag/slot id
-	
-	// Ignore all events caused by tag recalcs
-	if (!info.noRecalc) {
-		if (prop == "raw_text") {
+onAccess([
+	["items", "N", ["tags", "slots"], ["gives", "requires"], "modify", "raw_text"],
+	["items", "N", ["tags", "slots"], ["gives", "requires"], "N", "modify", "N"],
+	["items", "N", ["tags", "slots"], ["gives", "requires"], ["add", "delete"]],
+], {}, function(info) {
+	if (!info.noRecalc) { // Ignore all events caused by tag recalcs
+		if (info.path[6] == "raw_text") {
 			recalcTagsFromRaw(info.node);
 		} else {
-			recalcTagsFromProp(info.node, prop);
+			recalcTagsFromProps(info.node);
 		}
 	}
 });
 
 /* Tags - Add or modify tag */
-onAccess([["tags", "slots"], "add"], {}, function(info) {
-	info.newval.base = 1; // Tags/slots without at least 1 current or base value are automatically hidden
+onAccess(["tags", "add"], {}, function(info) {
+	info.newval.current = 1; // Tags/slots without at least 1 current or base value are automatically hidden
+	info.newval.base = 1;
 	updateIcon("tag", info.newval.icon || "Question", info.newval.id, access._output.sheet);
 });
-onAccess([["tags", "slots"], "N", "modify", "icon"], {}, function(info) {
+onAccess(["tags", "N", "modify", "icon"], {}, function(info) {
 	updateIcon("tag", info.newval, info.node.id, access._output.sheet);
 });
-
-/* Tags - Convert between tag and slot */
-onAccess([["tags", "slots"], "N", "modify", "is_slot"], {}, function(info) {
-	updateTagType(info.node);
-});
-function updateTagType(node) {
-	let [oldParent, newParent] = (is.True(node.is_slot)) ? ["tags", "slots"] : ["slots", "tags"]
-
-	delete access[oldParent][node.id]; // For some reason using node.delete() here causes an error with Roll20's code
-	access[newParent].add({node:node, silent:"hard"});
-	node._parent = access[newParent];
-	node._path = node.path.map(step => (step == oldParent) ? newParent : step);
-}
 
 /* Tags - Equip or unequip item + change tag/slot option */
 onAccess([
 	["items", "N", "modify", ["equipped", "tags", "slots"]],
 	["items", "N", ["tags", "slots"], "modify", ["gives", "requires"]],
-	[["tags", "slots"], "N", "modify", "base"]
+	["tags", "N", "modify", "base"]
 ], {}, function(info) {
-	access._recalc.tags(info.path[0]);
+	access._recalc.equip(info.path[0]);
 });
 
-//                    [  Tag   ]      [ Int |  Float  ]       [ / or , ]
-const tagRegExp = /\s*([^\/,]+?)(?:\s+(-?[\d]+(?:\.[\d]+)?))?\s*([\/,]|$)/g;
+//                    [  Tag   ]      [ Int |  Float  ]         [ , ]
+const tagRegExp = /\s*([^\/,]+?)(?:\s+(-?[\d]+(?:\.[\d]+)?))?\s*(,|$)/g;
 
 function recalcTagsFromRaw(node, opts={}) {
-	let target = node.path.at(-2); // "tags" or "slots"
 	let type = node.path.at(-1); // "gives" or "requires"
-	
 	let tags = {}
 	let tag, value, symbol;
-	let or_node = false;
-
 	let match = []
+
+	// Delete all current tags
+	for (const tagID of node.repIDs) {
+		node.delete(tagID, {silent:"hard"});
+	}
 
 	// Extract all tag-value pairs from the raw tag text
 	while (match = tagRegExp.exec(node.raw_text)) {
+		let tagID = generateRowID().toLowerCase();
 
-		// Handle alternate tag values
-		if (symbol == "/") {
-			if (type != "requires") {
-				console.warn("Tags - Throw error. The or symbol '/' may only be used for required tags/slots");
-				return;
-			}
-			if (!or_node) {
-				or_node = node[tag];
-			}
-		} else {
-			or_node = false;
-		}
-		
 		[tag, value, symbol] = [snakeify(match[1]), Number(match[2] || 1),  match[3]]
 		tags[tag] = value;
 
-		// If the tag does not alrady exist, add it as a new rep node
-		if (!node[tag]) {
-			let tagID = generateRowID().toLowerCase();
-			node.add({id:tagID, silent:"hard"}).modify("_name", match[1], {...opts, noRecalc:true});
-		
-			// If a tag has alternative (or) tag values, save their ids in node.alt
-			if (or_node) {
-				or_node._alt = [...or_node._alt, tagID];
-			}
-		}
+		node.add({id:tagID, silent:"hard"}).modify("_name", match[1], {silent:"hard", eventinfo: {noRecalc:true}});
 	}
 
-	// Assign tag values. Reset all tags not in the current raw text
-	// "noRecalc" ensures no tag recalcs are caused by these events
+	// Assign tag values. "noRecalc" ensures no tag recalcs are caused by these events
 	for (const tagNode of node.repNodes) {
-		tagNode.modify("_value", tags[snakeify(tagNode.name)] || 0, {...opts, noRecalc:true});
+		tagNode.modify("_value", tags[snakeify(tagNode.name)] || 0, {...opts, eventinfo: {noRecalc:true}});
 	}
 
 	// Recalculate equip requirements if applicable
 	if (!opts.noRecalc) {
-		access._recalc.tags(node.path[0]);
+		access._recalc.equip(node.path[0]);
 	}
 }
 
 
-function recalcTagsFromProp(node, prop) {
-	let target = node.path.at(-2);
-	let type = node.path.at(-1);
-	let root = access[node.path[0]];
-	let item = root.items[node.id];
-
-	// Recalculate equip requirements if applicable
-	access._recalc.tags(node.path[0]);
+function recalcTagsFromProps(node) {
+	if (node.raw_text === undefined) node = node.parent;
 	
+	// Recalculate equip requirements if applicable
+	access._recalc.equip(node.path[0]);
+	
+	// Update the raw tag text
+	let tagText = node.repNodes
+		.filter(tag => tag.value != 0)
+		.map(tag => `${tag.name} ${tag.value}`)
+		.join(", ");
 
-
-
-	// If possible, sync the change to the raw text
-	// If the tag is already in the text, replace the current occurence(s)
-	// If not, add it as a new key-value pair at the end of the string, seperated by a comma
-	// This will preserve current or statements, but will not create any new ones
-
-	// If a tag is set to 0, delete the tag + the and/or symbol before it (if possible) or after it (if at the start of the string)
+	node.modify("_raw_text", tagText);
 }
 
 
@@ -19629,8 +19555,8 @@ onAccess([
 ], {}, (info) => {
 	recalcCustomColors(access.items[info.node.id]);
 });
-onAccess([["tags", "slots"], "N", "modify", "color"], {}, function(info) {
-	recalcCustomColors(navPath([...info.path.slice(0, 3), "node"]));
+onAccess(["tags", "N", "modify", "color"], {}, function(info) {
+	recalcCustomColors(navPath([...info.node.path, "node"]));
 });
 
 function recalcCustomColors(node) {
@@ -19652,7 +19578,6 @@ function recalcCustomColors(node) {
 		let color = node.color;
 		let selector = `.repitem[data-reprowid="${node.id}"] .tagContainer .tracker`;
 
-		console.log(color, selector, is.Hex(color));
 		if (is.Hex(color)) {
 			custom.color.apply(selector, color, "background");
 		} else {
