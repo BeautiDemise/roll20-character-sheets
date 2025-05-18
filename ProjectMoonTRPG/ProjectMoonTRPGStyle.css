@@ -318,8 +318,8 @@ body, .sheet-body {
 }
 
 #TopContainer { width: 100%; text-align: center; display: flex; }
-#TopColumnL { min-width: 265px; float: left; padding-left: 0px; padding-right: 0px; margin-right: 5px; }
-#TopColumnM { min-width: 180px; padding-left: 10px; padding-right: 10px; }
+#TopColumnL { position: relative; min-width: 265px; float: left; padding-left: 0px; padding-right: 0px; margin-right: 5px; }
+#TopColumnM { min-width: 270px; padding-left: 10px; padding-right: 10px; }
 #TopColumnR { width: 265px; float: right; padding-left: 15px; padding-right: 10px; }
 
 .columnContent { min-width: 180px; max-width: 280px; position: relative;}
@@ -1509,7 +1509,7 @@ button[type=action].challengeButton::before {
 }
 .ailmentCustomDisplay .repitem  {
     display: inline-block;
-    flex-basis: 33.33%;
+    flex-grow: 1;
     min-width: 83.2px;
     overflow: hidden;
 }
@@ -2497,7 +2497,7 @@ button[type=action].challengeButton::before {
     overflow: visible;
 
     #TopContainer & {
-        min-width: 235px;
+        min-width: 100%;
         margin-left: 0;
         margin-right: 0;
         margin-bottom: 0;
@@ -2551,7 +2551,7 @@ button[type=action].challengeButton::before {
     }
 
     /* Tag icons and base values can be edited while editmode is enabled */
-    #itemSettings:has(#hideItemSettings:not(:checked)) & .repcontainer.editmode {
+    &:has(~ #hideItemSettings:not(:checked)) .repcontainer.editmode {
         .repitem {
             width: 100%;
         }
@@ -2572,7 +2572,7 @@ button[type=action].challengeButton::before {
             display: none !important;
         }
     }
-    .repcontainer:not(.editmode) {
+    &:has(~ #hideItemSettings:checked), .repcontainer:not(.editmode) {
         .trackerBase {
             display: none !important;
         }
@@ -2729,6 +2729,9 @@ button[type=action].challengeButton::before {
     &:has(~ .itemHeader .equipCheck:checked) {
         z-index: 15; /* Displays the messages below the header when an item is equipped */
     }
+    input[type="checkbox"]:not(:checked) + & ~ .itemHeader:has(.equipCheck:checked) {
+        box-shadow: 0px 2px 20px 0px #060606;
+    }
 }
 
 .itemRow {
@@ -2850,6 +2853,13 @@ button[type=action].challengeButton::before {
     }
     .rollFormatBlock {
         height: 24px;
+    }
+}
+
+/* When rolling all formats together, only display one roll button */
+.itemRollTogether:checked ~ .itemRollFormats .rollFormat:nth-of-type(n+2) {
+    .rollButton {
+         visibility: hidden;
     }
 }
 
@@ -3323,14 +3333,14 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
             &::-ms-expand {
                 display: none;
             }
-            option, &:has(> option[value="false"]:checked) {
+            option, &:has(> option[value="0"]:checked) {
                 color: var(--color-white);
             }
-            &:has(> option[value="Advantage"]:checked) {
+            &:has(> option[value="1"]:checked) {
                 background-color: var(--color-light-green) !important;
                 background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowUp.png');
             }
-            &:has(> option[value="Disadvantage"]:checked) {
+            &:has(> option[value="-1"]:checked) {
                 background-color: var(--color-HP) !important;
                 background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowDown.png');
             }
@@ -3860,8 +3870,8 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 /* Shared roll template styles */
 
 /* Roll20 adds .charsheet before any styling rules that do not begin with .sheet- or .userscript- */
-/*  :is() and :where() can due to this not be used, leading to some very chucky selectors */
-/*  A lot of older styling rules is written directly into the roll templates and cannot be found here */
+/*  :is() and :where() can due to this not be used, leading to some very chunky selectors */
+/*  A lot of older styling rules are written directly into the roll templates and cannot be found here */
 
 /* styledText is a hacky method of adding inline HTML styling to text. This text is technically a link with no href. These rules style the link to look like normal text */
 .sheet-rolltemplate-message .sheet-styledText,
@@ -4291,20 +4301,188 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 
 
 
-/* --- Roll overhaul --- */
-.sheet-rolltemplate-customRoll .sheet-statRollResult {
+/* --- OLD Roll overhaul --- */
+.sheet-rolltemplate-testRoll .sheet-statRollResult {
     text-align: center;
     margin-top: 5px;
 }
-.sheet-rolltemplate-customRoll .sheet-statRollResult img {
+.sheet-rolltemplate-testRoll .sheet-statRollResult img {
     width: 25px;
     height: 25px;
 }
-.sheet-rolltemplate-customRoll .sheet-plainText span {
+.sheet-rolltemplate-testRoll .sheet-plainText span { /* What was this for? */
     background-color: transparent;
     border: none;
 }
 
+/* --- NEW Roll overhaul */
+.sheet-rolltemplate-customRoll .sheet-template-wrapper {
+    height: auto;
+    padding: 5px;
+    border-radius: 5px;
+    color: #eee;
+    background-color: #454545;
+}
+
+.sheet-rolltemplate-customRoll .sheet-header-wrapper {
+    display: flex;
+    align-items: flex-start;
+    min-height: 30px;
+    max-height: 75px;
+    margin: -5px -5px 5px -5px;
+    border: 2px #000 solid;
+    background-color: #222;     /* Customizeable */
+    overflow: visible;
+    
+    .sheet-header {
+        flex-grow: 10;
+        width: 45%;
+        max-height: 41px;
+        box-sizing: border-box;
+        margin: auto;
+        padding: 3px 0 3px 5px;
+        color: #fff;            /* Customizeable */
+        line-height: 18px;
+        font-size: 14px;
+        word-wrap: break-word;
+        overflow: hidden;
+    }
+}
+
+.sheet-rolltemplate-customRoll .sheet-dice-display {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    gap: 2px;
+    padding: 2px;
+    box-sizing: border-box;
+    background-color: #000;
+    transform: skew(-6deg);
+    position: relative;
+    left: 5px;
+    border-radius: 5px 0 5px 0;
+    margin-top: auto;
+    margin-bottom: -4px;
+
+    .inlinerollresult, [for^=sheet-rollX] {
+        display: block;
+        height: 28px;
+        line-height: 26px;
+        font-size: 24px;
+        padding: 0 4px;
+        border: 1px outset var(--color) !important;
+        border-radius: 2px;
+        background-size: 26px;
+        background-position: center;
+        cursor: pointer;
+
+        &:first-child { border-top-left-radius: 5px; }
+        &:last-child { border-bottom-right-radius: 5px; }
+    }
+
+    label {
+        flex-grow: 1;
+        margin: 0;
+
+        &[for^=sheet-rollX] {
+            display: none;
+            width: 10px;
+            background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/arrowUp.png');
+            background-size: 20px;
+            background-position: center;
+            background-repeat: no-repeat;
+            transform: rotate(84deg);
+        }
+    }
+}
+
+.sheet-rolltemplate-customRoll .sheet-dice-display:not(:has([for^=sheet-roll0])) {
+    display: none;
+}
+
+.sheet-rolltemplate-customRoll .sheet-section-wrapper {
+
+    .inlinerollresult {
+        /* display: inline-grid;
+        grid-template-columns: 25px auto; */
+        display: inline-block;
+        padding: 0 10px 0 25px;
+        
+        &[data-title]::after {
+            content: ": " attr(data-title);
+            padding-left: 4px;
+        }
+    }
+}
+
+.sheet-rolltemplate-customRoll .inlinerollresult {
+    display: inline-block;
+    height: 20px;
+    padding: 0;
+    border: 0 !important;
+    border-radius: 10px;
+    box-sizing: border-box;
+    color: #eee;
+    text-decoration: none;
+    line-height: 20px;
+    text-align: center;
+    text-wrap-mode: nowrap;
+    text-shadow: 0 0 5px black, 0px 1px 2px black;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: 2px;
+    background-color: var(--color, #85a874) !important;
+    background-image: var(--image, url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/question.png'));
+    user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Use this to give feedback on hover and selection */
+.sheet-rolltemplate-customRoll a:hover,
+.sheet-rolltemplate-customRoll a:active {
+    filter: brightness(1.15);
+}
+
+/* Ensures all clicks are directed to the roll tab labels */
+.sheet-rolltemplate-customRoll a:active {
+    pointer-events: none;
+}
+
+/* Hopefully you can find a better solution than this hard coding */
+.sheet-rolltemplate-customRoll:has(input[id^=sheet-roll0]:checked) label[for^=sheet-roll0],
+.sheet-rolltemplate-customRoll:has(input[id^=sheet-roll1]:checked) label[for^=sheet-roll1],
+.sheet-rolltemplate-customRoll:has(input[id^=sheet-roll2]:checked) label[for^=sheet-roll2],
+.sheet-rolltemplate-customRoll:has(input[id^=sheet-roll3]:checked) label[for^=sheet-roll3],
+.sheet-rolltemplate-customRoll:has(input[id^=sheet-roll4]:checked) label[for^=sheet-roll4],
+.sheet-rolltemplate-customRoll:has(input[id^=sheet-roll5]:checked) label[for^=sheet-roll5],
+.sheet-rolltemplate-customRoll:has(input[id^=sheet-roll6]:checked) label[for^=sheet-roll6],
+.sheet-rolltemplate-customRoll:has(input[id^=sheet-roll7]:checked) label[for^=sheet-roll7],
+.sheet-rolltemplate-customRoll:has(input[id^=sheet-roll8]:checked) label[for^=sheet-roll8],
+.sheet-rolltemplate-customRoll:has(input[id^=sheet-roll9]:checked) label[for^=sheet-roll9] {
+    box-sizing: border-box;
+    border-radius: 5px 0 5px 0;
+
+    .inlinerollresult {
+        padding-left: 25px;
+        line-height: 22px;
+        background-position: left !important;
+        background-position-y: -2px !important;
+        border-width: 2px !important;
+    }
+}
+
+.sheet-rolltemplate-customRoll:has(input:not([id^=sheet-rollX]):checked) label[for^=sheet-rollX] {
+    display: block !important;
+}
+
+.sheet-rolltemplate-customRoll .sheet-section-toggle {
+    display: none;
+
+    &:not(:has(input:checked)) ~ div {
+        display: none;
+    }
+}
 
 
 /* --- Chat message sorting --- */
@@ -4431,7 +4609,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .itemMystery:checked + div .slash, .egoSlash { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSlash.png'); }
 .itemMystery:checked + div .pierce, .egoPierce { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoPierce.png'); }
 .itemMystery:checked + div .blunt, .egoBlunt { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoBlunt.png'); }
-.itemMystery:checked + div .rollDamageType .question { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/egoChoose.png'); }
+.itemMystery:checked + div .rollDamageType .question { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/egoQuestion.png'); }
 
 .Act { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png'); }
 .Mass { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Wide.png'); }
