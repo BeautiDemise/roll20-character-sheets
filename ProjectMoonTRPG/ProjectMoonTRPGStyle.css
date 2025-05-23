@@ -4318,10 +4318,32 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 /* --- NEW Roll overhaul */
 .sheet-rolltemplate-customRoll .sheet-template-wrapper {
     height: auto;
-    padding: 5px;
     border-radius: 5px;
     color: #eee;
     background-color: #454545;
+}
+
+.sheet-rolltemplate-customRoll .inlinerollresult {
+    display: inline-block;
+    height: 20px;
+    padding: 0;
+    border: 0 !important;
+    border-radius: 10px;
+    box-sizing: border-box;
+    color: #eee;
+    text-decoration: none;
+    line-height: 20px;
+    text-align: center;
+    text-wrap-mode: nowrap;
+    text-shadow: 0 0 5px black, 0px 1px 2px black;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: 2px;
+    background-color: var(--color, #85a874) !important;
+    background-image: var(--image, url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/question.png'));
+    user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .sheet-rolltemplate-customRoll .sheet-header-wrapper {
@@ -4329,19 +4351,18 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     align-items: flex-start;
     min-height: 30px;
     max-height: 75px;
-    margin: -5px -5px 5px -5px;
     border: 2px #000 solid;
     background-color: #222;     /* Customizeable */
+    color: #fff;                /* Customizeable */
+    box-sizing: border-box;
     overflow: visible;
     
-    .sheet-header {
+    .sheet-title {
         flex-grow: 10;
         width: 45%;
         max-height: 41px;
-        box-sizing: border-box;
         margin: auto;
-        padding: 3px 0 3px 5px;
-        color: #fff;            /* Customizeable */
+        padding: 3px 0 3px 4px;
         line-height: 18px;
         font-size: 14px;
         word-wrap: break-word;
@@ -4401,12 +4422,23 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 }
 
 .sheet-rolltemplate-customRoll .sheet-section-wrapper {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    
+    .sheet-header-wrapper {
+        margin: 0;
+
+        .sheet-title {
+            width: 100%;
+            padding-right: 4px;
+        }
+    }
 
     .inlinerollresult {
-        /* display: inline-grid;
-        grid-template-columns: 25px auto; */
         display: inline-block;
         padding: 0 10px 0 25px;
+        margin: 0px 4px;
         
         &[data-title]::after {
             content: ": " attr(data-title);
@@ -4415,37 +4447,32 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     }
 }
 
-.sheet-rolltemplate-customRoll .inlinerollresult {
-    display: inline-block;
-    height: 20px;
-    padding: 0;
-    border: 0 !important;
-    border-radius: 10px;
-    box-sizing: border-box;
-    color: #eee;
-    text-decoration: none;
-    line-height: 20px;
-    text-align: center;
-    text-wrap-mode: nowrap;
-    text-shadow: 0 0 5px black, 0px 1px 2px black;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position-x: 2px;
-    background-color: var(--color, #85a874) !important;
-    background-image: var(--image, url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/question.png'));
-    user-select: none;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.sheet-rolltemplate-customRoll .sheet-section {
+    margin-top: 4px;
+
+    .sheet-section-message {
+        /* display: flex;
+        align-items: baseline;
+        flex-wrap: wrap; */
+        padding: 2px 5px;
+        line-height: 21px;
+        border: 1px solid #555;
+        border-top: 0;
+
+        &:last-child {
+            border-radius: 0 0 4px 4px;
+        }
+    }
 }
 
 /* Use this to give feedback on hover and selection */
-.sheet-rolltemplate-customRoll a:hover,
-.sheet-rolltemplate-customRoll a:active {
+.sheet-rolltemplate-customRoll .inlinerollresult :hover,
+.sheet-rolltemplate-customRoll .inlinerollresult :active {
     filter: brightness(1.15);
 }
 
 /* Ensures all clicks are directed to the roll tab labels */
-.sheet-rolltemplate-customRoll a:active {
+.sheet-rolltemplate-customRoll .inlinerollresult:active {
     pointer-events: none;
 }
 
@@ -4483,6 +4510,22 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         display: none;
     }
 }
+
+.sheet-rolltemplate-customRoll .sheet-styledText {
+    pointer-events: visible;
+    cursor: text;
+    color: var(--color-white);
+}
+.sheet-rolltemplate-customRoll .sheet-styledText:hover {
+    text-decoration: none;
+}
+
+
+
+
+
+
+
 
 
 /* --- Chat message sorting --- */

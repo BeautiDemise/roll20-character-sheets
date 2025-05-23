@@ -318,6 +318,7 @@
 								<option value="None" data-i18n="item-none">---</option>
 								<option value="Action" data-i18n="resource-action">Action</option>
 								<option value="Reaction" data-i18n="resource-reaction">Reaction</option>
+								<option value="Universal" data-i18n="resource-universal">Universal</option>
 								<option value="Counter" data-i18n="resource-counter">Counter</option>
 								<option value="Block" data-i18n="resource-block">Block</option>
 								<option value="Evade" data-i18n="resource-evade">Evade</option>
@@ -337,6 +338,7 @@
 								<option value="None" data-i18n="item-none">---</option>
 								<option value="Action" data-i18n="resource-action">Action</option>
 								<option value="Reaction" data-i18n="resource-reaction">Reaction</option>
+								<option value="Universal" data-i18n="resource-universal">Universal</option>
 								<option value="Counter" data-i18n="resource-counter">Counter</option>
 								<option value="Block" data-i18n="resource-block">Block</option>
 								<option value="Evade" data-i18n="resource-evade">Evade</option>
@@ -560,6 +562,7 @@
 						<option value="None" data-i18n="item-none">---</option>
 						<option value="Action" data-i18n="resource-action">Action</option>
 						<option value="Reaction" data-i18n="resource-reaction">Reaction</option>
+						<option value="Universal" data-i18n="resource-universal">Universal</option>
 						<option value="Counter" data-i18n="resource-counter">Counter</option>
 						<option value="Block" data-i18n="resource-block">Block</option>
 						<option value="Evade" data-i18n="resource-evade">Evade</option>
@@ -579,6 +582,7 @@
 						<option value="None" data-i18n="item-none">---</option>
 						<option value="Action" data-i18n="resource-action">Action</option>
 						<option value="Reaction" data-i18n="resource-reaction">Reaction</option>
+						<option value="Universal" data-i18n="resource-universal">Universal</option>
 						<option value="Counter" data-i18n="resource-counter">Counter</option>
 						<option value="Block" data-i18n="resource-block">Block</option>
 						<option value="Evade" data-i18n="resource-evade">Evade</option>
@@ -1368,7 +1372,7 @@
 						<!-- Option: Weapon UI -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_weaponUI" value="true" hidden="true">
 						<div class="hide-item-flex itemWeaponUI rowContainer">
-							<select name="attr_rollDamageType1" class="darkInput">
+							<select name="attr_rollDamageType0" class="darkInput">
 								<option value="None" data-i18n="weapon-type-None">---</option>
 								<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
 								<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
@@ -1450,9 +1454,50 @@
 					<div class="hide-item-flex itemRollFormats contentHeader">
 
 						<!-- Rollformat (1) -->
-						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden="true">
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden="true">
 						<div class="hide-item-flex rollFormat">
 								
+							<!-- Roll icon -->
+							<div class="rollFormatIcon">
+								<div class="rollType" hidden="true">
+									<input type="checkbox" value="None" name="attr_rollType0">
+									<input type="checkbox" value="Attack" name="attr_rollType0">
+									<input type="checkbox" value="Block" name="attr_rollType0">
+									<input type="checkbox" value="Evade" name="attr_rollType0">
+									<input type="checkbox" value="Fortitude" name="attr_rollType0">
+									<input type="checkbox" value="Prudence" name="attr_rollType0">
+									<input type="checkbox" value="Justice" name="attr_rollType0">
+									<input type="checkbox" value="Charm" name="attr_rollType0">
+									<input type="checkbox" value="Insight" name="attr_rollType0">
+									<input type="checkbox" value="Temperance" name="attr_rollType0">
+								</div>
+								<div class="rollDamageType" hidden="true">
+									<input type="checkbox" value="None" name="attr_rollDamageType0">
+									<input type="checkbox" value="Slash" name="attr_rollDamageType0">
+									<input type="checkbox" value="Pierce" name="attr_rollDamageType0">
+									<input type="checkbox" value="Blunt" name="attr_rollDamageType0">
+									<input type="checkbox" value="Choose" name="attr_rollDamageType0">
+								</div>
+							</div>
+							
+							<!-- Roll format -->
+							<div class="rollFormatBlock">
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="1">
+								<div class="plainText">D</div>
+								<input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="10">
+								<div class="plainText">+</div>
+								<input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
+							</div>
+							
+							<!-- Roll button -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden="true">
+							<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+						</div>
+
+						<!-- Rollformat (2) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden="true">
+						<div class="hide-item-flex rollFormat">
+							
 							<!-- Roll icon -->
 							<div class="rollFormatIcon">
 								<div class="rollType" hidden="true">
@@ -1475,22 +1520,22 @@
 									<input type="checkbox" value="Choose" name="attr_rollDamageType1">
 								</div>
 							</div>
-							
+
 							<!-- Roll format -->
 							<div class="rollFormatBlock">
 								<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="1">
 								<div class="plainText">D</div>
-								<input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="10">
+								<input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="12">
 								<div class="plainText">+</div>
 								<input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
 							</div>
-							
+
 							<!-- Roll button -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden="true">
 							<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
 						</div>
 
-						<!-- Rollformat (2) -->
+						<!-- Rollformat (3) -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden="true">
 						<div class="hide-item-flex rollFormat">
 							
@@ -1519,9 +1564,9 @@
 
 							<!-- Roll format -->
 							<div class="rollFormatBlock">
-								<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="1">
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
 								<div class="plainText">D</div>
-								<input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="12">
+								<input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
 								<div class="plainText">+</div>
 								<input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
 							</div>
@@ -1531,7 +1576,7 @@
 							<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
 						</div>
 
-						<!-- Rollformat (3) -->
+						<!-- Rollformat (4) -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden="true">
 						<div class="hide-item-flex rollFormat">
 							
@@ -1572,10 +1617,10 @@
 							<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
 						</div>
 
-						<!-- Rollformat (4) -->
+						<!-- Rollformat (5) -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden="true">
 						<div class="hide-item-flex rollFormat">
-							
+								
 							<!-- Roll icon -->
 							<div class="rollFormatIcon">
 								<div class="rollType" hidden="true">
@@ -1598,7 +1643,7 @@
 									<input type="checkbox" value="Choose" name="attr_rollDamageType4">
 								</div>
 							</div>
-
+							
 							<!-- Roll format -->
 							<div class="rollFormatBlock">
 								<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
@@ -1607,51 +1652,10 @@
 								<div class="plainText">+</div>
 								<input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
 							</div>
-
+							
 							<!-- Roll button -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden="true">
 							<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
-						</div>
-
-						<!-- Rollformat (5) -->
-						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay5" value="true" hidden="true">
-						<div class="hide-item-flex rollFormat">
-								
-							<!-- Roll icon -->
-							<div class="rollFormatIcon">
-								<div class="rollType" hidden="true">
-									<input type="checkbox" value="None" name="attr_rollType5">
-									<input type="checkbox" value="Attack" name="attr_rollType5">
-									<input type="checkbox" value="Block" name="attr_rollType5">
-									<input type="checkbox" value="Evade" name="attr_rollType5">
-									<input type="checkbox" value="Fortitude" name="attr_rollType5">
-									<input type="checkbox" value="Prudence" name="attr_rollType5">
-									<input type="checkbox" value="Justice" name="attr_rollType5">
-									<input type="checkbox" value="Charm" name="attr_rollType5">
-									<input type="checkbox" value="Insight" name="attr_rollType5">
-									<input type="checkbox" value="Temperance" name="attr_rollType5">
-								</div>
-								<div class="rollDamageType" hidden="true">
-									<input type="checkbox" value="None" name="attr_rollDamageType5">
-									<input type="checkbox" value="Slash" name="attr_rollDamageType5">
-									<input type="checkbox" value="Pierce" name="attr_rollDamageType5">
-									<input type="checkbox" value="Blunt" name="attr_rollDamageType5">
-									<input type="checkbox" value="Choose" name="attr_rollDamageType5">
-								</div>
-							</div>
-							
-							<!-- Roll format -->
-							<div class="rollFormatBlock">
-								<input type="number" class="diceCount noSpinner" name="attr_rollCount5" min="0" value="0">
-								<div class="plainText">D</div>
-								<input type="number" class="diceMax noSpinner" name="attr_rollMax5" value="0">
-								<div class="plainText">+</div>
-								<input type="number" class="dicePower noSpinner" name="attr_rollPower5" value="0">
-							</div>
-							
-							<!-- Roll button -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_rollMode5" value="Roll" hidden="true">
-							<button type="action" class="hide-item rollButton centerIcon" data-index="5" name="act_item-roll"></button>
 						</div>
 					</div>
 
@@ -2690,9 +2694,14 @@ EGO block end -->
 							<input type="radio" id="reactionSelection" name="attr_resourceSelection" value="Reaction" hidden="true">
 
 							<input type="checkbox" class="fade-toggle" name="attr_Reaction_current" value="0" hidden="true" checked>
-							<input type="number" min="0" value="0" class="trackerCurrent hoverSpinner" name="attr_Reaction_current">
-							<input type="number" min="0" value="0" class="trackerMax noSpinner" name="attr_Reaction_max">
-							<input type="number" min="0" value="0" class="trackerBase hoverSpinner" name="attr_Reaction_base">
+							<input type="number" min="0" value="0" class="hide-item-rev trackerCurrent hoverSpinner" name="attr_Reaction_current">
+							<input type="number" min="0" value="0" class="hide-item-rev trackerMax noSpinner" name="attr_Reaction_max">
+							<input type="number" min="0" value="0" class="hide-item-rev trackerBase hoverSpinner" name="attr_Reaction_base">
+
+							<input type="checkbox" class="fade-toggle" name="attr_Universal_current" value="0" hidden="true" checked>
+							<input type="number" min="0" value="0" class="hide-item trackerCurrent hoverSpinner" name="attr_Universal_current">
+							<input type="number" min="0" value="0" class="hide-item trackerMax noSpinner" name="attr_Universal_max">
+							<input type="number" min="0" value="0" class="hide-item trackerBase hoverSpinner" name="attr_Universal_base">
 						</div>
 					</div>
 					
@@ -5345,7 +5354,7 @@ EGO block end -->
 							<!-- Option: Weapon UI -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_weaponUI" value="true" hidden="true">
 							<div class="hide-item-flex itemWeaponUI rowContainer">
-								<select name="attr_rollDamageType1" class="darkInput">
+								<select name="attr_rollDamageType0" class="darkInput">
 									<option value="None" data-i18n="weapon-type-None">---</option>
 									<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
 									<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
@@ -5427,9 +5436,51 @@ EGO block end -->
 						<div class="hide-item-flex itemRollFormats contentHeader">
 
 							<!-- Rollformat (1) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden="true">
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden="true">
 							<div class="hide-item-flex rollFormat">
 									
+								<!-- Roll icon -->
+								<div class="rollFormatIcon">
+									<input type="checkbox" class="swap-toggle" name="attr_rollType0" value="Attack" hidden="true">
+									<div class="swap-item-rev rollType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType0"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType0"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType0"><div class="Def centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType0"><div class="Evd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType0"><div class="Inst centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType0"><div class="Wisd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType0"><div class="Just centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType0"><div class="Char centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType0"><div class="Insi centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType0"><div class="Temp centerIcon"></div>
+									</div>
+									<div class="swap-item rollDamageType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType0"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType0"><div class="slash centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType0"><div class="pierce centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType0"><div class="blunt centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType0"><div class="question centerIcon"></div>
+									</div>
+								</div>
+								
+								<!-- Roll format -->
+								<div class="rollFormatBlock">
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="1">
+									<div class="plainText">D</div>
+									<input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="10">
+									<div class="plainText">+</div>
+									<input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
+								</div>
+								
+								<!-- Roll button -->
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden="true">
+								<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (2) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden="true">
+							<div class="hide-item-flex rollFormat">
+								
 								<!-- Roll icon -->
 								<div class="rollFormatIcon">
 									<input type="checkbox" class="swap-toggle" name="attr_rollType1" value="Attack" hidden="true">
@@ -5453,22 +5504,22 @@ EGO block end -->
 										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType1"><div class="question centerIcon"></div>
 									</div>
 								</div>
-								
+
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
 									<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="1">
 									<div class="plainText">D</div>
-									<input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="10">
+									<input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="12">
 									<div class="plainText">+</div>
 									<input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
 								</div>
-								
+
 								<!-- Roll button -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden="true">
 								<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
 							</div>
 
-							<!-- Rollformat (2) -->
+							<!-- Rollformat (3) -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden="true">
 							<div class="hide-item-flex rollFormat">
 								
@@ -5498,9 +5549,9 @@ EGO block end -->
 
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
-									<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="1">
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
 									<div class="plainText">D</div>
-									<input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="12">
+									<input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
 									<div class="plainText">+</div>
 									<input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
 								</div>
@@ -5510,7 +5561,7 @@ EGO block end -->
 								<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
 							</div>
 
-							<!-- Rollformat (3) -->
+							<!-- Rollformat (4) -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden="true">
 							<div class="hide-item-flex rollFormat">
 								
@@ -5552,10 +5603,10 @@ EGO block end -->
 								<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
 							</div>
 
-							<!-- Rollformat (4) -->
+							<!-- Rollformat (5) -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden="true">
 							<div class="hide-item-flex rollFormat">
-								
+									
 								<!-- Roll icon -->
 								<div class="rollFormatIcon">
 									<input type="checkbox" class="swap-toggle" name="attr_rollType4" value="Attack" hidden="true">
@@ -5579,7 +5630,7 @@ EGO block end -->
 										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType4"><div class="question centerIcon"></div>
 									</div>
 								</div>
-
+								
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
 									<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
@@ -5588,52 +5639,10 @@ EGO block end -->
 									<div class="plainText">+</div>
 									<input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
 								</div>
-
+								
 								<!-- Roll button -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden="true">
 								<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
-							</div>
-
-							<!-- Rollformat (5) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay5" value="true" hidden="true">
-							<div class="hide-item-flex rollFormat">
-									
-								<!-- Roll icon -->
-								<div class="rollFormatIcon">
-									<input type="checkbox" class="swap-toggle" name="attr_rollType5" value="Attack" hidden="true">
-									<div class="swap-item-rev rollType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType5"><div class="question centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType5"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType5"><div class="Def centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType5"><div class="Evd centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType5"><div class="Inst centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType5"><div class="Wisd centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType5"><div class="Just centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType5"><div class="Char centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType5"><div class="Insi centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType5"><div class="Temp centerIcon"></div>
-									</div>
-									<div class="swap-item rollDamageType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType5"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType5"><div class="slash centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType5"><div class="pierce centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType5"><div class="blunt centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType5"><div class="question centerIcon"></div>
-									</div>
-								</div>
-								
-								<!-- Roll format -->
-								<div class="rollFormatBlock">
-									<input type="number" class="diceCount noSpinner" name="attr_rollCount5" min="0" value="0">
-									<div class="plainText">D</div>
-									<input type="number" class="diceMax noSpinner" name="attr_rollMax5" value="0">
-									<div class="plainText">+</div>
-									<input type="number" class="dicePower noSpinner" name="attr_rollPower5" value="0">
-								</div>
-								
-								<!-- Roll button -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode5" value="Roll" hidden="true">
-								<button type="action" class="hide-item rollButton centerIcon" data-index="5" name="act_item-roll"></button>
 							</div>
 						</div>
 
@@ -5826,7 +5835,7 @@ EGO block end -->
 							<!-- Option: Weapon UI -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_weaponUI" value="true" hidden="true">
 							<div class="hide-item-flex itemWeaponUI rowContainer">
-								<select name="attr_rollDamageType1" class="darkInput">
+								<select name="attr_rollDamageType0" class="darkInput">
 									<option value="None" data-i18n="weapon-type-None">---</option>
 									<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
 									<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
@@ -5908,9 +5917,51 @@ EGO block end -->
 						<div class="hide-item-flex itemRollFormats contentHeader">
 
 							<!-- Rollformat (1) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden="true">
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden="true">
 							<div class="hide-item-flex rollFormat">
 									
+								<!-- Roll icon -->
+								<div class="rollFormatIcon">
+									<input type="checkbox" class="swap-toggle" name="attr_rollType0" value="Attack" hidden="true">
+									<div class="swap-item-rev rollType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType0"><div class="question centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType0"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType0"><div class="Def centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType0"><div class="Evd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType0"><div class="Inst centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType0"><div class="Wisd centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType0"><div class="Just centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType0"><div class="Char centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType0"><div class="Insi centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType0"><div class="Temp centerIcon"></div>
+									</div>
+									<div class="swap-item rollDamageType">
+										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType0"><div class="Att centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType0"><div class="slash centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType0"><div class="pierce centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType0"><div class="blunt centerIcon"></div>
+										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType0"><div class="question centerIcon"></div>
+									</div>
+								</div>
+								
+								<!-- Roll format -->
+								<div class="rollFormatBlock">
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="1">
+									<div class="plainText">D</div>
+									<input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="10">
+									<div class="plainText">+</div>
+									<input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
+								</div>
+								
+								<!-- Roll button -->
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden="true">
+								<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (2) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden="true">
+							<div class="hide-item-flex rollFormat">
+								
 								<!-- Roll icon -->
 								<div class="rollFormatIcon">
 									<input type="checkbox" class="swap-toggle" name="attr_rollType1" value="Attack" hidden="true">
@@ -5934,22 +5985,22 @@ EGO block end -->
 										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType1"><div class="question centerIcon"></div>
 									</div>
 								</div>
-								
+
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
 									<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="1">
 									<div class="plainText">D</div>
-									<input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="10">
+									<input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="12">
 									<div class="plainText">+</div>
 									<input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
 								</div>
-								
+
 								<!-- Roll button -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden="true">
 								<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
 							</div>
 
-							<!-- Rollformat (2) -->
+							<!-- Rollformat (3) -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden="true">
 							<div class="hide-item-flex rollFormat">
 								
@@ -5979,9 +6030,9 @@ EGO block end -->
 
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
-									<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="1">
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
 									<div class="plainText">D</div>
-									<input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="12">
+									<input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
 									<div class="plainText">+</div>
 									<input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
 								</div>
@@ -5991,7 +6042,7 @@ EGO block end -->
 								<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
 							</div>
 
-							<!-- Rollformat (3) -->
+							<!-- Rollformat (4) -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden="true">
 							<div class="hide-item-flex rollFormat">
 								
@@ -6033,10 +6084,10 @@ EGO block end -->
 								<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
 							</div>
 
-							<!-- Rollformat (4) -->
+							<!-- Rollformat (5) -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden="true">
 							<div class="hide-item-flex rollFormat">
-								
+									
 								<!-- Roll icon -->
 								<div class="rollFormatIcon">
 									<input type="checkbox" class="swap-toggle" name="attr_rollType4" value="Attack" hidden="true">
@@ -6060,7 +6111,7 @@ EGO block end -->
 										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType4"><div class="question centerIcon"></div>
 									</div>
 								</div>
-
+								
 								<!-- Roll format -->
 								<div class="rollFormatBlock">
 									<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
@@ -6069,52 +6120,10 @@ EGO block end -->
 									<div class="plainText">+</div>
 									<input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
 								</div>
-
+								
 								<!-- Roll button -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden="true">
 								<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
-							</div>
-
-							<!-- Rollformat (5) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay5" value="true" hidden="true">
-							<div class="hide-item-flex rollFormat">
-									
-								<!-- Roll icon -->
-								<div class="rollFormatIcon">
-									<input type="checkbox" class="swap-toggle" name="attr_rollType5" value="Attack" hidden="true">
-									<div class="swap-item-rev rollType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType5"><div class="question centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType5"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType5"><div class="Def centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType5"><div class="Evd centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType5"><div class="Inst centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType5"><div class="Wisd centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType5"><div class="Just centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType5"><div class="Char centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType5"><div class="Insi centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType5"><div class="Temp centerIcon"></div>
-									</div>
-									<div class="swap-item rollDamageType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType5"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType5"><div class="slash centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType5"><div class="pierce centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType5"><div class="blunt centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType5"><div class="question centerIcon"></div>
-									</div>
-								</div>
-								
-								<!-- Roll format -->
-								<div class="rollFormatBlock">
-									<input type="number" class="diceCount noSpinner" name="attr_rollCount5" min="0" value="0">
-									<div class="plainText">D</div>
-									<input type="number" class="diceMax noSpinner" name="attr_rollMax5" value="0">
-									<div class="plainText">+</div>
-									<input type="number" class="dicePower noSpinner" name="attr_rollPower5" value="0">
-								</div>
-								
-								<!-- Roll button -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode5" value="Roll" hidden="true">
-								<button type="action" class="hide-item rollButton centerIcon" data-index="5" name="act_item-roll"></button>
 							</div>
 						</div>
 
@@ -8579,7 +8588,7 @@ EGO block end -->
 		
 		<!-- Header -->
 		<div class="sheet-header-wrapper">
-			<b class="sheet-header">{{header}}</b>
+			<b class="sheet-title">{{header}}</b>
 
 			<!-- Dice bar -->
 			{{#dice}}
@@ -8710,14 +8719,14 @@ const advTypes = ["Advantage", "Disadvantage"]
 //   copy: Makes an AutoEffect use the format of another effect
 const autoEffectFormats = {
 	"CustomMessage":	{value:"string", 	target:false},
-	"Require":			{value:"number", 	target:["#Ailment", "#Bar", "#BarDamage", "#Resource"], 	percentageValue:true, compareValue:true, useCount:true},
-	"Consume":			{value:"number", 	target:["#Ailment", "#Bar", "#Resource"],					percentageValue:true, useCount:true},
+	"Require":			{value:"number", 	target:["#Ailment", "#Bar", "#BarDamage", "#Resource"], 	percentageValue:true, compareValue:true},
+	"Consume":			{value:"number", 	target:["#Ailment", "#Bar", "#Resource"],					percentageValue:true},
 	"Reset":			{value:false,    	target:false},
-	"Gain":				{value:"number", 	target:["#Ailment"],										maxLengthMod:1, useCount:true},
+	"Gain":				{value:"number", 	target:["#Ailment"],										maxLengthMod:1},
 	"Inflict":			{copy: "Gain"},
 	"Give":				{copy: "Gain"},
-	"Set":				{value:"number", 	target:["#Bar", "#Resource"], 								useCount:true},
-	"Add":				{value:"number",	target:["#Bar", "#BarTemp", "#Resource"], 					negativeValue:true, useCount:true},
+	"Set":				{value:"number", 	target:["#Bar", "#Resource"]},
+	"Add":				{value:"number",	target:["#Bar", "#BarTemp", "#Resource"], 					negativeValue:true, },
 	"Multi":			{copy: "Set"},
 	"DicePower":		{value:"number", 	target:false,												negativeValue:true},
 	"DiceMax":			{copy: "DicePower"},
@@ -8725,8 +8734,8 @@ const autoEffectFormats = {
 	"DiceAdv":			{copy: "DicePower"},
 	"BaseDamage":		{value:"number", 	target:["#Bar"],											negativeValue:true, targetOptional:true},
 	"FlatDamage":		{value:"number", 	target:["#Bar"],											negativeValue:true},
-	"Proc":				{value:false,    	target:["#Ailment"], 										useCount:true},
-	"Pause":			{value:"number", 	target:["#Ailment"], 										useCount:true},
+	"Proc":				{value:false,    	target:["#Ailment"]},
+	"Pause":			{value:"number", 	target:["#Ailment"]},
 	"ChallengeRoll":	{value:"number", 	target:["#Stat"],											negativeValue:true, reverse:true},
 	"Speed":			{value:"number", 	target:false,												negativeValue:true, duration:true, maxLengthMod:1}
 }
@@ -8754,9 +8763,6 @@ const conditionalOptions = {
 	"IgnoreFailure":	["Require", "Consume"],
 	"ChatButton":		[...autoEffectOptions.Target, "Inflict", "Give", "FlatDamage"]
 }
-const triggerOptions = [
-	"First round"
-]
 const autoEffectTriggers = [
 	"Combat start", "Round start", "Combat end",				// Turn order
 	"Offensive", "Defensive", "Block", "Evade", "Challenge",	// Actions
@@ -8764,20 +8770,29 @@ const autoEffectTriggers = [
 	"Staggered", "Defeated", "Panic",							// States
 	"Recover", "Permanent"										// Other
 ]
+const triggerOptions = [
+	"First round"
+]
 
-/* Contains all error codes and messages used by the AutoEffects functionality */
-const autoEffectErrorData = {
-	"Invalid AutoEffect": "autoeffect-error-invalid-name",
-	"Invalid Value": "autoeffect-error-invalid-value",
-	"Invalid Target": "autoeffect-error-invalid-target",
-	"Invalid Format": "autoeffect-error-invalid-format",
-	"Invalid Option": "autoeffect-error-invalid-option",
-	"Invalid Round": "autoeffect-error-invalid-round",
-	"Invalid Duration": "autoeffect-error-invalid-duration",
-	"Invalid Percentage": "autoeffect-error-invalid-percentage",
-	"Invalid Compare": "autoeffect-error-invalid-compare",
-	"Invalid Alias": "autoeffect-error-invalid-alias",
-	"Math Error": "autoeffect-error-math"
+/* Contains all error codes and messages used across the sheet */
+const errorData = {
+	autoeffect: {
+		"Invalid AutoEffect": "name",
+		"Invalid Value": "value",
+		"Invalid Target": "target",
+		"Invalid Format": "format",
+		"Invalid Option": "option",
+		"Invalid Round": "round",
+		"Invalid Duration": "duration",
+		"Invalid Percentage": "percentage",
+		"Invalid Compare": "compare",
+	},
+	alias: {
+		"Alias Error": "",
+	},
+	math: {
+		"Math Error": "",
+	}
 }
 
 /* Contains default AutoScript styling and aliases */
@@ -9380,7 +9395,7 @@ class checkVal {
 
 	static ID(s, opts={}) { return typeof(s) == "string" && (opts.strict ? /^-[\w-]{19}$/ : /^-.{19}$/).test(s); } // Checks if a Roll20-style id is valid
 	static Effect(v, opts={}) { return /^(?:-(?:\d+|n|\d+n))$|^(?:\d+)?n?$/.test(v); } // Check for ailment effects like "0", "-n" and "6n"
-	static Path(p, opts={}) { return /^$/; } //navPath
+	static Path(p, opts={}) { return /^(?:([^\s\.\[\]]+|(?:\[.+?\]))\.?)+$/; } //navPath
 
 	static Hex(s) { return /^#?[0-9a-f]{6}$/i.test(s); }
 	static PropString(s) { // Check for strings with the format "Key Value, Key Value, ..." where key is a non-empty string and value is an integer
@@ -12922,7 +12937,8 @@ function resourceReq(reqArray, opts={deduct:false}) {
 				reqFailure[resource] = cost;
 			}
 		} else if (resource in access.resource) {
-			console.log(resource, "is resource", access.resource[resource].current)
+			console.log(`Require ${cost} ${resource}. Current count is ${access.resource[resource].current}`);
+
 			if (access.resource[resource].current < cost) {
 				if (is(resource).In("counter", "block", "evade") && access.resource.reaction.current >= cost) {
 					reqArray[i][0] = "reaction";
@@ -12931,7 +12947,7 @@ function resourceReq(reqArray, opts={deduct:false}) {
 				}
 			}
 		} else {
-			console.log("resourceReq: Unknown resource", resource, cost);
+			console.warn("resourceReq: Unknown resource", resource, cost);
 		}
 	}
 
@@ -12995,23 +13011,31 @@ function simulateRoll(roll, opts={updateRoll:false, mod:0}) {
 	return rollSum;
 }
 
-// Takes in an array of roll dataNodes and outputs them as a chat message
-async function rollMessage(rollArray, message) {
-	if (!rollArray) rollArray = access.rolls.repNodes;
-	if (!message) rollArray = access.message;
+// Outputs a chat message containing all roll, message and error data in access
+async function sendMessage(rollArray, message) {
+	if (!rollArray) rollArray = access.rolls;
+	if (!message) message = access.message;
 
 	let msgID = generateRowID(); // TODO: Consider making this the character's id
 	
-	let headerTitle = message.header?.title || rollArray[0].type || "";
+	let headerTitle = message.header?.title || rollArray?.[0]?.type || "";
 	let headerDice = []; // Any dice that are displayed in the header. Does not include inline rolls
-	let sections = [`<div class="sheet-section-deselect"><div class="sheet-section-toggle" dir" " dir=$[[0.computed]]></div></div>`];
+	let sections = [];
 
-	let msgRolls = [`{{id=${msgID}}} {{rollX=[[0]]}}`];
-	let msgReplace = {rollX: `"><input type="radio" id="sheet-rollX${msgID}" name="diceSelect" name="`}
-
-	let replaceIndex = 1; // Begins at 1 to account for the built-in deselect input which uses index 0
+	let msgRolls = [];
+	let msgReplace = {}
+	let replaceIndex = 0
 	let sectionIndex = 0;
 
+	// If at least one roll is provided, generate a roll deselect element
+	if (rollArray.length > 0) {
+		sections.push(`<div class="sheet-section-deselect"><div class="sheet-section-toggle" dir" " dir=$[[0.computed]]></div></div>`);
+		msgRolls.push(`{{id=${msgID}}} {{rollX=[[0]]}}`);
+		msgReplace.rollX = `"><input type="radio" id="sheet-rollX${msgID}" name="diceSelect" name="`;
+		replaceIndex++
+	}
+
+	// Handle rolls
 	for (const roll of rollArray) {
 		if (roll.result === undefined) {
 			simulateRoll(roll, {updateRoll:true, mod:0});
@@ -13094,8 +13118,8 @@ async function rollMessage(rollArray, message) {
 				let sectionMessage = `Rolled ${roll.count}d${roll.max}${rollMod} = ${roll.result} ${msgInsert}`
 				sectionContents.push(`<div class="sheet-section-message">${sectionMessage}</div>`);
 			}
-						
-			let sectionInsert = `<div class="sheet-section-header">${sectionHeader}</div><div class="sheet-section-contents">${sectionContents}</div>`
+			
+			let sectionInsert = `<div class="sheet-header-wrapper"><b class="sheet-title">${sectionHeader}</b></div><div class="sheet-section-contents">${sectionContents}</div>`
 
 			sections.push(`<div class="sheet-section"><div class="sheet-section-toggle" dir" " dir=$[[${replaceIndex}.computed]]></div>${sectionInsert}</div>`);
 
@@ -13110,6 +13134,28 @@ async function rollMessage(rollArray, message) {
 		// return msgInsert;
 	}
 
+	// Handle errors
+	if (access._state == "error") {
+		for (const [type, errors] of Object.entries(access._error.errors)) {
+			let errorMessages = []
+
+			for (const error of errors) {
+				let errorMessage = `${styleText(error.subject, "font-weight: bolder; color: red;")}\n*${error.text}*`;
+			
+				// Apply any provided insert words
+				for (let [match, insert] of Object.entries(error.inserts)) {
+					if (match == "[LOCATION]") {
+						insert = access._error.location(insert.string, insert);
+					}
+					errorMessage = errorMessage.replaceAll(match, insert || ` ${match}`);
+				}
+				errorMessages.push(errorMessage);
+			}
+			let errorInsert = `<div class="sheet-section-contents">${errorMessages.reduce((acc, msg) => acc += `<div class="sheet-section-message">${msg}</div>`, "")}</div>`;
+			sections.push(`<div class="sheet-section"><div class="sheet-header-wrapper"><b class="sheet-title">${type}</b></div>${errorInsert}</div>`)
+		}
+	}
+
 	let whisper = ""; // TODO: Need to add whisper support
 
 	setAttrs({"dummy":headerDice.join(""), "dummy2":sections.join("")}, {}, () => {
@@ -13122,34 +13168,554 @@ async function rollMessage(rollArray, message) {
 
 
 
-/* Executes one or more rolls and posts the results to the chat */
-function executeRolls(rollArray, opts={type:"Action", multiroll:false}, callback=()=>{}) {
-	access._begin("roll", () => {
-		let reqList = {}
 
-		// Check that all required resources and item uses needed for the roll are available
-		// If yes, deduct these resources from the character. If not, cancel the action
-		for (const roll of rollArray) {
-			let resource = opts.type.toLowerCase();
+function newAutoScriptMain(effect) {
+	if (access._state == "error") return; // Should be redundant, but better safe than sorry
 
-			if (roll[resource].enabled && roll[resource].type != "None") {
-				reqList[roll[resource].type] = (reqList[roll[resource].type] || 0) + roll[resource].cost;
+	console.log("autoScriptMain - new effect:", effect);
+
+	// Handle conditionals
+	// Only the first conditional of each AutoEffect is used, while the rest are stored
+	if (effect.conditionals.length > 0) {
+		let buttonNode = access.effects.buttons;
+		let buttonName = effect.conditionals.shift();
+		
+		if (effect.options.chatbutton) {
+			buttonNode = (effect.block.roll) ? effect.block.roll.message.buttons : access.message.buttons;
+		}
+
+		autoEffectButton(buttonNode, buttonName);
+
+		// If AutoEffect is Require or Consume, do not display the button if the check will fail. Ignore this rule if #IgnoreFailure is used
+		/* if (["Require", "Consume"].includes(AutoEffect.name) && !opts.ignoreFailure) {
+			if (["failure", "no target"].includes(autoEffectCheck(AutoEffect).checkResult)) {
+				conditionalButtonList[conditional].doNotDisplay = true;
 			}
-			if (roll.uses.enabled && roll.orig?.type == "item") {
-				reqList[roll.orig.id] = (reqList[roll.orig.id] || 0) + roll.uses.cost;
+		}*/
+	}
+	
+	// Execute effect
+	else {
+
+		return;
+
+		// TODO: You should be able to pull all message values from the effect and block
+		let messageValues = {}
+
+		/* Checks and Reset are always processed. Other AutoEffects are not processed if the last check failed */
+		switch (effect.name) {
+			case "Reset": autoEffectReset(effect); break;
+			case "CustomMessage": autoEffectCustomMessage(effect, messageValues); break;
+		}
+		if (effect.block.local.checkresult.includes("success")) {
+			switch (effect.name) {
+				case "Require": case "Consume": autoEffectCheck(effect); break;
+				case "Gain": case "Inflict": case "Give": autoEffectAilment(effect); break;
+				case "Set": case "Add": case "Multi": autoEffectBar(effect); break;
+				case "DicePower": case "DiceMax": case "DiceCount": case "DiceAdv": autoEffectDice(effect); break;
+				case "BaseDamage": case "FlatDamage": autoEffectDamage(effect); break;
+				case "Proc": autoEffectProc(effect); break;
+				case "Pause": autoEffectPause(effect); break;
+				case "ChallengeRoll": autoEffectChallengeRoll(effect); break;
+				case "Speed": autoEffectSpeed(effect); break;
 			}
 		}
 
-		if (length(reqList) > 0) {
-			let reqResult = resourceReq(reqList, {deduct:true});
+		// TODO: Handle messages
+		// Save the message either in access.message.section.contents, or in the equivalent contents subnode of a roll
+		// Use the section name in effect.options.section if it's set. Otherwise use a generic "AutoEffects" section
+		// Load styling data from access.style once that's implemented
 
-			if (typeof reqResult == "object") {
-				console.log("Attempted to make roll without requisite resources or item uses", reqResult);
-				return; // TODO: Should here display a popup saying the user lacks x resources to use the item
-				// This could be a JQuery event, with the popup anchoring to the top of the clicked element. Once the mouse leaves the element the popup is cleared
-				// This tech could be used all over the sheet to display messages when clicking or hovering over certain elements
+		// Resolve all insert words immediately after executing the effect
+	}
+
+	return;
+
+	// TODO: Need to update all these functions
+
+	function autoEffectButton(node, name) {
+		let newButton;
+
+		// Create a new button if one does not already exist
+		if (!node[name]) {
+			newButton = node.add();
+			newButton._name = name || "Unknown";
+			newButton._mode = effect.options.target || "select";
+
+			// TODO: Set up the color and icon of the button
+		}
+
+		newButton ||= node[snakeify(name)];
+		newButton.effects.add(effect);
+	}
+
+	function autoEffectOutput(ae, buttonName="", buttonAutoScript="", applyMode="add") {
+		if (ae.opts.target && buttonAutoScript != "") {
+			applyOutputButton(buttonName, buttonAutoScript, ae.opts.target, ae.conditional.opts.chatButton || false);
+		} else {
+			switch (ae.name) {
+				case "FlatDamage": applyOutputButton(buttonName, buttonAutoScript, "target", ae.conditional.opts.chatButton || false); // Intentional lack of break
+				case "BaseDamage": applyOutput(applyMode, ae.name + (ae.target || ""), ae.value); break;
+				case "DicePower": case "DiceMax": case "DiceCount": case "DiceAdv": applyOutput(applyMode, ae.name, ae.value); break;
+				case "Proc": applyOutput(applyMode, ae.targetAttr, true, ae.name); break;
+				case "Speed": applyOutput(applyMode, ae.target, ae.value); break;
+				default:
+				if (ae.targetType) {
+					switch (ae.targetType) {
+						case "tempBar": ae.result = updateTempBar(values, ae.target, "AutoEffects", ae.value * aeVars.scaling, "None", `AutoEffects ${ae.target}`, "icons", "gear", true, output); break;
+						case "resource":
+							applyOutput(applyMode, ae.targetAttr, ae.value);
+							if (ae.targetAttr.includes("_max")) applyOutput(applyMode, ae.targetAttr.replace("_max",""), ae.value);
+							break;
+						case "stat": applyOutput(applyMode, ae.targetAttr, ae.value); break;
+						case "ailment": case "bar": applyOutput(applyMode, ae.targetAttr, ae.value); break;
+					}
+				}
+			}
+		}
+
+		function applyOutput(applyMode, attr, value=0) {
+
+			/* Make sure the output value is an integer when using "add" or "set" apply modes */
+			if (["add", "set"].includes(applyMode)) {
+				value = roundTowardsZero(value);
+			}
+
+			/* Add the change to the output */
+			switch (applyMode) {
+				case "add": modifyProp(output, attr, value * aeVars.scaling, "+", {setValue: ae.count}); break;
+				case "set": output[attr] = value * aeVars.scaling; break;
+				case "multi": modifyProp(output, attr, value * aeVars.scaling, "*", {setValue: ae.count, round: "down"}); break;
+				case "dice": modifyProp(returnValues, attr, value * aeVars.scaling, "+"); break;
+				case "list": outputLists[`${uncapitalize(ae.name)}List`].push([attr, value * aeVars.scaling]); break;
+			}
+
+			/* Return the output value. Used for result inserts in messages */
+			ae.result = output[attr] || returnValues[attr] || 0;
+
+			/* Updates any modified variables */
+			if (ae.targetVar in aeVars) aeVars[ae.targetVar] = ae.result;
+		}
+
+		function applyOutputButton(defaultName, AutoScript, targetMode, customName) {
+			let buttonName = customName || defaultName;
+			if (buttonName == "") { return; }
+
+			let buttonTarget = "selected";
+			let buttonIcon = getIcon("icons", "gear", "false", "url");
+			let buttonColor = "green";
+			let buttonData = {buttonName:buttonName, buttonAutoScript:AutoScript, targetTokenId:""}
+
+			let stylingMatch = Object.keys(stylingList).find(conditional => buttonName.toLowerCase().includes(conditional.toLowerCase()))
+			if (stylingMatch) {
+				let [iconFolder, iconName, iconColor] = stylingList[stylingMatch] || ["icons", "gear", "green"]
+				if (!["green","blue","red","orange","yellow","purple","black"].includes(iconColor)) { iconColor = "green"; }
+				buttonIcon = getIcon(iconFolder, iconName, "false", "url");
+				buttonColor = iconColor;
+			}
+			
+			if (targetMode == "target" && targetName) {
+				buttonTarget = targetName;
+				buttonData.targetTokenId = targetTokenId;
+			}
+
+			buttonList = generateChatButton(buttonList, buttonTarget, buttonName, buttonIcon, buttonColor, buttonData, "chatButton", "half");
+		}
+	}
+
+	function autoEffectMessage(ae, countUpdate) {
+		let checkResult = ae.checkResult || aeVars.checkResult;
+		let scaling = ae.scaling || Math.max(parseInt(aeVars.scaling), 1);
+		let effectVal = roundTowardsZero(ae.value) || 0;
+		let scalingVal = roundTowardsZero(scaling * ae.value) || 0;
+		let effectTarget = ae.target || "No target";
+		let effectCount = parseInt(ae.count) || 0;
+		let effectResult = roundTowardsZero(ae.result || effectCount);
+		let effectName = ae.customname || ae.name.match(/[A-Z][a-z]+/g).join(" ") || "Unknown AutoEffect"; // Adds a space between parts of the name, ex. DicePower -> Dice Power
+		let effectIcon = ae.icon || "No icon";
+		let iconColor = ae.color || undefined;
+		let messageFormat = ae.format || "";	
+
+		/* Retrieve the messageFormat of the AutoEffect */
+		switch (ae.name) {
+			case "CustomMessage": messageFormat = ae.format; break;
+			case "Require": messageFormat = getTranslationByKeyCustom("Require [SCALING NUM] [TARGET]: [CHECK]", "autoeffect-format-require"); break;
+			case "Consume": messageFormat = getTranslationByKeyCustom("Consume [-SCALING NUM] [TARGET]: [CHECK]", "autoeffect-format-consume"); break;
+			case "Gain": messageFormat = getTranslationByKeyCustom("Gain [SCALING NUM] [TARGET]", "autoeffect-format-gain"); break;
+			case "Inflict": messageFormat = getTranslationByKeyCustom("Inflict [SCALING NUM] [TARGET] to target", "autoeffect-format-inflict"); break;
+			case "Give": messageFormat = getTranslationByKeyCustom("Give [SCALING NUM] [TARGET] to ally", "autoeffect-format-give"); break;
+			case "Set": messageFormat = getTranslationByKeyCustom("Set [TARGET] to [RESULT]", "autoeffect-format-set"); break
+			case "Add":
+				if (["Light", "THP", "TST", "Action", "Reaction", "Counter", "Block", "Evade", "Light_Regen"].includes(ae.target)) {
+					if (ae.value < 0) { messageFormat = getTranslationByKeyCustom("Lose [-SCALING NUM] [TARGET]", "autoeffect-format-add-light-neg"); }
+					else { messageFormat = getTranslationByKeyCustom("Gain [SCALING NUM] [TARGET]", "autoeffect-format-add-light"); }
+				} else {
+					if (ae.value < 0) { messageFormat = getTranslationByKeyCustom("Receive [-SCALING NUM] [TARGET] damage", "autoeffect-format-add-neg"); }
+					else { messageFormat = getTranslationByKeyCustom("Regen [SCALING NUM] [TARGET]", "autoeffect-format-add"); }
+				} break;
+			case "Multi": messageFormat = getTranslationByKeyCustom("Multiply [TARGET] by [SCALING NUM]", "autoeffect-format-multi"); break;
+			case "BaseDamage":
+				if (ae.target) { messageFormat = getTranslationByKeyCustom("Increase [TARGET] Base Damage by [SCALING NUM]", "autoeffect-format-basedamage-target"); }
+				else { messageFormat = getTranslationByKeyCustom("Increase Base Damage by [SCALING NUM]", "autoeffect-format-basedamage"); } break;
+			case "FlatDamage": messageFormat = getTranslationByKeyCustom("Deal [SCALING NUM] [TARGET] Damage", "autoeffect-format-flatdamage"); break;
+			case "DicePower": case "DiceMax": case "DiceCount": case "DiceAdv":
+				if (ae.value < 0) { messageFormat = getTranslationByKeyCustom("Reduce [EFFECT] by [SCALING NUM]", "autoeffect-format-dice-neg"); }
+				else { messageFormat = getTranslationByKeyCustom("Increase [EFFECT] by [SCALING NUM]", "autoeffect-format-dice"); } break;
+			case "Proc": messageFormat = getTranslationByKeyCustom("Proc [TARGET]", "autoeffect-format-proc"); break;
+			case "Pause": messageFormat = getTranslationByKeyCustom("Paused [TARGET] for [SCALING NUM] activations", "autoeffect-format-pause"); break;
+			case "ChallengeRoll":
+				if (ae.value < 0) { messageFormat = getTranslationByKeyCustom("Rolling [TARGET] [SCALING NUM]", "autoeffect-format-challengeroll-neg"); }
+				else { messageFormat = getTranslationByKeyCustom("Rolling [TARGET] <b>+</b>[SCALING NUM]", "autoeffect-format-challengeroll"); } break;
+			case "Speed":
+				if (ae.value < 0) { messageFormat = getTranslationByKeyCustom("Reduce [EFFECT] by [-SCALING NUM]", "autoeffect-format-speed-neg"); }
+				else { messageFormat = getTranslationByKeyCustom("Increase [EFFECT] by [SCALING NUM]", "autoeffect-format-speed"); } break;
+		}
+
+		/* Update old stat names */
+		effectTarget = updateStatName(effectTarget);
+
+		/* Handle ailment icons */
+		if (ae.targetType == "ailment" && ae.name != "CustomMessage") {
+			messageFormat = "[/TARGET] " + messageFormat;
+			effectIcon = valueLists.ailmentList[ae.target][6];
+		}
+
+		/* Handle formating for the target option */
+		if (autoEffectOptions.Target.includes(ae.name) && ae.opts.target) {
+			messageFormat = (ae.opts.target == "target")
+				? `${getTranslationByKeyCustom("Target", "message-target")} - ${messageFormat}`
+				: `${getTranslationByKeyCustom("Select", "message-select")} - ${messageFormat}`;
+		}
+
+		/* Handle formating for the round and duration options */
+		if (autoEffectOptions.Round.includes(ae.name) && settingHideNextRound != "true" && ae.opts.round != "this") {
+			messageFormat += (` ${getTranslationByKeyCustom("Next", "autoeffect-option-next")} ${getTranslationByKeyCustom("Round", "autoeffect-option-round")}`).toLowerCase();
+		}
+		if (autoEffectOptions.Duration && ae.opts.duration) {
+			switch (ae.opts.duration) {
+				case "combat": messageFormat += (` ${getTranslationByKeyCustom("This", "autoeffect-option-this")} ${getTranslationByKeyCustom("Combat", "autoeffect-option-combat")}`).toLowerCase(); break;
+				case "this": messageFormat += (` ${getTranslationByKeyCustom("This", "autoeffect-option-this")} ${getTranslationByKeyCustom("Round", "autoeffect-option-round")}`).toLowerCase(); break;
+				case "next": messageFormat += (` ${getTranslationByKeyCustom("Next", "autoeffect-option-next")} ${getTranslationByKeyCustom("Round", "autoeffect-option-round")}`).toLowerCase(); break;
+			}
+		}
+
+		/* Handle compare modes */
+		if (ae.opts.compareValue) {
+			effectVal = ae.opts.compareValue + effectVal;
+			scalingVal = ae.opts.compareValue + scalingVal;
+		}
+
+		/* Handle value updates */
+		if (!["failure", "no target"].includes(checkResult) && countUpdate && ae.value && !ae.opts.target) {
+			messageFormat += " [[INITIAL] -> [RESULT]]";
+		}
+
+		messageValues = {
+			"customname": effectName,
+			"value": ae.value,
+			"target": effectTarget,
+			"count": effectCount,
+			"result": effectResult,
+			"icon": effectIcon,
+			"scaling": scaling,
+			"checkResult": checkResult
+		}
+
+		if (messageFormat != "" && ![true, "self"].includes(ae.opts.silent)) {
+			
+			const applyInsert = (match, insert, prefix="<b>", affix="</b>") => {
+				message = message.replaceAll(match, prefix + insert + affix);
+			}
+
+			let message = messageFormat;
+	
+			let langCheck = getTranslationByKeyCustom("[CHECK]", "autoeffect-match-check");
+			let langSuccess = getTranslationByKeyCustom("Success", "distort-results-good");
+			let langFailure = getTranslationByKeyCustom("Failure", "distort-results-bad");
+			let langNoTarget = getTranslationByKeyCustom("No target", "autoeffect-alert-notarget");
+			let langNum = getTranslationByKeyCustom("[NUM]", "autoeffect-match-num");
+			let langScaling = getTranslationByKeyCustom("[SCALING]", "autoeffect-match-scaling");
+			let langScalingNum = getTranslationByKeyCustom("[SCALING NUM]", "autoeffect-match-scalingnum");
+			let langNegNum = getTranslationByKeyCustom("[-NUM]", "autoeffect-match-neg-num");
+			let langNegScaling = getTranslationByKeyCustom("[-SCALING]", "autoeffect-match-neg-scaling");
+			let langNegScalingNum = getTranslationByKeyCustom("[-SCALING NUM]", "autoeffect-match-neg-scalingnum");
+			let langMulti = getTranslationByKeyCustom("[MULTI]", "autoeffect-match-multi");
+			let langInitial = getTranslationByKeyCustom("[INITIAL]", "autoeffect-match-initial");
+			let langResult = getTranslationByKeyCustom("[RESULT]", "autoeffect-match-result");
+			let langEffectName = getTranslationByKeyCustom("[EFFECT]", "autoeffect-match-effectname");
+			let langCharacterName = getTranslationByKeyCustom("[CHAR]", "autoeffect-match-charname");
+			let langTarget = getTranslationByKeyCustom("[TARGET]", "autoeffect-match-target");
+			let langTargetIcon = getTranslationByKeyCustom("[/TARGET]", "autoeffect-match-targeticon");
+	
+			switch (checkResult) {
+				case "failure": applyInsert(langCheck, langFailure); break;
+				case "no target": applyInsert(langCheck, langNoTarget); break;
+				default:
+					applyInsert(langCheck, langSuccess);
+					/*applyInsert(langResult, effectResult);*/ break;
+			}
+			applyInsert(langNum, effectVal);
+			applyInsert(langScaling, scaling);
+			applyInsert(langScalingNum, scalingVal);
+			applyInsert(langNegNum, -effectVal);
+			applyInsert(langNegScaling, -scaling);
+			applyInsert(langNegScalingNum, -scalingVal);
+			applyInsert(langMulti, Math.floor(scalingVal * effectCount)); // Used for the Multi AutoEffect
+			applyInsert(langInitial, effectCount);
+			applyInsert(langResult, effectResult); // Used on checkFailure
+			applyInsert(langEffectName, effectName);
+			applyInsert(langCharacterName, charName);
+			applyInsert(langTarget, effectTarget.replace("_"," "));
+
+			/* Handle text styling */
+			let styleTextFind = new RegExp(/\[([^\]]+?)\]\(#(?!")(.+?)\)/);
+			let styleTextReplace = new RegExp(/(\[[^\]]+?\]\(#(?!").+?\))/);
+			while (styleTextFind.test(message)) {
+				let [text, style] = message.match(styleTextFind).slice(1);
+				message = message.replace(styleTextReplace, styleText(text, style));
+			}
+
+			/* Icon handling */
+			/* Get target icon. Is in this format: [/TARGET]. If a effectIcon is provided, use that instead */
+			if (effectIcon != "No icon") {
+				if (settingLimbusStyle == "true") { effectIcon = effectIcon.replace("limbus/",""); }
+				applyInsert(langTargetIcon, getIcon("ailments", effectIcon, settingLimbusStyle, "html", `class="autoEffectImage" style="background-color: ${iconColor}"`), "", "");
 			} else {
-				console.log("Used resources", reqList);
+				applyInsert(langTargetIcon, getIcon("ailments", effectTarget.replace("_"," "), settingLimbusStyle, "html", `class="autoEffectImage" style="background-color: ${iconColor}"`), "", "");
+			}
+			
+			/* Question mark icon */
+			applyInsert("[/Question]", getIcon("icons", "question", "false", "html", `class="autoEffectImage" style="background-color: ${iconColor}"`), "", "");
+	
+			/* Get custom icon. Is in one of these formats: [/iconName], [/limbus/iconName], [/community/iconName]*/
+			if ((/\[\/([^0-9]+)\]/g).test(message)) {
+				applyInsert("[/community/", "[community, ", "", "");
+				applyInsert("[/limbus/", "[ailments, limbus/", "", "");
+				applyInsert("[/", "[ailments, ", "", "");
+				
+				message.match((/\[([^0-9]+)\]/g)).forEach(icon => {
+					let iconSelector = icon.slice(1,-1).split(", ");
+					let iconFolder = iconSelector[0];
+					let iconName = iconSelector[1];
+					message = message.replace(icon, getIcon(iconFolder, iconName, "false", "html", `class="autoEffectImage" style="background-color: ${iconColor}"`));
+				});
+			}
+	
+			/* Message structure */
+			if (message.startsWith("<img") == true) {
+				message = message.replace(">","><div>") + "</div>";
+			} else {
+				message = "<div>" + message + "</div>";
+			}
+			message = autoEffectEntry(message);
+
+			/* Output message */
+			if (aeType != "section") {
+				outputMessage += autoEffectTranslateMessage(message);
+			} else {
+				if (conditionalSectionList[aeConditional]) {
+					conditionalSectionList[aeConditional] += autoEffectTranslateMessage(message);
+				} else {
+					conditionalSectionList[aeConditional] = autoEffectTranslateMessage(message);
+				}
+			}
+		}
+	}
+
+	function autoEffectCustomMessage(ae, messageValues = {}) {
+		let checkResultOption = ae.opts.checkResult || "success";
+		ae = {...ae, ...messageValues, format: ae.value}
+
+		/* Handle the target option */
+		if (ae.opts.target) {
+			autoEffectOutput(ae, "", autoEffectToString(ae.origAutoEffect, {removeOptions:["Target", "Select"]}));
+		} else {
+			if (checkResultOption == ae.checkResult.replace("last ","").replace("no target","failure") || checkResultOption == "ignore") {
+				autoEffectMessage(ae);
+			}
+		}
+	}
+
+	// Math operation
+
+	function autoEffectCheck(ae) {
+		let checkResult = "success";
+		let scaling = 1;
+
+		if (ae.targetList == "no target") {
+			checkResult = "no target";
+		} else {
+			/* Handle the scaling option */
+			if (ae.opts.scaling) {
+				let baseScaling = Math.floor(ae.countImmutable/ae.value);
+				if (parseInt(ae.opts.scaling)) {
+					scaling = Math.max(Math.min(baseScaling, ae.opts.scaling), 1); // If number
+				} else if ((/[{}]/).test(ae.opts.scaling)) {
+					scaling = Math.max(Math.min(baseScaling, parseMath(ae.opts.scaling, aeVars, {strict:true}, errorMessageList)), 1); // If math formula
+				} else {
+					scaling = Math.max(baseScaling, 1); // If boolean
+				}
+				if (ae.opts.compareValue && ae.opts.compareValue.includes("<")) {
+					if (!mathOperation(ae.opts.compareValue, ae.countImmutable, ae.value*scaling)) {
+						scaling++
+					}
+				}
+			} else {
+				scaling = aeVars.scaling;
+			}
+
+			/* Execute check */
+			if (ae.name == "Require") {
+				if (ae.opts.compareValue) {
+					checkResult = mathOperation(ae.opts.compareValue, ae.countImmutable, ae.value*scaling) ? "success" : "failure"
+				} else {
+					checkResult = (ae.countImmutable >= ae.value*scaling) ? "success" : "failure";
+				}
+			}
+			else if (ae.name == "Consume") {
+				if (ae.countImmutable >= ae.value && ae.count >= ae.value) {
+					checkResult = (ae.count >= 2*ae.value) ? "success" : "last success";
+				} else {
+					checkResult = "failure";
+				}
+			}
+		}
+
+		/* If conditional, do not apply any changes or send a message */
+		if (aeType == "standard") {
+			/* Update execution variables */
+			aeVars = {...aeVars, scaling: scaling, checkResult: checkResult }
+
+			/* Update returned checkResult if result is worse than the current value */
+			if (returnValues.checkResult == "success") {
+				returnValues.checkResult = checkResult.replace("no target","failure");
+			} else if (returnValues.checkResult == "last success" && ["failure", "no target"].includes(checkResult)) {
+				returnValues.checkResult = "failure;"
+			}
+
+			/* Apply output */
+			let countUpdate = false;
+			if (ae.name == "Consume" && checkResult != "failure") {
+				ae.value = -ae.value;
+				countUpdate = "update count";
+				autoEffectOutput(ae, "Apply ailments", `(Consume 1 ${ae.target} Scaling${-ae.value*scaling} ${([true, "target"].includes(ae.opts.silent)) ? "Silent" : ""}) (Reset)`);
+			}
+			ae.value = Math.abs(ae.value);
+			autoEffectMessage(ae, countUpdate);
+		} else {
+			return returnValues;
+		}
+	}
+
+	function autoEffectReset(ae) {
+		if (ae && ae.opts.target) {
+			autoEffectOutput(ae, "", "(Reset)");
+		} else {
+			aeVars = {...aeVars, checkResult:"success", scaling:1 }
+			messageValues = {...messageValues, checkResult:"success"}
+		}
+	}
+
+	function autoEffectAilment(ae) {
+		switch (ae.name) {
+			case "Inflict": ae.options.target = "target"; break;
+			case "Give": ae.options.target = "select"; break;
+		}
+		autoEffectOutput(ae, "Apply ailments", autoEffectToString(ae.origAutoEffect, {changeName: "Gain", changeValue: ae.value*aeVars.scaling, removeOptions:["Target", "Select"]}));
+		autoEffectMessage(ae, "update count");
+	}
+
+	function autoEffectBar(ae) {
+		let buttonName = (ae.value < 0) ? "Apply damage" : "Apply regen"
+		autoEffectOutput(ae, buttonName, autoEffectToString(ae.origAutoEffect, {changeValue: ae.value*aeVars.scaling, removeOptions:["Target", "Select"]}));
+		autoEffectMessage(ae, "update count");
+	}
+
+	function autoEffectDice(ae) {
+		autoEffectOutput(ae, "", "", "dice");
+		autoEffectMessage(ae);
+	}
+
+	function autoEffectChallengeRoll(ae) {
+		autoEffectOutput(ae, "Roll challenge", autoEffectToString(ae.origAutoEffect, {changeValue: ae.value*aeVars.scaling, removeOptions:["Target", "Select"]}), "list");
+		autoEffectMessage(ae);
+	}
+
+	function autoEffectSpeed(ae) {
+		let applyMode = "add";
+		let countUpdate = "update count";
+		switch (ae.opts.duration) {
+			case "combat": ae.target = "SpeedCombat"; ae.count = aeVars.baseSpeed; applyMode = "dice"; countUpdate = false; break;
+			case "this": ae.target = "thisRoundSpeed"; ae.count = aeVars.thisRoundSpeed; break;
+			case "next": ae.target = "nextRoundSpeed"; ae.count = aeVars.nextRoundSpeed; break;
+		}
+		autoEffectOutput(ae, "Apply Speed", autoEffectToString(ae.origAutoEffect, {changeValue: ae.value*aeVars.scaling, removeOptions:["Target", "Select"]}), applyMode);
+		autoEffectMessage(ae, countUpdate);
+	}
+
+	function autoEffectDamage(ae) {
+		if (ae.name == "BaseDamage" && (["SP", "Light"]).includes(ae.target)) {
+			ae.name = "FlatDamage";
+		}
+		autoEffectOutput(ae, "Apply damage", `(Add ${-ae.value*aeVars.scaling} ${ae.target} ${([true, "target"].includes(ae.opts.silent)) ? "Silent" : ""})`, "dice");
+		autoEffectMessage(ae);
+	}
+
+	function autoEffectProc(ae) {
+		if (ae.targetAttr.includes("repeating")) { // Get the ailment id if a custom ailment
+			ae.targetAttr = ae.targetAttr.split("_")[2];
+		}
+		autoEffectOutput(ae, "Apply ailments", `(Proc ${ae.target} ${([true, "target"].includes(ae.opts.silent)) ? "Silent" : ""})`, "list");
+		autoEffectMessage(ae);
+	}
+
+	function autoEffectPause(ae) {
+		ae.targetAttr = ae.targetAttr.replace("ailCount","ail") + "CountPause";
+		ae.targetVar += "Pause";
+		autoEffectOutput(ae, "Apply ailments", `(Pause ${ae.value*aeVars.scaling} ${ae.target} ${([true, "target"].includes(ae.opts.silent)) ? "Silent" : ""})`);
+		autoEffectMessage(ae);
+	}
+}
+
+
+
+
+
+
+/* Executes one or more rolls and posts the results to the chat */
+function executeRolls(rollArray, opts={use_resource:false, multiroll:false}, callback=()=>{}) {
+	access._begin("roll", () => {
+		
+		if (opts.use_resource) {
+			let resource = (access.resource.selection == "Action") ? "action" : "reaction";
+			let reqList = {}
+
+			// Check that all required resources and item uses needed for the roll are available
+			// If yes, deduct these resources from the character. If not, cancel the action
+			for (const roll of rollArray) {
+				if (roll[resource].enabled && roll[resource].type != "None") {
+					reqList[roll[resource].type] = (reqList[roll[resource].type] || 0) + roll[resource].cost;
+				}
+				if (roll.uses.enabled && roll.orig?.type == "item") {
+					reqList[roll.orig.id] = (reqList[roll.orig.id] || 0) + roll.uses.cost;
+				}
+			}
+
+			if (length(reqList) > 0) {
+				let reqResult = resourceReq(reqList, {deduct:true});
+
+				if (typeof reqResult == "object") {
+					console.warn("Attempted to make roll without requisite resources or item uses", reqResult);
+
+					access._state = "cancel";
+
+					return; // TODO: Should here display a popup saying the user lacks x resources to use the item
+					// This could be a JQuery event, with the popup anchoring to the top of the clicked element. Once the mouse leaves the element the popup is cleared
+					// This tech could be used all over the sheet to display messages when clicking or hovering over certain elements
+					// Still execute any other rolls currently in access.rolls
+				} else {
+					console.log("Used resources", reqList);
+				}
 			}
 		}
 
@@ -13172,22 +13738,17 @@ function executeRolls(rollArray, opts={type:"Action", multiroll:false}, callback
 		let header = access.message.header;
 		let desc = access.message.desc;
 
-		if (item && header) {
+		if (item) {
 			header.title = item.name;
 			header.rank = item.rank;
 			header.light_cost = (item.limited.enabled) ? item.limited.light_cost : false;
 		}
 
-		// Experimental mystery message styling
-		header.background = (item.mystery.enabled) ? "Black" : "Gray";
-		header.text = (item.mystery.enabled) ? rollStyle.text || "White" : "Black";
-
 		// Origin and targeting data
 		desc.from = access.character.name;
 		desc.target = access.target?.character?.name || false;
-		
 
-		// Simulate all rolls and save the resulting value. May trigger AutoEffects
+		// Simulate all rolls and save the resulting value
 		for (const roll of access.rolls.repNodes) {
 			simulateRoll(roll, {updateRoll:true});
 
@@ -13197,216 +13758,21 @@ function executeRolls(rollArray, opts={type:"Action", multiroll:false}, callback
 
 		console.log("Rolls:", access.rolls, "|| Message:", access.message);
 
-		// Output the roll message to the chat
-		rollMessage(access.rolls.repNodes, access.message);
-		// TODO: Move this to output. Use when accessType = "roll" and access.rolls has at least one roll
-
-		// Clear all rolls
-		for (const repID of access.rolls.repIDs) {
-			access.rolls.delete(repID);
+		// Add any AutoEffects from the rolls
+		for (const roll of access.rolls.repNodes) {
+			if (roll.autoeffect != "") {
+				let rollBlock = access.effects.add("block");
+				rollBlock.roll = roll;
+				rollBlock.add(roll.autoscript);
+			}
 		}
 
-		return;
-
-
-		
 		// If store/recycle is enabled, add a reroll button to the roll
 
 		// If no icon is included, generate one based on the roll type of the first roll with a type
 		// If no roll type is included for any roll, use a default dice icon
 
 		// For items, set the title to the name of the item (use origid)
-	});
-
-	return;
-	
-	
-	
-	
-	
-	// TODO:
-	// - Delete all rolls on output
-	// - Execute any AutoScripts for each roll. Add the output message to the correct roll tab
-	
-	
-	console.log(rollArray);
-	
-	getAttrs(["settingWhisperRolls", "settingWhisperTarget"], function(values) {
-
-	let whisperrolls = values.settingWhisperRolls;
-	let whispertarget = values.settingWhisperTarget;
-	let whisper = (whisperrolls == "true") ? "/w " + whispertarget : "";
-	
-	let message = "";
-	let dicerolls = "";
-	let rollindex = 0;
-	let returnValues = {}
-	let output = {}
-
-	let exampleRoll = [
-		{ // Multi-hit attack with a different weapon for the second attack
-			type: "Attack",
-			format: [
-				{count: 1, max: 12, power: 2, adv: "Advantage", storable: true}, // Count no longer rolls multiple seperate dice, and instead combine them into one roll (similar to stat rolls)
-				{count: 1, max: 11, power: 3}
-			],
-			AutoScript: "(Gain 1 Tremor) (Inflict 2 Burn, Clash Win)", // If multiple dice are rolled, AutoEffect messages display next to their associated roll
-			icon: false, // Uses default icon and color (Attack symbol over a red dice)
-			origin: false, // Source of the dice. Displays in a grayed out italic text between the header and description
-			store: { // Allows storing of dice. If the format is an array, only dice with storable = true can be stored
-				immediate: false, // Dice is rolled and can be stored afterwards. If false, the dice is not rolled and stored immediately
-				duration: 1, // Dice is stored for 1 round. Can be set to "Combat", "Recover" or "Refresh" to last until the next of these actions. If unset, lasts until the dice is used or manually removed
-				uses: 2, // The dice can be used 2 times. If set to a non-integer value the dice has an unlimited amount of uses
-				charId: "-abc", // Character id of the attacking character. If set, only this character can store dice from the attack. Can be another character's id
-				tokenId: false, // As charId above, but also requires a specific token id. Swaps to the correct token if needed
-			},
-			header: false, // The title and/or icon of the roll. If unset, the dice instead displays in a vertical black bar on the far right side of the message
-			description: false, // The description without any AutoEffect messages. Can contain HTML and inline rolls
-			variable: false // The name of the variable the result is saved to
-		},
-		{ // Standard fortitude stat roll with disadvantage. Stat rolls either add the bad/normal/good element using HTML, or sets a challange value in the template which reveals the extra HTML
-			type: "Fortitude",
-			format: {count: 2, max: 6, power: 1, adv: "Disadvantage"},
-			AutoScript: false,
-			icon: false,
-			origin: "Skill - Seize Them", // Dice added by a skill called "Seize Them"
-			store: false,
-			header: false,
-			description: "Seize them both in heart and spirit",
-			variable: false
-		},
-		{ // Poise roll. Would usually be together with the Clash Win effects after the attack
-			type: "Custom",
-			format: {count: 1, max: 10, power: 0, result: 7}, // If result is set, [[result]] is rolled instead of [[1d10+0]]. Useful when the result is calculated before the message is sent
-			AutoScript: false,
-			icon: {
-				image: "https://...limbus/Poise.png", // Uses a custom icon over a dark dice
-				color: "Dark"
-			},
-			origin: "Ailment Roll", // Dice created by a custom ailment with type = "Roll"
-			store: false,
-			header: {
-				title: "Poise Roll",
-				color: false, // If unset the header is transparent
-				icon: {
-					image: "https://...icons/Harm.png", // Would normally be unset. Included for example purposes
-					color: "Purple"
-				},
-			},
-			description: false,
-			variable: "PoiseRoll" // Stores result for any further use. Could alternatively be an attribute name (repeating_ailments_-abc_ailRollResult)
-		}
-	]
-
-
-
-	/* Adds a new roll to the chat message. Returns an insertRoll string that can be inserted anywhere in the HTML to display the roll */
-	function newRoll(format, name) {
-		let baseroll = format.result || `${format.count}d${format.max}+(${format.power})`;
-		
-		if (format.adv) {
-			let advmod = (format.adv == "Advantage") ? "kh1" : (format.adv == "Disadvantage") ? "dh1" : "";
-			baseroll = `{(${baseroll}), (${baseroll})}${advmod}`;
-		}
-
-		dicerolls += `{{${name}=[[${baseroll}]]}} `;
-		return `$&#91;&#91;${rollindex++}.computed&#93;&#93;`;
-	}
-
-
-
-
-	rollArray = exampleRoll;
-	
-	for (let i = 0; i < rollArray.length; i++) {
-		let roll = rollArray[i];
-		let insertRoll = "";
-
-		/* Add all rolls from the current action */
-		if (Array.isArray(roll.format)) {
-			for (let j = 0; j < roll.format.length; j++) {
-				insertRoll += newRoll(roll.format[j], "roll"+i+j);
-			}
-		} else {
-			insertRoll = newRoll(roll.format, "roll"+i);
-		}
-		
-
-
-
-		/* Handle Combat rolls */
-		if (combatRollNames.includes(roll.type)) {
-			let icon = (roll.type == "Attack") ? "egoAtt"
-					 : (roll.type == "Block") ? "egoDef"
-					 : (roll.type == "Evade") ? "egoEvd" : "";
-
-			message += `<div class="sheet-statRollResult">${insertRoll} <b>${roll.type}</b> <img src="${getIcon("icons",icon,"false","url")}"></div>`;
-		}
-
-		/* Handle Stat rolls */
-		else if (statNamesFull.includes(roll.type)) {
-			// Execute the roll. Check the result variable. Add extra message based on the value
-			let statRoll = 7;
-			let statResult = (statRoll < 7)  ? {icon: "bad", message: getTranslationByKeyCustom("Failure...", "message-failure")}
-						   : (statRoll < 10) ? {icon: "normal", message: getTranslationByKeyCustom("Partial Success", "message-normal")}
-						   : {icon: "good", message: getTranslationByKeyCustom("Success!", "message-success")}
-			
-			message += `<div class="sheet-statRollResult">${insertRoll} <b>${statResult.message}</b> <img src="${getIcon("icons",statResult.icon,"false","url")}"></div>`;
-		}
-
-		/* Handle Speed and Luck rolls */
-		else if (["Speed", "Luck"].includes(roll.type)) {
-			let icon = (roll.type == "Speed") ? "Speed"
-					 : (roll.type == "Luck") ? "fortunewhite" : "";
-
-			message += `<div class="sheet-statRollResult">${insertRoll} <b>${roll.type}</b> <img src="${getIcon("icons",icon,"false","url")}"></div>`;
-		}
-
-		/* Handle Custom rolls */
-		else if (roll.type == "Custom") {
-   			message += `<div class="sheet-statRollResult"> [${roll.format.result}](#" name="${insertRoll}) <b>${roll.header.title}</b> <img src="${getIcon("ailments/limbus","Poise","false","url")}"></div>`;
-		}
-
-		else {
-			console.log("Error: unknown roll type: " + roll.type)
-		}
-
-
-	}
-
-	let header = "test header";
-	let body = message;
-	
-	console.log(`&{template:testRoll} ${dicerolls} ${header} ${body}`)
-
-	setAttrs({"dummy":header, "dummy2":body}, () => {
-
-		/* Send the roll message */
-		//   Header: Consists of a title, and icon, an optional image and any generated tabs
-		//   Body: Displays each roll and any associated headers/descriptions/etc. The rolls are inline. Each roll is hidden by default if tabs are used
-		//   Chat buttons: Sent seperately
-		startRoll((whisper + `&{template:testRoll} ${dicerolls} {{header=@{dummy}}} {{body=@{dummy2}}}`), (results) => {
-			
-			console.log(results)
-			
-			finishRoll(results.rollId, { //tipsy-n-right
-				roll2: `" class="inlinerollresult showtip" style="color: #eee; text-decoration: none; " original-title="&lt;img src='/images/quantumrollwhite.png' class='inlineqroll'&gt; Rolling 1d11+(3) = (4?)+(3???) You can add anything here, including pictures &lt;img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/limbus/Poise.png' class='inlineqroll'&gt;, non-userscript classes, input elements etc. &lt;input type='date' style='width: 80%;' &gt;" class="`,
-				key: "test222"
-			} );
-		});
-
-		/*
-		Uses #allprops. Consists of a container and a header with a name equal to the prop key. All other HTML elements are created from the prop value
-		All rolls are inline, and are surrounded by a container with additional info for the roll used for styling
-		The inline rolls can be written directly in the HTML code and parses with no issues
-		If storing rolls is allowed, each roll container gains an action button to store that dice (has all the same data except store = false and diceFormat cannot be an array)
-		*/
-
-		if (callback != "()=>{}") {
-			callback(returnValues);
-		}
-
-	});
 	});
 }
 
@@ -14572,54 +14938,6 @@ on('clicked:declareAction', (info) => {
 	});
 });
 
-/* Clicked: Resource display buttons */
-on("clicked:expandtrackers clicked:edittrackers", function(info) {
-	getAttrs(["expandResourceToggle", "editResourceToggle", "actionType",
-	"Action_current", "Action_base", "Action_max", "Reaction_current", "Reaction_base", "Reaction_max", "Light_Regen_current", "Light_Regen_base", "Light_Regen_max",
-	"Counter_current", "Counter_base", "Counter_max", "Block_current", "Block_base", "Block_max", "Evade_current", "Evade_base", "Evade_max"], function(values) {
-		let button = info.triggerName.includes("edit") ? "edit" : "expand";
-		let toggleAttr = button + "ResourceToggle";
-		
-		let output = {[toggleAttr]: values[toggleAttr] == "true" ? "0" : "true"}
-
-		let [action, actionBase, actionMax] = [parseInt(values.Action_current), parseInt(values.Action_base), parseInt(values.Action_max)];
-		let [reaction, reactionBase, reactionMax] = [parseInt(values.Reaction_current), parseInt(values.Reaction_base), parseInt(values.Reaction_max)];
-		let [lightRegen, lightRegenBase, lightRegenMax] = [parseInt(values.Light_Regen_current), parseInt(values.Light_Regen_base), parseInt(values.Light_Regen_max)];
-		let [counter, counterBase, counterMax] = [parseInt(values.Counter_current), parseInt(values.Counter_base), parseInt(values.Counter_max)];
-		let [block, blockBase, blockMax] = [parseInt(values.Block_current), parseInt(values.Block_base), parseInt(values.Block_max)];
-		let [evade, evadeBase, evadeMax] = [parseInt(values.Evade_current), parseInt(values.Evade_base), parseInt(values.Evade_max)];
-
-		if (button == "expand") {
-			if (output[toggleAttr] == "true") {
-				output = {...output,
-					"Reaction_current": Math.max(reaction - counter - block - evade, 0),
-					"Reaction_max": Math.max(reactionMax - counterMax - blockMax - evadeMax, 0)
-				}
-			} else {
-				output = {...output,
-					"Reaction_current": Math.max(reaction + counter + block + evade, 0),
-					"Reaction_max": Math.max(reactionMax + counterMax + blockMax + evadeMax, 0)
-				}
-				if (!["Action", "Reaction"].includes(values.actionType)) {
-					output = {...output, "actionType": "Reaction"}
-				}
-			}
-		} else if (button == "edit") {
-			if (output[toggleAttr] != "true") {
-				output = {...output,
-					"Action_current": Math.max(Math.min(action, actionBase), 0), "Action_max": Math.max(actionBase, 0),
-					"Reaction_current": Math.max(Math.min(reaction, reactionBase), 0), "Reaction_max": Math.max(reactionBase, 0),
-					"Light_Regen_current": Math.max(Math.min(lightRegen, lightRegenBase), 0), "Light_Regen_max": Math.max(lightRegenBase, 0),
-					"Counter_current": Math.max(Math.min(counter, counterBase), 0), "Counter_max": Math.max(counterBase, 0),
-					"Block_current": Math.max(Math.min(block, blockBase), 0), "Block_max": Math.max(blockBase, 0),
-					"Evade_current": Math.max(Math.min(evade, evadeBase), 0), "Evade_max": Math.max(evadeBase, 0)
-				}
-			}
-		}
-		setAttrs(output);
-	});
-});
-
 
 /* Share: Outfit */
 on("clicked:shareOutfit", function() {
@@ -15778,10 +16096,85 @@ const tagDataFormat = {
 				value: (i) => is.Int(i),
 			},
 			raw_text: (s) => /^\s*$/.test(s) || is.PropString(s),
-		}
+		},
 	},
 }
 
+const messageDataFormats = {
+	section: {
+		base: {
+			header: { // Can be disabled
+				_value_prop: "title",
+				title: "AutoEffects",
+				icon: "gear",
+				color: {
+					icon: "green",
+					background: "gray",
+					text: "white",
+				},
+				rank: false,
+				light_cost: false,
+			},
+			contents: {
+				_repeating: { // Repeating contents
+					_value_prop: "text",
+					text: "", // Can include insert words, icons, etc.
+				},
+			},
+		},
+
+		valid: {
+			header: {
+				title: (s) => is.String(s),
+				icon: (s) => is.String(s),
+				color: {
+					icon: (s) => is.String(s), // TODO: Make this match a known color or a hex color
+					background: (s) => is.String(s),
+					text: (s) => is.String(s),
+				},
+				rank: (v) => is.False(v) || is.Int(v),
+				light_cost: (v) => is.False(v) || is.Int(v),
+			},
+			contents: {
+				_repeating: {
+					text: (s) => is.String(s),
+				},
+			},
+		},
+	},
+
+	button: {
+		base: {
+			_key_prop: "name",
+			name: "Button",
+			display: "Full",
+			mode: "select",
+			icon: {
+				_value_prop: "image",
+				image: "question",
+				color: "gray",
+			},
+			effects: {
+				_effect_block: true,
+			},
+		},
+		
+		valid: {
+			name: (s) => is.String(s),
+			display: (s) => is.False(v) || is(s).In("Full", "Text", "Icon"),
+			mode: (s) => is(s).In("select", "target"),
+			icon: {
+				image: (s) => is.String(s),
+				color: (s) => is.String(s), // TODO: Make this match a known color or a hex color
+			},
+			effects: {}
+		},
+
+		attrs: { // Only sheet buttons have attributes 
+			effects: {}
+		},
+	}
+}
 
 // Includes all default override values for items of a certain type. If a value is not specified here the value in the base format is used
 // All sub-nodes like "rollformats" are optional and begin off disabled by default
@@ -16369,13 +16762,22 @@ const dataFormat = {
 			adv: 0, // advNum in the sheet
 			disadv: 0, // disadvNum in the sheet
 		},
+		effects: {
+			_effect_block: true, // General effects
+			_repeating: {
+				_effect_block: true, // Roll specific effects
+			},
+			buttons: {
+				_repeating: messageDataFormats.button.base,
+			}
+		},
 		message: {
 			header: {
 				_value_prop: "title",
 				title: false, // Auto styling: Name of the item associated with the roll, or an empty string
 				color: {
-					background: false, // Auto styling: Gray. EGO items use black
-					text: false, // Auto styling: Black. EGO items use the color associated with the first roll of the message
+					background: "gray",
+					text: "white",
 				},
 				rank: false,
 				light_cost: false,
@@ -16387,19 +16789,11 @@ const dataFormat = {
 				text: false,
 				image: false,
 			},
+			sections: {
+				_repeating: messageDataFormats.section.base,
+			},
 			buttons: {
-				_repeating: {
-					_key_prop: "name",
-					name: "Button",
-					display: "Full",
-					roll_index: false,
-					mode: "select",
-					icon: {
-					_value_prop: "image",
-						image: "question",
-						color: "gray",
-					},
-				},
+				_repeating: messageDataFormats.button.base,
 			},
 			rolls: {
 				_repeating: { // Repeating roll messages
@@ -16412,31 +16806,10 @@ const dataFormat = {
 						color: "gray", // TODO: Make this match a known color or a hex color
 					},
 					sections: {
-						_repeating: { // Repeating sections
-							header: { // Can be disabled
-								_value_prop: "title",
-								title: "AutoEffects",
-								icon: "Gear",
-								color: {
-									icon: "Green",
-									background: "Gray",
-									text: "Black",
-								},
-								rank: false,
-								light_cost: false,
-							},
-							contents: {
-								_repeating: { // Repeating contents
-									_value_prop: "text",
-									text: "", // Can include insert words, icons, etc.
-									insert: { // Values used for insert words
-										count: 0,
-										result: 0,
-										checkresult: "Success",
-									},
-								},
-							},
-						},
+						_repeating: messageDataFormats.section.base,
+					},
+					buttons: {
+						_repeating: messageDataFormats.button.base,
 					},
 				},
 			},
@@ -16453,7 +16826,7 @@ const dataFormat = {
 				//  Worst case you could just make these values read only, except when importing game settings or manual input in the editor
 			},
 		},
-		bars: {
+		bar: {
 			hp: 30, hp_max: 30, "-hp": 0,
 			st: 20, st_max: 20, "-st": 0,
 			sp: 15, sp_max: 15, "-sp": 0,
@@ -16466,6 +16839,10 @@ const dataFormat = {
 				current: 1, max: 1, base: 1,
 			},
 			reaction: {
+				_value_prop: "current",
+				current: 0, max: 0, base: 0,
+			},
+			universal: {
 				_value_prop: "current",
 				current: 2, max: 2, base: 2,
 			},
@@ -16562,7 +16939,7 @@ const dataFormat = {
 			//   - If you want to hinder an action, remove tags when an item is equipped or unequipped (see above)
 		},
 		slots: (n) => n.tags, // Slots are stored in access.tags
-		local: {
+		local: { // TODO: Remove this local. Local variables are now stored in effect blocks
 			// Props used in autoScriptMain()
 			scaling: 0,
 			checkresult: "success",
@@ -16581,6 +16958,13 @@ const dataFormat = {
 			// Due to this, user defined variables like "let" and "items" can never be accessed. An error message should be posted when this is attempted
 		},
 		global: {
+			_repeating: {
+				_key_prop: "key",
+				_value_prop: "value",
+				key: "var",
+				value: false,
+			},
+
 			// User defined global variable. Creates an attribute in the attribute tab of the sheet
 			// - Also adds the attribute name to a list of names, which are used to retrieve the attributes when refreshing the sheet
 			// - Tokens have seperate global variables to allow ex. tracking effect countdowns (think TheBlackSilence) seperately for each token
@@ -16612,6 +16996,12 @@ const dataFormat = {
 			adv: (i) => is.Int(i, {min: 0}),
 			disadv: (i) => is.Int(i, {min: 0}),
 		},
+		effects: {
+			_repeating: {},
+			buttons: {
+				_repeating: messageDataFormats.button.valid,
+			}
+		},
 		message: {
 			header: {
 				title: (s) => is.String(s),
@@ -16628,17 +17018,11 @@ const dataFormat = {
 				text: (v) => is.False(v) || is.String(v),
 				image: (v) => is.False(v) || is.String(v),
 			},
+			sections: {
+				_repeating: messageDataFormats.section.valid,
+			},
 			buttons: {
-				_repeating: {
-					name: (s) => is.String(s),
-					display: (s) => is.False(v) || is(s).in("Full", "Text", "Icon"),
-					roll_index: (v) => is.False(v) || is.Int(v),
-					mode: (s) => is(s).in("select", "target"),
-					icon: {
-						image: (s) => is.String(s),
-						color: (s) => is.String(s), // TODO: Make this match a known color or a hex color
-					},
-				},
+				_repeating: messageDataFormats.button.valid,
 			},
 			rolls: {
 				_repeating: {
@@ -16651,29 +17035,10 @@ const dataFormat = {
 						color: (s) => is.String(s), // TODO: Make this match a known color or a hex color
 					},
 					sections: {
-						_repeating: {
-							header: {
-								title: (s) => is.String(s),
-								icon: (s) => is.String(s),
-								color: {
-									icon: (s) => is.String(s), // TODO: Make this match a known color or a hex color
-									background: (s) => is.String(s),
-									text: (s) => is.String(s),
-								},
-								rank: (v) => is.False(v) || is.Int(v),
-								light_cost: (v) => is.False(v) || is.Int(v),
-							},
-							contents: {
-								_repeating: {
-									text: (s) => is.String(s),
-									insert: {
-										count: (i) => is.Int(i),
-										result: (i) => is.Int(i),
-										checkresult: (s) => is(s).In("success", "last success", "failure", "no target"),
-									},
-								},
-							},
-						},
+						_repeating: messageDataFormats.section.valid,
+					},
+					buttons: {
+						_repeating: messageDataFormats.button.valid,
 					},
 				},
 			},
@@ -16687,13 +17052,14 @@ const dataFormat = {
 				// These are currently repeating values, but should be converted to standard sheet values
 			},
 		},
-		bars: {
+		bar: {
 			_default: (i) => is.Int(i),
 		},
 		resource: {
 			selection: (s) => is(s).In(resourceNames),
 			action: {_default: (i) => is.Int(i, {min: 0})},
 			reaction: {_default: (i) => is.Int(i, {min: 0})},
+			universal: {_default: (i) => is.Int(i, {min: 0})},
 			counter: {_default: (i) => is.Int(i, {min: 0})},
 			block: {_default: (i) => is.Int(i, {min: 0})},
 			evade: {_default: (i) => is.Int(i, {min: 0})},
@@ -16744,7 +17110,14 @@ const dataFormat = {
 			checkresult: (s) => is(s).In("success", "last success", "failure", "no target"), // Needs translations?
 			info: (o) => is.Object(o),
 		},
-		global: {},
+		global: {
+			_repeating: {
+				key: (i) => is.String(s),
+				value: (v) => true,
+				// Global variables accept all values, although objects have to be saved as JSON in the sheet
+				// If the value of a global variable is a node, save a path to that node and not the node itself
+			}
+		},
 	},
 
 	attrs: {
@@ -16775,18 +17148,20 @@ const dataFormat = {
 				},
 			},
 		},
+		effects: {
+			_repeating: {},
+			buttons: {
+				_repeating: messageDataFormats.button.attrs,
+			}
+		},
 		message: { // No message props have associated attributes
 			buttons: {
-				_repeating: {},
+				_repeating: messageDataFormats.button.attrs,
 			},
 			rolls: {
 				_repeating: {
-					sections: {
-						_repeating: {
-							contents: {
-								_repeating: {},
-							},
-						},
+					buttons: {
+						_repeating: messageDataFormats.button.attrs,
 					},
 				},
 			},
@@ -16795,7 +17170,7 @@ const dataFormat = {
 			sheet: {},
 			game: {},
 		},
-		bars: {
+		bar: {
 			ignore: {prop: ["-hp", "-st", "-sp", "-light"]},
 		},
 		resource: {
@@ -16803,6 +17178,7 @@ const dataFormat = {
 			prefix: "resource",
 			action: {prefix: "action_"}, // TODO: Add attribute data for resources
 			reaction: {prefix: "reaction_"},
+			universal: {prefix: "universal_"},
 			counter: {prefix: "counter_"},
 			block: {prefix: "block_"},
 			evade: {prefix: "evade_"},
@@ -16833,7 +17209,20 @@ const dataFormat = {
 		},
 		slots: {},
 		local: false,
-		global: false,
+		global: {
+			_repeating: {
+				source: {
+					sheet: {
+						type: "id",
+						section: "variables",
+					},
+				},
+				attrs: {
+					prefix: "variable"
+				},
+				export: {alias: "???"}, // TODO: Need export info for variables
+			},
+		},
 	},
 
 	source: {
@@ -16851,7 +17240,9 @@ on("clicked:testA", async function(info) {
 	console.log("Clicked button A");
 
 	access._begin("update", function() {
-		access.items[1].equipped = !is.True(access.items[1].equipped);
+		access.effects.add('(Require {bar.Light} {bar.ST > bar.SP &&= "Stagger_" ||= ""}{bar.HP > 50 &&= "Protection" ||= "Fragile"}) (CustomMessage "Hey" CheckFailure)');
+
+		access.effects.execute();
 
 		console.log(access[getActiveCharacterId()], access);
 	});
@@ -16860,32 +17251,9 @@ on("clicked:testA", async function(info) {
 on("clicked:testB", function(info) {
 	console.log("Clicked button B");
 
-	//navPath
-
-	/*
-	let string = "now.this[should].be.a.valid.path[right?][which can include spaces + [and nesting]].correct";
-	let valid = new RegExp(/^(?:([^\s\.\[\]]+|(?:\[[^\[\]]+\]))\.?)+$/);
-
-	//let match = new RegExp(/([^\s\.\[\]]+)|(\[[^\[\]]+\])/g);
-	let match = new RegExp(/([^\s\.\[\]]+)|(\[)|(\])/g);
-
-	let output = []
-	console.log("Is valid", valid.test(string));
-
-	let test;
-	while((test = match.exec(string))) {
-		output.push(test[1] || test[2] || test[3]);
-	}
-	console.log(output);
-	*/
-
-
-	console.log("Math result:", newMathParser("Min(items['Sanguine Claws'].rollformats[1].max / 2, ailments.Tremor)"));
-
-
-
-
-
+	access._begin("update", function() {
+		access.effects.add("block");
+	});
 });
 
 on("clicked:testC", function(info) {
@@ -16902,7 +17270,7 @@ on("clicked:testC", function(info) {
 
 
 
-class dataNode {
+class dataNode extends Array {
 	#getImmutable = false;
 	#output = {}
 
@@ -16910,6 +17278,8 @@ class dataNode {
 	#formats;			// The raw formats used to construct this node
 
 	constructor(formats=dataFormat, id=false, parent=false, path=[]) {
+		super();
+
 		Object.defineProperties(this, {
 			attrs: {writable: true, value: {}},			// List of attribute name formats for the node
 			enabled: {writable: true, value: true}, 	// If a subnode and its properties are enabled. Used primarily for toggling item options
@@ -16953,7 +17323,7 @@ class dataNode {
 		});
 
 		// Get the default validator of the node if one exists
-		if ("_default" in formats.valid) {
+		if (formats.valid?._default) {
 			this.#valid._default = formats.valid._default;
 		}
 
@@ -16974,8 +17344,8 @@ class dataNode {
 						},
 					});
 					if (formats.default?._repeating) {
-						for (let i = 1; i <= formats.default._repeating.length; i++) {
-							this.add({id: this.id || generateRowID(), index: i, section: this.#formats.source.sheet.section});
+						for (let i = 0; i < formats.default._repeating.length; i++) {
+							this.add({section: this.#formats.source.sheet.section});
 						}
 					}
 				}
@@ -16989,13 +17359,19 @@ class dataNode {
 
 			// Get any subnodes of the node
 			else if (is.Object(value)) {
-				this[`_${prop}`] = new dataNode({
+				let subnodeFormat = {
 					base: value,
 					default: formats.default?.[prop] || false,
 					valid: formats.valid?.[prop] || false,
 					attrs: formats.attrs?.[prop] || false,
 					source: formats.source[prop] || formats.source || false,
-				}, this.id, this, [...this._path, prop]);
+				}
+
+				if (value._effect_block) {
+					this[`_${prop}`] = new effectBlock(subnodeFormat, this.id, this, [...this._path, prop])
+				} else {
+					this[`_${prop}`] = new dataNode(subnodeFormat, this.id, this, [...this._path, prop]);
+				}
 			}
 
 			// Get any subnodes that reference other subnodes
@@ -17133,9 +17509,9 @@ class dataNode {
 				if (opts.apply) {
 					delete this.#output[prop];
 				}
-				
+
 				// Recursively access any sub-nodes. Ignore references to nodes in other branches
-				if (this[prop] instanceof dataNode && this[prop].path.at(-1) == snakeify(prop)) {
+				if (this[prop] instanceof dataNode && !this._valid(prop).toString().includes("dataNode")) {
 					this[prop].access(values, output, opts);
 				}
 			}
@@ -17148,9 +17524,13 @@ class dataNode {
 	attr(prop, source, opts={event:false}) {
 		if (prop[0] == "_") prop = snakeify(prop);
 
+		if (/^[0-9]+$/.test(prop) && !(this instanceof effectBlock)) {
+			prop = this[prop].path.at(-1);
+		}
+
 		if (prop in this.attrs) {
-			let index = (this.attrs[source]?.type == "index") ? this.index							// Repeating node
-					  : (this.rep?.source[source]?.type == "index") ? this[prop].index || "" : ""; 	// Nested repeating root
+			let index = (this.attrs[source]?.type == "index") ? this.index													// Repeating node
+					  : (this.rep?.source[source]?.type == "index" && is.Int(this[prop].index)) ? this[prop].index : ""; 	// Nested repeating root
 			let prefix = this.attrs[source]?.prefix || "";
 			let suffix = this.attrs[source]?.suffix || "";
 			let key = this.attrs[prop];
@@ -17232,20 +17612,19 @@ class dataNode {
 	}
 
 
-	// Adds a new repeating subnode to the item
+	// Adds a new repeating subnode
 	// Adds accessors for the id, index and name (if applicable) of the subnode
 	add(opts={}) {
 		if (this.rep) {
-			let newID = opts.id || opts.node?.id || this.id; // AutoEffects can only access props in lowercaps
+			let newID = opts.id || opts.node?.id || this.id || generateRowID().toLowerCase(); // AutoEffects can only access props in lowercaps
 			let newProp = opts.prop || newID;
-			let newIndex = opts.index || this.repCount + 1;
 			let repSource = {}
 
 			if (opts.node) {
-				this[newProp] = opts.node;
-				this[newProp]._parent = this;
-				this[newProp]._path = [...this.path, newProp];
-				this.#addSubnodes(this[newProp]);
+				this.push(opts.node);
+				this.at(-1)._parent = this;
+				this.at(-1)._path = [...this.path, newProp];
+				this.#addSubnodes(this.at(-1));
 			} else {
 				for (const source of Object.keys(this.rep.source || [])) {
 					repSource[source] = {...this.rep.source[source]};
@@ -17261,20 +17640,26 @@ class dataNode {
 						newProp = generateRowID().toLowerCase();
 					}
 				}
-				
-				this[newProp] = new dataNode({
+
+				let subnodeData = {
 					base: this.rep.base,
-					default: (opts.default !== false) ? this.rep.defaults?.[opts.section] || this.#formats.default?._repeating?.[newIndex-1] || false : false,
+					default: (opts.default !== false) ? this.rep.defaults?.[opts.section] || this.#formats.default?._repeating?.[this.length] || false : false,
 					valid: this.rep.valid || false,
 					attrs: this.rep.attrs || false,
 					source: repSource,
-				}, newID, this, [...this.path, newProp]);
+				}
+				
+				if (this.rep.base._effect_block) {
+					this.push(new effectBlock(subnodeData, newID, this, [...this.path, newProp]));
+				} else {
+					this.push(new dataNode(subnodeData, newID, this, [...this.path, newProp]));
+				}
 			}
 
-			this._addAccessors({index:newIndex, key: (this[newProp]._keyProp) ? this[newProp][this[newProp]._keyProp] : false});
+			this._addAccessors({rep: newProp, newkey: (this.at(-1)._keyProp) ? this.at(-1)[this.at(-1)._keyProp] : false});
 
 			// Output all attributes from the new node
-			this[newProp].output(access._output, {allProps:true});
+			this.at(-1).output(access._output, {allProps:true});
 
 			if (this.rep.attrs.option) {
 				this.attrs[newProp] = "option" + this.rep.attrs.option;
@@ -17283,10 +17668,10 @@ class dataNode {
 
 			// Trigger a new add event
 			access._event.trigger([...this.path, "add"], {
-				node:this, type:"add", oldval:false, newval:this[newProp],
+				node:this, type:"add", oldval:false, newval:this.at(-1),
 			}, opts);
 
-			return this[newProp];
+			return this.at(-1);
 		}
 	}
 	#addSubnodes(node) {
@@ -17327,20 +17712,14 @@ class dataNode {
 				configurable: true,
 			});
 		}
-		if (opts.index) {
+		if (opts.rep) {
 			Object.defineProperties(this, {
-				[opts.index]: {
+				[opts.rep]: {
 					get() {
-						return this[this.repIDs[opts.index - 1]];
+						return this.find(node => node.path.at(-1) == opts.rep);
 					},
 					configurable: true,
-				},
-				[-opts.index]: {
-					get() {
-						return this[this.repIDs.at(-opts.index)];
-					},
-					configurable: true,
-				},
+				}
 			});
 		}
 	}
@@ -17349,6 +17728,7 @@ class dataNode {
 	delete(id, opts={}) {
 		if (this.rep && id in this) {
 			let node = this[id];
+			let repStack = [];
 
 			// Remove all repeating items associated with the deleted node
 			if (node.attrs.sheet?.section) {
@@ -17358,8 +17738,15 @@ class dataNode {
 				removeRepeatingRow(`repeating_${node.attrs.editor.section}_${node.path.findLast(step => is.ID(step))}`);
 			}
 
-			this._deleteAccessors(node, this.repCount);
-			delete this[id];
+			// Due to quirks with dataNode extending Array all nodes must be removed, then readded (except the deleted node)
+			this.reduce((acc, repNode) => [...acc, this.shift()], [])
+			.forEach(repNode => {
+				if (repNode != node) {
+					this.push(repNode);
+				}
+			});
+
+			this._deleteAccessors(node);
 
 			// Trigger a new delete event
 			access._event.trigger([...this.path, "delete"], {
@@ -17367,12 +17754,11 @@ class dataNode {
 			}, opts);
 		}
 	}
-	_deleteAccessors(node, index) {
+	_deleteAccessors(node) {
 		if (node._name) {
 			delete this[snakeify(node._name)];
 		}
-		delete this[index];
-		delete this[-index];
+		delete this[node.id];
 	}
 
 
@@ -17382,12 +17768,15 @@ class dataNode {
 			return false;
 		} else {
 			let repid = this.path.findLast(step => is.ID(step));
-			let parent = this.parent;
-			while (!parent[repid]) parent = parent.parent;
-			return parent.repIDs.indexOf(repid) + 1;
+			let child = this, parent = this.parent;
+
+			while (parent && !parent[repid]) {
+				child = parent; parent = parent.parent;
+			}
+			
+			return (parent) ? parent.indexOf(child) : false;
 		}
 	}
-
 
 	// Get the node's parent node
 	get parent() {
@@ -17407,15 +17796,12 @@ class dataNode {
 	}
 
 
-	// Gets the repeating ids/subnodes of this node, or the amount of these nodes
+	// Gets the repeating ids/subnodes of this node
 	get repIDs() {
-		return this.keys.filter(p => is.ID(p));
+		return range(0, this.length).map(index => this[index].path.at(-1));
 	}
 	get repNodes() {
 		return this.repIDs.map(id => this[id]);
-	}
-	get repCount() {
-		return this.repIDs.length
 	}
 
 
@@ -17450,7 +17836,7 @@ class dataNode {
 			}
 
 			// Override standard data
-			if (is.Object(this[prop])) {
+			if (this[prop] instanceof dataNode) {
 				this[prop].paste(data[prop]);
 			}
 			else if (data[prop]) {
@@ -17472,6 +17858,718 @@ class dataNode {
 
 
 
+class effectData { // parseAutoScript
+	#name; #value;
+	#target; #targetPath;
+	
+	#options = {}
+	#conditionals = []
+
+	#format = {}
+	#lang = {}
+	#valid = {}
+
+	#setup = {math:false};
+
+	constructor(AutoEffect, block) {
+		Object.defineProperty(this, "block", {writeable:true, value:block})
+
+		if (typeof AutoEffect == "string") {
+			AutoEffect = new_autoScriptToArray(AutoEffect)[0];
+		}
+
+		// Save the original AutoEffect for error handling
+		this.#lang.effect = AutoEffect[0];
+		this.#lang.conditionals = AutoEffect.slice(1);
+
+		this.#validate();
+		return this;
+	}
+
+	// Validates the input AutoEffect. Returns true if all validation steps pass without any errors
+	// - Has the following validations steps: name, value, target, options, conditionals, math
+	// - Values containing math strings pause their validation until execute() is called
+	#validate() {
+		if (this.#setup.error) return false;
+		
+		// Get AutoEffect name
+		if (!this.#setup.name) this.name = this.#lang.effect[0];
+
+		// Get AutoEffect options
+		if (this.#setup.name) {
+			this.#lang.options = this.#lang.effect.slice(this.#format.index.option);
+			if (!this.#setup.options) this.parseOptions(this.#lang.options);
+			if (!this.#setup.conditionals) this.parseConditionals(this.#lang.conditionals);
+		}
+
+		// Get AutoEffect value and target
+		if (this.#setup.options) {
+			if (!this.#setup.target) this.target = this.#lang.effect[this.#format.index.target];
+		}
+		if (this.#setup.target) {
+			if (!this.#setup.value) this.value = this.#lang.effect[this.#format.index.value];
+			if (this.#setup.value) this.#setup.math = true;
+		}
+
+		return (!this.#setup.error && length(this.#setup) >= 6);
+	}
+
+	// Resolves any math inside a string and returns the string
+	// Returns false if validation of math strings is disabled
+	#applyMath(string) {
+		if (/{.*}/.test(string)) {
+			if (this.#setup.math) {
+				let result = string.replaceAll(/({(.*?)})/g, (match, full, math, index) => {
+					let error = {orig:{string:string, index:index}}
+					let result = newMathParser(math, {}, error);
+					
+					// Handle math errors
+					if (result === null) {
+						this.#setup.error = true;
+						if (error["[LOCATION]"]) {
+							access._error.throw("math", "Math Error", this.toString(), error, "invalid-path");
+						}
+						return match;
+					}
+					return (result !== null) ? result : match;
+				});
+				console.log("Math result:", result);
+				return (!this.#setup.error) ? result : false;
+			}
+			console.log(`"${string}" contains math. Delaying parsing until execution`);
+			return false;
+		}
+		return string;
+	}
+
+	// Executes the effect and applies any resulting values to access
+	execute() {
+		this.#setup.math = true; // Enables validation of math strings
+
+		if (this.#validate()) {
+			if (access._state == "effects") {
+				console.log(`Execute (${this.name} ${this.value} ${this.target || ""})`);
+
+				newAutoScriptMain(this);
+				// TODO: Move the execution code here
+				return true;
+			}
+		}
+		else if (!this.#setup.error) {
+			console.warn("Unknown parsing error. The following parsing steps succeeded:", this.#setup);
+		}
+		return false;
+	}
+
+	// Reports an error related to the effect
+	#error(errorCode, errorInfo={}) {
+		this.#setup.error = true;
+		access._error.throw("autoeffect", errorCode, this.toString(), errorInfo);
+	}
+
+	// Returns the effect in string form
+	// Alternatively the value, target or options of the effect can be returned
+	toString(mode="effect", opts={}) {
+		let outputString = "";
+
+		if (mode == "effect") {
+			 // TODO: Remove inner/outerAutoEffect.  Instead, modify the effect directly before using effect.toString()
+			let innerAutoEffect = [...this.#lang.effect];
+			let outerAutoEffect = [...this.#lang.conditionals];
+
+			/* Apply modifications */
+			/*if (opts.changeName) {
+				innerAutoEffect[0] = opts.changeName;
+			}
+			if (opts.changeValue && valueIndex) {
+				innerAutoEffect[valueIndex] = opts.changeValue;
+			}
+			if (opts.changeTarget && targetIndex) {
+				innerAutoEffect[targetIndex] = opts.changeTarget;
+			}
+			if (opts.addOptions) {
+				innerAutoEffect = [...innerAutoEffect, ...opts.addOptions]
+			}
+			if (opts.removeOptions) {
+				opts.removeOptions.forEach(removeOption => {
+					innerAutoEffect = innerAutoEffect.filter(option => !(new RegExp(option,"ig").test(removeOption)));
+				});
+			}*/
+
+			/* If the AutoEffect uses a string format as its value, add back in the surrounding quotes */
+			if (this.#format.value == "string") {
+				innerAutoEffect[this.#format.index.value] = '"' + innerAutoEffect[this.#format.index.value] + '"';
+			}
+
+			outputString = innerAutoEffect.join(" ");
+			if (outerAutoEffect.length > 0) {
+				outputString += ", " + outerAutoEffect.join(", "); // TODO: Needs to get the condition name from the condition object
+			}
+			outputString = "(" + outputString + ")";
+		}
+
+		else if (mode == "value") {
+			switch (this.#format.value) {
+				case "number": outputString = getTranslationByKeyCustom('N', "autoeffect-error-value-number");
+				case "string": outputString = getTranslationByKeyCustom('"Format"', "autoeffect-error-value-format");
+			}
+		}
+		
+		else if (mode == "target") {
+			if (this.#format.target) {
+				this.#format.target.forEach(target => {
+					let wordDivider = (target != this.#format.target.at(-1)) ? opts.dividers[0] || ", " : opts.dividers[1] || " or ";
+					target = target.replace("#","");
+					target = getTranslationByKeyCustom(target, `autoeffect-error-target-${target.toLowerCase()}`)
+					outputString += (outputString == "") ? target : `${wordDivider}${target}`;
+				});
+			}
+		}
+
+		else if (mode == "options") {
+			let options = this.#valid[(opts.type == "conditional") ? "con_options" : "options"].raw;
+			for (let [option, value] of Object.entries(options)) {
+				option = getTranslationByKeyCustom(option, `autoeffect-option-${option.toLowerCase()}`)
+				outputString += (outputString == "") ? `#${option}` : ` #${option}`;
+			}
+		}
+
+		return outputString;
+	}
+
+	// Returns all options
+	#getOptions(type="effect", expand=false) {
+		let optionsList = (type == "conditional") ? conditionalOptions : autoEffectOptions;
+		let options = {};
+		for (const [option, effects] of Object.entries(optionsList)) {
+			if (effects.includes(this.name) || (effects.includes("All") && !effects.includes(`-${this.name}`))) {
+				if (option in autoEffectOptionsExpand && expand) {
+					options = {...options, ...autoEffectOptionsExpand[option].reduce((acc, o) => { return {...acc, [o]:true} }, {})}
+				} else {
+					options[option] = true;
+				}
+			}
+		}
+		return options;
+	}
+
+	// Returns true if the effect has the provided option
+	// If "match" is set the option must additionally match that option or one of its variants 
+	hasOption(o, opts={}) {
+		let type = (opts.type == "conditional") ? "con_options" : "options";
+
+		return Object.keys(this.#valid[type].full).some(key => {
+			if (opts.match && !autoEffectOptionsExpand[opts.match].includes(key)) return false;
+			return key.toLowerCase() == o.toLowerCase();
+		});
+	}
+
+
+	// Update effect name
+	get name() {
+		return this.#name;
+	}
+	set name(n) {
+		if (!(n = this.#applyMath(n))) return;
+
+		let nameMatch = Object.keys(autoEffectFormats).find(name => name.toLowerCase() == n.toLowerCase());
+		if (nameMatch) {
+			this.#name = nameMatch;
+			this.#lang.name = getAutoEffectFromTranslation(this.name);
+			this.#lang.effect[0] = this.#lang.name;
+
+			// Get the AutoEffect format
+			this.#format = autoEffectFormats[this.name];
+			if (this.#format.copy) {
+				this.#format = autoEffectFormats[this.#format.copy];
+			}
+			this.#format = structuredClone(this.#format);
+
+			// Calculate the position of the value, target and options within the AutoEffect
+			this.#format.index = {value:0, target:0, option:0}
+			let index = this.#format.index;
+
+			if (this.#format.value) { index.value = 1; }
+			if (this.#format.target) { index.target = index.value + 1; }
+			if (this.#format.reverse) { index.value++; index.target--; }
+			if (this.#format.targetOptional && !this.#lang.effect[index.target]) { index.target = 0; }
+			index.option = Math.max(index.value, index.target) + 1;
+
+			// Get all supported options for the AutoEffect
+			this.#valid = {
+				options: {
+					full: this.#getOptions("effect", "expand"), // TODO: Consider removing these
+					raw: this.#getOptions("effect"), // Instead, have #valid contain methods like hasOption() and hasConOption()
+				},
+				con_options: {
+					full: this.#getOptions("conditional", "expand"),
+					raw: this.#getOptions("conditional"),
+				}
+			}
+			this.#lang = {...this.#lang,
+				options: this.toString("options"),
+				con_options: this.toString("options", {type:"conditional"}),
+			}
+
+			// Translates AutoEffect names, bars and ailments to English. Stores untranslated values for error messages
+			//let langAutoEffect = [...AutoEffect];
+			//AutoEffect = translateAutoEffectToEnglish(AutoEffect, effectFormat.target ? [...effectFormat.target] : false, validOptions, validConOptions, targetIndex, optionIndex);
+
+			// Test: Valid format / length
+			let minLength = index.option;
+			let maxLength = minLength + length(this.#valid.options.raw) + (this.#format.maxLengthMod || 0);
+
+			if (this.#lang.effect.length < minLength || this.#lang.effect.length > maxLength) {
+				this.#error("Invalid Format", {
+					"[NAME]":this.#lang.name,
+					"[VALUE]":this.toString("value"),
+					"[TARGET]":this.toString("target", {dividers: [
+						getTranslationByKeyCustom("/", "error-divider-slash"),
+						getTranslationByKeyCustom("/", "error-divider-slash"),
+					]}),
+					"[OPTIONS]":this.#valid.options.raw
+				}); return;
+			}
+			return this.#setup.name = true;
+		} else {
+			this.#error("Invalid AutoEffect", {"[NAME]":this.#lang.name}); return;
+		}
+	}
+
+
+	// Update effect value
+	get value() {
+		return this.#value;
+	}
+	set value(v) {
+		if (!(v = this.#applyMath(v))) return;
+		if (!this.#format.index.value) return this.#setup.value = true;
+
+		this.#value = v;
+		this.#lang.value = v;
+		this.#lang.effect[this.#format.index.value] = this.#lang.value;
+
+		// Parse value + Test: Valid value
+		switch (this.#format.value) {
+			case "number":
+				this.#lang.percent = "";
+
+				// Extract value options (%, <, >, <= and >=)
+				if (/^[<>]=?/.test(this.value)) {
+					if (this.#format.compareValue && this.target) {
+						this.options.compareValue = this.value.match(/^[<>]=?/g)[0];
+						this.#value = this.value.replace(this.options.compareValue, "");
+					} else {
+						this.#error("Invalid Compare"); return;
+					}
+				}
+				if (/%$/.test(this.value)) {
+					if (this.#format.percentageValue && this.target) {
+						this.#value = this.value.replace("%","");
+						this.options.percentageValue = Math.abs(parseFloat(this.value) / 100);
+						this.#lang.percent = getTranslationByKeyCustom("or percentage", "autoeffect-error-value-percent");
+					} else {
+						this.#error("Invalid Percentage"); return;
+					}
+				}
+				
+				// Get the base value
+				this.#value = parseFloat(this.value);
+				if (!this.#format.negativeValue) { this.#value = Math.abs(this.value); }
+				if (isNaN(this.value)) {
+					this.#error("Invalid Value", {"[VALUE]":this.#lang.value,"[PERCENT]":this.#lang.percent});
+				}
+				
+				// Apply value options
+				if (this.options.percentageValue !== undefined && this.#targetPath) {
+					if (this.#targetPath[0] == "bar") {
+						let barMax = parseInt(access.bar[`${this.target.replace("-","")}_max`]);
+						this.#value = barMax * this.options.percentageValue;
+					}
+					else if (this.#targetPath[0] == "ailments") {
+						let ailmentCount = parseInt(access.ailments[this.target].count);
+						this.#value = Math.max(ailmentCount * this.options.percentageValue, 1);
+					}
+				} break;
+			
+			case "string":
+				if (!/^".+"$/.test(this.value)) {
+					this.#error("Invalid Format", {
+						"[NAME]":this.#lang.name,
+						"[VALUE]":getTranslationByKeyCustom('"Format"', "autoeffect-error-value-format"),
+						"[TARGET]":this.#lang.target,
+						"[OPTIONS]":this.#lang.value,
+					}); return;
+				} break;
+		}
+
+		return this.#setup.value = true;
+	}
+	
+
+	// Update effect target
+	get target() {
+		return this.#target;
+	}
+	set target(t) {
+		if (!(t = this.#applyMath(t))) return;
+		if (!this.#format.index.target) return this.#setup.target = true;
+
+		this.#target = t.toLowerCase();
+		this.#lang.target = t;
+		this.#lang.effect[this.#format.index.target] = this.#lang.target;
+
+		// Parse target + Test: Valid target
+		if (this.#format.target) {
+			if (this.#format.target.includes("#Ailment")) {
+				if (access.ailments[this.target]) this.#targetPath = ["ailments"]
+			}
+			if (this.#format.target.some(target => target.includes("#Bar"))) {
+				if (access.bar[this.target]) this.#targetPath = ["bar"]
+				// TODO: if (access.bar.temp.keys ... ) this.#targetPath = ["bar", "temp"]
+			}
+			if (this.#format.target.includes("#Stat")) {
+				if (statNamesFull.some(stat => stat.toLowerCase() == this.target)) this.#targetPath = ["character"]
+			}
+			if (this.#format.target.includes("#Resource")) { 
+				if (access.resource[this.target]) this.#targetPath = ["resource"];
+			}
+			
+			if (this.#targetPath) {
+				if (this.#targetPath == "ailments") {
+					if (access.ailments[this.target].settings.next_round && this.options.round != "this") {
+						this.options.round = "next";
+					} else {
+						this.options.round = "this"; // Forces the round option to "This" if no next turn field exists
+					}
+				}
+				// TODO: Re-add this functionality
+				/*else if (this.#targetPath == "resource" && triggers.includes("Round start")) {
+					targetAttr += "_max"; targetVar += "_max";
+				}*/
+			} else {
+				if (this.#format.targetOptional) { // Handle effects with an optional target (ex. BaseDamage)
+					if (this.target) {
+						this.parseOptions(this.target);
+						this.target = false;
+					}
+				} else {
+					this.#error("Invalid Target", {
+						"[TARGETS]":this.toString("target", {dividers: [
+							getTranslationByKeyCustom(", ", "error-divider-comma"),
+							getTranslationByKeyCustom(" or ", "error-divider-or"),
+						]}),
+						"[TARGET]":this.#lang.target,
+					}); return;
+				}
+			}
+		}
+
+		return this.#setup.target = true;
+	}
+	
+
+	// Update effect options
+	get options() {
+		return this.#options;
+	}
+	parseOptions(opts) {
+		let optionBackup = {...this.options}
+		for (const o of opts) {
+			if (!(this.addOption(o))) {
+				this.options = optionBackup;
+				return false;
+			}
+		}
+		return this.#setup.options = true;
+	}
+	addOption(o) {
+		if (!(o = this.#applyMath(o))) return;
+
+		let newOption = o.toLowerCase().replace("#","");
+
+		// Handle the "Silent" option
+		if (this.hasOption(newOption, {match:"Silent"})) {
+			this.options.silent = (newOption != "silent") ? newOption.replace("silent","") : true;
+		}
+
+		// Handle the "Target" option
+		else if (this.hasOption(newOption, {match:"Target"})) {
+			this.options.target = newOption;
+		}
+
+		// Handle the "CheckResult" option
+		else if (this.hasOption(newOption, {match:"CheckResult"})) {
+			this.options.checkResult = newOption.replace("check","");
+		}
+
+		// Handle the "Round" option
+		else if (this.hasOption(newOption, {match:"Round"})) {
+			this.options.round = this.options.round || false;
+			if (is(newOption).In("this", "next")) {
+				this.options.round = newOption;
+			}
+			if (!this.options.round) {
+				this.#error("Invalid Round"); return;
+			}
+		}
+
+		// Handle the "Duration" option
+		else if (this.hasOption(newOption, {match:"Duration"})) {
+			this.options.duration = this.options.duration || false; // Avoids issues with ex. "this turn", where "turn" reads as a second option 
+			if (is(newOption).In("this", "next", "combat")) { // The strings "turn" and "round" cause an error if they're not preceeded by one of these strings
+				this.options.duration = newOption;
+			}
+			if (!this.options.duration) {
+				this.#error("Invalid Duration"); return;
+			}
+		}
+
+		// Handle options using N (ex. ScalingN)
+		else if ((/^\w+\d+$/).test(newOption) && this.hasOption(newOption.replace(/\d+/, ""))) {
+			let optionN = newOption.match(/\d+/g)[0];
+			newOption = newOption.replace(optionN, "");
+			this.options[newOption] = optionN;
+		}
+
+		else if (!this.hasOption(newOption)) {
+			this.#error("Invalid Option", {
+				"[NAME]":this.#lang.name,
+				"[OPTION]":o,
+				"[OPTIONS]":this.toString("options"),
+			});
+			return;
+		}
+
+		// Sets option to true if no other value is provided
+		else { this.options[newOption] = true; }
+
+		return true;
+	}
+	
+
+	// Update effect conditional
+	get conditionals() {
+		return this.#conditionals;
+	}
+	parseConditionals(cons) {
+		let conBackup = [...this.#conditionals]
+		for (const c of cons) {
+			if (!(this.addConditional(c))) {
+				this.#conditionals = conBackup;
+				return false;
+			}
+		}
+		return this.#setup.conditionals = true;
+	}
+	addConditional(c) {
+		if (!(c = this.#applyMath(c))) return;
+
+		let newCon = c.trim();
+		this.conditionals.push(newCon);
+
+		// Parse options from the first conditional
+		if (this.conditionals.length == 1) {
+			let primaryCon = this.conditionals[0];
+
+			// Handle the "Section" option
+			if (/#?Section/i.test(primaryCon) && "Section" in this.#valid.con_options.full) {
+				primaryCon = primaryCon.replaceAll(/(#?Section)/ig,"").trim();
+				this.options.section = true;
+			}
+
+			// Handle the "IgnoreFailure" option (is also accepted as a normal option)
+			if (/#?IgnoreFailure/i.test(primaryCon) && "IgnoreFailure" in this.#valid.con_options.full) {
+				primaryCon = primaryCon.replaceAll(/(#?IgnoreFailure)/ig,"").trim();
+				this.options.ignoreFailure = true;
+			}
+
+			// Handle the "ChatButton" option
+			// The conditional with option is removed. If the conditional is the primary conditional the effect becomes unconditional
+			if (/#?ChatButton/i.test(primaryCon) && "ChatButton" in this.#valid.con_options.full) {
+				primaryCon = primaryCon.replaceAll(/(#?ChatButton)/ig,"").trim();
+				this.options.chatButton = true;
+			}
+
+			if (this.options.section) {
+				this.options.section = primaryCon;
+				this.conditionals.shift();
+			} else {
+				this.conditionals[0] = primaryCon;
+			}
+		}
+
+		return true;
+	}
+}
+
+
+class effectBlock extends dataNode {
+	constructor(formats, id=false, parent=false, path=[]) {
+		super(formats, id, parent, path);
+
+		Object.defineProperties(this, {
+			local: {writable: true, value: {
+				scaling: 1,
+				checkresult: "success",
+			}},
+		});
+	}
+
+	// Execute all effects in the block
+	execute() {
+		console.log("Starting AutoEffect execution...")
+
+		for (let i = 0; i < this.length; i++) {
+			if (this[i] instanceof effectBlock || this[i] instanceof effectData) {
+				this[i].execute();
+			}
+		}
+		return true;
+		// TODO: Add extra functionality like looping
+	}
+
+	// Add either a new effect block, or add new effects from an AutoScript in string or array form
+	add(AutoScript, index=0, opts={}) {
+		let newEffects = []
+		let indexStack = []
+		
+		if (AutoScript instanceof effectBlock || AutoScript instanceof effectData) {
+			newEffects.push(AutoScript);
+		}
+		else if (AutoScript == "block") {
+			console.log("Adding new block", this, index);
+
+			let blockID = generateRowID().toLowerCase();
+
+			let blockData = {
+				base: this.rep?.base || {},
+				default: false,
+				valid: this?.rep.valid || false,
+				attrs: this?.rep.attrs || false,
+				source: {},
+			}
+
+			newEffects.push(new effectBlock(blockData, blockID, this, [...this.path, blockID]));
+			this._addAccessors({rep: blockID});
+		}
+		else if (!/^\s*$/.test(AutoScript)) {
+			console.log("Adding new effect(s)", this, AutoScript, index);
+
+			for (const AutoEffect of new_autoScriptToArray(AutoScript)) {
+				newEffects.push(new effectData(AutoEffect, this))
+			}
+
+			// TODO: Apply properties of the block to the new effects
+			// Ex. if the block has a conditional, effect.conditionals.shift(this.conditional)
+		}
+
+		// If an index is provided, insert the new effects at that index
+		while (index > 0 && this.length > index) {
+			indexStack.push(this.pop());
+		}
+
+		// Add the new effects or block
+		for (const effect of newEffects) {
+			this.push(effect);
+			
+			// Trigger a new add event
+			access._event.trigger([...this.path, "add"], {
+				node:this, type:"add", oldval:false, newval:effect,
+			}, opts);
+		}
+		
+		while (indexStack.length > 0) {
+			this.push(indexStack.pop());
+		}
+
+		return (AutoScript == "block") ? newEffects[0] : newEffects;
+	}
+
+	// Delete the effect at a specific index
+	// If an end index is provided all effects from the start to end index are deleted. The end index is not included
+	delete(start, end, opts={}) {
+		if (this.length) {
+			if (!start) start = this.length - 1;
+			if (!end) end = start + 1;
+			let indexStack = []
+	
+			while (end > 0 && this.length > end) {
+				indexStack.push(this.pop());
+			}
+	
+			while (start > 0 && this.length > start) {
+				let effect = this.pop();
+				
+				if (effect instanceof effectBlock) {
+					this._deleteAccessors(effect);
+				}
+				
+				// Trigger a new delete event
+				access._event.trigger([...this.path, "delete"], {
+					node:this, type:"delete", oldval:effect, newval:false,
+				}, opts);
+			}
+			
+			while (indexStack.length > 0) {
+				this.push(indexStack.pop());
+			}
+		}
+	}
+}
+
+
+
+// Takes in an AutoScript and returns an array of AutoEffects in array form
+// Mode is one of "effects" or "trigger"
+function new_autoScriptToArray(AutoScript, mode="effects") {
+	let AutoScriptArray = []
+	let match = []
+
+	console.log("AutoScript", AutoScript)
+
+	let scriptRegExp = {
+		effects: /\(\s*(.+?)\s*\)(?=\s*(?:\(|\[#|$))/g,
+		triggers: /\[#\s*(.+?)\s*,\s*(\([^]+)\s*#\](?=\s*(?:\(|\[#|$))/g,
+	}
+	
+	// Clean up the AutoScript for parsing
+	AutoScript = cleanAutoScript(AutoScript);
+	if (mode == "effects") {
+		AutoScript = AutoScript.replace(scriptRegExp.triggers, "");
+	}
+
+	// Extract all AutoEffects in the AutoScript
+	while (match = scriptRegExp[mode].exec(AutoScript)) {
+		// console.log("New effect", match)
+
+		if (mode == "triggers") {
+			if (match[2]) {
+				AutoScriptArray.push([
+					splitIgnoreBetween(match[1], /\s+/g, ['[', ']'], {includeChars:true, nesting:true}),
+					new_autoScriptToArray(match[2]),
+				]);
+			} else {
+				console.warn("Parsing error: Empty trigger block");
+			}
+		} else {
+			let effectArray = splitIgnoreBetween(match[1], ",", [["{","}"], ['"']], {includeChars:true, nesting:true});
+			effectArray[0] = splitIgnoreBetween(effectArray[0], /\s+/g, [["{","}"], ['"']], {includeChars:true});
+			AutoScriptArray.push(effectArray);
+		}
+	}
+
+	// console.log(AutoScriptArray);
+
+	return AutoScriptArray;
+}
+
+
+
+
+
+
+
 // Contains a list of access objects, one for each accessed character
 
 // You should look into adding further settings for privating information
@@ -17488,9 +18586,6 @@ const accessHandler = {
 	// Writing access.currentID allows getting all data of the current character, instead of getting a subnode
 	// Writing access._initialize() and other built-in access props/methods returns as normal
 	get: function (ac, prop) {
-		
-		// Should here ensure access._stack isn't empty
-		
 		if (prop.startsWith("_")) { // Access AutoEffects strip leading spaces and underscores, making built-in props/methods inaccessible to users
 			return ac[prop];
 		}
@@ -17515,9 +18610,6 @@ const accessHandler = {
 	//  If access[charID] does not exist, set it to the provided data
 	//  If access[charID] does exist, add the provided data to the current data
 	set: async function(ac, prop, value) {
-
-		// Should here ensure access._stack isn't empty
-
 		if (prop.startsWith("_") && prop in ac && typeof ac[prop] != "function") { // Built-in access props accept all values
 			ac[prop] = value;
 		}
@@ -17556,32 +18648,43 @@ const accessHandler = {
 const accessData = {
 	
 	// All values that should be applied to the sheet are added to this output object
-	// In effect, you can use access._output.prop = value in place of setAttrs(prop: value)
+	// In effect, you can use access._output.sheet.prop = value in place of setAttrs(prop: value)
 	_output: {
 		sheet: {}, 
 		editor: {},
 	},
-	// TODO: This should maybe not be a single output, but instead one output for each character in access
-	// When outputting the values, use setAttrsByID(access._output[id]) for each id in access where the output isn't empty
-	// Alternatively, add an output to each root node of each access (node created with no parent)
 
 	// The current state of access. See access._begin() for more details
 	_access_state: false,
 
 	get _state() {
-		return access._access_state;
+		return this._access_state;
 	},
 	set _state(v) {
-		if (!is(v).In(false, "event", "error", "init", "output", "sync")) {
+		if (!is(v).In(false, "event", "error", "init", "output", "sync", "roll")) {
 			console.warn(`access: "${v}" is not a supported access state`)
 			//return false;
 		}
 
-		// if (v && v != "output") console.log("access: setting state to", v);
+		const stateData = {
+			event: [false],
+			effect: ["roll", "use"],
+		}
 
-		access._access_state = v;
-		//return true;
+		// Reject all state changes after an error or while outputing to the sheet
+		if (is(this._state).In("error", "output") && v !== false) {
+			return false;
+		}
+
+		// Certain states have limitations on when they can be set
+		if (!stateData[v] || is(this._state).In(stateData[v])) {
+			this._access_state = v;
+			console.log("access: setting state to", v);
+		}
+		return true;
 	},
+
+	_access_stack: [],
 
 	// Begins a new data access "action"
 	// When used, any modified values will be saved in each node's local #output storage instead of immediately being applied
@@ -17591,55 +18694,231 @@ const accessData = {
 		let charID = getActiveCharacterId(); // TODO: Remove this after improving the access output system
 
 		if (newState) {
-			if (access._state && is(newState).In("event", "sync")) {
-				newState = false;
-			} else {
-				access._state = newState;
-			}
-			await callback(newState || access._state);
+			this._state = newState;
+			this._access_stack.push(newState);
+			await callback(newState || this._state);
+			this._access_stack.pop();
 		}
 
 		// Only runs if the access wasn't already ended inside the callback function
-		if (newState && access._state) {
-			access._end(charID);
+		if (this._access_stack.length == 0 && this._state) {
+			this._end(charID);
 		}
 	},
 	
 	// Ends a data access "action"
 	// All actions end in an "output" state, where values modified during the action are applied to the data access and sheet
 	_end(charID, callback=()=>{}) {
-		if (access._state) {
-			access._state = "output";
-
+		if (this._state) {
 			if (!getActiveCharacterId()) {
 				setActiveCharacterId(charID);
 			}
+
+			// Execute all AutoEffects
+			if (this.effects.length > 0 && this._state != "error") {
+				// TODO: Save backup
+
+				this._state = "effects";
+				this.effects.execute();
+		
+				if (this._state == "error") {
+					// TODO: Load backup
+				}
+			}
+
+			// Output any roll messages to the chat
+			if (this.rolls.length > 0 || this._state == "error") {
+				sendMessage();
+
+				// TODO: Reset access.message
+				// access.message.rolls should clean itself. You just need to reset the header and description
+
+				// Clear all rolls
+				for (const repID of this.rolls.repIDs) {
+					this.rolls.delete(repID);
+				}
+			}
+
+			// Apply all output values to the sheet
+			this._state = "output";
 	
 			// TODO: Limit this to only the accesses that were involved in the action, ex. by having modify add the access id to a list
 			// For DMs with loads of tokens, or many different characters, applying every access can be a LOT of work
 			// This could maybe be done using the event counts? These begin with a character id, and every change triggers at least a modify event
 			// If no event count exists that begin with a char id, then that char id can safely be skipped
 			for (root of Object.values(this).filter(v => v instanceof dataNode)) {
-				root.apply(access._output);
+				root.apply(this._output);
 			}
 	
-			// Apply all output values to the sheet
-			let attrs = {...access._output.sheet, ...access._output.editor}
+			let attrs = {...this._output.sheet, ...this._output.editor}
 
-			access._output = {sheet: {}, editor: {}}
-			access._event.count = {}
-			access._state = false;
+			this._output = {sheet: {}, editor: {}}
+			this._event.count = {}
+			this._state = false;
 
 			if (length(attrs) > 0) {
 				setAttrs(attrs, {}, () => {
 					console.log("Applied attributes:", attrs);
-					access._event.trigger([charID, "output"], {
+					this._event.trigger([charID, "output"], {
 						node:access[charID], type:"output", oldval:false, newval:attrs, // TODO: You may want to make oldval be the backup copy of access
 					});
 					callback();
 				});
 			}
 		}
+	},
+
+	// Adds the data of a new character if it isn't already in access
+	_initialize(ID, type="character") {
+		if (is.ID(ID) && !(ID in this)) {
+			this._begin("init", async () => {
+				let newRoot = new dataNode(dataFormat, false, false, [ID]);
+				access[ID] = newRoot;
+				newRoot.type = type;
+				
+				let repids = await getSectionIDsOrdered(ID, sheetSections);
+	
+				let repNode = null;
+				for (const [section, idArray] of Object.entries(repids)) {
+					switch (section) {
+						case "ailments": repNode = newRoot.ailments; break;
+						case "tags": repNode = newRoot.tags; break;
+						default: repNode = newRoot.items;
+					}
+					for (const repid of idArray) {
+						if (repNode) repNode.add({id:repid, section:section, silent:"hard", default:false});
+					}
+				}
+
+				// If no items exist, add a dummy item for the sake of generating event keys
+				if (newRoot.items.length == 0) {
+					newRoot.items.add({id: "delete_me_later", section: "outfits", silent:"hard", default:false});
+				}
+
+				// All items have at least one rollformat, even when the option is disabled
+				for (const item of newRoot.items.repNodes) {
+					if (item.rollformats.length == 0) {
+						item.rollformats.add();
+					}
+				}
+
+				let keys = newRoot.attrkeys({unsorted:false});
+
+				// Add in missing rollformat keys (indexes 1-4 for most items)
+				keys.sheet = keys.sheet.flatMap(key => {
+					if (/[0-9]+$/.test(key)) {
+						if (key.endsWith(0)) {
+							return range(1, 5).reduce((acc, i) => [...acc, key.replace(/0$/, i)], [key]);
+						}
+						return [];
+					}
+					return key;
+				});
+
+				let values = {sheet: await getAttrsByID(ID, [...keys.sheet, ...keys.editor])}
+	
+				if (length(keys.editor) > 0) {
+					values.editor = {}
+					for (const attr of keys.editor) {
+						if (values.sheet[attr] !== undefined) { // Clears out some attrs that don't exist in the editor, like the item's description
+							values.editor[attr] = values.sheet[attr];
+						}
+						delete values.sheet[attr];
+					}
+				}
+	
+				console.log(keys);
+				console.log({sheet: {...values.sheet}, editor: {...values.editor}});
+
+				// Add a number of roll formats equal to the amount shown in the sheet
+				if (newRoot.items.length > 0) {
+					for (const rollNode of newRoot.items.repNodes.map(item => item.rollformats)) {
+						for (let i = 1; i <= 4; i++) {
+							if (is.True(values.sheet[rollNode.attr(rollNode.repIDs[0], "sheet").slice(0, -1) + i])) {
+								rollNode.add();
+							}
+						}
+					}
+				}
+
+				if (newRoot.items["delete_me_later"]) {
+					delete newRoot.items["delete_me_later"];
+					this._output = {sheet: {}, editor: {}}
+				}
+	
+				// Apply retrieved values from the sheet to access
+				newRoot.input(values, {silent:"hard"});
+
+				// Clear old rollformats from the item editor
+				let rollIDs = await getSectionIDsAsync("rollformats");
+				for (const rollID of rollIDs) {
+					removeRepeatingRow(`repeating_rollformats_${rollID}`);
+				}
+
+				// Add new rollformats to the item editor
+				let target = newRoot.items.editor.target;
+				if (is.ID(target)) {
+					let rollformats = newRoot.items[target].rollformats;
+					for (const id of rollformats.repIDs) {
+						rollformats[id].output({editor: this._output.editor}, {allProps:true});
+					}
+				}
+
+				// Add Roll20 events for syncing values to access (if they do not already exist)
+				if (this._event.keys.length == 0) {
+					let eventkeys = newRoot.attrkeys({event:"change", unsorted:false}); 									// Non-repeating attributes
+					eventkeys = {
+						sheet: eventkeys.sheet.concat(sheetSections.map(section => `change:repeating_${section}`)), 		// Repeating sheet attributes
+						editor: eventkeys.editor.concat([`change:repeating_rollformats`]),									// Repeating editor attributes
+					}
+					this._event.keys = eventkeys;
+
+					console.log(eventkeys);
+
+					for (const source in eventkeys) {
+						on(eventkeys[source].join(" "), function(info) {
+							access._begin("sync", async () => {
+								if (!info.newValue) { // Attributes like hp_max for some reason do not include their value in the event info
+									let values = await getAttrsAsync([info.sourceAttribute]);
+									info.newValue = values[info.sourceAttribute];
+								}
+								access.currentID.input({[source]: {[info.sourceAttribute]: info.newValue}});
+							});
+						});
+					}
+				}
+
+				// Runs after all attributes have been applied to the sheet
+				this._end(ID, () => {
+
+					// Update the access tree to include any AutoEffect events from the new character or token
+					if (type != "target") {
+						access._recalc.events(ID);
+					}
+	
+					// Apply any custom color or positioning data
+					if (type == "character") {
+						access._recalc.jquery(ID);
+					}
+
+					// Update any equipment restrictions
+					access._recalc.equip(ID);
+
+					// Reapply the description weights of all items
+					access._recalc.weight(ID);
+				});
+			});
+		}
+
+		// TODO: Make this handle targets and tokens
+		// - Type == "character" also loads all their tokens, if any exist, as seperate accesses that are linked through access.tokens
+		// - Type == "token" deletes access.tokens and have lowercaps ids (to match the ids inside a repnode)
+		// - Type == "target" matches the target's main character access, or the targeted token's access if generic token mode is enabled
+		//   - Targets never have tokens or events, unless the target is an opened sheet, in which case the type is updated to "character"
+		// Output data is only applied when type == "character". This does allows GMs to automatically update player values if they open their sheet once
+		// - Event listeners ensures both the player and GM have up to date data, removing the need for getting data through targeting
+		
+		return access[ID];
 	},
 	
 	_event: {
@@ -17657,7 +18936,7 @@ const accessData = {
 		// Registers a new access event
 		register(path, eventopts, func, opts={}) {
 			let accessFormat = opts.accessFormat || dataFormat.base;
-			let eventNode = opts.eventNode || access._event.tree;
+			let eventNode = opts.eventNode || this.tree;
 
 			if (!is.Array(path)) {
 				path = pathStringToArray(path);
@@ -17678,7 +18957,7 @@ const accessData = {
 				// If a step is an array of steps, register an event for each step
 				if (is.Array(step)) {
 					for (prop of step) {
-						access._event.register([...path.slice(0, i), prop, ...path.slice(i+1)], eventopts, func, {...opts, i:i, accessFormat:accessFormat, eventNode:eventNode});
+						this.register([...path.slice(0, i), prop, ...path.slice(i+1)], eventopts, func, {...opts, i:i, accessFormat:accessFormat, eventNode:eventNode});
 					}
 					return true;
 				}
@@ -17688,23 +18967,23 @@ const accessData = {
 					path[i] = step; // Makes sure the modified step is added to the event tree
 				}
 
-				if (is(step).In("add", "delete", "modify")) {
-					if (is(step).In("add", "delete") && i != path.length - 1) {
-						console.log("Throw error. add/delete must be the last step in the path");
+				if (is(step).In("add", "delete", "modify", "roll")) {
+					if (is(step).In("add", "delete", "roll") && i != path.length - 1) {
+						console.warn(`Throw error. ${step} must be the last step in the path`);
 						return false;
 					}
 					else if (step == "modify" && i != path.length - 2) {
-						console.log("Throw error. modify must be the second to last step in the path");
+						console.warn(`Throw error. ${step} must be the second to last step in the path`);
 						return false;
 					}
 				}
 				else if (step == "N") {
-					accessFormat = accessFormat._repeating || Object.values(accessFormat)[0];
+					accessFormat = accessFormat._repeating || Object.values(accessFormat).find(prop => is.Object(prop));
 				}
 				else if (accessFormat[step] !== undefined) {
 					accessFormat = accessFormat[step];
 				} else {
-					console.log(`Throw error. Subnode or property "${step}" is not in access`, accessFormat);
+					console.warn(`Throw error. Subnode or property "${step}" is not in access`, accessFormat);
 					return false;
 				}
 			}
@@ -17730,11 +19009,11 @@ const accessData = {
 			if (opts.silent == "hard") return true;
 
 			let accessNode = opts.accessNode || access;
-			let eventNode = opts.eventNode || access._event.tree;
-			let pathString = (is.Array(path)) ? path.join(".") : path;
+			let eventNode = opts.eventNode || this.tree;
+			let pathString = (is.Array(path)) ? pathArrayToString(path) : path;
 
-			if (!is.Array(path)) {
-				// TODO: Convert string path to an array
+			if (typeof path == "string") {
+				path = pathStringToArray(path);
 			}
 			if (!opts.accessNode && !is.ID(path[0]) && path[0] != "N") { // root.prop does not add the ID to the path (unlike access.prop which does)
 				path.unshift(getActiveCharacterId());
@@ -17742,7 +19021,7 @@ const accessData = {
 
 			// Used for opts.max
 			if (!opts.i) {
-				access._event.count[pathString] = (access._event.count[pathString] || 0) + 1;
+				this.count[pathString] = (this.count[pathString] || 0) + 1;
 			}
 
 			// if (info.silent != "hard") console.log("Triggering access event:", path, opts);
@@ -17755,12 +19034,12 @@ const accessData = {
 				}
 
 				if (eventNode) {
-					if (accessNode[step] !== undefined || step == "N") {
+					if (accessNode[step] !== undefined || is(step).In("N", "roll")) {
 
 						// Validate the event path
-						if (is(step).In("add", "delete")) {
+						if (is(step).In("add", "delete", "roll")) {
 							if (i != path.length - 1) {
-								console.log("Throw error. add/delete must be the last step in the path");
+								console.warn(`Throw error. ${step} must be the last step in the path`);
 								return false;
 							}
 							eventNode = eventNode[step];
@@ -17768,7 +19047,7 @@ const accessData = {
 						}
 						else if (step == "modify") {
 							if (i != path.length - 2) {
-								console.log("Throw error. modify must be the second to last step in the path");
+								console.warn("Throw error. modify must be the second to last step in the path");
 								return false;
 							}
 							eventNode = eventNode[step];
@@ -17779,14 +19058,14 @@ const accessData = {
 						else if (step == "N") {
 							for (const prop in eventNode) {
 								if (prop != step) {
-									access._event.trigger([...path.slice(0, i), prop, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[prop], eventNode:eventNode[prop]});
+									this.trigger([...path.slice(0, i), prop, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[prop], eventNode:eventNode[prop]});
 								}
 							}
 						}
 
 						// If the event tree includes N, move to that branch in addition to the current one
 						else if (eventNode.N && step != "N") {
-							access._event.trigger(path, info, {...opts, i:i+1, accessNode:accessNode[step], eventNode:eventNode["N"]});
+							this.trigger(path, info, {...opts, i:i+1, accessNode:accessNode[step], eventNode:eventNode["N"]});
 						}
 
 						// If the next step is a repid, also trigger an event for any name/index accessors associated with the repnode
@@ -17794,10 +19073,10 @@ const accessData = {
 							let [name, index] = [snakeify(accessNode[step].name || ""), accessNode[step].index]
 
 							if (name !== "" && eventNode[name]) {
-								access._event.trigger([...path.slice(0, i), name, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[name], eventNode:eventNode[name]});
+								this.trigger([...path.slice(0, i), name, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[name], eventNode:eventNode[name]});
 							}
 							if (index !== false && eventNode[index]) {
-								access._event.trigger([...path.slice(0, i), index, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[index], eventNode:eventNode[index]});
+								this.trigger([...path.slice(0, i), index, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[index], eventNode:eventNode[index]});
 							}
 						}
 
@@ -17806,7 +19085,7 @@ const accessData = {
 							eventNode = eventNode[step]; // TODO: Does this work for names/ids? If not, use eventNode = eventNode[step] || eventNode[accessNode[step].id]
 							accessNode = accessNode[step];
 						} else {
-							//console.log("No event found for path:", path.join("."));
+							//console.warn("No event found for path:", path.join("."));
 							return false;
 						}
 					} else {
@@ -17825,26 +19104,64 @@ const accessData = {
 						}
 					}
 				} else {
-					//console.log("No event found for path:", path.join("."));
+					//console.warn("No event found for path:", path.join("."));
 					return false;
 				}
 			}
 			if (eventNode?.eventArray) {
 				for (event of eventNode.eventArray) {
 					if (opts.silent && !event.ignoreSilent) return false; // Handle silent events
-					if (access._event.count[pathString] > event.max) return false; // Handle event max trigger count
+					if (this.count[pathString] > event.max) return false; // Handle event max trigger count
 					if (opts.eventinfo) Object.assign(info, opts.eventinfo); // Handle custom event info
 
 					access._begin("event", event.func({...info, path: path, charid: path[0]}));
 				}
 				return true;
 			} else {
-				//console.log("No event found for path:", path.join("."));
+				//console.warn("No event found for path:", path.join("."));
 				return false;
 			}
 		},
 	},
 
+	_error: {
+		errors: {},
+
+		// Reports a new error
+		throw(errorType, errorCode, errorSubject, inserts={}, variant) {
+			errorCode = `${errorType}-error${(errorData[errorType][errorCode]) ? `-${errorData[errorType][errorCode]}` : ""}`;
+
+			// Retrieve the error format
+			errorType = getTranslationByKeyCustom(errorCode, `${errorCode}-type`);
+			let errorText = getTranslationByKeyCustom(errorCode, `${errorCode}-message${(variant) ? `-${variant}` : ""}`);
+
+			// Store the error. Errors are posted during access._end()
+			if (!this.errors[errorType]) {
+				this.errors[errorType] = []
+			}
+			this.errors[errorType].push({
+				subject: errorSubject,
+				text: errorText,
+				inserts: inserts,
+			});
+			access._state = "error";
+		},
+
+		//Returns a HTML string that highlights the location of an error
+		location(string, data) {
+			let langLocation = getTranslationByKeyCustom("Location: ", "math-error-location");
+
+			let string_end = string.length;
+			let error_start = data.index || string_end;
+			let error_end = Math.min(error_start + (data.length || 0), string_end);
+
+			return `*\n${langLocation}**${[
+				data.string.slice(0, error_start),
+				styleText(data.string.slice(error_start, error_end), "color: red;"),
+				styleText(data.string.slice(error_end, string_end), "color: gray;"),
+			].join("")}*`;
+		}
+	},
 	
 	
 	// List of illegal prop names
@@ -17879,185 +19196,6 @@ const accessData = {
 
 
 
-	// Adds the data of a new character if it isn't already in access
-	_initialize(ID, type="character") {
-		if (is.ID(ID) && !(ID in access)) {
-			access._begin("init", async () => {
-				let newRoot = new dataNode(dataFormat, false, false, [ID]);
-				access[ID] = newRoot;
-				newRoot.type = type;
-				
-				let repids = await getSectionIDsOrdered(ID, sheetSections);
-	
-				let repNode = null;
-				for (const [section, idArray] of Object.entries(repids)) {
-					switch (section) {
-						case "ailments": repNode = newRoot.ailments; break;
-						case "tags": repNode = newRoot.tags; break;
-						default: repNode = newRoot.items;
-					}
-					for (const repid of idArray) {
-						if (repNode) repNode.add({id:repid, section:section, silent:"hard", default:false});
-					}
-				}
-
-				// If no items exist, add a dummy item for the sake of generating event keys
-				if (newRoot.items.repCount == 0) {
-					newRoot.items.add({id: "delete_me_later", section: "outfits", silent:"hard", default:false});
-				}
-
-				// All items have at least one rollformat, even when the option is disabled
-				for (const item of newRoot.items.repNodes) {
-					let rollNode = item.rollformats;
-					if (rollNode.repCount == 0) {
-						rollNode.add();
-					}
-				}
-
-				let keys = newRoot.attrkeys({unsorted:false});
-
-				// Add in missing rollformat keys (indexes 2-5 for most items)
-				keys.sheet = keys.sheet.flatMap(key => {
-					if (/[0-9]+$/.test(key)) {
-						if (key.endsWith(1)) {
-							return range(2, 6).reduce((acc, i) => [...acc, key.replace(/1$/, i)], [key]);
-						}
-						return [];
-					}
-					return key;
-				});
-
-				let values = {sheet: await getAttrsByID(ID, [...keys.sheet, ...keys.editor])}
-	
-				if (length(keys.editor) > 0) {
-					values.editor = {}
-					for (const attr of keys.editor) {
-						if (values.sheet[attr] !== undefined) { // Clears out some attrs that don't exist in the editor, like the item's description
-							values.editor[attr] = values.sheet[attr];
-						}
-						delete values.sheet[attr];
-					}
-				}
-	
-				console.log(keys);
-				console.log({sheet: {...values.sheet}, editor: {...values.editor}});
-
-				// Add a number of roll formats equal to the amount shown in the sheet
-				if (newRoot.items.repCount > 0) {
-					for (const item of newRoot.items.repNodes) {
-						let rollNode = item.rollformats;
-						for (let i = 2; i <= 5; i++) {
-							if (is.True(values.sheet[rollNode.attr(rollNode.repIDs[0], "sheet").slice(0, -1) + i])) {
-								rollNode.add();
-							}
-						}
-					}
-				}
-
-				if (newRoot.items["delete_me_later"]) {
-					delete newRoot.items["delete_me_later"];
-					access._output = {sheet: {}, editor: {}}
-				}
-	
-				// Apply retrieved values from the sheet to access
-				newRoot.input(values, {silent:"hard"});
-
-				// Clear old rollformats from the item editor
-				let rollIDs = await getSectionIDsAsync("rollformats");
-				for (const rollID of rollIDs) {
-					removeRepeatingRow(`repeating_rollformats_${rollID}`);
-				}
-
-				// Add new rollformats to the item editor
-				let target = newRoot.items.editor.target;
-				if (is.ID(target)) {
-					let rollformats = newRoot.items[target].rollformats;
-					for (const id of rollformats.repIDs) {
-						rollformats[id].output({editor: access._output.editor}, {allProps:true});
-					}
-				}
-
-				// Add Roll20 events for syncing values to access (if they do not already exist)
-				if (access._event.keys.length == 0) {
-					let eventkeys = newRoot.attrkeys({event:"change", unsorted:false}); 									// Non-repeating attributes
-					eventkeys = {
-						sheet: eventkeys.sheet.concat(sheetSections.map(section => `change:repeating_${section}`)), 		// Repeating sheet attributes
-						editor: eventkeys.editor.concat([`change:repeating_rollformats`]),									// Repeating editor attributes
-					}
-
-					console.log(eventkeys);
-
-					for (const source in eventkeys) {
-						on(eventkeys[source].join(" "), function(info) {
-							access._begin("sync", async () => {
-								if (!info.newValue) { // Attributes like hp_max for some reason do not include their value in the event info
-									let values = await getAttrsAsync([info.sourceAttribute]);
-									info.newValue = values[info.sourceAttribute];
-								}
-								access.currentID.input({[source]: {[info.sourceAttribute]: info.newValue}});
-							});
-						});
-					}
-				}
-
-				// Runs after all attributes have been applied to the sheet
-				access._end(ID, () => {
-
-					// Update the access tree to include any AutoEffect events from the new character or token
-					if (type != "target") {
-						access._recalc.events(ID);
-					}
-	
-					// Apply any custom color or positioning data
-					if (type == "character") {
-						access._recalc.jquery(ID);
-					}
-
-					// Update any equipment restrictions
-					access._recalc.equip(ID);
-
-					// Reapply the description weights of all items
-					access._recalc.weight(ID);
-				});
-			});
-		}
-
-		// TODO: Make this handle targets and tokens
-		// - Type == "character" also loads all their tokens, if any exist, as seperate accesses that are linked through access.tokens
-		// - Type == "token" deletes access.tokens and have lowercaps ids (to match the ids inside a repnode)
-		// - Type == "target" matches the target's main character access, or the targeted token's access if generic token mode is enabled
-		//   - Targets never have tokens or events, unless the target is an opened sheet, in which case the type is updated to "character"
-		// Output data is only applied when type == "character". This does allows GMs to automatically update player values if they open their sheet once
-		// - Event listeners ensures both the player and GM have up to date data, removing the need for getting data through targeting
-		
-		// Additional thoughts on events
-		// - Some event can only trigger once per action. This solved two problems:
-		//   a) If two sheetworkers have opened the same sheet, events will be resolved twice. With this system only one sheetworker will resolve an event
-		//   b) AutoEffects like "when gaining Burn, gain 1 extra Burn" will not loop infinitely. It will trigger once per action
-		// - What counts as an action? Probably a roll/tool use/protect/etc.
-		//   - Individual AutoEffects probably do not count as seperate actions. If you want to boost each individal gain Burn by 1, use (Amplify 1 Burn #Each)
-		//   - Alternatively you could have a trigger option like [# access.items.add #PerActionMaxN, (...) #], with N at most being 99 and by default being 1
-		//     - You could in this case also have "#PerRoundMaxN" to control how many times a trigger block executes per round
-
-
-		// How to instance a new character
-		// x1. Create a function getSectionIdsByID that gets section ids from a character. Preferably they should be ordered like getSectionIdsOrdered
-		// x2. Use this function to get all section ids of a character or target. Ignore this step for tokens
-		// x3. Create one node for each node in each section
-		//    - Rollformat ids are only used for the current editor target, which should be retrieved if type == "character"
-		//    - Other items add one rollformat if one doesn't already exist, then duplicate the resulting attributes for index 2-5
-		//    - For rollformats 2-5, only add it to the item if the display toggle for the format is enabled
-		//  4. Run access.keys(), add the rollformat toggle, duplicate the rollformat attrs for all indexes, and getAttrsByID the values
-		//    - See if you can link rollformat.enabled to the toggle. Disabling a roll format flips the toggle, and triggers a built in event that deletes the format
-		//    - Similairly, a Roll20 event detects rollformats being deleted using the UI, and then deletes the associated format in access
-		//  5. Get all rollformat toggles. Delete all associated values if the toggle is disabled
-		//    - Note the code accepts rollformats while the option is disabled. The code only cares if an individual format is hidden
-		//  6. Run values.input()
-
-		return access[ID];
-	},
-
-
 	// A collection of functions used for calculating and/or applying derived data in access
 	// "derived" here means any data which is calculated from multiple properties in access, ex. custom events from AutoScripts
 	// Should not cause any events, except for properies which cannot trigger events in any other way
@@ -18075,7 +19213,7 @@ const accessData = {
 				return IDs;
 			}
 			else {
-				console.log("Throw error: Invalid IDs used in access._recalc");
+				console.warn("Throw error: Invalid IDs used in access._recalc");
 				return [];
 			}
 		},
@@ -18144,7 +19282,7 @@ const accessData = {
 						for (type of types) {
 							let node = item[target][type];
 
-							if (node.repCount == 0 && !/^\s*$/.test(node.raw_text)) {
+							if (node.length == 0 && !/^\s*$/.test(node.raw_text)) {
 								recalcTagsFromRaw(node, {silent:"hard", noRecalc:true});
 							}
 						}
@@ -18155,7 +19293,7 @@ const accessData = {
 								let [tag, value] = [snakeify(tagNode.name), tagNode.value];
 
 								if (!tags.repNodes.some(node => node.name.toLowerCase() == tagNode.name.toLowerCase())) {
-									tags.add({id:generateRowID().toLowerCase(), silent:"hard"}).modify("_name", tagNode.name, {silent:"hard"});
+									tags.add({silent:"hard"}).modify("_name", tagNode.name, {silent:"hard"});
 								}
 
 								if (!tagData[tag]) tagData[tag] = {current:0, max:0}
@@ -18380,7 +19518,7 @@ onAccess(["items", "editor", "modify", "target"], {}, function(info) {
 
 		// Remove all roll formats in the editor
 		try {
-			for (const rollid in items[info.oldval].rollformats) {
+			for (const rollid of items[info.oldval]?.rollformats?.repIDs) {
 				removeRepeatingRow(`repeating_rollformats_${rollid}`);
 			}
 		} catch (e) { // Used when removing an item with an open editor
@@ -18400,7 +19538,7 @@ onAccess(["items", "editor", "modify", "target"], {}, function(info) {
 		if (items[info.newval]) {
 			items[info.newval].output({editor: access._output.editor}, {allProps:true});
 		} else {
-			console.log("Throw error: Item editor target set to unknown item id");
+			console.warn("Throw error: Item editor target set to unknown item id");
 		}
 	}
 });
@@ -18424,15 +19562,15 @@ onAccess("clicked:addItem " + itemEvent("remove") + ["rollformats", "tags"].redu
 		console.log("Delete", type, section, oldID, node, target);
 		node.delete(oldID);
 	} else {
-		if (section == "rollformats" && node.repCount >= 5) return;
+		if (section == "rollformats" && node.length >= 5) return;
 		console.log("Add", type, section, newID, node, target);
 		node.add({id:newID, section:section});
 	}
 
 	// Update the number of displayed roll formats in the sheet
 	if (section == "rollformats") {
-		for (let i = 1; i <= 5; i++) {
-			access._output.sheet[node.attr(node.repIDs[0], "sheet").slice(0, -1) + i] = (i <= node.repCount) ? "true" : "0";
+		for (let i = 0; i <= 4; i++) {
+			access._output.sheet[node.attr(node.repIDs[0], "sheet").slice(0, -1) + i] = (i < node.length) ? "true" : "0";
 		}
 	}
 });
@@ -18484,7 +19622,7 @@ function recalcItemWeight(item) {
 	
 		// Right side element weight (-)
 		if (item.rollformats.enabled) {
-			weight -= item.rollformats.repCount - 1;
+			weight -= item.rollformats.length - 1;
 		}
 		if (item.resistances.enabled && item.resistances.base.enabled) {
 			weight -= length(item.resistances.base.filter(type => type.mode != "None"));
@@ -18608,20 +19746,41 @@ function recalcTagsFromProps(node) {
 	node.modify("_raw_text", tagText);
 }
 
-/* Rolls - Begin item roll */   //clicked:itemRoll1 clicked:itemRoll2 clicked:itemRoll3 clicked:itemRoll4
+/* Rolls - Begin item roll */
 onAccess(itemEvent("clicked", "item-roll"), {}, function(info) { 
-	let itemID = info.triggerName.split("_").at(2);
-	let rollformats = access.items[itemID].rollformats;
-	rollArray = []
+	let item = access.items[info.triggerName.split("_").at(2)];
+	let rollNode = item.rollformats;
 
-	if (rollformats.roll_together) {
-		rollArray = rollformats.repNodes.filter(node => node.mode == "Roll");
-	} else {
-		rollArray = [rollformats[parseInt(info.htmlAttributes["data-index"])]];
+	// If the "Roll together" option is enabled all roll formats of the item are rolled
+	// Otherwise only a singular roll format is uses 
+	if (!rollNode.roll_together) {
+		rollNode = rollNode[parseInt(info.htmlAttributes["data-index"])];
 	}
 
-	executeRolls(cleanRolls(rollArray), {type:(access.resource.selection == "Action") ? "Action" : "Reaction", multiroll:true});
+	// Add any AutoEffects on the item
+	if (item.autoscript != "") {
+		access.effects.add(item.autoscript);
+	}
+
+	// Execute the roll(s)
+	access._event.trigger([...rollNode.path, "roll"], {
+		node:rollNode, type:"roll", multiroll:true, use_resource:true,
+	}, {});
 });
+
+/* Rolls - Execute rolls */
+onAccess([
+	["items", "N", "rollformats", "roll"], ["rolls", "roll"],
+	["items", "N", "rollformats", "N", "roll"], ["rolls", "N", "roll"],
+], {}, function(info) {
+	let rollArray = [info.node]
+
+	if (is(info.path.at(-2)).In("rollformats", "rolls")) {
+		rollArray = info.node.repNodes.filter(roll => roll.mode == "Roll");
+	}
+
+	executeRolls(cleanRolls(rollArray), {use_resource:info.use_resource, multiroll:info.multiroll});
+})
 
 // Clones all rollformats in an roll array to avoid the original rollformats being modified
 function cleanRolls(rollArray) {
@@ -18693,6 +19852,98 @@ function styleRoll(roll) {
 	roll.message.icon.color = getColor(rollStyle.color);
 }
 
+/* Resources - Recalculate reaction sum */
+onAccess(["resource", ["reaction", "universal", "counter", "block", "evade"], "modify", "N"], {}, function(info) {
+	let resource = access.resource;
+
+	if (info.path.at(-3) == "reaction") {
+		let attr = info.path.at(-1);
+		let change = parseInt(info.newval) - parseInt(info.oldval);
+		
+		let typeArray = ["universal", "counter", "block", "evade"]
+		while (change != 0) {
+			let type = typeArray.shift()
+			let oldVal = parseInt(resource[type][attr]);
+			
+			resource[type][attr] = Math.max(oldVal + change, 0);
+			change += (oldVal - resource[type][attr]);
+		}
+		
+		let newSum = parseInt(resource.reaction[attr]) - ["counter", "block", "evade"].reduce((acc, type) => acc += parseInt(resource[type][attr]), 0);
+		resource.universal.modify(`_${attr}`, newSum, {silent:"hard"});
+	} else {
+		for (const attr of ["current", "max", "base"]) {
+			let newSum = ["universal", "counter", "block", "evade"].reduce((acc, type) => acc += parseInt(resource[type][attr]), 0);
+			resource.reaction.modify(`_${attr}`, newSum, {silent:"hard"});
+		}
+	}
+});
+
+/* Resources - Recalc current/max when modifying the base value */
+onAccess(["resource", "N", "modify", "base"], {}, function(info) {
+	let resource = access.resource[info.path.at(-3)];
+	
+	resource.current = Math.max(Math.min(resource.current, resource.base), 0);
+	resource.max = Math.max(resource.base, 0);
+});
+
+
+/* Clicked: Resource display buttons */
+on("clicked:expandtrackers clicked:edittrackers", function(info) {
+	getAttrs(["expandResourceToggle", "editResourceToggle", "actionType"], function(values) {
+		let button = info.triggerName.includes("edit") ? "edit" : "expand";
+		let toggleAttr = button + "ResourceToggle";
+	
+		let output = {[toggleAttr]: values[toggleAttr] == "true" ? "0" : "true"}
+	
+		setAttrs(output);
+	});
+});
+
+/*
+on("clicked:expandtrackers clicked:edittrackers", function(info) {
+	getAttrs(["expandResourceToggle", "editResourceToggle", "actionType",
+	"Action_current", "Action_base", "Action_max", "Reaction_current", "Reaction_base", "Reaction_max", "Light_Regen_current", "Light_Regen_base", "Light_Regen_max",
+	"Universal_current", "Universal_base", "Universal_max", "Counter_current", "Counter_base", "Counter_max",
+	"Block_current", "Block_base", "Block_max", "Evade_current", "Evade_base", "Evade_max"], function(values) {
+		let button = info.triggerName.includes("edit") ? "edit" : "expand";
+		let toggleAttr = button + "ResourceToggle";
+		
+		let output = {[toggleAttr]: values[toggleAttr] == "true" ? "0" : "true"}
+
+		let [action, actionBase, actionMax] = [parseInt(values.Action_current), parseInt(values.Action_base), parseInt(values.Action_max)];
+		let [reaction, reactionBase, reactionMax] = [parseInt(values.Reaction_current), parseInt(values.Reaction_base), parseInt(values.Reaction_max)];
+		let [universal, universalBase, universalMax] = [parseInt(values.Universal_current), parseInt(values.Universal_base), parseInt(values.Universal_max)];
+		let [lightRegen, lightRegenBase, lightRegenMax] = [parseInt(values.Light_Regen_current), parseInt(values.Light_Regen_base), parseInt(values.Light_Regen_max)];
+		let [counter, counterBase, counterMax] = [parseInt(values.Counter_current), parseInt(values.Counter_base), parseInt(values.Counter_max)];
+		let [block, blockBase, blockMax] = [parseInt(values.Block_current), parseInt(values.Block_base), parseInt(values.Block_max)];
+		let [evade, evadeBase, evadeMax] = [parseInt(values.Evade_current), parseInt(values.Evade_base), parseInt(values.Evade_max)];
+
+		if (output[toggleAttr] != "true") {
+			if (button == "expand" && values.actionType != "Action") {
+				output = {...output, "actionType": "Reaction"}
+			}
+			else if (button == "edit") {
+				output = {...output,
+					"Action_current": Math.max(Math.min(action, actionBase), 0), "Action_max": Math.max(actionBase, 0),
+					"Reaction_current": Math.max(Math.min(reaction, reactionBase), 0), "Reaction_max": Math.max(reactionBase, 0),
+					"Universal_current": Math.max(Math.min(universal, universalBase), 0), "Universal_max": Math.max(universalBase, 0),
+					"Light_Regen_current": Math.max(Math.min(lightRegen, lightRegenBase), 0), "Light_Regen_max": Math.max(lightRegenBase, 0),
+					"Counter_current": Math.max(Math.min(counter, counterBase), 0), "Counter_max": Math.max(counterBase, 0),
+					"Block_current": Math.max(Math.min(block, blockBase), 0), "Block_max": Math.max(blockBase, 0),
+					"Evade_current": Math.max(Math.min(evade, evadeBase), 0), "Evade_max": Math.max(evadeBase, 0)
+				}
+			}
+		}
+		setAttrs(output);
+	});
+});
+*/
+
+
+
+
+
 
 
 
@@ -18716,7 +19967,7 @@ const custom = {
 
 			// Validate the input data
 			if (style.some(type => !is(type).In("background", "border", "text", "decoration"))) {
-				console.log(`Custom color: "${style}" is not a valid styling type`);
+				console.warn(`Custom color: "${style}" is not a valid styling type`);
 				return false;
 			}
 
@@ -18846,7 +20097,7 @@ function applyBinaryClasses(selector, valueArray, opts={}) {
 			});
 			return applyBinaryClasses(selector, hexArray, opts);
 		} else {
-			console.log("Binary classes: Could not parse value", value);
+			console.warn("Binary classes: Could not parse value", value);
 			return false;
 		}
 
@@ -18994,7 +20245,7 @@ $20(".inventoryContainer .repcontainer").on("mouseenter", (info) => {
 			}
 		});
 	} else {
-		console.log("Drag and drop with no dragged item");
+		console.warn("Drag and drop with no dragged item");
 	}
 });
 
@@ -19212,17 +20463,17 @@ function updateTokens(info) {
 // Has a special interaction with dataNodes. If the path ends in a dataNode with a defined _valueProp, the value of that property is returned instead
 //  - Ex. navPath("items[1].tags.Burn") returns tags.Burn.current
 //  - Ending the path in "node" ignores this behaviour, ex. "items[1].tags.Burn.node" returns {name: "Burn", current: 2, base: 0} 
-function navPath(path, opts={}) {
-	if (typeof path == "string") {
-		path = pathStringToArray(path);
-	}
-	
-	let result = path.reduce((node, step, i) => {
-		if (opts.userPath) step = snakeify("" + step);
+function navPath(path, opts={}, error={}) {
+	if (typeof raw_path == "string") path = pathStringToArray(path);
+
+	let result = path.reduce((node, raw_step, i) => {
+		let step = (opts.userPath) ? snakeify("" + raw_step) : raw_step;
 
 		if (step.toLowerCase() == "node" && prop.node === undefined) {
 			return node;
 		}
+		if (node && !node[step]) error.step = i;
+	
 		return (node) ? node[step] || null : null;
 	}, opts.start || access);
 
@@ -19235,12 +20486,14 @@ function navPath(path, opts={}) {
 
 
 function pathArrayToString(pathArray) {
-	return pathArray.join(".").replace(/\.(\d+)/g, "[$1]");
+	return pathArray.join(".").replaceAll(/(^|\.[^.]+)(?<=^|\.[^.]*[^\w.]+[^.]*)\.|$/ig, (match) => {
+		return (match != "") ? "[" + match + "]" : "";
+	});
 }
 function pathStringToArray(pathString) {
 	// TODO: Check if this works for nested paths like ailments[global[dmgType + " Ailment"]]
 	// If not you may need to parse paths one character at a time, with [] starting a recursive parsing process
-	return splitIgnoreBetween(pathString, ".", "\[", "\]").flatMap(step => /.+\[.+\]/.test(step) ? step.slice(0, -1).split("[") : step);
+	return splitIgnoreBetween(pathString, ".", ["\[", "\]"]).flatMap(step => /.+\[.+\]/.test(step) ? step.slice(0, -1).split("[") : step);
 }
 
 
@@ -20264,12 +21517,6 @@ function cleanAutoScript(AutoScript) {
 	/* Remove all comments */
 	let cleanAutoScript = AutoScript.replace(/\/\*[\s\S]*?\*\/|(?<=[^:])\/\/.*|^\/\/.*/g,'');
 
-	/* Remove all newlines and tab spaces */
-	cleanAutoScript = cleanAutoScript.replace(/(\r\n|\n|\r|\t)/gm, "");
-
-	/* Remove all spaces between AutoEffects ex. )    ( -> )( */
-	cleanAutoScript = cleanAutoScript.replace(/[\)}]( +)[\({]/g,')(')
-
 	/* Replace all “” quotes with "" quotes */
 	cleanAutoScript = cleanAutoScript.replaceAll('“','"').replaceAll('”','"');
 
@@ -20284,8 +21531,8 @@ function cleanAutoScript(AutoScript) {
 
 /* Adds a new error message to an error object */
 function autoEffectError(errorList, errorCode, errorSubject, errorInserts={}, errorVariant) {
-	let errorType = getTranslationByKeyCustom(errorCode, autoEffectErrorData[errorCode] + "-type")
-	let errorMessage = autoEffectEntry(`<div>${styleText(autoEffectToString(errorSubject), "font-weight: bolder; color: red;")}\n*${getTranslationByKeyCustom(errorCode, autoEffectErrorData[errorType] + "-message" + (errorVariant ? `-${errorVariant}` : ""))}*</div>`);
+	let errorType = getTranslationByKeyCustom(errorCode, errorData[errorCode] + "-type")
+	let errorMessage = autoEffectEntry(`<div>${styleText(autoEffectToString(errorSubject), "font-weight: bolder; color: red;")}\n*${getTranslationByKeyCustom(errorCode, errorData[errorType] + "-message" + (errorVariant ? `-${errorVariant}` : ""))}*</div>`);
 
 	for (let [match, insert] of Object.entries(errorInserts)) {
 		if (insert == "") { match = ` ${match}`; }
@@ -20346,17 +21593,19 @@ function parseAutoScript(inputAutoScript, vl, al, vars, triggers=[], errors={}) 
 	}
 
 	/* Replaces any aliases in the AutoScript */
-	let AutoScript = autoScriptApplyAliases(inputAutoScript, al, "normal", errors);
+	//let AutoScript = autoScriptApplyAliases(inputAutoScript, al, "normal", errors);
 
 	/* Convert AutoScript to an array */
-	let AutoEffectArray = autoScriptToArray(AutoScript);
+	//let AutoEffectArray = autoScriptToArray(AutoScript);
+
+	let AutoEffectArray = inputAutoScript;
 
 	/* Parse each AutoEffect in the AutoScript */
 	AutoEffectArray.forEach(AutoEffect => {
 
 		/* Get AutoEffect name */
 		let [effectName, langEffectName] = [getAutoEffectFromTranslation(AutoEffect[0][0]), AutoEffect[0][0]];
-		
+
 		/* Test: Valid name */
 		if (!(effectName in autoEffectFormats)) {
 			autoEffectError(errors, "Invalid AutoEffect", AutoEffect[0], {"[NAME]":langEffectName}); return;
@@ -20367,11 +21616,13 @@ function parseAutoScript(inputAutoScript, vl, al, vars, triggers=[], errors={}) 
 		if (effectFormat.copy) {
 			effectFormat = autoEffectFormats[effectFormat.copy];
 		}
+
 		let valueIndex = targetIndex = optionIndex = 0;
 		if (effectFormat.value) { valueIndex = 1; }
 		if (effectFormat.target) { targetIndex = valueIndex + 1; }
 		if (effectFormat.reverse) { valueIndex++; targetIndex--; }
 		optionIndex = Math.max(valueIndex, targetIndex) + 1;
+
 		if (effectFormat.targetOptional && !AutoEffect[0][targetIndex]) { targetIndex = 0; optionIndex--;}
 		let [validOptions, validOptionsRaw] = [getAutoEffectOptions(effectName, autoEffectOptions, "expand"), getAutoEffectOptions(effectName, autoEffectOptions)];
 		let [validConOptions, validConOptionsRaw] = [getAutoEffectOptions(effectName, conditionalOptions, "expand"), getAutoEffectOptions(effectName, conditionalOptions)];
@@ -20684,15 +21935,15 @@ function autoScriptToArray(AutoScript, mode="normal") {
 			/* Structures the AutoEffect into an array and stores it */
 			if (mode != "normal") {
 				let keySeperator = (mode == "triggers") ? "," : ";";
-				AutoEffectArray = splitIgnoreBetween(AutoEffect.trim(), keySeperator, "(", ")", true);
+				AutoEffectArray = splitIgnoreBetween(AutoEffect.trim(), keySeperator, ["(", ")"], {includeChars:true});
 			} else {
 				/* For AutoEffects that use a string value, preserve commas and quotes in the string by extracting the string before splitting over "," */
 				if (autoEffectFormats[AutoEffect.split(" ")[0]].value == "string") {
-					AutoEffectArray = splitIgnoreBetween(AutoEffect.trim(), ",", '"', '"', true, true);
-					AutoEffectArray[0] = splitIgnoreBetween(AutoEffectArray[0], /\s+/g, '"', '"', false, true);
+					AutoEffectArray = splitIgnoreBetween(AutoEffect.trim(), ",", ['"'], {includeChars:true, nesting:true});
+					AutoEffectArray[0] = splitIgnoreBetween(AutoEffectArray[0], /\s+/g, ['"'], {includeChars:false, nesting:true});
 				} else {
-					AutoEffectArray = splitIgnoreBetween(AutoEffect.trim(), ",", "{", "}", true, true);
-					AutoEffectArray[0] = splitIgnoreBetween(AutoEffectArray[0], /\s+/g, "{", "}", true, true);
+					AutoEffectArray = splitIgnoreBetween(AutoEffect.trim(), ",", ["{", "}"], {includeChars:true, nesting:true});
+					AutoEffectArray[0] = splitIgnoreBetween(AutoEffectArray[0], /\s+/g, ["{", "}"], {includeChars:true, nesting:true});
 				}
 			}
 			AutoEffectArray = AutoEffectArray.map(e => (typeof e == "string") ? e.trim() : e);
@@ -20747,7 +21998,7 @@ function autoScriptApplyAliases(AutoScript, aliasList, mode="normal", errors={},
 				/* Prepare a list of #Insert-value pairs */
 				aliasMatches.forEach(match => {
 					let insertArray = aliasFormatRaw.replace("?","").split(/[\s,.\-/\\]+/);
-					let valueArray = splitIgnoreBetween(match.slice(1, -1), /[\s,.\-/\\]+/g, '"');
+					let valueArray = splitIgnoreBetween(match.slice(1, -1), /[\s,.\-/\\]+/g, ['"']);
 					let insertValueList = insertArray.reduce((acc, insert, i) => Object.assign(acc, {[insert]:valueArray[i]}),{})
 					//console.log(insertArray, valueArray)
 					//console.log(insertValueList)
@@ -20944,8 +22195,8 @@ function autoEffectToString(AutoEffect, modList={}) {
 	}
 
 	/* If the AutoEffect uses a string format as its value, add back in the surrounding quotes */
-		if (effectFormat.value == "string") {
-			innerAutoEffect[valueIndex] = '"' + innerAutoEffect[valueIndex] + '"';
+	if (effectFormat.value == "string") {
+		innerAutoEffect[valueIndex] = '"' + innerAutoEffect[valueIndex] + '"';
 	}
 
 	autoEffectString += innerAutoEffect.join(" ")
@@ -21805,8 +23056,6 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 	let messagecheck = values[`${ailPrefix}ailMessageSend`];
 	let message = values[`${ailPrefix}ailMessageText`]; 
 
-	//console.log("Name: " + name + " | Icon: " + icon + " | Count: " + count + " | Trigger: " + trigger + " | Effect: " + effecttarget + effectmode + effectval + " | Decay: Count " + decaymode + decayval + " | Message: (" + messagecheck + ")" + message);
-
 	let newcount = parseInt(count);
 	let newmessage = message;
 	let tempBarMessage = "";
@@ -22387,7 +23636,7 @@ function getColor(color) {
 }
 /* Uses HTML attribute injection to style text that can otherwise only be styled using markdown */
 function styleText(text, style) {
-	return `[${text}](#" class="sheet-styledText" style="${style})`;
+	return (text != "") ? `[${text}](#" class="sheet-styledText" style="${style})` : "";
 }
 
 /* Returns a translation, or a base string if no translation is available */
@@ -22490,20 +23739,20 @@ function getConOptionFromTranslation(inputOption, errorString="") {
 const newOperators = {
 	"+": {min: 2, max: 2, calc: (a,b) => a+b},
 	"-": {min: 2, max: 2, calc: (a,b) => a-b},
+	"**": {min: 2, max: 2, calc: (a,b) => a**b},
 	"*": {min: 2, max: 2, calc: (a,b) => a*b},
 	"/": {min: 2, max: 2, calc: (a,b) => a/b},
 	"%": {min: 2, max: 2, calc: (a,b) => a%b},
-	"**": {min: 2, max: 2, calc: (a,b) => a**b},
 	"<=": {min: 2, max: 2, calc: (a,b) => +(a<=b)},
 	">=": {min: 2, max: 2, calc: (a,b) => +(a>=b)},
 	"<": {min: 2, max: 2, calc: (a,b) => +(a<b)},
 	">": {min: 2, max: 2, calc: (a,b) => +(a>b)},
 	"==": {min: 2, max: 2, calc: (a,b) => +(a==b)},
 	"!=": {min: 2, max: 2, calc: (a,b) => +(a!=b)},
+	"||=": {min: 2, max: 2, calc: (a,b) => a?a:b},
+	"&&=": {min: 2, max: 2, calc: (a,b) => a?b:a},
 	"||": {min: 2, max: 2, calc: (a,b) => +!!(a||b)},
 	"&&": {min: 2, max: 2, calc: (a,b) => +!!(a&&b)},
-	"||=": {min: 2, max: 2, calc: (a,b) => +(a||b)},
-	"&&=": {min: 2, max: 2, calc: (a,b) => +(a&&b)},
 	"!": {min: 1, max: 1, calc: (a) => !a, func:true},
 	"Min": {min: 2, max:"any", calc: (...args) => Math.min.apply(null, args), func:true},
 	"Max": {min: 2, max:"any", calc: (...args) => Math.max.apply(null, args), func:true},
@@ -22520,11 +23769,11 @@ const newOperators = {
 const mathRegExpList = {
 	space: /\s+/, 										// 1: Space characters
 	string: /"[^"]*"|'[^']*'/, 							// 2: Quotes (string values)
-	operand: new RegExp(Object.keys(newOperators)		// 3: Operators
+	operator: new RegExp(Object.keys(newOperators)		// 3: Operators
 		.filter(o => !newOperators[o].func)
+		.map(o => o.replaceAll("||", "\\|\\|"))
 		.join("|")
-		.replace(/([\+\*\/])/g, "\\$1")
-		.replace(/(\|\|)/g, "\\|\\|")),
+		.replace(/([\+\*\/])/g, "\\$1")),
 	func: new RegExp(Object.keys(newOperators)			// 4: Functions
 		.filter(o => newOperators[o].func)
 		.map(o => o + "(?=\\()")
@@ -22542,8 +23791,9 @@ const mathRegExp = new RegExp(`(?:${Object.values(mathRegExpList).map(re => `(${
 var mathNesting = [];
 var prevIndex = 0;
 var newIndex = 0;
+var pathIndex = 0; // Index of the start of the last path
 
-function newMathParser(mathString, opts={}) {
+function newMathParser(mathString, opts={}, error={}) {
 	let values = []
 	let ops = []
 	let path = []
@@ -22562,6 +23812,17 @@ function newMathParser(mathString, opts={}) {
 	}
 	let nestValues = []
 
+
+	// TODO: Re-add math errors. This is the old error code used for effect values
+	/*if ((/[{}]/).test(this.value)) {
+		let mathString = this.value.match(/^{.+}$/g)[0];
+		if (mathString) {
+			validateMathFormula(this.value, vars, errors); break;
+		} else {
+			this.#error("Math Error", {"[MATH]":this.value}, ""); return;
+		}
+	}*/
+
 	//access._begin("math", () => {
 		while (match = mathRegExp.exec(mathString)) {
 			
@@ -22571,7 +23832,7 @@ function newMathParser(mathString, opts={}) {
 				prevChars.push(chars = match[i]);
 				prevTypes.push(type = Object.keys(mathRegExpList)[i-1]);
 			} else {
-				console.log("Math - Throw error. Cannot parse remaining math string"); return;
+				console.warn("Math - Throw error. Cannot parse remaining math string"); return null;
 			}
 
 			
@@ -22583,51 +23844,63 @@ function newMathParser(mathString, opts={}) {
 			
 			// Checks that no characters remain unused at the start of the string
 			if (prevIndex + chars.length != newIndex) {
-				console.log("Math - Throw error. Unknown symbol"); return;
+				console.warn("Math - Throw error. Unknown symbol", chars); return null;
 			}
 	
 			// Add values from access paths
-			if (type == "step") path.push(snakeify(chars));
-			if (path.length > 1) {
+			if (type == "step") {
+				if (path.length == 0) pathIndex = prevIndex;
+				path.push(chars);
+			}
+			if (path.length > 0) {
 				if ((is(type).In("step", "dot", "nest_begin")) && newIndex != mathString.length) {
-					if (type == "step" && !is(prevTypes.at(-2)).In("dot", "nest_begin")) {
-						console.log("Math - Throw error: Malformed path - unexpected path step"); return;
+					if (type == "step" && prevTypes.at(-2) && !is(prevTypes.at(-2)).In("dot", "nest_begin")) {
+						console.warn("Math - Throw error: Malformed path - unexpected path step"); return null;
 					}
-					else if (type == "dot" && !is(prevTypes.at(-2)).In("step", "nest_begin")) {
-						console.log("Math - Throw error: Malformed path - unexpected '.' character"); return;
+					else if (type == "dot" && prevTypes.at(-2) && !is(prevTypes.at(-2)).In("step", "nest_begin")) {
+						console.warn("Math - Throw error: Malformed path - unexpected '.' character"); return null;
 					}
 				} else {
-					let result = navPath(path, {userPath:true});
+					let result = navPath(path, {userPath:true}, error);
 					console.log("Path", pathArrayToString(path), "returned value", Number(result) || result);
-					
-					if (result == null) {
-						console.log("Math - Throw error: Path does not exist", pathArrayToString(path)); return;
+
+					if (result != null) {
+						values.push(Number(result) || result);
+						path = []
+					} else {
+						Object.assign(error, {
+							"[STEP]": path[error.step],
+							"[LOCATION]": {
+								string: error.orig?.string || mathString,
+								index: (error.orig?.index || 0) + pathIndex + pathArrayToString(path.slice(0, error.step)).length + 1,
+								length: path[error.step].length,
+							},
+						});
+						return null;
 					}
-					values.push(Number(result) || result);
-					path = []
 				}
 			}
 
 			// Add new values, operators and functions
 			if (type == "number") values.push(Number(chars));
 			if (type == "string") values.push(chars.slice(1, -1));
-			if (is(type).In("operand", "func")) ops.push(newOperators[chars]);
+			if (is(type).In("operator", "func")) ops.push(newOperators[chars]);
 
 			// Handle nesting
 			if (type == "nest_end") {
 				let nestBracket = mathNesting.pop();
 
 				if ((nestBracket == "(") ? chars != ")" : chars != "]") {
-					console.log("Math - Throw error: Unexpected bracket", chars); return;
+					console.warn("Math - Throw error: Unexpected bracket", chars); return null;
 				}
 				break;
 			}
 			if (type == "nest_begin") {
 				mathNesting.push(chars);
 
-				let result = newMathParser(mathString, {nested:true});
+				let result = newMathParser(mathString, {...opts, nested:true}, error);
 
-				if (result === undefined) return; // Error has already been printed inside the nested parser
+				if (result === null) return null; // Error has already been printed inside the nested parser
 
 				if (chars == "(") {
 					values = values.concat(result); // New values
@@ -22644,7 +23917,7 @@ function newMathParser(mathString, opts={}) {
 			let op = ops.at(-1);
 
 			if (type != "func" && op && op.func && op.min > values.length) {
-				console.log("Math - Throw error: Not enough values provided for function");
+				console.warn("Math - Throw error: Not enough values provided for function"); return null;
 			}
 			else if (ops.length && op.min <= values.length) {
 				let vals = values.splice(-Math.min(op.max, values.length));
@@ -22656,7 +23929,7 @@ function newMathParser(mathString, opts={}) {
 			// Handle value seperators
 			if (type == "comma") {
 				if (!opts.nested || values.length != 1) {
-					console.log("Math - Throw error: Unexpected comma"); return;
+					console.warn("Math - Throw error: Unexpected comma"); return null;
 				}
 				nestValues.push(values[0]);
 				values = [];
@@ -22664,9 +23937,9 @@ function newMathParser(mathString, opts={}) {
 		}
 
 		// Validate generated math value(s)
-		if (values.length == 0) { console.log("Math - Throw error: Math string returned no values"); return; }
-		if (values.length > 1) { console.log("Math - Throw error: Unused values in math string", values); return; }
-		if (ops.length > 0) { console.log("Math - Throw error: Unused operators in math string", ops); return; }
+		if (values.length == 0) { console.warn("Math - Throw error: Math string returned no values"); return null; }
+		if (values.length > 1) { console.warn("Math - Throw error: Unused values in math string", values); return null; }
+		if (ops.length > 0) { console.warn("Math - Throw error: Unused operators in math string", ops); return null; }
 
 		return (opts.nested) ? nestValues.concat(values) : values[0];
 	//});
@@ -22979,7 +24252,6 @@ function modifyProp(object, property, value, mode="+", mod={addValue:undefined, 
 	if (typeof object == "object") {
 		/* Get new value */
 		if (object[property]) {
-			//console.log(`${object[property] + (mod.addValue || 0)} ${mode} ${value} = ${mathOperation(mode, object[property] + (mod.addValue || 0), value)}`)
 			value = (typeof value == "number") ? mathOperation(mode, object[property] + (mod.addValue || 0), value) : object[property] + value;
 		} else {
 			value = (typeof value == "number") ? mathOperation(mode, mod.setValue || 0, value) : value;
@@ -22999,18 +24271,50 @@ function modifyProp(object, property, value, mode="+", mod={addValue:undefined, 
 	}
 }
 
-// Works as split(), but ignores any seperator matches that are surrounded by characters a and b
-// Characters a and b are not included in the result unless the include argument is set to true
-function splitIgnoreBetween(string, seperator, a, b, includeChars=false, allowNesting=false) {
-	if (!b) b = a;
-	let formatInner = (allowNesting) ? ".*?" : `[^\\${a}\\${b}]*`;
-	let formatOuter = (includeChars) ? `(\\${a}${formatInner}\\${b})` : `\\${a}(${formatInner})\\${b}`;
-	let between = new RegExp(formatOuter, "g");
+// Works as split(), but ignores any seperator matches that are surrounded by one or more pairs of characters
+// - The characters are not included in the result unless the include argument is set to true
+// - A wide range of character formats are supported (see details below)
+function splitIgnoreBetween(string, seperator, chars=['"'], opts={includeChars:false, nesting:false}) {
+	if (typeof chars == "string") { // Turns ex. '"' into [['"','"']]
+		chars = [[chars, chars]]
+	}
+	else if (chars.every(c => typeof c == "string")) { // Turns ex. ['(','a',')'] into [['(',')']]
+		chars = [chars[0], chars[chars.length-1]]
+	} else {
+		chars = chars.map(c => {
+			if (typeof c == "string") { // Turns ex. ['"', ['(',')'], ...] into [['"','"'], ['(',')'], ...]
+				return [c, c]
+			}
+			if (c.length == 1) { // Turns ex. [['"'], ['(',')'], ...] into [['"','"'], ['(',')'], ...]
+				return [c[0], c[0]]
+			}
+			return c;
+		});
+	}
 
-	let ignoreArray = [];
-	return string.replace(between, (i, b) => { ignoreArray.push(b); return "ÆØÅ"; })
-		.split(seperator)
-		.map(v => { while (v.includes("ÆØÅ")) { v = v.replace("ÆØÅ", ignoreArray.shift()) }; return v; });
+	let ignoreList = {}
+	
+	// Extract all ignored text sections
+	for (const [a, b] of chars) {
+		let formatInner = (opts.nesting) ? ".*?" : `[^\\${a}\\${b}]*`;
+		let formatOuter = (opts.includeChars) ? `(\\${a}${formatInner}\\${b})` : `\\${a}(${formatInner})\\${b}`;
+		let between = new RegExp(formatOuter, "g");
+		
+		let ignoreID = generateRowID();
+		ignoreList[ignoreID] = [];
+
+		string = string.replace(between, (i, match) => { ignoreList[ignoreID].push(match); return ignoreID; });
+	}
+
+	// Split the string
+	string = string.split(seperator);
+
+	// Add back in all ignored text sections
+	for (const [ID, matches] of Object.entries(ignoreList)) {
+		string = string.map(v => { while (v.includes(ID)) { v = v.replace(ID, matches.shift()) }; return v; });
+	}
+
+	return string;
 }
 
 // Deletes multiple object properties
