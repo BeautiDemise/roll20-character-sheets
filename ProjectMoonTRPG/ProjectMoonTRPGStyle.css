@@ -319,10 +319,10 @@ body, .sheet-body {
 
 #TopContainer { width: 100%; text-align: center; display: flex; }
 #TopColumnL { position: relative; min-width: 265px; float: left; padding-left: 0px; padding-right: 0px; margin-right: 5px; }
-#TopColumnM { min-width: 270px; padding-left: 10px; padding-right: 10px; }
+#TopColumnM { min-width: 270px; padding-left: 10px; padding-right: 10px; flex-grow: 1; }
 #TopColumnR { width: 265px; float: right; padding-left: 15px; padding-right: 10px; }
 
-.columnContent { min-width: 180px; max-width: 280px; position: relative;}
+.columnContent { min-width: 180px; position: relative;}
 
 
 /* Base for all content-holding containers (equipment, skills, player profile at the top of the sheet etc.) */
@@ -858,6 +858,12 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     text-align: left;
     display: flex;
     margin-bottom: 1px;
+
+    .CharDetail {
+        width: 100%;
+        border-left: 2px var(--color-darker-white) solid;
+        border-right: 2px var(--color-darker-white) solid;
+    }
 }
 .profileHeader {
     position: absolute;
@@ -881,7 +887,6 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     opacity: 50%;
     width: 90px;
 }
-
 .CharImage {
     background-color: var(--color-light-gray);
     right: 0px;
@@ -922,7 +927,8 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 }
 
 .textSection {
-    width: 65px !important;
+    width: 62px !important;
+    min-width: 52px;
     font-size: 8pt !important;
     display: flex;
     justify-content: flex-start;
@@ -953,8 +959,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     border-radius: 5px;
 }
 .CharAge, .CharHeight, .CharOrigin, .CharJob {
-    max-width: 95px;
-    margin-left: -3px;;
+    max-width: calc(100% - 173px);
     text-overflow: ellipsis;
 }
 #CharExtra, #distortExtra {
@@ -969,13 +974,13 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     width: 100% !important;
 }
 #characterDetails .CharSmallNotes {
-    width: 175px !important;
+    width: calc(100% - 227px) !important;
 }
 #DistortionName, #CharacterName {
     width: 150px !important;
 }
 #characterDetails .CharDetail {
-    width: 330px !important;
+    width: calc(100% - 65px) !important;
 }
 #CharExtra .textSection, #distortExtra .textSection {
     margin-left: 10px;
@@ -1116,6 +1121,15 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 
 /* ===== Status bars ===== */
 /* A status bar consists of a Cstat (current stat), mstat (max stat) and background banner */
+#statusBarContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+@media (min-width: 1150px) {
+    #statusBarContainer .banner {
+        width: 20%;
+    }
+}
 .bars {
     position: relative;
     background-color: var(--color-darker-gray);
@@ -1126,11 +1140,13 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 .banner {
     text-align: left;
     font-weight: bold;
-    padding: 5px;
-    width: 50%;
+    min-width: 100px;
+    width: 40%;
     height: 50px;
+    padding: 5px;
     color: var(--color-white);
     text-transform: uppercase;
+    flex-grow: 1;
 }
 .Cstat, .Mstat {
     position: absolute; 
@@ -1217,8 +1233,8 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     overflow: hidden;
     height: 60px;
 }
-#InstinctStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Instinct.png'); }
-#WisdomStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Wisdom.png'); }
+#FortitudeStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Fortitude.png'); }
+#PrudenceStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Prudence.png'); }
 #JusticeStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Justice.png'); }
 #CharmStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Charm.png'); }
 #InsightStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Insight.png'); }
@@ -1324,6 +1340,10 @@ button[type=action].challengeButton::before {
 
 
 /* ===== Damage helper ===== */
+.damageHelperContainer {
+    align-items: center;
+    gap: 1%;
+}
 .damageHelperContainer b {
     display: inline-block;
     max-width: 80%;
@@ -1331,6 +1351,7 @@ button[type=action].challengeButton::before {
     font-size: 9pt;
 }
 .damageHelperContainer input[type=number] {
+    width: 100% !important;
     height: 50px !important;
     text-align: center;
     font-size: 16pt;
@@ -1339,20 +1360,17 @@ button[type=action].challengeButton::before {
     margin-top: 3px !important;
 }
 .baseDamage, .flatDamage, .applyDamage {
+    width: 55px;
     margin-top: 2px;
 }
-.baseDamage { width: 55px; }
-.flatDamage, .applyDamage { width: 55px; }
+.baseDamage { flex-grow: 10; }
+.flatDamage { flex-grow: 5; }
 
 .baseDamage input {
-    width: 50px !important;
     border-top: 2px solid var(--color-HP) !important;
     border-left: 2px solid var(--color-HP) !important;
     border-right: 2px solid var(--color-STGR) !important;
     border-bottom: 2px solid var(--color-STGR) !important;
-}
-.flatDamage input {
-    width: 45px !important;
 }
 .flatHPInput, .flatSTInput {
     text-align: left !important;
@@ -1503,13 +1521,13 @@ button[type=action].challengeButton::before {
 
 /* Custom ailments display */
 .ailmentCustomDisplay .repcontainer {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
     overflow: hidden;
 }
 .ailmentCustomDisplay .repitem  {
     display: inline-block;
-    flex-grow: 1;
+    width: 33.33%; /* Should later be replaced with a Grid based system */
     min-width: 83.2px;
     overflow: hidden;
 }
@@ -2838,7 +2856,7 @@ button[type=action].challengeButton::before {
         &:has(input[value="Block"]:checked) { --rollformat-color: var(--color-SAN); }
         &:has(input[value="Evade"]:checked) { --rollformat-color: var(--color-ego-STGR); }
         &:has(input[value="Fortitude"]:checked) { --rollformat-color: var(--color-HP); }
-        &:has(input[value="Prudence"]:checked) { --rollformat-color: var(--color-wisdom); }
+        &:has(input[value="Prudence"]:checked) { --rollformat-color: var(--color-prudence); }
         &:has(input[value="Justice"]:checked) { --rollformat-color: var(--color-justice); }
         &:has(input[value="Charm"]:checked) { --rollformat-color: var(--color-charm); }
         &:has(input[value="Insight"]:checked) { --rollformat-color: var(--color-insight); }
@@ -3810,7 +3828,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 
 /* Custom ailments (Editor tab) */
 .ailmentCustomEditor {
-    height: 320px;
+    height: 430px;
 }
 .customAilText {
     width: 70px !important;
@@ -3824,7 +3842,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 }
 .ailmentCustomEditor .repitem { 
     margin: 5px;
-    flex-basis: 30%;
+    flex-basis: 31.5%;
     min-width: 250px;
     padding: 5px;
     border-radius: 5px;
@@ -3857,9 +3875,9 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .ailmentCustomEditor .repcontainer, .ailmentCustomEditor .repcontainerMock  {
     display: flex;
     flex-wrap: wrap;
-    max-height: 320px;
+    max-height: 430px;
     overflow: auto;
-    padding-left: 18px;
+    padding-left: 16px;
 }
 /* ===== Settings END ===== */
 
@@ -4104,6 +4122,76 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 }
 
 
+
+
+
+/* --- New chat buttons CSS --- */
+
+/* General button styling */
+.sheet-rolltemplate-customRoll a[class^=sheet-button] {
+    position: relative;
+    box-sizing: border-box;
+    min-height: 27px;
+    padding-left: 26px;
+    padding-right: 5px;
+    border: 0px;
+    border-radius: 10px;
+    overflow: hidden;
+    color: #ffffff;
+    background-position: 3px 2px;
+    background-size: auto 23px;
+    background-repeat: no-repeat;
+
+    &:hover::before {
+        content: " ";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+}
+
+/* Inline button styling */
+.sheet-rolltemplate-customRoll .sheet-section-contents a[class^=sheet-button] {
+    padding-right: 10px;
+}
+
+/* Buttons at the bottom of a message / section */
+.sheet-rolltemplate-customRoll .sheet-button-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+/* Button with no title */
+.sheet-rolltemplate-customRoll a[class^=sheet-button]:empty {
+    padding-right: 3px;
+    width: 0;
+}
+
+/* Button with no icon */
+.sheet-rolltemplate-customRoll a[class^=sheet-button]:not([style*=background-image]) {
+    padding-left: 10px;
+}
+
+.sheet-rolltemplate-customRoll .sheet-button-half { width: calc(50% - 2px); }
+.sheet-rolltemplate-customRoll .sheet-button-third { width: calc(33.33% - 3px); }
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* --- Chat buttons (buttons below chat messages) --- */
 /* These buttons are in reality a second message styled to look seemless with the message before it */
 .sheet-rolltemplate-chatbuttons {
@@ -4318,6 +4406,8 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 /* --- NEW Roll overhaul */
 .sheet-rolltemplate-customRoll .sheet-template-wrapper {
     height: auto;
+    padding: 5px;
+    margin-bottom: 1px;
     border-radius: 5px;
     color: #eee;
     background-color: #454545;
@@ -4351,6 +4441,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     align-items: flex-start;
     min-height: 30px;
     max-height: 75px;
+    margin: -5px -5px 0 -5px;
     border: 2px #000 solid;
     background-color: #222;     /* Customizeable */
     color: #fff;                /* Customizeable */
@@ -4421,10 +4512,17 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     display: none;
 }
 
+.sheet-rolltemplate-customRoll .sheet-desc-wrapper {
+    margin-top: 3px;
+} 
+
 .sheet-rolltemplate-customRoll .sheet-section-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
     width: 100%;
-    padding: 5px;
     box-sizing: border-box;
+    margin-top: 8px;
     
     .sheet-header-wrapper {
         margin: 0;
@@ -4436,7 +4534,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     }
 
     .inlinerollresult {
-        display: inline-block;
+        display: inline-flex;
         padding: 0 10px 0 25px;
         margin: 0px 4px;
         
@@ -4448,12 +4546,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 }
 
 .sheet-rolltemplate-customRoll .sheet-section {
-    margin-top: 4px;
-
     .sheet-section-message {
-        /* display: flex;
-        align-items: baseline;
-        flex-wrap: wrap; */
         padding: 2px 5px;
         line-height: 21px;
         border: 1px solid #555;
@@ -4503,12 +4596,11 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     display: block !important;
 }
 
-.sheet-rolltemplate-customRoll .sheet-section-toggle {
+.sheet-rolltemplate-customRoll .sheet-section-toggle,
+.sheet-rolltemplate-customRoll .sheet-section:has(.sheet-section-toggle):not(:has(input:checked)),
+.sheet-rolltemplate-customRoll .sheet-section-wrapper:not(:has(input:checked)),
+.sheet-rolltemplate-customRoll .sheet-section-wrapper:has(.sheet-section-deselect input:checked) {
     display: none;
-
-    &:not(:has(input:checked)) ~ div {
-        display: none;
-    }
 }
 
 .sheet-rolltemplate-customRoll .sheet-styledText {
@@ -4520,8 +4612,10 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     text-decoration: none;
 }
 
-
-
+/* Shifts the Roll20 chat message menu slightly to the right to avoid overlapping with the header rolls */
+.sheet-rolltemplate-customRoll + .flyout {
+    right: 0px;
+}
 
 
 
@@ -4661,8 +4755,8 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .itemMystery:checked + div .Mass, .egoMass { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoWide.png'); }
 .itemMystery:checked + div .Special, .egoSpecial { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSpecial.png'); }
 
-.Inst { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Instinct.png'); }
-.Wisd { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Wisdom.png'); }
+.Fort { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Fortitude.png'); }
+.Prud { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Prudence.png'); }
 .Just { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Justice.png'); }
 .Char { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Charm.png'); }
 .Insi { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Insight.png'); }
@@ -4811,8 +4905,8 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     --color-LIGHT: #fee2b0;
     --color-rgb-LIGHT: 254, 226, 176;
     --color-TEMP: #1f9bd9c0;
-    --color-wisdom: #d9d9d9;
-    --color-wisdom-dark: #afaa9f;
+    --color-prudence: #d9d9d9;
+    --color-prudence-dark: #afaa9f;
     --color-justice: #46bdc6;
     --color-charm: #9c66c6;
     --color-insight: #ffe599;
@@ -4847,7 +4941,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 
 .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked) {
     &:has(.itemColor option[value="Fortitude"]:checked) { --content-color: var(--color-HP); --content-mystery: var(--color-HP); }
-    &:has(.itemColor option[value="Prudence"]:checked) { --content-color: var(--color-wisdom-dark); --content-mystery: var(--color-wisdom); }
+    &:has(.itemColor option[value="Prudence"]:checked) { --content-color: var(--color-prudence-dark); --content-mystery: var(--color-prudence); }
     &:has(.itemColor option[value="Justice"]:checked) { --content-color: var(--color-justice); --content-mystery: var(--color-justice); }
     &:has(.itemColor option[value="Charm"]:checked) { --content-color: var(--color-charm); --content-mystery: var(--color-charm); }
     &:has(.itemColor option[value="Insight"]:checked) { --content-color: var(--color-insight-dark); --content-mystery: var(--color-insight); }
@@ -4859,7 +4953,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     &:has(.itemDeco option[value="Purple"]:checked) { --content-decoration: var(--color-light-purple); }
     &:has(.itemDeco option[value="Orange"]:checked) { --content-decoration: var(--color-light-orange); }
     &:has(.itemDeco option[value="Fortitude"]:checked) { --content-decoration: var(--color-HP); }
-    &:has(.itemDeco option[value="Prudence"]:checked) { --content-decoration: var(--color-wisdom); }
+    &:has(.itemDeco option[value="Prudence"]:checked) { --content-decoration: var(--color-prudence); }
     &:has(.itemDeco option[value="Justice"]:checked) { --content-decoration: var(--color-justice); }
     &:has(.itemDeco option[value="Charm"]:checked) { --content-decoration: var(--color-charm); }
     &:has(.itemDeco option[value="Insight"]:checked) { --content-decoration: var(--color-insight); }
@@ -4881,7 +4975,6 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 /* Custom colors */
 .red1 {--r1: 1} .red2{--r2: 2} .red4 {--r4: 4} .red8 {--r8: 8} .red16 {--r16: 16} .red32 {--r32: 32} .red64 {--r64: 64} .red128 {--r128: 128}
 ._red1 {--_r1: 1}._red2 {--_r2: 2}._red4 {--_r4: 4}._red8 {--_r8: 8}._red16 {--_r16: 16}._red32 {--_r32: 32}._red64 {--_r64: 64}._red128 {--_r128: 128}
-
 
 .green1 {--g1: 1} .green2 {--g2: 2} .green4 {--g4: 4} .green8 {--g8: 8} .green16 {--g16: 16} .green32 {--g32: 32} .green64 {--g64: 64} .green128 {--g128: 128}
 ._green1 {--_g1: 1}._green2 {--_g2: 2}._green4 {--_g4: 4}._green8 {--_g8: 8}._green16 {--_g16: 16}._green32 {--_g32: 32}._green64 {--_g64: 64}._green128 {--_g128: 128}
@@ -4916,6 +5009,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     padding: 5px !important;
 }
 
+/* TODO: This is depreciated. Remove it later */
 .conditioalButtonColorSelection[value="blue"]:checked ~ .conditioalButtonColor,
 .sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="blue"])  { background-color: var(--color-blue); }
 .conditioalButtonColorSelection[value="yellow"]:checked ~ .conditioalButtonColor,
@@ -4935,7 +5029,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .BLACK { background-color: var(--color-black) !important; }
 
 .HP { background-color: var(--color-HP) !important; }
-.HPtext, .instinct, .counterText { color: var(--color-HP) !important; }
+.HPtext, .fortitude, .counterText { color: var(--color-HP) !important; }
 
 .STGR { background-color: var(--color-STGR) !important; }
 .STGRtext { color: var(--color-STGR)!important; }
@@ -4948,7 +5042,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .LIGHT { background-color: var(--color-LIGHT) !important; }
 .LIGHTtext { color: var(--color-LIGHT) !important; }
 
-.wisdom { color: var(--color-wisdom) !important; }
+.prudence { color: var(--color-prudence) !important; }
 .justice { color: var(--color-justice) !important; }
 .charm { color: var(--color-charm) !important; }
 .insight { color: var(--color-insight) !important; }
