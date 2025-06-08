@@ -173,6 +173,20 @@
 	<!-- Editor contents  -->
 	<textarea spellcheck="false" class="editorInput lightScroll" name="attr_autoScriptEditorInput"></textarea>
 
+	<!-- Global variables -->
+	<div id="globalVariables">
+		<div class="contentHeader">
+			<span>Global variables</span>
+			<button type="action" class="btn repcontrol_add heal" name="act_addVariable" data-i18n-title="autoscript-editor-add-var" title="Add new variable">Add</button>
+		</div>
+		<div class="variableContainer darkScroll">
+			<fieldset class="repeating_variables">
+				<input type="text" class="darkInput varKey" spellcheck="false" name="attr_key">
+				<input type="text" class="varValue" spellcheck="false" name="attr_value">
+			</fieldset>
+		</div>
+	</div>
+
 	<!-- Used for data storage -->
 	<input type="text" name="attr_autoScriptEditorTargetOld" hidden="true">
 	<textarea type="text" name="attr_autoScriptAlias" hidden="true"></textarea>
@@ -354,6 +368,9 @@
 								<input type="number" class="fade-item darkInput hoverSpinner" name="attr_rollUsesCost" min="0" value="0">
 							</div>
 						</div>
+
+						<!-- Multiroll -->
+						<div class="itemOption"><label><input type="checkbox" name="attr_rollMultiroll" value="true"><span>Multiroll</span></label></div>
 					</div>
 				</fieldset>
 			</div>
@@ -5127,11 +5144,13 @@ EGO block end -->
 <div class="sheet-body sheet-equipment darkBG">
 
 <div class="rowContainer">
-	<button type="action" class="darkButton" style="width: 100px;" name="act_testA">Test button A</button> <!-- For testing. Delete later -->
+	<button type="action" class="darkButton" style="width: 100px; margin-left: 5px;" name="act_testA">Test button A</button> <!-- For testing. Delete later -->
 	<button type="action" class="darkButton" style="width: 100px;" name="act_testB">Test button B</button> <!-- For testing. Delete later -->
 	<button type="action" class="darkButton" style="width: 100px;" name="act_testC">Test button C</button> <!-- For testing. Delete later -->
 </div>
-<textarea name="attr_itemList"></textarea> <!-- Revealed for testing purposes. Hide this later -->
+<textarea name="attr_dataTransfer" style="margin-left: 5px;"></textarea> <!-- Revealed for testing purposes. Hide this later -->
+<!-- <span style="color: white">Intermediary:</span><input type="text" name="attr_intermediaryID"> -->
+<!-- <span style="color: white">Target:</span><input type="text" name="attr_targetID"> -->
 
 <!-- Item Settings Section. Used for both Equipment and Skills! -->
 <div class="contentContainer" id="itemSettings">
@@ -8675,7 +8694,7 @@ const statNamesFull = [...statNames, "Instinct", "Wisdom"]
 const stateNames = ["PanicState", "StaggerState", "StaggerDuration", "SealState", "ImmobileState", "DefeatState"];
 
 const itemSections = ["weapons", "outfits", "augments", "tools", "skills", "special", "effects"];
-const sheetSections = [...itemSections, "ailments", "tags"];
+const sheetSections = [...itemSections, "ailments", "tags", "variables"];
 
 const resourceNames = ["Action", "Reaction", "Universal", "Counter", "Block", "Evade", "Light_Regen"]
 const combatRollNames = ["Attack", "Block", "Evade"]
@@ -8690,31 +8709,33 @@ const advTypes = ["Advantage", "Disadvantage"]
 const autoEffectFormats = {
 	/* Basic AutoEffects */
 	"CustomMessage":	{value:"string", 	target:false},
-	"Require":			{value:"number", 	target:["#Ailment", "#Bar", "#BarDamage", "#Resource"], 		percentageValue:true, compareValue:true},
-	"Consume":			{value:"number", 	target:["#Ailment", "#Bar", "#Resource"],						percentageValue:true},
+	"Require":			{value:"number", 	target:["#Ailment", "#Bar", "#BarDamage", "#Resource"], 	operatorOptional:true, percentageValue:true},
+	"Consume":			{value:"number", 	target:["#Ailment", "#Bar", "#Resource"],					percentageValue:true},
 	"Reset":			{value:false,    	target:false},
-	"Gain":				{value:"number", 	target:["#Ailment"],											maxLengthMod:1},
+	"Gain":				{value:"number", 	target:["#Ailment"],										maxLengthMod:1},
 	"Inflict":			{copy: "Gain"},
 	"Give":				{copy: "Gain"},
 	"Set":				{value:"number", 	target:["#Bar", "#Resource"]},
-	"Add":				{value:"number",	target:["#Bar", "#BarTemp", "#Resource"], 						negativeValue:true},
+	"Add":				{value:"number",	target:["#Bar", "#BarTemp", "#Resource"], 					negativeValue:true},
 	"Multi":			{copy: "Set"},
-	"DicePower":		{value:"number", 	target:false,													negativeValue:true},
+	"DicePower":		{value:"number", 	target:false,												negativeValue:true},
 	"DiceMax":			{copy: "DicePower"},
 	"DiceCount":		{copy: "DicePower"},
 	"DiceAdv":			{copy: "DicePower"},
-	"BaseDamage":		{value:"number", 	target:["#Bar"],												negativeValue:true, targetOptional:true},
-	"FlatDamage":		{value:"number", 	target:["#Bar"],												negativeValue:true},
+	"BaseDamage":		{value:"number", 	target:["#Bar"],											negativeValue:true, targetOptional:true},
+	"FlatDamage":		{value:"number", 	target:["#Bar"],											negativeValue:true},
 	"Proc":				{value:false,    	target:["#Ailment"]},
 	"Pause":			{value:"number", 	target:["#Ailment"]},
-	"ChallengeRoll":	{value:"number", 	target:["#Stat"],												negativeValue:true, reverse:true},
-	"Speed":			{value:"number", 	target:false,													negativeValue:true, duration:true, maxLengthMod:1},
+	"ChallengeRoll":	{value:"number", 	target:["#Stat"],											negativeValue:true, reverse:true},
+	"Speed":			{value:"number", 	target:false,												negativeValue:true, duration:true, maxLengthMod:1},
 
 	/* Advanced AutoEffects */
 	"Block":			{value:false,		target:false},
 	"If":				{value:"number",	target:false},
-	"Else":				{value:"number",	target:["#Ailment", "#Bar", "#BarDamage", "#Resource"],			percentageValue:true, compareValue:true, valueOptional:true, targetOptional:true},
-	"Access":			{value:true,		target:["#Path"],		operator:["=","+=","-=","*=", "/="],  	reverse:true, assignValue:true},
+	"Else":				{value:"number",	target:["#Ailment", "#Bar", "#BarDamage", "#Resource"],		percentageValue:true, operatorOptional:true, valueOptional:true, targetOptional:true},
+	"Access":			{value:true,		target:["#Path"],		  									reverse:true},
+	"Global":			{value:true,		target:["#Var"],		  									reverse:true},
+	"Local":			{value:true,		target:["#Var"],		  									reverse:true},
 }
 
 const autoEffectBlocks = {
@@ -8726,12 +8747,19 @@ const autoEffectBlocks = {
 	"While": ["/While", "/End"],
 }
 
+const autoEffectOperators = {
+	"Require": [">","<",">=","<="],
+	"Else": [">","<",">=","<="],
+	"Access": ["=","+=","-=","*=","/="],
+	"Global": ["="],
+	"Local": ["="],
+}
 
 
 /* Contains details on the available options for AutoEffects, conditionals and triggers */
 const autoEffectOptions = {
 	"Silent":			["All", "-Reset", "-CustomMessage"],
-	"Target":			["CustomMessage", "Require", "Consume", "Else", "Set", "Add", "Multi", "Reset", "Proc", "Pause", "ChallengeRoll", "Speed"],
+	"Target":			["CustomMessage", "Require", "Consume", "Else", "Add", "Multi", "Set", "Reset", "Proc", "Pause", "ChallengeRoll", "Speed"],
 	"Scaling":			["Require", "Consume", "Else"],
 	"IgnoreFailure":	["Require", "Consume", "Else"],
 	"Round":			["Gain", "Inflict", "Give"],
@@ -8774,7 +8802,7 @@ const errorData = {
 		"Invalid Round": "round",
 		"Invalid Duration": "duration",
 		"Invalid Percentage": "percentage",
-		"Invalid Compare": "compare",
+		"Invalid Operation": "operation",
 	},
 	alias: {
 		"Alias Error": "",
@@ -9344,7 +9372,7 @@ function getJQuery(prop, onfail) {
 	return jQueryPromise;
 }
 /* Does not function for players
-function setAttrsById(actId, propObj, opts={}) {
+function setAttrsByID(actId, propObj, opts={}) {
     var prevActId = getActiveCharacterId();
     return new Promise((resolve,reject)=>{
             setActiveCharacterId(actId);
@@ -10062,7 +10090,7 @@ on('clicked:selectTarget', (info) => {
 						updateTargetAttrLists(selfValues.settingTargeting, selfValues.character_id, output.targetId, output.targetTokenId, targetSettings, selfValues.settingLimbusStyle, (targetAttrs) => {
 							setAttrs({...output, ...targetAttrs});
 							//checkGM(output.targetId, selfValues.character_id, () => {
-							//	setAttrsById(output.targetId, addTargeting(selfValues.character_id, output.targetTokenId));
+							//	setAttrsByID(output.targetId, addTargeting(selfValues.character_id, output.targetTokenId));
 							//	setActiveCharacterId(selfValues.character_id);
 							//});
 						});
@@ -10093,7 +10121,7 @@ async function checkGM(targetId, charId, callback=()=>{}) {
 	if (targetId != "" && targetId != charId) {
 		if (isGM == "unset") {
 			let initialValue = await getAttrsByID(targetId, ["testIsGM"]);
-			let newValue = await setAttrsById(targetId, {"testIsGM": (initialValue.testIsGM != charId) ? charId : generateRowID()});
+			let newValue = await setAttrsByID(targetId, {"testIsGM": (initialValue.testIsGM != charId) ? charId : generateRowID()});
 			let finalValue = await getAttrsByID(targetId, ["testIsGM"]);
 			setActiveCharacterId(charId);
 			initialValue = initialValue.testIsGM;
@@ -10226,7 +10254,7 @@ async function updateTargetAttrLists(settingTargeting, charId, targetId, targetT
 		let output = updateAilmentDisplay("target", 6, ailmentList, settingLimbusStyle, "true");
 		for (const [targeterId, targetedTokenId] of Object.entries(targetedBy)) {
 			if (tokenId == 0 || tokenId == targetedTokenId.toLowerCase()) {
-				setAttrsById(targeterId, output);
+				setAttrsByID(targeterId, output);
 				setActiveCharacterId(charId);
 			}
 		}
@@ -10236,7 +10264,7 @@ function announceBarChange(targetedBy, charId, tokenId, barName, barVal) {
 	if (isGM == "true") {
 		for (const [targeterId, targetedTokenId] of Object.entries(targetedBy)) {
 			if (tokenId == 0 || tokenId == targetedTokenId.toLowerCase()) {
-				setAttrsById(targeterId, {[`${barName}`]: barVal});
+				setAttrsByID(targeterId, {[`${barName}`]: barVal});
 				setActiveCharacterId(charId);
 			}
 		}
@@ -10244,7 +10272,7 @@ function announceBarChange(targetedBy, charId, tokenId, barName, barVal) {
 }*/
 
 function resetTarget(charId, targetId, returnMode="false") {
-	//setAttrsById(targetId, removeTargeting(charId));
+	//setAttrsByID(targetId, removeTargeting(charId));
 	//setActiveCharacterId(charId);
 	
 	let output = {
@@ -12977,46 +13005,59 @@ function resourceReq(reqArray, opts={deduct:false}) {
 }
 
 // Simulates a 1dN dice roll and returns the result
-function rollDice(max=10, power=0) {
-	return Random.Int(1, max) + parseInt(power) + 1;
+function simulateDice(max=10, power=0) {
+	return Random.Int(1, max) + parseInt(power);
 }
 
 // Simulates a full roll, generating an array of dice values in the format: [[roll 1 dice...], [roll 2 dice...], ...]
-// Normals rolls include just one dice per roll. Rolls with advantage/disadvantage include 2+ dice per roll
-// Returns the result of the entire roll
-function simulateRoll(roll, opts={updateRoll:false, mod:0}) {
-	let rollResults = []
-	let rollMod = (parseInt(roll.power) || 0) + (opts.mod || 0);
+// Normals rolls include just one roll. Rolls with advantage/disadvantage include 2+ rolls
+// If an existing dice array is provided, the roll reuses pre-existing dice where possible
+// Returns the sum result of the entire roll
+function simulateRoll(roll, opts={}) {
+	let rollDice = (opts.rollDice) ? structuredClone(opts.rollDice) : [];
+	let rollMod = parseInt(roll.power) || 0;
+	let rollAmount = Math.abs(roll.adv || 0) + 1;
 	
-	if (roll.path && is.ID(roll.path[0])) {
-		rollMod += access[roll.path[0]].rolls.difficulty;
+	if (opts.difficulty) {
+		rollMod += parseInt(access[roll.path?.[0] || "currentID"].rolls.difficulty);
 	}
 
 	// Simulate each individual dice of each roll (without modifiers)
-	for (let i = 0; i < roll.count; i++) {
-		rollResults.push([rollDice(roll.max)]);
+	for (let i = 0; i < Math.max(rollAmount, rollDice.length); i++) {
+		if (!rollDice[i]) {
+			rollDice.push([]);
+		}
+		else if (rollAmount < i + 1) {
+			rollDice.pop();
+			continue;
+		}
 
-		// Apply advantage/disadvantage
-		if (roll.adv !== 0) {
-			for (let j = 0; j < Math.abs(roll.adv); j++) {
-				rollResults[i].push(rollDice(roll.max));
-			}
+		while (rollDice[i].length < roll.count) {
+			rollDice[i].push(simulateDice(roll.max));
+		}
+		while (rollDice[i].length > roll.count) {
+			rollDice[i] = rollDice[i].pop();
 		}
 	}
 
-	let rollSum = rollResults.reduce((sumRolls, r) => {
-		return sumRolls += rollMod + r.reduce((sumDice, d) => {
-			return sumDice = (sumDice === null) ? d : Math[(roll.adv > 0) ? "max" : "min"](sumDice, d);
-		}, null);
-	}, 0);
+	let rollSum = rollMod + summarizeRoll(rollDice, {adv:roll.adv});
 
 	// If "updateRoll" is set, also add the roll result and dice to the provided roll object
 	if (opts.updateRoll) {
 		roll.result = rollSum;
-		roll.result_dice = rollResults;
+		roll.result_dice = rollDice;
 	}
 
 	return rollSum;
+}
+
+// Takes in an array of dice values and returns the sum result
+// If 2+ rolls are provided the highest/lowest roll result is returned based on opts.adv (default highest)
+function summarizeRoll(rollDice, opts={adv:0}) {
+	return rollDice.reduce((sumRolls, r) => {
+		let newSum = r.reduce((sumDice, d) => sumDice += d);
+		return sumRolls = (sumRolls === null) ? newSum : Math[(opts.adv >= 0) ? "max" : "min"](newSum, sumRolls);
+	}, null);
 }
 
 // Takes in a button dataNode and returns a markdown string for displaying the button in chat messages
@@ -13086,32 +13127,42 @@ async function sendMessage(rollArray, message) {
 	// Handle rolls
 	for (const roll of rollArray) {
 		if (roll.result === undefined) {
-			simulateRoll(roll, {updateRoll:true, mod:0});
+			simulateRoll(roll, {rollDice:roll.result_dice, updateRoll:true, difficulty:true});
 		}
 		
-		let preRollTooltip = [];
+		let preRollTooltip = `${roll.count}d${roll.max}`;
 		let postRollTooltip = [];
 		let critClasses = {}; // Used for styling related to min and max dice rolls
 
-		let difficulty = (roll.path) ? access[roll.path[0]].rolls.difficulty : 0;
+		let difficulty = (roll.root) ? parseInt(roll.root.rolls.difficulty) : 0;
 		let multiPenalty = 0; // TODO: Calcluate this from the game settings
 
 		let rollMod = "";
 		if (roll.power) rollMod += ((roll.power >= 0) ? "+" : "") + roll.power;
 		if (difficulty !== 0) rollMod += `+(${difficulty})`;
-		if (multiPenalty !== 0) rollMod += ((multiPenalty >= 0) ? "+" : "") + multiPenalty;
+		if (multiPenalty !== 0) rollMod += ((multiPenalty > 0) ? "+" : "") + multiPenalty;
 
 		let prefix = "", suffix = "";
 
+		/*
 		if (roll.count > 1 && roll.adv !== 0) {
 			prefix = "("; suffix = ")";
 		}
+		*/
 
+		// Prepare the pre-roll tooltip
+		switch (Math.sign(roll.adv)) {
+			case 1: preRollTooltip = `Adv${roll.adv - 1 || ""}(${preRollTooltip})`; break;
+			case -1: preRollTooltip = `Disadv${-roll.adv - 1 || ""}(${preRollTooltip})`; break;
+		}
+		preRollTooltip = preRollTooltip + rollMod;
+
+		// Prepare the post-roll tooltip
 		for (const r of roll.result_dice) {
-			for (const d of r) {
+			let postRollBase = r.reduce((base, d) => {
 				let rollClass = "";
-
-				if (d === roll.max) {
+				
+				if (d === parseInt(roll.max)) {
 					rollClass = "critsuccess";
 					critClasses.fullcrit = true;
 				}
@@ -13120,17 +13171,19 @@ async function sendMessage(rollArray, message) {
 					critClasses.fullfail = true;
 				}
 				
-				preRollTooltip.push(`${prefix}${roll.count}d${roll.max}${rollMod}${suffix}`);
-				postRollTooltip.push(`${prefix}&#60;span class=&quot;basicdiceroll ${rollClass}&quot;&#62;${d}&#60;/span&#62;${rollMod}${suffix}`);
+				return (base ? "+" : "") + `&#60;span class=&quot;basicdiceroll ${rollClass}&quot;&#62;${d}&#60;/span&#62;`;
+			}, "");
+
+			if (r.length > 1 && roll.adv != 0) {
+				postRollBase = "(" + postRollBase + ")";
 			}
+			postRollTooltip.push(postRollBase);
 		}
 
-		preRollTooltip = preRollTooltip.join(", ");
-		postRollTooltip = postRollTooltip.join(", ");
-
-		if (roll.adv !== 0) {
-			preRollTooltip = "{" + preRollTooltip + "}" + ((roll.adv > 0) ? "kh1" : "dh1");
-			postRollTooltip = "{" + postRollTooltip + "}" + ((roll.adv > 0) ? "kh1" : "dh1");
+		if (roll.result_dice.length > 1) {
+			postRollTooltip = `(${postRollTooltip.join(", ")})${rollMod}`;
+		} else {
+			postRollTooltip = postRollTooltip.join("+") + rollMod;
 		}
 
 		// Generate the roll HTML
@@ -13175,22 +13228,25 @@ async function sendMessage(rollArray, message) {
 			sectionContents.push(`<div class="sheet-section-message">Inline roll: ${roll.insert}</div>`);
 
 			// TODO: Loop across all messages for a roll and add them as contents
-			
-			if (rollArray[0] == roll) {
-				for (const effect of roll.root.effects) {
-					if (effect.name == "Block") continue;
-					sectionContents.push(`<div class="sheet-section-message">${effect.toString()}</div>`);
-				}
-			}
-			for (const block of roll.root.effects) {
-				if (block.name != "Block") continue;
-				if (block.roll == roll) {
+
+			console.log("rollArray:", [...rollArray]);
+			console.log("effects:", [...roll.root.effects]);
+
+			if (roll == rollArray[0]) {
+				for (const block of roll.root.effects) {
+					if (!block.var.item) break;
 					for (const effect of block) {
 						sectionContents.push(`<div class="sheet-section-message">${effect.toString()}</div>`);
 					}
 				}
 			}
-
+			for (const block of roll.root.effects) {
+				if (block.var.roll?.id == roll.id) {
+					for (const effect of block) {
+						sectionContents.push(`<div class="sheet-section-message">${effect.toString()}</div>`);
+					}
+				}
+			}
 			
 			// Generate any roll specific buttons
 			for (const button of roll.message.buttons) {
@@ -13327,9 +13383,10 @@ async function sendMessage(rollArray, message) {
 }
 
 /* Executes one or more rolls and posts the results to the chat */
-function executeRolls(rollArray, opts={use_resource:false, multiroll:false}, callback=()=>{}) {
+function executeRolls(rollArray, opts={use_resource:false}) {
 	access._begin("roll", () => {
-		
+		if (rollArray instanceof dataNode) rollArray = [rollArray];
+
 		if (opts.use_resource) {
 			let resource = (access.resource.selection == "Action") ? "action" : "reaction";
 			let reqList = {}
@@ -13364,53 +13421,85 @@ function executeRolls(rollArray, opts={use_resource:false, multiroll:false}, cal
 		}
 
 		// Add the new roll(s) to access.rolls
-		// If multirolls are enabled, treat rolls with a 2+ dice count as seperate rolls
 		for (const roll of rollArray) {
-			if (opts.multiroll && roll.count > 1) {
+
+			// If multirolls are enabled, treat rolls with a 2+ dice count as seperate rolls
+			if (roll.multiroll && roll.count > 1) {
 				let multiCount = roll.count;
+				roll.modify("count", 1, {silent:"hard"});
 				roll._count = 1;
+
 				for (let i = 0; i < multiCount; i++) {
-					access.rolls.add({node:cleanRoll(roll)});
+					let newRoll = access.rolls.add({node:cleanRoll(roll), index:opts.index});
+					newRoll._multiroll = generateRowID(); // Multirolls are given an ID for handling the DiceCount AutoEffect
 				}
+
+				/*
+				for (let i = 0; i < multiCount; i++) {
+					let newRoll = access.rolls.add({node:cleanRoll(roll), index:roll.index});
+					newRoll.result_dice = roll.result_dice.map(r => [r.shift()]);
+					simulateRoll(newRoll, {rollDice:newRoll.result_dice, updateRoll:true, difficulty:true});
+				}
+				*/
 			} else {
-				access.rolls.add({node:roll});
+				access.rolls.add({node:roll, index:opts.index});
 			}
 		}
 
 		// Add any message data from the originating item or rolls
-		let item = access.items[access.rolls[0]?.orig?.id];
-		let header = access.message.header;
-		let desc = access.message.desc;
-
-		if (item) {
-			header.title = item.name;
-			header.rank = item.rank;
-			header.light_cost = (item.limited.enabled) ? item.limited.light_cost : false;
+		if (access.rolls[0] == rollArray[0]) {
+			let item = access.items[access.rolls[0]?.orig?.id];
+			let header = access.message.header;
+			let desc = access.message.desc;
+	
+			if (item) {
+				header.title = item.name;
+				header.rank = item.rank;
+				header.light_cost = (item.limited.enabled) ? item.limited.light_cost : false;
+			}
+	
+			// Origin and targeting data
+			desc.from = access.character.name;
+			desc.target = access.target?.character?.name || false;
 		}
 
-		// Origin and targeting data
-		desc.from = access.character.name;
-		desc.target = access.target?.character?.name || false;
+		// Apply any status ailments that affect rolls
+		if (true) {
+			// Paralysis and Fortune increase/decrease roll.adv by 1, applying once per roll until depleted
+			// Strength, Endurance, etc. apply to all rolls of a matching type
 
-		// Simulate all rolls and save the resulting value
-		for (const roll of access.rolls) { // TODO: Make this only target rolls added by this function
-			simulateRoll(roll, {updateRoll:true});
+			// For this you'll need the following ailment effects:
+			// - Dice power
+			// - Dice advantage
+			// - You may as well throw in DiceMax and DiceCount while you're at it
+			
+			// These effects decay on Round end / On action / When hit, but do not apply any effects except during rolls
 
-			console.log(`Simulating roll: ${roll.type} - ${roll.count}d${roll.max}+(${roll.power}) ${roll.adv || ""}`);
-			console.log("Result:", roll.result, roll.result_dice);
+			// You'll also need the following settings:
+			// - If the ailment decays when applied, and if the effect is capped by the decay (for Paralysis/Fortune)
+			// - If the ailment applies to a specific type of roll. "Difficulty" now matches a dice power effect with no roll type
+		}
+
+		// Simulate all new rolls and save the resulting value
+		for (const roll of access.rolls) {
+			if (roll.result === undefined) {
+				simulateRoll(roll, {updateRoll:true, difficulty:true});
+
+				console.log(`Simulating roll: ${roll.type} - ${roll.count}d${roll.max}+(${roll.power}) ${roll.adv || ""}`);
+				console.log("Result:", roll.result, roll.result_dice);
+
+				// Add any AutoEffects from any new rolls
+				if (!/^\s$/.test(roll.autoeffect)) {
+					let rollBlock = access.effects.add("(Block)")[0];
+					rollBlock._addVar("roll", roll);
+					rollBlock.add(roll.autoscript);
+				}
+			}
 		}
 
 		console.log("Rolls:", access.rolls, "|| Message:", access.message);
 
-		// Add any AutoEffects from the rolls
-		for (const roll of access.rolls) {
-			if (roll.autoeffect != "") {
-				let rollBlock = access.effects.add("(Block)")[0];
-				rollBlock.roll = roll;
-				rollBlock.add(roll.autoscript);
-			}
-		}
-
+		
 		// If store/recycle is enabled, add a reroll button to the roll
 
 		// If no icon is included, generate one based on the roll type of the first roll with a type
@@ -15655,13 +15744,15 @@ function closeEditor(type) {
 
 const rollDataFormat = {
 	base: {
-		type: "None", mode: "Roll", damage_type: "None", count: 0, max: 0, power: 0, adv: 0, autoscript: "",
+		type: "None", mode: "Roll", damage_type: "None",
+		count: 0, max: 0, power: 0, adv: 0, multiroll: false,
 		action: {type: "Action", cost: 1},
 		reaction: {type: "Reaction", cost: 1},
 		uses: {cost: 1},
 		store: {
 			count: 0, max: 0, power: 0, adv: 0, autoscript: "",
 		},
+		autoscript: "",
 		message: false,
 	},
 	
@@ -15669,10 +15760,11 @@ const rollDataFormat = {
 		type: (s) => is(s).In("None", ...combatRollNames, ...statNames, "Custom"),
 		mode: (s) => is(s).In("Roll", "Applied"), // Applied is ignored outside of roll formats
 		damage_type: (v) => is(v).In("None", ...damageTypes, "Choose") || (is.Array(v, {min:1, max:3}) && v.every(d => damageTypes.includes(d))), // Allows an array of 1-3 damagetypes ("Hybrid")
-		count: (i) => is.Int(i, (this.type == "Roll") ? {min: 1} : {}),
-		max: (i) => is.Int(i, (this.type == "Roll") ? {min: 0} : {}),
+		count: (i) => is.Int(i, (this.type == "Roll") ? {min: 1} : {}), // TODO: Needs an event listener
+		max: (i) => is.Int(i, (this.type == "Roll") ? {min: 0} : {}), // TODO: Needs an event listener
 		power: (i) => is.Int(i),
 		adv: (i) => is.Int(i),
+		multiroll: (v) => is.Bool(v) || is.ID(v),
 		action: {
 			type: (s) => is(s).In("None", ...resourceNames),
 			cost: (i) => is.Int(i, {min: 0}),
@@ -15856,7 +15948,7 @@ const repDataDefaults = {
 			type: "Weapon",
 			rollformats: {
 				_repeating: [
-					{type: "Attack", damage_type: "Choose", count: 1, max: 10, power: 0, action: {}, reaction: {type: "Counter"}},
+					{type: "Attack", damage_type: "Choose", count: 1, max: 10, power: 0, multiroll:true, action: {}, reaction: {type: "Counter"}},
 				],
 			},
 			slots: {requires: {raw_text: "Hands 1"}},
@@ -16056,18 +16148,18 @@ const repDataFormats = {
 				base: { // Enabled by optionResistBaseDamage
 					slash: {
 						mode: (s) => is(s).In("None", "Add", "Replace"),
-						hp: (i) => is.Float(i, (this.mode == "Replace") ? {min: 0} : {}),
-						st: (i) => is.Float(i, (this.mode == "Replace") ? {min: 0} : {}),
+						hp: (i) => is.Float(i), // TODO: Implement this through an event
+						st: (i) => is.Float(i), // is.Float(i, (this.mode == "Replace") ? {min: 0} : {}),
 					},
 					pierce: {
 						mode: (s) => is(s).In("None", "Add", "Replace"),
-						hp: (i) => is.Float(i, (this.mode == "Replace") ? {min: 0} : {}),
-						st: (i) => is.Float(i, (this.mode == "Replace") ? {min: 0} : {}),
+						hp: (i) => is.Float(i),
+						st: (i) => is.Float(i),
 					},
 					blunt: {
 						mode: (s) => is(s).In("None", "Add", "Replace"),
-						hp: (i) => is.Float(i, (this.mode == "Replace") ? {min: 0} : {}),
-						st: (i) => is.Float(i, (this.mode == "Replace") ? {min: 0} : {}),
+						hp: (i) => is.Float(i),
+						st: (i) => is.Float(i),
 					},
 				},
 				flat: { // Enabled by optionResistFlatDamage
@@ -16607,30 +16699,12 @@ const dataFormat = {
 			//   - If you want to hinder an action, remove tags when an item is equipped or unequipped (see above)
 		},
 		slots: (n) => n.tags, // Slots are stored in access.tags
-		local: { // TODO: Remove this local. Local variables are now stored in effect blocks
-			// Props used in autoScriptMain()
-			scaling: 0,
-			checkresult: "success",
-			info: {}, // Is set to an event object when executing AutoEffects added by a trigger block
-			// Is an actual object and not a dataNode. Users can modify it as they see fit
-			// As with scaling and checkresult, this is set to false when using (Reset #Hard)
-
-			// Other AutoScript stuff you may want to add:
-			// - Stuff in relation to triggers, ex. round number
-			//   - This won't let users add triggers, but they can check if a trigger is currently in effect
-
-			// User defined local variables. Reset at the start of AutoEffectMain()
-			// - Do this using "access.let = new itemNode({dataFormats.base.let, dataFormats.valid.let}));"
-			// Accessed using access.variable, not access.let.variable. If both let and var exist, let takes priority. You may need a proxy for this
-			// The order of priority is specifically: 1 - id, 2 - items/ailments/etc, 3 - local variable, 4 - global variable
-			// Due to this, user defined variables like "let" and "items" can never be accessed. An error message should be posted when this is attempted
-		},
 		global: {
 			_repeating: {
 				_key_prop: "key",
 				_value_prop: "value",
 				key: "var",
-				value: false,
+				value: 0,
 			},
 
 			// User defined global variable. Creates an attribute in the attribute tab of the sheet
@@ -16645,7 +16719,7 @@ const dataFormat = {
 	// Includes functions for validating input values
 	// Validators for repeating data are found in repDataFormats
 	valid: {
-		type: (s) => is.String(s) && is(s.toLowerCase()).In(["character", "target", "token"]),
+		type: (s) => false, // Can only be set inside the code
 		items: {
 			_repeating: repDataFormats.item.valid,
 			editor: {
@@ -16769,14 +16843,9 @@ const dataFormat = {
 			_repeating: tagDataFormat.valid,
 		},
 		slots: {},
-		local: {
-			scaling: (i) => is.Float(i, {min: 0}),
-			checkresult: (s) => is(s).In("success", "last success", "failure", "no target"), // Needs translations?
-			info: (o) => is.Object(o),
-		},
 		global: {
 			_repeating: {
-				key: (i) => is.String(s),
+				key: (s) => is.String(s),
 				value: (v) => true,
 				// Global variables accept all values, although objects have to be saved as JSON in the sheet
 				// If the value of a global variable is a node, save a path to that node and not the node itself
@@ -16872,7 +16941,6 @@ const dataFormat = {
 			_repeating: tagDataFormat.attrs,
 		},
 		slots: {},
-		local: false,
 		global: {
 			_repeating: {
 				source: {
@@ -16881,9 +16949,7 @@ const dataFormat = {
 						section: "variables",
 					},
 				},
-				attrs: {
-					prefix: "variable"
-				},
+				attrs: {},
 				export: {alias: "???"}, // TODO: Need export info for variables
 			},
 		},
@@ -16915,23 +16981,54 @@ on("clicked:testA", async function(info) {
 on("clicked:testB", function(info) {
 	console.log("Clicked button B");
 
-	access._begin("update", function() {
-		access.effects.add("block");
+	getAttrs(["character_id"], function(values) {
+		console.log(values.character_id);
 	});
 });
 
 on("clicked:testC", function(info) {
 	console.log("Clicked button C");
 
-	access._begin("update", function() {
-		let gives = access.items[snakeify("Sanguine Claws")].slots.gives.bleed;
-		console.log("Change Bleed from", gives.value, "to", (gives.value == 3) ? 5 : 3)
-		gives.value = (gives.value == 3) ? 5 : 3;
-	});
+	//transferData(access.currentID.output());
 });
 
 
 
+/* Will be used for a later update
+function transferData(data) {
+	getAttrs(["targetID", "intermediaryID"], function(values) {
+		setAttrsByID(values.intermediaryID, {
+			dataTransfer: Data.package({
+				data: data,
+				targetID: values.targetID,
+				msgID: generateRowID(),
+			}),
+		});
+	});
+}
+
+on("change:datatransfer", function(info) {
+	if (info.newValue) {
+		setAttrs({dataTransfer: info.newValue}, {}, function() {
+			let data = Data.unpackage(info.newValue);
+			
+			if (data.targetID != getActiveCharacterId()) {
+				setAttrsByID(data.targetID, {dataTransfer: info.newValue});
+			} else {
+				access._begin("no update", () => {
+					console.log(data);
+					setAttrs(data.data);
+				});
+			}
+		});
+	}
+});
+
+onJQ("clicked:testC", function(info) {
+	console.log(info);
+	$20("button[name*=testC]").addClass(getActiveCharacterId());
+});
+*/
 
 
 class dataNode extends Array {
@@ -17132,7 +17229,7 @@ class dataNode extends Array {
 					}
 
 					// Ignore sources with no attributes or with no open editor
-					if (source == "editor" && !opts.event && access[this.path[0]].items.editor.target != this.id) continue;
+					if (source == "editor" && !opts.event && this.root.items.editor.target != this.id) continue;
 					if (!this._attrs[source]) continue;
 
 					// Get the attribute name of the property in the current source
@@ -17215,7 +17312,9 @@ class dataNode extends Array {
 	// If a validator format was provided at node creation only valid values are accepted
 	// Adds any changes to access._output. The changes are applied to the sheet/editor when the access ends
 	modify(prop, newValue, opts={source:false}) {
-		let oldValue = this[prop];
+		if (!prop.startsWith("_")) prop = "_" + prop;
+
+		let oldValue = this[snakeify(prop)];
 		if (newValue === undefined) newValue = "";
 		
 		//console.log(`(${opts.source || "Code"}) ${prop} ${this[prop]} -> ${newValue}`);
@@ -17232,6 +17331,11 @@ class dataNode extends Array {
 					this.#output[prop] = is.True(newValue);
 				} else {
 					this.#output[prop] = newValue;
+				}
+
+				// Delete the output value if it matches the immutable value
+				if (this[prop] == this.#output[prop]) {
+					delete this.#output[prop];
 				}
 
 				// Trigger a new modify event
@@ -17273,6 +17377,13 @@ class dataNode extends Array {
 			let newID = opts.id || opts.node?.id || this.id || generateRowID().toLowerCase(); // AutoEffects can only access props in lowercaps
 			let newProp = opts.prop || newID;
 			let repSource = {}
+			let repStack = []
+
+			if (opts.index !== undefined) {
+				while (opts.index < this.length) {
+					repStack.push(this.pop());
+				}
+			}
 
 			if (opts.node) {
 				this.push(opts.node);
@@ -17308,10 +17419,16 @@ class dataNode extends Array {
 				}
 			}
 
-			this._addAccessors({rep: newProp, newkey: (this.at(-1)._keyProp) ? this.at(-1)[this.at(-1)._keyProp] : false});
+			let newNode = this.at(-1);
+		
+			while (repStack.length) {
+				this.push(repStack.pop());
+			}
+			
+			this._addAccessors({rep: newProp, key: (newNode._keyProp) ? newNode[newNode._keyProp] : false});
 
 			// Output all attributes from the new node
-			this.at(-1).output(access._output, {allProps:true});
+			newNode.output(access._output, {allProps:true});
 
 			if (this._rep.attrs.option) {
 				this._attrs[newProp] = "option" + this._rep.attrs.option;
@@ -17320,10 +17437,10 @@ class dataNode extends Array {
 
 			// Trigger a new add event
 			access._event.trigger([...this.path, "add"], {
-				node:this, type:"add", oldval:false, newval:this.at(-1),
+				node:this, type:"add", oldval:false, newval:newNode,
 			}, opts);
 
-			return this.at(-1);
+			return newNode;
 		}
 	}
 	_addSubnodes(node) {
@@ -17338,10 +17455,10 @@ class dataNode extends Array {
 		if (opts.key) {
 			Object.defineProperty(this, snakeify(opts.key), {
 				get() {
-					return this.repNodes.find(node => node[node._keyProp] == opts.key);
+					return this.find(node => node[node._keyProp] == opts.key);
 				},
 				set(v) {
-					this.modify(this.repNodes.find(node => node[node._keyProp] == opts.key).id, v);
+					this.modify(this.find(node => node[node._keyProp] == opts.key).id, v);
 				},
 				configurable: true,
 			});
@@ -17359,27 +17476,25 @@ class dataNode extends Array {
 					return (this.#output[`_${opts.prop}`] !== undefined) ? this.#output[`_${opts.prop}`] : this[`_${opts.prop}`];
 				},
 				set(v) {
-					this.modify(`_${opts.prop}`, v);
+					this.modify(opts.prop, v);
 				},
 				configurable: true,
 			});
 		}
 		if (opts.rep) {
-			Object.defineProperties(this, {
-				[opts.rep]: {
-					get() {
-						return this.find(node => node.path.at(-1) == opts.rep);
-					},
-					configurable: true,
-				}
+			Object.defineProperty(this, opts.rep, {
+				get() {
+					return this.find(node => node.path.at(-1) == opts.rep);
+				},
+				configurable: true,
 			});
 		}
 	}
 	
 	// Deletes a repeating subnode with a specific id
-	delete(id, opts={}) {
-		if (this._rep && id in this) {
-			let node = this[id];
+	delete(accessor, opts={}) {
+		if (this._rep && this[accessor]) {
+			let node = this[accessor];
 			let repStack = [];
 
 			// Remove all repeating items associated with the deleted node
@@ -17391,12 +17506,14 @@ class dataNode extends Array {
 			}
 
 			// Due to quirks with dataNode extending Array all nodes must be removed, then readded (except the deleted node)
-			this.reduce((acc, repNode) => [...acc, this.shift()], [])
-			.forEach(repNode => {
+			while (this.length) {
+				repStack.push(this.shift());
+			}
+			for (const repNode of repStack) {
 				if (repNode != node) {
 					this.push(repNode);
 				}
-			});
+			}
 
 			this._deleteAccessors(node);
 
@@ -17410,7 +17527,7 @@ class dataNode extends Array {
 		if (node._name) {
 			delete this[snakeify(node._name)];
 		}
-		delete this[node.id];
+		delete this[node.path.at(-1)];
 	}
 
 
@@ -17457,9 +17574,6 @@ class dataNode extends Array {
 	get repIDs() {
 		return range(0, this.length).map(index => this[index].path.at(-1));
 	}
-	get repNodes() {
-		return this.repIDs.map(id => this[id]);
-	}
 
 
 	// Allows writing "node.immutable.prop" to get the current non-output value
@@ -17471,7 +17585,9 @@ class dataNode extends Array {
 
 	// Creates a deep copy of this node
 	clone() {
-		return new dataNode(this._formats, this.id, this, this.path).paste(this.copy());
+		let clone = new dataNode(this._formats, this.id, this, this.path).paste(this.copy());
+		clone.#output = structuredClone(this.#output);
+		return clone;
 	}
 
 	// Copies and returns the data of this node
@@ -17615,9 +17731,9 @@ class effectNode extends dataNode {
 	}
 
 	// Reports an error related to the effect
-	#error(errorCode, errorInfo={}) {
+	#error(errorCode, errorInfo={}, variant) {
 		this.#invalid = true;
-		access._error.throw("autoeffect", errorCode, this.toString(), errorInfo);
+		access._error.throw("autoeffect", errorCode, this.toString(), errorInfo, variant);
 	}
 
 	// Returns the effect in string form
@@ -17711,32 +17827,35 @@ class effectNode extends dataNode {
 
 	// Returns all local and global variables available to the current effect
 	get var() {
-		if (this.parent instanceof effectNode) {
-			return {...this.parent.var, ...(this.#local || {})}
+		if (this.name) { // Call effect.name to ensure local variables have been generated for blocks
+			if (this.parent instanceof effectNode) {
+				return {...this.parent.var, ...(this.#local || {})}
+			}
+			return {...Object.values(this.root.global).reduce((acc, v) => { return {...acc, [snakeify(v.key)]: v.value} }, {}), ...(this.#local || {})}
 		}
-		return {...this.root.global, ...(this.#local || {})}
 	}
 
-	// Modifies the value of a local or global variable
-	modifyVar(key, value) {
+	// Adds a new local variable
+	_addVar(key, value) {
 		let effect = this;
-		key = snakeify(key);
-
-		// Local variable
+		
 		while (effect instanceof effectNode) {
-			if (effect.#local && key in effect.#local) {
-				return effect.#local[key] = value; // TODO: You may want to make local a subnode so this has validation
+			if (effect.name && effect.#local) { // -:-
+				return effect.#local[snakeify(key)] = value;
 			}
 			effect = effect.parent;
 		}
-
-		// Global variable
-		if (key in this.root.global) {
-			return this.root.global[key] = value; // If global contains repNodes this should be global[key].value == value
+	}
+	_resetLocal(opts={force:true}) {
+		if (autoEffectBlocks[this.name] && (this.#local || opts.force)) {
+			this.#local = {
+				scaling: 1,
+				checkresult: true,
+				checkstring: "success",
+			}
+		} else {
+			this.#local = false;
 		}
-
-		// Throw an error if the variable doesn't exist
-		return null; // TODO: This should be returned to the math parser
 	}
 
 
@@ -17761,26 +17880,19 @@ class effectNode extends dataNode {
 			this.#format = structuredClone(this.#format);
 
 			// If the AutoEffect is a block, add local variables
-			if (autoEffectBlocks[this.name] && !this.#local) {
-				this.#local = {
-					scaling: 1,
-					checkresult: true,
-					checkstring: "success",
-				}
-			} else {
-				this.#local = false;
-			}
+			this._resetLocal();
 
 			// Calculate the position of the value, target and options within the AutoEffect
-			this.#format.index = {value:0, target:0, option:0}
+			this.#format.index = {value:0, target:0, operator:0, options:0}
 			let index = this.#format.index;
 
 			if (this.#format.value) { index.value = 1; }
 			if (this.#format.target) { index.target = index.value + 1; }
 			if (this.#format.reverse) { index.value++; index.target--; }
-			if (this.#format.operator) { index.operator = index.value; index.value++ }
+			if (autoEffectOperators[this.name]) { index.operator = 2; index[this.#format.reverse ? "value" : "target"]++ }
 			if (this.#format.valueOptional && !this.#effect[index.value]) { index.value = 0; }
 			if (this.#format.targetOptional && !this.#effect[index.target]) { index.target = 0; }
+			if (this.#format.operatorOptional && !this.#effect[index.operator+1]) { index.operator = 0; this.#format[this.#format.reverse ? "value" : "target"]-- }
 			index.options = Math.max(index.value, index.target) + 1;
 
 			// Get all supported options for the AutoEffect
@@ -17829,10 +17941,6 @@ class effectNode extends dataNode {
 	get value() {
 		if (this.#buffer.value === undefined) this.value = this.#effect[this.#format.index.value];
 		return this.#buffer.value;
-
-		// TODO: Make values with math recalculate their value each time the value is referenced
-		// delete this.#options.compareValue;
-		// delete this.#options.percentageValue;
 	}
 	set value(v) {
 		let v_raw = v;
@@ -17846,19 +17954,10 @@ class effectNode extends dataNode {
 			case "number":
 				let langPercent = "";
 
-				// Extract value options (%, <, >, <= and >=)
-				if (/^[<>]=?/.test(this.value)) {
-					if (this.#format.compareValue && this.target) {
-						this.#buffer.options.compare = this.value.match(/^[<>]=?/g)[0];
-						this.#buffer.value = this.value.replace(this.compare, "");
-					} else {
-						this.#error("Invalid Compare"); return;
-					}
-				}
 				if (/%$/.test(this.value)) {
 					if (this.#format.percentageValue && this.target) {
 						this.#buffer.value = this.value.replace("%","");
-						this.#buffer.options.percent = Math.abs(parseFloat(this.value) / 100);
+						this.#buffer.percent = Math.abs(parseFloat(this.value) / 100);
 						langPercent = getTranslationByKeyCustom("or percentage", "autoeffect-error-value-percent");
 					} else {
 						this.#error("Invalid Percentage"); return;
@@ -17873,14 +17972,14 @@ class effectNode extends dataNode {
 				}
 				
 				// Apply value options
-				if (this.percent !== undefined && this.#buffer.targetPath) {
+				if (this.#buffer.percent !== undefined && this.targetNode) {
 					if (this.#buffer.targetPath[0] == "bar") {
-						let barMax = parseInt(access.bar[`${this.target.replace("-","")}_max`]);
-						this.#buffer.value = barMax * this.percent;
+						let barMax = parseInt(this.targetNode[`${this.target.replace("-","")}_max`]);
+						this.#buffer.value = barMax * this.#buffer.percent;
 					}
 					else if (this.#buffer.targetPath[0] == "ailments") {
-						let ailmentCount = parseInt(access.ailments[this.target].count);
-						this.#buffer.value = Math.max(ailmentCount * this.percent, 1);
+						let ailmentCount = parseInt(this.targetNode.count);
+						this.#buffer.value = Math.max(ailmentCount * this.#buffer.percent, 1);
 					}
 				} break;
 			
@@ -17894,9 +17993,12 @@ class effectNode extends dataNode {
 					}); return;
 				} break;
 
-			case true:
+			case true: // Accepts all values
 				if (/^".+"$/.test(this.value)) {
 					this.#buffer.value = this.value.slice(1, -1);
+				}
+				else if (Number(this.value)) {
+					this.#buffer.value = Number(this.value);
 				}
 		}
 
@@ -17919,15 +18021,21 @@ class effectNode extends dataNode {
 
 		this.#buffer.operator = o;
 
-		if (this.#format.assignValue) {
-			if (!is(o).In("=", "+=", "-=", "*=", "/=")) {
-				console.warn("AutoEffect error: Unknown assignment operator", o);
-				// this.#error();
-			} 
+		if (!autoEffectOperators[this.name].includes(o)) {
+			let opType = "";
+
+			switch (this.name) {
+				case "Require": opType = "compare"; break;
+				case "Access": opType = "access"; break;
+			}
+
+			this.#error("Invalid Operation", {}, opType); return;
 		}
-		else if (this.#format.compareValue) {
-			// TODO: Add this as an operation. This should be optional, similar to targetOptional
-		}
+
+		// If all validation passes, update the effect operator
+		this.#effect[this.#format.index.operator] = o_raw;
+
+		return this.#buffer.operator;
 	}
 
 
@@ -17965,17 +18073,49 @@ class effectNode extends dataNode {
 				if (access.resource[this.target]) this.#buffer.targetPath = ["resource", this.target, "node"];
 			}
 			if (this.#format.target.includes("#Path")) {
-				if (is.Path(this.target)) this.#buffer.targetPath = pathStringToArray(this.target);
+				if (is.Path(this.target)) this.#buffer.targetPath = pathStringToArray(t); // Preserves capitalization for global variables
+			}
+			if (this.#format.target.includes("#Var")) {
+				this.#buffer.target = t; // Preserves capitalization for global variables
+				this.#buffer.targetPath = true; // Set to not throw an error. Is not used in exeVar()
+
+				// Variable names can only consist of letters, digits and undescores, and must contain at least one letter
+				if (!/[A-Z]/i.test(this.target) && !/^[\w\d]+$/.test(snakeify(this.target))) { // TODO: Needs support for Japanese/Korean characters
+					console.warn(`AutoEffect error: Illegal variable name. Variable names may only include letters, digits and spaces/underscores, and must have at least one letter`); return;
+				}
+
+				// Avoids collision with node properties and events
+				switch (this.target) {
+					case "add": case "delete": case "modify": case "roll": case "proc": case "n":
+						console.warn(`AutoEffect error: Illegal variable name. "${this.target}" is reserved for event paths`); return;
+
+					case "enabled": case "id": case "index": case "path": case "root":
+						console.warn(`AutoEffect error: Illegal variable name. "${this.target}" is a node property`); return;
+				}
+
+				// Avoids collisions with math functions
+				if (Object.keys(newOperators).some(key => snakeify(key) == snakeify(this.target))) {
+					console.warn(`AutoEffect error: Illegal variable name. "${this.target}" is a math function`); return;
+				}
+
+				// Avoids collision with root subnodes and properties
+				if (this.name == "Global" && this.target in dataFormat.base) {
+					console.warn(`AutoEffect error: Illegal variable name. "${this.target}" is reserved for root subnode/property`); return;
+				}
 			}
 			
-			if (this.#buffer.targetPath) {
-				// TODO: Re-add this functionality
-				/*else if (this.#targetPath == "resource" && triggers.includes("Round start")) {
-					targetAttr += "_max"; targetVar += "_max";
-				}*/
-			} else {
+			if (!this.#buffer.targetPath) {
+				if (this.#format.operatorOptional && this.#format.index.target > 2) { // Handle effects with an optional operator
+					if (!autoEffectOperators[this.name].includes(this.#effect[this.#format.index.target-1])) {
+						this.#format.index.operator = 0;
+						if (this.#effect[--this.#format.index.options]) {
+							this.parseOptions(this.#effect[this.#format.index.options]);
+						}
+						return this.target = this.#effect[--this.#format.index.target];
+					}
+				}
 				if (this.#format.targetOptional) { // Handle effects with an optional target (ex. BaseDamage)
-					this.parseOptions(this.target);
+					this.parseOptions(t_raw);
 					return this.#buffer.target = false;
 				} else {
 					this.#error("Invalid Target", {
@@ -18299,6 +18439,7 @@ class effectNode extends dataNode {
 							case "ChallengeRoll": this.#exeRoll(); break;
 							case "Speed": this.#exeSpeed(); break;
 							case "Access": this.#exeAccess(); break;
+							case "Global": case "Local": this.#exeVar(); break;
 						}
 
 						// Execute any nested effects
@@ -18390,15 +18531,28 @@ class effectNode extends dataNode {
 		return clone;
 	}
 
+
 	#exeCustomMessage() {
 		
 	}
 
+
 	#exeAccess() {
 		let error = {}
-		let node = navPath(this.targetPath.slice(0, -1), {userPath:true, start:access[this.path[0]]}, error);
-		let prop = this.targetPath.at(-1);
-		let value = (Number(this.value)) ? roundTowardsZero(this.value * this.var.scaling) : this.value;
+		let path = [this.path[0], ...this.targetPath.slice(0, -1)];
+		let prop = snakeify(this.targetPath.at(-1));
+
+		// Check if the path leads to a variable
+		if (this.targetPath.length == 1 && this.var[prop] !== undefined) {
+			return this.#exeVar();
+		}
+
+		// Allows users to modify properties in other roots
+		if (is.ID(this.targetPath[0]) && this.targetPath[0] in access) {
+			path = path.slice(1);
+		}
+
+		let node = navPath(path, {userPath:true}, error);
 
 		if (!node) {
 			access._error.throw("math", "Math Error", this.toString(), { // TODO: Should be access error
@@ -18417,37 +18571,51 @@ class effectNode extends dataNode {
 		}
 
 		// TODO: May need a try-catch block here
-		if ((this.operator = "=") ? !node._validator(`_${prop}`)(value) : !node._validator(`_${prop}`)(mathOperation(this.operator.replace("=", ""), parseInt(node[prop]), value))) {
-			console.warn("Access Error: Value is not a valid value for the target property", value, node._validator(`_${prop}`).toString()); return;
+		if ((this.operator = "=") ? !node._validator(`_${prop}`)(this.value) : !node._validator(`_${prop}`)(mathOperation(this.operator.replace("=", ""), parseInt(node[prop]), value))) {
+			console.warn("Access Error: Value is not a valid value for the target property", this.value, node._validator(`_${prop}`).toString()); return;
 		}
 
-		// Give self rupture
-		// Use outfit. Show everything is treated as a single effect
-		// Add two end tags
-		// Use scaling on the first check. Show that it only applied inside the block
-		// Add an else after the second check
-		// Que the dramatic music. Use Assign (Access*, although Assign could be a better name...)
-		// Apply state.seal to yourself
-		// Change an item's dice max
-		// Change your own name to "Sueno Imposible"
+		assignmentOperation(node, prop, this.operator, this.value);
 
-		// TODO: Move this to the math section later
-		function assignmentOperation(obj, prop, op, value) {
-			const assignOperators = {
-				"=": {min: 3, max: 3, calc: (a,b,c) => a[b]=c},
-				"+=": {min: 3, max: 3, calc: (a,b,c) => Number(a[b]) ? a[b]=Number(a[b])+c : a[b]+=c},
-				"-=": {min: 3, max: 3, calc: (a,b,c) => Number(a[b]) ? a[b]=Number(a[b])-c : false},
-				"*=": {min: 3, max: 3, calc: (a,b,c) => Number(a[b]) ? a[b]=Number(a[b])*c : false},
-				"/=": {min: 3, max: 3, calc: (a,b,c) => Number(a[b]) ? a[b]=Number(a[b])/c : false},
+		// TODO: For testing. Effect outputs no chat message
+		console.log(`exeAccess | ${this.target} ${this.operator} ${this.value}: ${node.immutable[prop]} -> ${node[prop]}`);
+	}
+
+
+	#exeVar() {
+		let varName = (this.name != "Access") ? this.target : this.targetPath[0];
+		let varKey = snakeify(varName);
+		
+		// Add or modify local variable
+		if (this.name == "Local" || (this.name == "Access" && !this.root.global[varKey])) {
+			let effect = this;
+
+			while (effect instanceof effectNode) {
+				if (effect.#local) {
+					if (varKey in effect.#local) {
+						assignmentOperation(effect.#local, varKey, this.operator, this.value);
+					} else {
+						effect._addVar(varKey, this.value);
+					}
+					break;
+				}
+				effect = effect.parent;
 			}
-			return assignOperators[op].calc.apply(assignOperators[op], [obj, prop, value]);
 		}
 
+		// Add or modify global variable
+		else {
+			if (this.root.global[varKey]) {
+				assignmentOperation(this.root.global[varKey], "value", this.operator, this.value);
+			} else {
+				let globalVar = this.root.global.add();
+				globalVar.key = varName;
+				globalVar.value = this.value;
+			}
+		}
 
-		assignmentOperation(node, prop, this.operator, value);
-
-		// TODO: Output chat message
-		console.log(`exeAccess | ${this.target} ${this.operator} ${value}: ${node.immutable[prop]} -> ${node[prop]}`);
+		// TODO: For testing. Effect outputs no chat message
+		console.log(`exeVar | ${this.name} ${varName} ${this.operator} ${this.value}`);
 	}
 
 
@@ -18460,30 +18628,33 @@ class effectNode extends dataNode {
 			let prevCheck = this.parent[this.parent.indexOf(this) - 1];
 
 			if (!prevCheck.#local.checkresult && !prevCheck.#local.elseresult) {
-				let buffer = this.#buffer;
+				if (this.#effect.length > 1) {
+					let buffer = this.#buffer;
 
-				// Mimic the last check effect
-				this.#buffer = structuredClone(prevCheck.#buffer);
+					// Mimic the last check effect
+					this.#buffer = structuredClone(prevCheck.#buffer);
 
-				// Override the value, or both the value and target
-				if (buffer.value !== undefined) this.#buffer.value = buffer.value || 0;
-				if (buffer.target !== undefined) {
-					this.#buffer.target = buffer.target;
-					this.#buffer.targetPath = buffer.targetPath;
+					// Override the value, or both the value and target
+					if (buffer.value !== undefined) this.#buffer.value = buffer.value || 0;
+					if (buffer.operator && prevCheck.operator) this.#buffer.operator = buffer.operator;
+					if (buffer.target && prevCheck.target) {
+						this.#buffer.target = buffer.target;
+						this.#buffer.targetPath = buffer.targetPath;
+					}
+					
+					// Override all check options
+					this.#buffer.options = {...buffer.options, silent:true}; // Avoids a double message
+
+					this.#exeCheck();
+					this.#buffer.options.silent = buffer.options.silent;
+
+					// On success, hinder any following Else effects from executing
+					this.#local.elseresult = this.var.checkresult;
+				} else {
+					this.#local.elseresult = true;
+					this.#local.checkresult = true;
+					this.#local.checkstring = "success";
 				}
-
-				console.log("#buffer:", {...this.#buffer});
-
-				// Override all check options
-				this.#buffer.options = {...buffer.options, silent:true}; // Avoids a double message
-				this.#buffer.percent = buffer.percent;
-				this.#buffer.compare = buffer.compare;
-
-				this.#exeCheck();
-				this.#buffer.options.silent = buffer.options.silent;
-
-				// On success, hinder any following Else effects from executing
-				this.#local.elseresult = this.var.checkresult;
 			}
 			else {
 				this.#local.elseresult = prevCheck.#local.elseresult;
@@ -18492,38 +18663,38 @@ class effectNode extends dataNode {
 			}
 		}
 		else {
-			let checkNode = this.targetNode;
-			let checkProp;
+			let node = this.targetNode;
+			let prop;
 			
 			switch (this.targetPath[0]) {
-				case "ailments": checkProp = "count"; break;
-				case "bar": checkProp = this.target; break;
-				case "resource": checkProp = "current"; break;
+				case "ailments": prop = "count"; break;
+				case "bar": prop = this.target; break;
+				case "resource": prop = "current"; break;
 			}
 
-			if (checkNode) {
+			if (node) {
 
 				// Handle #Scaling
 				if (this.options.scaling) {
-					this.#local.scaling = Math.floor(checkNode.immutable[checkProp] / this.value) * this.var.scaling;
+					this.#local.scaling = Math.floor(node.immutable[prop] / this.value) * this.var.scaling;
 		
 					if (Number(this.options.scaling)) {
 						this.#local.scaling = Math.max(Math.min(this.#local.scaling, this.options.scaling), 1);
 					}
-					if (is(this.options.compare).In("<", "<=")) {
+					if (this.operator && is(this.operator).In("<", "<=")) {
 						this.#local.scaling++
 					}
 				}
 
 				// TODO: Add a #Current option that makes Require/Consume use the current value, not the immutable one
-				this.#local.checkresult = mathOperation(this.options.compare || ">=", checkNode.immutable[checkProp], roundTowardsZero(this.value * this.var.scaling));
+				this.#local.checkresult = mathOperation(this.operator || "<=", roundTowardsZero(this.value * this.var.scaling), node.immutable[prop]);
 				this.#local.checkstring = (this.#local.checkresult) ? "success" : "failure";
 		
 				if (this.name == "Consume" && this.#local.checkresult) {
-					if (checkNode.immutable[checkProp] < this.value * 2) {
+					if (node.immutable[prop] < this.value * 2) {
 						this.#local.checkstring = "last success";
 					}
-					checkNode[checkProp] = parseInt(checkNode[checkProp]) - roundTowardsZero(this.value * this.var.scaling);
+					node[prop] = parseInt(node[prop]) - roundTowardsZero(this.value * this.var.scaling);
 
 					let clone = this.#addToButton("Apply ailments", {color:"purple", icon:"icons/lose", chatButton:true});
 					clone.value = 1;
@@ -18545,13 +18716,15 @@ class effectNode extends dataNode {
 		let checkName = `${(this.name != "Else" && this.#local.elseresult !== undefined) ? "Else " : ""}${this.name}`;
 
 		// TODO: Output chat message
-		console.log(`exeCheck | ${checkName} ${this.value} ${this.target || ""}: ${this.#local.checkstring}, scaling: ${this.#local.scaling}`);
+		console.log(`exeCheck | ${checkName} ${this.value} ${this.operator || ""} ${this.target || ""}: ${this.#local.checkstring}, scaling: ${this.#local.scaling}`);
 	}
 
+
 	#exeAilment() {
-		let ailNode = (this.name == "Inflict") ? this.targetNode : navPath(this.targetPath, {start:this.root});
-		let ailRound = (ailNode.settings.next_round) ? this.options.round || "next" : "this";
-		let ailProp = (ailRound == "this") ? "count" : "count_next_round";
+		let node = (this.name == "Inflict") ? this.targetNode : navPath(this.targetPath, {start:this.root});
+		let round = (node.settings.next_round) ? this.options.round || "next" : "this";
+		let prop = (round == "this") ? "count" : "count_next_round";
+		let value = roundTowardsZero(this.value * this.var.scaling);
 
 		if (this.name != "Gain") {
 			let buttonOpts = (this.name == "Give")
@@ -18561,42 +18734,95 @@ class effectNode extends dataNode {
 			
 			let clone = this.#addToButton(buttonOpts.name, buttonOpts);
 			clone.name = "Gain";
-			clone.value = roundTowardsZero(this.value * this.var.scaling);
+			clone.value = value;
 		}
 		
-		if (ailNode) ailNode[ailProp] = parseInt(ailNode[ailProp]) + roundTowardsZero(this.value * this.var.scaling);
+		if (node) node[prop] = parseInt(node[prop]) + value;
 
 		// TODO: Output chat message
-		console.log(`exeAilment | ${this.name} ${this.target || ""}: ${ailNode.immutable[ailProp]} -> ${ailNode[ailProp]}`);
+		console.log(`exeAilment | ${this.name} ${this.target || ""}: ${node.immutable[prop]} -> ${node[prop]}`);
 	}
 
+
 	#exeBar() {
-		let barNode = this.targetNode;
-		let barProp = this.target;
+		let node = this.targetNode;
+		let prop = (this.targetNode[this.target]) ? this.target : "current"; // Used for Add/Set #Resource
+		let value = roundTowardsZero(this.value * this.var.scaling);
+		let oldValue = node[prop];
 
 		if (this.options.target) {
-			let buttonOpts = (this.value < 0)
-				? {name:"Apply damage", color:"red", icon:"icons/damage", chatButton:true}
-				: {name:"Apply regen", color:"green", icon:"icons/heal", chatButton:true}
+			let buttonOpts = {}
+
+			if (this.targetPath[1] == "bar") {
+				let isDamage = false;
+
+				switch (this.name) {
+					case "Add": isDamage = this.value < 0; break;
+					case "Multi": isDamage = this.value < 1; break;
+					case "Set": isDamage = (node) ? node[prop] < this.value : "no target"; break;
+				}
+				switch (isDamage) {
+					case "no target": buttonOpts = {name:"Apply effects", color:"green", icon:"icons/gear", chatButton:true}
+					case true: buttonOpts = {name:"Apply damage", color:"red", icon:"icons/damage", chatButton:true}
+					case false: buttonOpts = {name:"Apply regen", color:"green", icon:"icons/heal", chatButton:true}
+				}
+			} else {
+				buttonOpts = {name:"Apply resource", color:"orange", icon:"icons/fortunewhite", chatButton:true}
+			}
 
 			let clone = this.#addToButton(buttonOpts.name, buttonOpts);
 			clone.value = this.value * this.var.scaling;
 		}
 
-		if (barNode) {
+		if (node) {
 			switch (this.name) {
-				case "Add": barNode[barProp] = parseInt(barNode[barProp]) + roundTowardsZero(this.value * this.var.scaling); break;
-				case "Multi": barNode[barProp] = parseInt(barNode[barProp]) * roundTowardsZero(this.value * this.var.scaling); break;
-				case "Set": barNode[barProp] = roundTowardsZero(this.value * this.var.scaling); break;
+				case "Add": node[prop] = parseInt(node[prop]) + value; break;
+				case "Multi": node[prop] = parseInt(node[prop]) * value; break;
+				case "Set": node[prop] = value; break;
+			}
+
+			if (this.targetPath[1] == "resource" && node[prop] > oldValue) { // This max value change should be reset on round end
+				node.max += node[prop] - oldValue;
 			}
 		}
-		
+
 		// TODO: Output chat message
-		console.log(`exeAilment | ${this.name} ${this.target || ""}: ${barNode.immutable[barProp]} -> ${barNode[barProp]}`);
+		console.log(`exeAilment | ${this.name} ${this.target || ""}: ${node.immutable[prop]} -> ${node[prop]}`);
 	}
 
-	#exeDice() {
 
+	#exeDice() {
+		let prop = this.name.toLowerCase().replace("dice", "");
+		let value = roundTowardsZero(this.value * this.var.scaling);
+		let multirollIDs = []
+
+		// TODO: Should later affect all rolls, or one roll by index
+		let rolls = this.root.rolls;
+
+		for (let roll of rolls) {
+
+			// DiceCount should only apply to the first roll of a multiroll
+			if (this.name == "DiceCount" && is.ID(roll.multiroll)) {
+				if (!multirollIDs.includes(roll.multiroll)) {
+					multirollIDs.push(roll.multiroll);
+					roll.count += value;
+				}
+			}
+
+			// DiceAdv adds +1/-1 adv to N rolls, or +N/-N adv to one specific roll
+			else if (this.name == "DiceAdv" && rolls.length > 1 && value) {
+				switch (Math.sign(value)) {
+					case 1: roll.adv = parseInt(roll.adv) + 1; value--; break;
+					case -1: roll.adv = parseInt(roll.adv) - 1; value++; break;
+				}
+			}
+			else {
+				roll[prop] = parseInt(roll[prop]) + value;
+			}
+		}
+
+		// TODO: Output chat message
+		// May need special handling for multirolls
 	}
 
 	#exeDamage() {
@@ -18906,9 +19132,6 @@ class effectNode extends dataNode {
 			}
 		}
 	}
-
-
-
 }
 
 
@@ -19110,6 +19333,7 @@ const accessData = {
 
 		const stateData = {
 			event: [false],
+			roll: ["event"],
 			effect: ["roll", "use"],
 		}
 
@@ -19141,9 +19365,9 @@ const accessData = {
 			await callback(newState || this._state);
 			this._access_stack.pop();
 		}
-
+		
 		// Only runs if the access wasn't already ended inside the callback function
-		if (this._access_stack.length == 0 && this._state) {
+		if (this._access_stack.length == 0 && !is(this._state).In("effects", "output")) { // TODO: May not work for state = "error"
 			this._end(charID);
 		}
 	},
@@ -19157,7 +19381,7 @@ const accessData = {
 			}
 
 			// Execute all AutoEffects
-			if (this.effects.length > 0 && !is(this._state).In("error", "cancel")) {
+			if (this.effects?.length > 0 && this._state != "error") {
 				// TODO: Save backup
 				// Alternatively, use apply and save all the current output values to access._output
 				// Then you could later safely purge all the local outputs without affecting any non-autoeffect changes
@@ -19173,13 +19397,13 @@ const accessData = {
 					// TODO: Load backup
 				}
 			}
-
+	
 			// If at least one roll exists, add all messages and buttons generated by effects to the first roll
 			// TODO: Make this optional
-			if (this.rolls.length && this.rolls[0].message.display) {
+			if (this.rolls?.length && this.rolls[0].message.display) {
 				let rollButtons = this.rolls[0].message.buttons;
 
-				for (const message of [...this.message.sections]) {
+				for (const message of [...this.message.sections]) { // TODO: Is this spread operation needed anymore?
 					this.message.sections.delete(message.id);
 					this.rolls[0].message.sections.add(message);
 				}
@@ -19195,27 +19419,38 @@ const accessData = {
 					}
 				}
 			}
-
+			
 			// Output any messages to the chat
-			if (this.rolls.length || this.message.sections.length || this.message.buttons.length || this._state == "error") {
+			if (this.rolls?.length || this.message?.sections?.length || this.message?.buttons?.length || this._state == "error") {
 				await sendMessage();
 			}
 
 			// TODO: Make repeating conditional buttons sync to the sheet
 
 			// Clear all non-stored rolls and non-conditional effects
-			for (const rollID of this.rolls.repIDs) {
-				this.rolls.delete(rollID);
+			if (this.rolls?.length) {
+				for (const rollID of this.rolls.repIDs) {
+					this.rolls.delete(rollID);
+				}
 			}
-			this.effects.delete(0, this.effects.length);
+			if (this.effects?.length) {
+				this.effects.delete(0, this.effects.length);
+				this.effects._resetLocal({force:true});
+			}
 
 			// Reset all message data
-			for (const buttonID of this.message.buttons.repIDs) {
-				this.message.buttons.delete(buttonID);
+			if (this.message?.buttons?.length) {
+				for (const button of this.message.buttons.repIDs) {
+					this.message.buttons.delete(buttonID);
+				}
 			}
 
 			// TODO: Reset the rest of access.message
 			// access.message.rolls should clean itself. You just need to reset the header and description
+
+			/*
+			let testSync = (this._state != "no update");
+			*/
 
 			// Apply all output values to the sheet
 			this._state = "output";
@@ -19243,6 +19478,12 @@ const accessData = {
 					});
 					callback();
 				});
+
+				/*
+				if (testSync) {
+					transferData(attrs);
+				}
+				*/
 			}
 		}
 	},
@@ -19253,7 +19494,7 @@ const accessData = {
 			this._begin("init", async () => {
 				let newRoot = new dataNode(dataFormat, false, false, [ID]);
 				access[ID] = newRoot;
-				newRoot.type = type;
+				newRoot._type = type;
 				
 				let repids = await getSectionIDsOrdered(ID, sheetSections);
 	
@@ -19262,6 +19503,7 @@ const accessData = {
 					switch (section) {
 						case "ailments": repNode = newRoot.ailments; break;
 						case "tags": repNode = newRoot.tags; break;
+						case "variables": repNode = newRoot.global; break;
 						default: repNode = newRoot.items;
 					}
 					for (const repid of idArray) {
@@ -19275,7 +19517,7 @@ const accessData = {
 				}
 
 				// All items have at least one rollformat, even when the option is disabled
-				for (const item of newRoot.items.repNodes) {
+				for (const item of newRoot.items) {
 					if (item.rollformats.length == 0) {
 						item.rollformats.add();
 					}
@@ -19311,7 +19553,7 @@ const accessData = {
 
 				// Add a number of roll formats equal to the amount shown in the sheet
 				if (newRoot.items.length > 0) {
-					for (const rollNode of newRoot.items.repNodes.map(item => item.rollformats)) {
+					for (const rollNode of newRoot.items.map(item => item.rollformats)) {
 						for (let i = 1; i <= 4; i++) {
 							if (is.True(values.sheet[rollNode.attr(rollNode.repIDs[0], "sheet").slice(0, -1) + i])) {
 								rollNode.add();
@@ -19321,7 +19563,7 @@ const accessData = {
 				}
 
 				if (newRoot.items["delete_me_later"]) {
-					delete newRoot.items["delete_me_later"];
+					newRoot.items.delete("delete_me_later")
 					this._output = {sheet: {}, editor: {}}
 				}
 	
@@ -19357,11 +19599,13 @@ const accessData = {
 					for (const source in eventkeys) {
 						on(eventkeys[source].join(" "), function(info) {
 							access._begin("sync", async () => {
-								if (!info.newValue) { // Attributes like hp_max for some reason do not include their value in the event info
-									let values = await getAttrsAsync([info.sourceAttribute]);
-									info.newValue = values[info.sourceAttribute];
+								if (access.currentID) {
+									if (!info.newValue) { // Attributes like hp_max for some reason do not include their value in the event info
+										let values = await getAttrsAsync([info.sourceAttribute]);
+										info.newValue = values[info.sourceAttribute];
+									}
+									access.currentID.input({[source]: {[info.sourceAttribute]: info.newValue}});
 								}
-								access.currentID.input({[source]: {[info.sourceAttribute]: info.newValue}});
 							});
 						});
 					}
@@ -19442,7 +19686,10 @@ const accessData = {
 					return true;
 				}
 
-				if (!is.ID(step) && step != "N" && /[A-Z\s]/.test(step)) {
+				if (snakeify(step) == "n") {
+					step = "N";
+				}
+				else if (!is.ID(step) && /[A-Z\s]/.test(step)) {
 					step = snakeify("" + step); // '"" + ' hinders issues with number values
 					path[i] = step; // Makes sure the modified step is added to the event tree
 				}
@@ -19509,7 +19756,10 @@ const accessData = {
 			for (let i = opts.i || 0; i < path.length; i++) {
 				let step = path[i];
 
-				if (!is.ID(step) && step != "N" && /[A-Z\s]/.test(step)) {
+				if (snakeify(step) == "n") {
+					step = "N";
+				}
+				else if (!is.ID(step) && /[A-Z\s]/.test(step)) {
 					step = snakeify("" + step); // '"" + ' hinders issues with number values
 				}
 
@@ -19614,7 +19864,7 @@ const accessData = {
 			// Retrieve the error format
 			errorType = getTranslationByKeyCustom(errorCode, `${errorCode}-type`);
 			let errorText = getTranslationByKeyCustom(errorCode, `${errorCode}-message${(variant) ? `-${variant}` : ""}`);
-
+			
 			// Store the error. Errors are posted during access._end()
 			if (!this.errors[errorType]) {
 				this.errors[errorType] = []
@@ -19644,39 +19894,6 @@ const accessData = {
 		}
 	},
 	
-	
-	// List of illegal prop names
-	// Cannot be added as local or global variables
-	// Remember to remove leading underscores and converting to lowercase before comparing with these props
-	// - add, delete, modify, N: Reserved for events
-	// - id, index: Reserved for repeating ids and indexes
-	// - type: Reserved for access[charID].type
-	// - items, ailments, etc: Reserved for access[charID].subnode
-	//   - These can both be summarized as "do not allow prop if 'prop in access[charID]'"
-	// - this.ID: Reserved for AutoScripts
-	//   - This parses to the id of the item/ailment containing the AutoScript
-	//   - The value is inserted into AutoScripts as they're collected from different items. Does not appear in access
-	//   - Similairly, the item's id is added to access._events instead of "ownID"
-	//   - Since the code recalculates access._events after adding/removing an item, saving an AutoScript, or applying access._output, this id should be up to date
-	// - this.Index: As itemID, but for indexes
-	//   - Works basically the same as ownID for items, but for rollformat AutoScripts it matches the index of the format
-	//   - If type == "id", adds the id to access._events instead of the index
-	// - this.Name: As itemID, but for the item's name
-	//   - Is never added to access._events, instead using its id or index (based on type == "id"/"index")
-	// - Min, Max, StartsWith, etc: Reserved for math functions
-	// - +, -, *, etc: Props may not include anything but letters, numbers and underscores
-
-
-	// List of limited prop names
-	// Can be accessed and modified as normal, but cannot be used as global variable names
-	// Effects like (Local scaling = 5) is still accepted, although the variable setup process is skipped since it already exists in local
-	// - scaling, checkresult, event: Reserved for AutoEffect executions
-
-	// (Local/Global var = N) is really just "Is var in local/global? If not, is var legal? If yes, add it to local/global" + (Set var = N)
-
-
-
-
 	// A collection of functions used for calculating and/or applying derived data in access
 	// "derived" here means any data which is calculated from multiple properties in access, ex. custom events from AutoScripts
 	// Should not cause any events, except for properies which cannot trigger events in any other way
@@ -19715,7 +19932,7 @@ const accessData = {
 
 				// Only add events from equipped items with at least one trigger block
 				if (access[id] instanceof dataNode) {
-					for (const item of access[id].items.repNodes) {
+					for (const item of access[id].items) {
 						if (item.equipped && /\[(#.+?#)\]/g.test(item.autoscript)) {
 							autoScriptArray.concat(autoScriptToArray(item.autoscript));
 						}
@@ -19732,11 +19949,11 @@ const accessData = {
 		// Re-applies any user-defined JQuery styling
 		jquery(IDs) {
 			for (const ID of this.parseIDs(IDs)) {
-				for (const item of access[ID].items.repNodes) {
+				for (const item of access[ID].items) {
 					recalcCustomColors(item);
 					recalcCustomPosition(item);
 				}
-				for (const tag of [...access[ID].tags.repNodes, ...access[ID].slots.repNodes]) {
+				for (const tag of [...access[ID].tags, ...access[ID].slots]) {
 					recalcCustomColors(tag);
 				}
 			}
@@ -19757,7 +19974,7 @@ const accessData = {
 				
 				// Recalculate both tags and slots unless otherwise specified
 				for (const target of targets) {
-					for (const item of items.repNodes) {
+					for (const item of items) {
 
 						// Parse tags from the raw text if this hasn't been done already
 						for (type of types) {
@@ -19770,11 +19987,11 @@ const accessData = {
 
 						// Only gain tags and slots from equipped items
 						if (item.equipped && item[target].enabled && item[target].gives.enabled) {
-							for (const tagNode of item[target].gives.repNodes) {
+							for (const tagNode of item[target].gives) {
 								let [tag, value] = [snakeify(tagNode.name), tagNode.value];
 
-								if (!tags.repNodes.some(node => node.name.toLowerCase() == tagNode.name.toLowerCase())) {
-									tags.add({silent:"hard"}).modify("_name", tagNode.name, {silent:"hard"});
+								if (!tags.some(node => node.name.toLowerCase() == tagNode.name.toLowerCase())) {
+									tags.add({silent:"hard"}).modify("name", tagNode.name, {silent:"hard"});
 								}
 
 								if (!tagData[tag]) tagData[tag] = {current:0, max:0}
@@ -19787,7 +20004,7 @@ const accessData = {
 				}
 
 				// Add in any base values, as well as tags not currently gained from any items
-				for (const tag of tags.repNodes.map(node => snakeify(node.name))) {
+				for (const tag of tags.map(node => snakeify(node.name))) {
 					if (!tagData[tag]) tagData[tag] = {current:0, max:0, is_slot:tags[tag]?.is_slot || false}
 					tagData[tag].current += Number(tags[tag]?.base || 0);
 					tagData[tag].max += Number(tags[tag]?.base || 0);
@@ -19795,7 +20012,7 @@ const accessData = {
 
 				// Recalculate equip restrictions for all items that require tags and/or slots
 				// Checks equipped items first to use slots
-				for (const item of items.repNodes.sort((a, b) => +b.equipped - +a.equipped)) {
+				for (const item of items.sort((a, b) => +b.equipped - +a.equipped)) {
 					let reqFailure = {}
 
 					for (const target of targets) {
@@ -19804,7 +20021,7 @@ const accessData = {
 						// Check all requirements for applicable items
 						if (!(item[target].enabled && reqNode.enabled)) continue;
 							
-						for (const tag of reqNode.repNodes) {
+						for (const tag of reqNode) {
 							let current = tagData[snakeify(tag.name)]?.current || 0;
 
 							if (current < tag.value) {
@@ -19814,7 +20031,7 @@ const accessData = {
 						}
 
 						// Slots are reduced when used to equip an item
-						for (const tag of reqNode.repNodes) {
+						for (const tag of reqNode) {
 							if (target == "slots" && item.equipped && tagData[snakeify(tag.name)]) {
 								tagData[snakeify(tag.name)].current -= tag.value;
 							}
@@ -19833,11 +20050,11 @@ const accessData = {
 				}
 
 				// Assign new tag and slot values
-				for (const tag of tags.repNodes.map(node => snakeify(node.name))) {
+				for (const tag of tags.map(node => snakeify(node.name))) {
 					if (tags[tag]) {
-						tags[tag].modify("_current", tagData[tag]?.current || 0, {eventinfo: {noRecalc:true}});
-						tags[tag].modify("_max", tagData[tag]?.max || 0, {eventinfo: {noRecalc:true}});
-						tags[tag].modify("_is_slot", tagData[tag]?.is_slot, {eventinfo: {noRecalc:true}});
+						tags[tag].modify("current", tagData[tag]?.current || 0, {eventinfo: {noRecalc:true}});
+						tags[tag].modify("max", tagData[tag]?.max || 0, {eventinfo: {noRecalc:true}});
+						tags[tag].modify("is_slot", tagData[tag]?.is_slot, {eventinfo: {noRecalc:true}});
 					}
 				}
 			}
@@ -19849,7 +20066,7 @@ const accessData = {
 				for (ID of this.parseIDs(ID)) {
 					if (!(ID in access)) continue;
 					
-					for (const item of access[ID].items.repNodes) {
+					for (const item of access[ID].items) {
 						recalcItemWeight(item);
 					}
 				}
@@ -19950,7 +20167,7 @@ function itemChangeSection(item, section, opts={}) {
 		updateSources(item);
 
 		if (!newSection.includes(item.type)) {
-			item.modify("_type", capitalize(newSection.replace(/s$/ig, "")), {silent:"hard"})
+			item.modify("type", capitalize(newSection.replace(/s$/ig, "")), {silent:"hard"})
 		}
 
 		item.output(access._output, {allProps:true});
@@ -20055,6 +20272,19 @@ onAccess("clicked:addItem " + itemEvent("remove") + ["rollformats", "tags"].redu
 		for (let i = 0; i <= 4; i++) {
 			access._output.sheet[node.attr(node.repIDs[0], "sheet").slice(0, -1) + i] = (i < node.length) ? "true" : "0";
 		}
+	}
+});
+
+/* Editor - Add/delete global variable */
+onAccess("clicked:addVariable remove:repeating_variables", {}, function(info) {
+	let type = info.triggerName.split(":")[0];
+	
+	if (type == "remove") {
+		console.log("Delete variable");
+		access.global.delete(info.sourceAttribute.split("_")[2]);
+	} else {
+		console.log("Add variable");
+		access.global.add({id:generateRowID().toLowerCase()});
 	}
 });
 
@@ -20194,12 +20424,12 @@ function recalcTagsFromRaw(node, opts={}) {
 		[tag, value, symbol] = [snakeify(match[1]), Number(match[2] || 1),  match[3]]
 		tags[tag] = value;
 
-		node.add({id:tagID, silent:"hard"}).modify("_name", match[1], {silent:"hard", eventinfo: {noRecalc:true}});
+		node.add({id:tagID, silent:"hard"}).modify("name", match[1], {silent:"hard", eventinfo: {noRecalc:true}});
 	}
 
 	// Assign tag values. "noRecalc" ensures no tag recalcs are caused by these events
-	for (const tagNode of node.repNodes) {
-		tagNode.modify("_value", tags[snakeify(tagNode.name)] || 0, {...opts, eventinfo: {noRecalc:true}});
+	for (const tagNode of node) {
+		tagNode.modify("value", tags[snakeify(tagNode.name)] || 0, {...opts, eventinfo: {noRecalc:true}});
 	}
 
 	// Recalculate equip requirements if applicable
@@ -20215,12 +20445,12 @@ function recalcTagsFromProps(node) {
 	access._recalc.equip(node.path[0]);
 	
 	// Update the raw tag text
-	let tagText = node.repNodes
+	let tagText = node
 		.filter(tag => tag.value != 0)
 		.map(tag => `${tag.name} ${tag.value}`)
 		.join(", ");
 
-	node.modify("_raw_text", tagText);
+	node.modify("raw_text", tagText);
 }
 
 /* Rolls - Begin item roll */
@@ -20236,12 +20466,14 @@ onAccess(itemEvent("clicked", "item-roll"), {}, function(info) {
 
 	// Add any AutoEffects on the item
 	if (item.autoscript != "") {
-		access.effects.add(item.autoscript);
+		let itemBlock = access.effects.add("(Block)")[0];
+		itemBlock._addVar("item", item); // Saves a reference to the item the AutoEffects originate from
+		itemBlock.add(item.autoscript);
 	}
 
 	// Execute the roll(s)
 	access._event.trigger([...rollNode.path, "roll"], {
-		node:rollNode, type:"roll", multiroll:true, use_resource:true,
+		node:rollNode, type:"roll", use_resource:true,
 	}, {});
 });
 
@@ -20253,10 +20485,10 @@ onAccess([
 	let rollArray = [info.node]
 
 	if (is(info.path.at(-2)).In("rollformats", "rolls")) {
-		rollArray = info.node.repNodes.filter(roll => roll.mode == "Roll");
+		rollArray = info.node.filter(roll => roll.mode == "Roll");
 	}
 
-	executeRolls(cleanRolls(rollArray), {use_resource:info.use_resource, multiroll:info.multiroll});
+	executeRolls(cleanRolls(rollArray), {use_resource:info.use_resource});
 })
 
 // Clones all rollformats in an roll array to avoid the original rollformats being modified
@@ -20272,6 +20504,8 @@ function cleanRoll(roll) {
 
 	clone._id = generateRowID().toLowerCase();
 	clone._attrs = {}
+	delete clone.result;
+	delete clone.result_dice;
 
 	for (const prop of clone.keys.filter(key => clone[key] instanceof dataNode)) {
 		clone[prop]._attrs = {}
@@ -20347,11 +20581,11 @@ onAccess(["resource", ["reaction", "universal", "counter", "block", "evade"], "m
 		}
 		
 		let newSum = parseInt(resource.reaction[attr]) - ["counter", "block", "evade"].reduce((acc, type) => acc += parseInt(resource[type][attr]), 0);
-		resource.universal.modify(`_${attr}`, newSum, {silent:"hard"});
+		resource.universal.modify(attr, newSum, {silent:"hard"});
 	} else {
 		for (const attr of ["current", "max", "base"]) {
 			let newSum = ["universal", "counter", "block", "evade"].reduce((acc, type) => acc += parseInt(resource[type][attr]), 0);
-			resource.reaction.modify(`_${attr}`, newSum, {silent:"hard"});
+			resource.reaction.modify(attr, newSum, {silent:"hard"});
 		}
 	}
 });
@@ -20416,6 +20650,47 @@ on("clicked:expandtrackers clicked:edittrackers", function(info) {
 	});
 });
 */
+
+/* Roll - Modify roll values */
+onAccess(["rolls", "N", "modify", ["count", "max", "power", "adv"]], {}, function(info) {
+	let roll = info.node;
+	let prop = info.path.at(-1);
+	let value = info.newval - info.oldval;
+
+	if (prop == "power") {
+		roll.result += value;
+	}
+	else if (prop == "max") {
+		simulateRoll(roll, {updateRoll:true, difficulty:true});
+	}
+	else if (prop == "count") {
+		if (is.ID(roll.multiroll)) {
+			let multiRolls = roll.parent.filter(r => r.multiroll == roll.multiroll);
+			let multiCount = multiRolls.length;
+			roll.modify(prop, 1, {silent:"hard"});
+
+			while (value > 0) {
+				executeRolls(cleanRoll(roll)); value--
+			}
+			while (value < 0 && multiCount < 1) {
+				roll.parent.delete(multiRolls.pop().id); multiCount--; value++
+			}
+		} else {
+			let newCount = Math.max(roll.count + value, 1)
+			roll.modify(prop, newCount, {silent:"hard"}); 
+
+			simulateRoll(roll, {rollDice:roll.result_dice, updateRoll:true, difficulty:true});
+		}
+	}
+	else if (prop == "adv") {
+		let newAdv = Math.min(Math.max(roll.count + value, 1), -1); // TODO: Add a max adv/disadv game setting to control these values
+		roll.modify(prop, newAdv, {silent:"hard"}); 
+
+		simulateRoll(roll, {rollDice:roll.result_dice, updateRoll:true, difficulty:true});
+	}
+});
+
+
 
 
 
@@ -20689,8 +20964,8 @@ $20('[class^="drag"]:not(.drag1)').on("mouseenter", (info) => {
 	custom.position.apply(".dragDetector", info.pageX, info.pageY);
 	
 	// Dragging an item only triggers an event for the final position
-	coords.modify("_x", info.pageX, {silent:"hard"});
-	coords.modify("_y", info.pageY, {silent:"hard"});
+	coords.modify("x", info.pageX, {silent:"hard"});
+	coords.modify("y", info.pageY, {silent:"hard"});
 	custom.position.apply(".dragTarget", info.pageX, info.pageY);
 });
 
@@ -24235,11 +24510,19 @@ const newOperators = {
 	"Max": {min: 2, max:"any", calc: (...args) => Math.max.apply(null, args), func:true},
 	"Floor": {min: 1, max: 1, calc: (a) => Math.floor(a), func:true},
 	"Ceil": {min: 1, max: 1, calc: (a) => Math.ceil(a), func:true},
-};
+}
 
-
-
-
+// Assignment operators. Only accessible to users through AutoEffects
+const assignOperators = {
+	"=": {min: 3, max: 3, calc: (a,b,c) => a[b]=c},
+	"+=": {min: 3, max: 3, calc: (a,b,c) => is.Float(a[b]) ? a[b]=Number(a[b])+c : a[b]+=c},
+	"-=": {min: 3, max: 3, calc: (a,b,c) => is.Float(a[b]) ? a[b]=Number(a[b])-c : false},
+	"*=": {min: 3, max: 3, calc: (a,b,c) => is.Float(a[b]) ? a[b]=Number(a[b])*c : false},
+	"/=": {min: 3, max: 3, calc: (a,b,c) => is.Float(a[b]) ? a[b]=Number(a[b])/c : false},
+}
+function assignmentOperation(obj, prop, op, value) {
+	return assignOperators[op].calc.apply(assignOperators[op], [obj, prop, value]);
+}
 
 // Regular expressions used for parsing math strings
 // Matches in the order they're written here
@@ -24341,7 +24624,9 @@ function newMathParser(mathString, opts={}, error={}, vars={}) {
 						}
 					}
 				} else {
-					let result = navPath(path, {userPath:true, start:opts.var}) || navPath(path, {userPath:true, start:opts.root}, error);
+					let result = navPath(path, {userPath:true, start:opts.var}); // Local / global variable
+					if (result === undefined) result = navPath(path, {userPath:true, start:opts.root}, error); // Access property
+					
 					console.log("Path", pathArrayToString(path), "returned value", Number(result) || result);
 
 					if (result != null) {

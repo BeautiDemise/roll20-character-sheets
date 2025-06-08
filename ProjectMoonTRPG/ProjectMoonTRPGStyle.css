@@ -462,14 +462,12 @@ body, .sheet-body {
     background-color: transparent !important;
     pointer-events: none;
 }
-.editorContainer label {
-    color: #B3B3B3;
-}
 .editorInput {
     resize: vertical;
     min-height: 60px;
     height: 120px;
     max-height: 500px;
+    max-width: 100%;
 }
 
 /* Generic icons */
@@ -810,7 +808,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 }
 
 /* Custom repcontrols */
-:is(.inventoryContainer, .itemOptionContainer, #itemSettings) {
+:is(.inventoryContainer, .itemOptionContainer, #itemSettings, #globalVariables) {
     :is(.repcontrol_edit, .repcontrol_add, .repcontrol_del, .repcontrol_move) {
         min-width: 20px;
         margin: 0;
@@ -843,6 +841,11 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     /* A custom add button is used instead of the default one */
     .repcontrol .repcontrol_add {
         display: none !important;    
+    }
+    
+    /* Removes the red border around broken repitems */
+    .repitembroken {
+        border: 0 !important; 
     }
 }
 .repcontrol_header .repcontrol_add {
@@ -1233,8 +1236,8 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     overflow: hidden;
     height: 60px;
 }
-#FortitudeStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Fortitude.png'); }
-#PrudenceStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Prudence.png'); }
+#FortitudeStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Fortitude.png'); }
+#PrudenceStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Prudence.png'); }
 #JusticeStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Justice.png'); }
 #CharmStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Charm.png'); }
 #InsightStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Insight.png'); }
@@ -2505,9 +2508,6 @@ button[type=action].challengeButton::before {
     min-height: 550px;
     margin-top: 3px;
 }
-:is(#equipmentSection, .inventoryContainer, #itemSettings) .repitembroken {
-    border: 0 !important; /* Removes the red border around broken repitems */
-}
 .inventoryContainer {
     min-width: 400px;
     margin: 2px 5px;
@@ -2536,7 +2536,6 @@ button[type=action].challengeButton::before {
 
     .repcontrol {
         position: absolute;
-        display: flex;
         z-index: 25;
         top: 4px;
         right: 36px;
@@ -3509,10 +3508,16 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     top: 0px;
     left: 2%;
     width: 95%;
-    padding: 0 !important;
+    padding: 5px 7px !important;
 
     .editorHeader {
         background-color: transparent !important;
+        padding: 0;
+        margin-bottom: 5px;
+    }
+    .editorInput {
+        width: calc(100% - 14px);
+        margin-bottom: 4px;
     }
 }
 .hide-toggle-next:checked + #autoscriptEditor ~ #itemEditor {
@@ -3526,6 +3531,48 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .toggleStylingButton:checked ~ :is(#autoScriptStylingDefault, #autoScriptReturn) { display: block; }
 .toggleAliasButton:checked ~ :is(#autoScriptAliasDefault, #autoScriptReturn) { display: block; }
 :is(.toggleStylingButton, .toggleAliasButton):checked ~ :is(#autoScriptStyling, #autoScriptAlias) { display: none; }
+
+
+/* AutoEffect global variables */
+#globalVariables {
+    position: relative;
+
+    .contentHeader {
+        background-color: transparent;
+        
+        span {
+            color: var(--dark-secondarytext);
+            font-weight: bold;
+            font-size: 15px;
+            pointer-events: none;
+        }
+    }
+    .repcontrol_add {
+        position: absolute;
+        right: 0;
+    }
+    .repcontrol {
+        position: absolute;
+        top: 4px;
+        right: 32px;
+    }
+    
+    .variableContainer {
+        max-height: 110px;
+    }
+    .repcontainer {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .repitem {
+        width: calc(100% / 6);
+        padding: 0 2px 3px;
+
+        input[type="text"] {
+            width: 100%;
+        }
+    }
+}
 
 
 /* AutoEffect conditional buttons */
@@ -4863,7 +4910,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 
 .portable { background-image: url("https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png"); }
 .reusable { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/reuse.png'); }
-.heal { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/heal.png'); }
+.heal { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/heal.png') !important; }
 
 /* ===== Icons END ===== */
 
