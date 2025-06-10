@@ -8711,7 +8711,7 @@ const autoEffectFormats = {
 	"CustomMessage":	{value:"string", 	target:false},
 	"Require":			{value:"number", 	target:["#Ailment", "#Bar", "#BarDamage", "#Resource"], 	operatorOptional:true, percentageValue:true},
 	"Consume":			{value:"number", 	target:["#Ailment", "#Bar", "#Resource"],					percentageValue:true},
-	"Reset":			{value:false,    	target:false},
+	"Reset":			{value:false,    	target:false}, 												// Included for legacy support. Treated as (/End)
 	"Gain":				{value:"number", 	target:["#Ailment"],										maxLengthMod:1},
 	"Inflict":			{copy: "Gain"},
 	"Give":				{copy: "Gain"},
@@ -8736,25 +8736,28 @@ const autoEffectFormats = {
 	"Access":			{value:true,		target:["#Path"],		  									reverse:true},
 	"Global":			{value:true,		target:["#Var"],		  									reverse:true},
 	"Local":			{value:true,		target:["#Var"],		  									reverse:true},
+	"For":				{value:"var",		target:["#Path"]},
+	"While":			{copy: "If"},
+	"Roll":				{value:"roll",		target:["#Stat", "#Combat", "#Var"],						valueOptional:true},
 }
 
 const autoEffectBlocks = {
-	"Block": ["/Block", "/End"],
-	"Require": ["/Require", "Else", "/End"],
-	"Consume": ["/Consume", "Else", "/End"],
-	"If": ["/If", "Else", "/End"],
-	"Else": ["/Else", "Else", "/End"],
-	"While": ["/While", "/End"],
+	"Block": ["/Block", "/End", "Reset"],
+	"Require": ["/Require", "Else", "/End", "Reset"],
+	"Consume": ["/Consume", "Else", "/End", "Reset"],
+	"If": ["/If", "Else", "/End", "Reset"],
+	"Else": ["/Else", "Else", "/End", "Reset"],
+	"While": ["/While", "/End", "Reset"],
 }
 
 const autoEffectOperators = {
-	"Require": [">","<",">=","<="],
-	"Else": [">","<",">=","<="],
+	"Require": ["==",">","<",">=","<="],
+	"Else": ["==",">","<",">=","<="],
 	"Access": ["=","+=","-=","*=","/="],
 	"Global": ["="],
 	"Local": ["="],
+	"For": ["in"],
 }
-
 
 /* Contains details on the available options for AutoEffects, conditionals and triggers */
 const autoEffectOptions = {
@@ -8795,6 +8798,7 @@ const errorData = {
 	autoeffect: {
 		"Invalid AutoEffect": "name",
 		"Invalid Value": "value",
+		"Invalid Operation": "operation",
 		"Invalid Target": "target",
 		"Invalid Format": "format",
 		"Invalid Option": "option",
@@ -8802,7 +8806,7 @@ const errorData = {
 		"Invalid Round": "round",
 		"Invalid Duration": "duration",
 		"Invalid Percentage": "percentage",
-		"Invalid Operation": "operation",
+		"Parsing Error": "parsing",
 	},
 	alias: {
 		"Alias Error": "",
@@ -9396,9 +9400,11 @@ class checkVal {
 	static Int(i, opts={}) { return is.Float(i) && i % 1 == 0; }
 	static Float(i, opts={}) { return !isNaN(Number(i)) && this.Opts(Number(i), opts); }
 	static String(s, opts={newlines:false}) { return typeof(s) == "string" && (opts.newline) ? !s.includes("\n") : true; }
-	static True(b) { return ["true", "1"].includes("" + b); }
-	static False(b) { return ["false", "0"].includes("" + b); }
-	static Bool(b) { return ["false", "true", "0", "1"].includes("" + b); }
+	static True(b) { return includesSnakeify(["true", "1"], "" + b); }
+	static False(b) { return includesSnakeify(["false", "0", "undefined"], "" + b); }
+	static Bool(b) { return is.True(b) || is.False(b); }
+	static Truthy(b) { return b && !is.False(b); }
+	static Falsey(b) { return !is.Truthy(b); }
 	
 	static Array(a, opts={}) { return Array.isArray(a) && this.Opts(a.length, opts); }
 	static Object(o, opts={}) { return typeof(o) == "object" && !Array.isArray(o) && this.Opts(length(o), opts); }
@@ -13097,7 +13103,8 @@ async function sendMessage(rollArray, message) {
 	if (!rollArray) rollArray = access.rolls;
 	if (!message) message = access.message;
 
-	let msgID = generateRowID(); // TODO: Consider making this the character's id
+	let msgID = generateRowID();
+	let charID = getActiveCharacterId();
 	
 	let headerTitle = message.header.title || rollArray?.[0]?.type || "";
 	let headerDice = []; // Any dice that are displayed in the header. Does not include inline rolls
@@ -13120,7 +13127,7 @@ async function sendMessage(rollArray, message) {
 	if (rollArray.length > 0) {
 		msgSections.push(`<div class="sheet-section-deselect"><div class="sheet-section-toggle" dir" " dir=$[[0.computed]]></div></div>`);
 		msgRolls.push(`{{id=${msgID}}} {{rollX=[[0]]}}`);
-		msgReplace.rollX = `"><input type="radio" id="sheet-rollX${msgID}" name="diceSelect" name="`;
+		msgReplace.rollX = `"><input type="radio" id="sheet-rollX${msgID}" name="diceSelect${charID}" name="`;
 		replaceIndex++
 	}
 
@@ -13141,14 +13148,6 @@ async function sendMessage(rollArray, message) {
 		if (roll.power) rollMod += ((roll.power >= 0) ? "+" : "") + roll.power;
 		if (difficulty !== 0) rollMod += `+(${difficulty})`;
 		if (multiPenalty !== 0) rollMod += ((multiPenalty > 0) ? "+" : "") + multiPenalty;
-
-		let prefix = "", suffix = "";
-
-		/*
-		if (roll.count > 1 && roll.adv !== 0) {
-			prefix = "("; suffix = ")";
-		}
-		*/
 
 		// Prepare the pre-roll tooltip
 		switch (Math.sign(roll.adv)) {
@@ -13171,7 +13170,7 @@ async function sendMessage(rollArray, message) {
 					critClasses.fullfail = true;
 				}
 				
-				return (base ? "+" : "") + `&#60;span class=&quot;basicdiceroll ${rollClass}&quot;&#62;${d}&#60;/span&#62;`;
+				return base += (base && "+") + `&#60;span class=&quot;basicdiceroll ${rollClass}&quot;&#62;${d}&#60;/span&#62;`;
 			}, "");
 
 			if (r.length > 1 && roll.adv != 0) {
@@ -13213,54 +13212,46 @@ async function sendMessage(rollArray, message) {
 
 		// Handle roll messages / sections
 		if (roll.message.display) {
+			let sectionInsert = "";
+			let sectionButtons = []
 
 			// Generate the header roll
 			headerDice.push(`<label for="sheet-roll${sectionIndex}${msgID}">${roll.insert}</label>`);
 
-			// Generate the roll section
-			let sectionHeader = "Test section"; // TODO: Add the actual header and contents data
-			let sectionContents = []
-			let sectionButtons = []
+			// Generate roll section(s)
+			for (const section of roll.message.sections) {
+				let sectionHeader = section.header.title;
+				let sectionIcon = section.header.icon;
+				let sectionIconAttrs = (section.header.color.icon) ? ` style="background-color: ${getColor(section.header.color.icon)}"` : false;
+				let sectionContents = []
 
-			// TODO: Remove these test messages
-			let sectionMessage = `Rolled ${roll.count}d${roll.max}${rollMod} = ${roll.result}`;
-			sectionContents.push(`<div class="sheet-section-message">${sectionMessage}</div>`);
-			sectionContents.push(`<div class="sheet-section-message">Inline roll: ${roll.insert}</div>`);
-
-			// TODO: Loop across all messages for a roll and add them as contents
-
-			console.log("rollArray:", [...rollArray]);
-			console.log("effects:", [...roll.root.effects]);
-
-			if (roll == rollArray[0]) {
-				for (const block of roll.root.effects) {
-					if (!block.var.item) break;
-					for (const effect of block) {
-						sectionContents.push(`<div class="sheet-section-message">${effect.toString()}</div>`);
-					}
+				for (const message of section.contents) {
+					sectionContents.push(`<div class="sheet-section-message">${message.text}</div>`);
 				}
+
+				sectionIcon &&= `${getIcon(sectionIcon, "html", 'class="sheet-icon"' + sectionIconAttrs)}`;
+				sectionHeader &&= `<div class="sheet-header-wrapper">${sectionIcon || ""}<b class="sheet-title">${sectionHeader}</b></div>`;
+				sectionContents &&= `<div class="sheet-section-contents">${sectionContents.join("")}</div>`;
+				sectionInsert += (sectionHeader || "") + (sectionContents || "");
 			}
-			for (const block of roll.root.effects) {
-				if (block.var.roll?.id == roll.id) {
-					for (const effect of block) {
-						sectionContents.push(`<div class="sheet-section-message">${effect.toString()}</div>`);
-					}
-				}
-			}
-			
+
 			// Generate any roll specific buttons
 			for (const button of roll.message.buttons) {
 				if (button.display) sectionButtons.push(button.insert);
 			}
+			if (sectionButtons.length) {
+				sectionInsert += `<div class="sheet-button-wrapper">${sectionButtons.join("")}</div>`;
+			}
 
-			sectionHeader = `<div class="sheet-header-wrapper"><b class="sheet-title">${sectionHeader}</b></div>`
-			sectionContents = `<div class="sheet-section-contents">${sectionContents.join("")}</div>`;
-			sectionButtons = `<div class="sheet-button-wrapper">${sectionButtons.join("")}</div>`;
-			
-			let sectionInsert = sectionHeader + sectionContents + sectionButtons;
+			/*
+			let sectionMessage = `Rolled ${roll.count}d${roll.max}${rollMod} = ${roll.result}`;
+			sectionContents.push(`<div class="sheet-section-message">${sectionMessage}</div>`);
+			sectionContents.push(`<div class="sheet-section-message">Inline roll: ${roll.insert}</div>`);
+			*/
+
 			msgSections.push(`<div class="sheet-section"><div class="sheet-section-toggle" dir" " dir=$[[${replaceIndex}.computed]]></div>${sectionInsert}</div>`);
 
-			msgReplace[`section${sectionIndex}`] = `"><input type="radio" id="sheet-roll${sectionIndex}${msgID}" name="diceSelect" ${(headerDice.length == 1) ? "checked" : ""} name="`;
+			msgReplace[`section${sectionIndex}`] = `"><input type="radio" id="sheet-roll${sectionIndex}${msgID}" name="diceSelect${charID}" ${(headerDice.length == 1) ? "checked" : ""} name="`;
 			msgRolls.push(`{{section${sectionIndex}=[[${roll.result}]]}}`);
 
 			sectionIndex++
@@ -13342,12 +13333,13 @@ async function sendMessage(rollArray, message) {
 					if (match == "[LOCATION]") {
 						insert = access._error.location(insert.string, insert);
 					}
-					errorMessage = errorMessage.replaceAll(match, (typeof insert == "string") ? insert : ` ${match}`);
+					errorMessage = errorMessage.replaceAll(match, (insert !== undefined) ? insert : ` ${match}`);
 				}
 				errorMessages.push(errorMessage);
 			}
+			let errorIcon = `${getIcon("icons/exit", "html", `class="sheet-icon" style="background-color : ${getColor("red")};"`)}`;
 			let errorInsert = `<div class="sheet-section-contents">${errorMessages.reduce((acc, msg) => acc += `<div class="sheet-section-message">${msg}</div>`, "")}</div>`;
-			msgSections.unshift(`<div class="sheet-section"><div class="sheet-header-wrapper"><b class="sheet-title">${type}</b></div>${errorInsert}</div>`);
+			msgSections.unshift(`<div class="sheet-section"><div class="sheet-header-wrapper">${errorIcon}<b class="sheet-title">${type}</b></div>${errorInsert}</div>`);
 		}
 	}
 
@@ -13385,7 +13377,8 @@ async function sendMessage(rollArray, message) {
 /* Executes one or more rolls and posts the results to the chat */
 function executeRolls(rollArray, opts={use_resource:false}) {
 	access._begin("roll", () => {
-		if (rollArray instanceof dataNode) rollArray = [rollArray];
+		if (rollArray instanceof dataNode && !rollArray[0]) rollArray = [rollArray];
+		let firstRoll = access.rolls.length == 0;
 
 		if (opts.use_resource) {
 			let resource = (access.resource.selection == "Action") ? "action" : "reaction";
@@ -13394,10 +13387,10 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 			// Check that all required resources and item uses needed for the roll are available
 			// If yes, deduct these resources from the character. If not, cancel the action
 			for (const roll of rollArray) {
-				if (roll[resource].enabled && roll[resource].type != "None") {
+				if (roll[resource]?.enabled && roll[resource].type != "None") {
 					reqList[roll[resource].type] = (reqList[roll[resource].type] || 0) + roll[resource].cost;
 				}
-				if (roll.uses.enabled && roll.orig?.type == "item") {
+				if (roll.uses?.enabled && roll.orig?.type == "item") {
 					reqList[roll.orig.id] = (reqList[roll.orig.id] || 0) + roll.uses.cost;
 				}
 			}
@@ -13425,13 +13418,14 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 
 			// If multirolls are enabled, treat rolls with a 2+ dice count as seperate rolls
 			if (roll.multiroll && roll.count > 1) {
+				let multiRollID =  generateRowID();
 				let multiCount = roll.count;
 				roll.modify("count", 1, {silent:"hard"});
 				roll._count = 1;
 
 				for (let i = 0; i < multiCount; i++) {
 					let newRoll = access.rolls.add({node:cleanRoll(roll), index:opts.index});
-					newRoll._multiroll = generateRowID(); // Multirolls are given an ID for handling the DiceCount AutoEffect
+					newRoll._multiroll = multiRollID; // Multirolls are given an ID for handling the DiceCount AutoEffect
 				}
 
 				/*
@@ -13447,7 +13441,7 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 		}
 
 		// Add any message data from the originating item or rolls
-		if (access.rolls[0] == rollArray[0]) {
+		if (firstRoll && access.rolls[0]) {
 			let item = access.items[access.rolls[0]?.orig?.id];
 			let header = access.message.header;
 			let desc = access.message.desc;
@@ -15866,8 +15860,8 @@ const messageDataFormats = {
 		base: {
 			header: { // Can be disabled
 				_value_prop: "title",
-				title: "AutoEffects",
-				icon: "gear",
+				title: "", // Sections have no title by default
+				icon: "icons/gear",
 				color: {
 					icon: "green",
 					background: "gray",
@@ -15877,7 +15871,7 @@ const messageDataFormats = {
 				light_cost: false,
 			},
 			contents: {
-				_repeating: { // Repeating contents
+				_repeating: {
 					_value_prop: "text",
 					text: "", // Can include insert words, icons, etc.
 				},
@@ -16536,7 +16530,7 @@ const dataFormat = {
 		message: {
 			header: {
 				_value_prop: "title",
-				title: false, // Auto styling: Name of the item associated with the roll, or an empty string
+				title: "", // Auto styling: Name of the item associated with the roll, or an empty string
 				color: {
 					background: "gray",
 					text: "white",
@@ -17696,10 +17690,16 @@ class effectNode extends dataNode {
 		}
 		if (this.target === undefined) return false;
 
+		// Validate the effect's operator
+		if (this.#format.index.operator && /{.*}/.test(this.#effect[this.#format.index.value])) {
+			delete this.#buffer.operator;
+		}
+		if (this.operator === undefined) return false;
+		
 		// Validate the effect's value
 		if (this.#format.index.value && /{.*}/.test(this.#effect[this.#format.index.value])) {
-			delete this.#buffer.compare;
-			deleteMultiple(this.#buffer.options, "percent", "compare");
+			delete this.#buffer.value;
+			delete this.#buffer.options.percent;
 		}
 		if (this.value === undefined) return false;
 
@@ -17710,22 +17710,28 @@ class effectNode extends dataNode {
 	// Uses local variables relative to this effect
 	#applyMath(string) {
 		if (/{.*}/.test(string)) {
-			let result = string.replaceAll(/({(.*?)})/g, (match, full, math, index) => {
-				let error = {orig:{string:string, index:index}}
+			let result = string.replaceAll(/{(.*?)}/g, (match, math, index) => {
+				let error = {}
 				let result = newMathParser(math, {root:this.root, var:this.var}, error);
 				
 				// Handle math errors
 				if (result === null) {
 					this.#invalid = true;
-					if (error["[LOCATION]"]) {
-						access._error.throw("math", "Math Error", this.toString(), error, "invalid-path");
+					if (error.variant) {
+						let errorLoc = error["[LOCATION]"];
+						if (errorLoc) {
+							errorLoc.string = string;
+							errorLoc.index = (errorLoc.index || 0) + index;
+							errorLoc.length ||= match.length;
+						}
+						access._error.throw("math", "Math Error", this.toString(), error, error.variant);
 					}
 					return match;
 				}
 				return (result !== null) ? result : match;
 			});
 			console.log("Math result:", result);
-			return (!this.#invalid) ? result : false;
+			return (!this.#invalid) ? result : null;
 		}
 		return string;
 	}
@@ -17745,11 +17751,6 @@ class effectNode extends dataNode {
 			let innerAutoEffect = [...this.#effect];
 			let outerAutoEffect = [...this.#conditionals];
 
-			/* If the AutoEffect uses a string format as its value, add back in the surrounding quotes */
-			if (this.#format.value == "string") {
-				innerAutoEffect[this.#format.index.value] = '"' + innerAutoEffect[this.#format.index.value] + '"';
-			}
-
 			outputString = innerAutoEffect.join(" ");
 
 			if (outerAutoEffect.length > 0) {
@@ -17759,7 +17760,7 @@ class effectNode extends dataNode {
 			outputString = "(" + outputString + ")";
 
 			// If the effect is a block, also return any nested effects and an end-tag
-			if (includesSnakeify(autoEffectBlocks, this.#effect[0])) {
+			if (opts.nested && includesSnakeify(autoEffectBlocks, this.#effect[0])) {
 				outputString += this.toString("nested") + "(/" + this.#effect[0] + ")";
 			}
 		}
@@ -17772,17 +17773,27 @@ class effectNode extends dataNode {
 			switch (this.#format.value) {
 				case "number": outputString = getTranslationByKeyCustom('N', "autoeffect-error-value-number"); break;
 				case "string": outputString = getTranslationByKeyCustom('"Format"', "autoeffect-error-value-format"); break;
-				default: outputString = "";
+				case true: outputString = getTranslationByKeyCustom('Value', "autoeffect-error-value-any"); break;
 			}
 		}
 		
 		else if (mode == "target") {
 			if (this.#format.target) {
 				this.#format.target.forEach(target => {
-					let wordDivider = (target != this.#format.target.at(-1)) ? opts.dividers[0] || ", " : opts.dividers[1] || " or ";
+					let wordDivider = (target != this.#format.target.at(-1)) ? opts.dividers?.[0] || ", " : opts.dividers?.[1] || " or ";
 					target = target.replace("#","");
 					target = getTranslationByKeyCustom(target, `autoeffect-error-target-${target.toLowerCase()}`)
 					outputString += (outputString == "") ? target : `${wordDivider}${target}`;
+				});
+			}
+		}
+
+		else if (mode == "operator") {
+			console.log(arguments);
+			if (autoEffectOperators[this.name]) {
+				autoEffectOperators[this.name].forEach(op => {
+					let wordDivider = (op != autoEffectOperators[this.name].at(-1)) ? opts.dividers?.[0] || ", " : opts.dividers?.[1] || " or ";
+					outputString += (outputString == "") ? op : `${wordDivider}${op}`;
 				});
 			}
 		}
@@ -17870,7 +17881,7 @@ class effectNode extends dataNode {
 
 		let nameMatch = Object.keys(autoEffectFormats).find(name => name.toLowerCase() == n.toLowerCase());
 		if (nameMatch) {
-			this.#buffer.name = n;
+			this.#buffer.name = nameMatch;
 
 			// Get the AutoEffect format
 			this.#format = autoEffectFormats[this.name];
@@ -17892,7 +17903,7 @@ class effectNode extends dataNode {
 			if (autoEffectOperators[this.name]) { index.operator = 2; index[this.#format.reverse ? "value" : "target"]++ }
 			if (this.#format.valueOptional && !this.#effect[index.value]) { index.value = 0; }
 			if (this.#format.targetOptional && !this.#effect[index.target]) { index.target = 0; }
-			if (this.#format.operatorOptional && !this.#effect[index.operator+1]) { index.operator = 0; this.#format[this.#format.reverse ? "value" : "target"]-- }
+			if (this.#format.operatorOptional && !this.#effect[index.operator+1]) { index.operator = 0; index[this.#format.reverse ? "value" : "target"]-- }
 			index.options = Math.max(index.value, index.target) + 1;
 
 			// Get all supported options for the AutoEffect
@@ -17916,15 +17927,14 @@ class effectNode extends dataNode {
 			let maxLength = minLength + length(this._valid.options.raw) + (this.#format.maxLengthMod || 0);
 
 			if (this.#effect.length < minLength || this.#effect.length > maxLength) {
+				let divider = getTranslationByKeyCustom("/", "error-divider-slash");
 				this.#error("Invalid Format", {
 					"[NAME]":this.name,
 					"[VALUE]":this.toString("value"),
-					"[TARGET]":this.toString("target", {dividers: [
-						getTranslationByKeyCustom("/", "error-divider-slash"),
-						getTranslationByKeyCustom("/", "error-divider-slash"),
-					]}),
+					"[TARGET]":this.toString("target", {dividers: [divider, divider]}),
+					"[OP]":this.toString("operator", {dividers: [divider, divider]}),
 					"[OPTIONS]":this.toString("options"),
-				}); return;
+				}, this.#format.reverse && "reverse"); return;
 			}
 
 			// If all validation passes, update the effect name
@@ -17944,7 +17954,7 @@ class effectNode extends dataNode {
 	}
 	set value(v) {
 		let v_raw = v;
-		if (!this.#format.index.value) return this.#buffer.value = false;
+		if (v === undefined || !this.#format.index.value) return this.#buffer.value = false;
 		if ((v = this.#applyMath(v)) === null) return;
 
 		this.#buffer.value = v;
@@ -17984,13 +17994,17 @@ class effectNode extends dataNode {
 				} break;
 			
 			case "string":
-				if (!/^".+"$/.test(this.value)) {
+				if (/^".+"$/.test(this.value)) {
+					this.#buffer.value = this.value.slice(1, -1);
+				} else {
+					let divider = getTranslationByKeyCustom("/", "error-divider-slash");
 					this.#error("Invalid Format", {
 						"[NAME]":this.name,
 						"[VALUE]":this.toString("value"),
 						"[TARGET]":this.toString("target"),
+						"[OP]":this.toString("operator", {dividers: [divider, divider]}),
 						"[OPTIONS]":this.toString("options"),
-					}); return;
+					}, this.#format.reverse && "reverse"); return;
 				} break;
 
 			case true: // Accepts all values
@@ -18011,25 +18025,21 @@ class effectNode extends dataNode {
 
 	// Update effect operator
 	get operator() {
-		if (this.#format.index.operator) this.operator = this.#effect[this.#format.index.operator];
+		if (this.#buffer.operator === undefined) this.operator = this.#effect[this.#format.index.operator];
 		return this.#buffer.operator;
 	}
 	set operator(o) {
 		let o_raw = o;
-		if (!this.#format.index.operator) return this.#buffer.operator = false;
+		if (o === undefined || !this.#format.index.operator) return this.#buffer.operator = false;
 		if ((o = this.#applyMath(o)) === null) return;
 
 		this.#buffer.operator = o;
 
 		if (!autoEffectOperators[this.name].includes(o)) {
-			let opType = "";
-
-			switch (this.name) {
-				case "Require": opType = "compare"; break;
-				case "Access": opType = "access"; break;
-			}
-
-			this.#error("Invalid Operation", {}, opType); return;
+			this.#error("Invalid Operation", {
+				"[UNEX]":o,
+				"[OPS]":this.toString("operator"),
+			}); return;
 		}
 
 		// If all validation passes, update the effect operator
@@ -18048,11 +18058,12 @@ class effectNode extends dataNode {
 		return (this.target) ? this.#buffer.targetPath : false;
 	}
 	get targetNode() {
-		return navPath(this.targetPath, {start: (this.options.target == "target") ? this.root.target : this.root});
+		if (!this.targetPath) return false;
+		return navPath(this.targetPath, {start: (this.options.target == "target" && this.root.target.type) ? this.root.target : this.root});
 	}
 	set target(t) {
 		let t_raw = t;
-		if (!this.#format.index.target) return this.#buffer.target = false;
+		if (t === undefined || !this.#format.index.target) return this.#buffer.target = false;
 		if ((t = this.#applyMath(t)) === null) return;
 
 		this.#buffer.target = t.toLowerCase();
@@ -18063,14 +18074,14 @@ class effectNode extends dataNode {
 				if (access.ailments[this.target]) this.#buffer.targetPath = ["ailments", this.target, "node"]
 			}
 			if (this.#format.target.some(target => target.includes("#Bar"))) {
-				if (access.bar[this.target]) this.#buffer.targetPath = ["bar"]
+				if (access.bar[this.target] !== undefined) this.#buffer.targetPath = ["bar"]
 				// TODO: if (access.bar.temp.keys ... ) this.#targetPath = ["bar", "temp"]
 			}
 			if (this.#format.target.includes("#Stat")) {
 				if (statNames.some(stat => stat.toLowerCase() == this.target)) this.#buffer.targetPath = ["character"]
 			}
 			if (this.#format.target.includes("#Resource")) { 
-				if (access.resource[this.target]) this.#buffer.targetPath = ["resource", this.target, "node"];
+				if (access.resource[this.target] !== undefined) this.#buffer.targetPath = ["resource", this.target, "node"];
 			}
 			if (this.#format.target.includes("#Path")) {
 				if (is.Path(this.target)) this.#buffer.targetPath = pathStringToArray(t); // Preserves capitalization for global variables
@@ -18169,8 +18180,9 @@ class effectNode extends dataNode {
 		}
 
 		// Handle the "CheckResult" option
+		// This option is depreciated, but is still parsed for legacy support
 		else if (this.hasOption(newOption, {match:"CheckResult"})) {
-			this.#buffer.options.checkResult = newOption.replace("check","");
+			//this.#buffer.options.checkResult = newOption.replace("check","");
 		}
 
 		// Handle the "Round" option
@@ -18429,7 +18441,7 @@ class effectNode extends dataNode {
 					// TODO: Eventually move all the effects up here
 					if (this.var.checkresult) {
 						switch (this.name) {
-							case "CustomMessage": this.#exeCustomMessage(); break;
+							case "CustomMessage": this.#message({format: this.value}); break;
 							case "Gain": case "Inflict": case "Give": this.#exeAilment(); break;
 							case "Set": case "Add": case "Multi": this.#exeBar(); break;
 							case "DicePower": case "DiceMax": case "DiceCount": case "DiceAdv": this.#exeDice(); break;
@@ -18479,9 +18491,9 @@ class effectNode extends dataNode {
 			}
 		}
 		else if (!this.#invalid) {
-			console.warn("Effect error: Unknown parsing error");
+			this.#error("Parsing Error");
 		}
-		return false;
+		return this.#invalid = false;
 	}
 
 	// Adds a copy of this effect to a specific button node
@@ -18521,25 +18533,482 @@ class effectNode extends dataNode {
 			button._icon = opts.icon || this.options.icon || "icons/question";
 			button._color = opts.color || this.options.color || "green";
 			button._display = opts.display || this.options.display || true;
-
-			console.log("button._icon", button.icon, opts.icon, this.options.icon, "icons/question")
-
-			// TODO: Set up the color and icon of the button
 		}
 
 		button.effects.add(clone);
 		return clone;
 	}
 
+	// Outputs a chat message for the effect
+	#message(opts={format:false, old:false, new:false, icon:false, color:false}) {
+		if (is(this.options.silent).In(true, "self")) return;
 
-	#exeCustomMessage() {
+		let value = roundTowardsZero(this.value) || 0;
+		let sValue = roundTowardsZero(this.value * this.var.scaling) || 0;
+		let target = (this.target) ? this.#effect[this.#format.index.target] : "No target";
+		let count = opts.old || 0;
+		let result = opts.new || count;
+		let name = this.name.match(/[A-Z][a-z]+/g).join(" ") || "Unknown AutoEffect"; // Adds a space between parts of the name, ex. DicePower -> Dice Power
+		let icon = opts.icon;
+		let color = opts.color;
+		let limbusStyle = this.root.settings.sheet.limbus_style;
+		let msgFormat = opts.format || "";
+
+		// Retrieve the message format of the AutoEffect
+		switch (this.name) {
+			case "CustomMessage": break;
+			case "Require": msgFormat = getTranslationByKeyCustom("Require [SCALING NUM] [TARGET]: [CHECK]", "autoeffect-format-require"); break;
+			case "Consume": msgFormat = getTranslationByKeyCustom("Consume [-SCALING NUM] [TARGET]: [CHECK]", "autoeffect-format-consume"); break;
+			case "Gain": msgFormat = getTranslationByKeyCustom("Gain [SCALING NUM] [TARGET]", "autoeffect-format-gain"); break;
+			case "Inflict": msgFormat = getTranslationByKeyCustom("Inflict [SCALING NUM] [TARGET] to target", "autoeffect-format-inflict"); break;
+			case "Give": msgFormat = getTranslationByKeyCustom("Give [SCALING NUM] [TARGET] to ally", "autoeffect-format-give"); break;
+			case "Set": msgFormat = getTranslationByKeyCustom("Set [TARGET] to [RESULT]", "autoeffect-format-set"); break
+			case "Add":
+				if (includesSnakeify(["light", "thp", "tst", ...resourceNames], this.target)) {
+					msgFormat = (this.value < 0) ? getTranslationByKeyCustom("Lose [-SCALING NUM] [TARGET]", "autoeffect-format-add-light-neg")
+												 : getTranslationByKeyCustom("Gain [SCALING NUM] [TARGET]", "autoeffect-format-add-light");
+				} else {
+					msgFormat = (this.value < 0) ? getTranslationByKeyCustom("Receive [-SCALING NUM] [TARGET] damage", "autoeffect-format-add-neg")
+												 : getTranslationByKeyCustom("Regen [SCALING NUM] [TARGET]", "autoeffect-format-add");
+				} break;
+			case "Multi": msgFormat = getTranslationByKeyCustom("Multiply [TARGET] by [SCALING NUM]", "autoeffect-format-multi"); break;
+			case "BaseDamage":
+				msgFormat = (this.target) ? getTranslationByKeyCustom("Increase [TARGET] Base Damage by [SCALING NUM]", "autoeffect-format-basedamage-target")
+										  : getTranslationByKeyCustom("Increase Base Damage by [SCALING NUM]", "autoeffect-format-basedamage"); break;
+			case "FlatDamage": msgFormat = getTranslationByKeyCustom("Deal [SCALING NUM] [TARGET] Damage", "autoeffect-format-flatdamage"); break;
+			case "DicePower": case "DiceMax": case "DiceCount": case "DiceAdv":
+				msgFormat = (this.value < 0) ? getTranslationByKeyCustom("Reduce [EFFECT] by [SCALING NUM]", "autoeffect-format-dice-neg")
+										     : getTranslationByKeyCustom("Increase [EFFECT] by [SCALING NUM]", "autoeffect-format-dice"); break;
+			case "Proc": msgFormat = getTranslationByKeyCustom("Proc [TARGET]", "autoeffect-format-proc"); break;
+			case "Pause": msgFormat = getTranslationByKeyCustom("Paused [TARGET] for [SCALING NUM] activations", "autoeffect-format-pause"); break;
+			case "ChallengeRoll":
+				msgFormat = (this.value < 0) ? getTranslationByKeyCustom("Rolling [TARGET] [SCALING NUM]", "autoeffect-format-challengeroll-neg")
+										   : getTranslationByKeyCustom("Rolling [TARGET] <b>+</b>[SCALING NUM]", "autoeffect-format-challengeroll"); break;
+			case "Speed":
+				msgFormat = (this.value < 0) ? getTranslationByKeyCustom("Reduce [EFFECT] by [-SCALING NUM]", "autoeffect-format-speed-neg")
+										     : getTranslationByKeyCustom("Increase [EFFECT] by [SCALING NUM]", "autoeffect-format-speed"); break;
+		}
+
+		// Handle formating for the target option
+		if (this.options.target && is(this.name).In("Require", "Consume", "Add", "Multi", "Set", "Proc", "Pause", "ChallengeRoll", "Speed")) {
+			msgFormat = (this.options.target == "target")
+				? `${getTranslationByKeyCustom("Target", "message-target")} - ${msgFormat}`
+				: `${getTranslationByKeyCustom("Select", "message-select")} - ${msgFormat}`;
+		}
+
+		// Handle formating for the round and duration options
+		if (this.options.round && this.options.round != "this") {
+			msgFormat += (` ${getTranslationByKeyCustom("Next", "autoeffect-option-next")} ${getTranslationByKeyCustom("Round", "autoeffect-option-round")}`).toLowerCase();
+		}
+		if (this.options.duration) {
+			switch (this.options.duration) {
+				case "combat": msgFormat += (` ${getTranslationByKeyCustom("This", "autoeffect-option-this")} ${getTranslationByKeyCustom("Combat", "autoeffect-option-combat")}`).toLowerCase(); break;
+				case "this": msgFormat += (` ${getTranslationByKeyCustom("This", "autoeffect-option-this")} ${getTranslationByKeyCustom("Round", "autoeffect-option-round")}`).toLowerCase(); break;
+				case "next": msgFormat += (` ${getTranslationByKeyCustom("Next", "autoeffect-option-next")} ${getTranslationByKeyCustom("Round", "autoeffect-option-round")}`).toLowerCase(); break;
+			}
+		}
+
+		// Handle compare modes
+		if (this.name == "Require" && this.operator) {
+			value = `${value} ${this.operator}`;
+			sValue = `${sValue} ${this.operator}`;
+		}
+
+		// Handle value updates
+		if (this.var.checkresult && count != result && this.value && !this.options.target) {
+			msgFormat += " [[INITIAL] -> [RESULT]]";
+		}
+
+		// Handle ailment icons
+		if (this.targetPath[0] == "ailments") {
+			msgFormat = "[/TARGET]" + msgFormat;
+			icon = this.root.ailments[this.target].icon;
+		}
+
+		let messageValues = {
+			"customname": name,
+			"value": this.value,
+			"target": target,
+			"count": count,
+			"result": result,
+			"icon": icon,
+			"scaling": this.var.scaling,
+			"checkResult": this.var.checkstring,
+		}
+
+		if (msgFormat != "") {
+				
+			const applyInsert = (match, insert, prefix="<b>", affix="</b>") => {
+				message = message.replaceAll(match, prefix + insert + affix);
+			}
+
+			let message = msgFormat;
+
+			// New message translation data
+			const lang = {
+				Check: getTranslationByKeyCustom("[CHECK]", "autoeffect-match-check"),
+				Success: getTranslationByKeyCustom("Success", "distort-results-good"),
+				Failure: getTranslationByKeyCustom("Failure", "distort-results-bad"),
+				NoTarget: getTranslationByKeyCustom("No target", "autoeffect-alert-notarget"),
+				Num: getTranslationByKeyCustom("[NUM]", "autoeffect-match-num"),
+				Scaling: getTranslationByKeyCustom("[SCALING]", "autoeffect-match-scaling"),
+				ScalingNum: getTranslationByKeyCustom("[SCALING NUM]", "autoeffect-match-scalingnum"),
+				NegNum: getTranslationByKeyCustom("[-NUM]", "autoeffect-match-neg-num"),
+				NegScaling: getTranslationByKeyCustom("[-SCALING]", "autoeffect-match-neg-scaling"),
+				NegScalingNum: getTranslationByKeyCustom("[-SCALING NUM]", "autoeffect-match-neg-scalingnum"),
+				Multi: getTranslationByKeyCustom("[MULTI]", "autoeffect-match-multi"),
+				Initial: getTranslationByKeyCustom("[INITIAL]", "autoeffect-match-initial"),
+				Result: getTranslationByKeyCustom("[RESULT]", "autoeffect-match-result"),
+				EffectName: getTranslationByKeyCustom("[EFFECT]", "autoeffect-match-effectname"),
+				CharacterName: getTranslationByKeyCustom("[CHAR]", "autoeffect-match-charname"),
+				Target: getTranslationByKeyCustom("[TARGET]", "autoeffect-match-target"),
+				TargetIcon: getTranslationByKeyCustom("[/TARGET]", "autoeffect-match-targeticon"),
+			}
 		
+			switch (this.var.checkstring) {
+				case "failure": applyInsert(lang.Check, lang.Failure); break;
+				case "no target": applyInsert(lang.Check, lang.NoTarget); break;
+				default:
+					applyInsert(lang.Check, lang.Success); break;
+					// applyInsert(lang.Result, result);
+			}
+
+			applyInsert(lang.Num, value);
+			applyInsert(lang.Scaling, this.var.scaling);
+			applyInsert(lang.ScalingNum, sValue);
+			applyInsert(lang.NegNum, -value);
+			applyInsert(lang.NegScaling, -this.var.scaling);
+			applyInsert(lang.NegScalingNum, -sValue);
+			applyInsert(lang.Multi, Math.floor(sValue * count)); // Used for the Multi AutoEffect
+			applyInsert(lang.Initial, count);
+			applyInsert(lang.Result, result); // Used on checkFailure
+			applyInsert(lang.EffectName, name);
+			applyInsert(lang.CharacterName, this.root.character.name);
+			applyInsert(lang.Target, target.replace("_"," "));
+
+			// Handle text styling
+			let styleTextFind = new RegExp(/\[([^\]]+?)\]\(#(?!")(.+?)\)/);
+			let styleTextReplace = new RegExp(/(\[[^\]]+?\]\(#(?!").+?\))/);
+
+			while (styleTextFind.test(message)) {
+				let [text, style] = message.match(styleTextFind).slice(1);
+				message = message.replace(styleTextReplace, styleText(text, style));
+			}
+
+			let iconAttrs = (color) ? `style="background-color: ${color}"` : false;
+
+			// TODO: Modify this to accept any icon path
+
+
+			// Icon handling
+			// Get target icon. Is in this format: [/TARGET]. If a icon is provided, use that instead
+			if (icon) {
+				if (limbusStyle) icon = icon.replace("limbus/","");
+				applyInsert(lang.TargetIcon, getIcon(`ailments/${icon}`, "markdown", iconAttrs, limbusStyle), "", "");
+			} else {
+				applyInsert(lang.TargetIcon, getIcon(`ailments/${target.replace("_"," ")}`, "markdown", iconAttrs, limbusStyle), "", "");
+			}
+				
+			// Question mark icon
+			applyInsert("[/Question]", getIcon("icons/question", "markdown", iconAttrs), "", "");
+
+			// Get custom icon. Is in one of these formats: [/iconName], [/limbus/iconName], [/community/iconName]
+			message = message.replaceAll(/\[\/([\w\s]+\/)?([\w\s/]+)\]/g, (match, folder, name) => {
+				if (folder == "limbus/") folder = "ailments/limbus/";
+				if (!folder) folder = "ailments/";
+				return getIcon(folder + name, "markdown", iconAttrs);
+			});
+
+			/*
+			if ((/\[\/(\w+)\]/g).test(message)) {
+				applyInsert("[/community/", "[/community, ", "", "");
+				applyInsert("[/limbus/", "[/ailments, limbus/", "", "");
+				applyInsert("[/", "[/ailments/, ", "", "");
+				
+				message.match((/\[(\w+)\]/g)).forEach(icon => {
+					let [iconFolder, iconName] = icon.slice(2,-1).split(", ")
+					message = message.replace(icon, getIcon(`${iconFolder}/${iconName}`, "html", iconAttrs));
+				});
+			}
+			*/
+
+			// Output message
+			if (!this.options.section) {
+				if (this.var.roll) {
+					messageSection(this.var.roll.message, "", autoEffectTranslateMessage(message));
+				} else {
+					messageSection(this.root.message, "", autoEffectTranslateMessage(message));
+				}
+			} else {
+				/*
+				if (conditionalSectionList[aeConditional]) {
+					conditionalSectionList[aeConditional] += autoEffectTranslateMessage(message);
+				} else {
+					conditionalSectionList[aeConditional] = autoEffectTranslateMessage(message);
+				}
+				*/
+			}
+		}
+	}
+
+
+	/* Basic AutoEffects */
+	#exeCheck() {
+		if (this.name == "If") {
+			this.#local.checkresult = is.Truthy(this.value);
+			this.#local.checkstring = (this.#local.checkresult) ? "success" : "failure";
+		}
+		else if (this.name == "Else") {
+			let prevCheck = this.parent[this.parent.indexOf(this) - 1];
+
+			if (!prevCheck.#local.checkresult && !prevCheck.#local.elseresult) {
+				if (this.#effect.length > 1) {
+					let buffer = this.#buffer;
+
+					// Mimic the last check effect
+					this.#buffer = structuredClone(prevCheck.#buffer);
+
+					// Override the value, or both the value and target
+					if (buffer.value !== undefined) this.#buffer.value = buffer.value || 0;
+					if (buffer.operator && prevCheck.operator) this.#buffer.operator = buffer.operator;
+					if (buffer.target && prevCheck.target) {
+						this.#buffer.target = buffer.target;
+						this.#buffer.targetPath = buffer.targetPath;
+					}
+					
+					// Override all check options
+					this.#buffer.options = {...buffer.options, silent:true}; // Avoids a double message
+
+					this.#exeCheck();
+					this.#buffer.options.silent = buffer.options.silent;
+
+					// On success, hinder any following Else effects from executing
+					this.#local.elseresult = this.var.checkresult;
+				} else {
+					this.#local.elseresult = true;
+					this.#local.checkresult = true;
+					this.#local.checkstring = "success";
+				}
+			}
+			else {
+				this.#local.elseresult = prevCheck.#local.elseresult;
+				this.#local.checkresult = false;
+				this.#local.checkstring = "failure";
+			}
+		}
+		else {
+			let node = this.targetNode;
+			let prop;
+
+			switch (this.targetPath[0]) {
+				case "ailments": prop = "count"; break;
+				case "bar": prop = this.target; break;
+				case "resource": prop = "current"; break;
+			}
+
+			let value = roundTowardsZero(this.value * this.var.scaling);
+			let oldValue = node[prop];
+
+			if (node) {
+
+				// Handle #Scaling
+				if (this.options.scaling) {
+					this.#local.scaling = Math.floor(node.immutable[prop] / this.value) * this.var.scaling;
+		
+					if (Number(this.options.scaling)) {
+						this.#local.scaling = Math.max(Math.min(this.#local.scaling, this.options.scaling), 1);
+					}
+					if (this.operator && is(this.operator).In("<", "<=")) {
+						this.#local.scaling++
+					}
+				}
+
+				// TODO: Add a #Current option that makes Require/Consume use the current value, not the immutable one
+				this.#local.checkresult = mathOperation(this.operator || "<=", value, node.immutable[prop]);
+				this.#local.checkstring = (this.#local.checkresult) ? "success" : "failure";
+		
+				if (this.name == "Consume" && this.#local.checkresult) {
+					if (node.immutable[prop] < this.value * 2) {
+						this.#local.checkstring = "last success";
+					}
+					node[prop] = parseInt(node[prop]) - value;
+					oldValue = node[prop];
+
+					let clone = this.#addToButton("Apply ailments", {color:"purple", icon:"icons/lose", chatButton:true});
+					clone.value = 1;
+
+					if (clone.#effect.some(e => /^scaling\d*$/i.test(e))) {
+						clone.#effect[clone.#effect.findIndex(e => /^scaling\d*$/i.test(e))] = `Scaling${-this.value * this.var.scaling}`;
+					} else {
+						clone.#effect.push(`Scaling${-this.value * this.var.scaling}`);
+					}
+				}
+			} else {
+				this.#local.checkresult = false;
+				this.#local.checkstring = "no target";
+			}
+
+			this.#message({old:oldValue, new:node[prop]});
+		}
+
+		let checkName = `${(this.name != "Else" && this.#local.elseresult !== undefined) ? "Else " : ""}${this.name}`;
+		console.log(`exeCheck | ${checkName} ${this.value} ${this.operator || ""} ${this.target || ""}: ${this.#local.checkstring}, scaling: ${this.#local.scaling}`);
+	}
+
+
+	#exeAilment() {
+		switch (this.name) {
+			case "Inflict": this.#buffer.options.target = "target"; break;
+			case "Give": this.#buffer.options.target = "select"; break;
+		}
+		this.#buffer.options.round = (this.root.ailments[this.target].settings.next_round) ? this.options.round || "next" : "this";
+
+		let node = this.targetNode;
+		let prop = (this.options.round == "this") ? "count" : "count_next_round";
+		let value = roundTowardsZero(this.value * this.var.scaling);
+		let oldValue = node[prop];
+
+		if (this.options.target) {
+			let buttonOpts = (this.options.target == "target")
+				? {name:"Apply ailments", color:"purple", icon:"icons/lose", chatButton:true}
+				: {name:"Give ailments", color:"orange", icon:"icons/win", chatButton:true}
+			// TODO: Make this pull styling data from access.styling
+			
+			let clone = this.#addToButton(buttonOpts.name, buttonOpts);
+			clone.name = "Gain";
+			clone.value = value;
+		}
+		
+		if (node) node[prop] = parseInt(node[prop]) + value;
+
+		this.#message({old:oldValue, new:node[prop]});
+		console.log(`exeAilment | ${this.name} ${this.target || ""}: ${oldValue} -> ${node[prop]}`);
+	}
+
+
+	#exeBar() {
+		let node = this.targetNode;
+		let prop = (this.targetNode[this.target]) ? this.target : "current"; // Used for Add/Set #Resource
+		let value = roundTowardsZero(this.value * this.var.scaling);
+		let oldValue = node[prop];
+
+		if (this.options.target) {
+			let buttonOpts = {}
+
+			if (this.targetPath[0] == "bar") {
+				let isDamage = false;
+
+				switch (this.name) {
+					case "Add": isDamage = this.value < 0; break;
+					case "Multi": isDamage = this.value < 1; break;
+					case "Set": isDamage = (node) ? node[prop] < this.value : "no target"; break;
+				}
+				switch (isDamage) {
+					case "no target": buttonOpts = {name:"Apply effects", color:"green", icon:"icons/gear", chatButton:true}
+					case true: buttonOpts = {name:"Apply damage", color:"red", icon:"icons/damage", chatButton:true}
+					case false: buttonOpts = {name:"Apply regen", color:"green", icon:"icons/heal", chatButton:true}
+				}
+			} else {
+				buttonOpts = {name:"Apply resource", color:"orange", icon:"icons/fortunewhite", chatButton:true}
+			}
+
+			let clone = this.#addToButton(buttonOpts.name, buttonOpts);
+			clone.value = this.value * this.var.scaling;
+		}
+
+		if (node) {
+			switch (this.name) {
+				case "Add": node[prop] = parseInt(node[prop]) + value; break;
+				case "Multi": node[prop] = parseInt(node[prop]) * value; break;
+				case "Set": node[prop] = value; break;
+			}
+
+			if (this.targetPath[0] == "resource" && node[prop] > oldValue) { // This max value change should be reset on round end
+				node.max += node[prop] - oldValue;
+			}
+		}
+
+		this.#message({old:oldValue, new:node[prop]});
+		console.log(`exeBar | ${this.name} ${this.target || ""}: ${oldValue} -> ${node[prop]}`);
+	}
+
+
+	#exeDice() {
+		let prop = this.name.toLowerCase().replace("dice", "");
+		let value = roundTowardsZero(this.value * this.var.scaling);
+		let multirollIDs = []
+
+		// TODO: Should later affect all rolls, or one roll by index
+		let rolls = this.root.rolls;
+
+		for (let roll of rolls) {
+
+			// DiceCount should only apply to the first roll of a multiroll
+			if (this.name == "DiceCount" && is.ID(roll.multiroll)) {
+				if (!multirollIDs.includes(roll.multiroll)) {
+					multirollIDs.push(roll.multiroll);
+					roll.count += value;
+				}
+			}
+
+			// DiceAdv adds +1/-1 adv to N rolls, or +N/-N adv to one specific roll
+			else if (this.name == "DiceAdv" && rolls.length > 1 && value) {
+				switch (Math.sign(value)) {
+					case 1: roll.adv = parseInt(roll.adv) + 1; value--; break;
+					case -1: roll.adv = parseInt(roll.adv) - 1; value++; break;
+				}
+			}
+			else {
+				roll[prop] = parseInt(roll[prop]) + value;
+			}
+		}
+
+		this.#message();
+	}
+
+
+	#exeDamage() {
+
+	}
+
+
+	#exeProc() {
+
+	}
+
+
+	#exePause() {
+		let node = this.targetNode;
+		let prop = "count_pause";
+		let value = roundTowardsZero(this.value * this.var.scaling);
+		let oldValue = node[prop];
+
+		if (this.options.target) {
+			let clone = this.#addToButton("Apply ailments", {color:"purple", icon:"icons/lose", chatButton:true});
+			clone.value = value;
+		}
+		
+		if (node) node[prop] = parseInt(node[prop]) + value;
+
+		this.#message({old:oldValue, new:node[prop]});
+		console.log(`exePause | ${this.name} ${this.target || ""}: ${oldValue} -> ${node[prop]}`);
+	}
+
+
+	#exeRoll() {
+
+	}
+
+
+	#exeSpeed() {
+
 	}
 
 
 	#exeAccess() {
 		let error = {}
-		let path = [this.path[0], ...this.targetPath.slice(0, -1)];
+		let path = this.targetPath.slice(0, -1);
+		let start = access;
 		let prop = snakeify(this.targetPath.at(-1));
 
 		// Check if the path leads to a variable
@@ -18548,11 +19017,11 @@ class effectNode extends dataNode {
 		}
 
 		// Allows users to modify properties in other roots
-		if (is.ID(this.targetPath[0]) && this.targetPath[0] in access) {
-			path = path.slice(1);
+		if (is.ID(path[0]) && path[0] in access) {
+			start = access[path.shift()];
 		}
 
-		let node = navPath(path, {userPath:true}, error);
+		let node = navPath(path, {userPath:true, start:start}, error);
 
 		if (!node) {
 			access._error.throw("math", "Math Error", this.toString(), { // TODO: Should be access error
@@ -18619,255 +19088,7 @@ class effectNode extends dataNode {
 	}
 
 
-	#exeCheck() {
-		if (this.name == "If") {
-			this.#local.checkresult = is.True(this.value);
-			this.#local.checkstring = (this.#local.checkresult) ? "success" : "failure";
-		}
-		else if (this.name == "Else") {
-			let prevCheck = this.parent[this.parent.indexOf(this) - 1];
-
-			if (!prevCheck.#local.checkresult && !prevCheck.#local.elseresult) {
-				if (this.#effect.length > 1) {
-					let buffer = this.#buffer;
-
-					// Mimic the last check effect
-					this.#buffer = structuredClone(prevCheck.#buffer);
-
-					// Override the value, or both the value and target
-					if (buffer.value !== undefined) this.#buffer.value = buffer.value || 0;
-					if (buffer.operator && prevCheck.operator) this.#buffer.operator = buffer.operator;
-					if (buffer.target && prevCheck.target) {
-						this.#buffer.target = buffer.target;
-						this.#buffer.targetPath = buffer.targetPath;
-					}
-					
-					// Override all check options
-					this.#buffer.options = {...buffer.options, silent:true}; // Avoids a double message
-
-					this.#exeCheck();
-					this.#buffer.options.silent = buffer.options.silent;
-
-					// On success, hinder any following Else effects from executing
-					this.#local.elseresult = this.var.checkresult;
-				} else {
-					this.#local.elseresult = true;
-					this.#local.checkresult = true;
-					this.#local.checkstring = "success";
-				}
-			}
-			else {
-				this.#local.elseresult = prevCheck.#local.elseresult;
-				this.#local.checkresult = false;
-				this.#local.checkstring = "failure";
-			}
-		}
-		else {
-			let node = this.targetNode;
-			let prop;
-			
-			switch (this.targetPath[0]) {
-				case "ailments": prop = "count"; break;
-				case "bar": prop = this.target; break;
-				case "resource": prop = "current"; break;
-			}
-
-			if (node) {
-
-				// Handle #Scaling
-				if (this.options.scaling) {
-					this.#local.scaling = Math.floor(node.immutable[prop] / this.value) * this.var.scaling;
-		
-					if (Number(this.options.scaling)) {
-						this.#local.scaling = Math.max(Math.min(this.#local.scaling, this.options.scaling), 1);
-					}
-					if (this.operator && is(this.operator).In("<", "<=")) {
-						this.#local.scaling++
-					}
-				}
-
-				// TODO: Add a #Current option that makes Require/Consume use the current value, not the immutable one
-				this.#local.checkresult = mathOperation(this.operator || "<=", roundTowardsZero(this.value * this.var.scaling), node.immutable[prop]);
-				this.#local.checkstring = (this.#local.checkresult) ? "success" : "failure";
-		
-				if (this.name == "Consume" && this.#local.checkresult) {
-					if (node.immutable[prop] < this.value * 2) {
-						this.#local.checkstring = "last success";
-					}
-					node[prop] = parseInt(node[prop]) - roundTowardsZero(this.value * this.var.scaling);
-
-					let clone = this.#addToButton("Apply ailments", {color:"purple", icon:"icons/lose", chatButton:true});
-					clone.value = 1;
-
-					if (clone.#effect.some(e => /^scaling\d*$/i.test(e))) {
-						clone.#effect[clone.#effect.findIndex(e => /^scaling\d*$/i.test(e))] = `Scaling${-this.value * this.var.scaling}`;
-					} else {
-						clone.#effect.push(`Scaling${-this.value * this.var.scaling}`);
-					}
-				}
-			} else {
-				this.#local.checkresult = false;
-				this.#local.checkstring = "no target";
-			}
-		}
-
-		if (this.options.silent) return;
-
-		let checkName = `${(this.name != "Else" && this.#local.elseresult !== undefined) ? "Else " : ""}${this.name}`;
-
-		// TODO: Output chat message
-		console.log(`exeCheck | ${checkName} ${this.value} ${this.operator || ""} ${this.target || ""}: ${this.#local.checkstring}, scaling: ${this.#local.scaling}`);
-	}
-
-
-	#exeAilment() {
-		let node = (this.name == "Inflict") ? this.targetNode : navPath(this.targetPath, {start:this.root});
-		let round = (node.settings.next_round) ? this.options.round || "next" : "this";
-		let prop = (round == "this") ? "count" : "count_next_round";
-		let value = roundTowardsZero(this.value * this.var.scaling);
-
-		if (this.name != "Gain") {
-			let buttonOpts = (this.name == "Give")
-				? {name:"Apply ailments", color:"purple", icon:"icons/lose", chatButton:true}
-				: {name:"Give ailments", color:"orange", icon:"icons/win", chatButton:true}
-			// TODO: Make this pull styling data from access.styling
-			
-			let clone = this.#addToButton(buttonOpts.name, buttonOpts);
-			clone.name = "Gain";
-			clone.value = value;
-		}
-		
-		if (node) node[prop] = parseInt(node[prop]) + value;
-
-		// TODO: Output chat message
-		console.log(`exeAilment | ${this.name} ${this.target || ""}: ${node.immutable[prop]} -> ${node[prop]}`);
-	}
-
-
-	#exeBar() {
-		let node = this.targetNode;
-		let prop = (this.targetNode[this.target]) ? this.target : "current"; // Used for Add/Set #Resource
-		let value = roundTowardsZero(this.value * this.var.scaling);
-		let oldValue = node[prop];
-
-		if (this.options.target) {
-			let buttonOpts = {}
-
-			if (this.targetPath[1] == "bar") {
-				let isDamage = false;
-
-				switch (this.name) {
-					case "Add": isDamage = this.value < 0; break;
-					case "Multi": isDamage = this.value < 1; break;
-					case "Set": isDamage = (node) ? node[prop] < this.value : "no target"; break;
-				}
-				switch (isDamage) {
-					case "no target": buttonOpts = {name:"Apply effects", color:"green", icon:"icons/gear", chatButton:true}
-					case true: buttonOpts = {name:"Apply damage", color:"red", icon:"icons/damage", chatButton:true}
-					case false: buttonOpts = {name:"Apply regen", color:"green", icon:"icons/heal", chatButton:true}
-				}
-			} else {
-				buttonOpts = {name:"Apply resource", color:"orange", icon:"icons/fortunewhite", chatButton:true}
-			}
-
-			let clone = this.#addToButton(buttonOpts.name, buttonOpts);
-			clone.value = this.value * this.var.scaling;
-		}
-
-		if (node) {
-			switch (this.name) {
-				case "Add": node[prop] = parseInt(node[prop]) + value; break;
-				case "Multi": node[prop] = parseInt(node[prop]) * value; break;
-				case "Set": node[prop] = value; break;
-			}
-
-			if (this.targetPath[1] == "resource" && node[prop] > oldValue) { // This max value change should be reset on round end
-				node.max += node[prop] - oldValue;
-			}
-		}
-
-		// TODO: Output chat message
-		console.log(`exeAilment | ${this.name} ${this.target || ""}: ${node.immutable[prop]} -> ${node[prop]}`);
-	}
-
-
-	#exeDice() {
-		let prop = this.name.toLowerCase().replace("dice", "");
-		let value = roundTowardsZero(this.value * this.var.scaling);
-		let multirollIDs = []
-
-		// TODO: Should later affect all rolls, or one roll by index
-		let rolls = this.root.rolls;
-
-		for (let roll of rolls) {
-
-			// DiceCount should only apply to the first roll of a multiroll
-			if (this.name == "DiceCount" && is.ID(roll.multiroll)) {
-				if (!multirollIDs.includes(roll.multiroll)) {
-					multirollIDs.push(roll.multiroll);
-					roll.count += value;
-				}
-			}
-
-			// DiceAdv adds +1/-1 adv to N rolls, or +N/-N adv to one specific roll
-			else if (this.name == "DiceAdv" && rolls.length > 1 && value) {
-				switch (Math.sign(value)) {
-					case 1: roll.adv = parseInt(roll.adv) + 1; value--; break;
-					case -1: roll.adv = parseInt(roll.adv) - 1; value++; break;
-				}
-			}
-			else {
-				roll[prop] = parseInt(roll[prop]) + value;
-			}
-		}
-
-		// TODO: Output chat message
-		// May need special handling for multirolls
-	}
-
-	#exeDamage() {
-
-	}
-
-	#exeProc() {
-
-	}
-
-	#exePause() {
-
-	}
-
-	#exeRoll() {
-
-	}
-
-	#exeSpeed() {
-
-	}
-
 	tempStorage() {
-		function autoEffectCustomMessage(ae, messageValues = {}) {
-			let checkResultOption = ae.opts.checkResult || "success";
-			ae = {...ae, ...messageValues, format: ae.value}
-	
-			/* Handle the target option */
-			if (ae.opts.target) {
-				autoEffectOutput(ae, "", autoEffectToString(ae.origAutoEffect, {removeOptions:["Target", "Select"]}));
-			}
-			else if (checkResultOption == ae.checkResult.replace("last ","").replace("no target","failure") || checkResultOption == "ignore") {
-				autoEffectMessage(ae);
-			}
-		}
-	
-		function autoEffectCheck(ae) {
-			
-		}
-	
-		function autoEffectDice(ae) {
-			autoEffectOutput(ae, "", "", "dice");
-			autoEffectMessage(ae);
-		}
-	
 		function autoEffectChallengeRoll(ae) {
 			autoEffectOutput(ae, "Roll challenge", autoEffectToString(ae.origAutoEffect, {changeValue: ae.value*aeVars.scaling, removeOptions:["Target", "Select"]}), "list");
 			autoEffectMessage(ae);
@@ -18900,239 +19121,28 @@ class effectNode extends dataNode {
 			autoEffectOutput(ae, "Apply ailments", `(Proc ${ae.target} ${([true, "target"].includes(ae.opts.silent)) ? "Silent" : ""})`, "list");
 			autoEffectMessage(ae);
 		}
-	
-		function autoEffectPause(ae) {
-			ae.targetAttr = ae.targetAttr.replace("ailCount","ail") + "CountPause";
-			ae.targetVar += "Pause";
-			autoEffectOutput(ae, "Apply ailments", `(Pause ${ae.value*aeVars.scaling} ${ae.target} ${([true, "target"].includes(ae.opts.silent)) ? "Silent" : ""})`);
-			autoEffectMessage(ae);
-		}
-	}
-
-
-	tempStorage2() {
-		function autoEffectMessage(ae, countUpdate) {
-		let checkResult = ae.checkResult || aeVars.checkResult;
-		let scaling = ae.scaling || Math.max(parseInt(aeVars.scaling), 1);
-		let effectVal = roundTowardsZero(ae.value) || 0;
-		let scalingVal = roundTowardsZero(scaling * ae.value) || 0;
-		let effectTarget = ae.target || "No target";
-		let effectCount = parseInt(ae.count) || 0;
-		let effectResult = roundTowardsZero(ae.result || effectCount);
-		let effectName = ae.customname || ae.name.match(/[A-Z][a-z]+/g).join(" ") || "Unknown AutoEffect"; // Adds a space between parts of the name, ex. DicePower -> Dice Power
-		let effectIcon = ae.icon || "No icon";
-		let iconColor = ae.color || undefined;
-		let messageFormat = ae.format || "";	
-
-		/* Retrieve the messageFormat of the AutoEffect */
-		switch (ae.name) {
-			case "CustomMessage": messageFormat = ae.format; break;
-			case "Require": messageFormat = getTranslationByKeyCustom("Require [SCALING NUM] [TARGET]: [CHECK]", "autoeffect-format-require"); break;
-			case "Consume": messageFormat = getTranslationByKeyCustom("Consume [-SCALING NUM] [TARGET]: [CHECK]", "autoeffect-format-consume"); break;
-			case "Gain": messageFormat = getTranslationByKeyCustom("Gain [SCALING NUM] [TARGET]", "autoeffect-format-gain"); break;
-			case "Inflict": messageFormat = getTranslationByKeyCustom("Inflict [SCALING NUM] [TARGET] to target", "autoeffect-format-inflict"); break;
-			case "Give": messageFormat = getTranslationByKeyCustom("Give [SCALING NUM] [TARGET] to ally", "autoeffect-format-give"); break;
-			case "Set": messageFormat = getTranslationByKeyCustom("Set [TARGET] to [RESULT]", "autoeffect-format-set"); break
-			case "Add":
-				if (["Light", "THP", "TST", "Action", "Reaction", "Counter", "Block", "Evade", "Light_Regen"].includes(ae.target)) {
-					if (ae.value < 0) { messageFormat = getTranslationByKeyCustom("Lose [-SCALING NUM] [TARGET]", "autoeffect-format-add-light-neg"); }
-					else { messageFormat = getTranslationByKeyCustom("Gain [SCALING NUM] [TARGET]", "autoeffect-format-add-light"); }
-				} else {
-					if (ae.value < 0) { messageFormat = getTranslationByKeyCustom("Receive [-SCALING NUM] [TARGET] damage", "autoeffect-format-add-neg"); }
-					else { messageFormat = getTranslationByKeyCustom("Regen [SCALING NUM] [TARGET]", "autoeffect-format-add"); }
-				} break;
-			case "Multi": messageFormat = getTranslationByKeyCustom("Multiply [TARGET] by [SCALING NUM]", "autoeffect-format-multi"); break;
-			case "BaseDamage":
-				if (ae.target) { messageFormat = getTranslationByKeyCustom("Increase [TARGET] Base Damage by [SCALING NUM]", "autoeffect-format-basedamage-target"); }
-				else { messageFormat = getTranslationByKeyCustom("Increase Base Damage by [SCALING NUM]", "autoeffect-format-basedamage"); } break;
-			case "FlatDamage": messageFormat = getTranslationByKeyCustom("Deal [SCALING NUM] [TARGET] Damage", "autoeffect-format-flatdamage"); break;
-			case "DicePower": case "DiceMax": case "DiceCount": case "DiceAdv":
-				if (ae.value < 0) { messageFormat = getTranslationByKeyCustom("Reduce [EFFECT] by [SCALING NUM]", "autoeffect-format-dice-neg"); }
-				else { messageFormat = getTranslationByKeyCustom("Increase [EFFECT] by [SCALING NUM]", "autoeffect-format-dice"); } break;
-			case "Proc": messageFormat = getTranslationByKeyCustom("Proc [TARGET]", "autoeffect-format-proc"); break;
-			case "Pause": messageFormat = getTranslationByKeyCustom("Paused [TARGET] for [SCALING NUM] activations", "autoeffect-format-pause"); break;
-			case "ChallengeRoll":
-				if (ae.value < 0) { messageFormat = getTranslationByKeyCustom("Rolling [TARGET] [SCALING NUM]", "autoeffect-format-challengeroll-neg"); }
-				else { messageFormat = getTranslationByKeyCustom("Rolling [TARGET] <b>+</b>[SCALING NUM]", "autoeffect-format-challengeroll"); } break;
-			case "Speed":
-				if (ae.value < 0) { messageFormat = getTranslationByKeyCustom("Reduce [EFFECT] by [-SCALING NUM]", "autoeffect-format-speed-neg"); }
-				else { messageFormat = getTranslationByKeyCustom("Increase [EFFECT] by [SCALING NUM]", "autoeffect-format-speed"); } break;
-			}
-
-			/* Update old stat names */
-			effectTarget = updateStatName(effectTarget);
-
-			/* Handle ailment icons */
-			if (ae.targetType == "ailment" && ae.name != "CustomMessage") {
-				messageFormat = "[/TARGET] " + messageFormat;
-				effectIcon = valueLists.ailmentList[ae.target][6];
-			}
-
-			/* Handle formating for the target option */
-			if (autoEffectOptions.Target.includes(ae.name) && ae.opts.target) {
-				messageFormat = (ae.opts.target == "target")
-					? `${getTranslationByKeyCustom("Target", "message-target")} - ${messageFormat}`
-					: `${getTranslationByKeyCustom("Select", "message-select")} - ${messageFormat}`;
-			}
-
-			/* Handle formating for the round and duration options */
-			if (autoEffectOptions.Round.includes(ae.name) && settingHideNextRound != "true" && ae.opts.round != "this") {
-				messageFormat += (` ${getTranslationByKeyCustom("Next", "autoeffect-option-next")} ${getTranslationByKeyCustom("Round", "autoeffect-option-round")}`).toLowerCase();
-			}
-			if (autoEffectOptions.Duration && ae.opts.duration) {
-				switch (ae.opts.duration) {
-					case "combat": messageFormat += (` ${getTranslationByKeyCustom("This", "autoeffect-option-this")} ${getTranslationByKeyCustom("Combat", "autoeffect-option-combat")}`).toLowerCase(); break;
-					case "this": messageFormat += (` ${getTranslationByKeyCustom("This", "autoeffect-option-this")} ${getTranslationByKeyCustom("Round", "autoeffect-option-round")}`).toLowerCase(); break;
-					case "next": messageFormat += (` ${getTranslationByKeyCustom("Next", "autoeffect-option-next")} ${getTranslationByKeyCustom("Round", "autoeffect-option-round")}`).toLowerCase(); break;
-				}
-			}
-
-			/* Handle compare modes */
-			if (ae.opts.compareValue) {
-				effectVal = ae.opts.compareValue + effectVal;
-				scalingVal = ae.opts.compareValue + scalingVal;
-			}
-
-			/* Handle value updates */
-			if (!["failure", "no target"].includes(checkResult) && countUpdate && ae.value && !ae.opts.target) {
-				messageFormat += " [[INITIAL] -> [RESULT]]";
-			}
-
-			messageValues = {
-				"customname": effectName,
-				"value": ae.value,
-				"target": effectTarget,
-				"count": effectCount,
-				"result": effectResult,
-				"icon": effectIcon,
-				"scaling": scaling,
-				"checkResult": checkResult
-			}
-
-			if (messageFormat != "" && ![true, "self"].includes(ae.opts.silent)) {
-				
-				const applyInsert = (match, insert, prefix="<b>", affix="</b>") => {
-					message = message.replaceAll(match, prefix + insert + affix);
-				}
-
-				let message = messageFormat;
-
-				// New message translation data
-				const lang = {
-					Check: getTranslationByKeyCustom("[CHECK]", "autoeffect-match-check"),
-					Success: getTranslationByKeyCustom("Success", "distort-results-good"),
-					Failure: getTranslationByKeyCustom("Failure", "distort-results-bad"),
-					NoTarget: getTranslationByKeyCustom("No target", "autoeffect-alert-notarget"),
-					Num: getTranslationByKeyCustom("[NUM]", "autoeffect-match-num"),
-					Scaling: getTranslationByKeyCustom("[SCALING]", "autoeffect-match-scaling"),
-					ScalingNum: getTranslationByKeyCustom("[SCALING NUM]", "autoeffect-match-scalingnum"),
-					NegNum: getTranslationByKeyCustom("[-NUM]", "autoeffect-match-neg-num"),
-					NegScaling: getTranslationByKeyCustom("[-SCALING]", "autoeffect-match-neg-scaling"),
-					NegScalingNum: getTranslationByKeyCustom("[-SCALING NUM]", "autoeffect-match-neg-scalingnum"),
-					Multi: getTranslationByKeyCustom("[MULTI]", "autoeffect-match-multi"),
-					Initial: getTranslationByKeyCustom("[INITIAL]", "autoeffect-match-initial"),
-					Result: getTranslationByKeyCustom("[RESULT]", "autoeffect-match-result"),
-					EffectName: getTranslationByKeyCustom("[EFFECT]", "autoeffect-match-effectname"),
-					CharacterName: getTranslationByKeyCustom("[CHAR]", "autoeffect-match-charname"),
-					Target: getTranslationByKeyCustom("[TARGET]", "autoeffect-match-target"),
-					TargetIcon: getTranslationByKeyCustom("[/TARGET]", "autoeffect-match-targeticon"),
-				}
-		
-				let langCheck = getTranslationByKeyCustom("[CHECK]", "autoeffect-match-check");
-				let langSuccess = getTranslationByKeyCustom("Success", "distort-results-good");
-				let langFailure = getTranslationByKeyCustom("Failure", "distort-results-bad");
-				let langNoTarget = getTranslationByKeyCustom("No target", "autoeffect-alert-notarget");
-				let langNum = getTranslationByKeyCustom("[NUM]", "autoeffect-match-num");
-				let langScaling = getTranslationByKeyCustom("[SCALING]", "autoeffect-match-scaling");
-				let langScalingNum = getTranslationByKeyCustom("[SCALING NUM]", "autoeffect-match-scalingnum");
-				let langNegNum = getTranslationByKeyCustom("[-NUM]", "autoeffect-match-neg-num");
-				let langNegScaling = getTranslationByKeyCustom("[-SCALING]", "autoeffect-match-neg-scaling");
-				let langNegScalingNum = getTranslationByKeyCustom("[-SCALING NUM]", "autoeffect-match-neg-scalingnum");
-				let langMulti = getTranslationByKeyCustom("[MULTI]", "autoeffect-match-multi");
-				let langInitial = getTranslationByKeyCustom("[INITIAL]", "autoeffect-match-initial");
-				let langResult = getTranslationByKeyCustom("[RESULT]", "autoeffect-match-result");
-				let langEffectName = getTranslationByKeyCustom("[EFFECT]", "autoeffect-match-effectname");
-				let langCharacterName = getTranslationByKeyCustom("[CHAR]", "autoeffect-match-charname");
-				let langTarget = getTranslationByKeyCustom("[TARGET]", "autoeffect-match-target");
-				let langTargetIcon = getTranslationByKeyCustom("[/TARGET]", "autoeffect-match-targeticon");
-		
-				switch (checkResult) {
-					case "failure": applyInsert(langCheck, langFailure); break;
-					case "no target": applyInsert(langCheck, langNoTarget); break;
-					default:
-						applyInsert(langCheck, langSuccess);
-						/*applyInsert(langResult, effectResult);*/ break;
-				}
-				applyInsert(langNum, effectVal);
-				applyInsert(langScaling, scaling);
-				applyInsert(langScalingNum, scalingVal);
-				applyInsert(langNegNum, -effectVal);
-				applyInsert(langNegScaling, -scaling);
-				applyInsert(langNegScalingNum, -scalingVal);
-				applyInsert(langMulti, Math.floor(scalingVal * effectCount)); // Used for the Multi AutoEffect
-				applyInsert(langInitial, effectCount);
-				applyInsert(langResult, effectResult); // Used on checkFailure
-				applyInsert(langEffectName, effectName);
-				applyInsert(langCharacterName, charName);
-				applyInsert(langTarget, effectTarget.replace("_"," "));
-
-				/* Handle text styling */
-				let styleTextFind = new RegExp(/\[([^\]]+?)\]\(#(?!")(.+?)\)/);
-				let styleTextReplace = new RegExp(/(\[[^\]]+?\]\(#(?!").+?\))/);
-				while (styleTextFind.test(message)) {
-					let [text, style] = message.match(styleTextFind).slice(1);
-					message = message.replace(styleTextReplace, styleText(text, style));
-				}
-				let iconAttrs = `class="autoEffectImage" style="background-color: ${iconColor}"`;
-
-				/* Icon handling */
-				/* Get target icon. Is in this format: [/TARGET]. If a effectIcon is provided, use that instead */
-				if (effectIcon != "No icon") {
-					if (settingLimbusStyle) effectIcon = effectIcon.replace("limbus/","");
-					applyInsert(langTargetIcon, getIcon(`ailments/${effectIcon}`, "html", iconAttrs, settingLimbusStyle), "", "");
-				} else {
-					applyInsert(langTargetIcon, getIcon(`ailments/${effectTarget.replace("_"," ")}`, "html", iconAttrs, settingLimbusStyle), "", "");
-				}
-				
-				/* Question mark icon */
-				applyInsert("[/Question]", getIcon("icons/question", "html", iconAttrs), "", "");
-		
-				/* Get custom icon. Is in one of these formats: [/iconName], [/limbus/iconName], [/community/iconName]*/
-				if ((/\[\/([^0-9]+)\]/g).test(message)) {
-					applyInsert("[/community/", "[community, ", "", "");
-					applyInsert("[/limbus/", "[ailments, limbus/", "", "");
-					applyInsert("[/", "[ailments, ", "", "");
-					
-					message.match((/\[([^0-9]+)\]/g)).forEach(icon => {
-						let iconSelector = icon.slice(1,-1).split(", ");
-						let iconFolder = iconSelector[0];
-						let iconName = iconSelector[1];
-						message = message.replace(icon, getIcon(`${iconFolder}/${iconName}`, "html", iconAttrs));
-					});
-				}
-		
-				/* Message structure */
-				if (message.startsWith("<img") == true) {
-					message = message.replace(">","><div>") + "</div>";
-				} else {
-					message = "<div>" + message + "</div>";
-				}
-				message = autoEffectEntry(message);
-
-				/* Output message */
-				if (aeType != "section") {
-					outputMessage += autoEffectTranslateMessage(message);
-				} else {
-					if (conditionalSectionList[aeConditional]) {
-						conditionalSectionList[aeConditional] += autoEffectTranslateMessage(message);
-					} else {
-						conditionalSectionList[aeConditional] = autoEffectTranslateMessage(message);
-					}
-				}
-			}
-		}
 	}
 }
+
+
+// TODO: Move this somewhere else
+function messageSection(msgNode, section="AutoEffects", msgArray) {
+	let sectNode = msgNode.sections.find(s => equalsSnakeify(s?.header?.title, section));
+	if (typeof msgArray == "string") msgArray = [msgArray];
+
+	if (!sectNode) {
+		sectNode = msgNode.sections.add();
+		sectNode.header.title = section;
+	}
+
+	for (const message of msgArray) {
+		sectNode.contents.add().text = message;
+	}
+}
+
+
+
+
 
 
 
@@ -19179,8 +19189,8 @@ function new_autoScriptToArray(AutoScript, mode="effects", opts={}) {
 			// console.log(match[0], AutoScriptArray, scriptRegExp[mode].lastIndex);
 			
 			// Handle block end tags
-			if (effectName.startsWith("/")) {
-				if (!opts.endTags) {
+			if (effectName.startsWith("/") || effectName == "reset") {
+				if (!opts.endTags && effectName != "reset") {
 					console.warn("Block Error: Unexpected end tag", effectName);
 					return; // TODO: Need to ensure this doesn't cause any errors
 				}
@@ -19403,9 +19413,9 @@ const accessData = {
 			if (this.rolls?.length && this.rolls[0].message.display) {
 				let rollButtons = this.rolls[0].message.buttons;
 
-				for (const message of [...this.message.sections]) { // TODO: Is this spread operation needed anymore?
-					this.message.sections.delete(message.id);
-					this.rolls[0].message.sections.add(message);
+				for (const section of this.message.sections) { // TODO: Is this spread operation needed anymore?
+					this.message.sections.delete(section.id);
+					messageSection(this.rolls[0].message, section.header.title, section.contents.map(c => c.text));
 				}
 
 				for (const button of [...this.message.buttons]) {
@@ -19440,8 +19450,8 @@ const accessData = {
 
 			// Reset all message data
 			if (this.message?.buttons?.length) {
-				for (const button of this.message.buttons.repIDs) {
-					this.message.buttons.delete(buttonID);
+				for (const button of this.message.buttons) {
+					this.message.buttons.delete(button.id);
 				}
 			}
 
@@ -19881,15 +19891,24 @@ const accessData = {
 		// Returns a HTML string that highlights the location of an error
 		location(string, data) {
 			let langLocation = getTranslationByKeyCustom("Location: ", "math-error-location");
+			let offsetIndex = 0;
+			let offsetLength = 0;
+
+			// Avoids conflicts with node["abc"] steps in access paths
+			string = string.replace(/[\[\]]/g, (match, i) => {
+				if (data.index <= i && data.index + data.length-1 >= i) offsetLength += 4;
+				if (data.index > i) offsetIndex += 4;
+				return (match == "[") ? "&#91;" : "&#93;";
+			});
 
 			let string_end = string.length;
-			let error_start = data.index || string_end;
-			let error_end = Math.min(error_start + (data.length || 0), string_end);
+			let error_start = data.index + offsetIndex;
+			let error_end = Math.min(error_start + data.length + offsetLength, string_end);
 
 			return `*\n${langLocation}**${[
-				data.string.slice(0, error_start),
-				styleText(data.string.slice(error_start, error_end), "color: red;"),
-				styleText(data.string.slice(error_end, string_end), "color: gray;"),
+				string.slice(0, error_start),
+				styleText(string.slice(error_start, error_end), "color: red;"),
+				styleText(string.slice(error_end, string_end), "color: gray;"),
 			].join("")}*`;
 		}
 	},
@@ -21225,7 +21244,7 @@ function navPath(path, opts={}, error={}) {
 		if (step.toLowerCase() == "node" && prop.node === undefined) {
 			return node;
 		}
-		if (node && !node[step]) error.step = i;
+		if (node && node[step] === undefined) error.step = i;
 	
 		return (node && node[step] !== undefined) ? node[step] : null;
 	}, opts.start || access);
@@ -24346,7 +24365,7 @@ function getIcon(iconPath, returnMode="url", htmlAttrs=false, limbusStyle=false)
 	}
 	switch (returnMode) {
 		case "html": imageUrl = `<img src="${imageUrl}" ${htmlAttrs ? htmlAttrs : ""})>`; break;
-		case "markdown": imageUrl = `[icon](${imageUrl} ${htmlAttrs ? '"' + htmlAttrs : ""})`; break;
+		case "markdown": imageUrl = `[icon](${imageUrl}${htmlAttrs ? '" ' + htmlAttrs : ""})`; break;
 	}
 	return imageUrl;
 }
@@ -24362,7 +24381,7 @@ function getActionIcon(type, damagetype="none", ego=false) {
 	
 		let iconName = (type == "attack" && damageTypes.includes(capitalize(damagetype))) ? damagetype : type;
 
-		if (is.True(ego)) {
+		if (ego) {
 			switch (iconName) {
 				case "attack": iconName = "Att"; break;
 				case "defend": iconName = "Def"; break;
@@ -24375,7 +24394,7 @@ function getActionIcon(type, damagetype="none", ego=false) {
 }
 
 const colors = {
-	blue:"#7397d1", red:"#c25944", orange:"#cf8c44", yellow:"#dbb748", purple:"#8e7cc3", // Item colors
+	blue:"#7397d1", red:"#c25944", orange:"#cf8c44", yellow:"#dbb748", purple:"#8e7cc3", green:"#85a874", // Item colors
 	fortitude:"", prudence:"#d9d9d9", justice:"#46bdc6", charm:"#9c66c6", insight:"#ffe599", temperance:"#ac609d", // Stat colors
 	black:"#000000", gray:"#222222", white:"#ffffff", // Shades
 }
@@ -24388,6 +24407,7 @@ function getColor(color, opts={default:"#85a874"}) {
 }
 /* Uses HTML attribute injection to style text that can otherwise only be styled using markdown */
 function styleText(text, style) {
+	text = text.replace(/[\[\]]/g, (match) => (match == "[") ? "&#91;" : "&#93;"); // Avoids issues with brackets inside the text
 	return (text != "") ? `[${text}](#" class="sheet-styledText" style="${style})` : "";
 }
 
@@ -24487,7 +24507,20 @@ function getConOptionFromTranslation(inputOption, errorString="") {
 
 /* --- Math functionality --- */
 
-// Duplicate math operators for testing
+// More complex functions available to users in math
+const userFunc = {
+	includes: (a, b, opts) => {
+		if (opts) {
+			if (includesSnakeify(opts, "i")) {
+				a = snakeify("" + a);
+				b = snakeify("" + b);
+			}
+		}
+		return +(a.includes(b));
+	},
+}
+
+// Math operators & functions
 const newOperators = {
 	"+": {min: 2, max: 2, calc: (a,b) => a+b},
 	"-": {min: 2, max: 2, calc: (a,b) => a-b},
@@ -24501,15 +24534,16 @@ const newOperators = {
 	">": {min: 2, max: 2, calc: (a,b) => +(a>b)},
 	"==": {min: 2, max: 2, calc: (a,b) => +(a==b)},
 	"!=": {min: 2, max: 2, calc: (a,b) => +(a!=b)},
-	"||=": {min: 2, max: 2, calc: (a,b) => a?a:b},
-	"&&=": {min: 2, max: 2, calc: (a,b) => a?b:a},
-	"||": {min: 2, max: 2, calc: (a,b) => +!!(a||b)},
-	"&&": {min: 2, max: 2, calc: (a,b) => +!!(a&&b)},
-	"!": {min: 1, max: 1, calc: (a) => !a, func:true},
-	"Min": {min: 2, max:"any", calc: (...args) => Math.min.apply(null, args), func:true},
-	"Max": {min: 2, max:"any", calc: (...args) => Math.max.apply(null, args), func:true},
-	"Floor": {min: 1, max: 1, calc: (a) => Math.floor(a), func:true},
-	"Ceil": {min: 1, max: 1, calc: (a) => Math.ceil(a), func:true},
+	"?": {min: 2, max: 2, calc: (a,b) => is.Falsey(a)?a:b},
+	":": {min: 2, max: 2, calc: (a,b) => is.Truthy(a)?a:b},
+	"||": {min: 2, max: 2, calc: (a,b) => +(is.Truthy(a)||is.Truthy(b))},
+	"&&": {min: 2, max: 2, calc: (a,b) => +(is.Truthy(a)&&is.Truthy(b))},
+	"!": {min: 1, max: 1, calc: (a) => +(is.Falsey(a))}, // Unlike JS syntax this should be called after a value
+	"Min": {min: 2, max:"any", calc: Math.min, func:true},
+	"Max": {min: 2, max:"any", calc: Math.max, func:true},
+	"Floor": {min: 1, max: 1, calc: Math.floor, func:true},
+	"Ceil": {min: 1, max: 1, calc: Math.ceil, func:true},
+	".includes": {min: 1, max: 2, calc: userFunc.includes, func:true, method:true},
 }
 
 // Assignment operators. Only accessible to users through AutoEffects
@@ -24533,17 +24567,19 @@ const mathRegExpList = {
 		.filter(o => !newOperators[o].func)
 		.map(o => o.replaceAll("||", "\\|\\|"))
 		.join("|")
-		.replace(/([\+\*\/])/g, "\\$1")),
+		.replace(/([\?\+\*\/])/g, "\\$1")),
 	func: new RegExp(Object.keys(newOperators)			// 4: Functions
 		.filter(o => newOperators[o].func)
 		.map(o => o + "(?=\\()")
-		.join("|")),
+		.join("|")
+		.replace(/\./g, "\\.")),
 	nest_begin: /\(|\[/,								// 5: Begin nesting
 	nest_end: /\)|\]/,									// 6: End nesting
-	number: /\d+[\.,]\d+|\d+/,							// 7: Numbers (integer/float values)
-	step: /[\w\d]+/,									// 8: Variables (path steps)
-	dot: /\./,											// 9: Dots (path dividers)
-	comma: /,/, 										// 10: Commas (value seperators)
+	roll: /d(?=\d+(?:\W|$)|\()/,						// 7: Rolls (random integer values)
+	number: /\d+[\.,]\d+|\d+/,							// 8: Numbers (integer/float values)
+	step: /[\w\d]+/,									// 9: Variables (path steps)
+	dot: /\./,											// 10: Dots (path dividers)
+	comma: /,/, 										// 11: Commas (value seperators)
 }
 
 const mathRegExp = new RegExp(`(?:${Object.values(mathRegExpList).map(re => `(${re.source})`).join("|")})`, "g");
@@ -24551,10 +24587,12 @@ const mathRegExp = new RegExp(`(?:${Object.values(mathRegExpList).map(re => `(${
 var mathNesting = [];
 var prevIndex = 0;
 var newIndex = 0;
-var pathIndex = 0; // Index of the start of the last path
+var pathIndex = 0; // Index of the start of the last path. Used for error messages
+var pathChars = []; // Exact characters in the last path. -:-
 
 function newMathParser(mathString, opts={}, error={}, vars={}) {
 	let values = []
+	let func_values = []
 	let ops = []
 	let path = []
 
@@ -24566,153 +24604,189 @@ function newMathParser(mathString, opts={}, error={}, vars={}) {
 
 	if (!opts.nested) {
 		mathNesting = []
-		prevIndex = 0;
-		newIndex = 0;
+		prevIndex = newIndex = mathRegExp.lastIndex = 0;
 		console.log(`Parsing math string:\n${mathString}`);
 	}
 	let nestValues = []
 
+	while (match = mathRegExp.exec(mathString)) {
 
-	// TODO: Re-add math errors. This is the old error code used for effect values
-	/*if ((/[{}]/).test(this.value)) {
-		let mathString = this.value.match(/^{.+}$/g)[0];
-		if (mathString) {
-			validateMathFormula(this.value, vars, errors); break;
-		} else {
-			this.#error("Math Error", {"[MATH]":this.value}, ""); return;
+		// Get the type and value of the next math operation
+		let i = match.findLastIndex(m => m !== undefined);
+		if (i > 0) {
+			prevChars.push(chars = match[i]);
+			prevTypes.push(type = Object.keys(mathRegExpList)[i-1]);
 		}
-	}*/
 
-	//access._begin("math", () => {
-		while (match = mathRegExp.exec(mathString)) {
-			
-			// Get the type and value of the next math operation
-			let i = match.findLastIndex(m => m !== undefined); // TODO: Why is all this needed again?
-			if (i > 0) {
-				prevChars.push(chars = match[i]);
-				prevTypes.push(type = Object.keys(mathRegExpList)[i-1]);
+		// console.log(chars, type);
+
+		// Validate the operation index
+		if (mathRegExp.lastIndex < newIndex) break;
+		newIndex = mathRegExp.lastIndex;
+		prevIndex = match.index;
+		
+		// Checks that no characters remain unused at the start of the string
+		if (prevIndex + chars.length != newIndex) {
+			console.warn("Math - Throw error. Unknown symbol", chars); return null;
+		}
+
+		// Add values from access paths
+		if (type == "step") {
+			if (path.length == 0) {
+				pathIndex = prevIndex;
+				pathChars = [""];
+			}
+			path.push(chars);
+		}
+		if (pathChars.length) {
+			if (is(type).In("dot", "nest_begin")) pathChars.push("");
+			pathChars[pathChars.length-1] += chars;
+			console.log(pathChars);
+		}
+
+		if (path.length > 0) {
+			if (is(type).In("step", "dot", "nest_begin") && newIndex != mathString.length) {
+				if (type == "dot" && !is(prevTypes.at(-2)).In("step", "nest_begin")) {
+					Object.assign(error, {variant: "unexpected-dot", "[LOCATION]": {index: newIndex, length: 1}}); return null;
+				}
 			} else {
-				console.warn("Math - Throw error. Cannot parse remaining math string"); return null;
-			}
+				let result = navPath(path, {userPath:true, start:opts.var}); // Local / global variable
+				if (result === null || result === undefined) {
+					result = navPath(path, {userPath:true, start:opts.root}, error); // Access property
+				}
+				
+				console.log("Path", pathArrayToString(path), "returned value", Number(result) || result);
 
-			
-			// Validate the operation index
-			newIndex = mathRegExp.lastIndex;
-			prevIndex = match.index;
-
-			if (newIndex > mathString.length) break; // TODO: Why is this needed?
-			
-			// Checks that no characters remain unused at the start of the string
-			if (prevIndex + chars.length != newIndex) {
-				console.warn("Math - Throw error. Unknown symbol", chars); return null;
-			}
-	
-			// Add values from access paths
-			if (type == "step") {
-				if (path.length == 0) pathIndex = prevIndex;
-				path.push(chars);
-			}
-			if (path.length > 0) {
-				if ((is(type).In("step", "dot", "nest_begin")) && newIndex != mathString.length) {
-					if (path.length > 1 && prevTypes.at(-2)) {
-						if (type == "step" && !is(prevTypes.at(-2)).In("dot", "nest_begin")) {
-							console.log(type, path, prevTypes)
-							console.warn("Math - Throw error: Malformed path - unexpected path step"); return null;
-						}
-						else if (type == "dot" && !is(prevTypes.at(-2)).In("step", "nest_begin")) {
-							console.warn("Math - Throw error: Malformed path - unexpected '.' character"); return null;
-						}
-					}
+				if (result !== null) {
+					values.push(Number(result) || result);
+					path = []
 				} else {
-					let result = navPath(path, {userPath:true, start:opts.var}); // Local / global variable
-					if (result === undefined) result = navPath(path, {userPath:true, start:opts.root}, error); // Access property
-					
-					console.log("Path", pathArrayToString(path), "returned value", Number(result) || result);
-
-					if (result != null) {
-						values.push(Number(result) || result);
-						path = []
-					} else {
-						Object.assign(error, {
-							"[STEP]": path[error.step],
-							"[LOCATION]": {
-								string: error.orig?.string || mathString,
-								index: (error.orig?.index || 0) + pathIndex + pathArrayToString(path.slice(0, error.step)).length + 1,
-								length: path[error.step].length,
-							},
-						});
-						return null;
-					}
+					Object.assign(error, {
+						variant: "invalid-path",
+						"[STEP]": path[error.step],
+						"[LOCATION]": {
+							index: pathIndex + pathChars.slice(0, error.step).join("").length + 1,
+							length: pathChars[error.step].length || 0,
+						},
+					});
+					return null;
 				}
 			}
+		}
 
-			// Add new values, operators and functions
-			if (type == "number") values.push(Number(chars));
-			if (type == "string") values.push(chars.slice(1, -1));
-			if (is(type).In("operator", "func")) ops.push(newOperators[chars]);
+		// Handle nesting
+		if (type == "nest_begin") {
+			mathNesting.push(chars);
 
-			// Handle nesting
-			if (type == "nest_end") {
-				let nestBracket = mathNesting.pop();
+			let result = newMathParser(mathString, {...opts, nested:true}, error);
+			if (result === null) return null; // Error has already been printed inside the nested parser
 
-				if ((nestBracket == "(") ? chars != ")" : chars != "]") {
-					console.warn("Math - Throw error: Unexpected bracket", chars); return null;
-				}
-				break;
-			}
-			if (type == "nest_begin") {
-				mathNesting.push(chars);
-
-				let result = newMathParser(mathString, {...opts, nested:true}, error);
-
-				if (result === null) return null; // Error has already been printed inside the nested parser
-
-				if (chars == "(") {
+			if (chars == "(") {
+				if (ops.at(-1)?.func) {
+					func_values = func_values.concat(result); // New function values
+				} else {
 					values = values.concat(result); // New values
+				}
+			} else {
+				if (path.length) {
+					path = path.concat(result); // New path step, or array of steps
 				} else {
-					if (path.length) {
-						path = path.concat(result); // New path step, or array of steps
-					} else {
-						values.push(result); // New array value
-					}
+					values.push(result); // New array value
 				}
 			}
+		}
+		if (type == "nest_end") {
+			let nestingBracket = mathNesting.pop();
 
-			// Execute operators and functions
-			let op = ops.at(-1);
-
-			if (type != "func" && op && op.func && op.min > values.length) {
-				console.warn("Math - Throw error: Not enough values provided for function"); return null;
+			if (!nestingBracket) {
+				Object.assign(error, {variant: "unexpected-bracket", "[UNEX]":chars, "[LOCATION]": {index: newIndex, length: 1}}); return null;
 			}
-			else if (ops.length && op.min <= values.length) {
-				let vals = values.splice(-Math.min(op.max, values.length));
+			else if ((nestingBracket == "(") ? chars != ")" : chars != "]") {
+				Object.assign(error, {variant: "missing-bracket", "[MISSING]":(nestingBracket == "(") ? ")" : "]", "[LOCATION]": {index: newIndex, length: 1}}); return null;
+			}
+			break;
+		}
+
+		// Add new values, operators and functions
+		if (type == "number") values.push(Number(chars.replace(",", ".")));
+		else if (type == "string") values.push(chars.slice(1, -1));
+		else if (is(type).In("operator", "func")) { ops.push({...newOperators[chars], key:chars}); }
+
+		// Execute rolls
+		if (is(type).In("number", "nest_begin") && prevTypes.at(-2) == "roll") {
+			if (values.length >= 1) {
+				let max = values.pop();
+				let count = (values.length && prevTypes.at(-3) != "space") ? values.pop() : 1;
+				let sum = 0;
+				let c = count; // TODO: For logging purposes. Remove later
 				
 				try {
-					values.push(ops.pop().calc.apply(op, vals));
-					console.log("Math: Executing", Object.keys(newOperators).find(key => newOperators[key] == op), vals, "=", values[0]);
+					while (count--) {
+						sum += simulateDice(max);
+					}
+					values.push(sum);
+					console.log("Math: Rolling", `${c}d${max} =`, values[0]);
 				} catch (e) {
-					console.warn("Math - Throw error: Illegal operation", e); return null;
+					Object.assign(error, {variant: "illegal-roll", "[ROLL]":`${c}d${max}]`}); return null;
 				}
-				
-			}
-
-			// Handle value seperators
-			if (type == "comma") {
-				if (!opts.nested || values.length != 1) {
-					console.warn("Math - Throw error: Unexpected comma"); return null;
-				}
-				nestValues.push(values[0]);
-				values = [];
 			}
 		}
 
-		// Validate generated math value(s)
-		if (values.length == 0) { console.warn("Math - Throw error: Math string returned no values"); return null; }
-		if (values.length > 1) { console.warn("Math - Throw error: Unused values in math string", values); return null; }
-		if (ops.length > 0) { console.warn("Math - Throw error: Unused operators in math string", ops); return null; }
+		// Execute operators and functions
+		let op = ops.at(-1);
 
-		return (opts.nested) ? nestValues.concat(values) : values[0];
-	//});
+		if (op && type != "func" && (op.func || op.min <= values.length)) {
+			let vals = []
+
+			if (op.func) {
+				if (op.min > func_values.length) {
+					Object.assign(error, {variant: "func-values-min", "[FUNC]":op.key, "[VALS]":`[${func_values.join(", ")}]`, "[MIN]":op.min}); return null;
+				}
+				else if (op.max != "any" && op.max < func_values.length) {
+					Object.assign(error, {variant: "func-values-max", "[FUNC]":op.key, "[VALS]":`[${func_values.join(", ")}]`, "[MAX]":op.max}); return null;
+				}
+				vals = func_values;
+				func_values = [];
+			} else {
+				vals = values.splice(-Math.min(op.max, values.length));
+			}
+
+			if (op.method) {
+				if (!values.length) {
+					Object.assign(error, {variant: "func-method", "[FUNC]":op.key}); return null;
+				}
+				vals.unshift(values.pop());
+			}
+			
+			try {
+				values.push(ops.pop().calc.apply(op, vals));
+				console.log("Math: Executing", op.key, vals, "=", values[0]);
+			} catch (e) {
+				Object.assign(error, {variant: "illegal-operation", "[OP]":op.key + ((op.func) ? "()" : ""), "[VALS]":`[${vals.join(", ")}]`}); return null;
+			}
+		}
+
+		// Handle value seperators
+		if (type == "comma") {
+			if (!opts.nested || values.length != 1) {
+				Object.assign(error, {variant: "unexpected-comma", "[LOCATION]": {index: newIndex, length: 1}}); return null;
+			}
+			nestValues.push(values[0]);
+			values = [];
+		}
+	}
+
+	// Validate math execution
+	if (!opts.nested && mathString.length != newIndex) {
+		Object.assign(error, {variant: "failed-parse", "[LOCATION]": {index: newIndex + 1, length: mathString.length - newIndex + 1}}); return null;
+	}
+
+	// Validate generated math value(s)
+	if (values.length == 0) { error.variant = "no-values"; return null; }
+	if (values.length > 1) { Object.assign(error, {variant: "unused-values", "[VALS]": `[${values.join(", ")}]`}); return null; }
+	if (ops.length > 0) { Object.assign(error, {variant: "unused-operators", "[OPS]": `[${Object.values(ops).map(op => op.key).join(", ")}]`}); return null; }
+
+	return (opts.nested) ? nestValues.concat(values) : values[0];
 }
 
 
@@ -25086,8 +25160,8 @@ function splitIgnoreBetween(string, seperator, chars=['"'], opts={includeChars:f
 	string = string.split(seperator);
 
 	// Add back in all ignored text sections
-	for (const [ID, matches] of Object.entries(ignoreList)) {
-		string = string.map(v => { while (v.includes(ID)) { v = v.replace(ID, matches.shift()) }; return v; });
+	for (const [ID, matches] of Object.entries(ignoreList).reverse()) {
+		string = string.map(v => v.replaceAll(ID, () => matches.shift()));
 	}
 
 	return string;

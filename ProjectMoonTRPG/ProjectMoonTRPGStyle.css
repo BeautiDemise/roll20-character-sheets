@@ -4210,7 +4210,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
-    margin-top: 4px;
+    margin-top: 5px;
 }
 
 /* Button with no title */
@@ -4223,6 +4223,18 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .sheet-rolltemplate-customRoll a[class^=sheet-button]:not([style*=background-image]) {
     padding-left: 10px;
 }
+
+/* Inline icon */
+.sheet-rolltemplate-customRoll .sheet-section-message a:has(img) {
+    pointer-events: none;
+
+    img {
+        height: 25px;
+        width: 25px;
+    }
+}
+.sheet-rolltemplate-customRoll .sheet-section-message:has(> a:first-child) { padding-left: 1px; }
+.sheet-rolltemplate-customRoll .sheet-section-message:has(> :not(a):first-child) { padding-left: 10px; }
 
 .sheet-rolltemplate-customRoll .sheet-button-half { width: calc(50% - 2px); }
 .sheet-rolltemplate-customRoll .sheet-button-third { width: calc(33.33% - 3px); }
@@ -4489,7 +4501,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     min-height: 30px;
     max-height: 75px;
     margin: -5px -5px 0 -5px;
-    border: 2px #000 solid;
+    border: 2px solid #000;
     background-color: #222;     /* Customizeable */
     color: #fff;                /* Customizeable */
     box-sizing: border-box;
@@ -4500,7 +4512,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         width: 45%;
         max-height: 41px;
         margin: auto;
-        padding: 3px 0 3px 4px;
+        padding: 3px 0 3px 6px;
         line-height: 18px;
         font-size: 14px;
         word-wrap: break-word;
@@ -4591,18 +4603,32 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         }
     }
 }
+.sheet-rolltemplate-customRoll .sheet-header-wrapper .sheet-icon {
+    height: 36px;
+    width: 36px;
+    border-right: 1px solid #000;
+}
+.sheet-rolltemplate-customRoll .sheet-section-wrapper .sheet-header-wrapper .sheet-icon {
+    height: 26px;
+    width: 26px;
+}
+/* Inline button styling */
+.sheet-rolltemplate-customRoll .sheet-section-contents  {
+    border: 1px solid #555;
+    border-radius: 0 0 4px 4px;
 
-.sheet-rolltemplate-customRoll .sheet-section {
     .sheet-section-message {
         padding: 2px 5px;
         line-height: 21px;
-        border: 1px solid #555;
-        border-top: 0;
+        border-bottom: 1px solid #555;
 
         &:last-child {
-            border-radius: 0 0 4px 4px;
+            border-bottom: 0;
         }
     }
+}
+.sheet-rolltemplate-customRoll .sheet-section-contents:nth-child(2) {
+    border-radius: 4px;
 }
 
 /* Use this to give feedback on hover and selection */
@@ -4644,9 +4670,10 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 }
 
 .sheet-rolltemplate-customRoll .sheet-section-toggle,
-.sheet-rolltemplate-customRoll .sheet-section:has(.sheet-section-toggle):not(:has(input:checked)),
-.sheet-rolltemplate-customRoll .sheet-section-wrapper:not(:has(input:checked)),
-.sheet-rolltemplate-customRoll .sheet-section-wrapper:has(.sheet-section-deselect input:checked) {
+.sheet-rolltemplate-customRoll .sheet-section-deselect,
+.sheet-rolltemplate-customRoll .sheet-section:has(.sheet-section-toggle:only-child),
+.sheet-rolltemplate-customRoll .sheet-section:has(input:not(:checked)),
+.sheet-rolltemplate-customRoll .sheet-section-wrapper:not(:has(.sheet-section input:checked)) {
     display: none;
 }
 
