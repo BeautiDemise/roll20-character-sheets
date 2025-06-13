@@ -8373,8 +8373,9 @@ EGO block end -->
 <!-- Icon Selector Data -->
 <datalist id="iconlist">
     <option value="None">None</option>
-    <option value="Question">Question</option>
+    <option value="icons/question">Question</option>
 
+	<!-- Ruina icons -->
     <option value="Burn">Burn</option>
     <option value="Bleed">Bleed</option>
     <option value="Paralysis">Paralysis</option>
@@ -8391,9 +8392,15 @@ EGO block end -->
     <option value="Disarm">Disarm</option>
     <option value="Haste">Haste</option>
     <option value="Bind">Bind</option>
-    <option value="Panic">Panic</option>
-    <option value="Hostile">Hostile</option>
+	<option value="Blood">Blood</option>
 
+    <option value="Hostile">Hostile</option>
+    <option value="Panic">Panic</option>
+    <option value="Immobile">Immobile</option>
+    <option value="Seal">Seal</option>
+    <option value="Defeat">Defeat</option>
+
+	<!-- Limbus icons -->
     <option value="limbus/Burn">Burn (Limbus)</option>
     <option value="limbus/Bleed">Bleed (Limbus)</option>
     <option value="limbus/Paralysis">Paralysis (Limbus)</option>
@@ -8410,7 +8417,13 @@ EGO block end -->
     <option value="limbus/Disarm">Disarm (Limbus)</option>
     <option value="limbus/Haste">Haste (Limbus)</option>
     <option value="limbus/Bind">Bind (Limbus)</option>
+
     <option value="limbus/Hostile">Hostile (Limbus)</option>
+    <option value="limbus/Panic">Panic: !!! (Limbus)</option>
+	<option value="limbus/PanicBlue">Panic: Brain (Limbus)</option>
+    <option value="limbus/Immobile">Immobile (Limbus)</option>
+    <option value="limbus/Seal">Seal (Limbus)</option>
+    <option value="limbus/Defeat">Defeat (Limbus)</option>
 
     <option value="limbus/Rupture">Rupture (Limbus)</option>
     <option value="limbus/Tremor">Tremor (Limbus)</option>
@@ -8423,8 +8436,6 @@ EGO block end -->
 	<option value="limbus/TremorSuperposition">Tremor Superposition (Limbus)</option>
     <option value="limbus/Sinking">Sinking (Limbus)</option>
     <option value="limbus/Poise">Poise (Limbus)</option>
-    <option value="limbus/Panic">Panic: !!! (Limbus)</option>
-    <option value="limbus/PanicBlue">Panic: Brain (Limbus)</option>
     <option value="limbus/Frostbite">Frostbite (Limbus)</option>
     <option value="limbus/Poison">Poison (Limbus)</option>
     <option value="limbus/Nails">Nails (Limbus)</option>
@@ -8444,8 +8455,6 @@ EGO block end -->
     <option value="limbus/TTime">T-Corp Time (Limbus)</option>
 	<option value="limbus/RottingSkin">Rotting Skin (Limbus)</option>
 
-	<option value="Blood">Blood</option>
-
     <option value="limbus/SlashProtection">Slash Protection (Limbus)</option>
     <option value="limbus/PierceProtection">Pierce Protection (Limbus)</option>
     <option value="limbus/BluntProtection">Blunt Protection (Limbus)</option>
@@ -8464,15 +8473,81 @@ EGO block end -->
 	<option value="limbus/DamageUp">Damage Up (Limbus)</option>
 	<option value="limbus/DamageDown">Damage Down (Limbus)</option>
 
+	<!-- Community icons -->
     <option value="community/Style">Style (Community)</option>
     <option value="community/Thorns">Thorns (Community)</option>
     <option value="community/Rhythm">Rhythm (Community)</option>
-
     <option value="community/Frenzy">Frenzy (Community)</option>
     <option value="community/Shock">Shock (Community)</option>
     <option value="community/Terror">Terror (Community)</option>
     <option value="community/StaggerDamageUp">Stagger Damage Up (Community)</option>
     <option value="community/StaggerDamageDown">Stagger Damage Down (Community)</option>
+
+	<!-- Stat icons -->
+	<option value="stats/Fortitude">Fortitude</option>
+	<option value="stats/Prudence">Prudence</option>
+	<option value="stats/Justice">Justice</option>
+	<option value="stats/Charm">Charm</option>
+	<option value="stats/Insight">Insight</option>
+	<option value="stats/Temperance">Temperance</option>
+	
+	<!-- Resistance icons -->
+	<option value="def/ResSlash">Res. Slash</option>
+	<option value="def/ResSlashStg">Stagger Res. Slash</option>
+	<option value="def/ResPierce">Res. Pierce</option>
+	<option value="def/ResPierceStg">Stagger Res. Pierce</option>
+	<option value="def/ResBlunt">Res. Blunt</option>
+	<option value="def/ResBluntStg">Stagger Res. Blunt</option>
+	<option value="def/ResNone">Res. None</option>
+	<option value="def/ResNoneStg">Stagger Res. None</option>
+
+	<!-- Sheet icons -->
+	<option value="DamageResist">Damage Resist</option>
+	<option value="limbus/DamageResist">Damage Resist (Limbus)</option>
+	
+    <option value="icons/good">Good Result</option>
+    <option value="icons/neutral">Neutral Result</option>
+    <option value="icons/bad">Bad Result</option>
+	
+    <option value="icons/egoChoose">Question (Red)</option>
+    <option value="icons/Attack">Attack</option>
+    <option value="icons/slash">Slash</option>
+    <option value="icons/pierce">Pierce</option>
+    <option value="icons/blunt">Blunt</option>
+    <option value="icons/egoAtt">Attack (Red)</option>
+    <option value="icons/egoSlash">Slash (Red)</option>
+    <option value="icons/egoPierce">Pierce (Red)</option>
+    <option value="icons/egoBlunt">Blunt (Red)</option>
+	<option value="icons/defend">Block</option>
+    <option value="icons/egoDef">Block (Blue)</option>
+	<option value="icons/evade">Evade</option>
+    <option value="icons/egoEvd">Evade (Yellow)</option>
+    <option value="icons/Portable">Action</option>
+    <option value="icons/egoAct">Action (Purple)</option>
+    <option value="icons/Wide">Mass</option>
+    <option value="icons/egoWide">Mass (Red)</option>
+
+    <option value="icons/damage">Damage</option>
+    <option value="icons/win">Win</option>
+    <option value="icons/lose">Lose</option>
+    <option value="icons/Distort">Distort</option>
+    <option value="icons/gear">Gear</option>
+    <option value="icons/heal">Heal</option>
+    <option value="icons/lock">Lock</option>
+    <option value="icons/lock-unlock">Unlock</option>
+    <option value="icons/target">Target</option>
+    <option value="icons/next">Next</option>
+    <option value="icons/speed">Speed</option>
+    <option value="icons/reuse">Reload</option>
+	<option value="icons/search">Search</option>
+	<option value="icons/view">View</option>
+	<option value="icons/view-hide">Hide</option>
+	<option value="icons/whisper">Whisper</option>
+
+	<option value="icons/light">Light</option>
+	<option value="icons/specialwhite">Special</option>
+	<option value="icons/egoSpecial">Special (Orange)</option>
+	<option value="icons/fortunewhite">Fortune (White)</option>
 </datalist> 
 <!-- Icon Selector Data END -->
 
@@ -9375,7 +9450,7 @@ function getJQuery(prop, onfail) {
 	});
 	return jQueryPromise;
 }
-/* Does not function for players
+/* Only functions for owned sheets which have been opened during a play session */
 function setAttrsByID(actId, propObj, opts={}) {
     var prevActId = getActiveCharacterId();
     return new Promise((resolve,reject)=>{
@@ -9387,7 +9462,7 @@ function setAttrsByID(actId, propObj, opts={}) {
     }).finally(()=>{
         setActiveCharacterId(prevActId);
     });
-}*/
+}
 /* --- orcsAsync+ end --- */
 
 
@@ -9431,7 +9506,7 @@ class checkVal {
 
 	static Opts(i, opts={min:false, max:false}) {
 		this.x = i;
-		if (opts.inclusive === undefined) opts.inclusive = true;
+		opts.inclusive ??= true;
 		if (typeof opts.min == "number" && !is.Min(opts.min, opts)) return false;
 		if (typeof opts.max == "number" && !is.Max(opts.max, opts)) return false;
 		return true;
@@ -11375,8 +11450,8 @@ on("change:tool1Icon change:tool2Icon change:tool3Icon change:tool4Icon", functi
 function updateIcon(type, baseIcon, id, returnOutput=false) {
 	if (!baseIcon) {
 		switch (type) {
-			case "tool": baseIcon = "Hand"; break;
-			default: baseIcon = "Question";
+			case "tool": baseIcon = "icons/Portable"; break;
+			default: baseIcon = "icons/question";
 		}
 	}
 	
@@ -11387,10 +11462,11 @@ function updateIcon(type, baseIcon, id, returnOutput=false) {
 	if (newIcon == "") {
 		let [iconFolder, iconName] = baseIcon.split("/");
 		switch (iconFolder.toLowerCase()) {
-			case "limbus": newIcon = getIcon(`ailments/${iconName}`); break;
+			case "limbus": newIcon = getIcon(`ailments/limbus/${iconName}`); break;
 			case "community": newIcon = getIcon(`community/${iconName}`); break;
-			case "question": newIcon = getIcon("icons/question"); break;
-			case "hand": newIcon = getIcon("icons/Portable"); break;
+			case "icons": newIcon = getIcon(`icons/${iconName}`); break;
+			case "stats": newIcon = getIcon(`stats/${iconName}`); break;
+			case "def": newIcon = getIcon(`def/${iconName}`); break;
 			default: newIcon = getIcon(`ailments/${iconFolder}`); break;
 		}
 	}
@@ -13098,6 +13174,23 @@ function getButtonMarkdown(button, opts={}) {
 	return `[${title}](~${target}|chatButton||${Data.package(data)}" class="sheet-button-${size}" style="${style}")`;
 }
 
+// Takes in a section dataNode and returns a HTML string for displaying that section in chat messages
+function getSectionHTML(section, opts={}) {
+	let sectionHeader = section.header.title;
+	let sectionIcon = section.header.icon;
+	let sectionIconAttrs = (section.header.color.icon) ? ` style="background-color: ${getColor(section.header.color.icon)}"` : "";
+	let sectionContents = []
+
+	for (const message of section.contents) {
+		sectionContents.push(`<div class="sheet-section-message">${message.text}</div>`);
+	}
+
+	sectionIcon &&= `${getIcon(sectionIcon, "html", 'class="sheet-icon"' + sectionIconAttrs)}`;
+	sectionHeader &&= `<div class="sheet-header-wrapper">${sectionIcon || ""}<b class="sheet-title">${sectionHeader}</b></div>`;
+	sectionContents &&= `<div class="sheet-section-contents">${sectionContents.join("")}</div>`;
+	return (sectionHeader || "") + (sectionContents || "");
+}
+
 // Outputs a chat message containing all roll, message and error data in access
 async function sendMessage(rollArray, message) {
 	if (!rollArray) rollArray = access.rolls;
@@ -13192,7 +13285,6 @@ async function sendMessage(rollArray, message) {
 		}
 
 		let rollTitle = roll.message.title || roll.type || "";
-
 		let rollImage = getIcon(roll.message.icon);
 		let rollColor = getColor(roll.message.color);
 		let rollTooltip = `&lt;img src='/images/quantumrollwhite.png' class='inlineqroll'&gt; Rolling ${preRollTooltip} = ${postRollTooltip}`;
@@ -13220,19 +13312,7 @@ async function sendMessage(rollArray, message) {
 
 			// Generate roll section(s)
 			for (const section of roll.message.sections) {
-				let sectionHeader = section.header.title;
-				let sectionIcon = section.header.icon;
-				let sectionIconAttrs = (section.header.color.icon) ? ` style="background-color: ${getColor(section.header.color.icon)}"` : false;
-				let sectionContents = []
-
-				for (const message of section.contents) {
-					sectionContents.push(`<div class="sheet-section-message">${message.text}</div>`);
-				}
-
-				sectionIcon &&= `${getIcon(sectionIcon, "html", 'class="sheet-icon"' + sectionIconAttrs)}`;
-				sectionHeader &&= `<div class="sheet-header-wrapper">${sectionIcon || ""}<b class="sheet-title">${sectionHeader}</b></div>`;
-				sectionContents &&= `<div class="sheet-section-contents">${sectionContents.join("")}</div>`;
-				sectionInsert += (sectionHeader || "") + (sectionContents || "");
+				sectionInsert += getSectionHTML(section);
 			}
 
 			// Generate any roll specific buttons
@@ -13259,11 +13339,18 @@ async function sendMessage(rollArray, message) {
 		}
 	}
 
+	// Generate message sections
+	for (const section of message.sections) {
+		msgSections.push(`<div class="sheet-section">${getSectionHTML(section)}</div>`);
+	}
+
 	// Handle message buttons
 	for (const button of message.buttons) {
 		button.insert = getButtonMarkdown(button);
 		if (button.display) msgButtons.push(button.insert);
 	}
+
+	
 
 	// Users can use the following insert words:
 
@@ -13321,26 +13408,23 @@ async function sendMessage(rollArray, message) {
 	});
 
 	// Handle errors
-	if (access._state == "error") {
-		for (const [type, errors] of Object.entries(access._error.errors)) {
-			let errorMessages = []
+	for (const [type, errors] of Object.entries(access._error.errors)) {
+		let errorMessages = []
 
-			for (const error of errors) {
-				let errorMessage = `${styleText(error.subject, "font-weight: bolder; color: red;")}\n*${error.text}*`;
-			
-				// Apply any provided insert words
-				for (let [match, insert] of Object.entries(error.inserts)) {
-					if (match == "[LOCATION]") {
-						insert = access._error.location(insert.string, insert);
-					}
-					errorMessage = errorMessage.replaceAll(match, (insert !== undefined) ? insert : ` ${match}`);
+		// Apply any provided insert words
+		for (const error of errors) {
+			for (let [match, insert] of Object.entries(error.inserts)) {
+				if (match == "[LOCATION]") {
+					insert = access._error.location(insert.string, insert);
 				}
-				errorMessages.push(errorMessage);
+				error.text = error.text.replaceAll(match, insert ?? ` ${match}`);
 			}
-			let errorIcon = `${getIcon("icons/exit", "html", `class="sheet-icon" style="background-color : ${getColor("red")};"`)}`;
-			let errorInsert = `<div class="sheet-section-contents">${errorMessages.reduce((acc, msg) => acc += `<div class="sheet-section-message">${msg}</div>`, "")}</div>`;
-			msgSections.unshift(`<div class="sheet-section"><div class="sheet-header-wrapper">${errorIcon}<b class="sheet-title">${type}</b></div>${errorInsert}</div>`);
+			errorMessages.push(`${styleText(error.subject, "font-weight: bolder; color: red;")}\n${error.text}`);
 		}
+
+		let errorIcon = `${getIcon("icons/exit", "html", `class="sheet-icon" style="background-color : ${getColor("red")};"`)}`;
+		let errorInsert = `<div class="sheet-section-contents">${errorMessages.reduce((acc, msg) => acc += `<div class="sheet-section-message">${msg}</div>`, "")}</div>`;
+		msgSections.unshift(`<div class="sheet-section"><div class="sheet-header-wrapper">${errorIcon}<b class="sheet-title">${type}</b></div>${errorInsert}</div>`);
 	}
 
 
@@ -13376,9 +13460,9 @@ async function sendMessage(rollArray, message) {
 
 /* Executes one or more rolls and posts the results to the chat */
 function executeRolls(rollArray, opts={use_resource:false}) {
-	access._begin("roll", () => {
+	access._begin("event:roll", () => {
 		if (rollArray instanceof dataNode && !rollArray[0]) rollArray = [rollArray];
-		let firstRoll = access.rolls.length == 0;
+		let prevLength = access.rolls.length;
 
 		if (opts.use_resource) {
 			let resource = (access.resource.selection == "Action") ? "action" : "reaction";
@@ -13427,21 +13511,13 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 					let newRoll = access.rolls.add({node:cleanRoll(roll), index:opts.index});
 					newRoll._multiroll = multiRollID; // Multirolls are given an ID for handling the DiceCount AutoEffect
 				}
-
-				/*
-				for (let i = 0; i < multiCount; i++) {
-					let newRoll = access.rolls.add({node:cleanRoll(roll), index:roll.index});
-					newRoll.result_dice = roll.result_dice.map(r => [r.shift()]);
-					simulateRoll(newRoll, {rollDice:newRoll.result_dice, updateRoll:true, difficulty:true});
-				}
-				*/
 			} else {
 				access.rolls.add({node:roll, index:opts.index});
 			}
 		}
 
 		// Add any message data from the originating item or rolls
-		if (firstRoll && access.rolls[0]) {
+		if (prevLength == 0 && access.rolls[0]) {
 			let item = access.items[access.rolls[0]?.orig?.id];
 			let header = access.message.header;
 			let desc = access.message.desc;
@@ -13476,7 +13552,7 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 
 		// Simulate all new rolls and save the resulting value
 		for (const roll of access.rolls) {
-			if (roll.result === undefined) {
+			if (prevLength <= roll.index) {
 				simulateRoll(roll, {updateRoll:true, difficulty:true});
 
 				console.log(`Simulating roll: ${roll.type} - ${roll.count}d${roll.max}+(${roll.power}) ${roll.adv || ""}`);
@@ -16830,7 +16906,7 @@ const dataFormat = {
 		},
 		target: (v) => is.False(v) || v instanceof dataNode, 
 		token: {
-			selection: (s) => s == "" || is.ID(s),
+			selection: (s) => is.False(s) || is.ID(s),
 			_default: (v) => v instanceof dataNode,
 		},
 		tags: {
@@ -16963,7 +17039,7 @@ const dataFormat = {
 on("clicked:testA", async function(info) {
 	console.log("Clicked button A");
 
-	access._begin("update", function() {
+	access._begin("event:update", function() {
 		access.effects.add('(Gain {bar.Light * scaling} Frostbite) (Inflict 2 Tremor) (Give 4 Rupture, Clash Lose #ChatButton)');
 
 		access.effects.execute();
@@ -16982,6 +17058,8 @@ on("clicked:testB", function(info) {
 
 on("clicked:testC", function(info) {
 	console.log("Clicked button C");
+
+	console.log("Access stack:", [...access._action_stack]);
 
 	//transferData(access.currentID.output());
 });
@@ -17039,19 +17117,10 @@ class dataNode extends Array {
 			_parent: {writable: true, value: parent},	 // The parent node of this node, if any
 			_path: {writable: true, value: path},		 // The access path leading to this node
 			enabled: {writable: true, value: true}, 	 // If a subnode and its properties are enabled. Used primarily for toggling item options
+			id: { get() { return this._id; } },
+			parent: { get() { return this._parent; } },
+			path: { get() { return [...this._path]; } },
 		});
-
-		// Construct a node from a pre-existing node. Used in filter()
-		if (formats.node) {
-			return Object.defineProperties(this, Object.fromEntries(Object.entries(Object.getOwnPropertyDescriptors(formats.node))
-				.filter(([prop, value]) => !value.enumerable || value.value instanceof dataNode && (!formats.filter || formats.filter.includes(prop)))));
-		} else {
-			Object.defineProperties(this, {
-				id: { get() { return this._id; } },
-				parent: { get() { return this._parent; } },
-				path: { get() { return [...this._path]; } },
-			});
-		}
 
 		// Get the sources of the data, and any source-specific attribute name data
 		if (formats.source) {
@@ -17205,7 +17274,7 @@ class dataNode extends Array {
 
 
 	// Helper method for accessing all properties and subnodes of a node
-	// Used by input(), output(), import(), export() and attrkeys()
+	// Used by input(), output(), apply(), attrkeys(), import() and export()
 	access(values, output, opts={allProps:false, event:false, unsorted:false, apply:false}) {
 		if (!output) output = {editor:{}, sheet:{}}
 
@@ -17231,7 +17300,7 @@ class dataNode extends Array {
 					if (!propAttr) continue;
 
 					// Handle inputting values
-					if (values && values[source] && propAttr in values[source]) {
+					if (values?.[source]?.[propAttr]) {
 						this.modify(prop, values[source][propAttr], {...opts, source: source});
 						delete values[source][propAttr];
 					}
@@ -17276,8 +17345,8 @@ class dataNode extends Array {
 		if (prop in this._attrs) {
 			let index = (this._attrs[source]?.type == "index") ? this.index													// Repeating node
 					  : (this._rep?.source[source]?.type == "index" && is.Int(this[prop].index)) ? this[prop].index : ""; 	// Nested repeating root
-			let prefix = this._attrs[source]?.prefix || "";
-			let suffix = this._attrs[source]?.suffix || "";
+			let prefix = this._attrs[source]?.prefix ?? "";
+			let suffix = this._attrs[source]?.suffix ?? "";
 			let key = this._attrs[prop];
 			
 			let section = (this._attrs[source]?.section) ? this._attrs[source].section : false;
@@ -17309,11 +17378,10 @@ class dataNode extends Array {
 		if (!prop.startsWith("_")) prop = "_" + prop;
 
 		let oldValue = this[snakeify(prop)];
-		if (newValue === undefined) newValue = "";
+		newValue ??= "";
 		
 		//console.log(`(${opts.source || "Code"}) ${prop} ${this[prop]} -> ${newValue}`);
 		if (oldValue !== undefined) {
-
 			if (!this._validator(prop)(newValue)) {
 				console.warn(`Attempted to set the value of ${prop} to invalid value ${newValue}`, this);
 			}
@@ -17405,7 +17473,7 @@ class dataNode extends Array {
 				} else {
 					this.push(new dataNode({
 						base: this._rep.base,
-						default: (opts.default !== false) ? this._rep.defaults?.[opts.section] || this._formats.default?._repeating?.[this.length] || false : false,
+						default: opts.default ?? this._rep.defaults?.[opts.section] ?? this._formats.default?._repeating?.[this.length] ?? false,
 						valid: this._rep.valid || false,
 						attrs: this._rep.attrs || false,
 						source: repSource,
@@ -17446,7 +17514,7 @@ class dataNode extends Array {
 		}
 	}
 	_addAccessors(opts={}) {
-		if (opts.key) {
+		if (opts.key) { // For key properties of repeating nodes
 			Object.defineProperty(this, snakeify(opts.key), {
 				get() {
 					return this.find(node => node[node._keyProp] == opts.key);
@@ -17457,7 +17525,7 @@ class dataNode extends Array {
 				configurable: true,
 			});
 		}
-		if (opts.prop) {
+		if (opts.prop) { // For node properties
 			Object.defineProperty(this, opts.prop, {
 				get() {
 					if (this[`_${opts.prop}`] instanceof dataNode) {
@@ -17467,7 +17535,7 @@ class dataNode extends Array {
 						access._getImmutable = false;
 						return this[`_${opts.prop}`];
 					}
-					return (this.#output[`_${opts.prop}`] !== undefined) ? this.#output[`_${opts.prop}`] : this[`_${opts.prop}`];
+					return this.#output[`_${opts.prop}`] ?? this[`_${opts.prop}`];
 				},
 				set(v) {
 					this.modify(opts.prop, v);
@@ -17475,7 +17543,7 @@ class dataNode extends Array {
 				configurable: true,
 			});
 		}
-		if (opts.rep) {
+		if (opts.rep) { // For repeating node ids
 			Object.defineProperty(this, opts.rep, {
 				get() {
 					return this.find(node => node.path.at(-1) == opts.rep);
@@ -17493,10 +17561,10 @@ class dataNode extends Array {
 
 			// Remove all repeating items associated with the deleted node
 			if (node._attrs.sheet?.section) {
-				removeRepeatingRow(`repeating_${node._attrs.sheet.section}_${id}`);
+				removeRepeatingRow(`repeating_${node._attrs.sheet.section}_${node.path.at(-1)}`);
 			}
 			if (node._attrs.editor?.section) {
-				removeRepeatingRow(`repeating_${node._attrs.editor.section}_${node.path.findLast(step => is.ID(step))}`);
+				removeRepeatingRow(`repeating_${node._attrs.editor.section}_${node.path.at(-1)}`);
 			}
 
 			// Due to quirks with dataNode extending Array all nodes must be removed, then readded (except the deleted node)
@@ -17590,7 +17658,7 @@ class dataNode extends Array {
 		let fixEnabled = (node, copy) => {
 			copy.enabled = node.enabled;
 			for (const prop in node) {
-				if (node[prop] instanceof dataNode && node[prop].path.at(-1) == snakeify(prop)) {
+				if (node[prop] instanceof dataNode && node[prop].path.at(-1) == snakeify(prop)) { // Avoids cases like access.rolls.N.message
 					fixEnabled(node[prop], copy[prop]);
 				}
 			}
@@ -17620,12 +17688,19 @@ class dataNode extends Array {
 		return this;
 	}
 
-	// Returns a filtered copy of the node which only includes subnodes that match a predicate
-	filter(predicate) {
-		return new dataNode({
-			node: this,
-			filter:	this.keys.filter(prop => this[prop] instanceof dataNode && predicate(this[prop])),
-		}, this.id, this.parent, this.path);
+	// Sets all properties of this node and all subnodes to their default values
+	// Clears any repeating subnodes
+	reset() {
+		for (const repID of this.repIDs) {
+			this.delete(repID);
+		}
+		for (const prop in this) {
+			if (this[prop] instanceof dataNode) {
+				this[prop].reset();
+			} else {
+				this[prop] = this._formats.base[snakeify(prop)];
+			}
+		}
 	}
 }
 
@@ -17642,7 +17717,7 @@ class effectNode extends dataNode {
 	#buffer = {}
 	#invalid; // Set to true if the effect encounters a validation error
 
-	constructor(AutoEffect, parent, path=false) {
+	constructor(AutoEffect, parent, path) {
 		let blockID = generateRowID().toLowerCase();
 
 		super({}, blockID, parent, path || [...parent.path, blockID]);
@@ -17663,7 +17738,7 @@ class effectNode extends dataNode {
 		if (this.#invalid) return false;
 
 		// Validate the effect's name
-		if (/{.*}/.test(this.#effect[0]) || equalsSnakeify(this.#effect[0], "Else")) {
+		if (/{.*}/.test(this.#effect[0]) || equalsSnakeify(this.#effect[0], "Else")) { // The buffer of Else must always be reset due to it's unique behaviour
 			this.#buffer = {}
 			this.#format = []
 			this.#local = false;
@@ -17858,7 +17933,7 @@ class effectNode extends dataNode {
 		}
 	}
 	_resetLocal(opts={force:true}) {
-		if (autoEffectBlocks[this.name] && (this.#local || opts.force)) {
+		if (autoEffectBlocks[this.name] && (!this.#local || opts.force)) {
 			this.#local = {
 				scaling: 1,
 				checkresult: true,
@@ -17956,6 +18031,8 @@ class effectNode extends dataNode {
 		let v_raw = v;
 		if (v === undefined || !this.#format.index.value) return this.#buffer.value = false;
 		if ((v = this.#applyMath(v)) === null) return;
+
+		console.log("Value:", v, v_raw);
 
 		this.#buffer.value = v;
 
@@ -18149,7 +18226,7 @@ class effectNode extends dataNode {
 
 	// Update effect options
 	get options() {
-		if (this.#buffer.name === undefined) this.name = this.#effect[0];
+		if (this.#buffer.name === undefined) this.name = this.#effect[0]; // Ensures the option index and list of valid options are parsed
 		if (this.#buffer.options === undefined) this.parseOptions(this.#effect.slice(this.#format.index.options));
 		if (this.parent instanceof effectNode) {
 			return {...this.parent.options, ...this.#buffer.options};
@@ -18187,7 +18264,7 @@ class effectNode extends dataNode {
 
 		// Handle the "Round" option
 		else if (this.hasOption(newOption, {match:"Round"})) {
-			this.#buffer.options.round = this.#buffer.options.round || false;
+			this.#buffer.options.round = this.#buffer.options.round; // Avoids issues with ex. "this turn", where "turn" reads as a second option 
 			if (is(newOption).In("this", "next")) {
 				this.#buffer.options.round = newOption;
 			}
@@ -18198,7 +18275,7 @@ class effectNode extends dataNode {
 
 		// Handle the "Duration" option
 		else if (this.hasOption(newOption, {match:"Duration"})) {
-			this.#buffer.options.duration = this.#buffer.options.duration || false; // Avoids issues with ex. "this turn", where "turn" reads as a second option 
+			this.#buffer.options.duration = this.#buffer.options.duration; // -:-
 			if (is(newOption).In("this", "next", "combat")) { // The strings "turn" and "round" cause an error if they're not preceeded by one of these strings
 				this.#buffer.options.duration = newOption;
 			}
@@ -18368,8 +18445,9 @@ class effectNode extends dataNode {
 	// If an end index is provided all effects from the start to end index are deleted. The end index is not included
 	delete(start, end, opts={}) {
 		if (this.length) {
-			if (start === undefined) start = this.length - 1;
-			if (end === undefined) end = start + 1;
+			if (is.ID(start)) start = end = this.findIndex(n => n.id == start);
+			start ??= this.length - 1;
+			end ??= start + 1;
 			let indexStack = []
 
 			while (end > 0 && this.length > end) {
@@ -18400,95 +18478,108 @@ class effectNode extends dataNode {
 		return clone;
 	}
 
+	// Resets this effect
+	reset() {
+		this.delete(0, this.length);
+		this.#buffer = {}
+		this._resetLocal({force:true});
+	}
 
 	// Executes the effect and any nested effects
 	execute() {
+		/*
+		let backupState;
+		if (access._state != "effects") {
+			backupState = access._state;
+			// TODO: access._save();
+			access._state = "effects";
+		}
+		*/
+
+		// TODO: Effects should now set access._state = "effect error" whenever an error occurs
+		// If backupState is set when execute() finishes with an error, use access._load() 
+
 		if (this.#validate()) {
-			if (access._state == "effects") {
-				console.log(`Execute ${this.toString()}`);
+			console.log(`Execute ${this.toString()}`);
 
-				// Handle conditionals
-				// Only the first conditional of each AutoEffect is used, while the rest are stored
-				if (this.conditional && !this.options.section) {
-					let clone = this.#addToButton(this.conditional);
-					clone.#conditionals.shift();
+			// Handle conditionals
+			// Only the first conditional of each AutoEffect is used, while the rest are stored
+			if (this.conditional && !this.options.section) {
+				let clone = this.#addToButton(this.conditional);
+				clone.#conditionals.shift();
 
-					console.log(`addToButton | ${this.conditional}:`, clone);
+				console.log(`addToButton | ${this.conditional}:`, clone);
 
-					// If AutoEffect is Require or Consume, do not display the button if the check will fail. Ignore this rule if #IgnoreFailure is used
-					/* if (["Require", "Consume"].includes(AutoEffect.name) && !opts.ignoreFailure) {
-						if (["failure", "no target"].includes(autoEffectCheck(AutoEffect).checkResult)) {
-							conditionalButtonList[conditional].doNotDisplay = true;
-						}
-					}*/
+				// If AutoEffect is Require or Consume, do not display the button if the check will fail. Ignore this rule if #IgnoreFailure is used
+				/* if (["Require", "Consume"].includes(AutoEffect.name) && !opts.ignoreFailure) {
+					if (["failure", "no target"].includes(autoEffectCheck(AutoEffect).checkResult)) {
+						conditionalButtonList[conditional].doNotDisplay = true;
+					}
+				}*/
+			}
+			
+			// Handle effects
+			else {
+
+				// TODO: Add special handling for checks that make them execute CheckFailure effects on failure
+				// Like... in practice people can just use Else, but legacy support could be nice
+				/* Checks and Reset are always processed. Other AutoEffects are not processed if the last check failed */
+				//switch (effect.name) {
+				//	case "CustomMessage": autoEffectCustomMessage(effect, {}); break;
+				//}
+
+				// Checks are handled seperately. No nested effects execute if the check fails
+				if (is(this.name).In("Require", "Consume", "If", "Else")) {
+					this.#exeCheck();
 				}
+
+				// TODO: Eventually move all the effects up here
+				if (this.var.checkresult) {
+					switch (this.name) {
+						case "CustomMessage": this.#message({format: this.value}); break;
+						case "Gain": case "Inflict": case "Give": this.#exeAilment(); break;
+						case "Set": case "Add": case "Multi": this.#exeBar(); break;
+						case "DicePower": case "DiceMax": case "DiceCount": case "DiceAdv": this.#exeDice(); break;
+						case "BaseDamage": case "FlatDamage": this.#exeDamage(); break;
+						case "Proc": this.#exeProc(); break;
+						case "Pause": this.#exePause(); break;
+						case "ChallengeRoll": this.#exeRoll(); break;
+						case "Speed": this.#exeSpeed(); break;
+						case "Access": this.#exeAccess(); break;
+						case "Global": case "Local": this.#exeVar(); break;
+					}
+
+					// Execute any nested effects
+					for (let i = 0; i < this.length; i++) {
+						if (this[i] instanceof effectNode) {
+							this[i].execute();
+						}
+
+						// TODO: Add extra functionality like looping
+						if (this._loop) {
+							// Check if some check passes, like this.var.someVar < 10
+							// If true, set i = 0
+						}
+					}
+				}
+
+				// TODO: Handle messages
+				// Save the message either in access.message.section.contents, or in the equivalent contents subnode of a roll
+				// Use the section name in effect.options.section if it's set. Otherwise use a generic "AutoEffects" section
+				// Load styling data from access.style once that's implemented
+
+				// Resolve all insert words immediately after executing the effect
+
+
+				// Add special handling for checks with exactly one condition
+				// Execute the check. If it passes, add all nested effects to a button
+				// Do not add the check to the button. Instead add a generic block and add the effects to that block
+				// Add an option that ignores this behaviour
+
+
 				
-				// Handle effects
-				else {
-
-					// TODO: Add special handling for checks that make them execute CheckFailure effects on failure
-					// Like... in practice people can just use Else, but legacy support could be nice
-					/* Checks and Reset are always processed. Other AutoEffects are not processed if the last check failed */
-					//switch (effect.name) {
-					//	case "CustomMessage": autoEffectCustomMessage(effect, {}); break;
-					//}
-
-					// Checks are handled seperately. No nested effects execute if the check fails
-					if (is(this.name).In("Require", "Consume", "If", "Else")) {
-						this.#exeCheck();
-					}
-
-					// TODO: Eventually move all the effects up here
-					if (this.var.checkresult) {
-						switch (this.name) {
-							case "CustomMessage": this.#message({format: this.value}); break;
-							case "Gain": case "Inflict": case "Give": this.#exeAilment(); break;
-							case "Set": case "Add": case "Multi": this.#exeBar(); break;
-							case "DicePower": case "DiceMax": case "DiceCount": case "DiceAdv": this.#exeDice(); break;
-							case "BaseDamage": case "FlatDamage": this.#exeDamage(); break;
-							case "Proc": this.#exeProc(); break;
-							case "Pause": this.#exePause(); break;
-							case "ChallengeRoll": this.#exeRoll(); break;
-							case "Speed": this.#exeSpeed(); break;
-							case "Access": this.#exeAccess(); break;
-							case "Global": case "Local": this.#exeVar(); break;
-						}
-
-						// Execute any nested effects
-						for (let i = 0; i < this.length; i++) {
-							if (this[i] instanceof effectNode) {
-								this[i].execute();
-							}
-
-							// TODO: Add extra functionality like looping
-							if (this._loop) {
-								// Check if some check passes, like this.var.someVar < 10
-								// If true, set i = 0
-							}
-						}
-					}
-
-					// TODO: Handle messages
-					// Save the message either in access.message.section.contents, or in the equivalent contents subnode of a roll
-					// Use the section name in effect.options.section if it's set. Otherwise use a generic "AutoEffects" section
-					// Load styling data from access.style once that's implemented
-
-					// Resolve all insert words immediately after executing the effect
-
-
-					// Add special handling for checks with exactly one condition
-					// Execute the check. If it passes, add all nested effects to a button
-					// Do not add the check to the button. Instead add a generic block and add the effects to that block
-					// Add an option that ignores this behaviour
-
-
-					
-				}
-				return true;
 			}
-			else if (access._state != "error") {
-				console.warn(`Effect error: Attempted to execute an effect while the access state is "${access._state}"`, this);
-			}
+			return true;
 		}
 		else if (!this.#invalid) {
 			this.#error("Parsing Error");
@@ -18532,7 +18623,7 @@ class effectNode extends dataNode {
 
 			button._icon = opts.icon || this.options.icon || "icons/question";
 			button._color = opts.color || this.options.color || "green";
-			button._display = opts.display || this.options.display || true;
+			button._display = opts.display ?? this.options.display ?? true;
 		}
 
 		button.effects.add(clone);
@@ -18546,8 +18637,8 @@ class effectNode extends dataNode {
 		let value = roundTowardsZero(this.value) || 0;
 		let sValue = roundTowardsZero(this.value * this.var.scaling) || 0;
 		let target = (this.target) ? this.#effect[this.#format.index.target] : "No target";
-		let count = opts.old || 0;
-		let result = opts.new || count;
+		let count = opts.old ?? 0;
+		let result = opts.new ?? count;
 		let name = this.name.match(/[A-Z][a-z]+/g).join(" ") || "Unknown AutoEffect"; // Adds a space between parts of the name, ex. DicePower -> Dice Power
 		let icon = opts.icon;
 		let color = opts.color;
@@ -19277,7 +19368,7 @@ const accessHandler = {
 	},
 
 	// Modifies a built-in prop (ex. "access._output"), adds new character data, or modifies existing character data
-	// Writting access[charID] = data does the following:
+	// Writing access[charID] = data does the following:
 	//  If access[charID] does not exist, set it to the provided data
 	//  If access[charID] does exist, add the provided data to the current data
 	set: async function(ac, prop, value) {
@@ -19306,9 +19397,6 @@ const accessHandler = {
 	// Deletes a character ID in access. Used primarily to delete token data
 	// Written as "delete access[charID]"
 	deleteProperty(ac, prop) {
-
-		// Should here ensure access._stack isn't empty
-
 		if (is.ID(prop)) {
 			delete ac[prop];
 		}
@@ -19329,179 +19417,193 @@ const accessData = {
 	// For example, during Round End, ailments.Burn.immutable.count returns the pre-decay count of Burn
 	_getImmutable: false,
 
-	// The current state of access. See access._begin() for more details
-	_access_state: false,
+	// Interactions with the data access are divided two categories: "actions" and "events"
+	// - An "action" is any sort of interaction with the sheet or chat. This ex. includes a clicking a button, changing a value, removing an ailment, dragging an item etc.
+	// - An "event" is any operation caused by an action. Ex. pressing a roll button causes an items.rollformats.N.roll event, a rolls.add event, a number of modify events etc.
+	// A data access always begins with one single action, which then causes any number of events, and finally outputs any updated values back to the sheet or chat
+	// - Two actions may not take place simultaneously. If multiple actions occur simultaneously they are stored in this stack and processed sequentially
+	_action_stack: [],
 
+	// Each action has a state which changes as it's processed, reflecting the current event taking place. This can ex. look like "clicked" -> "roll" -> "effects" -> "output"
+	// The state of each action is stored in the action stack. This getter and setter reference the state of the current action being processed from the stack
 	get _state() {
-		return this._access_state;
+		return this._action_stack[0]?.state ?? false;
 	},
 	set _state(v) {
-		if (!is(v).In(false, "event", "error", "init", "output", "sync", "roll")) {
-			console.warn(`access: "${v}" is not a supported access state`)
-			//return false;
-		}
-
-		const stateData = {
-			event: [false],
-			roll: ["event"],
-			effect: ["roll", "use"],
-		}
-
-		// Reject all state changes after an error or while outputing to the sheet
-		if (is(this._state).In("error", "output") && v !== false) {
-			return false;
-		}
-
-		// Certain states have limitations on when they can be set
-		if (!stateData[v] || is(this._state).In(stateData[v])) {
-			this._access_state = v;
-			console.log("access: setting state to", v);
-		}
-		return true;
-	},
-
-	_access_stack: [],
-
-	// Begins a new data access "action"
-	// When used, any modified values will be saved in each node's local #output storage instead of immediately being applied (see immutable above)
-	// "action" here means an interaction with the data access, divided into one or more states. Ex. a roll has these states: "roll" -> "effects" -> "output"
-	//  - The states "event" and "sync" are special. These states are only used if no other action is currently taking place
-	async _begin(newState, callback=()=>{}) {
-		let charID = getActiveCharacterId(); // TODO: Remove this after improving the access output system
-
-		if (newState) {
-			this._state = newState;
-			this._access_stack.push(newState);
-			await callback(newState || this._state);
-			this._access_stack.pop();
-		}
+		// Reject all state changes while initializing a character, after an error occurs, or when no action is in the stack
+		if (!v || is(this._state).In("init", "error", false)) return false;
 		
-		// Only runs if the access wasn't already ended inside the callback function
-		if (this._access_stack.length == 0 && !is(this._state).In("effects", "output")) { // TODO: May not work for state = "error"
-			this._end(charID);
-		}
+		console.log("access: setting state to", v);
+		return this._action_stack[0].state = v;
 	},
-	
-	// Ends a data access "action"
-	// All actions end in an "output" state, where values modified during the action are applied to the data access and sheet
-	async _end(charID, callback=()=>{}) {
-		if (this._state) {
-			if (!getActiveCharacterId()) {
-				setActiveCharacterId(charID);
+
+	// Begins a new action or event
+	// Two callback function one may be provided: one for when an action begins processing, and one for after any resulting values are output to the sheet
+	// Events are executed immediately as part of the current action using their first callback function
+	async _begin(typeState, begin=()=>{}, end=()=>{}) {
+		let [type, state] = typeState.split(":");
+		let charID = getActiveCharacterId();
+		let stackLength = this._action_stack.length;
+		
+		// Initialize is a special action for adding a character's data to the data access
+		// This usually occurs automatically when opening the character's sheet
+		if (type == "initialize") {
+			console.log(`Initializing character ${charID}...`);
+			this._action_stack.unshift({state:"init", charID, begin, end});
+		}
+		else if (type == "action") {
+			if (!this[charID]) { // This is primarily used for targeting where the target's sheet cannot be opened
+				this._initialize(charID);
 			}
+			console.log(`Beginning action ${state} for ${charID}...`);
+			this._action_stack.push({state, charID, begin, end});
+		}
+		else if (type == "event") {
+			if (!this._state) { // This acts as a failsafe in case an event triggers without an associated action
+				this._action_stack.push({state, charID, begin});
+			}
+			else if (this._state = state) {
+				await begin();
+			}
+		}
 
-			// Execute all AutoEffects
-			if (this.effects?.length > 0 && this._state != "error") {
-				// TODO: Save backup
-				// Alternatively, use apply and save all the current output values to access._output
-				// Then you could later safely purge all the local outputs without affecting any non-autoeffect changes
+		if (!stackLength) {
+			this._process();
+		}
+	},
 
-				console.log("Starting AutoEffect execution...")
 
-				this._state = "effects";
-				this.effects.execute();
+	
+	// Processes one or more action
+	// Any properties modified as part of an action is saved in a node's local #output storage instead of immediately being applied (see immutable above)
+	// If an error occurs during an action all output values are discarded and the character is re-initialized from the current data in the sheet
+	async _process() {
+		while (this._action_stack.length) {
+			let action = this._action_stack[0];
 
-				console.log(this.effects);
+			console.log("Action stack:", [...this._action_stack]);
+
+			// Reject actions for targets. Actions can use data from targets, but cannot act as targets
+			if (action.state == "init" || this[action.charID] && this[action.charID].type != "target") {
+
+				// Execute the access action
+				try {
+					setActiveCharacterId(action.charID);
+					await action.begin();
+
+					// Execute any AutoEffects
+					if (this.effects?.length && this._state != "error") {
+						this._state = "effects";
+						this.effects.execute();
+					}
+					
+					// Output values to the sheet and/or chat
+					await this._end();
 		
-				if (this._state == "error") {
-					// TODO: Load backup
+					// Execute parts of the action that happen post-output (optional)
+					if (action.end && this._state != "error") {
+						await action.end();
+					}
+				} catch (e) {
+					console.warn("Error during action:", e);
+					access._state = "error";
 				}
 			}
-	
-			// If at least one roll exists, add all messages and buttons generated by effects to the first roll
-			// TODO: Make this optional
-			if (this.rolls?.length && this.rolls[0].message.display) {
-				let rollButtons = this.rolls[0].message.buttons;
 
-				for (const section of this.message.sections) { // TODO: Is this spread operation needed anymore?
+			// Continue to the next action in the stack
+			this._action_stack.shift();
+
+			// If any errors occured during the action, re-initialize the character before the next action
+			if (action.state == "error") {
+
+				// TODO: Also needs to re-initialize any other characters modified during the action
+				delete this[action.charID];
+				this._initialize(action.charID);
+				break;
+			}
+		}
+	},
+
+	// Outputs data from an action to the sheet and/or chat
+	// This includes sheet attributes, sheet buttons, chat messages, chat buttons amd rolls 
+	async _end() {
+		if (this._state) {
+
+			// TODO: Make repeating conditional buttons sync to the sheet
+
+			// If at least one roll section exists, add all messages and buttons generated by effects to the first roll section
+			if (this.rolls?.length && this.rolls.some(r => r.message.display)) { // TODO: Make this optional
+				let roll = this.rolls.find(r => r.message.display);
+
+				for (const section of [...this.message.sections]) {
 					this.message.sections.delete(section.id);
-					messageSection(this.rolls[0].message, section.header.title, section.contents.map(c => c.text));
+					messageSection(roll.message, section.header.title, section.contents.map(c => c.text));
 				}
 
 				for (const button of [...this.message.buttons]) {
 					this.message.buttons.delete(button.id);
-					if (rollButtons[snakeify(button.title)]) {
+					if (roll.message.buttons[snakeify(button.title)]) {
 						for (const effect of button.effects) {
-							rollButtons[snakeify(button.title)].effects.add(effect);
+							roll.message.buttons[snakeify(button.title)].effects.add(effect);
 						}
 					} else {
-						rollButtons.add({node:button});
+						roll.message.buttons.add({node:button});
 					}
 				}
 			}
-			
-			// Output any messages to the chat
+
+			// Output any message data to the chat
 			if (this.rolls?.length || this.message?.sections?.length || this.message?.buttons?.length || this._state == "error") {
 				await sendMessage();
 			}
 
-			// TODO: Make repeating conditional buttons sync to the sheet
-
-			// Clear all non-stored rolls and non-conditional effects
-			if (this.rolls?.length) {
-				for (const rollID of this.rolls.repIDs) {
-					this.rolls.delete(rollID);
-				}
+			// Clear all message data
+			for (const rollID of this.rolls.repIDs) {
+				this.rolls.delete(rollID); // Cannot use reset() as the node contains stored rolls, adv./disadv. etc.
 			}
-			if (this.effects?.length) {
-				this.effects.delete(0, this.effects.length);
-				this.effects._resetLocal({force:true});
-			}
+			this.effects.reset();
+			this.message.reset();
 
-			// Reset all message data
-			if (this.message?.buttons?.length) {
-				for (const button of this.message.buttons) {
-					this.message.buttons.delete(button.id);
-				}
-			}
-
-			// TODO: Reset the rest of access.message
-			// access.message.rolls should clean itself. You just need to reset the header and description
-
-			/*
-			let testSync = (this._state != "no update");
-			*/
-
-			// Apply all output values to the sheet
+			// Apply any output attribute values to the sheet
 			this._state = "output";
-	
-			// TODO: Limit this to only the accesses that were involved in the action, ex. by having modify add the access id to a list
-			// For DMs with loads of tokens, or many different characters, applying every access can be a LOT of work
-			// This could maybe be done using the event counts? These begin with a character id, and every change triggers at least a modify event
-			// If no event count exists that begin with a char id, then that char id can safely be skipped
-			for (root of Object.values(this).filter(v => v instanceof dataNode)) {
-				root.apply(this._output);
-			}
-	
-			let attrs = {...this._output.sheet, ...this._output.editor}
-
-			this._output = {sheet: {}, editor: {}}
-			this._event.count = {}
-			this._state = false;
-			this._error.errors = {};
-
-			if (length(attrs) > 0 && this._state != "error") {
-				setAttrs(attrs, {}, () => {
-					console.log("Applied attributes:", attrs);
-					this._event.trigger([charID, "output"], {
-						node:access[charID], type:"output", oldval:false, newval:attrs, // TODO: You may want to make oldval be the backup copy of access
-					});
-					callback();
-				});
-
-				/*
-				if (testSync) {
-					transferData(attrs);
+			
+			if (this._state != "error") {
+				// TODO: Limit this to only the accesses that were involved in the action, ex. by having modify add the access id to a list
+				// For DMs with loads of tokens, or many different characters, applying every access can be a LOT of work
+				// This could maybe be done using the event counts? These begin with a character id, and every change triggers at least a modify event
+				// If no event count exists that begin with a char id, then that char id can safely be skipped
+				for (const root of Object.values(this).filter(v => v instanceof dataNode)) {
+					root.apply(this._output);
 				}
-				*/
+
+				let attrs = {...this._output.sheet, ...this._output.editor}
+				this._output = {sheet: {}, editor: {}}
+				
+				if (length(attrs) > 0) {
+					
+					// TODO: Should later be the charID from this._output[charID]...
+					let charID = this._action_stack[0].charID;
+
+					await setAttrsByID(charID, attrs);
+					console.log("Applied attributes:", attrs);
+					
+					this._event.trigger([charID, "output"], {
+						node:access[charID], type:"output", oldval:false, newval:attrs,
+					});
+				}
 			}
+
+			// Cleanup
+			this._event.count = {}
+			this._error.errors = {};
 		}
 	},
 
-	// Adds the data of a new character if it isn't already in access
+	// Adds the data of a new character if it isn't already in the data access
+	// Actions and events may only occur for initialized characters
 	_initialize(ID, type="character") {
 		if (is.ID(ID) && !(ID in this)) {
-			this._begin("init", async () => {
+			this._begin("initialize", async () => {
 				let newRoot = new dataNode(dataFormat, false, false, [ID]);
 				access[ID] = newRoot;
 				newRoot._type = type;
@@ -19558,8 +19660,8 @@ const accessData = {
 					}
 				}
 	
-				console.log(keys);
-				console.log({sheet: {...values.sheet}, editor: {...values.editor}});
+				console.log("Keys", keys);
+				console.log("Values", {sheet: {...values.sheet}, editor: {...values.editor}});
 
 				// Add a number of roll formats equal to the amount shown in the sheet
 				if (newRoot.items.length > 0) {
@@ -19604,11 +19706,11 @@ const accessData = {
 					}
 					this._event.keys = eventkeys;
 
-					console.log(eventkeys);
+					console.log("Event keys", eventkeys);
 
 					for (const source in eventkeys) {
 						on(eventkeys[source].join(" "), function(info) {
-							access._begin("sync", async () => {
+							access._begin("action:sync", async () => {
 								if (access.currentID) {
 									if (!info.newValue) { // Attributes like hp_max for some reason do not include their value in the event info
 										let values = await getAttrsAsync([info.sourceAttribute]);
@@ -19621,25 +19723,27 @@ const accessData = {
 					}
 				}
 
-				// Runs after all attributes have been applied to the sheet
-				this._end(ID, () => {
+				console.log("New access:", access[ID], access);
+				return access[ID];
+			},
+			
+			// Runs after all attributes have been applied to the sheet
+			() => {
+				// Update the access tree to include any AutoEffect events from the new character or token
+				if (type != "target") {
+					access._recalc.events(ID);
+				}
 
-					// Update the access tree to include any AutoEffect events from the new character or token
-					if (type != "target") {
-						access._recalc.events(ID);
-					}
-	
-					// Apply any custom color or positioning data
-					if (type == "character") {
-						access._recalc.jquery(ID);
-					}
+				// Apply any custom color or positioning data
+				if (type == "character") {
+					access._recalc.jquery(ID);
+				}
 
-					// Update any equipment restrictions
-					access._recalc.equip(ID);
+				// Update any equipment restrictions
+				access._recalc.equip(ID);
 
-					// Reapply the description weights of all items
-					access._recalc.weight(ID);
-				});
+				// Reapply the description weights of all items
+				access._recalc.weight(ID);
 			});
 		}
 
@@ -19650,22 +19754,17 @@ const accessData = {
 		//   - Targets never have tokens or events, unless the target is an opened sheet, in which case the type is updated to "character"
 		// Output data is only applied when type == "character". This does allows GMs to automatically update player values if they open their sheet once
 		// - Event listeners ensures both the player and GM have up to date data, removing the need for getting data through targeting
-		
+
 		return access[ID];
 	},
 	
+	// Contains methods related to access events
 	_event: {
+		tree: {}, // Stores a branching tree of access paths leading to event callback functions. Used for triggering events
+		count: {}, // Stores the amount of times an action triggers an event with a specific event path. Used for hindering infinite loops
+		keys: [], // Event keys for every attribute in access. Used to create Roll20 sync events. Generated by access._initialize()
 
-		// Stores a branching tree of access paths leading to event callback functions. Used for triggering events
-		tree: {}, 
-
-		// Stores the amount of times an action triggers an event with a specific event path. Used for hindering infinite loops. Should be reset when access outputs to the sheet
-		count: {},
-
-		// Event keys for every attribute in access. Used to create Roll20 sync events. Generated by access._initialize()
-		keys: [],
-
-		// Registers a new access event. "func" is called whenever an event triggers that matches the provided event path
+		// Registers a new access event. The callback function "func" is called whenever an event triggers that matches the provided event path
 		// - The step "N" matches with every possible step in the current node. Ex. ["items", "N", ...] matches with an event on any item, or in items.editor
 		// - A step can be an array of steps. Ex. ["items", "N", ["tags", "slots"], ...] matches with items.N.tags or item
 		register(path, eventopts, func, opts={}) {
@@ -19697,11 +19796,10 @@ const accessData = {
 				}
 
 				if (snakeify(step) == "n") {
-					step = "N";
+					path[i] = step = "N"; // Makes sure the modified step is added to the event tree
 				}
 				else if (!is.ID(step) && /[A-Z\s]/.test(step)) {
-					step = snakeify("" + step); // '"" + ' hinders issues with number values
-					path[i] = step; // Makes sure the modified step is added to the event tree
+					path[i] = step = snakeify("" + step); // '"" + ' hinders issues with number values
 				}
 
 				if (is(step).In("add", "delete", "modify", "roll")) {
@@ -19756,8 +19854,7 @@ const accessData = {
 				path.unshift(getActiveCharacterId());
 			}
 
-			// Used for opts.max
-			if (!opts.i) {
+			if (!opts.i) { // Used for opts.max
 				this.count[pathString] = (this.count[pathString] || 0) + 1;
 			}
 
@@ -19774,21 +19871,19 @@ const accessData = {
 				}
 
 				if (eventNode) {
-					if (accessNode[step] !== undefined || is(step).In("N", "roll")) {
+					if (accessNode[step] !== undefined || is(step).In("N", "roll", "proc")) {
 
 						// Validate the event path
-						if (is(step).In("add", "delete", "roll")) {
+						if (is(step).In("add", "delete", "roll", "proc")) {
 							if (i != path.length - 1) {
-								console.warn(`Throw error. ${step} must be the last step in the path`);
-								return false;
+								console.warn(`Throw error. ${step} must be the last step in the path`); return false;
 							}
 							eventNode = eventNode[step];
 							continue;
 						}
 						else if (step == "modify") {
 							if (i != path.length - 2) {
-								console.warn("Throw error. modify must be the second to last step in the path");
-								return false;
+								console.warn("Throw error. modify must be the second to last step in the path"); return false;
 							}
 							eventNode = eventNode[step];
 							continue;
@@ -19808,12 +19903,12 @@ const accessData = {
 							this.trigger(path, info, {...opts, i:i+1, accessNode:accessNode[step], eventNode:eventNode["N"]});
 						}
 
-						// If the next step is a repid, also trigger an event for any name/index accessors associated with the repnode
+						// If the next step is a repid, also trigger an event for any keyprop/index accessors associated with the repnode
 						if (accessNode._rep && is.ID(step) && accessNode[step] instanceof dataNode) {
-							let [name, index] = [snakeify(accessNode[step].name || ""), accessNode[step].index]
+							let [key, index] = [snakeify(accessNode[step][accessNode[step]._keyProp] || ""), accessNode[step].index]
 
-							if (name !== "" && eventNode[name]) {
-								this.trigger([...path.slice(0, i), name, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[name], eventNode:eventNode[name]});
+							if (key !== "" && eventNode[key]) {
+								this.trigger([...path.slice(0, i), key, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[key], eventNode:eventNode[key]});
 							}
 							if (index !== false && eventNode[index]) {
 								this.trigger([...path.slice(0, i), index, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[index], eventNode:eventNode[index]});
@@ -19829,18 +19924,13 @@ const accessData = {
 							return false;
 						}
 					} else {
-						if ("_local" in accessNode && "_global" in accessNode) {
-							if (accessNode.local[step] !== undefined) {
-								// Try navigating to accessNode.local[step] first
-							}
-							else if (accessNode.global[step] !== undefined) {
-								// If that fails, try navigating to accessNode.global[step]
-							}
-							else {
-								// If both fail, throw an error
-							}
+						if (accessNode instanceof effectNode) {
+							// Try navigating to accessNode.var[step] first
+						}
+						else if ("_global" in accessNode && accessNode.global[step] !== undefined) {
+							// If that fails, try navigating to accessNode.global[step]
 						} else {
-							// Throw an error
+							// If both fail, throw an error
 						}
 					}
 				} else {
@@ -19849,12 +19939,15 @@ const accessData = {
 				}
 			}
 			if (eventNode?.eventArray) {
-				for (event of eventNode.eventArray) {
+				if (opts.eventinfo) Object.assign(info, opts.eventinfo); // Handle custom event info
+
+				for (const event of eventNode.eventArray) {
 					if (opts.silent && !event.ignoreSilent) return false; // Handle silent events
 					if (this.count[pathString] > event.max) return false; // Handle event max trigger count
-					if (opts.eventinfo) Object.assign(info, opts.eventinfo); // Handle custom event info
 
-					access._begin("event", event.func({...info, path: path, charid: path[0]}));
+					access._begin(`event:${info.type || "event"}`, () => {
+						event.func({...info, path: path, charid: path[0]});
+					});
 				}
 				return true;
 			} else {
@@ -19864,6 +19957,7 @@ const accessData = {
 		},
 	},
 
+	// Contains methods related to error handling
 	_error: {
 		errors: {},
 
@@ -19875,30 +19969,37 @@ const accessData = {
 			errorType = getTranslationByKeyCustom(errorCode, `${errorCode}-type`);
 			let errorText = getTranslationByKeyCustom(errorCode, `${errorCode}-message${(variant) ? `-${variant}` : ""}`);
 			
-			// Store the error. Errors are posted during access._end()
+			// Store the error. Errors are posted to the chat during access._end()
 			if (!this.errors[errorType]) {
 				this.errors[errorType] = []
 			}
 			this.errors[errorType].push({
-				subject: errorSubject,
-				text: errorText,
+				subject: errorSubject.replaceAll("*", "&ast;"), // Fixes * operators in math being parsed as italicised/bold text
+				text: errorText.replaceAll("*", "&ast;"),
 				inserts: inserts,
 			});
 			access._state = "error";
 			console.warn(this.errors[errorType]);
 		},
 
-		// Returns a HTML string that highlights the location of an error
+		// Returns a markdown string that highlights the location of an error
 		location(string, data) {
 			let langLocation = getTranslationByKeyCustom("Location: ", "math-error-location");
 			let offsetIndex = 0;
 			let offsetLength = 0;
 
-			// Avoids conflicts with node["abc"] steps in access paths
-			string = string.replace(/[\[\]]/g, (match, i) => {
-				if (data.index <= i && data.index + data.length-1 >= i) offsetLength += 4;
-				if (data.index > i) offsetIndex += 4;
-				return (match == "[") ? "&#91;" : "&#93;";
+			// Fixes ["abc"] path steps interfering with markdown buttons
+			// Fixes * operators in math being parsed as italicised/bold text
+			string = string.replace(/[\[\]\*]/g, (match, i) => {
+				let replace = "";
+				switch (match) {
+					case "[": replace = "&#91;"; break;
+					case "]": replace = "&#93;"; break;
+					case "*": replace = "&ast;"; break;
+				}
+				if (data.index <= i && data.index + data.length-1 >= i) offsetLength += replace.length-1;
+				if (data.index > i) offsetIndex += replace.length-1;
+				return replace;
 			});
 
 			let string_end = string.length;
@@ -19914,7 +20015,7 @@ const accessData = {
 	},
 	
 	// A collection of functions used for calculating and/or applying derived data in access
-	// "derived" here means any data which is calculated from multiple properties in access, ex. custom events from AutoScripts
+	// "derived" here means any data which is calculated from multiple properties in access, ex. the sum inventory tags from all item tags
 	// Should not cause any events, except for properies which cannot trigger events in any other way
 	_recalc: {
 
@@ -19979,7 +20080,7 @@ const accessData = {
 		},
 
 		// Recalculates all equipment requirements of one or more characters
-		// Includes tags, slots and/or linked items
+		// Equipment requirements include tags, slots and linked items
 		equip(ID, opts={}) {
 			let targets = (opts.target) ? [opts.target] : ["tags", "slots"];
 			let types = (opts.type) ? [opts.type] : ["gives", "requires"];
@@ -20056,11 +20157,9 @@ const accessData = {
 							}
 						}
 
-						// Output a message detailing which requirements failed, if any 
-						if (length(reqFailure) == 0) {
-							item.message = "0";
-						}
-						else if (reqFailure[target]) {
+						// Output a message detailing which requirements failed, if any
+						item.message = "0";
+						if (reqFailure[target]) {
 							if (item.message.startsWith("0")) item.message = ""; // This sometimes happens for whatever reason
 							if (item.message != "") item.message += " / "; // Adds a divider between different requirements
 							item.message += `Missing ${target}: ${Object.entries(reqFailure[target]).reduce((acc, [key, value]) => [...acc, `${key} x${value}`], []).join(", ")}`;
@@ -20081,15 +20180,13 @@ const accessData = {
 
 		// Recalculates the description layout of all repeating item
 		weight(ID) {
-			access._begin("recalc", () => {
-				for (ID of this.parseIDs(ID)) {
-					if (!(ID in access)) continue;
-					
-					for (const item of access[ID].items) {
-						recalcItemWeight(item);
-					}
+			for (ID of this.parseIDs(ID)) {
+				if (!(ID in access)) continue;
+				
+				for (const item of access[ID].items) {
+					recalcItemWeight(item);
 				}
-			});
+			}
 		},
 	},
 }
@@ -20129,7 +20226,7 @@ function onAccess(path, opts={}, callback) {
 	// For normal Roll20 event strings. Return info in the Roll20 event info format
 	if (typeof path == "string" && /^(change|clicked|remove|sheet):/.test(path.trim())) {
 		on(path, (info) => {
-			access._begin("event", () => {
+			access._begin(`action:${info.triggerName.split(":")[0]}`, () => {
 				callback(info);
 			});
 		});
@@ -20308,9 +20405,9 @@ onAccess("clicked:addVariable remove:repeating_variables", {}, function(info) {
 });
 
 /* Interface - Minimize or maximize an item when double clicking its header */
-let dcTime = new Date();
-let dcHeader = false;
-let configDcTime = 150;
+var dcTime = new Date();
+var dcHeader = false;
+var configDcTime = 150;
 $20(".inventoryContainer .contentHeader").on("click", (e) => {
 	dcHeader = true;
 });
@@ -20319,8 +20416,8 @@ $20(".inventoryContainer .repitem").on("click", (e) => {
 	dcTime = new Date();
 
 	if (dcHeader && dcTime.getTime() - dcTimePrev.getTime() <= configDcTime) {
-		let dcRepid = e.htmlAttributes["data-reprowid"];
-		access._begin("event", () => {
+		access._begin("action:minimize", () => {
+			let dcRepid = e.htmlAttributes["data-reprowid"];
 			access.items[dcRepid].minimized = !access.items[dcRepid].minimized;
 		});
 		dcTime = new Date(0);
@@ -20407,7 +20504,7 @@ onAccess([
 onAccess(["tags", "add"], {}, function(info) {
 	info.newval.current = 1; // Tags/slots without at least 1 current or base value are automatically hidden
 	info.newval.base = 1;
-	updateIcon("tag", info.newval.icon || "question", info.newval.id, access._output.sheet);
+	updateIcon("tag", info.newval.icon || "icons/question", info.newval.id, access._output.sheet);
 });
 onAccess(["tags", "N", "modify", "icon"], {}, function(info) {
 	updateIcon("tag", info.newval, info.node.id, access._output.sheet);
@@ -20473,7 +20570,7 @@ function recalcTagsFromProps(node) {
 }
 
 /* Rolls - Begin item roll */
-onAccess(itemEvent("clicked", "item-roll"), {}, function(info) { 
+onAccess(itemEvent("clicked", "item-roll"), {}, function(info) {
 	let item = access.items[info.triggerName.split("_").at(2)];
 	let rollNode = item.rollformats;
 
@@ -20503,7 +20600,7 @@ onAccess([
 ], {}, function(info) {
 	let rollArray = [info.node]
 
-	if (is(info.path.at(-2)).In("rollformats", "rolls")) {
+	if (info.path.at(-1) == "rollformats") {
 		rollArray = info.node.filter(roll => roll.mode == "Roll");
 	}
 
@@ -20787,7 +20884,7 @@ const custom = {
 		
 			begin(ID, x, y) {
 				if (!this.target) {
-					access._begin("event", () => {
+					access._begin("action:drag", () => {
 						this.prevTarget = false;
 						this.target = ID;
 						this.x = x;
@@ -20815,9 +20912,9 @@ const custom = {
 		
 			end() {
 				if (this.target) {
-					access._begin("event", () => {
+					access._begin("event:drag_end", () => {
 						this.prevTarget = this.target;
-						this.target = false
+						this.target = false;
 						this.x = false;
 						this.y = false;
 
@@ -20833,8 +20930,8 @@ const custom = {
 							// TODO: Add editor dragging
 						}
 	
-						// For a brief moment the element has no pointer event, causing a hover/mouseenter on the element below
-						// Used for drag and drop of items
+						// For a brief moment after the drag ends the element has no pointer events
+						// This causes a hover/mouseenter event on the element below, which is used for drag and drop of items
 						$20(`.dragDetector`).addClass("hide-item");
 						setTimeout(() => {
 							$20(`.repitem[data-reprowid="${this.prevTarget}"]`).removeClass("dragTarget");
@@ -20991,7 +21088,7 @@ $20('[class^="drag"]:not(.drag1)').on("mouseenter", (info) => {
 /* Drag - Drop item into an inventory section  */
 $20(".inventoryContainer .repcontainer").on("mouseenter", (info) => {
 	if (!custom.position.drag.target && custom.position.drag.prevTarget) {
-		access._begin("event", () => {
+		access._begin("action:drop", () => {
 			let section = info.htmlAttributes["data-groupname"].split("_")[1];
 			let prevID = custom.position.drag.prevTarget
 			let item = access.items[prevID];
@@ -21216,37 +21313,23 @@ function updateTokens(info) {
 
 
 
-
-
-
-
-
-
-	
-
-
-
-
-
-
-
 // Traverses a path through an object and returns the value at the end of the path
 // Has a special interaction with dataNodes. If the path ends in a dataNode with a defined _valueProp, the value of that property is returned instead
 //  - Ex. navPath("items[1].tags.Burn") returns tags.Burn.current
 //  - Ending the path in "node" ignores this behaviour, ex. "items[1].tags.Burn.node" returns {name: "Burn", current: 2, base: 0} 
 function navPath(path, opts={}, error={}) {
-	if (typeof raw_path == "string") path = pathStringToArray(path);
+	if (typeof path == "string") path = pathStringToArray(path);
 
 	let result = path.reduce((node, raw_step, i) => {
-		let step = (opts.userPath) ? snakeify("" + raw_step) : raw_step;
+		let step = (opts.userPath) ? snakeify("" + raw_step) : raw_step; // Also removes any leading underscores
 		if (/^".+"$/.test(step)) step = step.slice(1, -1);
 
 		if (step.toLowerCase() == "node" && prop.node === undefined) {
 			return node;
 		}
 		if (node && node[step] === undefined) error.step = i;
-	
-		return (node && node[step] !== undefined) ? node[step] : null;
+
+		return node?.[step] ?? null;
 	}, opts.start || access);
 
 	if (result instanceof dataNode && result._valueProp && path.at(-1) != "node") {
@@ -21254,8 +21337,6 @@ function navPath(path, opts={}, error={}) {
 	} 
 	return result;
 }
-
-
 
 function pathArrayToString(pathArray) {
 	return pathArray.join(".").replaceAll(/(^|\.[^.]+)(?<=^|\.[^.]*[^\w.]+[^.]*)\.|$/ig, (match) => {
@@ -24650,11 +24731,9 @@ function newMathParser(mathString, opts={}, error={}, vars={}) {
 					Object.assign(error, {variant: "unexpected-dot", "[LOCATION]": {index: newIndex, length: 1}}); return null;
 				}
 			} else {
-				let result = navPath(path, {userPath:true, start:opts.var}); // Local / global variable
-				if (result === null || result === undefined) {
-					result = navPath(path, {userPath:true, start:opts.root}, error); // Access property
-				}
-				
+				// Checks for a local / global variable first, and if that fails checks for an access tree property
+				let result = navPath(path, {userPath:true, start:opts.var}) ?? navPath(path, {userPath:true, start:opts.root}, error);
+
 				console.log("Path", pathArrayToString(path), "returned value", Number(result) || result);
 
 				if (result !== null) {
