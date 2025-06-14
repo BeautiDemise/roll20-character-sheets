@@ -8875,12 +8875,14 @@ const errorData = {
 		"Invalid Value": "value",
 		"Invalid Operation": "operation",
 		"Invalid Target": "target",
+		"Invalid Variable": "var",
 		"Invalid Format": "format",
 		"Invalid Option": "option",
 		"Invalid Conditional": "conditional",
 		"Invalid Round": "round",
 		"Invalid Duration": "duration",
 		"Invalid Percentage": "percentage",
+		"Execution Error": "execution",
 		"Parsing Error": "parsing",
 	},
 	alias: {
@@ -8888,6 +8890,12 @@ const errorData = {
 	},
 	math: {
 		"Math Error": "",
+	},
+	access: {
+		"Access Error": "",
+	},
+	code: {
+		"Code Error": "",
 	}
 }
 
@@ -17104,7 +17112,8 @@ onJQ("clicked:testC", function(info) {
 
 
 class dataNode extends Array {
-	#output = {}	
+	#output = {} // Modified property values are stored locally in this output until applied
+	#backup = {} // Contains all backup data for the node. See access._backup for more info
 
 	constructor(formats=dataFormat, id=false, parent=false, path=[]) {
 		super();
@@ -17116,10 +17125,14 @@ class dataNode extends Array {
 			_id: {writable: true, value: id}, 			 // The repeating id associated with the node, if any
 			_parent: {writable: true, value: parent},	 // The parent node of this node, if any
 			_path: {writable: true, value: path},		 // The access path leading to this node
-			enabled: {writable: true, value: true}, 	 // If a subnode and its properties are enabled. Used primarily for toggling item options
+			_enabled: {writable: true, value: true}, 	 // If a subnode and its properties are enabled. Used primarily for toggling item options
 			id: { get() { return this._id; } },
 			parent: { get() { return this._parent; } },
 			path: { get() { return [...this._path]; } },
+			enabled: {
+				get() { return this.parent.#output[`_${this.path.at(-1)}`] ?? this._enabled; },
+				set(v) { return this._enabled = is.True(v); },
+			}
 		});
 
 		// Get the sources of the data, and any source-specific attribute name data
@@ -17272,11 +17285,17 @@ class dataNode extends Array {
 		return (opts.unsorted) ? Object.keys(attrs) : {editor: Object.keys(attrs.editor), sheet: Object.keys(attrs.sheet)}
 	}
 
-
 	// Helper method for accessing all properties and subnodes of a node
 	// Used by input(), output(), apply(), attrkeys(), import() and export()
 	access(values, output, opts={allProps:false, event:false, unsorted:false, apply:false}) {
 		if (!output) output = {editor:{}, sheet:{}}
+
+		// The first time apply() is called on a newly created repnode all attributes should be output
+		// This ensures a matching matching repeating item is created in the sheet
+		if (this._newRep && this.apply) {
+			opts.allProps = true;
+			delete this._newRep;
+		}
 
 		if (!values || Object.values(values).some(source => length(source) > 0)) {
 			for (const prop of this.keys) {
@@ -17310,11 +17329,11 @@ class dataNode extends Array {
 						let value = this[prop];
 						
 						if (this[prop] instanceof dataNode) {
-							value = (this[prop].enabled) ? "true" : "0";
-						} else {
-							if (value === true) value = "true";
-							if (value === false) value = "0";
+							value = this[prop].enabled;
 						}
+
+						if (value === true) value = "true";
+						if (value === false) value = "0";
 						output[source][propAttr] = value;
 					}
 				}
@@ -17378,6 +17397,7 @@ class dataNode extends Array {
 		if (!prop.startsWith("_")) prop = "_" + prop;
 
 		let oldValue = this[snakeify(prop)];
+		if (oldValue instanceof dataNode) oldValue = (oldValue._valueProp) ? oldValue[oldValue._valueProp] : (oldValue.enabled) ? "true" : "0";
 		newValue ??= "";
 		
 		//console.log(`(${opts.source || "Code"}) ${prop} ${this[prop]} -> ${newValue}`);
@@ -17388,6 +17408,9 @@ class dataNode extends Array {
 			else if (oldValue != newValue) {
 				//console.log(`(${opts.source || "Code"}) Modifying ${prop} from "${this[prop]}" to "${newValue}"`);
 
+				// Backup the current output data if a backup is registered in access
+				if (opts.backup !== false) this._backup("output");
+
 				// Makes sure enabled is set to a boolean value and not ex. "0"
 				if (this._validator(prop).toString().includes("is.Bool")) {
 					this.#output[prop] = is.True(newValue);
@@ -17396,13 +17419,13 @@ class dataNode extends Array {
 				}
 
 				// Delete the output value if it matches the immutable value
-				if (this[prop] == this.#output[prop]) {
+				if (this[prop] == this.#output[prop] && !(this[prop] instanceof dataNode)) {
 					delete this.#output[prop];
 				}
 
 				// Trigger a new modify event
 				access._event.trigger([...this.path, "modify", snakeify(prop)], {
-					node:this, type:"modify", source:opts.source, oldval:oldValue, newval:newValue,  // Event info
+					node:this, type:"modify", source:opts.source, oldval:oldValue, newval:newValue, // Event info
 				}, opts);
 
 				// If the prop is a key prop, update the node's key prop accessor
@@ -17440,6 +17463,9 @@ class dataNode extends Array {
 			let newProp = opts.prop || newID;
 			let repSource = {}
 			let repStack = []
+
+			// Backup all current rep nodes if a backup is registered in access
+			if (opts.backup !== false) this._backup("rep");
 
 			if (opts.index !== undefined) {
 				while (opts.index < this.length) {
@@ -17487,10 +17513,11 @@ class dataNode extends Array {
 				this.push(repStack.pop());
 			}
 			
+			// Adds an id accessor for the node + a keyProp accessor if the repnode has a keyProp
 			this._addAccessors({rep: newProp, key: (newNode._keyProp) ? newNode[newNode._keyProp] : false});
 
-			// Output all attributes from the new node
-			newNode.output(access._output, {allProps:true});
+			// Configures the new repnode to be output during apply()
+			if (this.backup !== false) newNode._newRep = true;
 
 			if (this._rep.attrs.option) {
 				this._attrs[newProp] = "option" + this._rep.attrs.option;
@@ -17558,6 +17585,9 @@ class dataNode extends Array {
 		if (this._rep && this[accessor]) {
 			let node = this[accessor];
 			let repStack = [];
+
+			// Backup all current rep nodes if a backup is registered in access
+			if (opts.backup !== false) this._backup("rep");
 
 			// Remove all repeating items associated with the deleted node
 			if (node._attrs.sheet?.section) {
@@ -17686,6 +17716,62 @@ class dataNode extends Array {
 			}
 		}
 		return this;
+	}
+
+
+	// Helper function for backing up data
+	// Used in modify(), add() and delete()
+	_backup(type) {
+		let index = access._backup.stack.length;
+
+		if (index && !(this instanceof effectNode)) { // Effects do not support backups
+			this.#backup[index] ??= {}
+			switch (type) {
+				case "output": this.#backup[index].output ??= {...this.#output}; break;
+				case "rep": this.#backup[index].rep ??= [...this]; break;
+			}
+			access._backup.stack[index-1].push(this);
+		}
+	}
+
+	// Resets any changes to the local output and/or rep nodes since the last backup
+	_load() {
+		let index = access._backup.stack.length;
+		let backup = this.#backup[index];
+
+		if (backup) {
+			if (backup.output) {
+				this.#output = backup.output;
+			}
+			if (backup.rep) {
+				for (const subnode of this) {
+					this.delete(subnode.id, {silent:"hard", backup:false});
+				}
+				for (const subnode of backup.rep) {
+					this.add({node:subnode}, {silent:"hard", backup:false});
+				}
+			}
+			delete this.#backup[index];
+		}
+	}
+
+	// Makes all changes made after the last backup permanent
+	_save() {
+		let index = access._backup.stack.length;
+		let backup = this.#backup[index];
+
+		if (backup) {
+			if (index > 1) {
+				this.#backup[index-1] ??= {}
+				if (backup.output) {
+					this.#backup[index-1].output = {...backup.output, ...(this.#backup[index-1].output ?? {})}
+				}
+				if (backup.rep) {
+					this.#backup[index-1].rep ??= backup.rep;
+				}
+			}
+			delete this.#backup[index];
+		}
 	}
 
 	// Sets all properties of this node and all subnodes to their default values
@@ -17855,7 +17941,7 @@ class effectNode extends dataNode {
 		else if (mode == "target") {
 			if (this.#format.target) {
 				this.#format.target.forEach(target => {
-					let wordDivider = (target != this.#format.target.at(-1)) ? opts.dividers?.[0] || ", " : opts.dividers?.[1] || " or ";
+					let wordDivider = (target != this.#format.target.at(-1)) ? opts.dividers?.[0] || ", " : opts.dividers?.[1] || opts.dividers?.[0] || " or ";
 					target = target.replace("#","");
 					target = getTranslationByKeyCustom(target, `autoeffect-error-target-${target.toLowerCase()}`)
 					outputString += (outputString == "") ? target : `${wordDivider}${target}`;
@@ -18168,27 +18254,22 @@ class effectNode extends dataNode {
 				this.#buffer.targetPath = true; // Set to not throw an error. Is not used in exeVar()
 
 				// Variable names can only consist of letters, digits and undescores, and must contain at least one letter
-				if (!/[A-Z]/i.test(this.target) && !/^[\w\d]+$/.test(snakeify(this.target))) { // TODO: Needs support for Japanese/Korean characters
-					console.warn(`AutoEffect error: Illegal variable name. Variable names may only include letters, digits and spaces/underscores, and must have at least one letter`); return;
+				if (!/[a-z]/i.test(this.target) || !/^[\w\d]+$/.test(snakeify(this.target))) { // TODO: Needs support for Japanese/Korean characters
+					this.#error("Invalid Variable", {}, "format"); return;
 				}
 
 				// Avoids collision with node properties and events
-				switch (this.target) {
+				switch (snakeify(this.target)) {
 					case "add": case "delete": case "modify": case "roll": case "proc": case "n":
-						console.warn(`AutoEffect error: Illegal variable name. "${this.target}" is reserved for event paths`); return;
+						this.#error("Invalid Variable", {"[TARGET]":t}, "event-path"); return;
 
 					case "enabled": case "id": case "index": case "path": case "root":
-						console.warn(`AutoEffect error: Illegal variable name. "${this.target}" is a node property`); return;
-				}
-
-				// Avoids collisions with math functions
-				if (Object.keys(newOperators).some(key => snakeify(key) == snakeify(this.target))) {
-					console.warn(`AutoEffect error: Illegal variable name. "${this.target}" is a math function`); return;
+						this.#error("Invalid Variable", {"[TARGET]":t}, "node-prop"); return;
 				}
 
 				// Avoids collision with root subnodes and properties
-				if (this.name == "Global" && this.target in dataFormat.base) {
-					console.warn(`AutoEffect error: Illegal variable name. "${this.target}" is reserved for root subnode/property`); return;
+				if (snakeify(this.target) in dataFormat.base) {
+					this.#error("Invalid Variable", {"[TARGET]":t}, "root-node"); return;
 				}
 			}
 			
@@ -18389,9 +18470,7 @@ class effectNode extends dataNode {
 	// Add one or more nested effects within this effect block
 	add(AutoScript, index=0, opts={}) {
 		if (!autoEffectBlocks[this.name]) {
-			console.warn("Effect error: Attempted to nest an effect inside a non-block effect", AutoScript, this);
-			return false;
-			// TODO: access._error.throw()
+			this.#error("Parsing Error", {}, "invalid-nesting"); return;
 		}
 
 		let newEffects = []
@@ -18405,17 +18484,23 @@ class effectNode extends dataNode {
 		}
 		else if (is.Array(AutoScript) || !/^\s*$/.test(AutoScript)) {
 			console.log("Adding new effect(s)", this, AutoScript, index);
-
+			access._state = "parsing";
+			
 			if (typeof AutoScript == "string") {
 				AutoScript = new_autoScriptToArray(AutoScript);
 			}
-
+			
 			for (const AutoEffect of AutoScript) {
 				if (is.Array(AutoEffect[0][0])) { // Detects effect blocks
 					newEffects.at(-1).add(AutoEffect);
 				} else {
 					newEffects.push(new effectNode(AutoEffect, this));
 				}
+			}
+
+			if (access._state == "error") {
+				newEffects = []
+				access._action_stack.at(-1).state = "parsing";
 			}
 		}
 
@@ -18487,19 +18572,15 @@ class effectNode extends dataNode {
 
 	// Executes the effect and any nested effects
 	execute() {
-		/*
-		let backupState;
-		if (access._state != "effects") {
-			backupState = access._state;
-			// TODO: access._save();
-			access._state = "effects";
-		}
-		*/
-
-		// TODO: Effects should now set access._state = "effect error" whenever an error occurs
-		// If backupState is set when execute() finishes with an error, use access._load() 
-
 		if (this.#validate()) {
+			if (access._state == "error") return; // Effects are still validated after an error but do not execute
+
+			// Back up access before each AutoScript execution
+			if (!(this.parent instanceof effectNode)) {
+				access._state = "effects";
+				access._backup.register();
+			}
+
 			console.log(`Execute ${this.toString()}`);
 
 			// Handle conditionals
@@ -18574,15 +18655,25 @@ class effectNode extends dataNode {
 				// Add special handling for checks with exactly one condition
 				// Execute the check. If it passes, add all nested effects to a button
 				// Do not add the check to the button. Instead add a generic block and add the effects to that block
-				// Add an option that ignores this behaviour
-
-
-				
+				// Add an option that ignores this behaviour	
 			}
+
+			// Detects if an error occured inside this AutoScript
+			// If *any* effect inside a script caused an error all changes to access caused by the script are reversed
+			// Only resolves effect and math errors caused by effect.#error(). Code errors are handled by access._process()
+			if (!(this.parent instanceof effectNode)) {
+				if (access._state == "error") {
+					access._action_stack.at(-1).state = "effects";
+					access._backup.load();
+				} else {
+					access._backup.save();
+				}
+			}
+
 			return true;
 		}
 		else if (!this.#invalid) {
-			this.#error("Parsing Error");
+			this.#error("Execution Error");
 		}
 		return this.#invalid = false;
 	}
@@ -19098,9 +19189,10 @@ class effectNode extends dataNode {
 
 	#exeAccess() {
 		let error = {}
-		let path = this.targetPath.slice(0, -1);
+		let path = [...this.targetPath.slice(0, -1), "node"];
 		let start = access;
 		let prop = snakeify(this.targetPath.at(-1));
+		let op = (this.operator == "=") ? "=" : this.operator.replace("=", "");
 
 		// Check if the path leads to a variable
 		if (this.targetPath.length == 1 && this.var[prop] !== undefined) {
@@ -19114,8 +19206,8 @@ class effectNode extends dataNode {
 
 		let node = navPath(path, {userPath:true, start:start}, error);
 
-		if (!node) {
-			access._error.throw("math", "Math Error", this.toString(), { // TODO: Should be access error
+		if (node == null) {
+			access._error.throw("math", "Math Error", this.toString(), {
 				"[STEP]": this.targetPath[error.step-1],
 				"[LOCATION]": {
 					string: this.target,
@@ -19126,13 +19218,29 @@ class effectNode extends dataNode {
 			return;
 		}
 
-		if (!(typeof node == "object")) {
-			console.warn("Access Error: Path does not end in an Object, Array or dataNode"); return;
+		if (node[prop] instanceof dataNode) {
+			if (node[prop]._valueProp) {
+				node = node[prop];
+				prop = node._valueProp;
+			} else {
+				access._error.throw("access", "Access Error", this.toString(), {
+					"[NODE]": pathArrayToString(this.targetPath.slice(0, -1)),
+					"[PROP]": this.targetPath.at(-1),
+				}, "modify-node");
+				return;
+			}
 		}
+		
+		let newValue;
+		try {
+			newValue = (op == "=") ? this.value : mathOperation(op, parseInt(node[prop]), value);
+		} catch (e) {}
 
-		// TODO: May need a try-catch block here
-		if ((this.operator = "=") ? !node._validator(`_${prop}`)(this.value) : !node._validator(`_${prop}`)(mathOperation(this.operator.replace("=", ""), parseInt(node[prop]), value))) {
-			console.warn("Access Error: Value is not a valid value for the target property", this.value, node._validator(`_${prop}`).toString()); return;
+		if (newValue === undefined || !node._validator(`_${prop}`)(newValue)) {
+			access._error.throw("access", "Access Error", this.toString(), {
+				"[VAL]": (op == "=") ? this.value : `${node[prop]} ${op} ${this.value}`,
+				"[PROP]": this.targetPath.at(-1),
+			}, "invalid-value");
 		}
 
 		assignmentOperation(node, prop, this.operator, this.value);
@@ -19244,8 +19352,6 @@ function new_autoScriptToArray(AutoScript, mode="effects", opts={}) {
 	let AutoScriptArray = []
 	let match = []
 
-	console.log(AutoScript);
-
 	let scriptRegExp = opts.regExp || {
 		effects: /\(\s*(.+?)\s*\)(?=\s*(?:\(|\[#|$))/g,
 		triggers: /\[#\s*(.+?)\s*,\s*(\([^]+)\s*#\](?=\s*(?:\(|\[#|$))/g,
@@ -19270,7 +19376,7 @@ function new_autoScriptToArray(AutoScript, mode="effects", opts={}) {
 					new_autoScriptToArray(match[2]),
 				]);
 			} else {
-				console.warn("Parsing error: Empty trigger block");
+				access._error.throw("access", "Parsing Error", match[0], {}, "empty-trigger"); return "";
 			}
 		} else {
 			let effectArray = splitIgnoreBetween(match[1], ",", [["{","}"], ['"']], {includeChars:true, nesting:true}).map(c => c.trim());
@@ -19282,12 +19388,13 @@ function new_autoScriptToArray(AutoScript, mode="effects", opts={}) {
 			// Handle block end tags
 			if (effectName.startsWith("/") || effectName == "reset") {
 				if (!opts.endTags && effectName != "reset") {
-					console.warn("Block Error: Unexpected end tag", effectName);
-					return; // TODO: Need to ensure this doesn't cause any errors
+					access._error.throw("autoeffect", "Parsing Error", match[0], {}, "unexpected-tag"); return "";
 				}
 				else if (!includesSnakeify(opts.endTags, effectName)) {
-					console.warn("Block Error: AutoEffect block was terminated with an incorrect end tag", effectName, opts.endTags);
-					return; // -:-
+					access._error.throw("autoeffect", "Parsing Error", `(${opts.startTag}) ... ${match[0]}`, {
+						"[START]":`(${opts.startTag})`,
+						"[TAGS]":arrayJoinAndOr(opts.endTags.map(tag => `(${tag})`)),
+					}, "invalid-tag"); return "";
 				}
 				else {
 					return AutoScriptArray;
@@ -19295,8 +19402,7 @@ function new_autoScriptToArray(AutoScript, mode="effects", opts={}) {
 			}
 			else if (effectName == "else" && !includesSnakeify(["Require", "Consume", "If", "Else"], AutoScriptArray.at(-2)?.[0]?.[0])) {
 				if (!opts.endTags) {
-					console.warn("Block Error: Unexpected Else effect");
-					return; // TODO: Need to ensure this doesn't cause any errors
+					access._error.throw("autoeffect", "Parsing Error", match[0], {}, "unexpected-else"); return "";
 				}
 				scriptRegExp[mode].lastIndex -= match[0].length; // Repeats the Else effect outside the block
 				return AutoScriptArray;
@@ -19307,11 +19413,12 @@ function new_autoScriptToArray(AutoScript, mode="effects", opts={}) {
 			// Handle block AutoEffects
 			if (includesSnakeify(autoEffectBlocks, effectName)) {
 				let scriptIndex = match.index + match[0].length;
-				let blockEndTags = autoEffectBlocks[Object.keys(autoEffectBlocks).find(name => equalsSnakeify(name, effectName))];
+				let blockStartTag = Object.keys(autoEffectBlocks).find(name => equalsSnakeify(name, effectName));
+				let blockEndTags = autoEffectBlocks[blockStartTag];
 
 				// The regular expression is reused to maintain the current index. This function continues at the last index of the nested block
-				let blockEffects = new_autoScriptToArray(AutoScript, "effects", {endTags:blockEndTags, regExp:scriptRegExp});
-				if (blockEffects.length) {
+				let blockEffects = new_autoScriptToArray(AutoScript, "effects", {startTag:blockStartTag, endTags:blockEndTags, regExp:scriptRegExp});
+				if (blockEffects?.length) {
 					AutoScriptArray.push(blockEffects);
 				}
 
@@ -19448,8 +19555,10 @@ const accessData = {
 		// Initialize is a special action for adding a character's data to the data access
 		// This usually occurs automatically when opening the character's sheet
 		if (type == "initialize") {
-			console.log(`Initializing character ${charID}...`);
-			this._action_stack.unshift({state:"init", charID, begin, end});
+			if (!this._action_stack.some(a => a.state == "init" && a.charID == charID)) {
+				console.log(`Initializing character ${charID}...`);
+				this._action_stack.unshift({state:"init", charID, begin, end});
+			}
 		}
 		else if (type == "action") {
 			if (!this[charID]) { // This is primarily used for targeting where the target's sheet cannot be opened
@@ -19481,8 +19590,6 @@ const accessData = {
 		while (this._action_stack.length) {
 			let action = this._action_stack[0];
 
-			console.log("Action stack:", [...this._action_stack]);
-
 			// Reject actions for targets. Actions can use data from targets, but cannot act as targets
 			if (action.state == "init" || this[action.charID] && this[action.charID].type != "target") {
 
@@ -19492,8 +19599,7 @@ const accessData = {
 					await action.begin();
 
 					// Execute any AutoEffects
-					if (this.effects?.length && this._state != "error") {
-						this._state = "effects";
+					if (this.effects?.length) {
 						this.effects.execute();
 					}
 					
@@ -19505,16 +19611,22 @@ const accessData = {
 						await action.end();
 					}
 				} catch (e) {
-					console.warn("Error during action:", e);
-					access._state = "error";
+					this._error.throw("code", "Code Error", e.name, {
+						"[ERROR]": e.message,
+						"[STACK]": [...e.stack.matchAll(/(at .*)\s\(eval/g)].map(match => match[1]).join("\n"),
+						"[STATE]": action.state,
+					});
 				}
 			}
 
 			// Continue to the next action in the stack
 			this._action_stack.shift();
 
-			// If any errors occured during the action, re-initialize the character before the next action
+			// If any unresolved errors occured during the action, re-initialize the character before the next action
 			if (action.state == "error") {
+				if (length(this._error.errors)) {
+					await sendMessage();
+				}
 
 				// TODO: Also needs to re-initialize any other characters modified during the action
 				delete this[action.charID];
@@ -19596,6 +19708,7 @@ const accessData = {
 			// Cleanup
 			this._event.count = {}
 			this._error.errors = {};
+			this._backup.stack = [];
 		}
 	},
 
@@ -19984,7 +20097,7 @@ const accessData = {
 
 		// Returns a markdown string that highlights the location of an error
 		location(string, data) {
-			let langLocation = getTranslationByKeyCustom("Location: ", "math-error-location");
+			let langLocation = getTranslationByKeyCustom("Location: ", "error-location");
 			let offsetIndex = 0;
 			let offsetLength = 0;
 
@@ -20006,12 +20119,43 @@ const accessData = {
 			let error_start = data.index + offsetIndex;
 			let error_end = Math.min(error_start + data.length + offsetLength, string_end);
 
-			return `*\n${langLocation}**${[
+			return `\n*${langLocation}${[
 				string.slice(0, error_start),
 				styleText(string.slice(error_start, error_end), "color: red;"),
 				styleText(string.slice(error_end, string_end), "color: gray;"),
 			].join("")}*`;
 		}
+	},
+
+	// The data access supports "backups", which save the current state of access and document all changes made afterwards
+	// Registering a new backup pushes an array onto access._backup.stack(). The most recent backup sits at the top of the stack
+	// Whenever a nodes uses a modify, add or delete operation while a backup is registered, it creates a local backup of its *current* output / rep nodes
+	// The node adds a reference to itself to the most recent backup array, letting the system know which nodes have been modified since the backup began
+	_backup: {
+		stack: [], // Backups are numbered based on their index in the stack + 1
+
+		// Registers a backup of the current state of access
+		// Backups should be registered before running any error-prone functionality which modifies data in access
+		register() {
+			this.stack.push([]);
+		},
+
+		// Loads the last backup of access, reverting all modify, add and delete operations made since the backup was registered
+		// The backup is deleted after being loaded
+		load() {
+			for (const node of this.stack.at(-1)) {
+				node._load();
+			}
+			this.stack.pop();
+		},
+	
+		// Deletes the last backup of access, making the changes permanent
+		save() {
+			for (const node of this.stack.at(-1)) {
+				node._save();
+			}
+			this.stack.pop();
+		},
 	},
 	
 	// A collection of functions used for calculating and/or applying derived data in access
@@ -20458,7 +20602,7 @@ function recalcItemWeight(item) {
 			weight -= item.rollformats.length - 1;
 		}
 		if (item.resistances.enabled && item.resistances.base.enabled) {
-			weight -= length(item.resistances.base.filter(type => type.mode != "None"));
+			weight -= Object.values(item.resistances.base).filter(type => type.mode != "None").length;
 		}
 	
 		let text = {
@@ -21047,7 +21191,7 @@ function recalcCustomPosition(item) {
 	let selector = `.repitem[data-reprowid="${item.id}"]`;
 	let coords = item.ui.position;
 
-	if (is.True(coords.enabled)) {
+	if (coords.enabled) {
 		custom.position.apply(selector, coords.x, coords.y);
 	} else {
 		custom.position.clear(selector);
@@ -25244,6 +25388,12 @@ function splitIgnoreBetween(string, seperator, chars=['"'], opts={includeChars:f
 	}
 
 	return string;
+}
+
+function arrayJoinAndOr(array, div1, div2) {
+	div1 ??= getTranslationByKeyCustom(", ", "error-divider-comma");
+	div2 ??= getTranslationByKeyCustom(" or ", "error-divider-or");
+	return array.reduce((acc, element, i) => acc += ((i < array.length-1) ? div1 : div2) + element);
 }
 
 // Deletes multiple object properties
