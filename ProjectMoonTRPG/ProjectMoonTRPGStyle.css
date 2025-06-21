@@ -786,7 +786,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 .lightScroll { scrollbar-color: var(--color-lighter-gray) var(--color-dark-white); }
 
 /* The default repcontrol elements are usually not used */
-:is(.ailmentCustomDisplay, .genericTokenInstanceContainer, .conditionalButtonDisplay, #globalSettings) .repcontrol,
+:is(#ailmentCustomDisplay, .genericTokenInstanceContainer, .conditionalButtonDisplay, #globalSettings) .repcontrol,
 .customResistDisplay .repcontrol, .ailmentResistContainer .repcontrol {
     display: none;
 }
@@ -808,7 +808,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 }
 
 /* Custom repcontrols */
-:is(.inventoryContainer, .itemOptionContainer, #itemSettings, #globalVariables) {
+:is(.inventoryContainer, .itemOptionContainer, #itemSettings, #globalVariables, #ailmentCustomDisplay) {
     :is(.repcontrol_edit, .repcontrol_add, .repcontrol_del, .repcontrol_move) {
         min-width: 20px;
         margin: 0;
@@ -1523,12 +1523,12 @@ button[type=action].challengeButton::before {
 
 
 /* Custom ailments display */
-.ailmentCustomDisplay .repcontainer {
+#ailmentCustomDisplay .repcontainer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
     overflow: hidden;
 }
-.ailmentCustomDisplay .repitem  {
+#ailmentCustomDisplay .repitem  {
     display: inline-block;
     width: 33.33%; /* Should later be replaced with a Grid based system */
     min-width: 83.2px;
@@ -3711,7 +3711,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 #itemSettings .editorButtonContainer {
     padding-bottom: 5px;
 }
-.ailmentCustomEditor .repcontrol_move, #globalSettings .repcontrol_move {
+#ailmentCustomEditor .repcontrol_move, #globalSettings .repcontrol_move {
     display: none;
 }
 
@@ -3874,32 +3874,37 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 
 
 /* Custom ailments (Editor tab) */
-.ailmentCustomEditor {
+#ailmentCustomEditor {
     height: 430px;
-}
-.customAilText {
-    width: 70px !important;
-    text-align: left;
-    font-weight: bold;
-}
-.ailmentCustomEditor .repcontrol { 
-    position: absolute;
-    top: -38px;
-    right: 0px;
-}
-.ailmentCustomEditor .repitem { 
-    margin: 5px;
-    flex-basis: 31.5%;
-    min-width: 250px;
-    padding: 5px;
-    border-radius: 5px;
-    background-color: var(--color-lighter-gray);
-    overflow: hidden;
-}
-.ailmentCustomEditor .repitem textarea {
-    width: 205px;
-    height: 37px;
-    margin-bottom: 0px;
+
+    .customAilText {
+        width: 70px !important;
+        text-align: left;
+        font-weight: bold;
+    }
+    .repcontrol { 
+        position: absolute;
+        top: -38px;
+        right: 0px;
+    }
+    .repitem { 
+        margin: 5px;
+        flex-basis: 31.5%;
+        min-width: 250px;
+        padding: 5px;
+        border-radius: 5px;
+        background-color: var(--color-lighter-gray);
+        overflow: hidden;
+
+        textarea {
+            width: 205px;
+            height: 37px;
+            margin-bottom: 0px;
+        }
+    }
+    .repitembroken {
+        border: 0 !important; 
+    }
 }
 .repitemMock {
     margin: 2px;
@@ -3919,7 +3924,7 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .repIconMock .columnAlign .rowContainer {
     align-items: flex-end !important;
 }
-.ailmentCustomEditor .repcontainer, .ailmentCustomEditor .repcontainerMock  {
+#ailmentCustomEditor :is(.repcontainerMock, .repcontainer)  {
     display: flex;
     flex-wrap: wrap;
     max-height: 430px;
@@ -4233,8 +4238,8 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         width: 25px;
     }
 }
-.sheet-rolltemplate-customRoll .sheet-section-message:has(a:first-child img) { padding-left: 29px; }
-.sheet-rolltemplate-customRoll .sheet-section-message a:first-child:has(img) { margin-left: -28px; }
+.sheet-rolltemplate-customRoll .sheet-section-message:has(a:first-child img) { padding-left: 25px; }
+.sheet-rolltemplate-customRoll .sheet-section-message a:first-child:has(img) { margin-left: -25px; }
 
 .sheet-rolltemplate-customRoll .sheet-button-half { width: calc(50% - 2px); }
 .sheet-rolltemplate-customRoll .sheet-button-third { width: calc(33.33% - 3px); }
@@ -4471,6 +4476,20 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     color: #eee;
     background-color: #454545;
 }
+.sheet-rolltemplate-customRoll .sheet-template-alt {
+    background-color: rgba(0,0,0,0.5) !important;
+
+    .sheet-desc-wrapper {
+        margin: 1px 0 3px 2px;
+    }
+}
+.sheet-rolltemplate-customRoll .sheet-template-alt .sheet-section {
+    margin: 0;
+    
+    .sheet-section-contents {
+        border: 0;
+    }
+}
 
 .sheet-rolltemplate-customRoll .inlinerollresult {
     display: inline-block;
@@ -4580,7 +4599,6 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     flex-direction: column;
     width: 100%;
     box-sizing: border-box;
-    
 }
 .sheet-rolltemplate-customRoll .sheet-section {
     margin-top: 8px;
