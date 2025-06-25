@@ -4230,21 +4230,15 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 }
 
 /* Inline icon */
-.sheet-rolltemplate-customRoll .sheet-section-message a:has(img) {
+.sheet-rolltemplate-customRoll .sheet-section a:has(img) {
     pointer-events: none;
-
-    img {
-        height: 25px;
-        width: 25px;
-    }
+    img { height: 25px; width: 25px; }
 }
 .sheet-rolltemplate-customRoll .sheet-section-message:has(a:first-child img) { padding-left: 25px; }
 .sheet-rolltemplate-customRoll .sheet-section-message a:first-child:has(img) { margin-left: -25px; }
 
 .sheet-rolltemplate-customRoll .sheet-button-half { width: calc(50% - 2px); }
 .sheet-rolltemplate-customRoll .sheet-button-third { width: calc(33.33% - 3px); }
-
-
 
 
 
@@ -4708,6 +4702,16 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 /* Shifts the Roll20 chat message menu slightly to the right to avoid overlapping with the header rolls */
 .sheet-rolltemplate-customRoll + .flyout {
     right: 0px;
+}
+
+/* Roll result message */
+.sheet-rolltemplate-customRoll .sheet-section-result {
+    width: fit-content;
+    margin: auto;
+
+    strong {
+        vertical-align: middle;
+    }
 }
 
 

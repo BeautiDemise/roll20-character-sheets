@@ -2033,7 +2033,7 @@ EGO block end -->
 <div class="rowContainer sectionHeader">
 	<button type="action" name="act_resetStats" data-i18n-title="reset-button" title="Reset"> ! </button> <h4 data-i18n="heading-stats">Stats</h4>
 
-	<button type="action" class="centerIcon luck" id="autoroll_luck" name="act_rollChallenge" data-i18n-title="helper-roll-luck" title="Roll Luck"></button>
+	<button type="action" class="centerIcon luck" name="act_rollChallenge" id="autoroll_luck" data-i18n-title="helper-roll-luck" title="Roll Luck"></button>
 	<input type="text" name="attr_baseLuckNum" value="0" hidden="true">
 	<input type="text" name="attr_luckNum" value="@{baseLuckNum}" hidden="true">
 
@@ -2210,7 +2210,7 @@ EGO block end -->
 
 	<!-- Standard speed button -->
 	<div class="hide-item-rev">
-		<button type="action" class="centerIcon speed" id="autoroll_speed" name="act_rollChallenge" data-i18n-title="helper-roll-speed" title="Roll Speed"></button>
+		<button type="action" class="centerIcon speed" name="act_rollChallenge" id="autoroll_speed" data-i18n-title="helper-roll-speed" title="Roll Speed"></button>
 	</div>
 
 	<input type="text" name="attr_baseSpeed" value="0" hidden="true">
@@ -7213,7 +7213,7 @@ EGO block end -->
 <div class="sheet-body sheet-export darkBG">
 <div class="contentContainer" id="sheetExport">
 	<div class="rowContainer centerFlex">
-		<button type="action" class="declare" name="act_clearButton" id="clear_editorOutput" data-i18n-title="reset-button" title="Reset" style="position: absolute; left: 0;">x</button>
+		<button type="action" class="declare pictos" name="act_clearButton" id="clear_editorOutput" data-i18n-title="reset-button" title="Reset" style="position: absolute; left: 0;">#</button>
 
 		<select name="attr_exportType" class="darkInput exportSelect" style="width: 200px !important; position: absolute; left: 90px; margin-bottom: 0px;">
 			<option data-i18n="export-type-All" value="All">All</option>
@@ -7228,7 +7228,7 @@ EGO block end -->
 		<button type="action" class="declare" name="act_export" data-i18n="message-export">Export</button>
 		<button type="action" class="declare" name="act_swap" title="Swap" style="font-size: 14pt; margin-left: 5px; margin-right: 5px;">⇔</button>
 		<button type="action" class="declare" name="act_import" data-i18n="message-import">Import</button>
-		<button type="action" class="declare" name="act_clearButton" data-i18n-title="reset-button" title="Reset" id="clear_editorInput" style="position: absolute; right: 0;">x</button>
+		<button type="action" class="declare pictos" name="act_clearButton" data-i18n-title="reset-button" title="Reset" id="clear_editorInput" style="position: absolute; right: 0;">#</button>
 	</div>
 
 	<div class="rowContainer">
@@ -7491,7 +7491,7 @@ EGO block end -->
 </div>
 
 <div class="settingStyle"><div style="width: 100px">
-<b data-i18n="editor-use-action-for-reaction">Can use actions for reactions?</b>:</div>
+<b data-i18n="editor-use-action-for-reaction">Can use actions for reactions?</b></div>
 <select type="text" class="transpInput" name="attr_actionTradeReaction" style="width: 90px;">
 	<option data-i18n="true" value="true">True</option>
 	<option data-i18n="false" value="0" selected>False</option>
@@ -7505,9 +7505,6 @@ EGO block end -->
 <!-- Default ailments -->
 <input type="checkbox" value="true" name="attr_iconStyle" hidden="true" checked>
 <div>
-<label for="LimbusStyleInternal">
-	<input type="checkbox" id="LimbusStyleInternal" name="attr_iconStyle" value="true"><span data-i18n="settings-limbusstyle">Limbus style ailment icons</span>
-</label>
 
 <div class="settingStyle columnAlign centerFlex">
 
@@ -8274,7 +8271,7 @@ const advTypes = ["Advantage", "Disadvantage"]
 /* Sheet colors */
 const colors = {
 	blue:"#7397d1", red:"#c25944", orange:"#cf8c44", yellow:"#dbb748", purple:"#8e7cc3", green:"#85a874", // Item colors
-	fortitude:"", prudence:"#d9d9d9", justice:"#46bdc6", charm:"#9c66c6", insight:"#ffe599", temperance:"#ac609d", // Stat colors
+	fortitude:"#cc4125", prudence:"#d9d9d9", justice:"#46bdc6", charm:"#9c66c6", insight:"#ffe599", temperance:"#ac609d", // Stat colors
 	black:"#000000", gray:"#222222", white:"#ffffff", // Shades
 }
 // --color-prudence-dark: #afaa9f;
@@ -8362,11 +8359,12 @@ const conditionalOptions = {
 	"ChatButton":		[...autoEffectOptions.Target, "Inflict", "Give", "FlatDamage"]
 }
 const autoEffectTriggers = [
-	"Combat start", "Round start", "Combat end",				// Turn order
-	"Offensive", "Defensive", "Block", "Evade", "Challenge",	// Rolls
-	"Damaged", "DamagedHP", "DamagedST", "DamagedSP",			// Damage
-	"Staggered", "Defeated", "Panic",							// States
-	"Recover", "Permanent"										// Other
+	"Combat start", "Round start", "Combat end",						// Turn order
+	"Offensive", "Defensive", "Block", "Evade",							// Combat rolls
+	"Challenge", ...statNames, "Speed",									// Stat rolls
+	"Damaged", "DamagedHP", "DamagedST", "DamagedSP",					// Damage
+	"Staggered", "Defeated", "Panic", "Sealed", "Immobile", "Hostile",	// States
+	"Recover", "Permanent"												// Other
 ]
 const triggerOptions = [
 	"First round"
@@ -8987,7 +8985,7 @@ class checkVal {
 	/* Base JavaScript datatypes */
 	static Int(i, opts={}) { return is.Float(i) && i % 1 == 0; }
 	static Float(i, opts={}) { return !isNaN(Number(i)) && this.Opts(Number(i), opts); }
-	static String(s, opts={newlines:false}) { return typeof(s) == "string" && (opts.newline) ? !s.includes("\n") : true; }
+	static String(s, opts={newlines:false}) { return typeof(s) == "string" && (!opts.newlines) ? !s.includes("\n") : true; }
 	static True(b) { return includesSnakeify(["true", "1"], "" + b); }
 	static False(b) { return includesSnakeify(["false", "0", "undefined"], "" + b); }
 	static Bool(b) { return is.True(b) || is.False(b); }
@@ -12447,6 +12445,16 @@ async function sendMessage(rollArray, message) {
 				sectionInsert += getSectionHTML(section);
 			}
 
+			// Generate a roll result message if requested
+			if (roll.message.sections.result) {
+				let resultIcon = "icons/good", resultText = getTranslationByKeyCustom("Success!", "message-success");
+
+				if (roll.result < 10) { resultIcon = "icons/normal"; resultText = getTranslationByKeyCustom("Partial Success", "message-normal"); }
+				if (roll.result < 7) { resultIcon = "icons/bad"; resultText = getTranslationByKeyCustom("Failure...", "message-failure"); }
+
+				sectionInsert += `<div class="sheet-section-result">**${resultText}** [icon](${getIcon(resultIcon)})</div>`;
+			}
+
 			// Generate any roll specific buttons
 			for (const button of roll.message.buttons) {
 				if (button.display) sectionButtons.push(button.insert);
@@ -12728,11 +12736,14 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 }
 
 /* Action: Challenge Roll */
+/*
 on('clicked:rollChallenge', (info) => {
-	/* Get IDs/names */
+	// Get IDs/names
 	let buttonid = info.htmlAttributes.id.split('_')[1];
 	rollChallenge(buttonid);
 });
+*/
+
 function rollChallenge(buttonid, rollDifficulty=0, collectAutoScripts="false") {
 	
 	/* Preparing values */
@@ -14975,16 +14986,16 @@ const rollDataFormat = {
 	},
 	
 	valid: {
-		type: {string: ["None", ...combatRollNames, ...statNames, "Custom"]},
-		mode: {string: ["Roll", "Applied"]},
-		damage_type: {string: ["None", ...damageTypes, "Choose"], array: {in: damageTypes, min: 1, max: 3}},
+		type: {in: ["None", ...combatRollNames, ...statNames], string:true}, // String is used for custom roll types, like "Poise"
+		mode: {in: ["Roll", "Applied"]},
+		damage_type: {in: ["None", ...damageTypes, "Choose"], array: {in: damageTypes, min: 1, max: 3}},
 		multiroll: {bool:true, id:true},
 		action: {
-			type: {string: ["None", ...resourceNames]},
+			type: {in: ["None", ...resourceNames]},
 			cost: {int: {min: 0}},
 		},
 		reaction: {
-			type: {string: ["None", ...resourceNames]},
+			type: {in: ["None", ...resourceNames]},
 			cost: {int: {min: 0}},
 		},
 		uses: {
@@ -15009,7 +15020,7 @@ const damageDataFormat = {
 
 	valid: {
 		bar: {string: barNames, array: {in: barNames}},
-		damage_type: {string: ["Untyped", ...damageTypes]},
+		damage_type: {in: ["Untyped", ...damageTypes]},
 		before_resistance: {bool:true},
 	},			
 }
@@ -15132,7 +15143,7 @@ const messageDataFormats = {
 		valid: {
 			title: {string:true},
 			display: {bool:true},
-			mode: {string: ["select", "target"], id:true},
+			mode: {in: ["select", "target"], id:true},
 			icon: {false:true, string:true},
 			color: {empty:true, color:true},
 			effects: {},
@@ -15479,13 +15490,13 @@ const repDataFormats = {
 				roll_together: {bool:true},
 			},
 			usable: { // Enabled by optionUsable
-				type: {string: ["None", "Standalone", "Applied", "Both"]},
+				type: {in: ["None", "Standalone", "Applied", "Both"]},
 				action: { // Enabled by optionUsableReaction
-					type: {string: ["None", ...resourceNames]},
+					type: {in: ["None", ...resourceNames]},
 					cost: {int: {min:0}},
 				},
 				reaction: { // Enabled by optionUsableReaction
-					type: {string: ["None", ...resourceNames]},
+					type: {in: ["None", ...resourceNames]},
 					cost: {int: {min:0}},
 				},
 				uses: {
@@ -15500,7 +15511,7 @@ const repDataFormats = {
 				uses: { // Enabled by optionUses
 					current: {int: {min:0}},
 					max: {int: {min:0}},
-					recharge: {string: ["None", "Manual", "Refresh", "Recover", "Loaded", "Ammo", "Combat", "Round"]},
+					recharge: {in: ["None", "Manual", "Refresh", "Recover", "Loaded", "Ammo", "Combat", "Round"]},
 				},
 				light: { // Enabled by optionLightCost
 					cost: {int: {min:0}},
@@ -15509,30 +15520,30 @@ const repDataFormats = {
 			resistances: { // Enabled by optionResist
 				base: { // Enabled by optionResistBaseDamage
 					slash: {
-						mode: {string: ["None", "Add", "Replace"]},
+						mode: {in: ["None", "Add", "Replace"]},
 						hp: {float:true}, // TODO: Implement this through an event
 						_default: {float:true}, // is.Float(i, (this.mode == "Replace") ? {min:0} : {}),
 					},
 					pierce: {
-						mode: {string: ["None", "Add", "Replace"]},
+						mode: {in: ["None", "Add", "Replace"]},
 						_default: {float:true},
 					},
 					blunt: {
-						mode: {string: ["None", "Add", "Replace"]},
+						mode: {in: ["None", "Add", "Replace"]},
 						_default: {float:true},
 					},
 				},
 				flat: { // Enabled by optionResistFlatDamage
 					slash: {
-						mode: {string: ["None", "Add", "Replace"]},
+						mode: {in: ["None", "Add", "Replace"]},
 						_default: {int:true},
 					},
 					pierce: {
-						mode: {string: ["None", "Add", "Replace"]},
+						mode: {in: ["None", "Add", "Replace"]},
 						_default: {int:true},
 					},
 					blunt: {
-						mode: {string: ["None", "Add", "Replace"]},
+						mode: {in: ["None", "Add", "Replace"]},
 						_default: {int:true},
 					},
 				},
@@ -15562,8 +15573,8 @@ const repDataFormats = {
 			},
 			ui: { // Enabled by optionCustomUI
 				color: { // Enabled by optionColor
-					base: {string: ["None", "Red", "Blue", "Green", "Purple", "Orange", ...statNames, "Custom"]},
-					decoration: {string: ["None", "Red", "Blue", "Green", "Purple", "Orange", ...statNames, "Custom"]},
+					base: {in: ["None", "Red", "Blue", "Green", "Purple", "Orange", ...statNames, "Custom"]},
+					decoration: {in: ["None", "Red", "Blue", "Green", "Purple", "Orange", ...statNames, "Custom"]},
 					custom: {
 						base: {empty:true, color:true},
 						decoration: {empty:true, color:true},
@@ -15765,29 +15776,29 @@ const repDataFormats = {
 			icon: {string:true},
 			settings: {
 				_default: {bool:true},
-				trigger: {string: ["None", "RoundEnd", "OnAction", "WhenHit"]},
+				trigger: {in: ["None", "RoundEnd", "OnAction", "WhenHit"]},
 				whenhit: {
-					damage_type: {string: ["Any", "Slash", "Pierce", "Blunt"]},
+					damage_type: {in: ["Any", "Slash", "Pierce", "Blunt"]},
 					decay: {bool:true},
 					before_resistance: {bool:true},
-					positive_type: {string: ["Regen", "Reduction"]},
+					positive_type: {in: ["Regen", "Reduction"]},
 				},
 				roundend: {
 					decay: {bool:true},
 				}
 			},
 			effect: {
-				type: {string: ["None", "HP", "ST", "HP+ST", "THP", "TST", "SP", "Light", "DistortCounter", "Difficulty"]},
-				mode: {string: ["+", "x", "="]},
+				type: {in: ["None", "HP", "ST", "HP+ST", "THP", "TST", "SP", "Light", "Count", "Max", "Power", "Adv", "DistortCounter"]},
+				mode: {in: ["+", "x", "="]},
 				value: {effect:true},
 			},
 			decay: {
 				min: {int: {min:0, max:1}},
-				mode:  {string: ["+", "x", "="]},
+				mode:  {in: ["+", "x", "="]},
 				value: {effect:true},
 			},
 			max: {
-				mode: {string: ["None", "ClearMax", "EffectMax", "DecayMax", "EffectDecayMax", "EffectClearMax"]},
+				mode: {in: ["None", "ClearMax", "EffectMax", "DecayMax", "EffectDecayMax", "EffectClearMax"]},
 				value: {int: {min:0}},
 			},
 			message: {
@@ -15925,6 +15936,7 @@ const dataFormat = {
 					color: "green",
 					sections: { // Roll specific message sections
 						_repeating: messageDataFormats.section.base,
+						result: false, // Set to true if a roll should display if it got a Good (10+), Neutral (7-9) or Bad (6-) roll result
 					},
 					buttons: { // Roll specific chat buttons
 						_repeating: messageDataFormats.button.base,
@@ -16144,7 +16156,7 @@ const dataFormat = {
 			_repeating: repDataFormats.item.valid,
 			editor: {
 				target: {false:true, id:true},
-				location: {string: ["Left", "Center", "Right"]},
+				location: {in: ["Left", "Center", "Right"]},
 			},
 		},
 		ailments: {
@@ -16194,6 +16206,7 @@ const dataFormat = {
 					color: {empty:true, color:true},
 					sections: {
 						_repeating: messageDataFormats.section.valid,
+						result: {bool:true}, 
 					},
 					buttons: {
 						_repeating: messageDataFormats.button.valid,
@@ -16283,7 +16296,7 @@ const dataFormat = {
 				base: {int: {min:0}},
 				counter: {int: {min:0}},
 				counter_max: {int: {min:0}},
-				result: {false:true, string: ["Good", "Neutral", "Bad"]},
+				result: {false:true, in: ["Good", "Neutral", "Bad"]},
 				_default: {int: {min:-8, max:8}},
 			},
 			_default: {string:true},
@@ -16814,15 +16827,17 @@ class dataNode extends Array {
 		if (oldValue !== undefined) {
 
 			// TODO: Temporary workaround while testing new validation functionality
+			/*
 			if (typeof this._validator(prop, newValue) == "function") {
 				if (!this._validator(prop)(newValue)) {
 					console.warn(`Attempted to set the value of ${prop} to invalid value ${newValue}`, this); return;
 				}
 			}
-			else if ((newValue = this._validator(prop, newValue)) === null) {
+			*/
+			if ((newValue = this._validator(prop, newValue)) === null) {
 				console.warn(`Attempted to set the value of ${prop} to invalid value ${rawValue}`, this); return;
 			}
-			if (oldValue != newValue) {
+			else if (oldValue != newValue) {
 				//console.log(`(${opts.source || "Code"}) Modifying ${prop} from "${this[prop]}" to "${newValue}"`);
 
 				// Backup the current output data if a backup is registered in access
@@ -16860,17 +16875,15 @@ class dataNode extends Array {
 		for (const [type, args] of Object.entries(validator)) {
 			let v = null;
 
-			// Handle specific values
-			if (is.Array(args)) {
-				if ((v = this._validator(prop, value, {[type]:true})) !== null) {
-					for (const arg of args) {
-						if (equalsSnakeify(value, arg)) {
-							v = arg; break;
-						}
+			// Handle specific string values
+			if (type == "in") {
+				for (const arg of args) {
+					if (equalsSnakeify(value, arg)) {
+						v = arg; break;
 					}
 				}
 			}
-
+			
 			// Handle boolean values
 			if (type == "bool" && is.Bool(value)) v = is.True(value);
 			if (type == "true" && is.True(value)) v = true;
@@ -16879,7 +16892,7 @@ class dataNode extends Array {
 			// Handle string and text values
 			if (type == "empty" && /^\s*$/.test(value)) v = value;
 			if (type == "string" && is.String(value)) v = "" + value;
-			if (type == "text" && is.String(value, {newLines:true})) v = "" + value;
+			if (type == "text" && is.String(value, {newlines:true})) v = "" + value;
 			if (type == "propstring" && is.PropString(value)) v = value;
 
 			// Handle number values
@@ -17409,7 +17422,6 @@ class effectNode extends dataNode {
 		}
 
 		else if (mode == "operator") {
-			console.log(arguments);
 			if (autoEffectOperators[this.name]) {
 				autoEffectOperators[this.name].forEach(op => {
 					let wordDivider = (op != autoEffectOperators[this.name].at(-1)) ? opts.dividers?.[0] || ", " : opts.dividers?.[1] || " or ";
@@ -17681,7 +17693,7 @@ class effectNode extends dataNode {
 	}
 	get targetNode() {
 		if (!this.targetPath) return false;
-		return navPath(this.targetPath, {start: (this.options.target == "target" && this.root.target.type) ? this.root.target : this.root});
+		return navPath(this.targetPath, {start: (this.options.target == "target") ? this.root.target : this.root});
 	}
 	set target(t) {
 		let t_raw = t;
@@ -18033,6 +18045,11 @@ class effectNode extends dataNode {
 	execute() {
 		if (this.#validate()) {
 			if (access._state == "error") return; // Effects are still validated after an error but do not execute
+
+			// Trigger a new effect event. Used for abilities that manipulate the effect before it executes
+			access._event.trigger(["effect", this.name, this.target || "N", "exec"], {
+				node:this, type:"exec", ...this.#buffer, // Event info
+			});
 
 			// Back up access before each AutoScript execution
 			if (!(this.parent instanceof effectNode)) {
@@ -18424,7 +18441,10 @@ class effectNode extends dataNode {
 			}
 
 			let value = roundTowardsZero(this.value * this.var.scaling);
-			let oldValue = node[prop];
+			let oldValue = node?.[prop] || 0;
+			let newValue = oldValue;
+			let checkResult = this.#local.checkresult;
+			let checkString = this.#local.checkstring;
 
 			if (node) {
 
@@ -18441,15 +18461,14 @@ class effectNode extends dataNode {
 				}
 
 				// TODO: Add a #Current option that makes Require/Consume use the current value, not the immutable one
-				this.#local.checkresult = mathOperation(this.operator || "<=", value, node.immutable[prop]);
-				this.#local.checkstring = (this.#local.checkresult) ? "success" : "failure";
+				checkResult = mathOperation(this.operator || "<=", value, node.immutable[prop]);
+				checkString = (checkResult) ? "success" : "failure";
 		
-				if (this.name == "Consume" && this.#local.checkresult) {
+				if (this.name == "Consume" && checkResult) {
 					if (node.immutable[prop] < this.value * 2) {
-						this.#local.checkstring = "last success";
+						checkString = "last success";
 					}
-					node[prop] -= value;
-					oldValue = node[prop];
+					newValue = node[prop] - value;
 
 					let clone = this.#addToButton("Apply ailments", {color:"purple", icon:"icons/lose", chatButton:true});
 					clone.value = 1;
@@ -18461,11 +18480,15 @@ class effectNode extends dataNode {
 					}
 				}
 			} else {
-				this.#local.checkresult = false;
-				this.#local.checkstring = "no target";
+				checkResult = false;
+				checkString = "no target";
 			}
 
-			this.#message({old:oldValue, new:node[prop]});
+			this.#message({old:oldValue, new:newValue});
+
+			this.#local.checkresult = checkResult;
+			this.#local.checkstring = checkString;
+			if (node) node[prop] = newValue;
 		}
 
 		let checkName = `${(this.name != "Else" && this.#local.elseresult !== undefined) ? "Else " : ""}${this.name}`;
@@ -18483,7 +18506,8 @@ class effectNode extends dataNode {
 		let node = this.targetNode;
 		let prop = (this.options.round == "this") ? "count" : "count_next_round";
 		let value = roundTowardsZero(this.value * this.var.scaling);
-		let oldValue = node[prop];
+		let oldValue = node?.[prop] || 0;
+		let newValue = oldValue + value;
 
 		if (this.options.target) {
 			let buttonOpts = (this.options.target == "target")
@@ -18496,18 +18520,19 @@ class effectNode extends dataNode {
 			clone.value = value;
 		}
 		
-		if (node) node[prop] += value;
+		this.#message({old:oldValue, new:newValue});
+		console.log(`exeAilment | ${this.name} ${this.target || ""}: ${oldValue} -> ${newValue}`);
 
-		this.#message({old:oldValue, new:node[prop]});
-		console.log(`exeAilment | ${this.name} ${this.target || ""}: ${oldValue} -> ${node[prop]}`);
+		if (node) node[prop] = newValue;
 	}
 
 
 	#exeBar() {
 		let node = this.targetNode;
-		let prop = (this.targetNode[this.target]) ? this.target : "current"; // Used for Add/Set #Resource
+		let prop = (this.target in access.resource) ? "current" : this.target; // Used for Add/Set #Resource
 		let value = roundTowardsZero(this.value * this.var.scaling);
-		let oldValue = node[prop];
+		let oldValue = node?.[prop] || 0;
+		let newValue = oldValue;
 
 		if (this.options.target) {
 			let buttonOpts = {}
@@ -18535,18 +18560,20 @@ class effectNode extends dataNode {
 
 		if (node) {
 			switch (this.name) {
-				case "Add": node[prop] += value; break;
-				case "Multi": node[prop] *= value; break;
-				case "Set": node[prop] = value; break;
+				case "Add": newValue = node[prop] + value; break;
+				case "Multi": newValue = node[prop] * value; break;
+				case "Set": newValue = value; break;
 			}
 
 			if (this.targetPath[0] == "resource" && node[prop] > oldValue) { // This max value change should be reset on round end
-				node.max += node[prop] - oldValue;
+				node.max = newValue - oldValue;
 			}
 		}
 
-		this.#message({old:oldValue, new:node[prop]});
-		console.log(`exeBar | ${this.name} ${this.target || ""}: ${oldValue} -> ${node[prop]}`);
+		this.#message({old:oldValue, new:newValue});
+		console.log(`exeBar | ${this.name} ${this.target || ""}: ${oldValue} -> ${newValue}`);
+
+		if (node) node[prop] = newValue;
 	}
 
 
@@ -18557,6 +18584,8 @@ class effectNode extends dataNode {
 
 		// TODO: Should later affect all rolls, or one roll by index
 		let rolls = this.root.rolls;
+
+		this.#message();
 
 		for (let roll of rolls) {
 
@@ -18579,8 +18608,6 @@ class effectNode extends dataNode {
 				roll[prop] += value;
 			}
 		}
-
-		this.#message();
 	}
 
 
@@ -18591,7 +18618,7 @@ class effectNode extends dataNode {
 
 	#exeProc() {
 		let node = this.targetNode;
-		let oldValue = node.count;
+		let oldValue = node?.count;
 		let msgData;
 
 		if (this.options.target) {
@@ -18610,24 +18637,25 @@ class effectNode extends dataNode {
 			this.#message();
 		}
 
-		console.log(`exeProc | ${this.name} ${this.target || ""}: ${oldValue} -> ${node.count}`);
+		console.log(`exeProc | ${this.name} ${this.target || ""}: ${oldValue} -> ${node?.count || 0}`);
 	}
 
 
 	#exePause() {
 		let node = this.targetNode;
 		let value = roundTowardsZero(this.value * this.var.scaling);
-		let oldValue = node.count_pause;
+		let oldValue = node?.count_pause || 0;
+		let newValue = oldValue + value;
 
 		if (this.options.target) {
 			let clone = this.#addToButton("Apply ailments", {color:"purple", icon:"icons/lose", chatButton:true});
 			clone.value = value;
 		}
 		
-		if (node) node.count_pause += value;
+		this.#message({old:oldValue, new:node?.count_pause});
+		console.log(`exePause | ${this.name} ${this.target || ""}: ${oldValue} -> ${newValue}`);
 
-		this.#message({old:oldValue, new:node.count_pause});
-		console.log(`exePause | ${this.name} ${this.target || ""}: ${oldValue} -> ${node.count_pause}`);
+		if (node) node.count_pause = newValue;
 	}
 
 
@@ -18648,6 +18676,8 @@ class effectNode extends dataNode {
 		let prop = snakeify(this.targetPath.at(-1));
 		let op = (this.operator == "=") ? "=" : this.operator.replace("=", "");
 
+		console.log(this, this.target, this.targetPath);
+
 		// Check if the path leads to a variable
 		if (this.targetPath.length == 1 && this.var[prop] !== undefined) {
 			return this.#exeVar();
@@ -18658,7 +18688,7 @@ class effectNode extends dataNode {
 			start = access[path.shift()];
 		}
 
-		let node = navPath(path, {userPath:true, start:start}, error);
+		let node = navPath(path, {userPath:true, start:this.var}) ?? navPath(path, {userPath:true, start:start}, error);
 
 		if (node == null) {
 			access._error.throw("math", "Math Error", this.toString(), {
@@ -18685,7 +18715,8 @@ class effectNode extends dataNode {
 			}
 		}
 		
-		let newValue;
+		let oldValue = node[prop];
+		let newValue = oldValue;
 		try {
 			newValue = (op == "=") ? this.value : mathOperation(op, node[prop], value);
 		} catch (e) {}
@@ -18700,7 +18731,7 @@ class effectNode extends dataNode {
 		assignmentOperation(node, prop, this.operator, this.value);
 
 		// TODO: For testing. Effect outputs no chat message
-		console.log(`exeAccess | ${this.target} ${this.operator} ${this.value}: ${node.immutable[prop]} -> ${node[prop]}`);
+		console.log(`exeAccess | ${this.target} ${this.operator} ${this.value}: ${oldValue} -> ${newValue}`);
 	}
 
 
@@ -18796,104 +18827,7 @@ function messageSection(msgNode, section="AutoEffects", msgArray) {
 
 
 
-
-
-
-// Takes in an AutoScript and returns an array of AutoEffects in array form
-// Blocks return the block effect followed by an array of all effects nested within that block
-// Mode is one of "effects" or "trigger"
-function new_autoScriptToArray(AutoScript, mode="effects", opts={}) {
-	let AutoScriptArray = []
-	let match = []
-
-	let scriptRegExp = opts.regExp || {
-		effects: /\(\s*(.+?)\s*\)(?=\s*(?:\(|\[#|$))/g,
-		triggers: /\[#\s*(.+?)\s*,\s*(\([^]+)\s*#\](?=\s*(?:\(|\[#|$))/g,
-	}
-
-	// Clean up the AutoScript for parsing. This is not needed when parsing block contents
-	if (!opts.endTags) {
-		AutoScript = cleanAutoScript(AutoScript);
-		if (mode == "effects") {
-			AutoScript = AutoScript.replace(scriptRegExp.triggers, "");
-		}
-	}
-
-	// Extract all AutoEffects in the AutoScript
-	while (match = scriptRegExp[mode].exec(AutoScript)) {
-		// console.log("New effect", match)
-
-		if (mode == "triggers") {
-			if (match[2]) {
-				AutoScriptArray.push([
-					splitIgnoreBetween(match[1], /\s+/g, ['[', ']'], {includeChars:true, nesting:true}),
-					new_autoScriptToArray(match[2]),
-				]);
-			} else {
-				access._error.throw("access", "Parsing Error", match[0], {}, "empty-trigger"); return "";
-			}
-		} else {
-			let effectArray = splitIgnoreBetween(match[1], ",", [["{","}"], ['"']], {includeChars:true, nesting:true}).map(c => c.trim());
-			effectArray[0] = splitIgnoreBetween(effectArray[0], /\s+/g, [["{","}"], ['"']], {includeChars:true});
-			let effectName = snakeify(effectArray[0][0]);
-
-			// console.log(match[0], AutoScriptArray, scriptRegExp[mode].lastIndex);
-			
-			// Handle block end tags
-			if (effectName.startsWith("/") || effectName == "reset") {
-				if (!opts.endTags && effectName != "reset") {
-					access._error.throw("autoeffect", "Parsing Error", match[0], {}, "unexpected-tag"); return "";
-				}
-				else if (!includesSnakeify(opts.endTags, effectName)) {
-					access._error.throw("autoeffect", "Parsing Error", `(${opts.startTag}) ... ${match[0]}`, {
-						"[START]":`(${opts.startTag})`,
-						"[TAGS]":arrayJoinAndOr(opts.endTags.map(tag => `(${tag})`)),
-					}, "invalid-tag"); return "";
-				}
-				else {
-					return AutoScriptArray;
-				}
-			}
-			else if (effectName == "else" && !includesSnakeify(["Require", "Consume", "If", "Else"], AutoScriptArray.at(-2)?.[0]?.[0])) {
-				if (!opts.endTags) {
-					access._error.throw("autoeffect", "Parsing Error", match[0], {}, "unexpected-else"); return "";
-				}
-				scriptRegExp[mode].lastIndex -= match[0].length; // Repeats the Else effect outside the block
-				return AutoScriptArray;
-			}
-
-			AutoScriptArray.push(effectArray);
-
-			// Handle block AutoEffects
-			if (includesSnakeify(autoEffectBlocks, effectName)) {
-				let scriptIndex = match.index + match[0].length;
-				let blockStartTag = Object.keys(autoEffectBlocks).find(name => equalsSnakeify(name, effectName));
-				let blockEndTags = autoEffectBlocks[blockStartTag];
-
-				// The regular expression is reused to maintain the current index. This function continues at the last index of the nested block
-				let blockEffects = new_autoScriptToArray(AutoScript, "effects", {startTag:blockStartTag, endTags:blockEndTags, regExp:scriptRegExp});
-				if (blockEffects?.length) {
-					AutoScriptArray.push(blockEffects);
-				}
-
-				// If the nested parser reaches the end of the AutoScript without finding an end tag regExp.lastIndex is incorrectly set to 0
-				if (scriptRegExp[mode].lastIndex == 0) break; 
-			}
-		}
-	}
-
-	// console.log("Final AutoScriptArray:", AutoScriptArray);
-
-	return AutoScriptArray;
-}
-
-
-
-
-
-
-
-// Contains a list of access objects, one for each accessed character
+// Contains a list of root objects, one for each accessed character
 
 // You should look into adding further settings for privating information
 //  For example, you could private your items to not make them show up in the target data when you're targeted
@@ -19369,7 +19303,7 @@ const accessData = {
 					path[i] = step = snakeify("" + step); // '"" + ' hinders issues with number values
 				}
 
-				if (is(step).In("add", "delete", "modify", "proc", "roll")) {
+				if (is(step).In("add", "delete", "modify", "proc", "roll", "exec")) {
 					if (step == "modify") {
 						if (i != path.length - 2) {
 							console.warn(`Throw error. ${step} must be the second to last step in the path`); return false;
@@ -19378,16 +19312,16 @@ const accessData = {
 						if (i != path.length - 1) {
 							console.warn(`Throw error. ${step} must be the last step in the path`); return false;
 						}
+						if (step == "exec" && (snakeify(path[1]) != "effect" || path.length != 5)) {
+							console.warn(`Throw error. ${step} event paths must follow the format effect.name.target.exec, where name/target may be N`); return false;
+						}
 					}
-				}
-				else if (step == "N") {
-					accessFormat = accessFormat._repeating || Object.values(accessFormat).find(prop => is.Object(prop));
 				}
 				else if (accessFormat[step] !== undefined) {
 					accessFormat = accessFormat[step];
-				} else {
-					console.warn(`Throw error. Subnode or property "${step}" is not in access`, accessFormat);
-					return false;
+				} 
+				else if (step == "N" || "_repeating" in accessFormat) {
+					accessFormat = accessFormat._repeating || Object.values(accessFormat).find(prop => is.Object(prop));
 				}
 			}
 			
@@ -19422,7 +19356,7 @@ const accessData = {
 				path.unshift(getActiveCharacterId());
 			}
 
-			if (!opts.i) { // Used for opts.max
+			if (!opts.i || opts.countPath) { // Used for opts.max
 				this.count[pathString] = (this.count[pathString] || 0) + 1;
 			}
 
@@ -19439,65 +19373,62 @@ const accessData = {
 				}
 
 				if (eventNode) {
-					if (accessNode[step] !== undefined || is(step).In("N", "roll", "proc")) {
-
-						// Validate the event path
-						if (is(step).In("add", "delete", "modify", "roll", "proc")) {
-							if (step == "modify") {
-								if (i != path.length - 2) {
-									console.warn(`Throw error. ${step} must be the second to last step in the path`); return false;
-								}
-							} else {
-								if (i != path.length - 1) {
-									console.warn(`Throw error. ${step} must be the last step in the path`); return false;
-								}
+					
+					// Validate the event path
+					if (is(step).In("add", "delete", "modify", "roll", "proc")) {
+						if (step == "modify") {
+							if (i != path.length - 2) {
+								console.warn(`Throw error. ${step} must be the second to last step in the path`); return false;
 							}
-							eventNode = eventNode[step];
-							continue;
-						}
-
-						// If the incoming path includes N, move to all other branches of the current event node
-						else if (step == "N") {
-							for (const prop in eventNode) {
-								if (prop != step) {
-									this.trigger([...path.slice(0, i), prop, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[prop], eventNode:eventNode[prop]});
-								}
+						} else {
+							if (i != path.length - 1) {
+								console.warn(`Throw error. ${step} must be the last step in the path`); return false;
 							}
 						}
+						eventNode = eventNode[step];
+						continue;
+					}
 
-						// If the event tree includes N, move to that branch in addition to the current one
-						else if (eventNode.N && step != "N") {
-							this.trigger(path, info, {...opts, i:i+1, accessNode:accessNode[step], eventNode:eventNode["N"]});
-						}
-
-						// If the next step is a repid, also trigger an event for any keyprop/index accessors associated with the repnode
-						if (accessNode._rep && is.ID(step) && accessNode[step] instanceof dataNode) {
-							let [key, index] = [snakeify(accessNode[step][accessNode[step]._keyProp] || ""), accessNode[step].index]
-
-							if (key !== "" && eventNode[key]) {
-								this.trigger([...path.slice(0, i), key, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[key], eventNode:eventNode[key]});
-							}
-							if (index !== false && eventNode[index]) {
-								this.trigger([...path.slice(0, i), index, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[index], eventNode:eventNode[index]});
+					// If the incoming path includes N, move to all other branches of the current event node
+					else if (step == "N") {
+						for (const prop in eventNode) {
+							if (prop != step) {
+								this.trigger([...path.slice(0, i), prop, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode?.[prop], eventNode:eventNode[prop]});
 							}
 						}
+					}
 
-						// Move to the next step of the event path
+					// If the event tree includes N, move to that branch in addition to the current one
+					else if (eventNode.N && step != "N") {
+						this.trigger(path, info, {...opts, i:i+1, accessNode:accessNode?.[step], eventNode:eventNode["N"]});
+					}
+
+					// If the next step is a repid, also trigger an event for any keyprop/index accessors associated with the repnode
+					if (accessNode?._rep && is.ID(step) && accessNode[step] instanceof dataNode) {
+						let [key, index] = [snakeify(accessNode[step][accessNode[step]._keyProp] || ""), accessNode[step].index]
+
+						if (key !== "" && eventNode[key]) {
+							this.trigger([...path.slice(0, i), key, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[key], eventNode:eventNode[key], countPath:true});
+						}
+						if (index !== false && eventNode[index]) {
+							this.trigger([...path.slice(0, i), index, ...path.slice(i+1)], info, {...opts, i:i+1, accessNode:accessNode[index], eventNode:eventNode[index], countPath:true});
+						}
+					}
+
+					// Move to the next step of the event path
+					eventNode = eventNode[step]; // TODO: Does this work for names/ids? If not, use eventNode = eventNode[step] || eventNode[accessNode[step].id]
+					
+					// Handle event paths to local and global variables
+					if (accessNode) {
 						if (accessNode[step] !== undefined) {
-							eventNode = eventNode[step]; // TODO: Does this work for names/ids? If not, use eventNode = eventNode[step] || eventNode[accessNode[step].id]
 							accessNode = accessNode[step];
 						} else {
-							//console.warn("No event found for path:", path.join("."));
-							return false;
-						}
-					} else {
-						if (accessNode instanceof effectNode) {
-							// Try navigating to accessNode.var[step] first
-						}
-						else if ("_global" in accessNode && accessNode.global[step] !== undefined) {
-							// If that fails, try navigating to accessNode.global[step]
-						} else {
-							// If both fail, throw an error
+							if (accessNode instanceof effectNode) {
+								// Try navigating to accessNode.var[step] first
+							}
+							else if ("_global" in accessNode && accessNode.global[step] !== undefined) {
+								// If that fails, try navigating to accessNode.global[step]
+							}
 						}
 					}
 				} else {
@@ -19507,18 +19438,19 @@ const accessData = {
 			}
 			if (eventNode?.eventArray) {
 				if (opts.eventinfo) Object.assign(info, opts.eventinfo); // Handle custom event info
+				let pathCount = this.count[pathString]; // Buffer this value to ensure it remains consistent for all events in the array
 
 				for (const event of eventNode.eventArray) {
-					if (opts.silent && !event.ignoreSilent) return false; // Handle silent events
-					if (this.count[pathString] > event.max) return false; // Handle event max trigger count
-
+					if (opts.silent && !event.ignoreSilent) continue; // Handle silent events
+					if (pathCount > event.max) continue; // Handle event max trigger count
+					
 					access._begin(`event:${info.type || "event"}`, () => {
 						event.func({...info, path: path, charid: path[0]});
 					});
 				}
 				return true;
 			} else {
-				//console.warn("No event found for path:", path.join("."));
+				//console.warn("Event path contains no event functions:", path.join("."));
 				return false;
 			}
 		},
@@ -19619,15 +19551,9 @@ const accessData = {
 
 		// Helper function for recalc methods that use character ids
 		parseIDs(IDs, allowedTypes=["character"]) {
-			if (!IDs) {
-				return Object.keys(access).filter(prop => access[prop] instanceof dataNode && is(access[prop].type).In(allowedTypes));
-			}
-			else if (is.String(IDs)) {
-				return [IDs];
-			}
-			else if (is.Array(IDs)) {
-				return IDs;
-			}
+			if (!IDs) return Object.keys(access).filter(prop => access[prop] instanceof dataNode && is(access[prop].type).In(allowedTypes));
+			else if (is.String(IDs)) return [IDs];
+			else if (is.Array(IDs)) return IDs;
 			else {
 				console.warn("Throw error: Invalid IDs used in access._recalc");
 				return [];
@@ -19636,30 +19562,9 @@ const accessData = {
 
 		// Recalculates all custom events. Built-in events are unaffected
 		events(IDs) {
-			IDs = this.parseIDs(IDs, ["character", "token"]);
-			
-			return; // TODO: Add this later
-
-			// Recalculate all custom events for the specified ids
-			for (const charid of IDs) {
-				let autoScriptArray = []
-				
-				if (charid in access._event.tree && charid != "N") {
-					delete access._event.tree[charid];
-				}
-
-				// Only add events from equipped items with at least one trigger block
-				if (access[id] instanceof dataNode) {
-					for (const item of access[id].items) {
-						if (item.equipped && /\[(#.+?#)\]/g.test(item.autoscript)) {
-							autoScriptArray.concat(autoScriptToArray(item.autoscript));
-						}
-					}
-				}
-
-				// TODO: Turn the retrieved AutoEffect trigger blocks into custom events
-				if (autoScriptArray.length > 0) {
-					console.log(autoScriptArray);
+			for (const ID of this.parseIDs(IDs, ["character", "token"])) {
+				for (const item of access[ID].items) {
+					recalcCustomEvents(item);
 				}
 			}
 		},
@@ -19820,6 +19725,7 @@ function onAccess(path, opts={}, callback) {
 		callback = opts;
 		opts = {}
 	}
+	let eventopts = {}
 
 	// For normal Roll20 event strings. Return info in the Roll20 event info format
 	if (typeof path == "string" && /^(change|clicked|remove|sheet):/.test(path.trim())) {
@@ -19837,12 +19743,13 @@ function onAccess(path, opts={}, callback) {
 		}
 	} else {
 		if (opts.custom) {
-			opts = {...opts, accessFormat:access, ignoreSilent:false, max: 1}
+			eventopts = {ignoreSilent:false, max: 1, ...opts}
+			opts.accessFormat = access;
 		} else {
-			opts = {ignoreSilent:true, max: 100, ...opts}
+			eventopts = {ignoreSilent:true, max: 99, ...opts}
 			path.unshift("N"); // All built-in events affect all characters
 		}
-		access._event.register(path, opts, callback);
+		access._event.register(path, eventopts, callback, opts);
 	}
 }
 
@@ -19881,7 +19788,17 @@ function itemChangeSection(item, section, opts={}) {
 		updateSources(item);
 
 		if (!newSection.includes(item.type)) {
-			item.modify("type", capitalize(newSection.replace(/s$/ig, "")), {silent:"hard"})
+			item.modify("type", newSection.replace(/s$/ig, ""), {silent:"hard"})
+		}
+
+		// Update any previously output attribute values for the item
+		for (const source in access._output) {
+			for (const [attr, value] of Object.entries(access._output[source])) {
+				if (attr.includes(item.id)) {
+					delete access._output[source][attr];
+					access._output[source][attr.replace(oldSection, newSection)] = value;
+				}
+			}
 		}
 
 		item.output(access._output, {allProps:true});
@@ -20167,7 +20084,23 @@ function recalcTagsFromProps(node) {
 	node.modify("raw_text", tagText);
 }
 
-/* Rolls - Begin item roll */
+/* Rolls - Stat roll */
+onAccess("clicked:rollChallenge", function(info) {
+	let type = info.htmlAttributes.id.split('_')[1];
+	let roll = new dataNode(rollDataFormat);
+
+	roll.type = capitalize(type);
+	roll.count = 2;
+	roll.max = 6;
+	switch (roll.type) {
+		case "Speed": roll.power = access.character.justice ?? 0; break;
+		default: roll.power = access.character[type] ?? 0; break; // Luck has no stat and always returns 0
+	}
+
+	executeRolls(roll); // The default stat/luck rolls use no resources
+});
+
+/* Rolls - Item roll */
 onAccess(itemEvent("clicked", "item-roll"), {}, function(info) {
 	let item = access.items[info.triggerName.split("_").at(2)];
 	let rollArray = item.rollformats;
@@ -20243,26 +20176,27 @@ function styleRoll(roll) {
 
 	switch (roll.type) {
 		case "Attack":
-			rollStyle = {color: "Red", icon: "icons/Attack"}
+			rollStyle = {color: "red", icon: "icons/Attack"}
 			if (is(roll.damage_type).In(...damageTypes)) {
 				rollStyle.icon = "icons/" + roll.damage_type.toLowerCase(); 
 			}
 			break;
-		case "Block": rollStyle = {color: "Blue", icon: "icons/defend"}; break;
-		case "Evade": rollStyle = {color: "Yellow", icon: "icons/evade"}; break;
-		case "Fortitude": rollStyle = {color: "Temperance", icon: "stats/Fortitude"}; break;
-		case "Prudence": rollStyle = {color: "Prudence", icon: "stats/Prudence"}; break;
-		case "Justice": rollStyle = {color: "Justice", icon: "stats/Justice"}; break;
-		case "Charm": rollStyle = {color: "Charm", icon: "stats/Charm"}; break;
-		case "Insight": rollStyle = {color: "Insight", icon: "stats/Insight"}; break;
-		case "Temperance": rollStyle = {color: "Temperance", icon: "stats/Temperance"}; break;
-		case "Speed": rollStyle = {color: "Yellow", icon: "icons/Speed"}; break;
-		case "Luck": rollStyle = {color: "Orange", icon: "icons/fortunewhite"}; break;
-		default: rollStyle = {color: "Red", icon: "icons/question"};
+		case "Block": rollStyle = {color: "blue", icon: "icons/defend"}; break;
+		case "Evade": rollStyle = {color: "yellow", icon: "icons/evade"}; break;
+		case "Fortitude": rollStyle = {color: "fortitude", icon: "stats/Fortitude", result:true}; break;
+		case "Prudence": rollStyle = {color: "prudence", icon: "stats/Prudence", result:true}; break;
+		case "Justice": rollStyle = {color: "justice", icon: "stats/Justice", result:true}; break;
+		case "Charm": rollStyle = {color: "charm", icon: "stats/Charm", result:true}; break;
+		case "Insight": rollStyle = {color: "insight", icon: "stats/Insight", result:true}; break;
+		case "Temperance": rollStyle = {color: "temperance", icon: "stats/Temperance", result:true}; break;
+		case "Luck": rollStyle = {color: "green", icon: "icons/fortunewhite", result:true}; break;
+		case "Speed": rollStyle = {color: "yellow", icon: "icons/Speed"}; break;
+		default: rollStyle = {color: "red", icon: "icons/question"};
 	}
 
 	roll.message.icon = getIcon(rollStyle.icon);
 	roll.message.color = getColor(rollStyle.color);
+	roll.message.sections.result = rollStyle.result ?? false;
 }
 
 /* Resources - Recalculate reaction sum */
@@ -21095,11 +21029,6 @@ onAccess(["settings", "sheet", "ailment", "modify", "limbus_style"], {}, functio
 	}
 });
 
-
-onAccess(["items", "N", "modify", "autoscript"], {}, (info) => {
-	access._recalc.events(info.node.id);
-});
-
 /*
 const testTriggerBlock = `
 
@@ -21126,9 +21055,275 @@ triggerAutoScripts.forEach((trigger) => {
 
 
 
+// Takes in an AutoScript and returns an array of AutoEffects in array form
+// Blocks return the block effect followed by an array of all effects nested within that block
+// Mode is one of "effects" or "trigger"
+function new_autoScriptToArray(AutoScript, mode="effects", opts={}) {
+	let AutoScriptArray = []
+	let match = []
+
+	let scriptRegExp = opts.regExp || {
+		effects: /\(\s*(.+?)\s*\)(?=\s*(?:\(|\[#|$))/g,
+		triggers: /\[#\s*(.+?)\s*,\s*(\([^]+?)\s*#\](?=\s*(?:\(|\[#|$))/g,
+	}
+
+	// Clean up the AutoScript for parsing. This is not needed when parsing block contents
+	if (!opts.endTags) {
+		AutoScript = cleanAutoScript(AutoScript);
+		if (mode == "effects") {
+			AutoScript = AutoScript.replace(scriptRegExp.triggers, "");
+		}
+	}
+
+	// Extract all AutoEffects in the AutoScript
+	while (match = scriptRegExp[mode].exec(AutoScript)) {
+		// console.log("New effect", match)
+
+		if (mode == "triggers") {
+			if (match[2]) {
+				AutoScriptArray.push([
+					splitIgnoreBetween(match[1], /\s*,\s*/g, ['[', ']'], {includeChars:true, nesting:true}),
+					new_autoScriptToArray(match[2]),
+				]);
+			} else {
+				access._error.throw("access", "Parsing Error", match[0], {}, "empty-trigger"); return "";
+			}
+		} else {
+			let effectArray = splitIgnoreBetween(match[1], ",", [["{","}"], ['"']], {includeChars:true, nesting:true}).map(c => c.trim());
+			effectArray[0] = splitIgnoreBetween(effectArray[0], /\s+/g, [["{","}"], ['"']], {includeChars:true});
+			let effectName = snakeify(effectArray[0][0]);
+
+			// console.log(match[0], AutoScriptArray, scriptRegExp[mode].lastIndex);
+			
+			// Handle block end tags
+			if (effectName.startsWith("/") || effectName == "reset") {
+				if (!opts.endTags && effectName != "reset") {
+					access._error.throw("autoeffect", "Parsing Error", match[0], {}, "unexpected-tag"); return "";
+				}
+				else if (!includesSnakeify(opts.endTags, effectName)) {
+					access._error.throw("autoeffect", "Parsing Error", `(${opts.startTag}) ... ${match[0]}`, {
+						"[START]":`(${opts.startTag})`,
+						"[TAGS]":arrayJoinAndOr(opts.endTags.map(tag => `(${tag})`)),
+					}, "invalid-tag"); return "";
+				}
+				else {
+					return AutoScriptArray;
+				}
+			}
+			else if (effectName == "else" && !includesSnakeify(["Require", "Consume", "If", "Else"], AutoScriptArray.at(-2)?.[0]?.[0])) {
+				if (!opts.endTags) {
+					access._error.throw("autoeffect", "Parsing Error", match[0], {}, "unexpected-else"); return "";
+				}
+				scriptRegExp[mode].lastIndex -= match[0].length; // Repeats the Else effect outside the block
+				return AutoScriptArray;
+			}
+
+			AutoScriptArray.push(effectArray);
+
+			// Handle block AutoEffects
+			if (includesSnakeify(autoEffectBlocks, effectName)) {
+				let scriptIndex = match.index + match[0].length;
+				let blockStartTag = Object.keys(autoEffectBlocks).find(name => equalsSnakeify(name, effectName));
+				let blockEndTags = autoEffectBlocks[blockStartTag];
+
+				// The regular expression is reused to maintain the current index. This function continues at the last index of the nested block
+				let blockEffects = new_autoScriptToArray(AutoScript, "effects", {startTag:blockStartTag, endTags:blockEndTags, regExp:scriptRegExp});
+				if (blockEffects?.length) {
+					AutoScriptArray.push(blockEffects);
+				}
+
+				// If the nested parser reaches the end of the AutoScript without finding an end tag regExp.lastIndex is incorrectly set to 0
+				if (scriptRegExp[mode].lastIndex == 0) break; 
+			}
+		}
+	}
+
+	// console.log("Final AutoScriptArray:", AutoScriptArray);
+
+	return AutoScriptArray;
+}
 
 
 
+// Handle trigger blocks (item AutoScript only)
+onAccess([["items", "N", "modify", "autoscript"], ["items", "N", "add"]], {}, function(info) {
+	recalcCustomEvents((info.type == "add") ? info.newval : info.node);
+});
+onAccess(["items", "N", "delete"], {}, function(info) {
+	deleteCustomEvents(info.oldval);
+});
+function recalcCustomEvents(item) {
+
+	// Delete any current events from the item
+	deleteCustomEvents(item);
+
+	let triggerBlocks = new_autoScriptToArray(item.autoscript, "triggers");
+
+	// If the AutoScript contains any trigger blocks, add one or more events
+	if (triggerBlocks.length) {
+		for (const [triggers, effects] of triggerBlocks) {
+
+			// Get all AutoEffects for the event
+			let eventBlock = new effectNode("(Block)", item);
+			eventBlock.add(effects);
+			
+			// Register a new event for each trigger
+			for (const trigger of triggers) {
+				let eventPath;
+				let eventOpts = {}
+
+				let eventFunc = (eventinfo) => {
+					console.log("FOR TESTING: New event:", eventinfo);
+
+					eventBlock._addVar("event", eventinfo);
+					eventBlock.execute();
+				}
+
+				// Seperate out any options. Options must begin with hashtags
+				if (/#/.test(trigger)) {
+					trigger = trigger.replace(/#[^#]+/g, (match) => {
+						
+						// TODO: Validate the option
+						
+						// For now, add the options directly for testing purposes
+						eventOpts[match.trim()] = true;
+						
+						return "";
+					}).trim();
+				}
+
+				let type = autoEffectTriggers.find(t => equalsSnakeify(trigger, t)) // Standard trigger
+						 ?? ["N ", ...Object.keys(autoEffectFormats)].find(t => snakeify(trigger).startsWith(snakeify(t))) // Effect trigger
+						 ?? (is.Path(trigger) ? "Path" : false); // Event path
+
+				// Handle event paths
+				if (type == "Path") {
+					eventPath = pathStringToArray(trigger);
+				}
+				
+				// Handle built-in events
+				else if (type) {
+
+					// Combat state events
+					if (is(type).In("Combat start", "Combat end", "Round start", "Round end")) {
+						eventPath = type.split(" ");
+					}
+
+					// Roll events
+					else if (is(type).In("Offensive", "Defensive", "Block", "Evade", "Challenge", ...statNames)) {
+						
+						// Combat rolls are either made from a rollformat or by duplicating a previous roll
+						eventPath = [["rolls", "N", "roll"], ["items", "N", "rollformats", "N", "roll"]]
+
+						// Stat rolls may additionally be made from the "character" node when making a default 2d6+mod roll
+						if (is(type).In("Challenge", ...statNames)) {
+							eventPath[0].push(["character", statNames, "roll"]);
+						}
+						
+						eventFunc = (eventinfo, trigger=type) => {
+							let type = eventinfo.node.type;
+
+							console.log("FOR TESTING: Triggered roll event", trigger, type, eventinfo); // TODO: Remove this
+
+							switch (trigger) {
+								case "Offensive": if (type != "Attack") return; break;  // TODO: May not work for multirolls
+								case "Defensive": if (!is(type).In("Block", "Evade")) return; break; 
+								case "Challenge": if (!statNames.includes(type)) return; break;
+								default: if (type != trigger) return;
+							}
+
+							eventBlock._addVar("event", eventinfo);
+							eventBlock.execute();
+						}
+						eventOpts.max = 99; // Should execute once for every new roll, not once per action
+					}
+
+					// Initiative roll event. Similar to Combat start, but provides the roll as eventinfo and works when re-rolling initiative during combat
+					else if (type == "Speed") {
+						eventPath = ["speed", "roll"]
+					}
+
+					// Damage events
+					else if (is(type).In("Damaged", "DamagedHP", "DamagedST", "DamagedSP")) {
+						// TODO: Add support for damage events
+					}
+
+					// State events
+					else if (is(type).In("Staggered", "Defeated", "Panic", "Sealed", "Immobile")) {
+						eventPath = ["state", snakeify(type).replace(/ed$/, ""), "modify", "state"]
+						eventFunc = (eventinfo) => {
+							if (eventinfo.oldval) return; // Only triggers when gaining the state
+							eventBlock._addVar("event", eventinfo);
+							eventBlock.execute();
+						}
+					}
+
+					// Assorted events
+					else if (is(type).In("Recover", "Permanent")) {
+						// TODO: Add support for assorted events
+					}
+
+					// Effect events
+					else if (is(type).In("N ", ...Object.keys(autoEffectFormats))) {
+						let [name, target] = trigger.split(" ");
+						let format = autoEffectFormats[type];
+						if (format.copy) format = autoEffectFormats[format.copy];
+
+						// A dummy effect for validating target names. Adds dummy values N to hinder an invalid effect length error
+						let testEffect = new effectNode(`(${name} ${format.value ? "N" : ""} ${format.target ? "N" : ""})`, item);
+
+						if (target !== undefined && testEffect.name && (testEffect.target = target) == undefined) {
+							console.warn(`Throw error - Trigger block target "${target}" is not valid target for effect "${name}"`); return;
+						}
+
+						eventPath = ["effect", name, target ?? "N", "exec"]
+						eventOpts.max = 99; // Should execute once for every effect execution, not once per action
+					}
+				}
+
+				// Register the event
+				if (eventPath && eventFunc) {
+					while (is.ID(eventPath[0])) eventPath.shift(); // Removes any leading ids from user-defined event paths
+					if (typeof eventPath[0] == "string") {		   // Custom events may only affect the character the event originates from
+						eventPath.unshift(item.path[0]);
+					} else {
+						eventPath.map(path => path.unshift(item.path[0]));
+					}
+
+					console.log("New event:", eventPath, eventOpts, eventFunc);
+
+					onAccess(eventPath, {...eventOpts, custom:true, id:item.id}, eventFunc);
+				} else {
+					console.log(`Throw error: Trigger ${trigger} could not be parsed`);
+				}
+			}
+		}
+
+		// TODO: For testing
+		console.log("New event tree:", access._event.tree);
+	}
+}
+function deleteCustomEvents(item) {
+	function deleteEventInner(eventNode, eventID) {
+		for (const step in eventNode) {
+			if (step == "eventArray") {
+				eventNode[step] = eventNode[step].filter(e => e.id != eventID);
+				if (!eventNode[step].length) {
+					delete eventNode[step];
+				}
+			} else {
+				deleteEventInner(eventNode[step], eventID);
+				if (!length(eventNode[step])) {
+					delete eventNode[step]
+				}
+			}
+		}
+	}
+	
+	if (access._event.tree[item.path[0]]) {
+		deleteEventInner(access._event.tree[item.path[0]], item.id);
+	}
+}
 
 
 
@@ -21294,7 +21489,7 @@ function navPath(path, opts={}, error={}) {
 		let step = (opts.userPath) ? snakeify("" + raw_step) : raw_step; // Also removes any leading underscores
 		if (/^".+"$/.test(step)) step = step.slice(1, -1);
 
-		if (step.toLowerCase() == "node" && prop.node === undefined) {
+		if (step == "node" && node instanceof dataNode) {
 			return node;
 		}
 		if (node && node[step] === undefined) error.step = i;
@@ -23233,6 +23428,7 @@ const mathOperators = {
 	"Floor": {min: 1, max: 1, calc: Math.floor, func:true},
 	"Ceil": {min: 1, max: 1, calc: Math.ceil, func:true},
 	"Typeof": {min:1, max:1, calc: (a) => typeof a, func:true},
+	"String": {min:1, max:1, calc: (a) => (typeof a == "object") ? JSON.stringify(a) : a.toString(), func:true},
 	".includes": {min: 1, max: 2, calc: userFunc.includes, func:true, method:true},
 	".replace": {min: 2, max: 2, calc: userFunc.replace, func:true, method:true},
 }
@@ -23480,8 +23676,8 @@ function parseMath(mathString, opts={}, error={}, vars={}) {
 
 // Executes a math operation between two or more numbers and returns the result
 function mathOperation(op, ...args) {
-	if (is.String(op)) op = mathOperators[op];
-	return (op?.calc) ? op.calc.apply(op, args) ?? null : null;
+	if (typeof op == "string") op = mathOperators[op];
+	return (op?.calc) ? op.calc.apply(null, args) ?? null : null;
 }
 /* --- Math functionality END --- */
 
