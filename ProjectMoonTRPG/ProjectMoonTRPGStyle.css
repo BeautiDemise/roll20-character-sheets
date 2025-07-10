@@ -351,6 +351,32 @@ body, .sheet-body {
     border-radius: 3px;
     overflow: hidden;
 }
+.contentMessage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.65);
+    user-select: none;
+
+    span {
+        position: absolute;
+        width: 80%;
+        padding: 5px 10%;
+        margin: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 0;
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--color-LIGHT);
+        background: transparent;
+        text-shadow: 0 2px 12px var(--color-black), 0 2px 20px var(--color-black);
+        pointer-events: none;
+    }
+}
 
 
 /* Generic elements */
@@ -746,6 +772,7 @@ h3, h4, .viewerName {
     text-align: center;
     opacity: 70%;
     font-weight: bold;
+    pointer-events: none;
 }
 
 /* Helper text */
@@ -786,8 +813,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 .lightScroll { scrollbar-color: var(--color-lighter-gray) var(--color-dark-white); }
 
 /* The default repcontrol elements are usually not used */
-:is(#ailmentCustomDisplay, .genericTokenInstanceContainer, .conditionalButtonDisplay, #globalSettings) .repcontrol,
-.customResistDisplay .repcontrol, .ailmentResistContainer .repcontrol {
+:is(#ailmentCustomDisplay, .genericTokenInstanceContainer, .conditionalButtonDisplay, #globalSettings, #combatPalette) .repcontrol {
     display: none;
 }
 
@@ -842,14 +868,14 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     .repcontrol .repcontrol_add {
         display: none !important;    
     }
-    
-    /* Removes the red border around broken repitems */
-    .repitembroken {
-        border: 0 !important; 
-    }
 }
 .repcontrol_header .repcontrol_add {
     pointer-events: auto;
+}
+
+/* Removes the red border around broken repitems */
+:is(#ailmentCustomDisplay, #ailmentCustomEditor, .inventoryContainer, .itemOptionContainer, #itemSettings, #globalVariables, #combatPalette) .repitembroken {
+    border: 0 !important; 
 }
 /* ===== Shared sheet styling END ===== */
 
@@ -1062,9 +1088,6 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 }
 .observationSelect span {
     font-size: 9px;
-}
-.observationSelect .columnAlign {
-    width: 50%;
 }
 .observationSelect label {
     color: #888 !important;
@@ -2134,7 +2157,7 @@ button[type=action].challengeButton::before {
     width: 30px; 
     height: 30px; 
     position: absolute; 
-    top:0px;  
+    top: 0px;  
     right: 99px;
     z-index: 24;
     opacity: 70%;
@@ -2142,6 +2165,92 @@ button[type=action].challengeButton::before {
 .weaponPaletteUses input {
     color: var(--color-white) !important;
 }
+
+
+/* --- Combat palette NEW --- */
+#combatPalette {
+    .repcontainer {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .actionContainer {
+        background-color: transparent;
+        
+        & > .rowContainer {
+            align-items: stretch;
+        }
+    }
+    .actionHeader {
+        height: auto;
+        width: auto;
+        z-index: 30;
+
+        .name {
+            color: var(--content-text);
+            height: 24px;
+            width: 100%;
+        }
+
+        /* Displays a shadow for palette actions with multiple rolls or standalone actions */
+        &:has(~ .actionContents .rollFormatContainer input[type="checkbox"]:checked ~ input[type="checkbox"]:checked) {
+            box-shadow: 0px 1px 6px 3px rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    .rollFormatContainer {
+        width: fit-content;
+        gap: 2px;
+    }
+    .rollFormat {
+        box-sizing: border-box;
+        height: 30px;
+        padding-right: 3px;
+        gap: 3px;
+    }
+    .rollFormatBlock {
+        justify-content: center;
+        overflow: hidden;
+        height: 100%;
+        width: 64px;
+        border-radius: 0;
+
+        .diceCount, .diceMax, .dicePower {
+            width: 17px !important;
+            text-align: center !important;
+            padding: 0;
+            font-size: 9.5pt;
+        }
+        .diceCount {
+            margin-left: -2px;
+        }
+        .diceMax {
+            margin: 0 1px;
+        }
+        .plainText {
+            display: flex;
+            justify-content: center;
+            width: 5px;
+        }
+    }
+
+    .actionStandalone {
+        justify-content: space-between;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /* ===== Combat palette END ===== */
 
 
@@ -2149,7 +2258,14 @@ button[type=action].challengeButton::before {
 
 /* ===== Equipment and Skills ===== */
 
-/* Dice roll blocks, aka anything in the format "xdx+x". Not to be confused with the block reaction */
+/* Dice roll block(s), aka anything in the format "xdx+x". Not to be confused with the block reaction */
+.rollFormatContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    height: fit-content;
+    z-index: 25;
+}
 .rollFormat {
     position: relative;
     display: flex;
@@ -2188,7 +2304,7 @@ button[type=action].challengeButton::before {
             text-align: right !important;
         }
         &.diceMax {
-            text-align: left !important;
+            text-align: center !important;
         }
     }  
 }
@@ -2201,6 +2317,11 @@ button[type=action].challengeButton::before {
     box-sizing: border-box;
     background-image: url(https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/buttondice.png);
     background-color: var(--color-gray);
+}
+
+/* When rolling all formats together, only display one roll button */
+.rollTogether:checked ~ .rollFormatContainer .rollFormat:nth-of-type(n+2) .rollButton {
+    visibility: hidden;
 }
 
 
@@ -2307,52 +2428,6 @@ button[type=action].challengeButton::before {
 /* Removes the spacing between weapons if only two weapons are displayed (aka. the hide-toggle for extra weapons is unchecked) */
 .weaponContainer .contentContainer:has(+ .hide-toggle):has(+ :not(:checked)) {
     margin-top: 0px !important;
-}
-
-
-/* Outfits */
-.outfitDescriptionInput {
-    height: 60px !important;
-}
-.resistanceChart {
-    flex-wrap: wrap;
-    min-width: 50%;
-    max-width: 100%;
-}
-.resistanceChart img, .resistanceChart select {
-    margin: 0; padding: 0;
-}
-.resistanceChart img {
-    height: 30px !important;
-    width: 30px !important;
-}
-.resistanceChart select {
-    width: 55px !important;
-    appearance: none;
-    text-indent: 3px;
-    border: 1px solid var(--color-inventory);
-}
-.outfitResistVal {
-    width: 45px;
-    text-align: center;
-}
-.resIconLeft {
-    position: absolute;
-    top: 0;
-    left: 10px;
-}
-.resIconRight {
-    position: absolute;
-    top: 0;
-    right: 10px;
-}
-.evadeIcon, .evadeIcon img {
-    height: 30px;
-    width: 30px;
-}
-.evadeAdjust {
-    height: 25px;
-    margin-left: 1px;
 }
 
 
@@ -2692,10 +2767,10 @@ button[type=action].challengeButton::before {
     user-select: none; /* Disables selection when double clicking the header */
     z-index: 20;
 
-    :is(.equipCheck, .rank, .itemName) {
+    :is(.equipCheck, .rank, .name) {
         z-index: 25;
     }
-    .itemName {
+    .name {
         max-width: calc(50% - 60px);
         color: var(--content-text);
     }
@@ -2717,32 +2792,8 @@ button[type=action].challengeButton::before {
 }
 
 .itemMessage {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0,0,0,0.65);
     z-index: 30;
-    user-select: none;
-
-    span {
-        position: absolute;
-        width: 80%;
-        padding: 5px 10%;
-        margin: 0;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border: 0;
-        font-size: 18px;
-        font-weight: bold;
-        color: var(--color-LIGHT);
-        background: transparent;
-        text-shadow: 0 2px 12px var(--color-black), 0 2px 20px var(--color-black);
-        pointer-events: none;
-    }
-
+    
     &:has(~ .itemHeader .equipCheck:checked) {
         z-index: 15; /* Displays the messages below the header when an item is equipped */
     }
@@ -2754,6 +2805,16 @@ button[type=action].challengeButton::before {
 .itemRow {
     width: 50%;
     justify-content: flex-start;
+
+    &.right .contentHeader {
+        align-items: flex-start;
+        justify-content: flex-end;
+        min-height: fit-content;
+        margin-top: -36px;
+        padding: 0 4px;
+        border-bottom-left-radius: 5px;
+        z-index: 20;
+    }
 }
 
 /* Item description */
@@ -2835,33 +2896,14 @@ button[type=action].challengeButton::before {
     }
 }
 
-.itemRollFormats {
-    flex-direction: column;
-    align-items: flex-end;
-    height: fit-content;
-    padding: 0 4px;
-    margin-top: -36px;
-    border-bottom-left-radius: 5px;
-    z-index: 25;
-
+.itemContainer {
     .rollFormat {
         justify-content: flex-start;
         height: 26px;
         padding: 5px 1px 5px 0;
         overflow: visible;
-        
-        --rollformat-color: var(--color-dark-white);
-        &:has(input[value="Attack"]:checked) { --rollformat-color: var(--color-HP); }
-        &:has(input[value="Block"]:checked) { --rollformat-color: var(--color-SAN); }
-        &:has(input[value="Evade"]:checked) { --rollformat-color: var(--color-ego-STGR); }
-        &:has(input[value="Fortitude"]:checked) { --rollformat-color: var(--color-HP); }
-        &:has(input[value="Prudence"]:checked) { --rollformat-color: var(--color-prudence); }
-        &:has(input[value="Justice"]:checked) { --rollformat-color: var(--color-justice); }
-        &:has(input[value="Charm"]:checked) { --rollformat-color: var(--color-charm); }
-        &:has(input[value="Insight"]:checked) { --rollformat-color: var(--color-insight); }
-        &:has(input[value="Temperance"]:checked) { --rollformat-color: var(--color-temperance); }
 
-        &:has(~ input[type="checkbox"]:checked) {
+        &:has(~ input[type="checkbox"]:checked) { /* TODO: What does this do again? */
             display: flex !important;
         }
     }
@@ -2873,10 +2915,22 @@ button[type=action].challengeButton::before {
     }
 }
 
-/* When rolling all formats together, only display one roll button */
-.itemRollTogether:checked ~ .itemRollFormats .rollFormat:nth-of-type(n+2) {
-    .rollButton {
-         visibility: hidden;
+.itemLight {
+    width: fit-content;
+
+    /* Avoids the first rollformat clipping into the light input when minimizing an item */
+    height: 36px;
+    margin-right: -4px;
+    padding-left: 4px;
+    background-color: var(--content-color);
+    z-index: 30;
+    
+    .lightCostInput {
+        max-width: 25px;
+        margin: 5px 5px 0 0;
+        border-radius: 100px;
+        background-color: var(--color-LIGHT) !important;
+        color: rgba(0, 0, 0, 0.5);
     }
 }
 
@@ -2921,33 +2975,18 @@ button[type=action].challengeButton::before {
     }
 }
 
-/* Change colors when item is a mystery */
-.itemMystery:checked + .itemContainer {
-    --content-color: var(--color-black) !important;
-    --content-text: var(--content-mystery) !important;
-    --content-accent: var(--content-mystery) !important;
-
-    .rank, .darkInput:not(:is(.share, .edit, .script)) {
-        background-color: rgba(256, 256, 256, 0.1) !important;
-    }
-
-    .rollFormatBlock {
-        box-sizing: border-box;
-        border: 1px solid var(--rollformat-color);
-
-        .plainText, input {
-            color: var(--rollformat-color);
-        }
-    }
-}
-
 /* Expand the name input when the item is minimized or there are no rollformats */
-.itemMinimized:checked ~ .itemContainer .itemName {
+.itemMinimized:checked ~ .itemContainer .name {
     width: calc-size(100%, size - 57.5%);
     transition: width 0s 550ms;
 }
-.itemNameExpand:checked ~ .itemContainer .itemName {
-    max-width: calc(100% - 70px);
+:is(.itemNameExpand:checked, .itemMinimized:checked) ~ .itemContainer {
+    .name {
+        max-width: calc(100% - 70px);
+    }
+    .itemRow.right .contentHeader { /* TODO: Find a better solution that this. This method may cause issues with displaying light costs */
+        z-index: 0;
+    }
 }
 
 /* Hide all item contents when the item is minimized */
@@ -2955,13 +2994,7 @@ button[type=action].challengeButton::before {
     .itemContents {
         height: 0px;
     }
-    .itemButtons {
-        display: none !important;
-    }
     .itemRollFormats {
-        position: absolute;
-        top: 0;
-        right: 0;
         flex-direction: row;
         justify-content: flex-end;
         width: calc(100% - 30px);
@@ -2973,8 +3006,13 @@ button[type=action].challengeButton::before {
         transition-delay: 0s, 500ms;
     }
     .rollButton, .rollFormatBlock {
+        pointer-events: none;
         opacity: 0;
         transition: opacity 0s 500ms;
+    }
+    .itemButtons {
+        opacity: 0;
+        z-index: 20; /* Displays the buttons below the header */
     }
     .itemDescriptionContainer.bottom {
         height: 0px;
@@ -2991,7 +3029,6 @@ button[type=action].challengeButton::before {
         transition: width 600ms, padding-top 0s;
     }
     .rollFormatBlock {
-        opacity: 1;
         transition: opacity 600ms ease-out;
     }
 }
@@ -3123,6 +3160,11 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     /* Fixes broken repcontainers */
     .repitembroken {
         border: 2px solid var(--color-light-gray) !important;
+    }
+
+    /* Hides content related to uses for items with no uses ("Usable" is disabled) */
+    .itemHideUses:checked ~ .itemOption .itemUses {
+        display: none !important;
     }
 }
 
@@ -3272,11 +3314,11 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 
 /* Item editor - Repeating section styling */
 .itemOptionContainer {
-    
     .repcontainer {
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-end;
+        width: 100%;
         gap: 3px;
 
         .inline > label {
@@ -3409,7 +3451,8 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     bottom: 5px;
     right: 5px;
     gap: 5px;
-    z-index: 100; /* Displays the checkbox above any item messages */
+    z-index: 100; /* Displays the buttons above any item messages */
+    transition: opacity 300ms ease-in, z-index 0s 200ms; /* For minimizing the item */
 }
 
 
@@ -3901,9 +3944,6 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
             height: 37px;
             margin-bottom: 0px;
         }
-    }
-    .repitembroken {
-        border: 0 !important; 
     }
 }
 .repitemMock {
@@ -4833,24 +4873,24 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .Att { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Attack.png'); }
 .Def { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/defend.png'); }
 .Evd { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/evade.png'); }
-.itemMystery:checked + div .Att, .egoAtt { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAtt.png'); }
-.itemMystery:checked + div .Def, .egoDef { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png'); }
-.itemMystery:checked + div .Evd, .egoEvd { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoEvd.png'); }
+.mystery-toggle:checked + div .Att, .egoAtt { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAtt.png'); }
+.mystery-toggle:checked + div .Def, .egoDef { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png'); }
+.mystery-toggle:checked + div .Evd, .egoEvd { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoEvd.png'); }
 
 .slash { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/slash.png'); }
 .pierce { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/pierce.png'); }
 .blunt { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/blunt.png'); }
-.itemMystery:checked + div .slash, .egoSlash { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSlash.png'); }
-.itemMystery:checked + div .pierce, .egoPierce { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoPierce.png'); }
-.itemMystery:checked + div .blunt, .egoBlunt { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoBlunt.png'); }
-.itemMystery:checked + div .rollDamageType .question { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/egoQuestion.png'); }
+.mystery-toggle:checked + div .slash, .egoSlash { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSlash.png'); }
+.mystery-toggle:checked + div .pierce, .egoPierce { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoPierce.png'); }
+.mystery-toggle:checked + div .blunt, .egoBlunt { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoBlunt.png'); }
+.mystery-toggle:checked + div .rollDamageType .question { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/icons/egoQuestion.png'); }
 
 .Act { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png'); }
 .Mass { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Wide.png'); }
 .Special { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/specialwhite.png'); }
-.itemMystery:checked + div .Act, .egoAct { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png'); }
-.itemMystery:checked + div .Mass, .egoMass { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoWide.png'); }
-.itemMystery:checked + div .Special, .egoSpecial { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSpecial.png'); }
+.mystery-toggle:checked + div .Act, .egoAct { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png'); }
+.mystery-toggle:checked + div .Mass, .egoMass { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoWide.png'); }
+.mystery-toggle:checked + div .Special, .egoSpecial { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSpecial.png'); }
 
 .Fort { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Fortitude.png'); }
 .Prud { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Prudence.png'); }
@@ -5011,6 +5051,35 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     --color-temperance: #ac609d;
 }
 
+.WHITE { background-color: var(--color-off-white) !important; }
+.BLACK { background-color: var(--color-black) !important; }
+
+.HP { background-color: var(--color-HP) !important; }
+.HPtext, .fortitude, .counterText { color: var(--color-HP) !important; }
+
+.STGR { background-color: var(--color-STGR) !important; }
+.STGRtext { color: var(--color-STGR)!important; }
+.egoSTGR { background-color: var(--color-ego-STGR) !important; }
+.egoSTGRtext { color: var(--color-ego-STGR) !important; }
+
+.SAN { background-color: var(--color-SAN) !important; }
+.SANtext { color: var(--color-SAN) !important; }
+
+.LIGHT { background-color: var(--color-LIGHT) !important; }
+.LIGHTtext { color: var(--color-LIGHT) !important; }
+
+.prudence { color: var(--color-prudence) !important; }
+.justice { color: var(--color-justice) !important; }
+.charm { color: var(--color-charm) !important; }
+.insight { color: var(--color-insight) !important; }
+.temperance { color: var(--color-temperance) !important; }
+
+.darkBG {
+    background-color: var(--color-gray) !important;
+    padding: 5px !important;
+}
+
+/* Item and palette colors */
 .charsheet {
     --content-color: var(--color-dark-gray);
     --content-accent: #191919;
@@ -5019,54 +5088,57 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     --content-mystery: var(--color-white);
     --content-decoration: transparent;
 }
-.weapon, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="Red"]:checked) { --content-color: var(--color-red); --content-mystery: var(--color-HP); }
-.outfit, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="Blue"]:checked) { --content-color: var(--color-blue); --content-mystery: var(--color-SAN); }
-.augment, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="Green"]:checked) { --content-color: var(--color-green); --content-mystery: var(--color-light-green); }
-.tool, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="Purple"]:checked) { --content-color: var(--color-purple); --content-mystery: var(--color-light-purple); }
-.special, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="Orange"]:checked) { --content-color: var(--color-orange); --content-mystery: var(--color-light-orange); }
-.skill, .itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .itemColor option[value="None"]:checked) { --content-color: var(--color-dark-gray); --content-mystery: var(--color-light-gray); --content-accent: #101010; }
+
+.weapon { --content-color: var(--color-red); --content-mystery: var(--color-HP); }
+.outfit { --content-color: var(--color-blue); --content-mystery: var(--color-SAN); }
+.augment { --content-color: var(--color-green); --content-mystery: var(--color-light-green); }
+.tool { --content-color: var(--color-purple); --content-mystery: var(--color-light-purple); }
+.special { --content-color: var(--color-orange); --content-mystery: var(--color-light-orange); }
+.skill { --content-color: var(--color-dark-gray); --content-mystery: var(--color-light-gray); --content-accent: #101010; }
 .effect { --content-color: var(--color-gray); --content-mystery: var(--color-light-gray); --content-accent: #111111; }
-.effect .itemMystery:not(:checked) + .itemContainer:has(.colorCheck:not(:checked)) {
-    .rollFormatBlock {
-        box-sizing: border-box;
-        border: 1px solid var(--rollformat-color);
-    }
-    .rollButton {
-        background-color: #181818;
-    }
-}
 
-.itemContainer:has(.styleCheck:checked ~ .colorCheck:checked) {
-    &:has(.itemColor option[value="Fortitude"]:checked) { --content-color: var(--color-HP); --content-mystery: var(--color-HP); }
-    &:has(.itemColor option[value="Prudence"]:checked) { --content-color: var(--color-prudence-dark); --content-mystery: var(--color-prudence); }
-    &:has(.itemColor option[value="Justice"]:checked) { --content-color: var(--color-justice); --content-mystery: var(--color-justice); }
-    &:has(.itemColor option[value="Charm"]:checked) { --content-color: var(--color-charm); --content-mystery: var(--color-charm); }
-    &:has(.itemColor option[value="Insight"]:checked) { --content-color: var(--color-insight-dark); --content-mystery: var(--color-insight); }
-    &:has(.itemColor option[value="Temperance"]:checked) { --content-color: var(--color-temperance); --content-mystery: var(--color-temperance); }
+.rollFormat {
+    &:has(input[value="Attack"]:checked) { --rollformat-color: var(--color-red); }
+    &:has(input[value="Block"]:checked) { --rollformat-color: var(--color-blue); }
+    &:has(input[value="Evade"]:checked) { --rollformat-color: var(--color-STGR); }
+    &:has(input[value="Fortitude"]:checked) { --rollformat-color: var(--color-HP); }
+    &:has(input[value="Prudence"]:checked) { --rollformat-color: var(--color-prudence); }
+    &:has(input[value="Justice"]:checked) { --rollformat-color: var(--color-justice); }
+    &:has(input[value="Charm"]:checked) { --rollformat-color: var(--color-charm); }
+    &:has(input[value="Insight"]:checked) { --rollformat-color: var(--color-insight); }
+    &:has(input[value="Temperance"]:checked) { --rollformat-color: var(--color-temperance); }
 
-    &:has(.itemDeco option[value="Red"]:checked) { --content-decoration: var(--color-red); }
-    &:has(.itemDeco option[value="Blue"]:checked) { --content-decoration: var(--color-blue); }
-    &:has(.itemDeco option[value="Green"]:checked) { --content-decoration: var(--color-light-green); }
-    &:has(.itemDeco option[value="Purple"]:checked) { --content-decoration: var(--color-light-purple); }
-    &:has(.itemDeco option[value="Orange"]:checked) { --content-decoration: var(--color-light-orange); }
-    &:has(.itemDeco option[value="Fortitude"]:checked) { --content-decoration: var(--color-HP); }
-    &:has(.itemDeco option[value="Prudence"]:checked) { --content-decoration: var(--color-prudence); }
-    &:has(.itemDeco option[value="Justice"]:checked) { --content-decoration: var(--color-justice); }
-    &:has(.itemDeco option[value="Charm"]:checked) { --content-decoration: var(--color-charm); }
-    &:has(.itemDeco option[value="Insight"]:checked) { --content-decoration: var(--color-insight); }
-    &:has(.itemDeco option[value="Temperance"]:checked) { --content-decoration: var(--color-temperance); }
-
-    &.customColor.background {
-        --content-color: var(--custom-color);
-        --content-mystery: var(--custom-color);
-    }
-    &.customColor.decoration {
-        --content-decoration: var(--custom-color-alt);
+    .mystery-toggle:checked + .contentContainer & {
+        &:has(input[value="Attack"]:checked) { --rollformat-color: var(--color-HP) !important; }
+        &:has(input[value="Block"]:checked) { --rollformat-color: var(--color-SAN) !important; }
+        &:has(input[value="Evade"]:checked) { --rollformat-color: var(--color-ego-STGR) !important; }
     }
 }
 
-.tracker.customColor.background {
-    --tracker-color: var(--custom-color);
+/* Change colors for mystery items and palette elements */
+.mystery-toggle:checked + .contentContainer {
+    --content-color: var(--color-black) !important;
+    --content-text: var(--content-mystery) !important;
+    --content-accent: var(--content-mystery) !important;
+
+    .rank, .darkInput:not(:is(.share, .edit, .script)) {
+        background-color: rgba(256, 256, 256, 0.1) !important;
+    }
+    .rollFormatBlock :is(.plainText, input) {
+        color: var(--rollformat-color, var(--color-dark-white));
+    }
+}
+#combatPalette .rollFormat {
+    background-color: var(--content-color);
+}
+#combatPalette .mystery-toggle:not(:checked) + .contentContainer .rollFormat {
+    background-color: var(--rollformat-color, var(--content-color));
+}
+
+/* Displays a coloured border around mystery roll formats. This style is always used for effect items */
+.inventoryContainer :is(.mystery-toggle:checked + .contentContainer, .effect .itemContainer) .rollFormatBlock {
+    box-sizing: border-box;
+    border: 1px solid var(--rollformat-color, var(--color-dark-white));
 }
 
 /* Custom colors */
@@ -5091,19 +5163,24 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
         calc(var(--_b1, 0) + var(--_b2, 0) + var(--_b4, 0) + var(--_b8, 0) + var(--_b16, 0) + var(--_b32, 0) + var(--_b64, 0) + var(--_b128, 0))
     );
 
-    &:not(.itemContainer, .tracker) {
+    &:not(.contentContainer, .tracker) {
         &.background { background-color: var(--custom-color) !important; }
         &.border { border-color: var(--custom-color) !important; }
         &.text { color: var(--custom-color) !important; }
     }
 }
 
-.toolText { color: var(--color-purple) !important; }
-.ego, .skillE { background-color: var(--color-darker-gray) !important; }
-
-.darkBG {
-    background-color: var(--color-gray) !important;
-    padding: 5px !important;
+.itemContainer:has(.styleCheck:checked ~ .colorCheck:checked), #combatPalette .contentContainer {
+    &.customColor.background {
+        --content-color: var(--custom-color);
+        --content-mystery: var(--custom-color);
+    }
+    &.customColor.decoration {
+        --content-decoration: var(--custom-color-alt);
+    }
+}
+.tracker.customColor.background {
+    --tracker-color: var(--custom-color);
 }
 
 /* TODO: This is depreciated. Remove it later */
@@ -5121,29 +5198,6 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
 .sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="green"])  { background-color: var(--color-green); }
 .conditioalButtonColorSelection[value="black"]:checked ~ .conditioalButtonColor,
 .sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="black"])  { background-color: var(--color-black); }
-
-.WHITE { background-color: var(--color-off-white) !important; }
-.BLACK { background-color: var(--color-black) !important; }
-
-.HP { background-color: var(--color-HP) !important; }
-.HPtext, .fortitude, .counterText { color: var(--color-HP) !important; }
-
-.STGR { background-color: var(--color-STGR) !important; }
-.STGRtext { color: var(--color-STGR)!important; }
-.egoSTGR { background-color: var(--color-ego-STGR) !important; }
-.egoSTGRtext { color: var(--color-ego-STGR) !important; }
-
-.SAN { background-color: var(--color-SAN) !important; }
-.SANtext { color: var(--color-SAN) !important; }
-
-.LIGHT { background-color: var(--color-LIGHT) !important; }
-.LIGHTtext { color: var(--color-LIGHT) !important; }
-
-.prudence { color: var(--color-prudence) !important; }
-.justice { color: var(--color-justice) !important; }
-.charm { color: var(--color-charm) !important; }
-.insight { color: var(--color-insight) !important; }
-.temperance { color: var(--color-temperance) !important; }
 
 .egoDiceDEF {
     border: 1px var(--color-SAN) solid;
