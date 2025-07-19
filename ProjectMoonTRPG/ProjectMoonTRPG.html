@@ -603,19 +603,18 @@
 			
 				<!-- Item uses -->
 				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUses" value="true"><span>Uses</span></label>
-					<div class="useCounter">
+					<div class="itemUseTracker">
 						<input type="checkbox" class="fade-toggle" name="attr_itemEditUsesMax" value="0" hidden="true" checked>
 						<div class="fade-item mediumIcon reusable"></div>
 						<div class="darkInput useFormat">
-							<input type="number" class="fade-item useCurrent transpInput noSpinner" name="attr_itemEditUsesCurrent" min="0" value="0">
+							<input type="number" class="fade-item useCurrent transpInput hoverSpinner" name="attr_itemEditUsesCurrent" min="0" value="0">
 							<div class="plainText">/</div>
-							<input type="number" class="fade-item useMax transpInput hoverSpinner" name="attr_itemEditUsesMax" min="0" value="0">
+							<input type="number" class="fade-item useMax transpInput noSpinner" name="attr_itemEditUsesMax" min="0" value="0">
 						</div>
 					</div>
 
 					<select name="attr_itemEditUsesRecharge" class="whiteInput" style="width: 80px;">
 						<option value="None" data-i18n="item-none">---</option>
-						<option value="Manual" data-i18n="item-recharge-manual">Manual: Manually restore uses</option>
 						<option value="Refresh" data-i18n="item-recharge-refresh">Refresh: Restore uses on Refresh</option>
 						<option value="Recover" data-i18n="item-recharge-recover">Recover: Restore uses on Recover</option>
 						<option value="Combat" data-i18n="item-recharge-combat">Combat: Restore uses on Combat end</option>
@@ -1273,7 +1272,7 @@
 			<div class="itemContents rowContainer">
 
 				<!-- Item contents (Left) -->
-				<div class="itemRow left columnAlign">
+				<div class="itemRow contentRow left columnAlign">
 
 					<!-- Option: Custom UI -->
 					<input type="checkbox" class="hide-toggle-next" name="attr_optionCustomUI" value="true" hidden="true">
@@ -1354,7 +1353,7 @@
 				
 
 				<!-- Item contents (Right) -->
-				<div class="itemRow right columnAlign">
+				<div class="itemRow contentRow right columnAlign">
 
 					<!-- Item header contents (Right) -->
 					<div class="rowContainer contentHeader">
@@ -1371,27 +1370,9 @@
 							<div class="hide-item-flex rollFormat">
 									
 								<!-- Roll icon -->
-								<div class="rollFormatIcon">
-									<input type="checkbox" class="swap-toggle" name="attr_rollType0" value="Attack" hidden="true">
-									<div class="swap-item-rev rollType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType0"><div class="question centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType0"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType0"><div class="Def centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType0"><div class="Evd centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType0"><div class="Fort centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType0"><div class="Prud centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType0"><div class="Just centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType0"><div class="Char centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType0"><div class="Insi centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType0"><div class="Temp centerIcon"></div>
-									</div>
-									<div class="swap-item rollDamageType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType0"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType0"><div class="slash centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType0"><div class="pierce centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType0"><div class="blunt centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType0"><div class="question centerIcon"></div>
-									</div>
+								<div class="rollFormatIcon centerIcon">
+									<input type="hidden" class="rollType" name="attr_rollType0">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
 								</div>
 								
 								<!-- Roll format -->
@@ -1411,27 +1392,9 @@
 							<div class="hide-item-flex rollFormat">
 								
 								<!-- Roll icon -->
-								<div class="rollFormatIcon">
-									<input type="checkbox" class="swap-toggle" name="attr_rollType1" value="Attack" hidden="true">
-									<div class="swap-item-rev rollType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType1"><div class="question centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType1"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType1"><div class="Def centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType1"><div class="Evd centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType1"><div class="Fort centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType1"><div class="Prud centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType1"><div class="Just centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType1"><div class="Char centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType1"><div class="Insi centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType1"><div class="Temp centerIcon"></div>
-									</div>
-									<div class="swap-item rollDamageType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType1"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType1"><div class="slash centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType1"><div class="pierce centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType1"><div class="blunt centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType1"><div class="question centerIcon"></div>
-									</div>
+								<div class="rollFormatIcon centerIcon">
+									<input type="hidden" class="rollType" name="attr_rollType1">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
 								</div>
 
 								<!-- Roll format -->
@@ -1449,27 +1412,9 @@
 							<div class="hide-item-flex rollFormat">
 								
 								<!-- Roll icon -->
-								<div class="rollFormatIcon">
-									<input type="checkbox" class="swap-toggle" name="attr_rollType2" value="Attack" hidden="true">
-									<div class="swap-item-rev rollType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType2"><div class="question centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType2"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType2"><div class="Def centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType2"><div class="Evd centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType2"><div class="Fort centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType2"><div class="Prud centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType2"><div class="Just centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType2"><div class="Char centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType2"><div class="Insi centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType2"><div class="Temp centerIcon"></div>
-									</div>
-									<div class="swap-item rollDamageType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType2"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType2"><div class="slash centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType2"><div class="pierce centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType2"><div class="blunt centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType2"><div class="question centerIcon"></div>
-									</div>
+								<div class="rollFormatIcon centerIcon">
+									<input type="hidden" class="rollType" name="attr_rollType2">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
 								</div>
 
 								<!-- Roll format -->
@@ -1487,27 +1432,9 @@
 							<div class="hide-item-flex rollFormat">
 								
 								<!-- Roll icon -->
-								<div class="rollFormatIcon">
-									<input type="checkbox" class="swap-toggle" name="attr_rollType3" value="Attack" hidden="true">
-									<div class="swap-item-rev rollType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType3"><div class="question centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType3"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType3"><div class="Def centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType3"><div class="Evd centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType3"><div class="Fort centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType3"><div class="Prud centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType3"><div class="Just centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType3"><div class="Char centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType3"><div class="Insi centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType3"><div class="Temp centerIcon"></div>
-									</div>
-									<div class="swap-item rollDamageType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType3"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType3"><div class="slash centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType3"><div class="pierce centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType3"><div class="blunt centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType3"><div class="question centerIcon"></div>
-									</div>
+								<div class="rollFormatIcon centerIcon">
+									<input type="hidden" class="rollType" name="attr_rollType3">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
 								</div>
 
 								<!-- Roll format -->
@@ -1525,27 +1452,9 @@
 							<div class="hide-item-flex rollFormat">
 									
 								<!-- Roll icon -->
-								<div class="rollFormatIcon">
-									<input type="checkbox" class="swap-toggle" name="attr_rollType4" value="Attack" hidden="true">
-									<div class="swap-item-rev rollType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType4"><div class="question centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType4"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType4"><div class="Def centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType4"><div class="Evd centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType4"><div class="Fort centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType4"><div class="Prud centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType4"><div class="Just centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType4"><div class="Char centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType4"><div class="Insi centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType4"><div class="Temp centerIcon"></div>
-									</div>
-									<div class="swap-item rollDamageType">
-										<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType4"><div class="Att centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType4"><div class="slash centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType4"><div class="pierce centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType4"><div class="blunt centerIcon"></div>
-										<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType4"><div class="question centerIcon"></div>
-									</div>
+								<div class="rollFormatIcon centerIcon">
+									<input type="hidden" class="rollType" name="attr_rollType4">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
 								</div>
 								
 								<!-- Roll format -->
@@ -1561,7 +1470,7 @@
 							
 						<!-- Option: Light cost -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden="true">
-						<div class="hide-item itemLight">
+						<div class="hide-item itemLight lightCost">
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden="true">
 							<input type="number" class="hide-item lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
 						</div>
@@ -2130,9 +2039,9 @@ EGO block end -->
 	<!-- Combat toggle -->
 	<input type="checkbox" class="hide-toggle hide-toggle-rev" name="attr_settingCombatToggle" value="true" hidden="true">
 	<div class="hide-item combatToggleContainer">
-		<input type="checkbox" class="hide-toggle hide-toggle-rev" name="attr_combatState" value="true" hidden="true">
-		<div class="hide-item-rev"><button type="action" class="centerIcon speed combatToggleButton" name="act_combatToggle" data-i18n-title="helper-text-begincombat" title="Begin combat"><span data-i18n="helper-text-begincombat">Begin Combat</span></button></div>
-		<div class="hide-item"><button type="action" class="centerIcon exit combatToggleButton" name="act_combatToggle" data-i18n-title="helper-text-endcombat" title="End combat"><span data-i18n="helper-text-endcombat">End Combat</span></button></div>
+		<input type="checkbox" class="hide-toggle hide-toggle-rev" name="attr_combatState" value="0" hidden="true">
+		<div class="hide-item"><button type="action" class="centerIcon speed combatToggleButton" name="act_combatToggle" data-i18n-title="helper-text-begincombat" title="Begin combat"><span data-i18n="helper-text-begincombat">Begin Combat</span></button></div>
+		<div class="hide-item-rev"><button type="action" class="centerIcon exit combatToggleButton" name="act_combatToggle" data-i18n-title="helper-text-endcombat" title="End combat"><span data-i18n="helper-text-endcombat">End Combat</span></button></div>
 	</div>
 
 	<!-- Standard speed button -->
@@ -2157,9 +2066,9 @@ EGO block end -->
 
 	<!-- When the Combat toggle is used, hide combat options when out of combat -->
 	<input type="checkbox" class="hide-toggle" name="attr_settingCombatToggle" value="0" hidden="true">
-	<input type="checkbox" class="hide-toggle" name="attr_combatState" value="true" hidden="true">
+	<input type="checkbox" class="hide-toggle-rev" name="attr_combatState" value="0" hidden="true">
 	<input type="checkbox" class="helperText" name="attr_settingHideHelperText" value="true" hidden="true">
-	<div class="hide-item-flex rowContainer combatOptionsContainer helperTextContainer">
+	<div class="hide-item-rev rowContainer combatOptionsContainer helperTextContainer">
 			
 		<div class="rowContainer targetDefenceContainer">
 			
@@ -2354,29 +2263,35 @@ EGO block end -->
 	</div>
 	<!-- Combat options END -->
 
-	<!-- Action palette -->
+
+	<!-- Roll / Action palette -->
+	<div id="actionPalette">
 	<fieldset class="repeating_palette">
 		
 		<!-- Option: Mystery -->
 		<input type="checkbox" class="mystery-toggle" name="attr_mystery" value="true" hidden="true">
 
-		<div class="actionContainer contentContainer">
+		<div class="paletteContainer contentContainer">
 
 			<!-- Message overlay -->
 			<input type="checkbox" class="hide-toggle-rev-next" name="attr_message" value="0" hidden="true" checked>
 			<div class="hide-item-rev paletteMessage contentMessage">
-				<span name="attr_message" spellcheck="false"></span> <!-- TODO: Make this into a span so it can span multiple rows -->
+				<span name="attr_message" spellcheck="false"></span>
 			</div>
 
-			<div class="rowContainer">
+			<div class="paletteContents rowContainer">
 				
-				<!-- Action title -->
-				<div class="actionHeader contentHeader">
+				<!-- Palette contents (Left) -->
+				<div class="paletteRow contentRow left rowContainer">
+
+					<!-- Palette title -->
+					<div class="paletteHeader contentHeader">
 					<input type="text" class="name transpInput" name="attr_title">
+					</div>
 				</div>
 				
-				<!-- Action contents -->
-				<div class="actionContents columnAlign">
+				<!-- Palette contents (Right) -->
+				<div class="paletteRow contentRow right columnAlign">
 					
 					<!-- Option: Roll together -->
 					<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden="true">
@@ -2388,29 +2303,17 @@ EGO block end -->
 						<!-- Rollformat (1) -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden="true">
 						<div class="hide-item-flex rollFormat">
+
+							<!-- Roll message overlay -->
+							<input type="checkbox" class="hide-toggle-rev-next" name="attr_rollMessage0" value="0" hidden="true" checked>
+							<div class="hide-item-rev paletteMessage contentMessage">
+								<span name="attr_rollMessage0" spellcheck="false"></span>
+							</div>
 							
 							<!-- Roll icon -->
-						<div class="rollFormatIcon">
-							<input type="checkbox" class="swap-toggle" name="attr_rollType0" value="Attack" hidden="true">
-							<div class="swap-item-rev rollType">
-								<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType0"><div class="question centerIcon"></div>
-								<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType0"><div class="Att centerIcon"></div>
-								<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType0"><div class="Def centerIcon"></div>
-								<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType0"><div class="Evd centerIcon"></div>
-								<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType0"><div class="Fort centerIcon"></div>
-								<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType0"><div class="Prud centerIcon"></div>
-								<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType0"><div class="Just centerIcon"></div>
-								<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType0"><div class="Char centerIcon"></div>
-								<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType0"><div class="Insi centerIcon"></div>
-								<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType0"><div class="Temp centerIcon"></div>
-							</div>
-							<div class="swap-item rollDamageType">
-								<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType0"><div class="Att centerIcon"></div>
-								<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType0"><div class="slash centerIcon"></div>
-								<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType0"><div class="pierce centerIcon"></div>
-								<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType0"><div class="blunt centerIcon"></div>
-								<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType0"><div class="question centerIcon"></div>
-							</div>
+							<div class="rollFormatIcon centerIcon">
+								<input type="hidden" class="rollType" name="attr_rollType0">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
 						</div>
 						
 						<!-- Roll format -->
@@ -2429,29 +2332,17 @@ EGO block end -->
 						<!-- Rollformat (2) -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden="true">
 						<div class="hide-item-flex rollFormat">
+
+							<!-- Roll message overlay -->
+							<input type="checkbox" class="hide-toggle-rev-next" name="attr_rollMessage1" value="0" hidden="true" checked>
+							<div class="hide-item-rev paletteMessage contentMessage">
+								<span name="attr_rollMessage1" spellcheck="false"></span>
+							</div>
 							
 							<!-- Roll icon -->
-							<div class="rollFormatIcon">
-								<input type="checkbox" class="swap-toggle" name="attr_rollType1" value="Attack" hidden="true">
-								<div class="swap-item-rev rollType">
-									<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType1"><div class="question centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType1"><div class="Att centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType1"><div class="Def centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType1"><div class="Evd centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType1"><div class="Fort centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType1"><div class="Prud centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType1"><div class="Just centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType1"><div class="Char centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType1"><div class="Insi centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType1"><div class="Temp centerIcon"></div>
-								</div>
-								<div class="swap-item rollDamageType">
-									<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType1"><div class="Att centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType1"><div class="slash centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType1"><div class="pierce centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType1"><div class="blunt centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType1"><div class="question centerIcon"></div>
-								</div>
+							<div class="rollFormatIcon centerIcon">
+								<input type="hidden" class="rollType" name="attr_rollType1">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
 							</div>
 							
 							<!-- Roll format -->
@@ -2470,29 +2361,17 @@ EGO block end -->
 						<!-- Rollformat (3) -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden="true">
 						<div class="hide-item-flex rollFormat">
+
+							<!-- Roll message overlay -->
+							<input type="checkbox" class="hide-toggle-rev-next" name="attr_rollMessage2" value="0" hidden="true" checked>
+							<div class="hide-item-rev paletteMessage contentMessage">
+								<span name="attr_rollMessage2" spellcheck="false"></span>
+							</div>
 							
 							<!-- Roll icon -->
-							<div class="rollFormatIcon">
-								<input type="checkbox" class="swap-toggle" name="attr_rollType2" value="Attack" hidden="true">
-								<div class="swap-item-rev rollType">
-									<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType2"><div class="question centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType2"><div class="Att centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType2"><div class="Def centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType2"><div class="Evd centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType2"><div class="Fort centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType2"><div class="Prud centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType2"><div class="Just centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType2"><div class="Char centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType2"><div class="Insi centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType2"><div class="Temp centerIcon"></div>
-								</div>
-								<div class="swap-item rollDamageType">
-									<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType2"><div class="Att centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType2"><div class="slash centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType2"><div class="pierce centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType2"><div class="blunt centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType2"><div class="question centerIcon"></div>
-								</div>
+							<div class="rollFormatIcon centerIcon">
+								<input type="hidden" class="rollType" name="attr_rollType2">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
 							</div>
 							
 							<!-- Roll format -->
@@ -2511,29 +2390,17 @@ EGO block end -->
 						<!-- Rollformat (4) -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden="true">
 						<div class="hide-item-flex rollFormat">
+
+							<!-- Roll message overlay -->
+							<input type="checkbox" class="hide-toggle-rev-next" name="attr_rollMessage3" value="0" hidden="true" checked>
+							<div class="hide-item-rev paletteMessage contentMessage">
+								<span name="attr_rollMessage3" spellcheck="false"></span>
+							</div>
 							
 							<!-- Roll icon -->
-							<div class="rollFormatIcon">
-								<input type="checkbox" class="swap-toggle" name="attr_rollType3" value="Attack" hidden="true">
-								<div class="swap-item-rev rollType">
-									<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType3"><div class="question centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType3"><div class="Att centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType3"><div class="Def centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType3"><div class="Evd centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType3"><div class="Fort centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType3"><div class="Prud centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType3"><div class="Just centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType3"><div class="Char centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType3"><div class="Insi centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType3"><div class="Temp centerIcon"></div>
-								</div>
-								<div class="swap-item rollDamageType">
-									<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType3"><div class="Att centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType3"><div class="slash centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType3"><div class="pierce centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType3"><div class="blunt centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType3"><div class="question centerIcon"></div>
-								</div>
+							<div class="rollFormatIcon centerIcon">
+								<input type="hidden" class="rollType" name="attr_rollType3">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
 							</div>
 							
 							<!-- Roll format -->
@@ -2552,29 +2419,17 @@ EGO block end -->
 						<!-- Rollformat (5) -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden="true">
 						<div class="hide-item-flex rollFormat">
+
+							<!-- Roll message overlay -->
+							<input type="checkbox" class="hide-toggle-rev-next" name="attr_rollMessage4" value="0" hidden="true" checked>
+							<div class="hide-item-rev paletteMessage contentMessage">
+								<span name="attr_rollMessage4" spellcheck="false"></span>
+							</div>
 							
 							<!-- Roll icon -->
-							<div class="rollFormatIcon">
-								<input type="checkbox" class="swap-toggle" name="attr_rollType4" value="Attack" hidden="true">
-								<div class="swap-item-rev rollType">
-									<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType4"><div class="question centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType4"><div class="Att centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType4"><div class="Def centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType4"><div class="Evd centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType4"><div class="Fort centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType4"><div class="Prud centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType4"><div class="Just centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType4"><div class="Char centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType4"><div class="Insi centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType4"><div class="Temp centerIcon"></div>
-								</div>
-								<div class="swap-item rollDamageType">
-									<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType4"><div class="Att centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType4"><div class="slash centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType4"><div class="pierce centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType4"><div class="blunt centerIcon"></div>
-									<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType4"><div class="question centerIcon"></div>
-								</div>
+							<div class="rollFormatIcon centerIcon">
+								<input type="hidden" class="rollType" name="attr_rollType4">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
 							</div>
 							
 							<!-- Roll format -->
@@ -2594,7 +2449,7 @@ EGO block end -->
 					<!-- Option: Standalone action -->
 					<input type="checkbox" class="hide-toggle-next" name="attr_standalone" value="true" hidden="true">
 					<div class="hide-item-flex actionStandalone rollFormat">
-						<div class="rollFormatIcon"><div class="Act centerIcon" style="margin-top: -2px;"></div></div>
+						<div class="Act centerIcon"></div>
 						
 						<button type="action" class="darkButton" name="act_palette-use" data-i18n="palette-action-text">Action</button>
 					</div>
@@ -2602,8 +2457,205 @@ EGO block end -->
 			</div>
 		</div>
 	</fieldset>
-	<!-- Roll palette END -->
+	</div>
+	<!-- Roll / Action palette END -->
     
+	
+	<!-- Palette palette -->
+	<div id="appliedPalette">
+	<fieldset class="repeating_applied">
+
+		<!-- Option: Mystery -->
+		<input type="checkbox" class="mystery-toggle" name="attr_mystery" value="true" hidden="true">
+
+		<!-- Palette roll selector -->
+		<label class="paletteContainer contentContainer">
+			<button type="action" name="act_palette-select" hidden="true"></button>
+
+			<!-- Applied roll header -->
+			<div class="paletteHeader contentHeader">
+				
+				<!-- Palette roll icon -->
+				<!-- 
+				<img name="attr_icon" class="appliedIcon centerIcon">
+				-->
+
+				<!-- Option: Light cost -->
+				<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden="true">
+				<div class="hide-item lightCost">
+					<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+				</div>
+				
+				<!-- Option: Use cost -->
+				<input type="checkbox" class="fade-toggle" name="attr_usesCurrent" value="0" hidden="true" checked>
+				<input type="checkbox" class="hide-toggle-next" name="attr_optionUses" value="true" hidden="true">
+				<input type="number" class="fade-item hide-item useCounter transpInput noSpinner centerIcon reusable" name="attr_usesCurrent" min="0" value="0" data-i18n-title="tool-uses" title="Number of uses">
+				
+				<!-- Palette title -->
+				<span type="text" class="name transpInput" name="attr_title"></span>
+
+				<!-- Rollformat preview icons -->
+				<div class="rollFormatContainer">
+						
+					<!-- Roll icon (1) -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden="true">
+					<div class="hide-item-flex rollFormatIcon centerIcon">
+						<input type="hidden" class="rollType" name="attr_rollType0">
+						<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
+					</div>
+					
+					<!-- Roll icon (2) -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden="true">
+					<div class="hide-item-flex rollFormatIcon centerIcon">
+						<input type="hidden" class="rollType" name="attr_rollType1">
+						<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
+					</div>
+					
+					<!-- Roll icon (3) -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden="true">
+					<div class="hide-item-flex rollFormatIcon centerIcon">
+						<input type="hidden" class="rollType" name="attr_rollType2">
+						<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
+					</div>
+					
+					<!-- Roll icon (4) -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden="true">
+					<div class="hide-item-flex rollFormatIcon centerIcon">
+						<input type="hidden" class="rollType" name="attr_rollType3">
+						<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
+					</div>
+					
+					<!-- Roll icon (5) -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden="true">
+					<div class="hide-item-flex rollFormatIcon centerIcon">
+						<input type="hidden" class="rollType" name="attr_rollType4">
+						<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
+					</div>
+				</div>
+			</div>
+				
+			<input type="checkbox" class="hide-toggle appliedSelector" name="attr_selected" value="true" hidden="true">
+			<div class="hide-item-flex paletteContents rowContainer">
+
+				<!-- Palette contents (Left) -->
+				<div class="paletteRow contentRow left columnAlign">
+
+					<!-- Rollformats -->
+					<div class="rollFormatContainer">
+						
+						<!-- Rollformat (1) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden="true">
+						<div class="hide-item-flex rollFormat">
+							
+							<!-- Roll icon -->
+							<div class="rollFormatIcon centerIcon">
+								<input type="hidden" class="rollType" name="attr_rollType0">
+							<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
+							</div>
+							
+							<!-- Roll format -->
+							<div class="rollFormatBlock">
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="1">
+								<div class="plainText">D</div>
+								<input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="10">
+								<div class="plainText">+</div>
+								<input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
+							</div>
+						</div>
+						
+						<!-- Rollformat (2) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden="true">
+						<div class="hide-item-flex rollFormat">
+							
+							<!-- Roll icon -->
+							<div class="rollFormatIcon centerIcon">
+								<input type="hidden" class="rollType" name="attr_rollType1">
+							<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
+							</div>
+							
+							<!-- Roll format -->
+							<div class="rollFormatBlock">
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="1">
+								<div class="plainText">D</div>
+								<input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="12">
+								<div class="plainText">+</div>
+								<input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
+							</div>
+						</div>
+						
+						<!-- Rollformat (3) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden="true">
+						<div class="hide-item-flex rollFormat">
+							
+							<!-- Roll icon -->
+							<div class="rollFormatIcon centerIcon">
+								<input type="hidden" class="rollType" name="attr_rollType2">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
+							</div>
+							
+							<!-- Roll format -->
+							<div class="rollFormatBlock">
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
+								<div class="plainText">D</div>
+								<input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
+								<div class="plainText">+</div>
+								<input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
+							</div>
+						</div>
+						
+						<!-- Rollformat (4) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden="true">
+						<div class="hide-item-flex rollFormat">
+							
+							<!-- Roll icon -->
+							<div class="rollFormatIcon centerIcon">
+								<input type="hidden" class="rollType" name="attr_rollType3">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
+							</div>
+							
+							<!-- Roll format -->
+							<div class="rollFormatBlock">
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
+								<div class="plainText">D</div>
+								<input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
+								<div class="plainText">+</div>
+								<input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
+							</div>
+						</div>
+						
+						<!-- Rollformat (5) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden="true">
+						<div class="hide-item-flex rollFormat">
+							
+							<!-- Roll icon -->
+							<div class="rollFormatIcon centerIcon">
+								<input type="hidden" class="rollType" name="attr_rollType4">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
+							</div>
+							
+							<!-- Roll format -->
+							<div class="rollFormatBlock">
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
+								<div class="plainText">D</div>
+								<input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
+								<div class="plainText">+</div>
+								<input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Palette contents (Right) -->
+				<div class="paletteRow contentRow right rowContainer">
+
+					<!-- Palette effect description -->
+					<textarea spellcheck="false" name="attr_effect" class="paletteEffect" data-i18n-placeholder="skill-effect" placeholder="Skill effects."></textarea>
+				</div>
+			</div>
+		</label>
+	</fieldset>
+	</div>
+	<!-- Applied palette END -->
 	
 
 
@@ -4272,9 +4324,7 @@ EGO block end -->
 
 
 <input type="hidden" class="sheet-tabstoggle" name="attr_sheetTab" value="equipment">
-<div class="rowContainer toggleButtons">
-
-
+<div id="tabButtons" class="rowContainer">
 <button type="action" id="exportButton" name="act_export" data-i18n="tabs-export">Export/Import</button>
 <button type="action" id="detailsButton" name="act_details" data-i18n="tabs-character">Character Details</button>
 <button type="action" id="equipmentButton" name="act_equipment" data-i18n="tabs-equipment">Equipment</button>
@@ -4284,13 +4334,11 @@ EGO block end -->
 <button type="action" class="hide-item-rev" id="editButton" name="act_edit" style="position:relative;">
 <span data-i18n="tabs-edit">Editor</span> 
 </button>
-
-
 </div>
 
 
 <!-- Equipment section -->
-<div class="sheet-body sheet-equipment darkBG">
+<div id="equipmentTab" class="sheet-body darkBG">
 
 <div class="rowContainer">
 	<button type="action" class="darkButton" style="width: 100px; margin-left: 5px;" name="act_testA">Test button A</button> <!-- For testing. Delete later -->
@@ -4380,6 +4428,9 @@ EGO block end -->
 
 <div class="contentBlock" id="equipmentSection">
 
+	<!-- Inventory contents (Left) -->
+	<div class="contentRow half columnAlign">
+
 	<!-- Repeating inventory: Weapons -->
 	<div class="inventoryContainer contentContainer weapon">
 		
@@ -4443,7 +4494,7 @@ EGO block end -->
 				<div class="itemContents rowContainer">
 
 					<!-- Item contents (Left) -->
-					<div class="itemRow left columnAlign">
+						<div class="itemRow contentRow left columnAlign">
 
 						<!-- Option: Custom UI -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionCustomUI" value="true" hidden="true">
@@ -4524,7 +4575,7 @@ EGO block end -->
 					
 
 					<!-- Item contents (Right) -->
-					<div class="itemRow right columnAlign">
+						<div class="itemRow contentRow right columnAlign">
 
 						<!-- Item header contents (Right) -->
 						<div class="rowContainer contentHeader">
@@ -4550,27 +4601,9 @@ EGO block end -->
 								<div class="hide-item-flex rollFormat">
 										
 									<!-- Roll icon -->
-									<div class="rollFormatIcon">
-										<input type="checkbox" class="swap-toggle" name="attr_rollType0" value="Attack" hidden="true">
-										<div class="swap-item-rev rollType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType0"><div class="question centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType0"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType0"><div class="Def centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType0"><div class="Evd centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType0"><div class="Fort centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType0"><div class="Prud centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType0"><div class="Just centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType0"><div class="Char centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType0"><div class="Insi centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType0"><div class="Temp centerIcon"></div>
-										</div>
-										<div class="swap-item rollDamageType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType0"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType0"><div class="slash centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType0"><div class="pierce centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType0"><div class="blunt centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType0"><div class="question centerIcon"></div>
-										</div>
+										<div class="rollFormatIcon centerIcon">
+											<input type="hidden" class="rollType" name="attr_rollType0">
+											<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
 									</div>
 									
 									<!-- Roll format -->
@@ -4592,27 +4625,9 @@ EGO block end -->
 								<div class="hide-item-flex rollFormat">
 									
 									<!-- Roll icon -->
-									<div class="rollFormatIcon">
-										<input type="checkbox" class="swap-toggle" name="attr_rollType1" value="Attack" hidden="true">
-										<div class="swap-item-rev rollType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType1"><div class="question centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType1"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType1"><div class="Def centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType1"><div class="Evd centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType1"><div class="Fort centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType1"><div class="Prud centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType1"><div class="Just centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType1"><div class="Char centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType1"><div class="Insi centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType1"><div class="Temp centerIcon"></div>
-										</div>
-										<div class="swap-item rollDamageType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType1"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType1"><div class="slash centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType1"><div class="pierce centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType1"><div class="blunt centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType1"><div class="question centerIcon"></div>
-										</div>
+										<div class="rollFormatIcon centerIcon">
+											<input type="hidden" class="rollType" name="attr_rollType1">
+											<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
 									</div>
 
 									<!-- Roll format -->
@@ -4634,27 +4649,9 @@ EGO block end -->
 								<div class="hide-item-flex rollFormat">
 									
 									<!-- Roll icon -->
-									<div class="rollFormatIcon">
-										<input type="checkbox" class="swap-toggle" name="attr_rollType2" value="Attack" hidden="true">
-										<div class="swap-item-rev rollType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType2"><div class="question centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType2"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType2"><div class="Def centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType2"><div class="Evd centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType2"><div class="Fort centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType2"><div class="Prud centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType2"><div class="Just centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType2"><div class="Char centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType2"><div class="Insi centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType2"><div class="Temp centerIcon"></div>
-										</div>
-										<div class="swap-item rollDamageType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType2"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType2"><div class="slash centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType2"><div class="pierce centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType2"><div class="blunt centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType2"><div class="question centerIcon"></div>
-										</div>
+										<div class="rollFormatIcon centerIcon">
+											<input type="hidden" class="rollType" name="attr_rollType2">
+											<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
 									</div>
 
 									<!-- Roll format -->
@@ -4676,27 +4673,9 @@ EGO block end -->
 								<div class="hide-item-flex rollFormat">
 									
 									<!-- Roll icon -->
-									<div class="rollFormatIcon">
-										<input type="checkbox" class="swap-toggle" name="attr_rollType3" value="Attack" hidden="true">
-										<div class="swap-item-rev rollType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType3"><div class="question centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType3"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType3"><div class="Def centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType3"><div class="Evd centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType3"><div class="Fort centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType3"><div class="Prud centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType3"><div class="Just centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType3"><div class="Char centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType3"><div class="Insi centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType3"><div class="Temp centerIcon"></div>
-										</div>
-										<div class="swap-item rollDamageType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType3"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType3"><div class="slash centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType3"><div class="pierce centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType3"><div class="blunt centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType3"><div class="question centerIcon"></div>
-										</div>
+										<div class="rollFormatIcon centerIcon">
+											<input type="hidden" class="rollType" name="attr_rollType3">
+											<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
 									</div>
 
 									<!-- Roll format -->
@@ -4718,27 +4697,9 @@ EGO block end -->
 								<div class="hide-item-flex rollFormat">
 										
 									<!-- Roll icon -->
-									<div class="rollFormatIcon">
-										<input type="checkbox" class="swap-toggle" name="attr_rollType4" value="Attack" hidden="true">
-										<div class="swap-item-rev rollType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType4"><div class="question centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType4"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType4"><div class="Def centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType4"><div class="Evd centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType4"><div class="Fort centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType4"><div class="Prud centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType4"><div class="Just centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType4"><div class="Char centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType4"><div class="Insi centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType4"><div class="Temp centerIcon"></div>
-										</div>
-										<div class="swap-item rollDamageType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType4"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType4"><div class="slash centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType4"><div class="pierce centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType4"><div class="blunt centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType4"><div class="question centerIcon"></div>
-										</div>
+										<div class="rollFormatIcon centerIcon">
+											<input type="hidden" class="rollType" name="attr_rollType4">
+											<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
 									</div>
 									
 									<!-- Roll format -->
@@ -4758,7 +4719,7 @@ EGO block end -->
 								
 							<!-- Option: Light cost -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden="true">
-							<div class="hide-item itemLight">
+								<div class="hide-item itemLight lightCost">
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden="true">
 								<input type="number" class="hide-item lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
 							</div>
@@ -4843,16 +4804,16 @@ EGO block end -->
 	</div>
 	
 
-	<!-- Repeating inventory: Outfits -->
-	<div class="inventoryContainer contentContainer outfit">
+		<!-- Repeating inventory: Augments -->
+		<div class="inventoryContainer contentContainer augment">
 		
 		<!-- Custom add repeating item button -->
 		<div class="inventoryControls contentHeader repcontrol_header">
-			<span class="inventoryName">Outfits</span>
-			<button type="action" class="btn repcontrol_add heal" id="add_outfits" name="act_addItem" data-i18n-title="item-add" title="Add new item">Add</button>
+				<span class="inventoryName">Augments</span>
+				<button type="action" class="btn repcontrol_add heal" id="add_augments" name="act_addItem" data-i18n-title="item-add" title="Add new item">Add</button>
 		</div>
 
-		<fieldset class="repeating_outfits">
+			<fieldset class="repeating_augments">
 
 			<!-- Minimize item. Toggled by double clicking an item's header -->
 			<input type="checkbox" class="itemMinimized" name="attr_minimized" value="true" hidden="true">
@@ -4900,20 +4861,13 @@ EGO block end -->
 
 					<!-- Rank and name -->
 					<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank">
-					<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="outfit-name" placeholder="Item name">
-
-					<!-- Item uses -->
-					<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden="true">
-					<div class="hide-item">
-						<input type="checkbox" class="hide-toggle-next" name="attr_optionUses" value="true" hidden="true">
-						<input type="number" class="hide-item itemUses" name="attr_usesCurrent">
-					</div>
+						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="augment-name" placeholder="Item name">
 				</div>
 
 				<div class="itemContents rowContainer">
 
 					<!-- Item contents (Left) -->
-					<div class="itemRow left columnAlign">
+						<div class="itemRow contentRow left columnAlign">
 
 						<!-- Option: Custom UI -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionCustomUI" value="true" hidden="true">
@@ -4985,16 +4939,16 @@ EGO block end -->
 						<!-- Description (Left) -->
 						<div class="itemDescriptionContainer left columnAlign">
 							<input type="checkbox" class="hide-toggle-next" name="attr_leftDescDisplay" value="true" hidden="true" checked>
-							<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Item description."></textarea>
+								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="augment-desc" placeholder="Item description."></textarea>
 
 							<input type="checkbox" class="hide-toggle-next" name="attr_leftEffectDisplay" value="true" hidden="true">
-							<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Item effects."></textarea>
+								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="augment-effect" placeholder="Item effects."></textarea>
 						</div>
 					</div>
 					
 
 					<!-- Item contents (Right) -->
-					<div class="itemRow right columnAlign">
+						<div class="itemRow contentRow right columnAlign">
 
 						<!-- Item header contents (Right) -->
 						<div class="rowContainer contentHeader">
@@ -5011,27 +4965,9 @@ EGO block end -->
 								<div class="hide-item-flex rollFormat">
 										
 									<!-- Roll icon -->
-									<div class="rollFormatIcon">
-										<input type="checkbox" class="swap-toggle" name="attr_rollType0" value="Attack" hidden="true">
-										<div class="swap-item-rev rollType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType0"><div class="question centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType0"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType0"><div class="Def centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType0"><div class="Evd centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType0"><div class="Fort centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType0"><div class="Prud centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType0"><div class="Just centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType0"><div class="Char centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType0"><div class="Insi centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType0"><div class="Temp centerIcon"></div>
-										</div>
-										<div class="swap-item rollDamageType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType0"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType0"><div class="slash centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType0"><div class="pierce centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType0"><div class="blunt centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType0"><div class="question centerIcon"></div>
-										</div>
+										<div class="rollFormatIcon centerIcon">
+											<input type="hidden" class="rollType" name="attr_rollType0">
+											<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
 									</div>
 									
 									<!-- Roll format -->
@@ -5053,27 +4989,9 @@ EGO block end -->
 								<div class="hide-item-flex rollFormat">
 									
 									<!-- Roll icon -->
-									<div class="rollFormatIcon">
-										<input type="checkbox" class="swap-toggle" name="attr_rollType1" value="Attack" hidden="true">
-										<div class="swap-item-rev rollType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType1"><div class="question centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType1"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType1"><div class="Def centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType1"><div class="Evd centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType1"><div class="Fort centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType1"><div class="Prud centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType1"><div class="Just centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType1"><div class="Char centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType1"><div class="Insi centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType1"><div class="Temp centerIcon"></div>
-										</div>
-										<div class="swap-item rollDamageType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType1"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType1"><div class="slash centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType1"><div class="pierce centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType1"><div class="blunt centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType1"><div class="question centerIcon"></div>
-										</div>
+										<div class="rollFormatIcon centerIcon">
+											<input type="hidden" class="rollType" name="attr_rollType1">
+											<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
 									</div>
 
 									<!-- Roll format -->
@@ -5095,27 +5013,9 @@ EGO block end -->
 								<div class="hide-item-flex rollFormat">
 									
 									<!-- Roll icon -->
-									<div class="rollFormatIcon">
-										<input type="checkbox" class="swap-toggle" name="attr_rollType2" value="Attack" hidden="true">
-										<div class="swap-item-rev rollType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType2"><div class="question centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType2"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType2"><div class="Def centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType2"><div class="Evd centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType2"><div class="Fort centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType2"><div class="Prud centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType2"><div class="Just centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType2"><div class="Char centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType2"><div class="Insi centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType2"><div class="Temp centerIcon"></div>
-										</div>
-										<div class="swap-item rollDamageType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType2"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType2"><div class="slash centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType2"><div class="pierce centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType2"><div class="blunt centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType2"><div class="question centerIcon"></div>
-										</div>
+										<div class="rollFormatIcon centerIcon">
+											<input type="hidden" class="rollType" name="attr_rollType2">
+											<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
 									</div>
 
 									<!-- Roll format -->
@@ -5137,27 +5037,9 @@ EGO block end -->
 								<div class="hide-item-flex rollFormat">
 									
 									<!-- Roll icon -->
-									<div class="rollFormatIcon">
-										<input type="checkbox" class="swap-toggle" name="attr_rollType3" value="Attack" hidden="true">
-										<div class="swap-item-rev rollType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType3"><div class="question centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType3"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType3"><div class="Def centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType3"><div class="Evd centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType3"><div class="Fort centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType3"><div class="Prud centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType3"><div class="Just centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType3"><div class="Char centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType3"><div class="Insi centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType3"><div class="Temp centerIcon"></div>
-										</div>
-										<div class="swap-item rollDamageType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType3"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType3"><div class="slash centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType3"><div class="pierce centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType3"><div class="blunt centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType3"><div class="question centerIcon"></div>
-										</div>
+										<div class="rollFormatIcon centerIcon">
+											<input type="hidden" class="rollType" name="attr_rollType3">
+											<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
 									</div>
 
 									<!-- Roll format -->
@@ -5179,27 +5061,9 @@ EGO block end -->
 								<div class="hide-item-flex rollFormat">
 										
 									<!-- Roll icon -->
-									<div class="rollFormatIcon">
-										<input type="checkbox" class="swap-toggle" name="attr_rollType4" value="Attack" hidden="true">
-										<div class="swap-item-rev rollType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollType4"><div class="question centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Attack" name="attr_rollType4"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Block" name="attr_rollType4"><div class="Def centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Evade" name="attr_rollType4"><div class="Evd centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Fortitude" name="attr_rollType4"><div class="Fort centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Prudence" name="attr_rollType4"><div class="Prud centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Justice" name="attr_rollType4"><div class="Just centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Charm" name="attr_rollType4"><div class="Char centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Insight" name="attr_rollType4"><div class="Insi centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Temperance" name="attr_rollType4"><div class="Temp centerIcon"></div>
-										</div>
-										<div class="swap-item rollDamageType">
-											<input type="checkbox" class="expand-toggle" value="None" name="attr_rollDamageType4"><div class="Att centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Slash" name="attr_rollDamageType4"><div class="slash centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_rollDamageType4"><div class="pierce centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_rollDamageType4"><div class="blunt centerIcon"></div>
-											<input type="checkbox" class="expand-toggle" value="Choose" name="attr_rollDamageType4"><div class="question centerIcon"></div>
-										</div>
+										<div class="rollFormatIcon centerIcon">
+											<input type="hidden" class="rollType" name="attr_rollType4">
+											<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
 									</div>
 									
 									<!-- Roll format -->
@@ -5219,7 +5083,359 @@ EGO block end -->
 								
 							<!-- Option: Light cost -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden="true">
-							<div class="hide-item itemLight">
+								<div class="hide-item itemLight lightCost">
+									<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden="true">
+									<input type="number" class="hide-item lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+								</div>
+							</div>
+
+							<!-- Option: Resistances -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionResist" value="true" hidden="true">
+							<div class="hide-item itemResist">
+
+								<!-- Option: Damage resistances -->
+								<input type="checkbox" class="hide-toggle-next" name="attr_optionResistBaseDamage" value="true" hidden="true">
+								<div class="hide-item itemResistDamage">
+
+									<!-- Slash -->
+									<input type="checkbox" class="hide-toggle-rev-next" name="attr_slashBaseMode" value="None" hidden="true">
+									<div class="hide-item-rev rowContainer centerFlex">
+										<select class="itemResMode" name="attr_slashBaseMode" hidden="true">
+											<option value="None">---</option>
+											<option value="Replace">Replace</option>
+											<option value="Add">Add</option>
+										</select>
+
+										<div class="largeIcon slashNormal"></div>
+										<label class="itemRes"><input type="number" class="noSpinner" name="attr_slashBaseHP" list="damageModList" step="any" value="1"></label>
+										<label class="itemRes"><input type="number" class="noSpinner" name="attr_slashBaseST" list="damageModList" step="any" value="1"></label>
+										<div class="largeIcon slashNormalSTG"></div>
+									</div>
+
+									<!-- Pierce -->
+									<input type="checkbox" class="hide-toggle-rev-next" name="attr_pierceBaseMode" value="None" hidden="true">
+									<div class="hide-item-rev rowContainer centerFlex">
+										<select class="itemResMode" name="attr_pierceBaseMode" hidden="true">
+											<option value="None">---</option>
+											<option value="Replace">Replace</option>
+											<option value="Add">Add</option>
+										</select>
+
+										<div class="largeIcon pierceNormal"></div>
+										<label class="itemRes"><input type="number" class="noSpinner" name="attr_pierceBaseHP" list="damageModList" step="any" value="1"></label>
+										<label class="itemRes"><input type="number" class="noSpinner" name="attr_pierceBaseST" list="damageModList" step="any" value="1"></label>
+										<div class="largeIcon pierceNormalSTG"></div>
+									</div>
+
+									<!-- Blunt -->
+									<input type="checkbox" class="hide-toggle-rev-next" name="attr_bluntBaseMode" value="None" hidden="true">
+									<div class="hide-item-rev rowContainer centerFlex">
+										<select class="itemResMode" name="attr_bluntBaseMode" hidden="true">
+											<option value="None">---</option>
+											<option value="Replace">Replace</option>
+											<option value="Add">Add</option>
+										</select>
+
+										<div class="largeIcon bluntNormal"></div>
+										<label class="itemRes"><input type="number" class="noSpinner" name="attr_bluntBaseHP" list="damageModList" step="any" value="1"></label>
+										<label class="itemRes"><input type="number" class="noSpinner" name="attr_bluntBaseST" list="damageModList" step="any" value="1"></label>
+										<div class="largeIcon bluntNormalSTG"></div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Description (Right) -->
+							<div class="itemDescriptionContainer right columnAlign">
+								<input type="checkbox" class="hide-toggle-next" name="attr_rightDescDisplay" value="true" hidden="true">
+								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="augment-desc" placeholder="Item description."></textarea>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rightEffectDisplay" value="true" hidden="true" checked>
+								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="augment-effect" placeholder="Item effects."></textarea>
+							</div>
+						</div>
+					</div>
+
+					<!-- Description (Bottom) -->
+					<div class="itemDescriptionContainer bottom columnAlign">
+						<input type="checkbox" class="hide-toggle-next" name="attr_bottomDescDisplay" value="true" hidden="true">
+						<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="augment-desc" placeholder="Item description."></textarea>
+
+						<input type="checkbox" class="hide-toggle-next" name="attr_bottomEffectDisplay" value="true" hidden="true">
+						<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="augment-effect" placeholder="Item effects."></textarea>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+	<!-- Inventory contents (Left) - END -->
+	
+
+	<!-- Inventory contents (Right) -->
+	<div class="contentRow half columnAlign">
+
+		<!-- Repeating inventory: Outfits -->
+		<div class="inventoryContainer contentContainer outfit">
+			
+			<!-- Custom add repeating item button -->
+			<div class="inventoryControls contentHeader repcontrol_header">
+				<span class="inventoryName">Outfits</span>
+				<button type="action" class="btn repcontrol_add heal" id="add_outfits" name="act_addItem" data-i18n-title="item-add" title="Add new item">Add</button>
+			</div>
+
+			<fieldset class="repeating_outfits">
+
+				<!-- Minimize item. Toggled by double clicking an item's header -->
+				<input type="checkbox" class="itemMinimized" name="attr_minimized" value="true" hidden="true">
+
+				<!-- The item name takes up both rows when there are no rollformats -->
+				<input type="checkbox" class="itemNameExpand" name="attr_optionRollFormats" value="0" hidden="true">
+				
+				<!-- Option: Mystery -->
+				<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden="true">
+
+				<div class="itemContainer contentContainer">
+					
+					<!-- Item controls. Move to the left when the item is has a lot of content on the right -->
+					<div class="itemButtons">
+						<button type="action" class="darkInput shareButton share" name="act_share-item" data-i18n-title="share" title="Share info"></button>
+						<button type="action" class="darkInput editButton edit" name="act_edit-item" data-i18n-title="edit" title="Edit"></button>
+						<button type="action" class="darkInput autoScriptButton script" name="act_edit-autoscript" data-i18n-title="autoscript-edit" title="Edit AutoScript"></button>
+						<input type="text" name="attr_autoScript" hidden="true">
+					</div>
+
+					<!-- Message overlay -->
+					<input type="checkbox" class="hide-toggle-rev-next" name="attr_message" value="0" hidden="true" checked>
+					<div class="hide-item-rev itemMessage contentMessage">
+						<span name="attr_message" spellcheck="false"></span>
+					</div>
+
+					<!-- Option: Custom styling -->
+					<div class="itemStyle">
+						<input type="checkbox" class="styleCheck" name="attr_optionCustomUI" value="true" hidden="true">
+
+						<!-- Custom color -->
+						<input type="checkbox" class="colorCheck" name="attr_optionColor" value="true" hidden="true">
+
+						<!-- Custom icon -->
+						<input type="checkbox" class="iconCheck" name="attr_optionIcon" value="true" hidden="true">
+						<!-- Currently unfinished -->
+
+					</div>
+
+					<!-- Item header -->
+					<div class="itemHeader contentHeader">
+
+						<!-- Equip checkbox -->
+						<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip">
+
+						<!-- Rank and name -->
+						<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank">
+						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="outfit-name" placeholder="Item name">
+
+						<!-- Item uses -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden="true">
+						<div class="hide-item">
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionUses" value="true" hidden="true">
+							<input type="number" class="hide-item itemUses" name="attr_usesCurrent">
+						</div>
+					</div>
+
+					<div class="itemContents rowContainer">
+
+						<!-- Item contents (Left) -->
+						<div class="itemRow contentRow left columnAlign">
+
+							<!-- Option: Custom UI -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionCustomUI" value="true" hidden="true">
+							<div class="hide-item itemCustomUI">
+								
+								<!-- Option: Weapon UI -->
+								<input type="checkbox" class="hide-toggle-next" name="attr_weaponUI" value="true" hidden="true">
+								<div class="hide-item-flex itemWeaponUI rowContainer">
+									<select name="attr_rollDamageType0" class="darkInput">
+										<option value="None" data-i18n="weapon-type-None">---</option>
+										<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
+										<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
+										<option data-i18n="weapon-type-Blunt" value="Blunt">Blunt</option>
+									</select>
+						
+									<select name="attr_range" class="darkInput">
+										<option value="None" data-i18n="weapon-type-None">---</option>
+										<option data-i18n="weapon-type-Melee" value="Melee">Melee</option>
+										<option data-i18n="weapon-type-Ranged" value="Ranged">Ranged</option>
+									</select>
+								</div>
+
+								<!-- Option: Augment UI -->
+								<input type="checkbox" class="hide-toggle-next" name="attr_augmentUI" value="true" hidden="true">
+								<div class="hide-item-flex itemAugmentUI">
+									<select name="attr_augmentType" class="darkInput">
+										<option data-i18n="augment-type-None" value="None">---</option>
+										<option data-i18n="augment-type-Tattoos" value="Tattoos">Tattoos</option>
+										<option data-i18n="augment-type-Drugs" value="Drugs">Serums/Drugs</option>
+										<option data-i18n="augment-type-Surgery" value="Surgery">Surgery</option>
+										<option data-i18n="augment-type-Prosthesis" value="Prosthesis">Prosthesis</option>
+										<option data-i18n="augment-type-FullProsthesis" value="FullProsthesis">Full Prosthesis</option>
+										<option data-i18n="augment-type-Other" value="Other">Other</option>
+									</select>
+								</div>
+							</div>
+
+							<!-- Option: Special UI -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionCustomUI" value="true" hidden="true">
+							<div class="hide-item">
+								<input type="checkbox" class="hide-toggle-next" name="attr_specialUI" value="true" hidden="true">
+								<div class="hide-item-flex itemSpecialUI columnAlign" style="height: 100%;">
+									<span data-i18n="special-range-text">Effect Range</span>
+									<select name="attr_specialRange" class="darkInput">
+										<option data-i18n="special-range-none" value="none">---</option>
+										<option data-i18n="special-range-0" value="0">One or two people</option>
+										<option data-i18n="special-range-1" value="1">Street</option>
+										<option data-i18n="special-range-2" value="2">Neighborhood</option>
+										<option data-i18n="special-range-3" value="3">Residence Area</option>
+										<option data-i18n="special-range-4" value="4">Nest</option>
+										<option data-i18n="special-range-5" value="5">Multiple Nests</option>
+										<option data-i18n="special-range-6" value="6">City</option>
+									</select>
+								
+									<span data-i18n="special-duration-text">Duration</span>
+									<select name="attr_specialDuration" class="darkInput">
+										<option data-i18n="special-duration-none" value="none">---</option>
+										<option data-i18n="special-duration-0" value="0">A moment</option>
+										<option data-i18n="special-duration-1" value="1">Seconds</option>
+										<option data-i18n="special-duration-2" value="2">Minutes</option>
+										<option data-i18n="special-duration-3" value="3">Hours</option>
+										<option data-i18n="special-duration-4" value="4">Days</option>
+										<option data-i18n="special-duration-5" value="5">Weeks</option>
+										<option data-i18n="special-duration-6" value="6">Months</option>
+									</select>
+								</div>
+							</div>
+
+							<!-- Description (Left) -->
+							<div class="itemDescriptionContainer left columnAlign">
+								<input type="checkbox" class="hide-toggle-next" name="attr_leftDescDisplay" value="true" hidden="true" checked>
+								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Item description."></textarea>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_leftEffectDisplay" value="true" hidden="true">
+								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Item effects."></textarea>
+							</div>
+						</div>
+						
+
+						<!-- Item contents (Right) -->
+						<div class="itemRow contentRow right columnAlign">
+
+							<!-- Item header contents (Right) -->
+							<div class="rowContainer contentHeader">
+
+								<!-- Option: Roll together -->
+								<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden="true">
+
+								<!-- Option: Rollformats -->
+								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden="true">
+								<div class="hide-item-flex rollFormatContainer">
+
+									<!-- Rollformat (1) -->
+									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden="true">
+									<div class="hide-item-flex rollFormat">
+											
+										<!-- Roll icon -->
+										<div class="rollFormatIcon centerIcon">
+											<input type="hidden" class="rollType" name="attr_rollType0">
+											<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
+										</div>
+										
+										<!-- Roll format -->
+										<div class="rollFormatBlock">
+											<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="1">
+											<div class="plainText">D</div>
+											<input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="10">
+											<div class="plainText">+</div>
+											<input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
+										</div>
+										
+										<!-- Roll button -->
+										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden="true">
+										<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+									</div>
+
+									<!-- Rollformat (2) -->
+									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden="true">
+									<div class="hide-item-flex rollFormat">
+										
+										<!-- Roll icon -->
+										<div class="rollFormatIcon centerIcon">
+											<input type="hidden" class="rollType" name="attr_rollType1">
+											<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
+										</div>
+
+										<!-- Roll format -->
+										<div class="rollFormatBlock">
+											<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="1">
+											<div class="plainText">D</div>
+											<input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="12">
+											<div class="plainText">+</div>
+											<input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
+										</div>
+
+										<!-- Roll button -->
+										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden="true">
+										<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
+									</div>
+
+									<!-- Rollformat (3) -->
+									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden="true">
+									<div class="hide-item-flex rollFormat">
+										
+										<!-- Roll icon -->
+										<div class="rollFormatIcon centerIcon">
+											<input type="hidden" class="rollType" name="attr_rollType2">
+											<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
+										</div>
+
+										<!-- Roll format -->
+										<div class="rollFormatBlock">
+											<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
+											<div class="plainText">D</div>
+											<input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
+											<div class="plainText">+</div>
+											<input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
+										</div>
+
+										<!-- Roll button -->
+										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden="true">
+										<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
+									</div>
+
+									<!-- Rollformat (4) -->
+									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden="true">
+									<div class="hide-item-flex rollFormat">
+										
+										<!-- Roll icon -->
+										<div class="rollFormatIcon centerIcon">
+											<input type="hidden" class="rollType" name="attr_rollType3">
+											<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
+										</div>
+
+										<!-- Roll format -->
+										<div class="rollFormatBlock">
+											<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
+											<div class="plainText">D</div>
+											<input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
+											<div class="plainText">+</div>
+											<input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
+										</div>
+
+										<!-- Roll button -->
+										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden="true">
+										<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
+									</div>
+								</div>
+									
+								<!-- Option: Light cost -->
+								<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden="true">
+								<div class="hide-item itemLight lightCost">
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden="true">
 								<input type="number" class="hide-item lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
 							</div>
@@ -5302,7 +5518,8 @@ EGO block end -->
 			</div>
 		</fieldset>
 	</div>
-
+	</div>
+	<!-- Inventory contents (Right) - END -->
 
 </div>
 </div>
@@ -5313,8 +5530,8 @@ EGO block end -->
 
 
 <!-- Skill section -->
-	<div class="sheet-body sheet-skills darkBG">
-    <div class="contentBlock" id="skillSection">
+	<div id="skillsTab" class="sheet-body darkBG">
+    <div class="contentBlock">
 
 <!-- EGO Skills Column -->
     <div class="egoSkillContainer">
@@ -6467,7 +6684,7 @@ EGO block end -->
 
 
 <!-- Character Details -->
-	<div class="sheet-body sheet-details darkBG">
+	<div id="detailsTab" class="sheet-body darkBG">
 	<div class="contentContainer" id="characterDetails">
 
 <div class="profileHeader" style="top: 12px; right: 10px; left: auto;">
@@ -6654,7 +6871,7 @@ EGO block end -->
 <!-- Details END -->
 
 <!-- Sheet Editor -->
-<div class="sheet-body sheet-export darkBG">
+<div id="exportTab" class="sheet-body darkBG">
 <div class="contentContainer" id="sheetExport">
 	<div class="rowContainer centerFlex">
 		<button type="action" class="declare pictos" name="act_clearButton" id="clear_editorOutput" data-i18n-title="reset-button" title="Reset" style="position: absolute; left: 0;">#</button>
@@ -6684,7 +6901,7 @@ EGO block end -->
 
 
 <!-- Sheet Editor -->
-	<div class="sheet-body sheet-edit darkBG">
+	<div id="editTab" class="sheet-body darkBG">
 
 <input type="text" name="attr_global_editKey" hidden="true">
 <div class="rowContainer centerFlex">
@@ -7488,13 +7705,21 @@ EGO block end -->
 	<option value="Red">Red</option>
 	<option value="Blue">Blue</option>
 	<option value="Green">Green</option>
+	<option value="Light Green">Light Green</option>
 	<option value="Purple">Purple</option>
+	<option value="Light Purple">Light Purple</option>
 	<option value="Orange">Orange</option>
+	<option value="Light Orange">Light Orange</option>
+	<option value="Health" data-i18n="bar-health">Health</option>
+	<option value="Sanity" data-i18n="bar-sanity">Sanity</option>
+	<option value="Stagger" data-i18n="bar-stagres">Stagger Res</option>
 	<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
 	<option value="Prudence" data-i18n="stats-wisdom">Prudence</option>
+	<option value="Dark Prudence">Prudence (Dark)</option>
 	<option value="Justice" data-i18n="stats-justice">Justice</option>
 	<option value="Charm" data-i18n="stats-charm">Charm</option>
 	<option value="Insight" data-i18n="stats-insight">Insight</option>
+	<option value="Dark Insight">Insight (Dark)</option>
 	<option value="Temperance" data-i18n="stats-temperance">Temperance</option>
 </datalist>
 <!-- Color Selector Data END -->
@@ -7721,7 +7946,7 @@ const statNamesFull = [...statNames, "Instinct", "Wisdom"]
 const stateNames = ["PanicState", "StaggerState", "StaggerDuration", "SealState", "ImmobileState", "DefeatState"];
 
 const itemSections = ["weapons", "outfits", "augments", "tools", "skills", "special", "effects"];
-const sheetSections = [...itemSections, "ailments", "tags", "variables", "palette"];
+const sheetSections = [...itemSections, "ailments", "tags", "variables", "palette", "applied"];
 
 const resourceNames = ["Action", "Reaction", "Universal", "Counter", "Block", "Evade", "Light_Regen"]
 const combatRollNames = ["Attack", "Block", "Evade"]
@@ -7730,12 +7955,12 @@ const advTypes = ["Advantage", "Disadvantage"]
 
 /* Sheet colors */
 const colors = {
+	health:"#cc4125", stagger:"#dbb748", sanity:"#dbb748", // Status bars
 	blue:"#7397d1", red:"#c25944", orange:"#cf8c44", yellow:"#dbb748", purple:"#8e7cc3", green:"#85a874", // Item colors
+	light_green:"#93c47d", light_purple:"#aa93eb", light_orange:"#eda353", dark_prudence:"#afaa9f", dark_insight:"#cfb773", // Alternative colors
 	fortitude:"#cc4125", prudence:"#d9d9d9", justice:"#46bdc6", charm:"#9c66c6", insight:"#ffe599", temperance:"#ac609d", // Stat colors
-	black:"#000000", gray:"#222222", white:"#ffffff", // Shades
+	black:"#000000", gray:"#222222", light_gray:"#555555", white:"#ffffff", // Shades
 }
-// --color-prudence-dark: #afaa9f;
-// --color-insight-dark: #cfb773;
 
 /* Contains details on the format of all AutoEffects. Used for parsing AutoScripts */
 //	 value: One of "string", "number", or false. If false the AutoEffect has no value
@@ -8434,6 +8659,10 @@ function getJQuery(prop, onfail) {
 	});
 	return jQueryPromise;
 }
+
+function generateAccessID() { // Ids in access are in lowercase to better work with user inputs (which is always parsed to lowercase)
+	return generateRowID().toLowerCase();
+}
 /* --- orcsAsync+ end --- */
 
 
@@ -8463,7 +8692,7 @@ class checkVal {
 	/* Sheet specific data */
 	static ID(s, opts={}) { return typeof(s) == "string" && (opts.strict ? /^-[\w-]{19}$/ : /^-.{19}$/).test(s); } // Checks if a Roll20-style id is valid
 	static Effect(v, opts={}) { return /^(?:-?(?:\d+(?:[,.]\d+)?)?n)|(?:-?\d+(?:[,.]\d+)?)$/.test("" + v); } // Check for ailment effects like "0", "-n" and "6n"
-	static Path(p, opts={}) { return /^(?:([^\s\.\[\]]+|(?:\[.+?\]))\.?)+$/.test(p); } //navPath
+	static Path(p, opts={}) { return /^(?:([^\s\.\[\]]+|(?:\[.+?\]))\.?)+$/.test(p); }
 
 	static Hex(s) { return /^#?[0-9a-f]{6}$/i.test(s); }
 	static PropString(s) { // Check for strings with the format "Key Value, Key Value, ..." where key is a non-empty string and value is an integer
@@ -11629,7 +11858,7 @@ function rollCombat(info) {
 
 
 // TODO: Move this to the access resource events
-function resourceReq(reqArray, opts={deduct:false}) {
+function resourceReq(reqArray, opts={deduct:false, expand:true}) {
 	let reqFailure = {}
 
 	// Ensure the requirements are in array form with snake-case resource names
@@ -11648,7 +11877,7 @@ function resourceReq(reqArray, opts={deduct:false}) {
 			console.log(`Require ${cost} ${resource}. Current count is ${access.resource[resource].current}`);
 
 			if (access.resource[resource].current < cost) {
-				if (is(resource).In("counter", "block", "evade") && access.resource.universal.current >= cost) {
+				if (opts.expand && is(resource).In("counter", "block", "evade") && access.resource.universal.current >= cost) {
 					reqArray[i][0] = "universal";
 				} else {
 					reqFailure[resource] = cost;
@@ -12091,7 +12320,7 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 			}
 
 			if (length(reqList) > 0) {
-				let reqResult = resourceReq(reqList, {deduct:true});
+				let reqResult = resourceReq(reqList, {deduct:true, expand:true});
 
 				if (typeof reqResult == "object") {
 					console.warn("Attempted to make roll without requisite resources or item uses", reqResult);
@@ -14337,7 +14566,6 @@ function openEditor(type, newTarget, newTargetName) {
 function saveEditor(type, attrs={}, callback=()=>{}) {
 	let options = (type == "item") ? {prefix: type, ignoreDefault: true} : {}
 
-
 	/* Helper functions uses to configure which attributes should be retrieved */
 	/* Attrs are structured as {attrKey: defaultValue} pairs */
 	/* Repeating attrs are structured as {repeating_section:attrAlias: {attrKey: defaultValue}} */
@@ -14681,6 +14909,7 @@ const repDataDefaults = {
 		},
 		special: {
 			type: "Special",
+			usable: {action: {}},
 			ui: {special: true}
 		},
 		effects: {
@@ -14940,7 +15169,7 @@ const repDataFormats = {
 			description: {text:true},
 			effect: {text:true},
 			minimized: {bool:true},
-			message: {string:true},
+			message: {text:true},
 			equipped: {bool:true},
 			rollformats: { // Enabled by optionRollFormats
 				_repeating: {
@@ -15321,7 +15550,7 @@ const dataFormat = {
 		items: {
 			_repeating: repDataFormats.item.base,
 			editor: {
-				target: "0",
+				target: false, // If set to an item's ID the editor is opened for that item. The editor is closed by setting this prop to false
 				location: "Center",
 			},
 		},
@@ -15329,7 +15558,7 @@ const dataFormat = {
 			_repeating: repDataFormats.ailment.base,
 		},
 		palette: { // Content that appears in the combat palette
-			_repeating: {
+			_repeating: { // Palette rolls and standalone actions
 				_key_prop: "title",
 				item: false, // Item associated with the palette element, if any
 				title: "",
@@ -15340,31 +15569,66 @@ const dataFormat = {
 				},
 				mystery: false, // If the element uses the standard or mystery display style
 				message: "",
-				light_cost: 0,
 				standalone: false, // If a button should be revealed to use the element standalone without a roll
-				roll_together: false, // If the rolls of the element are rolled together or seperately
+				uses: {current: 0},
+				light: {cost: 0},
+				autoscript: "", // Usually set to the AutoScript of the item associated with the element
+				base: {
+					light: {cost: 0},
+					autoscript: "",
+				},
 				rollformats: {
 					_repeating: {
 						...rollDataFormat.base,
 						base: {
-							count: 0,
-							max: 0,
-							power: 0,
-							adv: 0,
+							damage_type: "None",
+							count: 0, max: 0, power: 0, adv: 0,
 							action: {cost: 1},
 							reaction: {cost: 1},
-							uses: {cost: 1},
+							autoscript: "",
+							// TODO: May need to add stored roll data here as well
 						},
 						message: "",
 					},
+					roll_together: false, // If the rolls of the element are rolled together or seperately
 				},
-				autoscript: "", // Usually set to the AutoScript of the item associated with the element
 			},
 			stored: { 
+				// TODO: Should reuse the format of access.palette 
 				_repeating: rollDataFormat.base,
 			},
 			applied: {
-
+				selection: false, // The id of currently selected applied roll, or false if no applied roll is selected
+				_repeating: {
+					_key_prop: "title",
+					item: false,
+					selected: false, // If the applied roll is currently selected in the palette
+					title: "",
+					icon: false, // If unset the icon of the first rollformat is used
+					color: {
+						base: false, // If unset the custom color of the associated item is used if it's set. Otherwise the element is transparent
+					},
+					mystery: false,
+					message: "",
+					uses: {current: 0},
+					light: {cost: 0},
+					autoscript: "",
+					rollformats: {
+						_repeating: {
+							...rollDataFormat.base,
+							base: {
+								damage_type: "None",
+								count: 0, max: 0, power: 0, adv: 0,
+								action: {cost: 1},
+								reaction: {cost: 1},
+								autoscript: "",
+								// TODO: May need to add stored roll data here as well
+							},
+							message: "",
+						},
+					},
+					
+				},
 			},
 		},
 		rolls: { // Rolls that are part of the current action
@@ -15648,7 +15912,7 @@ const dataFormat = {
 		},
 		palette: {
 			_repeating: {
-				item: {false:true, path:true, node:true},
+				item: {false:true, node:true},
 				title: {string:true},
 				icon: {string:true},
 				color: {
@@ -15656,29 +15920,64 @@ const dataFormat = {
 					decoration: {empty:true, color:true},
 				},
 				mystery: {bool:true},
-				message: {string:true},
-				light_cost: {int: {min:0}},
+				message: {false:true, text:true},
 				standalone: {bool:true},
-				roll_together: {bool:true},
+				uses: {current: {int: {min:0}}},
+				light: {cost: {int: {min:0}}},
+				autoscript: {text:true},
+				base: {
+					light: {cost: {int: {min:0}}},
+					autoscript: {text:true},
+				},
 				rollformats: {
 					_repeating: {
 						...rollDataFormat.valid,
 						base: {
 							_default: {int:true},
+							damage_type: {in: ["None", ...damageTypes, "Choose"], array: {in: damageTypes, min: 1, max: 3}},
 							action: {cost: {int: {min: 0}}},
 							reaction: {cost: {int: {min: 0}}},
-							uses: {cost: {int: {min: 0}}},
+							autoscript: {text:true},
 						},
-						message: {string:true},
+						message: {false:true, text:true},
 					},
+					roll_together: {bool:true},
 				},
-				autoscript: {text:true},
 			},
 			stored: {
 				_repeating: rollDataFormat.valid,
 			},
 			applied: {
-
+				selection: {false:true, id:true},
+				_repeating: {
+					item: {false:true, node:true},
+					title: {string:true},
+					selected: {bool:true},
+					icon: {string:true},
+					color: {
+						base: {empty:true, color:true},
+					},
+					mystery: {bool:true},
+					message: {false:true, text:true},
+					standalone: {bool:true},
+					uses: {current: {int: {min:0}}},
+					light: {cost: {int: {min:0}}},
+					autoscript: {text:true},
+					rollformats: {
+						_repeating: {
+							...rollDataFormat.valid,
+							base: {
+								_default: {int:true},
+								damage_type: {in: ["None", ...damageTypes, "Choose"], array: {in: damageTypes, min: 1, max: 3}},
+								action: {cost: {int: {min: 0}}},
+								reaction: {cost: {int: {min: 0}}},
+								autoscript: {text:true},
+							},
+							message: {false:true, text:true},
+						},
+					},
+					
+				},
 			},
 		},
 		rolls: {
@@ -15852,8 +16151,11 @@ const dataFormat = {
 		palette: {
 			_repeating: {
 				attrs: {
-					color: {
-						suffix: "Color",
+					color: {suffix: "Color"},
+					uses: {option: "Uses", prefix: "uses"},
+					light: {option: "LightCost", prefix: "light"},
+					base: {
+						light: {prefix: "baseLight"},
 					},
 					rollformats: {
 						option: "RollFormats",
@@ -15864,8 +16166,12 @@ const dataFormat = {
 								case: "snake",
 								action: {option: "RollAction", prefix: "rollAction"},
 								reaction: {option: "RollReaction", prefix: "rollReaction"},
-								uses: {option: "RollUses", prefix: "rollUses"},
 								store: {option: "StoreRoll", prefix: "store"},
+								base: {
+									prefix: "baseRoll",
+									action: {prefix: "baseRollAction"},
+									reaction: {prefix: "baseRollReaction"},
+								},
 							},
 							source: {
 								sheet: {
@@ -15900,7 +16206,48 @@ const dataFormat = {
 				},
 			},
 			applied: {
-
+				prefix: "applied",
+				_repeating: {
+					attrs: {
+						color: {suffix: "Color"},
+						uses: {option: "Uses", prefix: "uses"},
+						light: {option: "LightCost", prefix: "light"},
+						base: {
+							light: {prefix: "baseLight"},
+						},
+						rollformats: {
+							option: "RollFormats",
+							_repeating: {
+								attrs: {
+									option: "RollDisplay",
+									prefix: "roll",
+									case: "snake",
+									action: {option: "RollAction", prefix: "rollAction"},
+									reaction: {option: "RollReaction", prefix: "rollReaction"},
+									store: {option: "StoreRoll", prefix: "store"},
+									base: {
+										prefix: "baseRoll",
+										action: {prefix: "baseRollAction"},
+										reaction: {prefix: "baseRollReaction"},
+									},
+								},
+								source: {
+									sheet: {
+										type: "index",
+										section: "applied",
+									},
+								},
+							},
+						},
+						case: "snake",
+					},
+					source: {
+						sheet: {
+							type: "id",
+							section: "applied",
+						},
+					},
+				},
 			},
 		},
 		rolls: {
@@ -16286,7 +16633,7 @@ class dataNode extends Array {
 
 		// The first time apply() is called on a newly created repnode all attributes should be output
 		// This ensures a matching matching repeating item is created in the sheet
-		if (this._newRep && this.apply) {
+		if (this._newRep && opts.apply) {
 			opts.allProps = true;
 			delete this._newRep;
 		}
@@ -16297,7 +16644,7 @@ class dataNode extends Array {
 
 					// Handle applying values
 					if (opts.apply && prop in this.#output) {
-						if (this[prop] instanceof dataNode) {
+						if (this[prop] instanceof dataNode && !this._valid[prop]?.node) {
 							this[prop][this[prop]._valueProp || "enabled"] = this.#output[prop];
 						} else {
 							this[prop] = this.#output[prop];
@@ -16319,11 +16666,15 @@ class dataNode extends Array {
 					}
 
 					// Handle outputting values
-					else if (!opts.apply || prop in this.#output || opts.allProps || this[prop]?._newRep) {
+					else if (!opts.apply || prop in this.#output || opts.allProps) { // || this[prop]?._newRep
 						let value = this[prop];
 						
 						if (this[prop] instanceof dataNode) {
+							if (this._valid[prop]?.node) {
+								value = pathArrayToString(this[prop].path);
+							} else {
 							value = this[prop].enabled;
+							}
 						}
 
 						if (value === true) value = "true";
@@ -16392,16 +16743,17 @@ class dataNode extends Array {
 	modify(prop, rawValue, opts={source:false}) {
 		if (!prop.startsWith("_")) prop = "_" + prop;
 
-		let newValue = rawValue ?? "";
 		let oldValue = this[snakeify(prop)];
 		if (oldValue instanceof dataNode) oldValue = (oldValue._valueProp) ? oldValue[oldValue._valueProp] : (oldValue.enabled) ? "true" : "0";
 		
 		//console.log(`(${opts.source || "Code"}) ${prop} ${oldValue} -> ${newValue}`);
 		if (oldValue !== undefined) {
-			if ((newValue = this._validator(prop, newValue)) === null) {
+			let newValue = this._validator(prop, rawValue ?? "");
+
+			if (newValue === null) {
 				console.warn(`Attempted to set the value of ${prop} to invalid value ${rawValue}`, this); return;
 			}
-			else if (oldValue != newValue) {
+			else if (oldValue !== newValue) {
 				//console.log(`(${opts.source || "Code"}) Modifying ${prop} from "${oldValue}" to "${newValue}"`);
 
 				// Backup the current output data if a backup is registered in access
@@ -16410,19 +16762,19 @@ class dataNode extends Array {
 				this.#output[prop] = newValue;
 
 				// Delete the output value if it matches the immutable value
-				if (this.immutable[prop] == newValue && !(this[prop] instanceof dataNode)) {
+				if (this.immutable[prop] === newValue) { // && !(this[prop] instanceof dataNode)
 					delete this.#output[prop];
+				}
+
+				// If the prop is a key prop, update the node's key prop accessor
+				if (this._keyProp == snakeify(prop) && this.parent._rep) {
+					this.parent._addAccessors({key:newValue});
 				}
 
 				// Trigger a new modify event
 				access._event.trigger([...this.path, "modify", snakeify(prop)], {
 					node:this, type:"modify", source:opts.source, oldval:oldValue, newval:newValue, // Event info
 				}, opts);
-
-				// If the prop is a key prop, update the node's key prop accessor
-				if (this._keyProp == snakeify(prop) && this.parent._rep) {
-					this.parent._addAccessors({key:newValue});
-				}
 			}
 		} else {
 			console.warn(`Attempted to set the value of ${prop} but the property does not exist`, this);
@@ -16467,10 +16819,26 @@ class dataNode extends Array {
 			if (type == "float" && is.Float(...numArgs)) v = parseFloat(value) || 0;
 			if (type == "effect" && is.Effect(value)) v = value;
 
+			// Handle access node references
+			if (type == "node") {
+				if (value instanceof dataNode) {
+					v = value;
+				}
+				else if (is.Array(value) && value.every(step => typeof step == "string")) {
+					v = navPath([...value, "node"]);
+				}
+				else if (is.Path(value)) {
+					v = navPath(value + ".node");
+				}
+
+				if (!(v instanceof dataNode)) {
+					console.warn(`Validator: Set node-type property "${prop}" to an invalid path`, value);
+					v = null;
+				}
+			}
+
 			// Handle assorted values
 			if (type == "id" && is.ID(value)) v = value;
-			if (type == "path" && is.Path(value)) v = value;
-			if (type == "node" && value instanceof dataNode) v = value;
 			if (type == "color" && (is.Hex(value) || is(snakeify(value)).In(colors))) v = value;
 
 			// Handle array values
@@ -16497,7 +16865,7 @@ class dataNode extends Array {
 	// Adds accessors for the id, index and name (if applicable) of the subnode
 	add(opts={}) {
 		if (this._rep) {
-			let newID = opts.id || opts.node?.id || this.id || generateRowID().toLowerCase(); // AutoEffects can only access props in lowercaps
+			let newID = opts.id || opts.node?.id || this.id || generateAccessID(); // AutoEffects can only access props in lowercaps
 			let newProp = opts.prop || newID;
 			let repSource = {}
 			let repStack = []
@@ -16528,7 +16896,7 @@ class dataNode extends Array {
 	
 					// Nested repeating nodes are given a random id
 					if (this._rep.source?.[source]?.type == "index") {
-						newProp = generateRowID().toLowerCase();
+						newProp = generateAccessID();
 					}
 				}
 
@@ -16556,7 +16924,7 @@ class dataNode extends Array {
 			this._addAccessors({rep: newProp, key: (newNode._keyProp) ? newNode[newNode._keyProp] : false});
 
 			// Configures the new repnode to be output during apply()
-			if (this.backup !== false) Object.defineProperty(newNode, "_newRep", {value:true, configurable:true});
+			if (opts.backup !== false) Object.defineProperty(newNode, "_newRep", {value:true, configurable:true});
 
 			if (this._rep.attrs.option) { // Adds a display attribute for rollformats
 				this._attrs[newProp] = "option" + this._rep.attrs.option;
@@ -16593,7 +16961,7 @@ class dataNode extends Array {
 		if (opts.prop) { // For node properties
 			Object.defineProperty(this, opts.prop, {
 				get() {
-					if (this[`_${opts.prop}`] instanceof dataNode) {
+					if (this[`_${opts.prop}`] instanceof dataNode && !this._valid[`_${opts.prop}`]?.node) {
 						return this[`_${opts.prop}`];
 					}
 					if (access._getImmutable) {
@@ -16739,12 +17107,28 @@ class dataNode extends Array {
 			}
 		}
 
-		copy._output = {...this.#output}
+		copy._output = {}
+
+		for (const prop in this.#output) {
+			if (this[prop] instanceof dataNode) {
+				copy._output[prop] = this.#output[prop];
+			} else {
+				copy[prop] = this.#output[prop];
+			}
+		}
+
 		return copy;
 	}
 	paste(data, opts={}) {
 		if (data) {
+
+			// Override any output values before inserting new values
+			if (data._output) {
+				Object.assign(this.#output, data._output);
+			}
+
 			for (const prop in {...this, ...data}) {
+				if (prop == "_output") continue;
 				
 				// Override repeating data
 				if (this._rep) {
@@ -16759,16 +17143,24 @@ class dataNode extends Array {
 				// Override standard data
 				if (data[prop] !== undefined) {
 					if (this[prop] instanceof dataNode) {
+						if (data[prop]?.enabled !== undefined) {
+							this[snakeify(prop)] = data[prop].enabled;
+						}
 						this[prop].paste(data[prop], opts);
 					}
-					else if (prop == "_output") {
-						Object.assign(this.#output, data._output);
-					}
 					else if (this[prop] !== undefined) {
+						let newVal = data[prop];
+
+						if (opts.add && !is(typeof this[prop]).In("object", "boolean")) {
+							newVal += this[snakeify(prop)];
+						}
+
 						if (opts.modify) {
-							this.modify(prop, data[prop], opts);
+							if (this._validator(prop, newVal) !== null) {
+								this.modify(prop, newVal, opts);
+							}
 						} else {
-							this[prop] = data[prop];
+							this[prop] = newVal;
 						}
 					}
 				}
@@ -16863,7 +17255,7 @@ class effectNode extends dataNode {
 	#invalid; // Set to true if the effect encounters a validation error
 
 	constructor(AutoEffect, parent, path) {
-		let blockID = generateRowID().toLowerCase();
+		let blockID = generateAccessID();
 
 		super({}, blockID, parent, path || [...parent.path, blockID]);
 
@@ -17310,7 +17702,7 @@ class effectNode extends dataNode {
 			}
 			if (this.#format.target.includes("#Var")) {
 				this.#buffer.target = t; // Preserves capitalization for global variables
-				this.#buffer.targetPath = true; // Set to not throw an error. Is not used in exeVar()
+				this.#buffer.targetPath = true; // Set to make exeVar() not throw an error. Isn't used anywhere 
 
 				// Variable names can only consist of letters, digits and undescores, and must contain at least one letter
 				if (!/[a-z]/i.test(this.target) || !/^[\w\d]+$/.test(snakeify(this.target))) { // TODO: Needs support for Japanese/Korean characters
@@ -17333,7 +17725,7 @@ class effectNode extends dataNode {
 			}
 			
 			if (!this.#buffer.targetPath) {
-				if (this.#format.operatorOptional && this.#format.index.target > 2) { // Handle effects with an optional operator
+				if (this.#format.operatorOptional && this.#format.index.target > 2) { // Handle effects with an optional operator (ex. Require)
 					if (!autoEffectOperators[this.name].includes(this.#effect[this.#format.index.target-1])) {
 						this.#format.index.operator = 0;
 						if (this.#effect[--this.#format.index.options]) {
@@ -18717,31 +19109,26 @@ const accessData = {
 						case "tags": repNode = newRoot.tags; break;
 						case "variables": repNode = newRoot.global; break;
 						case "palette": repNode = newRoot.palette; break;
+						case "applied": repNode = newRoot.palette.applied; break;
 						default: repNode = newRoot.items;
 					}
 					for (const repid of idArray) {
 						if (repNode) repNode.add({id:repid, type:section, silent:"hard", default:false});
 					}
-				}
-
-				for (const section of ["items", "palette"]) {
-
-					// If no items exist, add a dummy item for the sake of generating event keys. This is also done for palette elements
-					if (newRoot[section].length == 0) {
-						newRoot[section].add({id:"delete_me_later", type:"outfits", silent:"hard", default:false});
 					}
 
 					// All items and palette elements have at least one rollformat, even when the option is disabled
-					for (const node of newRoot[section]) {
-						if (node.rollformats.length == 0) {
-							node.rollformats.add({silent:"hard"});
+				for (const node of [newRoot.items, newRoot.palette, newRoot.palette.applied]) {
+					for (const repNode of node) {
+						if (repNode.rollformats.length == 0) {
+							repNode.rollformats.add({silent:"hard"});
 						}
 					}
 				}
 
 				let keys = newRoot.attrkeys({unsorted:false});
 
-				// Add in missing rollformat keys (indexes 1-4 for most items)
+				// Adds in missing rollformat attribute keys (may be missing indexes 1-4. Keys for index 0 is always generated)
 				keys.sheet = keys.sheet.flatMap(key => {
 					if (/[0-9]+$/.test(key)) {
 						if (key.endsWith(0)) {
@@ -18754,10 +19141,11 @@ const accessData = {
 
 				let values = {sheet: await getAttrsByID(ID, [...keys.sheet, ...keys.editor])}
 	
+				// Seperates attribute values into sheet and editor values
 				if (length(keys.editor) > 0) {
 					values.editor = {}
 					for (const attr of keys.editor) {
-						if (values.sheet[attr] !== undefined) { // Clears out some attrs that don't exist in the editor, like the item's description
+						if (values.sheet[attr] !== undefined) {
 							values.editor[attr] = values.sheet[attr];
 						}
 						delete values.sheet[attr];
@@ -18768,20 +19156,13 @@ const accessData = {
 				console.log("Values", {sheet: {...values.sheet}, editor: {...values.editor}});
 
 				// Add a number of roll formats equal to the amount shown in the sheet
-				for (const section of ["items", "palette"]) {
-					if (newRoot[section].length > 0) {
-						for (const rollNode of newRoot[section].map(node => node.rollformats)) {
+				for (const node of [newRoot.items, newRoot.palette, newRoot.palette.applied]) {
+					for (const rolls of node.map(repNode => repNode.rollformats)) {
 							for (let i = 1; i <= 4; i++) {
-								if (is.True(values.sheet[rollNode.attr(0, "sheet").slice(0, -1) + i])) {
-									rollNode.add({silent:"hard"});
+							if (is.True(values.sheet[rolls.attr(0, "sheet").slice(0, -1) + i])) {
+								rolls.add({silent:"hard"});
 								}
 							}
-						}
-					}
-
-					if (newRoot[section]["delete_me_later"]) {
-						newRoot[section].delete("delete_me_later")
-						this._output = {sheet: {}, editor: {}} // TODO: Is this needed? It may cause issues later
 					}
 				}
 
@@ -19193,7 +19574,7 @@ const accessData = {
 					}
 				}
 				if (opts.palette) {
-					for (const action of access[ID].palette) {
+					for (const action of [...access[ID].palette, ...access[ID].palette.applied]) {
 						recalcCustomColors(action);
 					}
 				}
@@ -19499,7 +19880,7 @@ onAccess("clicked:addItem " + itemEvent("remove") + ["rollformats", "tags"].redu
 	let type = info.triggerName.split(":")[0];
 	let section = (info.sourceAttribute || info.htmlAttributes.id).split("_")[1];
 	let oldID = (!info.sourceAttribute) ? false : info.sourceAttribute.split("_")[2];
-	let newID = (section == "rollformats") ? false : generateRowID().toLowerCase();
+	let newID = (section == "rollformats") ? false : generateAccessID();
 	
 	let node = (section == "tags") ? access.tags : access.items;
 	let target = node?.editor?.target;
@@ -19528,7 +19909,7 @@ onAccess("clicked:addVariable remove:repeating_variables", {}, function(info) {
 		access.global.delete(info.sourceAttribute.split("_")[2]);
 	} else {
 		console.log("Add variable");
-		access.global.add({id:generateRowID().toLowerCase()});
+		access.global.add({id:generateAccessID()});
 	}
 });
 
@@ -19663,7 +20044,7 @@ function recalcTagsFromRaw(node, opts={}) {
 
 	// Extract all tag-value pairs from the raw tag text
 	while (match = tagRegExp.exec(node.raw_text)) {
-		let tagID = generateRowID().toLowerCase();
+		let tagID = generateAccessID();
 
 		[tag, value, symbol] = [snakeify(match[1]), Number(match[2] || 1),  match[3]]
 		tags[tag] = value;
@@ -19713,27 +20094,36 @@ onAccess("clicked:rollChallenge", function(info) {
 	executeRolls(roll); // The default stat/luck rolls use no resources
 });
 
-/* Rolls - Item roll */
-onAccess(itemEvent("clicked", "item-roll"), {}, function(info) {
-	let item = access.items[info.triggerName.split("_").at(2)];
-	let rollArray = item.rollformats;
+/* Rolls - Item or palette roll */
+onAccess(itemEvent("clicked", "item-roll") + " clicked:repeating_palette:palette-roll", {}, function(info) {
+	let type = (info.triggerName.split("_")[1] != "palette") ? "items" : "palette";
+	let node = access[type][info.triggerName.split("_")[2]];
+	let rollArray = node.rollformats;
 
 	// If the "Roll together" option is enabled all roll formats of the item are rolled
 	// Otherwise only a singular roll format is uses 
 	if (rollArray.roll_together) {
+		if (type == "items") {
 		rollArray = rollArray.filter(roll => roll.mode == "Roll");
+		}
+		// TODO: Implement roll together for roll formats
+		// Only execute rolls which has no message
 	} else {
 		rollArray = rollArray[parseInt(info.htmlAttributes["data-index"])];
 	}
 
 	// Add any AutoEffects on the item
-	if (item.autoscript != "") {
-		let itemBlock = access.effects.add("(Block)")[0];
-		itemBlock._addVar("item", item); // Saves a reference to the item the AutoEffects originate from
-		itemBlock.add(item.autoscript);
+	if (node.autoscript != "") {
+		let effectBlock = access.effects.add("(Block)")[0];
+		effectBlock.add(node.autoscript);
+
+		if (type == "items" || node.item) {
+			effectBlock._addVar("item", node.item ?? node); // Saves a reference to the item the AutoEffects originate from
+		}
+		// TODO: Also add a reference to the currently selected applied roll, if any
 	}
 
-	executeRolls(cleanRolls(rollArray), {use_resource:true});
+	executeRolls(cleanRolls(rollArray), {use_resource: access.state.combat});
 });
 
 // Clones all rollformats in an roll array to avoid the original rollformats being modified
@@ -19750,7 +20140,7 @@ function cleanRoll(roll) {
 		Object.defineProperty(clone, "orig", {value: roll.orig || {type: "item", id: clone.id}});
 	}
 
-	clone._id = generateRowID().toLowerCase();
+	clone._id = generateAccessID();
 	clone._attrs = {}
 	delete clone.result;
 	delete clone.result_dice;
@@ -19774,6 +20164,11 @@ onAccess(["rolls", ["add", "delete"]], {}, function(info) {
 	}
 });
 
+/* Rolls - Change roll type */
+onAccess(["rolls", "N", "modify", ["type", "damage_type"]], {}, function(info) {
+	styleRoll(info.node);
+});
+
 function styleRoll(roll) {
 	if (!roll.message) return false;
 
@@ -19785,35 +20180,57 @@ function styleRoll(roll) {
 	// - roll: The roll most associated with the item, if any
 	// - item: The item most associated with the item, if any
 
-	let rollStyle = {color: "green", icon: "icons/question"}
+	let style = getStyleData("roll", roll);
+	roll.message.icon = getIcon(style.icon);
+	roll.message.color = getColor(style.color);
+	roll.message.sections.result = style.result ?? false;
+}
 
-	switch (roll.type) {
+function getStyleData(type, node, opts={expand:true}) {
+	let style = {color: ""}
+	
+	if (type == "roll") {
+		style.icon = "icons/question";
+
+		switch (node.type) {
 		case "Attack":
-			rollStyle = {color: "red", icon: "icons/Attack"}
-			if (is(roll.damage_type).In(...damageTypes)) {
-				rollStyle.icon = "icons/" + roll.damage_type.toLowerCase(); 
+				style = {color: "red", mystery: "HP", icon: "icons/Attack"}
+				if (opts.expand && is(node.damage_type).In(...damageTypes)) {
+					style.icon = "icons/" + node.damage_type.toLowerCase(); 
 			}
 			break;
-		case "Block": rollStyle = {color: "blue", icon: "icons/defend"}; break;
-		case "Evade": rollStyle = {color: "yellow", icon: "icons/evade"}; break;
-		case "Fortitude": rollStyle = {color: "fortitude", icon: "stats/Fortitude", result:true}; break;
-		case "Prudence": rollStyle = {color: "prudence", icon: "stats/Prudence", result:true}; break;
-		case "Justice": rollStyle = {color: "justice", icon: "stats/Justice", result:true}; break;
-		case "Charm": rollStyle = {color: "charm", icon: "stats/Charm", result:true}; break;
-		case "Insight": rollStyle = {color: "insight", icon: "stats/Insight", result:true}; break;
-		case "Temperance": rollStyle = {color: "temperance", icon: "stats/Temperance", result:true}; break;
-		case "Luck": rollStyle = {color: "green", icon: "icons/fortunewhite", result:true}; break;
-		case "Speed": rollStyle = {color: "yellow", icon: "icons/Speed"}; break;
-		default: rollStyle = {color: "red", icon: "icons/question"};
+			case "Block": style = {color: "blue", mystery: "SP", icon: "icons/defend"}; break;
+			case "Evade": style = {color: "yellow", mystery: "ST", icon: "icons/evade"}; break;
+			case "Fortitude": style = {color: "fortitude", icon: "stats/Fortitude"}; break;
+			case "Prudence": style = {color: "prudence", icon: "stats/Prudence"}; break;
+			case "Justice": style = {color: "justice", icon: "stats/Justice"}; break;
+			case "Charm": style = {color: "charm", icon: "stats/Charm"}; break;
+			case "Insight": style = {color: "insight", icon: "stats/Insight"}; break;
+			case "Temperance": style = {color: "temperance", icon: "stats/Temperance"}; break;
+			case "Luck": style = {color: "green", icon: "icons/fortunewhite"}; break;
+			case "Speed": style = {color: "yellow", icon: "icons/Speed"}; break;
+			default: style = {color: "red", icon: "icons/question"};
+	}
 	}
 
-	roll.message.icon = getIcon(rollStyle.icon);
-	roll.message.color = getColor(rollStyle.color);
-	roll.message.sections.result = rollStyle.result ?? false;
+	if (type == "item") {
+		switch (node.type) {
+			case "Weapon": style = {color: "red", mystery: "health"}; break;
+			case "Outfit": style = {color: "blue", mystery: "sanity"}; break;
+			case "Augment": style = {color: "green", mystery: "mystery_green"}; break;
+			case "Tool": style = {color: "purple", mystery: "mystery_purple"}; break;
+			case "Special": style = {color: "orange", mystery: "mystery_orange"}; break;
+			case "Skill": style = {color: "gray", mystery: "light_gray"}; break;
+			default: style = {color: "#444444"}; break;
+		}
+	}
+
+	return style;
 }
 
 /* Resources - Recalculate reaction sum */
 onAccess(["resource", ["reaction", "universal", "counter", "block", "evade"], "modify", "N"], {}, function(info) {
+	if (info.noRecalc) return; // Avoids this event triggering itself
 	let resource = access.resource;
 
 	if (info.path.at(-3) == "reaction") {
@@ -19830,11 +20247,11 @@ onAccess(["resource", ["reaction", "universal", "counter", "block", "evade"], "m
 		}
 		
 		let newSum = resource.reaction[attr] - ["counter", "block", "evade"].reduce((acc, type) => acc += resource[type][attr], 0);
-		resource.universal.modify(attr, newSum, {silent:"hard"});
+		resource.universal.modify(attr, newSum, {eventinfo: {noRecalc:"hard"}});
 	} else {
 		for (const attr of ["current", "max", "base"]) {
 			let newSum = ["universal", "counter", "block", "evade"].reduce((acc, type) => acc += resource[type][attr], 0);
-			resource.reaction.modify(attr, newSum, {silent:"hard"});
+			resource.reaction.modify(attr, newSum, {eventinfo: {noRecalc:"hard"}});
 		}
 	}
 });
@@ -19849,14 +20266,17 @@ onAccess(["resource", "N", "modify", "base"], {}, function(info) {
 
 
 /* Clicked: Resource display buttons */
-on("clicked:expandtrackers clicked:edittrackers", function(info) {
-	getAttrs(["expandResourceToggle", "editResourceToggle", "actionType"], function(values) {
+onAccess("clicked:expandtrackers clicked:edittrackers", function(info) {
+	getAttrs(["expandResourceToggle", "editResourceToggle"], function(values) {
 		let button = info.triggerName.includes("edit") ? "edit" : "expand";
 		let toggleAttr = button + "ResourceToggle";
 	
-		let output = {[toggleAttr]: values[toggleAttr] == "true" ? "0" : "true"}
+		setAttrs({[toggleAttr]: values[toggleAttr] == "true" ? "0" : "true"});
 	
-		setAttrs(output);
+		// Changes the selection from the specific reactions to the generic "Reaction" tracker
+		if (access.resource.selection != "Action") {
+			access.resource.selection = "Reaction";
+		}
 	});
 });
 
@@ -20097,9 +20517,12 @@ onAccess([
 	["items", "N", "ui", "color", "custom", "modify", "N"],
 	["tags", "N", "modify", "color"],
 	["palette", "N", "color", "modify", "N"],
+	["palette", "applied", "N", "color", "modify", "base"],
 ], {}, null, function(info) { // Has no begin callback. Only executes after access outputs
 	setTimeout(() => { // A tiny delay is added to ensure the repeating content has been added to the sheet. Otherwise it cannot be colored
-		recalcCustomColors(access[info.path[1]][info.node.id]);
+		let node = info.node;
+		while (!node.parent._rep) node = node.parent;
+		recalcCustomColors(node);
 	}, 100); // TODO: This time may need to be configurable as more time may be needed for lower PCs
 });
 
@@ -20118,6 +20541,8 @@ function recalcCustomColors(node) {
 		if (node.ui) node = node.ui;
 	
 		for (const prop of ["base", "decoration"]) {
+			if (node.color[prop] === undefined) continue;
+
 			let style = (prop == "base") ? "background" : prop;
 			let prefix = (prop == "base") ? "" : "_";
 			let color = getColor(node.color[prop], {default:false});
@@ -20603,126 +21028,332 @@ function applyEffect(count, prop, mode="=", effect="0", opts={}) {
 }
 
 
-/* Palette - Sync item rolls and standalone actions */
+/* Palette - Sync items to the palette */
 onAccess([
 	["items", ["add", "delete"]], // Add/delete item
 	["items", "N", "rollformats", ["add", "delete"]], // Add/delete rollformat
 	["items", "N", "modify", "equipped"], // Equip/unequip item
 	["items", "N", "modify", ["name", "type", "autoscript"]], // Change relevant properties
 	["items", "N", "modify", ["mystery", "usable", "limited", "ui", "rollformats"]], // Enable/disable relevant options
-	["items", "N", "limited", "modify", "light"], // Enable/disable light cost
+	["items", "N", "limited", "modify", "N"], // Enable/disable item uses or light cost
 	["items", "N", "limited", "light", "modify", "cost"], // Change light cost
+	["items", "N", "limited", "uses", "modify", "current"], // Change current uses
 	["items", "N", "ui", "modify", ["icon", "color"]], // Enable/disable custom icon or color
 	["items", "N", "ui", ["icon", "color"], "modify", "N"], // Change custom icon or color
 	["items", "N", "rollformats", "modify", "roll_together"], // Change roll together setting
 	["items", "N", "rollformats", "N", "modify", "N"], // Change rollformat
 	["items", "N", "rollformats", "N", "N", "modify", "N"], // Change rollformat costs or "store" properties
 ], {}, function(info) {
-	let item = (info.type == "add") ? info.newval : (info.type == "delete") ? info.oldval : info.node;
-
-	while (item.path.at(-2) != "items") {
-		item = item.parent;
-	}
-
-	recalcPaletteActions(item);
+	if (info.noRecalc) return;
+	let item = (info.type == "add") ? info.newval : (info.type == "delete") ? info.oldval : access.items[info.path[2]];
+	recalcPalette([item]);
 });
+function recalcPalette(itemArray) {
+	for (const item of itemArray) {
 
-function recalcPaletteActions(item) {
+		let p = { // Palette elements, if any elements already exist
+			action: item.root.palette.find(a => a.item == item),
+			applied: item.root.palette.applied.find(a => a.item == item),
+		}
+	
+		let i = { // Item rolls
+			action: item.rollformats.filter(r => r.mode == "Roll"),
+			applied: item.rollformats.filter(r => r.mode == "Applied"),
+		}
+		
+		for (const type in p) {
+			let palette = (type == "action") ? access.palette : access.palette.applied;
+	
+			let paletteCheck = (item.rollformats.enabled && i[type].length > 0); // A palette element must have at least one associated item roll...
+			if (type == "action") paletteCheck ||= item.usable.enabled; // ... except for standalone actions, which may have no rolls
+			
+			// Check if a palette element should exist
+			if (access.items[item.id] && item.equipped && item.name && paletteCheck) {
 
-	let itemRolls = item.rollformats.filter(roll => roll.mode == "Roll");
+				// Add a new element action if one does not already exist
+				p[type] ??= palette.add();
 
-	// TODO: Have the standard node property getter return the target node when getting a path
-	let action = item.root.palette.find(a => a.item == pathArrayToString(item.path)); // Check if an action exists
+				// Sync all relevant item properties to the palette
+				p[type].item = item;
+				p[type].title = item.name;
+				p[type].mystery = item.mystery.enabled;
+				p[type].autoscript = item.autoscript;
+				p[type].uses = (item.limited.enabled && item.limited.uses.enabled);
+				p[type].uses.current = item.limited.uses.current;
+				p[type].light = (item.limited.enabled && item.limited.light.enabled);
+				p[type].light.cost = item.limited.light.cost;
 
-	if (access.items[item.id] && item.equipped && (item.usable.enabled || (item.rollformats.enabled && itemRolls.length))) {
+				// Sync item styling properties to the palette
+				p[type].icon = (item.ui.enabled && item.ui.icon.enabled) ? "" : ""; // TODO: Needs support
+				p[type].color.base = (item.ui.enabled && item.ui.color.enabled) ? item.ui.color.base : "";
+	
+				if (!p[type].color.base) {
+					let style = getStyleData("item", item);
+					p[type].color.base = (p[type].mystery) ? style.mystery ?? style.color : style.color;
+				}
+	
+				// Sync item data only relevant for standalone actions
+				if (type == "action") {
+					p[type].standalone = item.usable.enabled;
+					p[type].base.autoscript = item.autoscript;
+					p[type].base.light.cost = item.limited.light.cost;
+					
+					p[type].color.decoration = (item.ui.enabled && item.ui.color.enabled) ? item.ui.color.decoration : "";
+	
+					p[type].rollformats.roll_together = item.rollformats.roll_together;
+					p[type].rollformats = (i[type].length > 0);
+				}
+	
+				// Sync any item rollformats to the palette 
+				while (p[type].rollformats.length < i[type].length) p[type].rollformats.add();
+				while (p[type].rollformats.length > i[type].length) p[type].rollformats.delete(p[type].rollformats.length-1);
 
-		// Add a new palette action
-		if (!action) action = access.palette.add();
+				for (let index = 0; index < i[type].length; index++) {
+					let rollData = i[type][index].copy();
 
-		//console.log("Item:", item, "|| Action:", action);
+					console.log("Roll:", p[type].rollformats[index], "|| Data:", rollData);
 
-		// Sync all relevant item properties to the action
-		if (action) {
-			action.item = pathArrayToString(item.path); // TODO: Should be the item's path
-			action.title = item.name;
-			action.mystery = item.mystery.enabled;
-			action.standalone = item.usable.enabled;
-			action.light_cost = (item.limited.enabled && item.limited.light.enabled) ? item.limited.light.cost : 0;
-			action.autoscript = item.autoscript;
-
-			// Sync item styling properties
-			action.icon = (item.ui.enabled && item.ui.icon.enabled) ? "" : ""; // TODO: Needs support
-			action.color.decoration = (item.ui.enabled && item.ui.color.enabled) ? item.ui.color.decoration : "";
-			action.color.base = (item.ui.enabled && item.ui.color.enabled) ? item.ui.color.base : "";
-
-			if (!action.color.base) {
-				switch (item.type) {
-					case "Weapon": action.color.base = "red"; break;
-					case "Outfit": action.color.base = "blue"; break;
-					case "Augment": action.color.base = "green"; break;
-					case "Tool": action.color.base = "purple"; break;
-					case "Skill": action.color.base = "gray"; break;
-					case "Special": action.color.base = "orange"; break;
-					default: action.color.base = "#444444"; break;
+					p[type].rollformats[index].paste(rollData, {modify:true, eventinfo: {noRecalc:true}});
+					p[type].rollformats[index].base.paste(rollData, {modify:true, eventinfo: {noRecalc:true}});
+				}
+	
+				// Apply the current applied roll if one is selected
+				if (type == "action") {
+					recalcApplied([p[type]]);
 				}
 			}
+	
+			// Remove any invalid palette elements
+			else if (p[type]) {
+				palette.delete(p[type].id);
+			}
+		}
+	}
+}
 
-			// Sync item roll properties and formats
-			action.roll_together = item.rollformats.roll_together; // TODO: Move the action roll_together into its rollformats node
-			action.rollformats = (item.rollformats.enabled && itemRolls.length > 0);
-
-			if (action.rollformats.enabled) {
-				while (action.rollformats.length < itemRolls.length) {
-					action.rollformats.add();
+/* Palette - Change applied roll selection */
+onAccess("clicked:repeating_applied:palette-select", {}, function(info) {
+	let node = access.palette.applied[info.triggerName.split("_")[2]];
+	node.selected = !node.selected;
+});
+onAccess(["palette", "applied", "N", "modify", "selected"], {}, function(info) {
+	if (info.noRecalc) return; // Avoids the event below repeatedly triggering itself through this event
+	access.palette.applied.selection = (info.newval) ? info.node.id : false;
+});
+onAccess(["palette", "applied", "modify", "selection"], {}, function(info) {
+	for (const node of access.palette.applied) {
+		node.modify("selected", (node.id == info.newval), {eventinfo: {noRecalc:true}});
 				}
-				while (action.rollformats.length > itemRolls.length) {
-					action.rollformats.delete(action.rollformats.length-1);
+	recalcApplied(access.palette);
+});
+function recalcApplied(actionArray) {
+	let applied = access.palette.applied[access.palette.applied.selection];
+	let messageArray = []
+
+	for (const action of actionArray) {
+		messageArray.push([]);
+
+		action.modify("light", (action.light.enabled || applied?.light?.enabled), {eventinfo: {noRecalc:true}});
+		action.light.modify("cost", action.base.light.cost + (applied?.light?.cost ?? 0), {eventinfo: {noRecalc:true}});
+		action.autoscript = action.base.autoscript + (applied?.autoscript ?? "");
+
+		for (const actionRoll of action.rollformats) {
+			messageArray.at(-1).push("");
+			actionRoll.paste(actionRoll.base.copy(), {modify:true, eventinfo: {noRecalc:true}});
+
+			// Combines each roll of each action with the *first* valid rollformat of the selected applied roll
+			if (applied) {
+				let appliedRoll = applied.rollformats.find(roll => {
+					if (actionRoll.type == "None" || roll.type == "None") { // Untyped rolls match with all rolls
+						return true;
+					}
+					else if (actionRoll.type == "Attack" && roll.type == "Attack") { // Attacks match with all attacks, except if the rolls have different damage types
+						if (damageTypes.includes(actionRoll.damage_type) && damageTypes.includes(roll.damage_type)) {
+							return (actionRoll.damage_type == roll.damage_type);
 				}
+						return true;
+					}
+					else { // Other rolls only match with the same type of rolls
+						return (actionRoll.type == roll.type);
+					}
+				});
 
-				for (let i = 0; i < itemRolls.length; i++) {
-					let roll = action.rollformats[i];
-					let rollData = itemRolls[i].copy();
+				// If no valid applied rollformat exists the standalone roll is disabled
+				if (appliedRoll) {
+					let appliedData = appliedRoll.copy();
 
-					//console.log("Roll:", roll, "|| Data:", rollData);
+					delete appliedData._type; // The roll type of the action is preserved. The damage type can be modified however
+					delete appliedData._base; // TODO: Remove this if you remove base values from applied rolls
+					delete appliedData._message; // Applied messages are only shown over the applied roll itself
 
-					roll.paste(rollData, {modify:true});
-					roll.base.paste(rollData, {modify:true});
+					for (const resource of ["_action", "_reaction"]) {
+						if (!appliedData[resource].enabled) delete appliedData[resource]; // Only enabled resource costs are applied to rolls
+						else if (appliedData[resource].type == "None") delete appliedData[resource].type; // If the resource type is unset only the cost is applied
+					}
+
+					console.log("Roll:", actionRoll, "|| Applied data:", appliedData);
+
+					actionRoll.paste(appliedData, {modify:true, add:true, eventinfo: {noRecalc:true}});
+				} else {
+					messageArray.at(-1)[actionRoll.index] = "No matching roll";
 				}
 			}
 		}
 	}
 
-	// Delete palette actions when their associated item is deleted
-	else if (action) {
-		access.palette.delete(action.id);
-		return false;
-	}
-
-	return action;
+	// Re-check the requirements of each modified palette element
+	recalcPaletteReq(actionArray, messageArray);
 }
 
-/* Rolls - Item roll */
-onAccess(itemEvent("clicked", "item-roll"), {}, function(info) {
-	let item = access.items[info.triggerName.split("_").at(2)];
-	let rollArray = item.rollformats;
-
-	// If the "Roll together" option is enabled all roll formats of the item are rolled
-	// Otherwise only a singular roll format is uses 
-	if (rollArray.roll_together) {
-		rollArray = rollArray.filter(roll => roll.mode == "Roll");
-	} else {
-		rollArray = rollArray[parseInt(info.htmlAttributes["data-index"])];
-	}
-
-	// Add any AutoEffects on the item
-	if (item.autoscript != "") {
-		let itemBlock = access.effects.add("(Block)")[0];
-		itemBlock._addVar("item", item); // Saves a reference to the item the AutoEffects originate from
-		itemBlock.add(item.autoscript);
-	}
-
-	executeRolls(cleanRolls(rollArray), {use_resource:true});
+/* Palette - Check standalone roll requirements */
+onAccess([
+	["palette", "N", "rollformats", "add"],	// Add new rollformat
+	["palette", "N", "modify", ["light", "uses"]], // Enable/disable item uses or light cost
+	["palette", "N", "light", "modify", "cost"], // Change light cost
+	["palette", "N", "uses", "modify", "current"], // Change use count
+	["palette", "N", "rollformats", "N", "modify", ["action", "reaction"]], // Enable/disable resource costs
+	["palette", "N", "rollformats", "N", ["action", "reaction"], "modify", "N"], // Change resource cost
+], {}, function(info) {
+	if (info.noRecalc) return;
+	recalcPaletteReq([access.palette[info.path[2]]]); // TODO: Use recalcApplied() to generate "No matching roll" messages
 });
+onAccess([
+	["bar", "modify", "light"],
+	["resource", "modify", "selection"],
+	["resource", "N", "modify", "current"],
+], {}, function(info) {
+	if (info.noRecalc) return;
+	recalcPaletteReq(access.palette);
+});
+function recalcPaletteReq(actionArray, messageArray=[]) {
+	for (const action of actionArray) {
+		let messageOverride = messageArray.shift() ?? [];
+		action.message = ""; // TODO: Also add full palette element messages to the messageArray
+		
+		// Handle light cost
+		if (action.light.enabled && action.light.cost > access.bar.light) {
+			action.message = "Not enough Light";
+		}
+
+		// Handle resource costs
+		for (const roll of action.rollformats) {
+			let resource = access.resource.selection;
+			roll.message = messageOverride.shift() ?? "";
+
+			let reqType = (resource == "Action") ? "action" : "reaction";
+			let reqExpand = is(resource).In("Action", "Reaction");
+			let reqValid = (resource == roll[reqType].type || roll[reqType].type == "Light_Regen" || (resource == "Reaction" && is(roll[reqType].type).In("Counter", "Block", "Evade", "Universal")))
+
+			if (roll[reqType].enabled && reqValid) {
+				if (roll[reqType].type != "None") {
+					let reqResult = resourceReq({[roll[reqType].type]: roll[reqType].cost}, {expand: reqExpand});
+
+					if (typeof reqResult == "object") {
+						roll.message = `Not enough ${resource.toLowerCase()}(s)`;
+					}
+				}
+	} else {
+				roll.message = `Cannot use ${resource.toLowerCase()}s`;
+			}
+		}
+
+		// Handle limited uses cost
+		if (action.uses.enabled && !action.uses.current) {
+			action.message = "Not enough Uses";
+		}
+	}
+}
+
+/* Palette - Check applied roll requirements */
+// TODO: Implement this
+
+
+
+
+
+
+
+
+
+
+
+
+/* Action: Toggle combat mode */
+onAccess('clicked:combatToggle', {}, function(info) {
+	access.state.combat = (access.state.combat === false) ? 1 : false;
+
+	// TODO: Reimplement the combat end functionality
+	/*
+	getSectionIDs(`repeating_global`, idarray => {
+	let id = `repeating_global_${idarray[0]}_`;
+
+	getAttrs(["charRankNum", "ST", "ST_max", "Light", "Light_max", `${id}combatEndStaggerMode`, `${id}combatEndStaggerVal`, `${id}combatEndLightBase`, `${id}combatEndLightRankMod`], function(values) {
+		let output = {}
+
+		if (info.htmlAttributes.title == "Begin combat") {
+			output.combatState = "true";
+			rollChallenge("speed");
+		} else {
+			output.combatState = "0";
+
+			let [ST, ST_max] = [parseInt(values.ST), parseInt(values.ST_max)]
+			let [Light, Light_max] = [parseInt(values.Light), parseInt(values.Light_max)]
+			let [staggerMode, staggerVal] = [values[`${id}combatEndStaggerMode`], parseFloat(values[`${id}combatEndStaggerVal`])]
+			let [lightBase, lightRank] = [parseFloat(values[`${id}combatEndLightBase`]), values.charRankNum * parseFloat(values[`${id}combatEndLightRankMod`])]
+
+			output.ST = calcStagger(ST, ST_max, staggerVal, staggerMode);
+			output.Light = Math.min(Light + Math.floor(lightBase + lightRank), Light_max);
+		}
+
+		AutoScriptMain("", "Combat end", "true", "true", {}, ()=>{}, getTranslationByKeyCustom("Combat end", "autoeffect-trigger-combatend"));
+
+		setAttrs(output);
+	});
+	});
+	*/
+});
+
+function calcStagger(ST, ST_max, staggerVal, staggerMode) {
+	log({arguments})
+	switch (staggerMode) {
+		case "x": return Math.min(Math.floor(ST + (staggerVal * ST_max)), ST_max);
+		case "+": return Math.min(Math.floor(ST + staggerVal), ST_max);
+		case "=": return Math.floor(staggerVal);
+	}
+}
+
+/* Action: Recover */
+on('clicked:recover', (info) => {
+	getSectionIDs(`repeating_global`, idarray => {
+	let id = `repeating_global_${idarray[0]}_`;
+
+	getAttrs([...statNames, "charRankNum", "ST", "ST_max", "HP", "HP_max", "SP", "SP_max", "Light", "Light_max", `${id}healthStat`, `${id}recoverHPBase`, `${id}recoverHPStatMod`, `${id}recoverHPRankMod`,
+		`${id}recoverStaggerMode`, `${id}recoverStaggerVal`, `${id}sanityStat`, `${id}recoverSPBase`, `${id}recoverSPStatMod`, `${id}recoverSPRankMod`, `${id}recoverLightBase`, `${id}recoverLightRankMod`], function(values) {
+
+		let [rank, hpStatNum, spStatNum] = [parseInt(values.charRankNum), parseInt(values[values[`${id}healthStat`]]), parseInt(values[values[`${id}sanityStat`]])]
+		let [HP, HP_max, hpBase,  HPstat, HPrank] = [parseInt(values.HP), parseInt(values.HP_max), parseFloat(values[`${id}recoverHPBase`]), hpStatNum * parseFloat(values[`${id}recoverHPStatMod`]), rank * parseFloat(values[`${id}recoverHPRankMod`])]
+		let [SP, SP_max, spBase, SPstat, SPrank] = [parseInt(values.SP), parseInt(values.SP_max), parseFloat(values[`${id}recoverSPBase`]), spStatNum * parseFloat(values[`${id}recoverSPStatMod`]), rank * parseFloat(values[`${id}recoverSPRankMod`])]
+		let [Light, Light_max, lightBase, lightRank] = [parseInt(values.Light), parseInt(values.Light_max), parseFloat(values[`${id}recoverLightBase`]), rank * parseFloat(values[`${id}recoverLightRankMod`])]
+		let [ST, ST_max, staggerMode, staggerVal] = [parseInt(values.ST), parseInt(values.ST_max), values[`${id}recoverStaggerMode`], parseFloat(values[`${id}recoverStaggerVal`])]
+
+		let output = {
+			HP: Math.min(Math.floor(HP + hpBase + HPstat + HPrank), HP_max),
+			SP: Math.min(Math.floor(SP + spBase + SPstat + SPrank), SP_max),
+			Light: Math.min(Math.floor(Light + lightBase + lightRank), Light_max),
+			ST: calcStagger(ST, ST_max, staggerVal, staggerMode)
+		}
+
+		AutoScriptMain("", "Recover", "true", "true", {}, ()=>{}, getTranslationByKeyCustom("Recover", "autoeffect-trigger-recover"));
+
+		setAttrs(output);
+	});
+});
+});
+
+
+
+
+
 
 
 
@@ -22208,85 +22839,6 @@ on(Object.keys(itemEditorAttrs).reduce((rows, key) => {
 });
 /*--- Export/Import functions end ---*/
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Action: Toggle combat mode */
-on('clicked:combatToggle', (info) => {
-	getSectionIDs(`repeating_global`, idarray => {
-	let id = `repeating_global_${idarray[0]}_`;
-
-	getAttrs(["charRankNum", "ST", "ST_max", "Light", "Light_max", `${id}combatEndStaggerMode`, `${id}combatEndStaggerVal`, `${id}combatEndLightBase`, `${id}combatEndLightRankMod`], function(values) {
-		let output = {}
-
-		if (info.htmlAttributes.title == "Begin combat") {
-			output.combatState = "true";
-			rollChallenge("speed");
-		} else {
-			output.combatState = "0";
-
-			let [ST, ST_max] = [parseInt(values.ST), parseInt(values.ST_max)]
-			let [Light, Light_max] = [parseInt(values.Light), parseInt(values.Light_max)]
-			let [staggerMode, staggerVal] = [values[`${id}combatEndStaggerMode`], parseFloat(values[`${id}combatEndStaggerVal`])]
-			let [lightBase, lightRank] = [parseFloat(values[`${id}combatEndLightBase`]), values.charRankNum * parseFloat(values[`${id}combatEndLightRankMod`])]
-
-			output.ST = calcStagger(ST, ST_max, staggerVal, staggerMode);
-			output.Light = Math.min(Light + Math.floor(lightBase + lightRank), Light_max);
-		}
-
-		AutoScriptMain("", "Combat end", "true", "true", {}, ()=>{}, getTranslationByKeyCustom("Combat end", "autoeffect-trigger-combatend"));
-
-		setAttrs(output);
-	});
-	});
-});
-function calcStagger(ST, ST_max, staggerVal, staggerMode) {
-	log({arguments})
-	switch (staggerMode) {
-		case "x": return Math.min(Math.floor(ST + (staggerVal * ST_max)), ST_max);
-		case "+": return Math.min(Math.floor(ST + staggerVal), ST_max);
-		case "=": return Math.floor(staggerVal);
-	}
-}
-
-/* Action: Recover */
-on('clicked:recover', (info) => {
-	getSectionIDs(`repeating_global`, idarray => {
-	let id = `repeating_global_${idarray[0]}_`;
-
-	getAttrs([...statNames, "charRankNum", "ST", "ST_max", "HP", "HP_max", "SP", "SP_max", "Light", "Light_max", `${id}healthStat`, `${id}recoverHPBase`, `${id}recoverHPStatMod`, `${id}recoverHPRankMod`,
-		`${id}recoverStaggerMode`, `${id}recoverStaggerVal`, `${id}sanityStat`, `${id}recoverSPBase`, `${id}recoverSPStatMod`, `${id}recoverSPRankMod`, `${id}recoverLightBase`, `${id}recoverLightRankMod`], function(values) {
-
-		let [rank, hpStatNum, spStatNum] = [parseInt(values.charRankNum), parseInt(values[values[`${id}healthStat`]]), parseInt(values[values[`${id}sanityStat`]])]
-		let [HP, HP_max, hpBase,  HPstat, HPrank] = [parseInt(values.HP), parseInt(values.HP_max), parseFloat(values[`${id}recoverHPBase`]), hpStatNum * parseFloat(values[`${id}recoverHPStatMod`]), rank * parseFloat(values[`${id}recoverHPRankMod`])]
-		let [SP, SP_max, spBase, SPstat, SPrank] = [parseInt(values.SP), parseInt(values.SP_max), parseFloat(values[`${id}recoverSPBase`]), spStatNum * parseFloat(values[`${id}recoverSPStatMod`]), rank * parseFloat(values[`${id}recoverSPRankMod`])]
-		let [Light, Light_max, lightBase, lightRank] = [parseInt(values.Light), parseInt(values.Light_max), parseFloat(values[`${id}recoverLightBase`]), rank * parseFloat(values[`${id}recoverLightRankMod`])]
-		let [ST, ST_max, staggerMode, staggerVal] = [parseInt(values.ST), parseInt(values.ST_max), values[`${id}recoverStaggerMode`], parseFloat(values[`${id}recoverStaggerVal`])]
-
-		let output = {
-			HP: Math.min(Math.floor(HP + hpBase + HPstat + HPrank), HP_max),
-			SP: Math.min(Math.floor(SP + spBase + SPstat + SPrank), SP_max),
-			Light: Math.min(Math.floor(Light + lightBase + lightRank), Light_max),
-			ST: calcStagger(ST, ST_max, staggerVal, staggerMode)
-		}
-
-		AutoScriptMain("", "Recover", "true", "true", {}, ()=>{}, getTranslationByKeyCustom("Recover", "autoeffect-trigger-recover"));
-
-		setAttrs(output);
-	});
-	});
-});
 
 
 /* Action: Lock section from sync */
