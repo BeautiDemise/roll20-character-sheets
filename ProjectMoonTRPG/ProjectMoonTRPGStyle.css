@@ -106,7 +106,6 @@ body, .sheet-body {
 }
 
 
-
 /* ===== Sheet top bar ===== */
 /* Includes the sheet's title, logo, player name, credits and cogwheel menu (displays the general setting) */
 #sheetTitle {
@@ -275,13 +274,13 @@ body, .sheet-body {
 #globalSettings ::placeholder {
     color: var(--color-light-gray) !important;
 }
-.searchBar ::placeholder {
+.searchBar::placeholder {
     color: var(--color-lighter-gray) !important;
 }
 
 
 /* Cusomizable names for equipment, skills, mystery ect. */
-.contentName, .viewerName, .skillName, .toolName, .skillSelectionElement .skillSelectionName, input[type=text] {
+.contentName, input[type=text] {
     text-overflow: ellipsis;
 }
 .contentName {
@@ -313,6 +312,14 @@ body, .sheet-body {
     justify-content: center;
 }
 
+.blocker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+}
 .fitContents {
     width: fit-content;
 }
@@ -501,10 +508,6 @@ body, .sheet-body {
 }
 
 /* Generic icons */
-.statusIcon {
-    width: 25px;
-    height: 25px;
-}
 .icon {
     position: absolute;
     top: 0;
@@ -612,8 +615,6 @@ option:checked { background-color: rgba(0, 0, 0, var(--option-alpha-checked)); }
 .whiteInput      {--select-alpha-focus: 0.20; --option-alpha: 0.65; --option-alpha-checked: 0.45; }
 .darkInput       {--select-alpha-focus: 0.35; --option-alpha: 0.25; --option-alpha-checked: 0.15; }
 .exportSelect    {--select-alpha-focus: 0.30; --option-alpha: 0.20; --option-alpha-checked: 0.10; }
-.paletteButton   {--select-alpha-focus: 0.30; }
-.outfitContainer {--option-alpha: 0.075; --option-alpha-checked: 0; }
 
 .settingStyle             {--option-alpha: 0.10; --option-alpha-checked: 0; }
 .settingStyle .whiteInput {--select-alpha-focus: 0.15; --option-alpha: 0.40; --option-alpha-checked: 0.30; }
@@ -675,9 +676,7 @@ input.fade-item { opacity: 80%;  --fade-opacity: 40%; }
 }
 
 /* Reveal/hide content with checkbox is checked */
-.expand-toggle:checked ~ .expand-btn,
-#weapon1-slash:checked ~ .expand-btn, #weapon1-pierce:checked ~ .expand-btn, #weapon1-blunt:checked ~ .expand-btn,
-#weapon2-slash:checked ~ .expand-btn, #weapon2-pierce:checked ~ .expand-btn, #weapon2-blunt:checked ~ .expand-btn {
+.expand-toggle:checked ~ .expand-btn {
     opacity: 100% !important;
 }
 .swap-toggle ~ .swap-item,
@@ -709,17 +708,15 @@ input.fade-item { opacity: 80%;  --fade-opacity: 40%; }
     display: flex !important;
 }
 div:has(> .hide-container-toggle:checked) { display: none; }
-div:has(> .hide-container-toggle-rev) { display: none; }
-div:has(> .hide-container-toggle-rev:checked) { display: inline-block; }
 
-/* H3 is used for sections on the main character sheet. H4 is used for headers in the Editor tab. viewerName is used for the skill preview */
-h3, h4, .viewerName {
+/* H3 is used for sections on the main character sheet. H4 is used for headers in the Editor tab */
+h3, h4 {
     vertical-align: middle; 
     color: var(--color-LIGHT) !important; 
     font-weight: bolder;
 }
 
-/* User for containers displayed in pairs (ex. tools), each taking up half of the column */
+/* Used for containers displayed in pairs (ex. tools), each taking up half of the column */
 .half {
     width: 50%;
 }
@@ -795,7 +792,7 @@ h3, h4, .viewerName {
     pointer-events: none;
 }
 
-/* Helper text */
+/* Helper text (hint text that can be toggled off using a setting) */
 .helpers b, .work b {
     font-size: 9pt;
     opacity: 30%;
@@ -837,7 +834,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     display: none;
 }
 
-/* Repcontrols disable interactions with the repeating items */
+/* Repcontrols disable interactions with their associated repeating items */
 .itemcontrol {
     position: absolute;
     z-index: 100;
@@ -1275,6 +1272,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     overflow: hidden;
     height: 60px;
 }
+
 #FortitudeStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Fortitude.png'); }
 #PrudenceStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7.2/ProjectMoonTRPG/imagesResized/stats/Prudence.png'); }
 #JusticeStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Justice.png'); }
@@ -1301,7 +1299,6 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 	font-weight: bold;
 	font-size: 25pt;
 }
-
 
 /* Stat roll buttons */
 button[type=action].challengeButton {
@@ -1368,7 +1365,7 @@ button[type=action].challengeButton::before {
     border: 2px var(--content-accent) solid !important;
 }
 
-/* Currently unused */
+/* Currently unused - Should be reimplemented */
 .power {
     text-align: center !important;
     font-weight: bold;
@@ -1465,6 +1462,22 @@ button[type=action].challengeButton::before {
 .damageHelperType:has(input:checked:not([value="None"])) ~ .applyDamage .applyDamageInput:hover {
     background-color: var(--color-black) !important;
     cursor: pointer;
+}
+
+.helperText:checked ~ .helperTextContainer .helpers :is(b, .helperInput) {
+    display: none !important;
+}
+.helperText:checked ~ .damageHelperContainer.helperTextContainer :is(.slash, .pierce) {
+    margin-left: -3px;
+    margin-right: 28px;
+}
+.helperText:checked ~ .damageHelperContainer.helperTextContainer .blunt {
+    position: absolute;
+    top: 0px;
+    left: 25px;
+}
+.helperText:checked ~ .damageHelperContainer.helperTextContainer .flatDamage {
+    margin-left: 1px !important;
 }
 /* ===== Damage helper END ===== */
 
@@ -1682,7 +1695,7 @@ button[type=action].challengeButton::before {
 }
 
 
-/* Combat options - Action and regen trackers */
+/* Combat options - Action and Light regen trackers */
 .resourceContainer > .columnAlign {
     gap: 1px;
 }
@@ -1916,273 +1929,6 @@ button[type=action].challengeButton::before {
 
 
 /* ===== Combat palette ===== */
-.combatPaletteName {
-    max-width: 100px;
-    margin-left: 35px !important;
-    font-size: 9pt;
-}
-.paletteButton input {
-    background-color: transparent !important;
-}
-.paletteDiceContainer {
-    justify-content: flex-end; 
-    align-items: center; 
-    height: 100%; 
-    margin: 0; 
-    position: relative;
-}
-.paletteButton {
-    height: 30px;
-    border-radius: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 3px;
-}
-.paletteDice {
-    overflow: hidden; 
-    width: 60px; 
-    height: 30px; 
-    padding-left: 2px;
-    padding-right: 3px;
-    margin-left: 1px;
-}
-.paletteDice * {
-    margin: 0 !important;
-    padding: 0 !important;
-    font-size: 9.5pt !important;
-    height: 100% !important;
-    width: 17px !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center !important;
-    color: var(--color-white) !important;
-    font-weight: bold !important;
-}
-.paletteDice .plainText { 
-    opacity: 70%;
-    width: 5px !important;
-    pointer-events: none;
-}
-.paletteButton .BDice, .paletteButton .NDice {
-    margin-top: 3px;
-    margin-left: 4px;
-    margin-right: 3px;
-}
-:is(.outfit, .STGR).paletteButton .iconHolder {
-    margin-left: -1px;
-}
-:is(.outfit, .STGR).paletteButton .typeIcon {
-    margin-left: -1px;
-}
-.blocker {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 4;
-}
-
-
-/* Skill / tool selection (old) */
-.skillSelectionElement .icon, .skillN .icon, .skillE .icon {
-    border-radius: 100px;
-    overflow: hidden;
-    height: 30px;
-    width: 30px;
-    border: 1px var(--color-white) solid;
-}
-.skillSelectionElement img, .skillIcon, .skillE img {
-    height: 30px;
-    width: 30px;
-}
-.toolSelect {
-    height: 50%; 
-    overflow-y: auto; 
-    overflow-x: hidden;
-    flex-wrap: wrap; 
-    z-index: 90;
-    position: absolute;
-    width: 125%;
-    bottom: 0;
-    margin-left: 15px;
-}
-.declare {
-    height: 23px;
-    padding: 3px;
-    border-radius: 3px;
-    color: var(--color-white) !important;
-    background-color: var(--color-dark-gray) !important;
-    border: 1px var(--color-darker-gray) solid;
-    font-weight: bold;
-    min-width: 40px;
-}
-.noHover{
-    cursor: text !important;
-    background-color: var(--color-dark-white) !important;
-}
-
-/* Skill / tool selection (newer) */
-.skillSelectionLabel .icon input[type='checkbox'] {
-    display: none !important;
-}
-.skillSelectionElement .skillSelector {
-    opacity: 0% !important;
-}
-.skillhide {
-    overflow: hidden; 
-    position: relative; 
-    border-radius: 100px;
-    border: 1px var(--color-light-gray) solid;
-    margin-left: 2px;
-    margin-right: 2px;
-    width: 125px;
-    height: 32px;
-}
-.skillBuffer {
-    max-width: 49%;
-    overflow: hidden;
-}
-.skillSelectionLabel {
-    background-color: transparent;
-    color: var(--color-white);
-    position: absolute; left: 0; width: 100%; top: 0; height: 100%; z-index: 10;
-    border-radius: 100px;
-    opacity: 60%;
-    width: 125px;
-}
-.skillSelectionLabel input {
-    color: var(--color-white);
-}
-.skillSelector:not(:checked) + .skillSelectionLabel:hover {
-    background-color: rgba(0, 0, 0, 0.3) !important;
-}
-.skillSelector:checked ~ .skillSelectionLabel {
-    background-color: var(--color-light-gray);
-    opacity: 100%;
-}
-.toolSelectHolder {
-    display: flex; position: relative; width: 30px; height: 30px;
-    border: 1px transparent solid; 
-    border-radius: 5px; 
-    overflow: hidden;
-}
-.toolSelectHolder type-image {
-    position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; z-index: 0;
-}
-.toolSelectBox {
-    text-align: center; 
-    font-weight: bold; 
-    position: absolute; 
-    left: 9px; 
-    top: -5px; 
-    z-index: 2;
-    width: 100%;
-    opacity: 80%;
-}
-.blocker .toolBlocker {
-    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0));
-    border-radius: 5px;
-}
-.weaponBlocker {
-    background-color: rgba(0,0,0,0.5); 
-    color: var(--color-white); 
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 25;
-}
-.skillSelectionElement {
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 32px;
-    width: 100%;
-}
-.skillSelectionElement .skillSelectionName {
-    width: 100%;
-    height: 100%;
-    font-weight: bold;
-    margin-left: 30px !important;
-    margin-top: 3px;
-}
-.paletteOverride {
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 100%;
-    height: 1px;
-    z-index: 20;
-}
-
-
-/* Mystery combat palette elements */
-.egoDefPalette, .egoEvdPalette, .egoAttPalette {
-    background-color: var(--color-black);
-    overflow: hidden;
-}
-.egoDefPalette input, .egoDefPalette .plainText {
-    color: var(--color-SAN) !important;
-}
-.egoEvdPalette input, .egoEvdPalette .plainText {
-    color: var(--color-ego-STGR) !important;
-}
-.egoAttPalette input, .egoAttPalette .plainText {
-    color: var(--color-HP) !important;
-}
-.paletteOverride .hide-item {
-    width: 100%;
-}
-.hide-item.tool {
-    width: 45px;
-}
-
-
-/* Weapon uses */
-.weaponSlot {
-    max-height: 35px;
-}
-.weaponSlot .paletteButton, .weaponSlot .hide-toggle-rev, .weaponSlot .hide-item-rev {
-    height: 30px !important;
-    overflow: hidden !important;
-}
-.paletteRange {
-    font-weight: bold;
-    color: var(--color-white);
-    text-align: center;
-    overflow: hidden;
-    width: 30px;
-    height: 30px;
-    position: relative;
-    margin-left: 5px;
-}
-.paletteRange .buffer {
-    width: 100% !important;
-    position: absolute; top: 0; right: 0;
-    width: 30px !important;
-    height: 30px !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.weaponPaletteUses {
-    width: 30px; 
-    height: 30px; 
-    position: absolute; 
-    top: 0px;  
-    right: 99px;
-    z-index: 24;
-    opacity: 70%;
-}
-.weaponPaletteUses input {
-    color: var(--color-white) !important;
-}
-
-
-/* --- Combat palette NEW --- */
 #combatPalette {
     --content-accent: var(--color-white);
 
@@ -2410,15 +2156,6 @@ button[type=action].challengeButton::before {
     }
     */
 }
-
-
-
-
-
-
-
-
-
 /* ===== Combat palette END ===== */
 
 
@@ -2491,7 +2228,7 @@ button[type=action].challengeButton::before {
 
 
 /* General equipment */
-.weaponContainer, .outfitContainer, .toolContainer, .egoSkillContainer, .skillContainer {
+.egoSkillContainer, .skillContainer { /* TODO: Delete */
     width: 100%;
     max-width: 400px;
     display: flex;
@@ -2501,140 +2238,25 @@ button[type=action].challengeButton::before {
     padding: 5px;
     flex-wrap: wrap;
 }
-.weaponDescriptionInput, .weaponEffectInput, .outfitDescription, .outfitDescriptionInput, .augmentDescriptionInput {
-    position: relative;
-    margin-bottom: 0px;
-}
 /* Icons used for equipment and skills */
-.iconHolder {
+.iconHolder { /* TODO: Delete */
     height: 35px;
     width: 45px;
 }
-.iconHolder img {
+.iconHolder img { /* TODO: Delete */
     height: 35px;
     width: 35px;
 }
-.type-image{
+.type-image {
     text-align: center;
 }
-.icon .type-image, .resIconRight .type-image, .resIconLeft .type-image {
+.icon .type-image {
     opacity: 0;
 }
 
-/* Dropdown menues in top right corner of augments and special items */
-.topRight {
-    width: 140px;
-    height: 25px;
-    position: absolute;
-    right: 5px;
-    text-align: center;
-    top: 5px;
-}
 
-
-/* Weapons */
-.weaponIcons {
-    width: 35px;
-    min-width: 35px;
-    height: 35px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    overflow: hidden;
-    position: relative;
-}
-.weapon_distance, .weapon_type {
-	height: 25px;
-	width: 50% !important;
-	text-align: center;	
-}
-.weapon_type {width: 90px !important; height: 25px; margin-right: 5px;}
-.weaponPropertySelect, .weaponRangeBox{
-    color: var(--color-white) !important;
-    border-radius: 0px 0px 5px 0px;
-    padding: 4px;
-    height: 25px;
-    position: absolute;
-    top: 30px;
-    left: 0;
-    z-index: 1;
-}
-.weaponPropertySelect {
-    width: 190px;
-    display: flex;
-    align-content: flex-start;
-    justify-content: flex-start;
-}
-.weaponRangeBox {
-    width: 190px;
-    border-radius: 0px 0px 0px 5px;
-    left: auto;
-    right: 0;
-}
-.weaponRangeBox select, .weaponPropertySelect select{
-    width: 70px;
-}
-.weaponDescription, .weaponEffect {
-    width: 50%;
-}
-.weaponDescriptionInput {
-    height: 70px !important;
-}
-.weaponDescription span, .weaponEffect span {
-    height: 10px;
-    padding: 0 !important;
-}
-.descHead {
-    height: 28px !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-/* Removes the spacing between weapons if only two weapons are displayed (aka. the hide-toggle for extra weapons is unchecked) */
-.weaponContainer .contentContainer:has(+ .hide-toggle):has(+ :not(:checked)) {
-    margin-top: 0px !important;
-}
-
-
-/* Tools */
-.toolName {
-    width: 95px;
-}
-.tool input[type=checkbox] + label {
-    height: 30px !important;
-    width: 30px !important;
-    display:inline-block;
-    padding: 0 0 0 0px;
-    margin: 0px;
-    opacity: 30%;
-}
-.tool input[type=checkbox] + label:hover {
-    opacity: 50%;
-}
-.tool input[type=checkbox]:checked + label {
-    opacity: 100%;
-}
-.toolDescriptionInput {
-    height: 65px !important;
-    margin-bottom: 2px !important;
-}
-.tool input[type=checkbox] {
-    display:none;
-}
-.toolDescriptionInput {
-    height: 65px !important;
-    margin-bottom: 2px !important;
-}
-
-
-/* Augments */
-.augmentBlock {
-    margin-top: 10px;
-}
-
-
-/* Skills */
-.skillName {
+/* Skills (Legacy) */
+.skillName { /* TODO: Delete all of this after skills are made into repeating items */
     width: 140px;
     margin-left: 40px;
 }
@@ -2668,69 +2290,6 @@ button[type=action].challengeButton::before {
 .skillE .icon {
     border: 1px #888 solid !important;
 }
-
-
-/* Special items */
-.specialBlock {
-    margin: 5px;
-}
-.specialDescriptionInput {
-    margin-bottom: 0px !important;
-}
-.specialColumn {
-    color: rgba(0,0,0,0.5);
-    font-weight: bold;
-    text-align: left;
-    padding-left: 5px;
-    padding-right: 5px;
-    margin-bottom: 0 !important;
-    margin-top: 7px;
-    width: 140px;
-}
-.specialInput {
-    width: 140px;
-}
-
-
-/* Mysteries (E.G.O) */
-.egoDescInput {
-    height: 60px;
-}
-.egoIdeologyInput {
-    width: 100% !important; 
-    height: 25px !important; 
-    margin-bottom: 3px !important;
-}
-.egoSpecialLabel span {
-    width: 150px;
-    height: 20px;
-    text-align: left;
-    padding-left: 10px;
-}
-.egoSpecialLabel select {
-    margin-right: 5px;
-}
-.resistanceChart.BLACK select {
-    border: 1px solid var(--color-black)
-}
-.egoContainer select:focus {
-    background-color: rgba(50, 50, 50, 0.4) !important;
-}
-.egoCheck {
-    position: absolute !important;  
-    top: 10px; 
-    right: 5px; 
-    height: 20px !important; 
-    width: 20px !important; 
-}
-
-
-
-
-
-
-
-
 
 
 /* Repeating inventory and skills */
@@ -3200,48 +2759,6 @@ button[type=action].challengeButton::before {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.testDynamicDropdown {
-    width: 20px;
-    height: 20px;
-    background-color: var(--color-green);
-}
-
-input[list="damageModList"]::-webkit-calendar-picker-indicator {
-    display: none !important;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Item editor */
 #itemEditor {
     align-items: normal;
@@ -3605,92 +3122,6 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     gap: 5px;
     z-index: 100; /* Displays the buttons above any item messages */
     transition: opacity 300ms ease-in, z-index 0s 200ms; /* For minimizing the item */
-}
-
-
-
-
-
-
-
-/* Edit cover. Used to modify weapon/tool uses, outfit resistances ect. */
-.editCover {
-    position: absolute;
-    z-index: 5;
-    background-image: linear-gradient(rgba(160,160,160,0.8), rgba(160,160,160,0.9), rgba(160,160,160,0.7));
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
-    padding: 5px;
-    min-height: 25px;
-}
-.editCover .settingStyle {
-    color: var(--color-white);
-}
-.helperText:checked ~ .helperTextContainer .helpers :is(b, .helperInput) {
-    display: none !important;
-}
-.helperText:checked ~ .damageHelperContainer.helperTextContainer :is(.slash, .pierce) {
-    margin-left: -3px;
-    margin-right: 28px;
-}
-.helperText:checked ~ .damageHelperContainer.helperTextContainer .blunt {
-    position: absolute;
-    top: 0px;
-    left: 25px;
-}
-.helperText:checked ~ .damageHelperContainer.helperTextContainer .flatDamage {
-    margin-left: 1px !important;
-}
-.editCover > .rowContainer,
-.editCover > .hide-item,
-.editCover > .hide-item > .rowContainer {
-    position: relative;
-    height: 100%;
-}
-/* Currently unused. Will wrap a fourth ego outfit property down to a second row */
-/* If outfits ever gain more than this many properties a change should probably be made
-   to a columnAligned rowContainer structure */
-.distortionContainer .editCover .rowContainer .rowContainer:nth-child(n+4),
-.egoContainer .editCover .rowContainer .rowContainer:nth-child(n+4) {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-}
-
-
-/* Outfit custom resistances */
-.outfitContainer .customResistDisplay {
-    width: 300px;
-}
-:is(.outfitContainer, .egoContainer, .distortionContainer) .editCover .columnAlign {
-    align-items: normal;
-    flex-direction: column;
-    justify-content: start;
-}
-:is(.egoContainer, .distortionContainer) .editCover {
-    padding-bottom: 35px;
-}
-.outfitContainer .editCover > .columnAlign > .rowContainer > .rowContainer, 
-.egoContainer .editCover .columnAlign > .rowContainer > .rowContainer,
-.distortionContainer .editCover > .columnAlign > .rowContainer > .rowContainer,
-.outfitContainer .customResistDisplay .repitem:has(.hide-toggle:checked)  { width: 82.34px; }
-
-:is(.outfitContainer, .egoContainer) .status_effect_value {
-    background-color: rgba(0, 0, 0, 0.2) !important;
-    border-radius: 5px;
-}
-:is(.outfitContainer, .egoContainer, .distortionContainer) .ailmentCount {
-    text-align: center;
-}
-:is(.outfitContainer, .egoContainer, .distortionContainer) .status_effect_item {
-    width: 25px;
-    opacity: 100%;
-}
-.customResistDisplay .repcontainer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
 }
 /* ===== Equipment and Skills END ===== */
 
@@ -4122,6 +3553,19 @@ input[list="damageModList"]::-webkit-calendar-picker-indicator {
     max-height: 430px;
     overflow: auto;
     padding-left: 16px;
+}
+
+
+/* Import/export tab */
+.declare {
+    height: 23px;
+    padding: 3px;
+    border-radius: 3px;
+    color: var(--color-white) !important;
+    background-color: var(--color-dark-gray) !important;
+    border: 1px var(--color-darker-gray) solid;
+    font-weight: bold;
+    min-width: 40px;
 }
 /* ===== Settings END ===== */
 

@@ -965,21 +965,21 @@
 <div>
 <input type="checkbox" name="attr_distortResultGood" value="Good" id="result_good" class="expand-toggle">
 <label class="status_effect_item expand-btn" for="result_good">
-<img src="https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/good.png" class="statusIcon staggered">
+<img src="https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/good.png" class="mediumIcon staggered">
 </label>
 </div>
 
 <div>
 <input type="checkbox" name="attr_distortResultNormal" value="Normal" id="result_normal" class="expand-toggle">
 <label class="status_effect_item expand-btn" for="result_normal">
-<img src="https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/normal.png" class="statusIcon staggered">
+<img src="https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/normal.png" class="mediumIcon staggered">
 </label>
 </div>
 
 <div>
 <input type="checkbox" name="attr_distortResultBad" value="Bad" id="result_bad" class="expand-toggle">
 <label class="status_effect_item expand-btn" for="result_bad">
-<img src="https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/bad.png" class="statusIcon staggered">
+<img src="https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/bad.png" class="mediumIcon staggered">
 </label>
 </div>
 
@@ -1689,7 +1689,7 @@ EGO block end -->
 <div class="rowContainer sectionHeader"><button type="action" name="act_resetAilments" data-i18n-title="reset-button" title="Reset"> ! </button>
 	<h4 data-i18n="heading-ailments">Status ailments</h4>
 
-	<button type="action" class="centerIcon next" name="act_updateAilments" data-i18n-title="helper-update-ailments" title="Update Ailments">
+	<button type="action" class="centerIcon next" name="act_update" data-i18n-title="helper-update-ailments" title="Update Ailments">
 		<input type="checkbox" name="attr_settingLoopEnabled" class="loopEnabledToggle" value="true" hidden="true">
 		<input type="checkbox" name="attr_prevRoundInitAttempts" class="loopSearchingToggle" value="0" hidden="true">
 		<input type="checkbox" name="attr_prevRoundInitAttempts" class="loopStandbyToggle" value="6" hidden="true">
@@ -1780,7 +1780,7 @@ EGO block end -->
 			<input type="checkbox" class="fade-toggle" name="attr_ailCount" value="0" hidden="true" checked>
 			
 			<div class="fade-item status_effect_item centerFlex">
-				<button type="action" class="blocker ailmentButton" name="act_clickercustom"></button>
+				<button type="action" class="blocker ailmentButton" name="act_ailment-clicker"></button>
 				<img name="attr_ailIconDisplay" class="mediumIcon">
 			</div>
 			
@@ -2008,8 +2008,6 @@ EGO block end -->
 		<span class="half" style="color: #888; font-weight: bold;" data-i18n="settings-whisper">Whisper rolls to: </span>
 		<input type="text" class="whiteInput half" name="attr_settingWhisperTarget" value="GM">
 	</div>
-
-	<button type="action" name="act_testButton" class="darkButton" style="width: 60px;">?????</button>
 </div>
 
 <!-- AutoEffect Conditional Buttons -->
@@ -2657,1668 +2655,9 @@ EGO block end -->
 	</div>
 	<!-- Applied palette END -->
 
-
-
-	<!-- Weapon 1 Palette -->
-	<div class="weaponSlot">
-	<div class="rowContainer weapon paletteButton"> <!-- color portion -->
-
-
-	<!-- Weapon1 Uses -->
-	<div class="buffer weaponPaletteUses">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_weapon1UseType" value="Limitless" hidden="true" checked>
-		<div class="hide-item-rev rowContainer centerFlex" style="position: relative;">
-
-		<input type="text" class="transpInput blocker" name="attr_weapon1Uses" style="text-align: center; height: 100%;" value="5">
-
-		<input type="checkbox" class="fade-toggle" name="attr_weapon1UseType" value="Deplete" hidden="true">
-		<div class="fade-item centerIcon reusable" style="width: 30px; height: 30px;"></div>  
-		<div class="blocker"></div>
-		</div>
-
-	</div>
-
-	<div class="buffer">
-	<input type="checkbox" class="hide-toggle" name="attr_weapon1Uses" value="0" hidden="true">
-		<div class="hide-item">
-		<div class="blocker weaponBlocker"></div>
-		</div>
-	</div>
-	<!-- Weapon1 Uses END -->
-
-
-
-	<div class="rowContainer half centerFlex">
-		<div class="iconHolder">
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Slash" name="attr_weapon1Type"><div class="type-image typeIcon slash"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Pierce" name="attr_weapon1Type"><div class="type-image typeIcon pierce"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Blunt" name="attr_weapon1Type"><div class="type-image typeIcon blunt"></div>
-		</div>
-
-		</div>
-
-	<input type="text" class="combatPaletteName transpInput" name="attr_weapon1Name" data-i18n-placeholder="palette-weapon1-name" placeholder="Weapon (1)">
-
-	</div>
-
-
-	<div class="rowContainer half" style="position: relative;">
-	
-	<div class="paletteRange"></div>
-
-	<div class="rowContainer darkInput paletteDice">
-			<input type="text" name="attr_weapon1Roll1" placeholder="1" value="(@{weapon1Dice1} + @{selectAtkDice1})" disabled="true">
-			<div class="plainText">D</div>
-			<input type="text" name="attr_weapon1Roll2" placeholder="6" value="(@{weapon1Dice2} + @{selectAtkDice2})" disabled="true">
-			<div class="plainText">+</div>
-			<input type="text" name="attr_weapon1Roll3" placeholder="0" value="(@{weapon1Dice3}+@{attPower}+@{selectAtkDice3}+@{Strength}-@{Feeble}+@{difficulty})" disabled="true">
-	</div>
-
-	<button type="action" class="NDice" id="autoroll_weapon1" name="act_rollCombat"></button>
-
-	</div> <!-- weapon 1 (under) end -->
-	</div>
-	</div> 
- 
-	<!-- Action Palette -->
-	<div class="rowContainer half">
-
-
-	<!-- Distortion (Action) Palette -->
-	<div class="paletteOverride">
-
-	<input type="checkbox" class="hide-toggle" name="attr_distortState" value="true">
-	<div class="hide-item">
-	
-	<div class="columnAlign BLACK paletteButton" style="height: 63px; overflow: hidden; align-items: start; justify-content: start;">
-	<div class="rowContainer" style="height: 50%;">
-	<select name="attr_actionType" class="darkInput toolText" style="height: 100%; margin-bottom: 0px;">
-         <option data-i18n="palette-action-tool" value="tool">Use Tool</option>
-         <option data-i18n="palette-action-move" value="move">Move</option>
-         <option data-i18n="palette-action-protect" value="protect">Protect</option>
-	 <option data-i18n="palette-action-other" value="other">Other</option>
-         </select>
-
-	<button type="action" class="declare toolText" data-i18n="palette-action-text" name="act_declareAction">Action</button>
-	</div>
-		
-       </div>
-	</div>
-	</div>
-
-	<!-- Distortion (Action) Palette END -->
-
-	<div class="columnAlign tool paletteButton" style="height: 63px; overflow: hidden;  justify-content: start;">
-	<div class="rowContainer" style="height: 50%;">
-	<select name="attr_actionType" class="darkInput" style="height: 100%; margin-bottom: 0px;">
-         <option data-i18n="palette-action-tool" value="tool">Use Tool</option>
-         <option data-i18n="palette-action-move" value="move">Move</option>
-         <option data-i18n="palette-action-protect" value="protect">Protect</option>
-	 <option data-i18n="palette-action-other" value="other">Other</option>
-         </select>
-
-	<button type="action" class="declare" data-i18n="palette-action-text" name="act_declareAction">Action</button>
-	</div>
-	
-<!-- Tool Selector Box -->
-	<div class="rowContainer centerFlex toolSelect">
-
-
-	<!-- EGO Tool selector -->
-
-	<div>
-
-
-	<input type="checkbox" class="hide-toggle" name="attr_egoActiveState" value="true" hidden="true"><div class="hide-item">
-
-	<input type="checkbox" class="hide-toggle" name="attr_egoType" value="Tool" hidden="true"><div class="hide-item">
-
-	<div class="toolSelectHolder">
-
-	<input id="select-egoTool" class="toolSelector" type="checkbox" name="attr_toolSelect" value="egoTool">
-	<label for="select-egoTool" class="skillSelectionLabel">
-
-	<div class="blocker toolBlocker"></div>	
-
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoUseType" value="Limitless" hidden="true" checked>
-	<input type="text" name="attr_egoUses" class="hide-item-rev toolSelectBox" value="5">
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="Tool" name="attr_egoType"><div class="type-image skillIcon egoAct"></div>
-	</div>
-
-	</label>
-
-
-	<input type="checkbox" class="hide-toggle" name="attr_egoUses" value="0" hidden="true"><div class="hide-item blocker" style="z-index: 100;"></div>
-
-	</div>
-
-	</div> 
-	</div>
-	</div>
-	<!-- EGO tool selector end -->
-
-	<!-- EGO special selector -->
-	<div>
-
-
-	<input type="checkbox" class="hide-toggle" name="attr_egoActiveState" value="true" hidden="true"><div class="hide-item">
-
-	<input type="checkbox" class="hide-toggle" name="attr_egoType" value="Special" hidden="true"><div class="hide-item">
-
-	<div class="toolSelectHolder">
-
-	<input id="select-egoSpecial" class="toolSelector" type="checkbox" name="attr_toolSelect" value="egoSpecial">
-	<label for="select-egoSpecial" class="skillSelectionLabel">
-
-	<div class="blocker toolBlocker"></div>
-
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoUseType" value="Limitless" hidden="true" checked>
-	<input type="text" name="attr_egoUses" class="hide-item-rev toolSelectBox" value="5">
-
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="Special" name="attr_egoType"><div class="type-image skillIcon egoSpecial"></div>
-	</div>
-
-	</label>
-
-	<input type="checkbox" class="hide-toggle" name="attr_egoUses" value="0" hidden="true"><div class="hide-item blocker" style="z-index: 100;"></div>
-
-	</div>
-
-	</div> 
-	</div>
-	</div>
-	<!-- EGO special end -->
-
-
-
-	<!-- Tool1 selector -->
-
-	<div>
-	<input type="checkbox" class="hide-toggle-rev" name="attr_tool1Uses" value="0" hidden="true">
-	<div class="hide-item-rev">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_tool1Name" value="" hidden="true" checked>
-	<div class="toolSelectHolder hide-item-rev">
-
-	<input id="select-tool1" class="toolSelector" type="checkbox" name="attr_toolSelect" value="tool1">
-	<label for="select-tool1" class="skillSelectionLabel">
-
-	<div class="blocker toolBlocker"></div>
-	
-	<input type="text" name="attr_tool1Uses" class="toolSelectBox" value="1">
-
-	<!-- Tool1 Icon Selection -->
-	<div class="icon">
-	<img name="attr_tool1IconDisplay" class="skillIcon">
-	</div>
-
-	</label>
-
-	</div> 
-	</div>
-	</div>
-	<!-- Tool1 selector end -->
-
-	<!-- Tool2 selector -->
-
-	<div>
-	<input type="checkbox" class="hide-toggle-rev" name="attr_tool2Uses" value="0" hidden="true">
-	<div class="hide-item-rev">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_tool2Name" value="" hidden="true" checked>
-	<div class="toolSelectHolder hide-item-rev">
-
-	<input id="select-tool2" class="toolSelector" type="checkbox" name="attr_toolSelect" value="tool2">
-	<label for="select-tool2" class="skillSelectionLabel">
-
-	<div class="blocker toolBlocker"></div>
-	
-
-	<input type="text" name="attr_tool2Uses" class="toolSelectBox" value="1">
-
-	<!-- Tool2 Icon Selection -->
-	<div class="icon">
-	<img name="attr_tool2IconDisplay" class="skillIcon">
-	</div>
-
-	</label>
-
-	</div> 
-	</div>
-	</div>
-	<!-- Tool2 selector end -->
-
-	<!-- Tool3 selector -->
-
-	<div>
-	<input type="checkbox" class="hide-toggle-rev" name="attr_tool3Uses" value="0" hidden="true">
-	<div class="hide-item-rev">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_tool3Name" value="" hidden="true" checked>
-	<div class="toolSelectHolder hide-item-rev">
-
-	<input id="select-tool3" class="toolSelector" type="checkbox" name="attr_toolSelect" value="tool3">
-	<label for="select-tool3" class="skillSelectionLabel">
-
-	<div class="blocker toolBlocker"></div>
-	
-
-	<input type="text" name="attr_tool3Uses" class="toolSelectBox" value="1">
-
-	<!-- Tool3 Icon Selection -->
-	<div class="icon">
-	<img name="attr_tool3IconDisplay" class="skillIcon">
-	</div>
-
-	</label>
-
-	</div> 
-	</div>
-	</div>
-	<!-- Tool3 selector end -->
-
-	<!-- Tool4 selector -->
-
-	<div>
-	<input type="checkbox" class="hide-toggle-rev" name="attr_tool4Uses" value="0" hidden="true">
-	<div class="hide-item-rev">
-	<input type="checkbox" class="hide-toggle-rev" name="attr_tool4Name" value="" hidden="true" checked>
-	<div class="toolSelectHolder hide-item-rev">
-
-	<input id="select-tool4" class="toolSelector" type="checkbox" name="attr_toolSelect" value="tool4">
-	<label for="select-tool4" class="skillSelectionLabel">
-
-	<div class="blocker toolBlocker"></div>
-	
-
-	<input type="text" name="attr_tool4Uses" class="toolSelectBox" value="1">
-
-	<!-- Tool4 Icon Selection -->
-	<div class="icon">
-	<img name="attr_tool4IconDisplay" class="skillIcon">
-	</div>
-
-	</label>
-
-	</div> 
-	</div>
-	</div>
-	<!-- Tool4 selector end -->
-
-
-	<!-- Special1 selector -->
-	<div>
-	<input type="checkbox" class="hide-toggle-rev" name="attr_special1Name" value="" hidden="true" checked>
-	<div class="toolSelectHolder hide-item-rev">
-	<input id="select-special1" class="toolSelector" type="checkbox" name="attr_toolSelect" value="special1">
-	<label for="select-special1" class="skillSelectionLabel">
-
-	<div class="type-image skillIcon Special"></div>
-
-	</label>
-
-	</div> 
-	</div>
-	<!-- Special1 selector end -->
-
-	<!-- Special2 selector -->
-	<div>
-	<input type="checkbox" class="hide-toggle-rev" name="attr_special2Name" value="" hidden="true" checked>
-	<div class="toolSelectHolder hide-item-rev">
-	<input id="select-special2" class="toolSelector" type="checkbox" name="attr_toolSelect" value="special2">
-	<label for="select-special2" class="skillSelectionLabel">
-
-	<div class="type-image skillIcon Special"></div>
-
-	</label>
-
-	</div> 
-	</div>
-	<!-- Special2 selector end -->
-
-
-
-	</div>
-	<!-- Tool selector Box end -->
-
-	</div>
-
-	</div>
-	<!-- Action Palette END -->
-
-
-	<div class="skillSelect">
-
-<!-- Skill palette selection area (normal) -->
-
-<input type="checkbox" class="hide-toggle-rev" name="attr_distortState" value="true" hidden="true" checked>
-<div class="hide-item-rev" style="width: 100%;">
-
-<div class="rowContainer centerFlex" style="width: 100%; flex-wrap: wrap; margin-top: 5px;">
-
-<!-- EGO Skill 1 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoActiveState" value="0" hidden="true" checked>
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoSkill1Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-egoSkill1" class="skillSelector" type="checkbox" name="attr_skillSelect" value="egoSkill1">
-	<label for="select-egoSkill1" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_egoSkill1Name" data-i18n-placeholder="palette-egoskill1-name" placeholder="MYS Skill (1)">
-	</div>
-
-<div class="iconHolder egoSkills">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_egoSkill1Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_egoSkill1Type"><div class="skillIcon Att"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_egoSkill1Type"><div class="type-image skillIcon Def"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_egoSkill1Type"><div class="type-image skillIcon Evd"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_egoSkill1Type"><div class="type-image skillIcon Act"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill1Type"><div class="type-image skillIcon Mass"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
 </div>
-<!-- EGO Skill 1 block END -->
-
-<!-- Skill 1 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_skill1Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-skill1" class="skillSelector" type="checkbox" name="attr_skillSelect" value="skill1">
-	<label for="select-skill1" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_skill1Name" data-i18n-placeholder="palette-skill1-name" placeholder="Skill (1)">
-	</div>
-
-
-<div class="iconHolder">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_skill1Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_skill1Type"><div class="skillIcon Att weapon"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_skill1Type"><div class="type-image skillIcon Def outfit"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_skill1Type"><div class="type-image skillIcon Evd STGR"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_skill1Type"><div class="type-image skillIcon Act tool"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill1Type"><div class="type-image skillIcon Mass weapon"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
 </div>
-<!-- Skill 1 block END -->
-
-<!-- EGO Skill 2 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoActiveState" value="0" hidden="true" checked>
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoSkill2Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-egoSkill2" class="skillSelector" type="checkbox" name="attr_skillSelect" value="egoSkill2">
-	<label for="select-egoSkill2" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_egoSkill2Name" data-i18n-placeholder="palette-egoskill2-name" placeholder="MYS Skill (2)">
-	</div>
-
-<div class="iconHolder egoSkills">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_egoSkill2Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_egoSkill2Type"><div class="skillIcon Att"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_egoSkill2Type"><div class="type-image skillIcon Def"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_egoSkill2Type"><div class="type-image skillIcon Evd"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_egoSkill2Type"><div class="type-image skillIcon Act"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill2Type"><div class="type-image skillIcon Mass"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
 </div>
-<!-- EGO Skill 2 block END -->
-
-<!-- Skill 2 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_skill2Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-skill2" class="skillSelector" type="checkbox" name="attr_skillSelect" value="skill2">
-	<label for="select-skill2" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_skill2Name" data-i18n-placeholder="palette-skill2-name" placeholder="Skill (2)">
-	</div>
-
-<div class="iconHolder">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_skill2Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_skill2Type"><div class="skillIcon Att weapon"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_skill2Type"><div class="type-image skillIcon Def outfit"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_skill2Type"><div class="type-image skillIcon Evd STGR"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_skill2Type"><div class="type-image skillIcon Act tool"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill2Type"><div class="type-image skillIcon Mass weapon"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- Skill 2 block END -->
-
-<!-- EGO Skill 3 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoActiveState" value="0" hidden="true" checked>
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoSkill3Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-egoSkill3" class="skillSelector" type="checkbox" name="attr_skillSelect" value="egoSkill3">
-	<label for="select-egoSkill3" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_egoSkill3Name" data-i18n-placeholder="palette-egoskill3-name" placeholder="MYS Skill (3)">
-	</div>
-
-<div class="iconHolder egoSkills">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_egoSkill3Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_egoSkill3Type"><div class="skillIcon Att"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_egoSkill3Type"><div class="type-image skillIcon Def"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_egoSkill3Type"><div class="type-image skillIcon Evd"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_egoSkill3Type"><div class="type-image skillIcon Act"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill3Type"><div class="type-image skillIcon Mass"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- EGO Skill 3 block END -->
-
-
-<!-- Skill 3 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_skill3Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-skill3" class="skillSelector" type="checkbox" name="attr_skillSelect" value="skill3">
-	<label for="select-skill3" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_skill3Name" data-i18n-placeholder="palette-skill3-name" placeholder="Skill (3)">
-	</div>
-
-<div class="iconHolder">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_skill3Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_skill3Type"><div class="skillIcon Att weapon"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_skill3Type"><div class="type-image skillIcon Def outfit"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_skill3Type"><div class="type-image skillIcon Evd STGR"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_skill3Type"><div class="type-image skillIcon Act tool"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill3Type"><div class="type-image skillIcon Mass weapon"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- Skill 3 block END -->
-
-<!-- EGO Skill 4 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoActiveState" value="0" hidden="true" checked>
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoSkill4Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-egoSkill4" class="skillSelector" type="checkbox" name="attr_skillSelect" value="egoSkill4">
-	<label for="select-egoSkill4" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_egoSkill4Name" data-i18n-placeholder="palette-egoskill4-name" placeholder="MYS Skill (4)">
-	</div>
-
-<div class="iconHolder egoSkills">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_egoSkill4Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_egoSkill4Type"><div class="skillIcon Att"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_egoSkill4Type"><div class="type-image skillIcon Def"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_egoSkill4Type"><div class="type-image skillIcon Evd"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_egoSkill4Type"><div class="type-image skillIcon Act"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill4Type"><div class="type-image skillIcon Mass"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- EGO Skill 4 block END -->
-
-<!-- Skill 4 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_skill4Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-skill4" class="skillSelector" type="checkbox" name="attr_skillSelect" value="skill4">
-	<label for="select-skill4" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_skill4Name" data-i18n-placeholder="palette-skill4-name" placeholder="Skill (4)">
-	</div>
-
-<div class="iconHolder">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_skill4Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_skill4Type"><div class="skillIcon Att weapon"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_skill4Type"><div class="type-image skillIcon Def outfit"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_skill4Type"><div class="type-image skillIcon Evd STGR"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_skill4Type"><div class="type-image skillIcon Act tool"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill4Type"><div class="type-image skillIcon Mass weapon"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- Skill 4 block END -->
-
-<!-- EGO Skill 5 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoActiveState" value="0" hidden="true" checked>
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoSkill5Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-egoSkill5" class="skillSelector" type="checkbox" name="attr_skillSelect" value="egoSkill5">
-	<label for="select-egoSkill5" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_egoSkill5Name" data-i18n-placeholder="palette-egoskill5-name" placeholder="MYS Skill (5)">
-	</div>
-
-<div class="iconHolder egoSkills">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_egoSkill5Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_egoSkill5Type"><div class="skillIcon Att"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_egoSkill5Type"><div class="type-image skillIcon Def"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_egoSkill5Type"><div class="type-image skillIcon Evd"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_egoSkill5Type"><div class="type-image skillIcon Act"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill5Type"><div class="type-image skillIcon Mass"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- EGO Skill 5 block END -->
-
-<!-- Skill 5 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_skill5Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-skill5" class="skillSelector" type="checkbox" name="attr_skillSelect" value="skill5">
-	<label for="select-skill5" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_skill5Name" data-i18n-placeholder="palette-skill5-name" placeholder="Skill (5)">
-	</div>
-
-<div class="iconHolder">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_skill5Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_skill5Type"><div class="skillIcon Att weapon"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_skill5Type"><div class="type-image skillIcon Def outfit"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_skill5Type"><div class="type-image skillIcon Evd STGR"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_skill5Type"><div class="type-image skillIcon Act tool"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill5Type"><div class="type-image skillIcon Mass weapon"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- Skill 5 block END -->
-
-<!-- EGO Skill 6 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoActiveState" value="0" hidden="true" checked>
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoSkill6Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-egoSkill6" class="skillSelector" type="checkbox" name="attr_skillSelect" value="egoSkill6">
-	<label for="select-egoSkill6" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_egoSkill6Name" data-i18n-placeholder="palette-egoskill6-name" placeholder="MYS Skill (6)">
-	</div>
-
-<div class="iconHolder egoSkills">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_egoSkill6Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_egoSkill6Type"><div class="skillIcon Att"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_egoSkill6Type"><div class="type-image skillIcon Def"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_egoSkill6Type"><div class="type-image skillIcon Evd"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_egoSkill6Type"><div class="type-image skillIcon Act"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill6Type"><div class="type-image skillIcon Mass"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- EGO Skill 6 block END -->
-
-<!-- Skill 6 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_skill6Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-skill6" class="skillSelector" type="checkbox" name="attr_skillSelect" value="skill6">
-	<label for="select-skill6" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_skill6Name" data-i18n-placeholder="palette-skill6-name" placeholder="Skill (6)">
-	</div>
-
-<div class="iconHolder">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_skill6Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_skill6Type"><div class="skillIcon Att weapon"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_skill6Type"><div class="type-image skillIcon Def outfit"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_skill6Type"><div class="type-image skillIcon Evd STGR"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_skill6Type"><div class="type-image skillIcon Act tool"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill6Type"><div class="type-image skillIcon Mass weapon"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- Skill 6 block END -->
-
-    
-</div>	</div> <!-- Skill palette END -->
-
-
-<!-- Skill palette selection area (Distortion) -->
-
-<input type="checkbox" class="hide-toggle" name="attr_distortState" value="true" hidden="true" checked>
-<div class="hide-item" style="width: 100%;">
-
-<div class="rowContainer centerFlex" style="width: 100%; flex-wrap: wrap; margin-top: 5px;">
-
-<!-- EGO Skill 1 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoSkill1Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-egoSkill1" class="skillSelector" type="checkbox" name="attr_skillSelect" value="egoSkill1">
-	<label for="select-egoSkill1" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_egoSkill1Name" data-i18n-placeholder="palette-egoskill1-name" placeholder="MYS Skill (1)">
-	</div>
-
-<div class="iconHolder egoSkills">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_egoSkill1Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_egoSkill1Type"><div class="skillIcon Att"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_egoSkill1Type"><div class="type-image skillIcon Def"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_egoSkill1Type"><div class="type-image skillIcon Evd"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_egoSkill1Type"><div class="type-image skillIcon Act"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill1Type"><div class="type-image skillIcon Mass"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- EGO Skill 1 block END -->
-
-<!-- Skill 1 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_skill1Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-skill1" class="skillSelector" type="checkbox" name="attr_skillSelect" value="skill1">
-	<label for="select-skill1" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_skill1Name" data-i18n-placeholder="palette-skill1-name" placeholder="Skill (1)">
-	</div>
-
-
-<div class="iconHolder">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_skill1Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_skill1Type"><div class="skillIcon Att weapon"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_skill1Type"><div class="type-image skillIcon Def outfit"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_skill1Type"><div class="type-image skillIcon Evd STGR"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_skill1Type"><div class="type-image skillIcon Act tool"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill1Type"><div class="type-image skillIcon Mass weapon"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- Skill 1 block END -->
-
-<!-- EGO Skill 2 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoSkill2Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-egoSkill2" class="skillSelector" type="checkbox" name="attr_skillSelect" value="egoSkill2">
-	<label for="select-egoSkill2" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_egoSkill2Name" data-i18n-placeholder="palette-egoskill2-name" placeholder="MYS Skill (2)">
-	</div>
-
-<div class="iconHolder egoSkills">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_egoSkill2Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_egoSkill2Type"><div class="skillIcon Att"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_egoSkill2Type"><div class="type-image skillIcon Def"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_egoSkill2Type"><div class="type-image skillIcon Evd"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_egoSkill2Type"><div class="type-image skillIcon Act"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill2Type"><div class="type-image skillIcon Mass"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- EGO Skill 2 block END -->
-
-<!-- Skill 2 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_skill2Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-skill2" class="skillSelector" type="checkbox" name="attr_skillSelect" value="skill2">
-	<label for="select-skill2" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_skill2Name" data-i18n-placeholder="palette-skill2-name" placeholder="Skill (2)">
-	</div>
-
-<div class="iconHolder">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_skill2Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_skill2Type"><div class="skillIcon Att weapon"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_skill2Type"><div class="type-image skillIcon Def outfit"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_skill2Type"><div class="type-image skillIcon Evd STGR"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_skill2Type"><div class="type-image skillIcon Act tool"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill2Type"><div class="type-image skillIcon Mass weapon"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- Skill 2 block END -->
-
-<!-- EGO Skill 3 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoSkill3Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-egoSkill3" class="skillSelector" type="checkbox" name="attr_skillSelect" value="egoSkill3">
-	<label for="select-egoSkill3" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_egoSkill3Name" data-i18n-placeholder="palette-egoskill3-name" placeholder="MYS Skill (3)">
-	</div>
-
-<div class="iconHolder egoSkills">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_egoSkill3Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_egoSkill3Type"><div class="skillIcon Att"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_egoSkill3Type"><div class="type-image skillIcon Def"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_egoSkill3Type"><div class="type-image skillIcon Evd"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_egoSkill3Type"><div class="type-image skillIcon Act"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill3Type"><div class="type-image skillIcon Mass"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- EGO Skill 3 block END -->
-
-
-<!-- Skill 3 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_skill3Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-skill3" class="skillSelector" type="checkbox" name="attr_skillSelect" value="skill3">
-	<label for="select-skill3" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_skill3Name" data-i18n-placeholder="palette-skill3-name" placeholder="Skill (3)">
-	</div>
-
-<div class="iconHolder">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_skill3Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_skill3Type"><div class="skillIcon Att weapon"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_skill3Type"><div class="type-image skillIcon Def outfit"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_skill3Type"><div class="type-image skillIcon Evd STGR"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_skill3Type"><div class="type-image skillIcon Act tool"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill3Type"><div class="type-image skillIcon Mass weapon"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- Skill 3 block END -->
-
-<!-- EGO Skill 4 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoSkill4Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-egoSkill4" class="skillSelector" type="checkbox" name="attr_skillSelect" value="egoSkill4">
-	<label for="select-egoSkill4" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_egoSkill4Name" data-i18n-placeholder="palette-egoskill4-name" placeholder="MYS Skill (4)">
-	</div>
-
-<div class="iconHolder egoSkills">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_egoSkill4Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_egoSkill4Type"><div class="skillIcon Att"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_egoSkill4Type"><div class="type-image skillIcon Def"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_egoSkill4Type"><div class="type-image skillIcon Evd"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_egoSkill4Type"><div class="type-image skillIcon Act"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill4Type"><div class="type-image skillIcon Mass"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- EGO Skill 4 block END -->
-
-<!-- Skill 4 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_skill4Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-skill4" class="skillSelector" type="checkbox" name="attr_skillSelect" value="skill4">
-	<label for="select-skill4" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_skill4Name" data-i18n-placeholder="palette-skill4-name" placeholder="Skill (4)">
-	</div>
-
-<div class="iconHolder">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_skill4Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_skill4Type"><div class="skillIcon Att weapon"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_skill4Type"><div class="type-image skillIcon Def outfit"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_skill4Type"><div class="type-image skillIcon Evd STGR"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_skill4Type"><div class="type-image skillIcon Act tool"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill4Type"><div class="type-image skillIcon Mass weapon"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- Skill 4 block END -->
-
-<!-- EGO Skill 5 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoSkill5Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-egoSkill5" class="skillSelector" type="checkbox" name="attr_skillSelect" value="egoSkill5">
-	<label for="select-egoSkill5" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_egoSkill5Name" data-i18n-placeholder="palette-egoskill5-name" placeholder="MYS Skill (5)">
-	</div>
-
-<div class="iconHolder egoSkills">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_egoSkill5Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_egoSkill5Type"><div class="skillIcon Att"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_egoSkill5Type"><div class="type-image skillIcon Def"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_egoSkill5Type"><div class="type-image skillIcon Evd"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_egoSkill5Type"><div class="type-image skillIcon Act"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill5Type"><div class="type-image skillIcon Mass"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- EGO Skill 5 block END -->
-
-<!-- Skill 5 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_skill5Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-skill5" class="skillSelector" type="checkbox" name="attr_skillSelect" value="skill5">
-	<label for="select-skill5" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_skill5Name" data-i18n-placeholder="palette-skill5-name" placeholder="Skill (5)">
-	</div>
-
-<div class="iconHolder">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_skill5Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_skill5Type"><div class="skillIcon Att weapon"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_skill5Type"><div class="type-image skillIcon Def outfit"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_skill5Type"><div class="type-image skillIcon Evd STGR"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_skill5Type"><div class="type-image skillIcon Act tool"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill5Type"><div class="type-image skillIcon Mass weapon"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- Skill 5 block END -->
-
-<!-- EGO Skill 6 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_egoSkill6Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-egoSkill6" class="skillSelector" type="checkbox" name="attr_skillSelect" value="egoSkill6">
-	<label for="select-egoSkill6" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_egoSkill6Name" data-i18n-placeholder="palette-egoskill6-name" placeholder="MYS Skill (6)">
-	</div>
-
-<div class="iconHolder egoSkills">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_egoSkill6Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_egoSkill6Type"><div class="skillIcon Att"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_egoSkill6Type"><div class="type-image skillIcon Def"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_egoSkill6Type"><div class="type-image skillIcon Evd"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_egoSkill6Type"><div class="type-image skillIcon Act"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_egoSkill6Type"><div class="type-image skillIcon Mass"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- EGO Skill 6 block END -->
-
-<!-- Skill 6 Palette -->
-<div class="skillBuffer">
-<input type="checkbox" class="hide-toggle-rev" name="attr_skill6Type" value="None" hidden="true" checked>
-	<div class="hide-item-rev skillhide">
-	<div class="rowContainer paletteButton skillSelectionElement" style="width: 100%;">
-
-	<input id="select-skill6" class="skillSelector" type="checkbox" name="attr_skillSelect" value="skill6">
-	<label for="select-skill6" class="skillSelectionLabel" style="width: 100%;">
-	<div class="skillWrap">
-
-	<div style="position: relative;">
-	<div class="blocker"></div>
-	<input type="text" class="combatPaletteName skillSelectionName" name="attr_skill6Name" data-i18n-placeholder="palette-skill6-name" placeholder="Skill (6)">
-	</div>
-
-<div class="iconHolder">
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="" name="attr_skill6Type"><div class="skillIcon skillNone"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Attack" name="attr_skill6Type"><div class="skillIcon Att weapon"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Defend" name="attr_skill6Type"><div class="type-image skillIcon Def outfit"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Evade" name="attr_skill6Type"><div class="type-image skillIcon Evd STGR"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Action" name="attr_skill6Type"><div class="type-image skillIcon Act tool"></div>
-		</div>
-
-		<div class="icon">
-		<input type="checkbox" class="expand-toggle" value="Mass" name="attr_skill6Type"><div class="type-image skillIcon Mass weapon"></div>
-		</div>
-
-	</div>
-
-	</div>
-
-	</label>
-	</div>
-	</div>
-</div>
-<!-- Skill 6 block END -->
-
-    
-</div>	</div> <!-- Skill palette END -->
-
-
-
-	</div> <!-- Skill section end -->
-
-
-
-
-
-
-<!-- Skill data viewer -->
-<div class="rowContainer contentContainer centerFlex" style="width: 100%;">
-<input class="text" name="attr_selectName" value="" hidden="true">
-<input class="text" name="attr_selectType" value="" hidden="true">
-<input class="text" name="attr_selectRank" value="0" hidden="true">
-<input class="text" name="attr_selectLight" value="0" hidden="true">
-<input class="text" name="attr_selectDescription" value="" hidden="true">
-<input class="text" name="attr_selectEffect" value="" hidden="true">
-
-<input class="text" name="attr_selectAtkDice1" value="0" hidden="true">
-<input class="text" name="attr_selectAtkDice2" value="0" hidden="true">
-<input class="text" name="attr_selectAtkDice3" value="0" hidden="true">
-
-<input type="text" name="attr_selectDefDice1" value="0" hidden="true">
-<input type="text" name="attr_selectDefDice2" value="0" hidden="true">
-<input type="text" name="attr_selectDefDice3" value="0" hidden="true">
-
-<input type="text" name="attr_selectEvdDice1" value="0" hidden="true">
-<input type="text" name="attr_selectEvdDice2" value="0" hidden="true">
-<input type="text" name="attr_selectEvdDice3" value="0" hidden="true">
-
-<input type="text" name="attr_selectDice1" value="0" hidden="true">
-<input type="text" name="attr_selectDice2" value="0" hidden="true">
-<input type="text" name="attr_selectDice3" value="0" hidden="true">
-
-<input type="checkbox" class="hide-toggle-rev" name="attr_skillSelect" value="0" checked>
-<div class="hide-item-rev contentContainer darkBG" style="width: 100%;">
-
-<div class="rowContainer sectionHeader" style="width: 100%">
-
-<div style="position: absolute; left: 0px;" class="half">
-<div class="blocker"></div>
-<input type="text" class="transpInput viewerName" name="attr_selectName" data-i18n-placeholder="skill-name" placeholder="Skill name" value="" style="width: 100%;">
-</div>
-
-		<div class="rollFormatBlock whiteInput" data-i18n-title="skill-dice-text" title="Dice modifiers applied when using skill" style="position: absolute; right: 30px;">
-<div class="blocker"></div>
-		<input type="number" class="diceCount noSpinner" name="attr_selectDice1" min="1" value="1">
-		<div class="plainText">D</div>
-		<input type="number" class="diceMax noSpinner" name="attr_selectDice2" min="0" value="0">
-		<div class="plainText">+</div>
-		<input type="number" class="dicePower noSpinner" name="attr_selectDice3" value="0">
-		</div>
-
-<div class="lightCost" style="position: absolute; top: 2px; right: 0px;" data-i18n-title="skill-light-cost" title="Light Cost">
-<div class="blocker"></div>
-<input type="text" class="lightCostInput" style="margin: 0px !important; padding: 0px !important;" name="attr_selectLight">
-
-</div>
-
-	</div>
-
-
-	<div class="rowContainer weaponInfo" style="overflow: hidden; border-radius: 3px;">
-
-        <div class="weaponDescription">
-       <textarea spellcheck="false"  name="attr_selectDescription" class="augmentDescriptionInput noHover" data-i18n-placeholder="skill-desc" placeholder="Skill description."></textarea>
-        </div>
-
-        <div class="weaponEffect">
-	<textarea spellcheck="false"  name="attr_selectEffect" class="weaponEffectInput noHover" data-i18n-placeholder="skill-effect" placeholder="Skill effects."></textarea>
-        </div> 
-
-<div>
-<input type="checkbox" class="hide-toggle" name="attr_selectCancel" value="true">
-<div class="hide-item LIGHTtext" style="position: absolute; top: 0px; left: 0px; background-color: rgba(0,0,0,0.65); height: 100%; width: 100%; padding-top: 45px;">
-<b data-i18n="viewer-light-warning">NOT ENOUGH LIGHT</b>
-	</div>
-	</div>
-
-	</div>
-
-	</div>
-</div>
-<!-- Skill data viewer END -->
-
-</div> <!-- skill section REALLY end -->
-
-
-            </div>
-        </div>
-
 </div>
 </div>
 
@@ -4344,6 +2683,8 @@ EGO block end -->
 	<button type="action" class="darkButton" style="width: 100px; margin-left: 5px;" name="act_testA">Test button A</button> <!-- For testing. Delete later -->
 	<button type="action" class="darkButton" style="width: 100px;" name="act_testB">Test button B</button> <!-- For testing. Delete later -->
 	<button type="action" class="darkButton" style="width: 100px;" name="act_testC">Test button C</button> <!-- For testing. Delete later -->
+
+	<input type="text" class="darkInput" name="attr_versionNumber" value="0">
 </div>
 <textarea name="attr_dataTransfer" style="margin-left: 5px;"></textarea> <!-- Revealed for testing purposes. Hide this later -->
 <!-- <span style="color: white">Intermediary:</span><input type="text" name="attr_intermediaryID"> -->
@@ -6878,17 +5219,29 @@ EGO block end -->
 
 		<select name="attr_exportType" class="darkInput exportSelect" style="width: 200px !important; position: absolute; left: 90px; margin-bottom: 0px;">
 			<option data-i18n="export-type-All" value="All">All</option>
-			<option data-i18n="export-type-Equip" value="Equip">Equipment</option>
-			<option data-i18n="export-type-Skill" value="Skills">Skills</option>
-			<option data-i18n="export-type-Ego" value="Ego">E.G.O</option>
-			<option data-i18n="export-type-Distort" value="Distort">Distortion</option>
-			<option data-i18n="export-type-Character" value="Character">Character details</option>
-			<option data-i18n="export-type-Settings" value="Settings">Settings</option>
+			<option data-i18n="export-type-Equip" value="Equip">Equipment only</option>
+			<option data-i18n="export-type-Weapon" value="Weapons">Weapons only</option>
+			<option data-i18n="export-type-Outfit" value="Outfits">Outfits only</option>
+			<option data-i18n="export-type-Augment" value="Augments">Augments only</option>
+			<option data-i18n="export-type-Tool" value="Tools">Tools only</option>
+			<option data-i18n="export-type-Special" value="Special">Special only</option>
+			<option data-i18n="export-type-Effect" value="Effects">Effects only</option>
+			<option data-i18n="export-type-Skill" value="Skills">Skills only</option>
+			<option data-i18n="export-type-Ego" value="Mystery">Mystery only</option>
+			<option data-i18n="export-type-Distort" value="Distort">Distortion info only</option>
+			<option data-i18n="export-type-Character" value="Character">Character info only</option>
+			<option data-i18n="export-type-Settings" value="Settings">Settings only</option>
 		</select>
 
 		<button type="action" class="declare" name="act_export" data-i18n="message-export">Export</button>
 		<button type="action" class="declare" name="act_swap" title="Swap" style="font-size: 14pt; margin-left: 5px; margin-right: 5px;">⇔</button>
 		<button type="action" class="declare" name="act_import" data-i18n="message-import">Import</button>
+		
+		<select name="attr_importMode" class="darkInput exportSelect" style="width: 200px !important; position: absolute; left: 530px;">
+			<option data-i18n="import-type-replace" value="Replace" selected>Replace</option>
+			<option data-i18n="import-type-add" value="Add">Add</option>
+		</select>
+		
 		<button type="action" class="declare pictos" name="act_clearButton" data-i18n-title="reset-button" title="Reset" id="clear_editorInput" style="position: absolute; right: 0;">#</button>
 	</div>
 
@@ -6967,8 +5320,14 @@ EGO block end -->
 </div>
 
 <!-- Character level -->
-<div class="settingStyle"><div style="width: 100px">
-<b data-i18n="character-level">Level</b>:</div> <input type="number" name="attr_expCalc" value="8"> <span data-i18n="character-exp">EXP</span>
+<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionLimited" value="true"><span data-i18n="character-level">Level</span></label>
+	
+	<!-- TODO: Reuse the item editor code to make all game settings optional -->
+	<!-- Game settings which are toggled off do not trigger automatic recalcs -->
+	
+	<div class="settingStyle"><div style="width: 100px">
+	<b data-i18n="character-level">Level</b>:</div> <input type="number" name="attr_expCalc" value="8"> <span data-i18n="character-exp">EXP</span>
+	</div>
 </div>
 
 <!-- Character status bars -->
@@ -7164,21 +5523,19 @@ EGO block end -->
 <!-- General settings end -->
 
 <!-- Default ailments -->
-<input type="checkbox" value="true" name="attr_iconStyle" hidden="true" checked>
-<div>
-
 <div class="settingStyle columnAlign centerFlex">
 
 <!-- Stagger -->
 <div class="rowContainer repitemMock" style="width: 250px;">
 	<div class="ailmentIconSelector rowContainer centerFlex">
 	<div class="icon">
+		<!-- TODO: Change this to use the default limbusStyle setting-->
 	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_iconStyle"><div class="hide-item-rev skillIcon stagger"></div>
 	</div>
 	<div class="icon">
 	<input type="checkbox" class="expand-toggle" value="true" name="attr_iconStyle"><div class="type-image skillIcon stagger-limbus"></div>
 	</div>
-	</div>
+</div>
 
 <div class="columnAlign">
 <div class="rowContainer settingStyle"><div style="width: 100px;">
@@ -7227,7 +5584,7 @@ EGO block end -->
 
 </div>
 
-</div></div>
+</div>
 <!-- Default Ailments END -->
 
 </fieldset>
@@ -7271,7 +5628,7 @@ EGO block end -->
 <button type="action" name="act_defaultRepeating" data-i18n="message-default" class="btn">Default</button>
 
 <button type="action" name="act_exportRepeating" data-i18n="message-export" class="btn">Export</button>
-<select name="attr_customImportMode" class="darkInput exportSelect" style="width: 100px;">
+<select name="attr_ailmentImportMode" class="darkInput exportSelect" style="width: 100px;">
     <option data-i18n="import-type-replace" value="Replace" selected>Replace</option>
     <option data-i18n="import-type-add" value="Add">Add</option>
 </select>
@@ -8512,7 +6869,7 @@ Treat this as Charge - Combo and follow the rules outlined at the start of this 
 #}
 [Replace N with the effect potency. Replace #Clash #Result with Clash Win, Clash Lose or remove it and the comma before it if On Use]
 `;
-/* --- Sheet Constants end --- */
+/* --- Sheet Constants END --- */
 
 
 
@@ -8616,6 +6973,36 @@ function setAttrsByID(actId, propObj, opts={}) {
     });
 }
 
+/* Returns an ordered array of section ids from a character with a known id */
+/* If an array of sections is provided an object is returned containing the ids from each section */
+async function getSectionIDsOrdered(actId, sectionArray) { 
+	
+	// TODO: Currently doesn't seem to correctly reorder the ids
+	
+	if (typeof sectionArray == "string") {
+		sectionArray = [sectionArray];
+	}
+	let values = await getAttrsAsync(sectionArray.map(section => `_reporder_${section}`));
+	let ids = {}
+	for (section of sectionArray) {
+		let idArray = await getSectionIDsByID(actId, section);
+		let reporderArray = values[`_reporder_${section}`] ? values[`_reporder_${section}`].toLowerCase().split(',') : [];
+		ids[section] = [...new Set(reporderArray.filter(order => idArray.includes(order)).concat(idArray))];
+	}
+	return length(ids) == 1 ? ids[sectionArray[0]] : ids;
+}
+
+function getSectionIDsByID(actId, sectionName) {
+    var prevActId=null;
+    return new Promise((resolve,reject)=>{
+            prevActId = setActiveCharacterId(actId);
+            try{ getSectionIDs(sectionName,(values)=>{ resolve(values); }); }
+            catch{ reject(); }
+    }).finally(()=>{
+        setActiveCharacterId(prevActId);
+    });
+}
+
 /* Functions like on(clicked:button), but also provides all eventinfo of a JQuery event on the same button */
 /* Gives the following additional eventinfo: altKey, shiftKey, metaKey, ctrlKey, pageX, pageY */
 /* JQuery becomes unresponsive after uploading *new* code in the sandbox. In these cases the function reverts to working like on(clicked:button) */
@@ -8660,10 +7047,11 @@ function getJQuery(prop, onfail) {
 	return jQueryPromise;
 }
 
-function generateAccessID() { // Ids in access are in lowercase to better work with user inputs (which is always parsed to lowercase)
+/* All ids in access should be in lowercase to better work with user inputs */
+function generateAccessID() {
 	return generateRowID().toLowerCase();
 }
-/* --- orcsAsync+ end --- */
+/* --- orcsAsync+ END --- */
 
 
 
@@ -8699,7 +7087,7 @@ class checkVal {
 		return substringCount(/[^,\s][^,]*(?:\s+\d+)?/g, s) == substringCount(/,/g, s) + 1;
 	}
 
-	/* Shared validation options */
+	/* Shared validation functions */
 	static Min(min, opts={}) { return opts.inclusive ? this.x >= min : this.x > min; }
 	static Max(max, opts={}) { return opts.inclusive ? this.x <= max : this.x < max; }
 	static Between(min, max, opts={}) { return this.Opts(i, {...opts, min: min, max: max}); }
@@ -8723,8 +7111,7 @@ const is = new Proxy( // In English: "When accessing "is", treat it as "Reflect.
     	} // "In summary, this makes "is(v).method(u)" the same as writing "checkVal.x = v; checkVal.method(u)" "
   	} // To whichever future dev sees this: thank you for coming to my TED talk
 );
-/* --- Custom data type functions end --- */
-
+/* --- Custom data type functions END --- */
 
 
 /* Random value generator */
@@ -8735,8 +7122,9 @@ const Random = {
 }
 
 
-
 /* --- Update Loop begins --- */
+
+// TODO: Need to ensure this only triggers a single update if 2+ users have the sheet open
 let loopDelay = 10000;
 let trackerItemName = "Round end";
 on('sheet:opened change:settingLoopEnabled change:configLoopDelay change:configTrackerItemName change:prevRoundInitAttempts', (info) => {
@@ -9231,9 +7619,9 @@ on('change:settingTargeting', (info) => {
 });
 
 /* Sync: Action number */
-/*on(`change:actNum change:repeating_tokens:actNum`, (info) => {
-	
-});*/
+/*
+on(`change:actNum change:repeating_tokens:actNum`, (info) => {});
+*/
 
 
 /* --- Token helper functions --- */
@@ -9388,7 +7776,8 @@ on('clicked:selectTarget', (info) => {
 
 /* Callback if the character is controlled by a GM */
 /* If isGM is currently unset, executes a test to check if the character is a GM or not */
-/*var isGM = "unset";
+/*
+var isGM = "unset";
 on("sheet:opened", function(info) {
 	getAttrs(["targetId", "character_id", "testIsGM"], function(values) {
 		if (values.targetId != "" && values.targetId) {
@@ -9452,7 +7841,8 @@ function removeTargeting(charId, package="package") {
 	let targetingData = {"announceTargeting": {"remove": charId}}
 	if (package == "package") { targetingData.announceTargeting = Data.package(targetingData.announceTargeting) }
 	return targetingData;
-}*/
+}
+*/
 
 /* Checks if a token is an invalid target. Currently happens if genericTokenMode is enabled but the token has not been added as an instance  */
 async function isValidTarget(characterName, charId, targetId, targetTokenId, targetSettings, callback=()=>{}) {
@@ -9591,7 +7981,7 @@ function unknownTarget(returnMode="false") {
 		setAttrs(output);
 	}
 }
-/* --- Select target functionality end --- */
+/* --- Select target functionality END --- */
 
 
 
@@ -9744,8 +8134,8 @@ on("clicked:chatButtonRoll", async (data) => {
 });
 on("clicked:chatButton", async (data) => {
 
-	// Convert these to a single function and have a property like type=roll/damage/effect decide what the button does
-	// Or better yet, just have the button execute everything in the provided data. If there 2 rolls + some damage data it executes those rolls and deals some damage
+	// TODO: Convert these to a single function and have a property like type=roll/damage/effect decide what the button does
+	// - Or better yet, just have the button execute everything in the provided data. If there 2 rolls + some damage data it executes those rolls and deals some damage
 
 	console.log("Detected chat button press", Data.unpackage(data.originalRollId));
 	return;
@@ -9781,7 +8171,7 @@ on("change:fortitude change:prudence change:justice change:charm change:insight 
 getSectionIDs(`repeating_global`, idarray => {
         let id = `repeating_global_${idarray[0]}`;
 
-	getAttrs(["fortitude", "prudence", "justice", "charm", "insight", "temperance", "distortState", "settingTestOption", 
+	getAttrs(["fortitude", "prudence", "justice", "charm", "insight", "temperance", "distortState", 
 	`${id}_healthBase`, `${id}_healthStat`, `${id}_healthStatMod`, `${id}_healthRankMod`,
 	`${id}_staggerBase`, `${id}_staggerStat`, `${id}_staggerStatMod`, `${id}_staggerRankMod`,
 	`${id}_sanityBase`, `${id}_sanityStat`, `${id}_sanityStatMod`, `${id}_sanityRankMod`,
@@ -9799,7 +8189,6 @@ getSectionIDs(`repeating_global`, idarray => {
 	let temperanceVal = parseInt(values.temperance);
 
 	let distortState = values.distortState;
-	let optionstate = values.settingTestOption;
 
 	let healthBase = parseInt(values[`${id}_healthBase`]);
 	let healthStat = values[`${id}_healthStat`];
@@ -9927,15 +8316,6 @@ getSectionIDs(`repeating_global`, idarray => {
 	});
 });
 
-/* Set Icon Style */
-on("change:settingLimbusStyle change:repeating_global:iconStyle", function(info) {
-getSectionIDs(`repeating_global`, idarray => {
-    let id = `repeating_global_${idarray[0]}`;
-	
-	setAttrs({"settingLimbusStyle":info.newValue, [`${id}_iconStyle`]:info.newValue});
-	});
-});
-
 /* Change stagger duration */
 on("change:repeating_global:staggerDurationMax", function() {
 getSectionIDs(`repeating_global`, idarray => {
@@ -9950,34 +8330,12 @@ getSectionIDs(`repeating_global`, idarray => {
 	});
 });
 
-/* Edit toggle */
-on("change:settingHideShare", function() {
-	setAttrs({"settingEditMode":"0"});
-});
-
-/* Auto: Community Rules (Test) */
-on("change:settingTestOption", function() {
-getAttrs(["settingTestOption", "fortitude", "charRankNum"], function(values) {
-	let state = values.settingTestOption;
-
-	/* Rank-based Attack Power */
-	let fortitude = parseInt(values.fortitude);
-	let charRankNum = parseInt(values.charRankNum);
-	
-	if (state == "true") {
-		setAttrs({"attPower":charRankNum});
-	} else {
-		setAttrs({"attPower":fortitude});
-	}
-	});
-});
-
 /* Auto: Setting Evade influence */
-on("change:settingEvdInfluence", function() {
-getSectionIDs(`repeating_global`, idarray => {
-        let id = `repeating_global_${idarray[0]}`;
+on("change:repeating_global:evdStat change:repeating_global:evdAilment", function() {
+	getSectionIDs(`repeating_global`, idarray => {
+    let id = `repeating_global_${idarray[0]}`;
 
-	getAttrs(["settingEvdInfluence", `${id}_evdAilment`, "insight", "Haste", "Bind", "Endurance", "Disarm"], function(values) {
+	getAttrs([`${id}_evdAilment`, "insight", "Haste", "Bind", "Endurance", "Disarm"], function(values) {
 	let evdinfluence = values[`${id}_evdAilment`];
 	let newevd = "0";	
 	let insight = parseInt(values.insight);
@@ -9986,12 +8344,31 @@ getSectionIDs(`repeating_global`, idarray => {
 	
 	if (evdinfluence == "HasteBind") {
 		positive = parseInt(values.Haste);
-		negative = parseInt(values.Bind);
-		setAttrs({"evdPositive":positive, "evdNegative":negative});
+		negative = parseInt(values.Bind);	
 	} else {
 		positive = parseInt(values.Endurance);
 		negative = parseInt(values.Disarm);
-		setAttrs({"evdPositive":positive, "evdNegative":negative});
+	}
+
+	setAttrs({"evdPositive":positive, "evdNegative":negative});
+	});
+	});
+});
+
+/* Auto: Update Evd power (Endurance/Disarm) */
+on("change:Endurance change:Disarm", function() {
+	getSectionIDs(`repeating_global`, idarray => {
+    let id = `repeating_global_${idarray[0]}`;
+
+	getAttrs([`${id}_evdAilment`, "evdPositive", "evdNegative", "Endurance", "Disarm"], function(values) {
+	let evdinfluence = values[`${id}_evdAilment`];
+
+	let endurancenum = parseInt(values.Endurance);
+	let disarmnum = parseInt(values.Disarm);
+
+	/* Update Evd */
+	if (evdinfluence == "EnduranceDisarm") {
+		setAttrs({"evdPositive":endurancenum, "evdNegative":disarmnum});
 	}
 	});
 	});
@@ -10133,8 +8510,6 @@ on("sheet:opened", function() {
 	});
 });
 
-
-
 /* Auto: Recalc Advantage state */
 on("change:advNum change:disadvNum", function() {
 	getAttrs(["advNum", "disadvNum"], function(values) {
@@ -10166,54 +8541,12 @@ on("change:Fortune change:Paralysis", function() {
 	});
 });
 
-/* Auto: EGO - Clear skill select */
-on("change:egoActiveState", function() {
-	getAttrs(["egoActiveState"], function(values) {
-	let egostate = values.egoActiveState;
-	let output = {};
-
-	if (egostate == "0") {
-		output["skillSelect"] = "0";
-	}
-	output["toolSelect"] = "";
-
-	setAttrs(output);
-	});
-});
-
-/* Auto: Skill loadout change - Clear skill select */
-let skillList = "";
-for (let i = 1; i <= 6; i++) { skillList += `change:skill${i}Type change:egoSkill${i}Type`; }
-on(skillList, function() {
-	setAttrs({"skillSelect":"0"});
-});
-
-/* Auto: Update Evd power (Endurance/Disarm) */
-on("change:Endurance change:Disarm", function() {
-
-getSectionIDs(`repeating_global`, idarray => {
-        let id = `repeating_global_${idarray[0]}`;
-
-	getAttrs(["settingEvdInfluence", `${id}_evdAilment`, "evdPositive", "evdNegative", "Endurance", "Disarm"], function(values) {
-	let evdinfluence = values[`${id}_evdAilment`];
-
-	let endurancenum = parseInt(values.Endurance);
-	let disarmnum = parseInt(values.Disarm);
-
-	/* Update Evd */
-	if (evdinfluence == "EnduranceDisarm") {
-		setAttrs({"evdPositive":endurancenum, "evdNegative":disarmnum});
-	}
-	});
-	});
-});
-
 /* Auto: Update calculated speed | Update Evd power (Haste/Bind) */
 on("change:Haste change:Bind change:thisRoundSpeed change:baseSpeed", function() {
 getSectionIDs(`repeating_global`, idarray => {
     let id = `repeating_global_${idarray[0]}`;
 
-	getAttrs(["settingTurnUpdate", "baseSpeed", "prevSpeed", "thisRoundSpeed", "Haste", "Bind", "character_name", "settingEvdInfluence", `${id}_evdAilment`, "evdPositive", "evdNegative"], function(values) {
+	getAttrs(["settingTurnUpdate", "baseSpeed", "prevSpeed", "thisRoundSpeed", "Haste", "Bind", "character_name", `${id}_evdAilment`, "evdPositive", "evdNegative"], function(values) {
 	let turnupdate = values.settingTurnUpdate;
 	let evdinfluence = values[`${id}_evdAilment`];
 
@@ -10232,65 +8565,44 @@ getSectionIDs(`repeating_global`, idarray => {
 
 	/* Update Evd */
 	if (evdinfluence == "HasteBind") {
-	setAttrs({"evdPositive":hastenum, "evdNegative":bindnum});
-
+		setAttrs({"evdPositive":hastenum, "evdNegative":bindnum});
 	}
 
-	if (turnupdate == "true") {
-	if (prevspeed != newspeed) {
-	startRoll("/w @{character_name} Speed updated: [[@{calcSpeed} &{tracker}]]", (results) => {
-            finishRoll(results.rollId, {} );
-       			 });
-			}
-		}	
+	if (turnupdate == "true" && prevspeed != newspeed) {
+		startRoll("/w @{character_name} Speed updated: [[@{calcSpeed} &{tracker}]]", (results) => {
+			finishRoll(results.rollId, {} );
+		});
+	}	
 	});
 	});
 });
-
 
 /* Auto: Update ailment and tool icons */
 on("sheet:opened", function(info) { // TODO: This looks redundant, but may be needed to load icons from ailments gained through "apply default settings?"
 	getSectionIDs(`repeating_ailments`, idarray => {
 	let fieldnames = idarray.reduce((rows,id) => [...rows, `repeating_ailments_${id}_ailIcon`, `repeating_ailments_${id}_ailIconDisplay`], '');
-	for (let i = 1; i <= 4; i++) { fieldnames = [...fieldnames, `tool${i}Icon`, `tool${i}IconDisplay`] }
 
 	getAttrs([...fieldnames,], function(values) {
 		let output = {}
 		
-		idarray.forEach(id => {
+		for (const id of idarray) {
 			if (!(values[`repeating_ailments_${id}_ailIconDisplay`].includes("http"))) {
 				updateIcon("ailment", values[`repeating_ailments_${id}_ailIcon`], id, output);
 			}
-		});
-		for (let i = 1; i <= 4; i++) {
-			if (!(values["tool", `tool${i}IconDisplay`].includes("http"))) {
-				updateIcon("tool", values[`tool${i}Icon`], i, output);
-			}
 		}
 		setAttrs(output);
-		});
+	});
 	});
 });
 on("change:repeating_ailments:ailIcon", function(info) {
 	updateIcon("ailment", info.newValue, info.sourceAttribute.split("_")[2]);
 });
-on("change:tool1Icon change:tool2Icon change:tool3Icon change:tool4Icon", function(info) {
-	updateIcon("tool", info.newValue, info.sourceAttribute.match(/tool(\d)icon/)[1]);
-});
 function updateIcon(type, baseIcon, id, returnOutput=false) {
-	if (!baseIcon) {
-		switch (type) {
-			case "tool": baseIcon = "icons/Portable"; break;
-			default: baseIcon = "icons/question";
-		}
-	}
-	
-	let newIcon = getIcon(baseIcon);
+	let newIcon = getIcon(baseIcon || "icons/question");
 
 	/* Set new icon */
 	let attrPrefix = "";
 	switch (type) {
-		case "tool": attrPrefix = `tool${id}`; break;
 		case "ailment": attrPrefix = `repeating_ailments_${id}_ail`; break;
 		case "tag": attrPrefix = `repeating_tags_${id}_tag`; break;
 	}
@@ -10324,7 +8636,7 @@ on(ailmentEvents, function() {
 on('clicked:resetAilments', function() {
 	resetAilments();
 });
-function resetAilments(callback=()=>{}) {
+function resetAilments(callback=()=>{}) { // TODO: Update to use access
 	getSectionIDs(`repeating_global`, idarray => {
         let id = `repeating_global_${idarray[0]}`;
 
@@ -10363,51 +8675,17 @@ function resetAilments(callback=()=>{}) {
 	});
 }
 
-/*Action: Reset uses */
-on('clicked:resetUses', function() {
-	getAttrs(["tool1Reusable", "tool1Uses_max", "tool2Reusable", "tool2Uses_max", "tool3Reusable", "tool3Uses_max", "tool4Reusable", "tool4Uses_max", "weapon1Uses_max", "weapon1UseType", "weapon2Uses_max", "weapon2UseType", "weapon3Uses_max", "weapon3UseType", "weapon4Uses_max", "weapon4UseType", "egoUses_max", "egoUseType"], function(values) {
-	
-	let output = {};
-
-	if (values.tool1Reusable == "Reusable") {
-	output["tool1Uses"] = values.tool1Uses_max;
+/* Action: Reset uses */
+onAccess('clicked:resetUses', {}, function(info) {
+	for (const item of access.items) {
+		if (item.limited.enabled && item.limited.uses.enabled && item.limited.uses.recharge == "Refresh") {
+			item.limited.uses.current = Math.max(item.limited.uses.current, item.limited.uses.max);
+		}
 	}
-	if (values.tool2Reusable == "Reusable") {
-	output["tool2Uses"] = values.tool2Uses_max;
-	}
-	if (values.tool3Reusable == "Reusable") {
-	output["tool3Uses"] = values.tool3Uses_max;
-	}
-	if (values.tool4Reusable == "Reusable") {
-	output["tool4Uses"] = values.tool4Uses_max;
-	}
-
-	if (values.weapon1UseType == "Reload") {
-	output["weapon1Uses"] = values.weapon1Uses_max;
-	}
-	if (values.weapon2UseType == "Reload") {
-	output["weapon2Uses"] = values.weapon2Uses_max;
-	}
-	if (values.weapon3UseType == "Reload") {
-	output["weapon3Uses"] = values.weapon3Uses_max;
-	}
-	if (values.weapon4UseType == "Reload") {
-	output["weapon4Uses"] = values.weapon4Uses_max;
-	}
-
-	if (values.egoUseType == "Reload") {
-	output["egoUses"] = values.egoUses_max;
-	}
-
-
-
-	setAttrs(output);
-
-	});
 });
 
 /* Action: Reset health */
-on('clicked:resetHealth', function() {
+on('clicked:resetHealth', function() { // TODO: Update to use access
 getSectionIDs(`repeating_global`, idarray => {
     let id = `repeating_global_${idarray[0]}`;
 
@@ -10432,7 +8710,7 @@ getSectionIDs(`repeating_global`, idarray => {
 });
 
 /* Action: Reset stats */
-on('clicked:resetStats', async function() {
+onAccess('clicked:resetStats', {}, async function() {
 	let queryResults = await sendQuery(["userConfirmation",
 		getTranslationByKeyCustom("Are you certain you want to reset the stats of your character? This will also reset any derived values (Health, Stagger Res, etc.)", "query-reset-stats"), {
 			[getTranslationByKeyCustom("No", "query-no")]: false,
@@ -10441,7 +8719,9 @@ on('clicked:resetStats', async function() {
 	]);
 
 	if (queryResults.userConfirmation) {
-		setAttrs({"fortitude":"0", "prudence":"0", "justice":"0", "charm":"0", "insight":"0", "temperance":"0"});
+		for (const stat of statNames) {
+			access.character[stat.toLowerCase()] = 0;
+		}
 	}
 });
 
@@ -10496,15 +8776,12 @@ function dataExportGlobal() {
 }
 
 /* Action: Import global settings */
-   on('clicked:importGlobal', function() {
+on('clicked:importGlobal', function() {
+	getSectionIDs(`repeating_global`, idarray => {
+		let id = `repeating_global_${idarray[0]}_`;
 
-      getSectionIDs(`repeating_global`, idarray => {
-           let id = `repeating_global_${idarray[0]}_`;
-
-		dataImport("gameEditor", id, "global_");
-
-		});
-
+	dataImport("gameEditor", id, "global_");
+	});
 });
 
 /* Action: Sync global settings */
@@ -10588,8 +8865,7 @@ on('clicked:resetHelpers', function() {
 	let newadvNum = values.Fortune;
 	let newdisadvNum = values.Paralysis;
 
-	setAttrs({"baseSpeed":"0", "Difficulty":"0", "advNum":newadvNum, "disadvNum":newdisadvNum, "advState":"0", "baseLuckNum":"0", "skillSelect":"0"});
-
+	setAttrs({"baseSpeed":"0", "Difficulty":"0", "advNum":newadvNum, "disadvNum":newdisadvNum, "advState":"0", "baseLuckNum":"0"});
  	});
 });
 
@@ -10618,114 +8894,14 @@ on("change:egoCondition", function() {
 	});
 });
 
-/* Checking for tool select changes */
-on("change:tool1Name change:tool2Name change:tool3Name change:tool4Name change:tool1Uses change:tool2Uses change:tool3Uses change:tool4Uses change:special1Name change:special2Name ", function() {
-
-	setAttrs({"toolSelect":""});
-
-});
-
-/* Checking for weapon range changes */
-on("change:weapon1Range", function() { 
-	getAttrs(["weapon1Range"], function(values) {
-	if (values.weapon1Range == "Ranged") {setAttrs({"weapon1UseType":"Reload"}); }
-	else { setAttrs({"weapon1UseType":"Limitless"}); }
-	}); });
-
-on("change:weapon2Range", function() { 
-	getAttrs(["weapon2Range"], function(values) {
-	if (values.weapon2Range == "Ranged") {setAttrs({"weapon2UseType":"Reload"}); }
-	else { setAttrs({"weapon2UseType":"Limitless"}); }
-	}); });
-
-on("change:weapon3Range", function() { 
-	getAttrs(["weapon3Range"], function(values) {
-	if (values.weapon3Range == "Ranged") {setAttrs({"weapon3UseType":"Reload"}); }
-	else { setAttrs({"weapon3UseType":"Limitless"}); }
-	}); });
-
-on("change:weapon4Range", function() { 
-	getAttrs(["weapon4Range"], function(values) {
-	if (values.weapon4Range == "Ranged") {setAttrs({"weapon4UseType":"Reload"}); }
-	else { setAttrs({"weapon4UseType":"Limitless"}); }
-	}); });
-
-/* Auto: Update Skill Selection */
-on("change:skillSelect", function() {
-
-	/* Get IDs/names */
-	getAttrs(["skillSelect"], function(values) {
-    let buttonid = values.skillSelect;
-	let skillcat = buttonid.split('S')[0];
-
-	let name = buttonid + "Name";
-	let type = buttonid + "Type";
-	let rank = buttonid + "Rank";
-	let effect = buttonid + "Effect";
-	let desc = buttonid + "Description";
-	let light = buttonid + "Light";
-
-	let diceA = buttonid + "Dice1";
-	let diceB = buttonid + "Dice2";
-	let diceC = buttonid + "Dice3";
-	let noskill = "0";
-
-	/* Get attributes */
-	if (buttonid != "0") {
-        getAttrs([`${name}`, `${type}`, `${rank}`, `${effect}`, `${desc}`, `${light}`, `${diceA}`, `${diceB}`, `${diceC}`, "Light"], function(values) {
-
-	let skillname = values[name];
-	let skillrank = values[rank];
-	let skilltype = values[type];
-	let skilleffect = values[effect];
-	let skilldesc = values[desc];
-	let skilllight = values[light];
-
-	let skilldiceA = values[diceA];
-	let skilldiceB = values[diceB];
-	let skilldiceC = values[diceC];
-
-	let currentLight = values.Light;
-
-	if (currentLight < skilllight) {
-	noskill = "true";
-
-	setAttrs({"selectName":skillname, "selectRank":"0", "selectType":"0", "selectEffect":skilleffect, "selectDescription":skilldesc, "selectLight":skilllight, "selectDice1":"0", "selectDice2":"0", "selectDice3":"0", "selectDefDice1":"0", "selectDefDice2":"0", "selectDefDice3":"0", "selectAtkDice1":"0", "selectAtkDice2":"0", "selectAtkDice3":"0", "selectEvdDice1":"0", "selectEvdDice2":"0", "selectEvdDice3":"0", "selectCancel":noskill});
-	}
-	else{
-	if (skilltype == "Attack" || skilltype == "Mass") {
-	setAttrs({"selectAtkDice1":skilldiceA, "selectAtkDice2":skilldiceB, "selectAtkDice3":skilldiceC, "selectDefDice1":"0", "selectDefDice2":"0", "selectDefDice3":"0", "selectEvdDice1":"0", "selectEvdDice2":"0", "selectEvdDice3":"0"});
-		}
-	else if (skilltype == "Defend") {
-	setAttrs({"selectDefDice1":skilldiceA, "selectDefDice2":skilldiceB, "selectDefDice3":skilldiceC, "selectAtkDice1":"0", "selectAtkDice2":"0", "selectAtkDice3":"0", "selectEvdDice1":"0", "selectEvdDice2":"0", "selectEvdDice3":"0"});
-		}
-	else if (skilltype == "Evade") {
-	setAttrs({"selectEvdDice1":skilldiceA, "selectEvdDice2":skilldiceB, "selectEvdDice3":skilldiceC, "selectDefDice1":"0", "selectDefDice2":"0", "selectDefDice3":"0", "selectAtkDice1":"0", "selectAtkDice2":"0", "selectAtkDice3":"0"});
-		}
-	else {
-	setAttrs({"selectEvdDice1":"0", "selectEvdDice2":"0", "selectEvdDice3":"0", "selectDefDice1":"0", "selectDefDice2":"0", "selectDefDice3":"0", "selectAtkDice1":"0", "selectAtkDice2":"0", "selectAtkDice3":"0"});
-
-		}
-
-	setAttrs({"selectName":skillname, "selectRank":skillrank, "selectType":skilltype, "selectEffect":skilleffect, "selectDescription":skilldesc, "selectLight":skilllight, "selectDice1":skilldiceA, "selectDice2":skilldiceB, "selectDice3":skilldiceC, "selectCancel":noskill});
-	}
-		});
-	}
-else {
-	setAttrs({"selectName":" ", "selectRank":"0", "selectType":"0", "selectEffect":" ", "selectDescription":" ", "selectLight":"0", "selectDice1":"0", "selectDice2":"0", "selectDice3":"0", "selectDefDice1":"0", "selectDefDice2":"0", "selectDefDice3":"0", "selectAtkDice1":"0", "selectAtkDice2":"0", "selectAtkDice3":"0", "selectEvdDice1":"0", "selectEvdDice2":"0", "selectEvdDice3":"0", "selectCancel":noskill});
-	}
-
-});
-
-});
-
-
 /* Action: Update ailments */
 /*
 on('clicked:updateAilments', function() {
 	Update();
 });
 */
+
+// TODO: Change this to be syncronous and use token data in access
 
 /* Executed either a standard update or a generic token update if the setting is enabled */
 let updateDelay = 1000;
@@ -11206,7 +9382,7 @@ getAttrs(["Bleed", "BleedPause", "bleedResist", "bleedResist_ego", "distortState
 
 			bleedmessage = `${langBleed} **${bleeddamage}** ${langDamage}. ${langResistCombined} ${THPmessage}`;
 
-			/*--- Send roll --*/
+			/* --- Send roll */
 			startRoll((whisper + `&{template:message} {{icon=${iconnew}}} {{name=@{character_name}}} {{message=${bleedmessage} }}`), (results) => {
 				finishRoll(results.rollId, { });
 			});
@@ -11229,59 +9405,42 @@ getAttrs(["Bleed", "BleedPause", "bleedResist", "bleedResist_ego", "distortState
 	});
 }
 
-/* Action: Status ailment increment + Pause value reveal toggle + Trigger ailment */
-onJQ('clicked:ailmentClicker clicked:repeating_ailments:clickercustom', (info) => {
-	let keyPressed = (info.altKey) ? "alt" : (info.ctrlKey) ? "ctrl" : false;
-
-	/* Get currect attribute */
-	let ailmentType = (info.sourceAttribute) ? "custom" : "standard";
-	let ailmentAttr = (info.htmlAttributes.class.includes("reveal-CountPause")) ? "CountPause" : "Count";
-	let ailmentName = "";
-
-	if (ailmentType == "custom") {
-		ailmentName = info.sourceAttribute.split('_')[2];
-		ailmentAttr = `repeating_ailments_${ailmentName}_ail${ailmentAttr}`;
-	} else {
-		ailmentName = info.htmlAttributes.id.split('_')[1];
-		ailmentAttr = (ailmentAttr == "Num") ? ailmentName : ailmentName + ailmentAttr;
-	}
-
-	/* If not pressing any keys, increment ailment count by 1 */
-	if (!keyPressed) {
-		getAttrs([ailmentAttr], function(values) {
-			setAttrs({[ailmentAttr]: parseInt(values[ailmentAttr]) + 1});
-		});
-	}
+/* Action: Status ailment increment */
+/* Alt click: Reveal ailment Pause value */
+/* Ctrl click: Trigger ailment */
+onJQ('clicked:repeating_ailments:ailment-clicker', function (info) {
+	access._begin("action:clicked", () => {
+		let keyPressed = (info.altKey) ? "alt" : (info.ctrlKey) ? "ctrl" : false;
 	
-	/* If pressing alt, reveal the ailments CountPause field */
-	else if (keyPressed == "alt") {
-		let pauseInputSelector = (ailmentType == "custom")
-			? `[data-reprowid*=${ailmentName}] [name*=attr_ailCountPause]`
-			: `[name*=attr_${ailmentName}CountPause]`;
-		
-		let ailmentButtonSelecter = (ailmentType == "custom")
-			? `[data-reprowid*=${ailmentName}] [name*=act_clickercustom]`
-			: `button[id*=ailment_${ailmentName}]`;
-
-		$20(ailmentButtonSelecter).toggleClass("reveal-CountPause");
-		$20(pauseInputSelector).toggleClass("reveal-CountPause");
-	}
-
-	/* If pressing ctrl, trigger the ailment */
-	else if (keyPressed == "ctrl") {
-		if (ailmentType == "custom") {
-			updateCustomAilment(ailmentName, "standard", "false");
-		} else {
-			updateAilments([ailmentName]);
+		/* Get currect attribute */
+		let ailmentType = (info.sourceAttribute) ? "custom" : "standard";
+		let ailmentAttr = (info.htmlAttributes.class.includes("reveal-CountPause")) ? "CountPause" : "Count";
+		let ailID = info.sourceAttribute.split('_')[2];
+		let ailment = access.ailments[ailID];
+	
+		/* If not pressing any keys, increment ailment count by 1 */
+		if (!keyPressed) {
+			ailment.count += 1;
 		}
-	}
+		
+		/* If pressing alt, reveal the ailments CountPause field */
+		else if (keyPressed == "alt") {
+			$20(`[data-reprowid*=${ailID}] [name*=act_ailment-clicker]`).toggleClass("reveal-CountPause");
+			$20(`[data-reprowid*=${ailID}] [name*=attr_ailCountPause]`).toggleClass("reveal-CountPause");
+		}
+	
+		/* If pressing ctrl, trigger the ailment */
+		else if (keyPressed == "ctrl") {
+			updateCustomAilment(ailmentName, "standard", "false");
+		}
+	});
 });
 
 /* Action: Combat Roll */
 on('clicked:rollCombat', (info) => {
 	rollCombat(info);
 });
-function rollCombat(info) {
+function rollCombat(info) { // TODO: Remove this
 	/* Preparing values */
 	/* Get IDs/names */
 	let buttonid = info.htmlAttributes.id.split('_')[1];
@@ -11767,7 +9926,7 @@ function rollCombat(info) {
 	whisper = "/w " + whispertarget;
 	}
 
-	/*--- send roll end --*/
+	/* --- send roll end */
 	startRoll((whisper + `&{template:baseRoll} ${rollformat} {{advantage=@{advState}}} {{infodump=@{dummy}}}`), (results) => {
 
 		let total = 0;
@@ -11841,7 +10000,7 @@ function rollCombat(info) {
 		}
 		createChatButtons({...damageButtonList, ...chatButtonList}, {reactions:targettokenid});
     });
-	/*--- send roll end ---*/
+	/* --- send roll END --- */
 
 	/* Cleanup */
 	updateAdvantages(combinedice1);
@@ -11853,8 +10012,6 @@ function rollCombat(info) {
 	});
 	});
 }
-
-
 
 
 // TODO: Move this to the access resource events
@@ -11874,7 +10031,7 @@ function resourceReq(reqArray, opts={deduct:false, expand:true}) {
 				reqFailure[resource] = cost;
 			}
 		} else if (resource in access.resource) {
-			console.log(`Require ${cost} ${resource}. Current count is ${access.resource[resource].current}`);
+			//console.log(`Require ${cost} ${resource}. Current count is ${access.resource[resource].current}`);
 
 			if (access.resource[resource].current < cost) {
 				if (opts.expand && is(resource).In("counter", "block", "evade") && access.resource.universal.current >= cost) {
@@ -12424,156 +10581,6 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 	});
 }
 
-/* Action: Challenge Roll */
-/*
-on('clicked:rollChallenge', (info) => {
-	// Get IDs/names
-	let buttonid = info.htmlAttributes.id.split('_')[1];
-	rollChallenge(buttonid);
-});
-*/
-
-function rollChallenge(buttonid, rollDifficulty=0, collectAutoScripts="false") {
-	
-	/* Preparing values */
-	let headercolor = "#888";
-	let newicon = "/";
-	let headertext = "#fff";
-	let challenge = "{{challenge= }}";
-	let basetype = "";
-
-	/* Get attributes */
-    getAttrs([`${buttonid}`, "advState", "difficulty", "justice", "settingSimpleDisplay", "settingWhisperRolls", "settingWhisperTarget", "character_name", "targetTokenId", "advNum", "disadvNum", "Fortune", "Paralysis"], function(values) {
-
-	let charname = values.character_name;
-	let targettokenid = values.targetTokenId || "";
-	let stat = values[buttonid];
-	let statn = capitalize(buttonid);
-	let advstate = values.advState || "0";
-	let advcounter = values.advNum || values.Fortune || 0;
-	let disadvcounter = values.disadvNum || values.Paralysis || 0;
-	let simpledisplay = values.settingSimpleDisplay;
-	let whisperrolls = values.settingWhisperRolls;
-	let whispertarget = values.settingWhisperTarget;
-	let tracker = "";
-
-	let difficulty = parseInt(values.difficulty) + parseInt(rollDifficulty);
-	let spdjustice = values.justice;
-	let lucknum = "0";
-
-	/* AutoScripts */
-	let autoScriptTriggers = ["None"];
-	if (buttonid == "speed") { autoScriptTriggers.push("Combat start"); collectAutoScripts = "true"; }
-	else if (buttonid != "luck") { autoScriptTriggers.push("Challenge"); collectAutoScripts = "true"; }
-
-	if (collectAutoScripts == "true") { resetConditionals(); }
-	AutoScriptMain("", autoScriptTriggers, collectAutoScripts, "false", {}, function(returnValues) {
-	
-	if (returnValues.DicePower) { stat += parseInt(returnValues.DicePower); }
-	let autoEffectDiceCount = returnValues.DiceCount || 0;
-	let autoEffectDiceMax = returnValues.DiceMax || 0;
-	let autoEffectDiceAdv = returnValues.DiceAdv || 0;
-	let autoEffectSpeedCombat = returnValues.SpeedCombat || 0;
-	let autoScriptMessage = returnValues.message || "";
-	let chatButtonList = returnValues.buttonList || {}
-	
-	let rollformat = Math.max(autoEffectDiceCount + 2, 0) + "d" + Math.max(autoEffectDiceMax + 6, 0) + "+" + parseInt(stat) + "+(" + parseInt(difficulty) + ")";
-
-	/* Type Formatting */
-	switch (statn) {
-		case "Luck":
-			newicon = getIcon("icons/fortunewhite");
-			headercolor = "#dbb748";
-			rollformat = `2d6+(${parseInt(difficulty)})`;
-			challenge = " ";
-			break;
-		case "Speed":
-			newicon = getIcon("icons/Speed");
-			headercolor = "#cf8c44";
-			tracker = "&{tracker}"
-			rollformat = `1d6+(${parseInt(spdjustice) + parseInt(autoEffectSpeedCombat) + parseInt(difficulty)})`;
-			challenge = " ";
-			break;
-		default: newicon = getIcon(`stats/${statn}`);
-	}
-
-	// TODO: Remove this later. It's a temporary solution until every Instinct/Wisdom occurences is updated
-	if (statn == "Fortitude") statn = "Instinct"; buttonid = "instinct";
-	if (statn == "Prudence") statn = "Wisdom"; buttonid = "wisdom";
-
-	/* Translation */
-	let langFrom = getTranslationByKeyCustom("From", "message-from");
-	let langRoll = getTranslationByKeyCustom("Roll", "message-roll");
-	let langAdv = getTranslationByKeyCustom("Adv.", "message-adv");
-	let langDisadv = getTranslationByKeyCustom("Disadv.", "message-disadv");
-	let langStat = getTranslationByKeyCustom(statn, "stats-" + buttonid);
-
-	/* Advantage processing */
-	let advmod = "";
-	let rollformatmessage = rollformat;
-	rollformat += tracker;
-
-	if (autoEffectDiceAdv != 0) {
-		let sumadv = Math.min(advcounter, 1) - Math.min(disadvcounter, 1) + Math.min(autoEffectDiceAdv, 1);
-
-		if (sumadv == 0) {
-			advstate = "0";
-		} else if (sumadv > 0) {
-			advstate = "Advantage";
-		} else {
-			advstate = "Disadvantage";
-		}
-	}
-
-	switch (advstate) {
-		case "Advantage": advmod = "kh1"; break;
-		case "Disadvantage": advmod = "dh1"; break;
-		default: advstate = " ";
-	}
-	if (advstate != " ") {
-	rollformat = "{(" + rollformat + "), (" + rollformat + ")}" + advmod;
-	rollformatmessage = rollformatmessage + " <span style='color: #85a874;'>(" + langAdv + ")</span>";
-	}
-
-	let header = "<div style='background-color: #222; overflow: hidden; height: 30px; border: 2px #000 solid; color: #fff'><div style='float: left'><img src='" + newicon + "' style='width: 30px; height: 30px; border-right: 2px #000 solid; margin-right: 5px; background-color:" + headercolor + "'></div><div style='width: 55%; overflow: hidden; height: 20px; padding-top: 5px; float: left;'><b>" + langStat + "</b></div></div>";
-
-	let body = "<b>" + langFrom + ": </b>" + charname + "<br><b>" + langRoll + ": </b>" + rollformatmessage;
-
-	let info = header + body + autoScriptMessage;
-
-	if (simpledisplay == "true") {
-		info = header;
-	}
-
-	let whisper = "";
-	if (whisperrolls == "true") {
-		whisper = "/w " + whispertarget;
-	}
-
-
-	setAttrs({"dummy":info, "advState":advstate, "skillSelect":"0"});
-
-	/*--- send roll end --*/
-	startRoll((whisper + `&{template:baseRoll} {{roll1=[[${rollformat}]]}} {{infodump=@{dummy}}} ${challenge}`), (results) => {
-	    const total = results.results.roll1.result;
-
-		switch (statn) {
-			case "Luck": setAttrs({"baseLuckNum": total }); break;
-			case "Speed": setAttrs({"baseSpeed": total, "isFirstRound": "true", "prevRoundInitAttempts": 1}); break;
-		}
-		finishRoll(results.rollId);
-		
-		/* Create chat buttons */
-		createChatButtons(chatButtonList);
-	});
-	/*--- send roll end ---*/
-
-	/* Cleanup */
-	updateAdvantages("1");
-	});
-	});
-}
-
 
 /* Action: Damage helper Apply damage */
 on('clicked:applyDamage', (info) => {
@@ -13105,7 +11112,6 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 	});
 }
 
-
 /* Damage helper functions beginning */
 function generateDamageHelperHeader(bar, newBar, oldBar, staggerState="0", autoapplydamage="true", hidebarupdate="false") {
 	let langBar = getTranslationByKeyCustom(bar, `bar-${barNamesFull[barNames.indexOf(bar)].toLowerCase()}-shortened`);
@@ -13158,7 +11164,6 @@ function generateDamageHelperBodyEffect(effectName, effectVal, effectType, ailme
 }
 
 function applyTempBarDamage(sourceName, sourceVals, targetBar, damage, newBar) {
-
 	if (damage > 0) {
 		let tempBarVal = parseInt(sourceVals[0]);
 		let messageVal = Math.min(tempBarVal, damage);
@@ -13215,7 +11220,6 @@ function applyTempBarDamageAilment(tempBar_Sources, target, damage, newBar) {
 }
 
 on('change:repeating_ailments:ailCount', (info) => {
-
 	let ailPrefix = info.sourceAttribute.replace("ailcount","");
 
 	getAttrs([`${ailPrefix}ailCount`, `${ailPrefix}ailEffectType`, `${ailPrefix}ailName`, `${ailPrefix}ailEffectValue`, `${ailPrefix}ailEffectMode`,
@@ -13278,45 +11282,6 @@ function updateTempBar(values={}, target, name, tempBarVal, tempNum, effectName,
 	return (tempSource[`${name}`]) ? tempSource[`${name}`][0] : 0;
 }
 
-
-/* Update: Tool uses */
-on('change:tool1Reusable change:tool2Reusable change:tool3Reusable change:tool4Reusable', () => {
-
-    getAttrs(["tool1Reusable", "tool1Uses", "tool1Uses_max", "tool2Reusable", "tool2Uses", "tool2Uses_max", "tool3Reusable", "tool3Uses", "tool3Uses_max", "tool4Reusable", "tool4Uses", "tool4Uses_max"], function(values) {
-	output = {};	
-
-	if (values.tool1Reusable != "Reusable") {
-	output["tool1Uses"] = "1";
-	}
-	else if (values.tool1Reusable == "Reusable" && parseInt(values.tool1Uses) <= 1) {
-	output["tool1Uses"] = values.tool1Uses_max;
-	}
-
-	if (values.tool2Reusable != "Reusable") {
-	output["tool2Uses"] = "1";
-	}
-	else if (values.tool2Reusable == "Reusable" && parseInt(values.tool2Uses) <= 1) {
-	output["tool2Uses"] = values.tool2Uses_max;
-	}
-
-	if (values.tool3Reusable != "Reusable") {
-	output["tool3Uses"] = "1";
-	}
-	else if (values.tool3Reusable == "Reusable" && parseInt(values.tool3Uses) <= 1) {
-	output["tool3Uses"] = values.tool3Uses_max;
-	}
-
-	if (values.tool4Reusable != "Reusable") {
-	output["tool4Uses"] = "1";
-	}
-	else if (values.tool4Reusable == "Reusable" && parseInt(values.tool4Uses) <= 1) {
-	output["tool4Uses"] = values.tool4Uses_max;
-	}
-
-	setAttrs(output);
-
-	});
-});
 
 /* Action: Declare action */
 on('clicked:declareAction', (info) => {
@@ -13572,14 +11537,14 @@ on('clicked:declareAction', (info) => {
 	whisper = "/w " + whispertarget;
 	}
 
-	/*--- send roll end --*/
+	/* --- send roll end */
 	startRoll((whisper + "&{template:baseRoll} {{infodump=@{dummy} }}"), (results) => {
         finishRoll(results.rollId,{});
 
 		/* Create chat buttons */
 		createChatButtons(chatButtonList);
     });
-	/*--- send roll end ---*/
+	/* --- send roll END --- */
 
 	output = {...output,
 		"skillSelect": "",
@@ -13653,12 +11618,8 @@ on("clicked:shareOutfit", function() {
 });
 
 
+/* Experimental: Change sheet Iframe via a chat button + sort chat messages */
 on("clicked:testButton", function(values) {
-	/*executeRolls([], (returnValues) => {
-		console.log(" --- Finished test --- ")
-		console.log("returnValues: ", returnValues)
-	});*/
-
 	let msgId = generateRowID();
 	let msgNr = 0;
 	
@@ -13687,43 +11648,6 @@ function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='
 	if (!baseUrl.startsWith("////")) {
 		baseUrl = "////" + baseUrl;
 	}
-
-	/* See https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments for more details */
-	
-	/*
-	let id1 = generateRowID();
-	let id2 = generateRowID();
-
-	let temp = `
-	<h3>Table of Contents</h3>
-	<ol>
-	  <li><a href="#sheet${id1}">Jump to the first paragraph!</a></li>
-	  <li><a href="#sheet${id2}">Jump to the second paragraph!</a></li>
-	  <li><a href="////docs.google.com/document/d/1ok4-2vBbgH9jyBw05kGwsl0F96qrck4vmU9PO5kvoWU">Roll20 Sheet Guide</a></li>
-	  <li>[Jump to the second paragraph](////app.roll20.net/editor/#initiativewindow"> 
-	  <li>
-		<a href="#sheet-nowhere">
-		  This link goes nowhere, because the target doesn't exist.
-		</a>
-	  </li>
-	</ol>
-
-	<h3>My Fun Article</h3>
-	<p id="sheet${id1}">
-	  You can target <i>this paragraph</i> using a URL fragment. Click on the link
-	  above to try out!
-	</p>
-	<p id="sheet${id2}">
-	  This is <i>another paragraph</i>, also accessible from the links above. Isn't
-	  that delightful?
-	</p>
-	<p id="sheet-autoScriptStyling">
-		This is <i>another paragraph</i>, also accessible from the links above. Isn't
-		that delightful?
-	</p>`
-	*/
-
-	//setAttrs({"dummy":header, "dummy2":body});
 
 	let whisperrolls = values.settingWhisperRolls;
 	let whispertarget = values.settingWhisperTarget;
@@ -13874,7 +11798,7 @@ on("clicked:shareAugment", function() {
     });
 });
 
-/*-- Share: Tools --*/
+/* Share: Tools */
 on("clicked:shareTool", function(info) {
 
 	/* Get IDs/names */
@@ -13952,7 +11876,7 @@ on("clicked:shareTool", function(info) {
 });
 
 
-/*-- Share: Special items --*/
+/* Share: Special items */
 on("clicked:shareSpecial", function(info) {
 
 	/* Get IDs/names */
@@ -13985,7 +11909,7 @@ on("clicked:shareSpecial", function(info) {
 
 	/* Formatting */
 
-/* Switching Risk to string */
+	/* Switching Risk to string */
 	switch (specialriskNum) {
 		case "0": specialrisk = "Canard"; break;
 		case "1": specialrisk = "Urban Myth"; break;
@@ -14046,15 +11970,12 @@ on("clicked:shareSpecial", function(info) {
 
 	/* Send */
 	startRoll((whisper + "&{template:shareB} {{header=@{dummy} }} {{body=@{dummy2} }}"), (results) => {
-
-            finishRoll(results.rollId, {} );
-        });
-
+        finishRoll(results.rollId, {} );
     });
-
+    });
 });
 
-/*-- Share: Weapons --*/
+/* Share: Weapons */
 on("clicked:shareWeapon", function(info) {
 
 	/* Get IDs/names */
@@ -14121,7 +12042,7 @@ on("clicked:shareWeapon", function(info) {
     });
 });
 
-/*-- Share: Distortion --*/
+/* Share: Distortion */
 on("clicked:shareDistort", function(info) {
 
 	/* Get attributes */
@@ -14267,15 +12188,12 @@ on("clicked:shareDistort", function(info) {
 
 	/* Send */
 	startRoll((whisper + "&{template:shareB} {{header=@{dummy} }} {{body=@{dummy2} }}"), (results) => {
-
-            finishRoll(results.rollId, {} );
-        });
-
+        finishRoll(results.rollId, {} );
     });
-
+    });
 });
 
-/*-- Share: Ego --*/
+/* Share: Ego */
 on("clicked:shareEgo", function(info) {
 
 	/* Get attributes */
@@ -14396,15 +12314,12 @@ on("clicked:shareEgo", function(info) {
 
 	/* Send */
 	startRoll((whisper + "&{template:shareB} {{header=@{dummy} }} {{body=@{dummy2} }}"), (results) => {
-
-            finishRoll(results.rollId, {} );
-        });
-
+        finishRoll(results.rollId, {} );
     });
-
+    });
 });
 
-/*-- Share: Skills --*/
+/* Share: Skills */
 on("clicked:shareSkill", function(info) {
 
 	/* Get IDs/names */
@@ -14506,33 +12421,20 @@ on("clicked:shareSkill", function(info) {
 
 	/* Send */
 	startRoll((whisper + "&{template:shareB} {{header=@{dummy} }} {{body=@{dummy2} }}"), (results) => {
-
-            finishRoll(results.rollId, {} );
-        });
-
+        finishRoll(results.rollId, {} );
     });
-
+    });
 });
-
-/* Toggle: Edit Mode */
-on("clicked:editMode", function() {
-	getAttrs(["settingEditMode"], function(values) {
-		setAttrs({"settingEditMode": (values.settingEditMode == "true") ? "0" : "true"});
-	});
-});
-
 
 /* Tab toggler */
-const tablist = ["equipment","skills","details","export", "edit"];
-tablist.forEach(tab => {
+for (const tab of ["equipment", "skills", "details", "export", "edit"]) {
 	on(`clicked:${tab}`, function() {
 		setAttrs({sheetTab: tab});
 	});
-});
+}
 
 
-
-/*--- Editor functions ---*/
+/* --- Editor functions --- */
 function openEditor(type, newTarget, newTargetName) {
 	let editorAttrs = [`${newTarget}`, `${type}EditorTarget`, `${type}EditorInput`];
 
@@ -14563,81 +12465,16 @@ function openEditor(type, newTarget, newTargetName) {
 	});
 }
 
-function saveEditor(type, attrs={}, callback=()=>{}) {
-	let options = (type == "item") ? {prefix: type, ignoreDefault: true} : {}
+function saveEditor(type, callback=()=>{}) {
+	getAttrs([`${type}EditorTarget`, `${type}EditorInput`], function(values) {
+		let editorTarget = values[`${type}EditorTarget`];
+		let editorData = values[`${type}EditorInput`];
 
-	/* Helper functions uses to configure which attributes should be retrieved */
-	/* Attrs are structured as {attrKey: defaultValue} pairs */
-	/* Repeating attrs are structured as {repeating_section:attrAlias: {attrKey: defaultValue}} */
-	const computeKeys = (callback=()=>{}) => { // - Deapprechiated. The new input parsing method should work better
-		if (length(attrs) > 0) {
-			getSectionIDs("rollformats", rollformat_idarray => {
-			getSectionIDs("ailments", ailments_idarray => {
-			let idarrays = {"repeating_rollformats": rollformat_idarray, "repeating_ailments": ailments_idarray}
-			
-			let repFormat = {}
-			let editorKeys = []
-
-			for (const [key, value] of Object.entries(attrs)) {
-
-				// Handle repeating attributes
-				if (typeof(value) == "object") {
-					let [repsection, repalias] = key.split(":");
-					let idarray = idarrays[repsection];
-					repFormat[key] = {}
-					
-					// Compute the attributes for each repitem (which each have an unique id)
-					for (let i = 0; i < idarray.length; i++) {
-						let id = idarray[i];
-						repFormat[key][i] = {};
-						
-						for (let [repkey, repvalue] of Object.entries(value)) {
-							repFormat[key][i][`${repsection}_${id}_${repkey}`] = repvalue;
-							editorKeys.push(`${repsection}_${id}_${repkey}`);
-						}
-					}
-				}
-
-				// Handle an optional attribute prefix
-				else if (options.prefix) {
-					editorKeys.push(options.prefix + key);
-				}
-
-				// Handle normal attributes
-				else {
-					editorKeys.push(key);
-				}
-			}
-
-			callback(editorKeys, repFormat);
-			});
-			});
-		} else {
-			callback([`${type}EditorInput`]);
+		/* Save editor data */
+		if (editorTarget != "") {
+			setAttrs({[editorTarget]: editorData});
+			callback();
 		}
-	}
-	
-	computeKeys((editorKeys, repFormat) => {
-		getAttrs([`${type}EditorTarget`, ...editorKeys], function(values) {
-			let editorTarget = values[`${type}EditorTarget`];
-			let editorData = "";
-
-			if (type == "item") {
-				editorData = packageAttrData(values, {}, attrs, repFormat, "standard", options);
-			} else {
-				editorData = values[`${type}EditorInput`];
-			}
-
-			/* Save editor data */
-			if (editorTarget != "") {
-				let output = {[editorTarget]: editorData}
-
-				if (type == "item") { output[`${type}EditorInput`] = editorData; } // For testing purposes. Displays the data in plaintext
-
-				setAttrs(output);
-				callback();
-			}
-		});
 	});
 }
 
@@ -14648,17 +12485,10 @@ function closeEditor(type) {
 		[`${type}EditorTargetName`]: ""
 	});
 }
-/*--- Editor functions end ---*/
+/* --- Editor functions END --- */
 
 
 // Data format used for roll data. This is used for generic roll data, item rollformats and stored rolls
-
-
-// Issues with the roll format:
-// - Applied is only relevant for roll formats
-// - Action and reaction costs are a bit finicky for AutoEffects, being that they can be spread across multiple dice
-// - The same goes for uses spent as part of the roll
-
 const rollDataFormat = {
 	base: {
 		type: "None", damage_type: "None",
@@ -14744,7 +12574,6 @@ const tagDataFormat = {
 			prefix: "tag",
 			case: "snake",
 		},
-		export: {alias: "???"}, // TODO: Need export info for slots/tags (for the base values)
 	},
 
 	item: {
@@ -15310,7 +13139,6 @@ const repDataFormats = {
 					section: itemSections,
 				},
 			},
-			export: {alias: "items"},
 			attrs: {
 				rollformats: {
 					option: "RollFormats",
@@ -15334,7 +13162,6 @@ const repDataFormats = {
 								section: itemSections,
 							},
 						},
-						export: {alias: "rollFormats"},
 					},
 					case: "snake",
 				},
@@ -15529,38 +13356,9 @@ const repDataFormats = {
 					section: "ailments",
 				},
 			},
-			export: {alias: "ailments"},
-			// Oh lord... this will require a lot of aliases
-			// Alternatively, make underscores be removed so ex. "has_next_turn_field" becomes "hasNextRoundField" (capitalization doesn't matter)
-			//  - In this case you'll only need the "ail" prefix + rename some attribute fields in the sheet
-			
-		}
+		},
 	},
-
-	
-
-	// Still missing formats:
-	// - Rolls
-	//   - Note that rolls can have different sources:
-	//     - Item rolls link to the item (repeating + indexed) + editor (repeating)
-	//     - Stored rolls link to the stored rolls UI (repeating)
-	//     - Roll data doesn't link to any attributes, existing only as data used in customRoll() and autoScriptMain()
-	// - Chat buttons
 }
-
-
-
-
-// Handle repeating data as follows:
-// - In the base format, only include the nodes (items, ailments etc.) and any non-repeating props (access.token.id, etc.)
-// - Make these nodes generate as unique variants of dataNode, like access.items being an itemNode
-// - For ex. itemNode, have methods to add and delete repeating data. Have itemNode.input() automatically create new items for unknown ids
-// - In access._initialize(), access is first set up before access.input() is used. This should generate any additional repeating nodes that are needed
-//   - One issue here is how you get the values that are inserted using access.input()
-//   - Previously you generated one dummy item, used that to generate a set of attributes, and then repeated those attributes for every item id in the sheet
-//   - You may want to do the same now, with these ailment/item/rollNodes being generated *outside* of access, while the returned values are input *into* access
-//   - Alternatively, include these nodes in the base format, and then delete them after inputting the values
-
 
 
 // Data formats used for access and access.token
@@ -15897,14 +13695,6 @@ const dataFormat = {
 		},
 		tags: {
 			_repeating: tagDataFormat.base,
-			// Has only repeating data. Is not sorted
-			// Is synced to the tags of a character's currently equipped items
-			// Updates whenever a tag is added or removed in the item editor
-			// AutoEffects can give tags:
-			// - Maybe add a Update tags trigger for this that let users run code whenever tags are recalculated
-			//   - Although in practice this is just [#Equipped, Unequipped, ... #], so it's probably not needed
-			// - Removing tags during an action does not hinder that action from executing, but it may hinder other actions from executing afterwards
-			//   - If you want to hinder an action, remove tags when an item is equipped or unequipped (see above)
 		},
 		slots: (n) => n.tags, // Slots are stored in access.tags
 		global: {
@@ -15914,13 +13704,6 @@ const dataFormat = {
 				key: "var",
 				value: 0,
 			},
-
-			// User defined global variable. Creates an attribute in the attribute tab of the sheet
-			// - Also adds the attribute name to a list of names, which are used to retrieve the attributes when refreshing the sheet
-			// - Tokens have seperate global variables to allow ex. tracking effect countdowns (think TheBlackSilence) seperately for each token
-			//   - To implement this, token vars will have to be tracked seperately in the attribute tab
-			//   - This should not be needed for local vars, which are preserved when changing tokens
-			// - Targets also have seperate variables, which can be useful in some circumstances. They're accessed using access.target.let/var.someVar
 		},
 	},
 
@@ -16235,7 +14018,6 @@ const dataFormat = {
 							section: "storedrolls",
 						},
 					},
-					export: {alias: "storedRolls"},
 				},
 			},
 			applied: {
@@ -16391,7 +14173,7 @@ const dataFormat = {
 					},
 				},
 				attrs: {},
-				export: {alias: "???"}, // TODO: Need export info for variables
+				// TODO: Need export info for variables
 			},
 		},
 	},
@@ -16421,19 +14203,12 @@ on("clicked:testB", function(info) {
 			access.palette.delete(repID);
 		}
 	});
-
-	/*
-	access._begin("event:test", function() {
-		access.palette[0].color.base = "yellow";
-		console.log(access.palette);
-	});
-	*/
 });
 
 on("clicked:testC", function(info) {
 	console.log("Clicked button C");
 
-	legacySetup(getActiveCharacterId());
+	accessExport();
 
 	//transferData(access.currentID.output());
 });
@@ -16589,7 +14364,7 @@ class dataNode extends Array {
 
 						if (this[prop] instanceof dataNode) { // Only subnodes which are options have associated attributes
 							if (formats.attrs[prop]?.option) {
-								this._attrs[prop] = "option" + formats.attrs[prop].option.toLowerCase();
+								this._attrs[prop] = "option" + camelize(formats.attrs[prop].option);
 							}
 						}
 						else if (!(ignore && is(prop).In(ignore.prop))) {
@@ -16600,9 +14375,12 @@ class dataNode extends Array {
 							if (formats.attrs.case == "snake" && prop.indexOf("_") > -1) {
 								key = camelize(key);
 							}
+							if (prefix.length && !prefix.endsWith("_")) {
+								key = capitalize(key);
+							}
 
 							let attr = prefix + key + suffix;
-							this._attrs[prop] = attr.toLowerCase();
+							this._attrs[prop] = attr;
 						}
 					}
 				}
@@ -16625,7 +14403,7 @@ class dataNode extends Array {
 	}
 
 
-	// Assign input attribute values from the sheet and/or editor to the item
+	// Assign input attribute values from the sheet and/or editor to the node and its subnodes
 	input(values, opts={}) {
 		return this.access(values, false, opts);
 	}
@@ -16636,10 +14414,16 @@ class dataNode extends Array {
 		return this.access(false, output, opts);
 	}
 
-	// As output(), but applies all output values in access
-	// Returns the applied values
+	// As output(), but applies all output values in access, making locally cached values permanent
+	// Returns all applied values
 	apply(output=false, opts={}) {
 		return this.access(false, output, {apply:true, ...opts});
+	}
+
+	// As output(), but returns a list of export values for the sheet (not the editor)
+	export(opts={}) {
+		opts = {allProps:true, export:true, ...opts}
+		return this.access(false, {sheet:{}}, opts).sheet;
 	}
 
 	// Generates and returns an array of attribute keys for both the editor and sheet
@@ -16651,7 +14435,7 @@ class dataNode extends Array {
 	}
 
 	// Helper method for accessing all properties and subnodes of a node
-	// Used by input(), output(), apply(), attrkeys(), import() and export()
+	// Used by input(), output(), apply(), export() and attrkeys()
 	access(values, output, opts={allProps:false, event:false, unsorted:false, apply:false}) {
 		if (!output) output = {editor:{}, sheet:{}}
 
@@ -16664,6 +14448,7 @@ class dataNode extends Array {
 
 		if (!values || Object.values(values).some(source => length(source) > 0)) {
 			for (const prop of this.keys) {
+
 				for (const source of Object.keys(output).filter(s => s in this._attrs || !length(this._attrs))) {
 
 					// Handle applying values
@@ -16717,13 +14502,13 @@ class dataNode extends Array {
 					this[prop].access(values, output, {...opts}); // Needs to be copied to avoid issues with _newRep adding allProps for specific nodes
 				}
 			}
-			return (opts.unsorted) ? {...output.editor, ...output.sheet} : output;
+			return (opts.unsorted) ? {...(output?.editor ?? {}), ...(output?.sheet ?? {})} : output;
 		}
 	}
 
 	// Returns the attribute name of a property in either the sheet or editor
 	// If an event type is provided the attribute is returned in the event key format
-	attr(prop, source, opts={event:false}) {
+	attr(prop, source, opts={event:false, export:false}) {
 		if (prop === undefined) return false;
 
 		if (prop[0] == "_") prop = snakeify(prop);
@@ -16738,14 +14523,31 @@ class dataNode extends Array {
 			let prefix = this._attrs[source]?.prefix ?? "";
 			let suffix = this._attrs[source]?.suffix ?? "";
 			let key = this._attrs[prop];
+
+			if (opts.export && prefix.length && !prefix.endsWith("_")) {
+				key = capitalize(key);
+			}
 			
-			let section = (this._attrs[source]?.section) ? this._attrs[source].section : false;
+			let section = this._attrs[source]?.section ?? false;
 
 			if (section) {
 				let id = (source == "editor") ? this.path.findLast(step => is.ID(step)) : this.id;
 
 				if (opts.event) {
 					return false; // Repeating section events are easy enough to add manually
+				}
+				else if (opts.export) {
+					let typeIndex = this.index;
+					
+					if (this.path[1] == "items") { // Items are indexed individually per item type, like "weapons_0"
+						typeIndex = this.root.items.filter(item => { // Finds all items of the same type
+							return (item._attrs[source]?.section == section);
+						}).findIndex(item => { // Finds this item's index amongst all items of the same type
+							return (item.id == this.id);
+						});
+					}
+
+					prefix = `${section}_${typeIndex}_${prefix}`;
 				} else {
 					prefix = `repeating_${section}_${id}_${prefix}`;
 				}
@@ -16754,7 +14556,7 @@ class dataNode extends Array {
 			}
 
 			let attr = prefix + key + suffix + index;
-			return attr.toLowerCase();
+			return (opts.export) ? attr : attr.toLowerCase();
 		} else {
 			return false;
 		}
@@ -17098,7 +14900,6 @@ class dataNode extends Array {
 		return this.keys.map(prop => [prop, this[snakeify(prop)]]);
 	}
 
-
 	// Gets the repeating ids/subnodes of this node
 	get repIDs() {
 		return range(0, this.length).map(index => this[index].path.at(-1));
@@ -17266,9 +15067,6 @@ class dataNode extends Array {
 }
 
 
-
-
-
 class effectNode extends dataNode {
 	#effect = [] // Contains the raw effect in array form
 	#conditionals = [] // Contains the raw conditionals
@@ -17284,7 +15082,7 @@ class effectNode extends dataNode {
 		super({}, blockID, parent, path || [...parent.path, blockID]);
 
 		if (typeof AutoEffect == "string") {
-			AutoEffect = new_autoScriptToArray(AutoEffect)[0];
+			AutoEffect = autoScriptToArray(AutoEffect)[0];
 		}
 
 		this.#effect = AutoEffect[0];
@@ -17962,7 +15760,7 @@ class effectNode extends dataNode {
 			access._state = "parsing";
 			
 			if (typeof AutoScript == "string") {
-				AutoScript = new_autoScriptToArray(AutoScript);
+				AutoScript = autoScriptToArray(AutoScript);
 			}
 			
 			for (const AutoEffect of AutoScript) {
@@ -18124,14 +15922,7 @@ class effectNode extends dataNode {
 					}
 				}
 
-				// TODO: Handle messages
-				// Save the message either in access.message.section.contents, or in the equivalent contents subnode of a roll
-				// Use the section name in effect.options.section if it's set. Otherwise use a generic "AutoEffects" section
-				// Load styling data from access.style once that's implemented
-
-				// Resolve all insert words immediately after executing the effect
-
-				// Add special handling for checks with exactly one condition
+				// TODO: Add special handling for checks with exactly one condition
 				// Execute the check. If it passes, add all nested effects to a button
 				// Do not add the check to the button. Instead add a generic block and add the effects to that block
 				// Add an option that ignores this behaviour	
@@ -18829,11 +16620,7 @@ function messageSection(msgNode, section="AutoEffects", msgArray) {
 }
 
 
-
-
-// Contains a list of root objects, one for each accessed character
-
-// You should look into adding further settings for privating information
+// TODO: You should look into adding further settings for privating information
 //  For example, you could private your items to not make them show up in the target data when you're targeted
 //  This does not stop calculated values from being revealed, like tags
 // Some functionality in the sheet uses your known ids. For example, when sharing an item you're given a dropdown of every id in access
@@ -18981,8 +16768,6 @@ const accessData = {
 		}
 	},
 
-
-	
 	// Processes one or more action
 	// Any properties modified as part of an action is saved in a node's local #output storage instead of immediately being applied (see immutable above)
 	// If an error occurs during an action all output values are discarded and the character is re-initialized from the current data in the sheet
@@ -19329,11 +17114,11 @@ const accessData = {
 						}
 					}
 				}
-				else if (accessFormat[step] !== undefined) {
+				else if (accessFormat?.[step] !== undefined) {
 					accessFormat = accessFormat[step];
 				} 
-				else if (step == "N" || "_repeating" in accessFormat) {
-					accessFormat = accessFormat._repeating || Object.values(accessFormat).find(prop => is.Object(prop));
+				else if (step == "N" || accessFormat?._repeating) {
+					accessFormat = accessFormat?._repeating || Object.values(accessFormat).find(prop => is.Object(prop));
 				}
 			}
 			
@@ -19755,8 +17540,8 @@ function onAccess(path, opts={}, begin, end) {
 	if (typeof path == "string" && /^(change|clicked|remove|sheet):/.test(path.trim())) {
 		on(path, (info) => {
 			access._begin(`action:${info.triggerName.split(":")[0]}`,
-				(typeof begin == "function") ? () => { begin(info); } : null,
-				(typeof end == "function") ? () => { end(info); } : null,
+				(typeof begin == "function") ? async () => { await begin(info); } : null,
+				(typeof end == "function") ? async () => { await end(info); } : null,
 			);
 		});
 	}
@@ -19769,7 +17554,7 @@ function onAccess(path, opts={}, begin, end) {
 	} else {
 		if (opts.custom) {
 			eventopts = {ignoreSilent:false, max: 1, ...opts}
-			opts.accessFormat = access;
+			opts.accessFormat = dataFormat.base;
 		} else {
 			eventopts = {ignoreSilent:true, max: 99, ...opts}
 			path.unshift("N"); // All built-in events affect all characters
@@ -20344,19 +18129,6 @@ onAccess(["rolls", "N", "modify", ["count", "max", "power", "adv"]], {}, functio
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Events - Custom colours and positioning */
 
 // Collection of functions for applying user-defined dynamic styling to sheet elements
@@ -20768,10 +18540,10 @@ onAccess([["state", "N", "modify", "state"], ["state", "N", "duration", "modify"
 });
 
 /* Sheet - Trigger sheet update */
-onAccess("clicked:updateAilments", {}, function(info) {
-	newUpdate();
+onAccess("clicked:update", {}, function(info) {
+	updateSheet();
 });
-function newUpdate(charID) {
+function updateSheet(charID) {
 	access._begin("event:round_end", () => {
 		let root = access[charID] || access;
 
@@ -21292,16 +19064,6 @@ function recalcPaletteReq(actionArray, messageArray=[]) {
 // TODO: Implement this
 
 
-
-
-
-
-
-
-
-
-
-
 /* Action: Toggle combat mode */
 onAccess('clicked:combatToggle', {}, function(info) {
 	access.state.combat = (access.state.combat === false) ? 1 : false;
@@ -21374,13 +19136,6 @@ on('clicked:recover', (info) => {
 	});
 });
 
-
-
-
-
-
-
-
 /* Settings - Hide Mystery toggle */
 onAccess("clicked:hideMystery", {}, async function(info) {
 	let mystery = access.settings.sheet.mystery;
@@ -21412,48 +19167,19 @@ onAccess(["settings", "sheet", "ailment", "modify", "limbus_style"], {}, functio
 	for (const ail of info.node.root.ailments) {
 		for (const icon of ruinaIcons) {
 			if (info.newval) {
-				if (ail.icon == icon) {
-					ail.icon = `limbus/${icon}`;
-				}
+				if (ail.icon == icon) ail.icon = `limbus/${icon}`;
 			} else {
-				if (ail.icon == `limbus/${icon}`) {
-					ail.icon = icon;
-				}
+				if (ail.icon == `limbus/${icon}`) ail.icon = icon;
 			}
 		}
 	}
 });
 
-/*
-const testTriggerBlock = `
-
-[# items[1].modify.equipped, otherEvent,
-(CustomMessage "What could this be?")
-#]
-
-`
-
-let testBlockClean = cleanAutoScript(testTriggerBlock);
-
-let triggerContents = testBlockClean.match(/\[#(.+?)#\]/g).reduce((acc, trigger) => `${acc}${trigger}`,'');
-
-let triggerAutoScripts = autoScriptToArray(triggerContents, "triggers");
-
-let AutoScript = "";
-
-// Append any collected AutoScripts with a relevant trigger
-triggerAutoScripts.forEach((trigger) => {
-	console.log(trigger);
-});
-
-*/
-
-
 
 // Takes in an AutoScript and returns an array of AutoEffects in array form
 // Blocks return the block effect followed by an array of all effects nested within that block
 // Mode is one of "effects" or "trigger"
-function new_autoScriptToArray(AutoScript, mode="effects", opts={}) {
+function autoScriptToArray(AutoScript, mode="effects", opts={}) {
 	let AutoScriptArray = []
 	let match = []
 
@@ -21478,7 +19204,7 @@ function new_autoScriptToArray(AutoScript, mode="effects", opts={}) {
 			if (match[2]) {
 				AutoScriptArray.push([
 					splitIgnoreBetween(match[1], /\s*,\s*/g, ['[', ']'], {includeChars:true, nesting:true}),
-					new_autoScriptToArray(match[2]),
+					autoScriptToArray(match[2]),
 				]);
 			} else {
 				access._error.throw("access", "Parsing Error", match[0], {}, "empty-trigger"); return "";
@@ -21522,7 +19248,7 @@ function new_autoScriptToArray(AutoScript, mode="effects", opts={}) {
 				let blockEndTags = autoEffectBlocks[blockStartTag];
 
 				// The regular expression is reused to maintain the current index. This function continues at the last index of the nested block
-				let blockEffects = new_autoScriptToArray(AutoScript, "effects", {startTag:blockStartTag, endTags:blockEndTags, regExp:scriptRegExp});
+				let blockEffects = autoScriptToArray(AutoScript, "effects", {startTag:blockStartTag, endTags:blockEndTags, regExp:scriptRegExp});
 				if (blockEffects?.length) {
 					AutoScriptArray.push(blockEffects);
 				}
@@ -21539,7 +19265,6 @@ function new_autoScriptToArray(AutoScript, mode="effects", opts={}) {
 }
 
 
-
 // Handle trigger blocks (item AutoScript only)
 onAccess([["items", "N", "modify", "autoscript"], ["items", "N", "add"]], {}, function(info) {
 	recalcCustomEvents((info.type == "add") ? info.newval : info.node);
@@ -21552,7 +19277,7 @@ function recalcCustomEvents(item) {
 	// Delete any current events from the item
 	deleteCustomEvents(item);
 
-	let triggerBlocks = new_autoScriptToArray(item.autoscript, "triggers");
+	let triggerBlocks = autoScriptToArray(item.autoscript, "triggers");
 
 	// If the AutoScript contains any trigger blocks, add one or more events
 	if (triggerBlocks.length) {
@@ -21717,159 +19442,7 @@ function deleteCustomEvents(item) {
 		deleteEventInner(access._event.tree[item.path[0]], item.id);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-/* --- Access events --- */
-
-/* OLD EVENTS: Convert to onAccess() */
-
-// items.delete / items.add / items.N.modify.autoscript:
-// Recalculates user defined events from an item (AutoScript triggers)
-function updateEvents(info) {
-	// TODO: Make this run in two types of situations:
-	//  1. An AutoScript with triggers is added/modified, or an item including an AutoScript with triggers is equipped
-	//  2. An AutoScript with triggers is removed, or an item including an AutoScript with triggers is unequipped or deleted
-
-	// Do the following:
-	// If an AutoScript:
-	//  - Extract all trigger blocks in info.newval and info.oldval. Ignore any blocks that are identical
-	//  - access._event.delete all new or modified trigger blocks
-	//  - Parse the trigger blocks into new events and execution arrays
-	//  - access._event.add every new/modified trigger block
-	// If an equip or delete event:
-	//  - Extract every trigger block found in every AutoScript connected to the item
-	//  - On unequip or delete, access._event.delete these trigger blocks
-	//  - On equip, access._event.add these trigger blocks
-}
-
-function updateItemType(info) {
-	// TODO: Move item to a different section in the sheet. Do not change the access data
-}
-
-// rollformats.add: Output the new roll. Enable a new rollDisplay in the sheet
-// rollformats.delete: Output all rolls. Disable the last rollDisplay in the sheet
-// rollformats.reorder: Output all rolls
-function updateRollFormats(info) {
-
-	// If 1 >= repCount >= 5, enable the add toggle. Otherwise disable the add toggle
-}
-
-function updateDamageResist(info) {
-	// TODO: Get the resistance mode (base/flat), damage type (slash/pierce/blunt), mode (none/replace/add) and change (hp/st)
-	// If mode == "add", add info.newval - info.oldval to the current resistance value
-	// If mode == "replace", or any mode is updated, completely recalculate the sheet's resistance values
-	// If mode == "none", do nothing
-}
-
-function updateAilmentResist(info) {
-	// TODO: Check if the event is caused by a name or count change
-	//  - When a name changes, update the name of the calculated resistance value
-	//  - When a count change, add info.newval - info.oldval to that ailment's current resistance value
-}
-
-function checkAilmentMax(info) {
-	// TODO: Can be caused by a max setting being changed, or the ailment count changing
-	// Check if the new change causes the ailment to be over it's max count
-	// If yes, adjust according to the current max settings
-}
-
-function updateEquipment(info) {
-	// TODO: Ho boy this does a lot
-	// Run updateDamageResist() for every ailment with a value different than 0
-	// Run updateAilmentResist() once (complete recalc)
-	// Recalculate the sheet's tags
-	// Recalculate available actions, rolls, skills, etc.
-	// Equip/unequip all linked items
-}
-
-function updateBars(info) {
-	// TODO: Can be caused by a change to the current, max or damage values
-	// - If the current values, update the damage values, and vice versa
-	// - If max changes, cap the current bar value by the max value, and update the damage amount
-	// - If the current value falls to 0 or sell, panic/stagger/defeated
-	// - If the current value is raised above 0, unpanic/unstagger/rise from the dead
-	// - Allows changing HP above max, and damage below negative max
-	// - If updating light, recalculate light cost requirements
-}
-
-function updateState(info) {
-	// TODO: If panic, apply sanity damage
-	// If seal/immobile, recalculate requirements
-}
-
-function updateSpeed(info) {
-	// TODO: If base or this round speed, recalculate speed
-	// Sync speed to initiative order
-}
-
-function updateRound(info) {
-	// TODO: This should probably be it's own thing somewhere else, although it may be called by players using an access event
-	//  - Update ailments
-	//  - Update speed
-	//  - Update state (stagger duration)
-	//  - Repeat all updates for tokens
-}
-
-function updateDerived(info) {
-	// TODO: Ignore events from character personalia. Check if event from setting change, xp change or stat change
-	// Recalculate associated derived values (bars, power, actions, etc.) from setting and stat changes
-	// Recalculate rank and level for xp changes
-}
-
-function updateRolls(info) {
-	// TODO: Used when adding or deleting a roll. Adds or deletes a matching roll to access.message
-}
-
-function updateTags(info) {
-	// TODO: Can be caused by a name or count change, or a delete operation on a tag or item
-	//  - When a name changes, deduct N count from the previous name (if not ""), and add N count of the new tag name
-	//  - When a count changes, add info.newval - info.oldval to that tag's count. Do nothing if name = ""
-	//  - When a tag is deleted, remove info.oldval from that tags count
-	//  - When an item is deleted, recalculate all tags
-	// Update the tag overview in the sheet to match the currently available tags (everything in access.tags)
-}
-
-function updateResources(info) {
-	// TODO: Check if event was caused by a change to the current value or base value
-	//  - If the current value changes, recalculate requirements
-	//  - If the base value changes, do the following, then recalculate requirements
-	//    - If positive, add N extra current and max actions
-	//    - If negative, cap current and max to the new value
-}
-
-function updateRequirements(info) {
-	// TODO: Check if the event was caused by a tag, resource or item uses change
-	//  - When a tag changes, check all items.tags.requires, and lock any items missing one or more tags
-	//    - Update the lock message to reflect which tags are missing, or if a possessed tag has too low a count
-	//    - When a tag requirement changes, only recalculate that specific item
-	//  - When a resource/item uses changes, check all actions/rolls/etc., and lock any actions/rolls which now lack resources/uses
-}
-
-function updateTokens(info) {
-	// TODO: When disabled, delete all tokens
-}
-
-
-// Currently missing events
-//	- Update item limited uses
-//		- Check requirements (actions)
-//	- Update item linked
-//		- Update requirements (link item)
-//	- Update equip slots
-//		- Update requirements (equip slots)
-//	- Update roll format cost
-//		- Update requirements (resource/item use cost)
-
-
-
+/* --- Access events END --- */
 
 // Traverses a path through an object and returns the value at the end of the path
 // Has a special interaction with dataNodes. If the path ends in a dataNode with a defined _valueProp, the value of that property is returned instead
@@ -21907,68 +19480,8 @@ function pathStringToArray(pathString) {
 	return splitIgnoreBetween(pathString, ".", ["\[", "\]"]).flatMap(step => /.+\[.+\]/.test(step) ? step.slice(0, -1).split("[") : step);
 }
 
-// Should later on also be ordered
-// To do this, getAttrs() all the ordering lists on startup and save them in access. This function simply references these lists
-function getSectionIDsByID(actId, sectionName) { //getSectionIdsAsync
-    var prevActId=null;
-    return new Promise((resolve,reject)=>{
-            prevActId = setActiveCharacterId(actId);
-            try{ getSectionIDs(sectionName,(values)=>{ resolve(values); }); }
-            catch{ reject(); }
-    }).finally(()=>{
-        setActiveCharacterId(prevActId);
-    });
-}
 
-// Returns an ordered array of section ids from a character with a known id
-// If an array of sections is provided an object is returned containing the ids from each section
-// TODO: Currently doesn't seem to correctly reorder the ids
-async function getSectionIDsOrdered(actId, sectionArray) {
-	if (typeof sectionArray == "string") {
-		sectionArray = [sectionArray];
-	}
-	let values = await getAttrsAsync(sectionArray.map(section => `_reporder_${section}`));
-	let ids = {}
-	for (section of sectionArray) {
-		let idArray = await getSectionIDsByID(actId, section);
-		let reporderArray = values[`_reporder_${section}`] ? values[`_reporder_${section}`].toLowerCase().split(',') : [];
-		ids[section] = [...new Set(reporderArray.filter(order => idArray.includes(order)).concat(idArray))];
-	}
-	return length(ids) == 1 ? ids[sectionArray[0]] : ids;
-};
-
-
-
-
-
-
-
-/* Planned item functionality */
-
-function updateItemList() {
-	// As updateAilmentList, but for items. Runs whenever an item is updated or deleted
-	
-	// Change events include the new attribute value, so you may be able to modify individual attributes instead of updating everything
-	// If yes, consider changing the ailmentList over to using this method as well
-	// You'd have to find some way to only setAttrs() the new list once and not every time a value changes (Causes a lot of extra server calls when updating many attributes at once)
-}
-
-function convertInventory() {
-	// Converts all the old items into the new inventory format
-	// Runs import(itemScript, "Add") once the data is prepared
-}
-
-// Add a on:startup event that adds some empty slots when a sheet is first opened
-// If at least one old inventory item exists, use convertInventory() first, then add any unused slots in the old inventory
-
-// Consider adding the getSectionIDsOrdered function from the wiki
-// You'd have to rework it to work for multiple repeating sections at the same time
-
-
-
-
-
-/*--- AutoScript functionality ---*/
+/* --- AutoScript functionality --- */
 
 /* AutoScript editor open button */
 on("clicked:autoScriptEdit" + itemEvent("clicked", "edit-autoscript")
@@ -22000,7 +19513,7 @@ on("clicked:autoScriptEdit" + itemEvent("clicked", "edit-autoscript")
 
 /* AutoScript editor close button */
 on("clicked:closeAutoScriptEdit", function(info) {
-	saveEditor("autoScript", {}, () => {
+	saveEditor("autoScript", () => {
 		closeEditor("autoScript");
 	});
 });
@@ -22015,7 +19528,7 @@ on("clicked:autoScriptDefault", async function(info) {
 	let type = (info.htmlAttributes.id.includes("Styling")) ? "styling" : "alias";
 	
 	let queryResults = await sendQuery(["userConfirmation",
-		getTranslationByKeyCustom(`Are you certain you want to reset back to the default AutoEffect ${type} settings? This action can not be reversed`, `query-reset-${type}`), {
+		getTranslationByKeyCustom(`Are you certain you want to reset back to the default AutoEffect ${type} settings? This action cannot be reversed`, `query-reset-${type}`), {
 			[getTranslationByKeyCustom("No", "query-no")]: false,
 			[getTranslationByKeyCustom("Yes", "query-yes")]: true,
 		}
@@ -22117,11 +19630,11 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		...parseAutoScriptStyling(stylingDefault),					// Default styling rules
 		...parseAutoScriptStyling(values.autoScriptStyling) 		// Custom styling rules from the AutoScript editor
 	}
-	let defaultAliases = autoScriptToArray(aliasDefault, "aliases");
-	let customAliases = autoScriptToArray(values.autoScriptAlias, "aliases");
+	let defaultAliases = old_autoScriptToArray(aliasDefault, "aliases");
+	let customAliases = old_autoScriptToArray(values.autoScriptAlias, "aliases");
 	let aliasList = [...customAliases, ...defaultAliases, ...customAliases, 		// This structure means custom aliases are checked first before default ones, while
 	].reduce((acc, alias) => Object.assign({[alias[0]]:alias[1], ...acc}), {});		//   still overwriting default aliases with matching custom aliases
-	/* --- Prepare input values end --- */
+	/* --- Prepare input values END --- */
 	
 
 	/* --- Parse AutoScripts --- */
@@ -22170,7 +19683,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 				collectedAutoScripts += AutoScript.match(/\[#(.+?)#\]/g).reduce((acc, trigger) => `${acc}${trigger}`,'');
 			}
 		});
-		collectedAutoScripts = autoScriptToArray(collectedAutoScripts, "triggers");
+		collectedAutoScripts = old_autoScriptToArray(collectedAutoScripts, "triggers");
 		
 		/* Append any collected AutoScripts with a relevant trigger */
 		collectedAutoScripts.forEach((trigger) => {
@@ -22186,7 +19699,7 @@ async function AutoScriptMain(inputAutoScript="", triggerType="None", collect="t
 		});
 	}
 
-	/* --- Parse AutoScripts end --- */
+	/* --- Parse AutoScripts END --- */
 	});
 	});
 }
@@ -22362,11 +19875,11 @@ function parseAutoScriptStyling(AutoScriptStyling) {
 	/* Return the styling list */
 	return stylingList;
 }
-/*--- AutoScript functionality end ---*/
+/* --- AutoScript functionality END --- */
 
 
 
-/*--- Assorted AutoEffect functions ---*/
+/* --- Assorted AutoEffect functions --- */
 function autoEffectTranslateMessage(message) {
 	return message
 		.replaceAll("Burn", getTranslationByKeyCustom("Burn","ailments-burn"))
@@ -22412,11 +19925,11 @@ function resetConditionals() {
 		}
 	});
 }
-/*--- Assorte AutoEffect functions end ---*/
+/* --- Assorte AutoEffect functions END --- */
 
 
 
-/*--- Export/Import functions ---*/
+/* --- Export/Import functions --- */
 const attrkeys = {
 	Character: ["character_nameBase", "fortitude", "prudence", "justice", "charm", "insight", "temperance", "EXP", "character_job", "age", "height", "character_origin", "character_residence", "character_assets", "character_ahn", "character_url", "character_summary", "character_combatnote", "character_history", "character_relations", "character_notes", "character_desc", "character_personality", "character_background"],
 
@@ -22479,13 +19992,11 @@ const repattrkeys = {
 	"ailCustomResistance", "ailCustomResistanceNum", "ailCustomResistanceNumEgo"],
 
 	rollformats: ["mode", "type", "damagetype", "count", "max", "power", "autoscript"],
-
-	inventory: [] // Add this later
 }
 
 /* Data Exporter */
-on("clicked:export", function(info) { 
-	dataExport();
+on("clicked:export", async function(info) { 
+	await accessExport();
 });
 function dataExport(override, target) {
 	
@@ -22514,8 +20025,8 @@ function dataExport(override, target) {
 }
 
 /* Data Importer */
-on("clicked:import", function(info) {
-	dataImport();
+onAccess("clicked:import", {}, async function(info) {
+	await accessImport();
 });
 function dataImport(target, prefix, replacestr) {
 	
@@ -22586,9 +20097,9 @@ on("clicked:importRepeating", function(info) {
 function dataImportRepeating(section, override, target) {
 
 	let inputsource = target || "ailmentEditor";
-	getAttrs([inputsource, "customImportMode", "settingCustomCollapse"], function(values) {
+	getAttrs([inputsource, "ailmentImportMode", "settingCustomCollapse"], function(values) {
 	
-	let mode = override || values.customImportMode;
+	let mode = override || values.ailmentImportMode;
 	let collapseSetting = values.settingCustomCollapse;
 
 	/* Prepare input attribute data */
@@ -22643,12 +20154,12 @@ function dataImportRepeating(section, override, target) {
 
 /* Repeating Section - Import Defaults */
 onAccess("clicked:defaultRepeating", {}, async function(info) {
-	await dataDefaultRepeating("ailments");
+	await accessDefault("ailments");
 });
-async function dataDefaultRepeating(section, override) {
-	let values = await getAttrsAsync(["customImportMode", "settingCustomCollapse"]); // TODO: Add ail collapse to access
+async function accessDefault(section, override) {
+	let values = await getAttrsAsync(["ailmentImportMode", "settingCustomCollapse"]); // TODO: Add ail collapse to access
 	
-	let mode = override || values.customImportMode;
+	let mode = override || values.ailmentImportMode;
 	let collapseSetting = values.settingCustomCollapse;
 	let queryResults = {}
 
@@ -23016,18 +20527,6 @@ on("sheet:opened", function(info) { // TODO: Consider moving this inside access,
 	}
 });
 
-const importRegExp = /\[`?(\w+)`?,`?\s?(.*?)`?\]\s*(?=(?:,\s*\[`?\w+`?,`?\s?.*`?\])|,?\s*$)/g;
-
-function parseImportAttrs(string) {
-	let values = {}
-	let match;
-
-	while (match = importRegExp.exec(string)) {
-		values[match[1].toLowerCase()] = match[2];
-	};
-	return values;
-}
-
 function convertLegacyAttrs(type, values, sectionIndexes) {
 	for (const [old_key, old_value] of Object.entries(values)) {
 
@@ -23070,124 +20569,189 @@ function convertLegacyAttrs(type, values, sectionIndexes) {
 	}
 }
 
-async function legacySetup(ID) {
-	let values = await getAttrsByID(ID, Object.keys(legacyAttrConverter.items));
-	let sectionIndexes = {}
-	let match;
 
-	// TODO: This is not needed for items, but may be needed for default ailments
-	for (const [key, value] of Object.entries(values)) {
-		if (match = key.match(/^([A-Z]+)_(\d+)_(.+)$/i)) {
-			let [section, index, prop] = match.slice(1, 4);
+/* Legacy setup */
+const sheetVersion = "0.7.2";
 
-			sectionIndexes[section] ??= {}
-			sectionIndexes[section][index] ??= {id: generateAccessID()}
+// TODO: Work in progress
+onAccess("sheet:opened", {}, async function(info) {
+	let version = (await getAttrsAsync(["versionNumber"])).versionNumber;
 
-			delete values[key];
-			values[`repeating_${section}_${sectionIndexes[section][index].id}_${prop}`] = value;
-		}
+	// If the sheet has never been opened, convert all legacy data in the sheet
+	if (version == "0") {
+		console.log("New / legacy sheet opened!");
+
+		let charID = getActiveCharacterId();
+		let legacyData = await getAttrsByID(charID, Object.keys(legacyAttrConverter.items));
+		// TODO: Also needs other legacy data
+		
+		await accessImport(charID, false, legacyData, {legacy:true});
 	}
 
-	// Convert all legacy item attributes to repeating inventory data
-	convertLegacyAttrs("items", values, sectionIndexes);
-
-	// Adds a new repeating inventory item for every legacy item
-	for (const [section, repData] of Object.entries(sectionIndexes)) {
-
-		if (!is(section).In("weapons", "outfits", "augments")) continue; // TODO: For testing purposes
-
-		for (const repindex in repData) {
-			console.log("New", section, "item with id", repData[repindex].id); // TODO: For testing purposes
-			access.items.add({id:repData[repindex].id, type:section});
-		}
+	// If the sheet is opened for the first time after an update, display the changelog pop-up
+	if (version != sheetVersion) {
+		console.log("Sheet opened for first time this update!")
 	}
 
-	access.items.input({sheet: values});
-}
+	// TODO: Add all the default campaign setting functionality here as well
+
+	console.log("Version number:", version);
+	console.log("Sheet version:", sheetVersion);
+
+	setAttrs({versionNumber: sheetVersion});
+});
 
 
-// 1. Move through the object and create all attribute names
-//   1.1 For $N, create a number of attributes matching indexes 1-N, where N is set by _max_index
-// 2. Use the *key* of each prop to create the old attribute names
-// 3. Use the underscore props and *values* to create the new attribute names, which may be a function
-//   3.1 Use the value returned by the function as the new attribute name
-//   3.2 The function may return an array of 2 values: a new attribute and a new value
-// 4. Import every attribute + Create a new attribute object
-// 5. Loop through the key and value of every imported attributes
-//   5.1 If the new attribute is a string, add it + the current value to the new attribute object
-//   5.2 If the new attribute is a function, run it and use the returned value(s) for the attribute / value
+const importRegExp = /\[`?(\w+)`?,`?\s?(.*?)`?\]\s*(?=(?:,\s*\[`?\w+`?,`?\s?.*`?\])|,?\s*$)/g;
 
-// TODO: Needs to add the "i" tag to all created regexes
+async function accessImport(ID, target, data, opts={}) {
+	if (!ID) ID = getActiveCharacterId();
 
+	if (access[ID] instanceof dataNode) {		
+		let importSource = target || "editorInput";
+		let importMode = (importSource == "editorInput") ? "importMode"
+				 : (importSource == "ailmentEditor") ? "ailmentImportMode"
+				 : false; // The global editor has no Add/Replace toggle
 
+		let values = await getAttrsByID(ID, [importMode, importSource]);
 
-
-
-/* Item Editor - LEGACY CODE */
-/* Item attributes used in the item editor as well as their default values. Includes both normal and repeating attributes */
-/* When creating a new item, override the default values with those of the specific item created (see below) */
-/* In addition to a default value a check function can be provided. This is used in packageAttrData() */
-const itemEditorAttrs = {
-	"type": "None",
-	
-	"optionRollFormat": 0,
-		"repeating_rollformats:rollFormats:includeDefault": {
-			rollUse: "Roll", rollType: "Any", rollDamage: "None",
-			diceCount: 1, diceMax: 6, dicePower: 0, AutoScript: ""
-		},
-	
-	"optionUses": 0,
-
-	"optionLinked": 0,
-
-	"optionMystery": 0,
-	
-	"optionEquipSlots": 0,
-
-	"optionTags": 0,
-
-	"optionStyle": 0,
-		"optionIcon": 0,
-		"optionColor": 0,
-	
-	"optionLimitedUses": 0,
-		"optionUses": 0, "usesMax": 0, "useMode": "Limited",
-		"optionLightCost": 0, "lightCost": 0,
-	
-	"optionResistance": 0,
-		"optionDamageResistance": 0,
-		"optionAilmentResistance": 0,
-			"burnResist": 0, "bleedResist": 0, "damageResist": 0,
-			"repeating_ailments:customResist:ignoreDefault": {
-				ailCustomResistance: 0, ailName: "Unknown", itemAilCustomResistanceNum: 0
+		let mode = values.importMode;
+		let sectionIndexes = {}
+		let match;
+		
+		// Parse all import data from the import script
+		if (!data) {
+			data = {}
+			while (match = importRegExp.exec(values[importSource])) {
+				data[match[1].toLowerCase()] = match[2];
 			}
+		}
+
+		// Convert all "section_N_" type data into "repeating_section_-ID_" type data
+		// Generates new IDs for each new section + index and stores the data for later
+		for (const [key, value] of Object.entries(data)) {
+			if (match = key.match(/^([A-Z]+)_(\d+)_(.+)$/i)) {
+				let [section, index, prop] = match.slice(1, 4);
+
+				sectionIndexes[section] ??= {}
+				sectionIndexes[section][index] ??= {id: generateAccessID()}
+
+				delete data[key];
+				data[`repeating_${section}_${sectionIndexes[section][index].id}_${prop}`] = value;
+			}
+		}
+
+		// Convert all legacy item attributes to repeating inventory data
+		if (importSource == "editorInput") {
+			// TODO: Also handle legacy sheet attributes here, like character_nameBase => character_name
+			convertLegacyAttrs("items", data, sectionIndexes);
+		}
+
+		// TODO: Add a defaults button the the Import/Export tab that resets all items (and tags/slots?)
+		// - The query has a third "Legacy" option which loads the legacy inventory of the sheet
+		// - If the sheet was created after the update this does the same as a normal reset
+		// - This button would occupy half of the right side of the editor, with the other half being
+		//    taken up by the add/replace toggle
+
+		// Query the user whenever one or more iventory items would be replaced by the import
+		if (mode == "Replace") {
+			if (importSource == "editorInput") {
+				let itemTypes = Object.keys(sectionIndexes);
+				let itemDeleteIDs = access[ID].items.filter(item => {
+					return itemTypes.some(type => type.includes(item.type.toLowerCase()));
+				});
+
+				if (itemDeleteIDs.length && !opts.legacy) {
+					let langOr = getTranslationByKeyCustom(", ", "error-divider-comma");
+					let langAnd = getTranslationByKeyCustom(" and ", "error-divider-and");
+					let langItemTypes = arrayJoinAndOr(itemTypes, langOr, langAnd);
+					let langReplace1 = getTranslationByKeyCustom("Are you certain you want to replace the following item types: ", `query-replace-items-1`);
+					let langReplace2 = getTranslationByKeyCustom(". This action cannot be reversed", `query-replace-items-2`)
+	
+					let queryResults = await sendQuery(["userConfirmation",
+						langReplace1 + langItemTypes + langReplace2, {
+							[getTranslationByKeyCustom("No", "query-no")]: false,
+							[getTranslationByKeyCustom("Yes", "query-yes")]: true,
+						}
+					]);
+	
+					if (!queryResults.userConfirmation) return;
+				}
+
+				for (const item of itemDeleteIDs) {
+					access[ID].items.delete(item.id);
+				}
+				
+				// TODO: May need support for Tags/Slots here in addition to items
+			} else {
+				access.ailments.reset();
+			}
+		}
+
+		// Adds new repeating inventory items for every item in the import script (including legacy items)
+		for (const [section, repData] of Object.entries(sectionIndexes)) {
+			for (const repindex in repData) {
+				if (section == "ailments") {
+					// TODO: Implement this, and consider changing over to a switch block
+				} else {
+					access[ID].items.add({id:repData[repindex].id, type:section});
+				}
+			}
+		}
+
+		// Input all imported data
+		access[ID].input({sheet: data});
+	}
 }
 
-/* Item editor close button */
-/*
-on("clicked:closeItemEdit", function(info) {
-	saveEditor("item", itemEditorAttrs, () => {
-		closeEditor("item");
-	});
-});
-*/
+async function accessExport(ID, type, target) {
+	if (!ID) ID = getActiveCharacterId();
 
-/* Item editor sync changes */
-on(Object.keys(itemEditorAttrs).reduce((rows, key) => {
-	
-	/* Sync repeating attributes */
-	if (key.includes("repeating_")) {
-		let repsection = key.split(":")[0];
-		return rows += Object.keys(itemEditorAttrs[key]).reduce((acc, repkey) => acc += ` change:${repsection}:${repkey}`, "");
+	if (access[ID] instanceof dataNode) {
+		let exportTypes = type || (await getAttrsByID(ID, ["exportType"])).exportType;
+		let exportTarget = target || "editorOutput";
+		let data = {}
+
+		if (exportTypes == "All") {
+			exportTypes = [
+				"Character",
+				"Weapons", "Outfits", "Augments", "Tools", "Special", "Skills", "Effects",
+				"Mystery", "Distort",
+				"Settings",
+			] // "Global"
+		}
+		else if (exportTypes == "Equip") {
+			exportTypes = ["Weapons", "Outfits", "Augments", "Tools", "Special"]
+		}
+		else if (!is.Array(exportTypes)) {
+			exportTypes = [exportTypes]
+		}
+
+		for (const type of exportTypes) {
+			let node = access[ID];
+
+			switch (type) {
+				case "Weapons": case "Outfits": case "Augments": case "Tools": case "Special": 
+				case "Skills": case "Effects":
+					node = node.items.filter(item => item.type == type.replace(/s$/, "")); break;
+				case "Mystery": node = node.items.filter(item => item.mystery.enabled); break;
+				case "Character": node = node.character; break;
+				case "Distort": continue; // TODO: Implement this
+				case "Settings": node = node.settings.sheet; break;
+				// case "Global": break;
+				// case "Ailments": break;
+			}
+
+			Object.assign(data, node.export());
+		}
+			
+		setAttrs({[exportTarget]: Object.entries(data)
+			.map(([key, value]) => `[${key}, ${value}]`)
+			.join(", ")
+		});
 	}
-	/* Sync normal attributes */
-	else {
-		return rows += ` change:item${capitalize(key)}`;
-	}
-}, ""), function(info) {
-	saveEditor("item", itemEditorAttrs);
-});
-/*--- Export/Import functions end ---*/
+}
+/* --- Export/Import functions END --- */
 
 
 
@@ -23579,7 +21143,7 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 		}
 	}
 
-	/*-- Process Effect --*/
+	/* Process Effect */
 	let effecttargetlist = [];
 	if (effecttarget == "HP+ST") {
 		effecttargetlist.push("HP", "ST");
@@ -23648,10 +21212,10 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 			activateMessage = "true";
 		}
 	});
-	/*-- Process Effect end --*/
+	/* Process Effect end */
 
 	
-	/*-- Decay --*/
+	/* Decay */
 	if (activateDecay == "true" && count >= decaymin) {
 		if ( !(trigger == "OnAction" && roundEnd == "true")) {
 			if (decayval == "n") {
@@ -23690,7 +21254,7 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 		output[`${ailPrefix}ailCountNextRound`] = 0;
 		returnValues[ailname][0] += parseInt(countnextround);
 	}
-	/*-- Decay end --*/
+	/* Decay end */
 
 	/* Message */
 	if (messagecheck != "0" && activateMessage == "true" && mutemessage != "true") {
@@ -23747,12 +21311,12 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 			whisper = "/w " + whispertarget;
 		}
 
-		/*--- Send roll --*/
+		/* --- Send roll */
 		startRoll((whisper + `&{template:message} {{icon=${iconnew}}} {{message=${newmessage}}}`), (results) => {
 			finishRoll(results.rollId, { });
 		});
 	}
-	/*--Message end --*/
+	/*--Message end */
 
 	/* Apply to target */
 	if (callback != "()=>{}") {
@@ -23765,7 +21329,7 @@ function updateCustomAilment(rowid, mode="standard", roundEnd="true", callback=(
 
 /* Update: Edit Mode state */
 on("change:global_editMode", function() {
-getAttrs(["global_editMode"], function(values) {
+	getAttrs(["global_editMode"], function(values) {
 		if (values.global_editMode != "true") {
 			setAttrs({"sheetTab":"equipment"});
 		}
@@ -23832,7 +21396,7 @@ getSectionIDs("repeating_global", function(idarray) {
     getAttrs(["syncStateGame", "syncStateAilment", "syncLockGame", "syncLockAilments",
 	"global_access", "global_editMode", "global_editKey", "global_gameSettingSource", "global_ailmentSettingSource", "global_generalSettingSource", "gameEditor", "ailmentEditor",
 	`repeating_global_${rowid}_editKey`, `repeating_global_${rowid}_gameSettingSource`, `repeating_global_${rowid}_ailmentSettingSource`, `repeating_global_${rowid}_generalSettingSource`,
-	"settingEvdInfluence", "settingTestOption", "autoScriptStyling", "autoScriptEditorTarget", "autoScriptEditorInput",
+	"autoScriptStyling", "autoScriptEditorTarget", "autoScriptEditorInput",
 	"weapon1AutoScript", "weapon2AutoScript", "weapon3AutoScript", "weapon4AutoScript", "augmentAutoScript", "outfitAutoScript",
 	"tool1AutoScript", "tool2AutoScript", "tool3AutoScript", "tool4AutoScript", "special1AutoScript", "special2AutoScript",
 	"skill1AutoScript", "skill2AutoScript", "skill3AutoScript", "skill4AutoScript", "skill5AutoScript", "skill6AutoScript",
@@ -23997,21 +21561,6 @@ getSectionIDs("repeating_global", function(idarray) {
 		});
 	});
 
-	/* Check: Obsolete attributes  */
-	let evdInfluence = values.settingEvdInfluence;
-	let testRankPower = values.settingTestOption;
-
-	if (evdInfluence == "true") {
-	output[`repeating_global_${rowid}_evdAilment`] = "HasteBind";
-	output["settingEvdInfluence"] = "0";
-	}
-
-	if (testRankPower == "true") {
-	output[`repeating_global_${rowid}_attStat`] = "Rank";
-	output["settingTestOption"] = "0";
-	}
-
-
 	output[`popup_messageHeader`] = syncHeader;
 	output[`popup_messageBody`] = syncBody;
 	output[`popup_display`] = syncToggle;
@@ -24020,7 +21569,7 @@ getSectionIDs("repeating_global", function(idarray) {
 	});
 	});
 });
-
+/* Sheet initialization - END */
 
 
 
@@ -24121,6 +21670,9 @@ var newIndex = 0;
 var pathIndex = 0; // Index of the start of the last path. Used for error messages
 var pathChars = []; // Exact characters in the last path. -:-
 
+
+// Executes a math string. Primarily used in AutoEffects
+// May include values from access, global variables and local variables using access path
 function parseMath(mathString, opts={}, error={}, vars={}) {
 	let values = []
 	let func_values = []
@@ -24334,7 +21886,7 @@ function getTranslationByKeyCustom(base, key) {
 	return getTranslationByKey(key) || base;
 }
 
-function updateStatName(stat) {
+function updateStatName(stat) { /* TODO: Remove this */
 	return stat.replace("Instinct","Fortitude").replace("Wisdom","Prudence")
 }
 
@@ -24433,7 +21985,7 @@ function arrayJoinAndOr(array, div1, div2) {
 /* --- Generic helper functions --- */
 
 // Takes in arguments of the format: [returnValue, queryText, {label1:value1, label2:value2, ...}]
-// Sends one query for each argument included and returns an array of results
+// Sends one query for each argument included and returns one value for each query
 async function sendQuery(...args) {
 	let queryList = [];
 	args.forEach(arg => { if (arg != [] && arg != "") { queryList.push(arg); } });
@@ -24491,9 +22043,11 @@ function getIcon(iconPath, returnMode="url", htmlAttrs=false, limbusStyle=false)
 	return imageUrl;
 }
 
+// Returns a color as a hex color (only supports colors in the "colors" constant)
 function getColor(color, opts={default:"#85a874"}) {
 	return (is.Hex(color)) ? color : colors[snakeify(color)] || opts.default || false;
 }
+
 // Uses HTML attribute injection to style text that can otherwise only be styled using markdown
 function styleText(text, style) {
 	text = text.replace(/[\[\]]/g, (match) => (match == "[") ? "&#91;" : "&#93;"); // Avoids issues with brackets inside the text
@@ -24535,12 +22089,14 @@ function camelize(s) {
 		return $1.toUpperCase().replace("_", "");
 	});
 };
+
 // Converts a string to snake_case
 // This does *not* revert underscores removed by camilize()
 function snakeify(s) {
 	return s.replace(/^[\s_]+/g, "")             // Remove leading spaces and underscores
 			.replace(/\s/g, "_").toLowerCase();  // Replace a Bc with a_bc
 }
+
 // As includes(), but snakeifies all involved values
 function includesSnakeify(a, b) {
 	if (is.Object(a)) a = Object.keys(a);
@@ -24556,7 +22112,7 @@ function equalsSnakeify(a, b) {
 	return snakeify(a) == snakeify(b);
 }
 
-// Works as split(), but ignores any seperator matches that are surrounded by one or more pairs of characters
+// Works as split(), but ignores any text that is surrounded by one or more pairs of seperator characters
 // - The characters are not included in the result unless the include argument is set to true
 // - A wide range of character formats are supported (see details below)
 function splitIgnoreBetween(string, seperator, chars=['"'], opts={includeChars:false, nesting:false}) {
@@ -24614,7 +22170,7 @@ function deleteMultiple(object, ...args) {
 
 // Return the length of an object
 function length(object) {
-	return keys = Object.keys(object).length;
+	return Object.keys(object).length;
 }
 
 // Return the amount of occurences of a substring in a string
@@ -24682,13 +22238,9 @@ function log(...args) {
 // Read more about this system at https://app.roll20.net/forum/post/10346883/adventures-with-startroll/?pageforid=10346884#post-10346884
 const Data = {
     chars: {
-        '"': '%quot;',
-        ',': '%comma;',
-        ':': '%colon;',
-        '}': '%rcub;',
-        '{': '%lcub;',
-		')': '&rpar;',
-		'(': '&lpar;',
+        '"': '%quot;', ',': '%comma;', ':': '%colon;',
+        '{': '%lcub;', '}': '%rcub;',
+		'(': '&lpar;', ')': '&rpar;',
     },
     package(data) {
 		data = (typeof(data) === 'object') ? JSON.stringify(data) : (typeof(data) === 'string') ? data : null;
@@ -24701,6 +22253,6 @@ const Data = {
         return JSON.parse(data);
     }
 }
-/* --- Generic helper functions end --- */
+/* --- Generic helper functions END --- */
 
 </script>
