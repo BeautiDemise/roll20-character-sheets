@@ -155,7 +155,7 @@ body, .sheet-body {
 }
 #credits:hover{
     width: 500px;
-    height: 160px;
+    height: 180px;
     border: 1px var(--color-LIGHT) solid;
     border-radius: 15px 5px 5px 5px;
     background-color: rgba(0,0,0,0.8);
@@ -851,7 +851,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 }
 
 /* Custom repcontrols */
-:is(.inventoryContainer, .itemOptionContainer, #itemSettings, #globalVariables, #ailmentCustomDisplay) {
+:is(.inventoryContainer, .itemOptionContainer, #inventorySettings, #globalVariables, #ailmentCustomDisplay) {
     :is(.repcontrol_edit, .repcontrol_add, .repcontrol_del, .repcontrol_move) {
         min-width: 20px;
         margin: 0;
@@ -891,7 +891,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 }
 
 /* Removes the red border around broken repitems */
-:is(#ailmentCustomDisplay, #ailmentCustomEditor, .inventoryContainer, .itemOptionContainer, #itemSettings, #globalVariables, #combatPalette) .repitembroken {
+:is(#ailmentCustomDisplay, #ailmentCustomEditor, .inventoryContainer, .itemOptionContainer, #inventorySettings, #globalVariables, #combatPalette) .repitembroken {
     border: 0 !important; 
 }
 /* ===== Shared sheet styling END ===== */
@@ -1151,6 +1151,12 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 .sheet-tabstoggle[value="details"] ~ #detailsTab,
 .sheet-tabstoggle[value="export"] ~ #exportTab,
 .sheet-tabstoggle[value="edit"] ~ #editTab {
+    display: block;
+}
+
+/* Reveal the inventory settings when in the equipment or skill tabs */
+.sheet-tabstoggle[value="equipment"] ~ #inventorySettings,
+.sheet-tabstoggle[value="skills"] ~ #inventorySettings {
     display: block;
 }
 /* ===== Sheet tabs END ===== */
@@ -1947,7 +1953,6 @@ button[type=action].challengeButton::before {
 
         .name {
             color: var(--content-text);
-            height: 24px;
             width: 100%;
         }
     }
@@ -2007,6 +2012,7 @@ button[type=action].challengeButton::before {
     }
     .paletteRow {
         width: auto;
+        flex-grow: 1;
     }
 
     /* Displays a shadow for palette actions with multiple rolls or standalone actions */
@@ -2043,8 +2049,15 @@ button[type=action].challengeButton::before {
 #appliedPalette {
     margin-top: 5px;
 
-    /* Displays a gray border around non-Mystery palette elements with 100% opacity */
+    .repcontainer {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
     .repitem {
+        min-width: 49%;
+        flex-grow: 1;
+
+        /* Displays a gray border around non-Mystery palette elements with 100% opacity */
         box-sizing: border-box;
         border: 1px solid var(--color-light-gray) !important;
         border-radius: 15px;
@@ -2293,18 +2306,45 @@ button[type=action].challengeButton::before {
 
 
 /* Repeating inventory and skills */
-#equipmentSection {
+#equipmentSection, #skillSection {
+    box-sizing: border-box;
     min-height: 550px;
-    margin-top: 3px;
+    padding: 2px 5px !important;
+}
+#equipmentSection {
+    flex-wrap: wrap;
+    gap: 10px;
 
-    > .contentRow {
-        margin: 2px 5px;
+    .contentRow.half {
+        width: calc(50% - 5px);
     }
 }
 .inventoryContainer {
     min-width: 400px;
     background-color: transparent;
     overflow: visible;
+
+    &.tool, &.augment {
+        margin-top: 6px;
+    }
+    &.special {
+        margin-top: -2px;
+    }
+
+    &.skill, &.special { 
+        .repcontainer {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        .repitem {
+            width: calc(50% - 5px);
+
+            &:nth-child(2n+1) {
+                margin-right: 10px;
+            }
+        }
+    }
 
     #TopContainer & {
         min-width: 100%;
@@ -2360,7 +2400,7 @@ button[type=action].challengeButton::before {
     }
 
     /* Tag icons and base values can be edited while editmode is enabled */
-    &:has(~ #hideItemSettings:not(:checked)) .repcontainer.editmode {
+    &:has(~ #hideInventorySettings:not(:checked)) .repcontainer.editmode {
         .repitem {
             width: 100%;
         }
@@ -2381,7 +2421,7 @@ button[type=action].challengeButton::before {
             display: none !important;
         }
     }
-    &:has(~ #hideItemSettings:checked), .repcontainer:not(.editmode) {
+    &:has(~ #hideInventorySettings:checked), .repcontainer:not(.editmode) {
         .trackerBase {
             display: none !important;
         }
@@ -2567,7 +2607,7 @@ button[type=action].challengeButton::before {
     }
 }
 .itemDescription {
-    min-height: 80px; /* Update these later to look great for weight 0 items (like skills) and also like 2-3 weight */
+    min-height: 80px;
 }
 .itemEffect {
     min-height: 80px;
@@ -2575,6 +2615,13 @@ button[type=action].challengeButton::before {
 .itemContainer:has(input[name*="leftEffectDisplay"]:checked) .itemButtons {
     left: calc(50% - 91px);
 }
+
+/* Hides the bottom description for items which uses the special UI */
+.itemContainer:has(input[name*="optionCustomUI"]:checked + div input[name*="specialUI"]:checked)
+.itemDescriptionContainer.bottom .itemDescription {
+    display: none !important;
+}
+
 
 /* Optional item contents */
 .itemCustomUI {
@@ -2587,7 +2634,7 @@ button[type=action].challengeButton::before {
         padding: 0 4px;
     }
 }
-.itemWeaponUI, .itemAugmentUI {
+.itemWeaponUI, .itemAugmentUI, .itemSkillUI {
     margin-bottom: 4px;
 
     select {
@@ -2753,8 +2800,8 @@ button[type=action].challengeButton::before {
 }
 
 /* Inventory Controls */
-#itemSettings:has(#hideItemSettings:checked) :is(.repcontrol_add, .repcontrol, .itemcontrol),
-#itemSettings:has(#hideItemSettings:checked) ~ #equipmentSection .inventoryContainer :is(.repcontrol_header, .repcontrol, .itemcontrol) {
+#inventorySettings:has(#hideInventorySettings:checked) :is(.repcontrol_add, .repcontrol, .itemcontrol),
+#inventorySettings:has(#hideInventorySettings:checked) ~ :is(#equipmentTab, #skillsTab) .inventoryContainer :is(.repcontrol_header, .repcontrol, .itemcontrol) {
     display: none;
 }
 
@@ -3326,16 +3373,21 @@ button[type=action].challengeButton::before {
 
 
 /* Editor tabs */
-#sheetSettings, #itemSettings {
+#inventorySettings {
+    box-sizing: border-box;
+    padding-bottom: 0 !important;
+
+    .editorButtonContainer {
+        padding-bottom: 5px;
+    }
+}
+#sheetSettings {
     border-radius: 0;
 }
-#sheetSettings h3, #itemSettings h3 {
+#sheetSettings h3, #inventorySettings h3 {
     background-color: var(--color-gray);
     padding: 5px 0;
     position: relative;
-}
-#itemSettings .editorButtonContainer {
-    padding-bottom: 5px;
 }
 #ailmentCustomEditor .repcontrol_move, #globalSettings .repcontrol_move {
     display: none;
@@ -4506,16 +4558,16 @@ button[type=action].challengeButton::before {
     &:has(.rollType[value="Evade"]) { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/icons/evade.png'); }
     
     /* Stat roll icons */
-    &:has(.rollType[value="Fortitude"]) { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Fortitude.png'); }
-    &:has(.rollType[value="Prudence"]) { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Prudence.png'); }
-    &:has(.rollType[value="Justice"]) { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Justice.png'); }
-    &:has(.rollType[value="Charm"]) { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Charm.png'); }
-    &:has(.rollType[value="Insight"]) { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Insight.png'); }
-    &:has(.rollType[value="Temperance"]) { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Temperance.png'); }
+    &:has(.rollType[value="Fortitude"]) { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Fortitude.png') !important; }
+    &:has(.rollType[value="Prudence"]) { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Prudence.png') !important; }
+    &:has(.rollType[value="Justice"]) { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Justice.png') !important; }
+    &:has(.rollType[value="Charm"]) { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Charm.png') !important; }
+    &:has(.rollType[value="Insight"]) { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Insight.png') !important; }
+    &:has(.rollType[value="Temperance"]) { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Temperance.png') !important; }
 
     /* Mysteriy icons */
     .mystery-toggle:checked + .contentContainer & {
-        background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/icons/egoQuestion.png');
+        background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/icons/egoChoose.png');
 
         &:has(.rollType[value="Attack"]) {
             background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/icons/egoAtt.png');
@@ -4723,8 +4775,8 @@ button[type=action].challengeButton::before {
 .augment { --content-color: var(--color-green); --content-mystery: var(--color-light-green); }
 .tool { --content-color: var(--color-purple); --content-mystery: var(--color-light-purple); }
 .special { --content-color: var(--color-orange); --content-mystery: var(--color-light-orange); }
-.skill { --content-color: var(--color-dark-gray); --content-mystery: var(--color-light-gray); --content-accent: #101010; }
-.effect { --content-color: var(--color-gray); --content-mystery: var(--color-light-gray); --content-accent: #111111; }
+.skill { --content-color: var(--color-dark-gray); --content-mystery: var(--color-off-white); --content-accent: #101010; }
+.effect { --content-color: var(--color-gray); --content-mystery: var(--color-off-white); --content-accent: #111111; }
 
 /* Rollformat colors */
 .rollFormat {
