@@ -324,10 +324,10 @@ body, .sheet-body {
     width: fit-content;
 }
 
-#TopContainer { width: 100%; text-align: center; display: flex; }
-#TopColumnL { position: relative; min-width: 265px; float: left; padding-left: 0px; padding-right: 0px; margin-right: 5px; }
-#TopColumnM { min-width: 270px; padding-left: 10px; padding-right: 10px; flex-grow: 1; }
-#TopColumnR { width: 265px; float: right; padding-left: 15px; padding-right: 10px; }
+#TopContainer { display: flex; width: 100%; gap: 15px; text-align: center; }
+#TopColumnL { position: relative; min-width: 265px; float: left; }
+#TopColumnM { min-width: 260px; flex-grow: 1; }
+#TopColumnR { min-width: 275px; float: right; }
 
 .columnContent { min-width: 180px; position: relative;}
 
@@ -352,6 +352,7 @@ body, .sheet-body {
 }
 .contentContainer {
     position: relative;
+    box-sizing: border-box;
 	width: 100%;
     text-align: center;
     background-color: var(--content-background);
@@ -735,7 +736,7 @@ h3, h4 {
 /* Each header consists of a reset button, a h4 header title, and any number of section-specific buttons */
 .sectionHeader {
     height: 30px;
-    width: calc(100% + 10px);
+    width: 100%;
     margin-top: 8px;
     margin-bottom: 5px;
     align-items: center;
@@ -830,11 +831,11 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 .lightScroll { scrollbar-color: var(--color-lighter-gray) var(--color-dark-white); }
 
 /* The default repcontrol elements are usually not used */
-:is(#ailmentCustomDisplay, .genericTokenInstanceContainer, .conditionalButtonDisplay, #globalSettings, #combatPalette) .repcontrol {
+.noRepControls .repcontrol {
     display: none;
 }
 
-/* Repcontrols disable interactions with their associated repeating items */
+/* Revealed repcontrols disable interactions with their associated repeating content */
 .itemcontrol {
     position: absolute;
     z-index: 100;
@@ -851,7 +852,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 }
 
 /* Custom repcontrols */
-:is(.inventoryContainer, .itemOptionContainer, #inventorySettings, #globalVariables, #ailmentCustomDisplay) {
+:is(.inventoryContainer, .itemOptionContainer, #inventorySettings, #globalVariables, #ailmentDisplay) {
     :is(.repcontrol_edit, .repcontrol_add, .repcontrol_del, .repcontrol_move) {
         min-width: 20px;
         margin: 0;
@@ -891,7 +892,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 }
 
 /* Removes the red border around broken repitems */
-:is(#ailmentCustomDisplay, #ailmentCustomEditor, .inventoryContainer, .itemOptionContainer, #inventorySettings, #globalVariables, #combatPalette) .repitembroken {
+:is(#sheetWrapper, .sheet-body) .repitembroken {
     border: 0 !important; 
 }
 /* ===== Shared sheet styling END ===== */
@@ -1563,29 +1564,31 @@ button[type=action].challengeButton::before {
 
 
 /* Automated state detection icons */
-.ailmentStates .statusIcon {
-    width: 35px;
-    height: 35px;
-}
-.ailmentStates input[type="checkbox"] {
-    display: none;
-}
-.ailmentStates label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 0 3px 3px 3px;
+.ailmentStates {
+    margin-bottom: 6px;
+
+    label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0 3px 3px 3px;
+        margin: 0;
+    }
+    .statusIcon {
+        width: 35px;
+        height: 35px;
+    }
 }
 
 
 /* Custom ailments display */
-#ailmentCustomDisplay .repcontainer {
+#ailmentDisplay .repcontainer {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(83.2px, 1fr));
     overflow: hidden;
 }
-#ailmentCustomDisplay .repitem  {
+#ailmentDisplay .repitem  {
     display: inline-block;
     width: 33.33%; /* Should later be replaced with a Grid based system */
     min-width: 83.2px;
@@ -1824,13 +1827,13 @@ button[type=action].challengeButton::before {
 #genericTokenModeToggle:checked + .genericTokenContainer {
     display: flex !important;
 }
-.genericTokenInstanceContainer {
+#genericTokenDisplay {
     resize: vertical;
     max-height: 450px;
     min-height: 150px;
     overflow-y: auto;
 }
-.genericTokenInstanceContainer .repcontainer {
+#genericTokenDisplay .repcontainer {
     display: flex;
     flex-wrap: wrap;
     max-width: calc(99% - 64px);
@@ -2070,12 +2073,12 @@ button[type=action].challengeButton::before {
     }
 
     .paletteContainer {
-        box-sizing: border-box;
         margin: 0;
         padding: 0;
         font-size: 13px;
         border-radius: 15px;
         opacity: 60%;
+        cursor: pointer;
     }
     .paletteHeader {
         height: 31px;
@@ -2313,6 +2316,7 @@ button[type=action].challengeButton::before {
 }
 #equipmentSection {
     flex-wrap: wrap;
+    align-content: flex-start;
     gap: 10px;
 
     .contentRow.half {
@@ -2617,7 +2621,7 @@ button[type=action].challengeButton::before {
 }
 
 /* Hides the bottom description for items which uses the special UI */
-.itemContainer:has(input[name*="optionCustomUI"]:checked + div input[name*="specialUI"]:checked)
+.itemContainer:has(input[name*="optionCustomUI"]:checked ~ div input[name*="specialUI"]:checked)
 .itemDescriptionContainer.bottom .itemDescription {
     display: none !important;
 }
@@ -2716,6 +2720,11 @@ button[type=action].challengeButton::before {
             padding: 0 0 0 1px;
             height: 100%;
             width: 28px;
+
+            /* Disables the datalist dropdown arrow */
+            &::-webkit-calendar-picker-indicator {
+                display: none !important;
+            }
         }
         &::before { content: "["; }
         &::after { content: "]"; }
@@ -3130,9 +3139,6 @@ button[type=action].challengeButton::before {
         .darkInput {
             width: 100%;
         }
-        .repcontrol {
-            display: none;
-        }
     }
 
     /* Item editor - Uses */
@@ -3249,70 +3255,65 @@ button[type=action].challengeButton::before {
 
 
 /* AutoEffect conditional buttons */
-.conditionalButtonDisplay .repcontainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-.conditionalButtonDisplay .repitem {
-    width: 49%;
+#conditionalButtonDisplay {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 2px 0;
+    --content-color: var(--color-green);
+
+    .repcontainer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 4px;
+    }
+    .repitem {
+        width: calc(50% - 2px);
+    }
 }
 .conditionalButton {
     display: flex;
     align-items: center;
-    justify-content: center;
-    position: relative;
-    border-radius: 12px;
-    border: 1px var(--color-light-gray) solid;
-    background-color: var(--color-green);
-    margin-left: 2px;
-    margin-right: 2px;
+    box-sizing: border-box;
+    height: 30px !important;
     width: 100%;
-    height: 30px;
-    z-index: 0;
-}
-.conditionalButtonAct {
-    position: absolute;
-    top: 0;
-    left: 1px;
-    width: calc(100% + 2px);
-    height: 100%;
-    border-radius: 12px;
-    background-color: var(--color-black);
-    opacity: 0.2;
-    z-index: 1;
-}
-.conditionalButtonAct:hover {
-    opacity: 0;
-}
-.conditionalButtonName {
-    position: absolute;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    padding: 0;
+    border-radius: 10px;
+    border-color: var(--color-light-gray);
+    background-color: var(--color-green); /* Is overwritten by custom colors */
     overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-    left: 0;
-    max-width: calc(95% - 34px);
-    padding-left: 34px;
-    font-size: 9pt;
-    line-height: 1em;
-    max-height: 2em;
-    font-weight: bold;
-    color: var(--color-white);
-    z-index: 3;
+    
+    .buttonIcon {
+        padding-left: 1px !important;
+        border-right: 1px solid var(--color-light-gray) !important;
+        background-color: inherit;
+        z-index: 3;
+    }
+    .buttonName {
+        max-height: 2em;
+        line-height: 1em;
+        font-size: 12px;
+        font-weight: bold;
+        color: var(--color-white);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-align: left;
+        margin: 0 4px;
+    }
+
+    &:not(:hover)::before {
+        content: " ";
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
 }
-.conditionalButtonIcon {
-    position: absolute;
-    pointer-events: none;
-    left: 1px;
-    width: 30px;
-    height: 30px;
-    z-index: 3;
-    border-radius: 12px 0 0 12px;
-    border: 1px var(--color-light-gray) solid;
-}
+
 /* ===== AutoScript END ===== */
 
 
@@ -4306,9 +4307,10 @@ button[type=action].challengeButton::before {
     }
 }
 .sheet-rolltemplate-customRoll .sheet-header-wrapper .sheet-icon {
-    height: 36px;
-    width: 36px;
+    height: 30px;
+    width: 30px;
     border-right: 1px solid #000;
+    pointer-events: none;
 }
 .sheet-rolltemplate-customRoll .sheet-section .sheet-header-wrapper .sheet-icon {
     height: 26px;
