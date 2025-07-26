@@ -536,7 +536,7 @@
 	"item-tag-name":"Tag name",
 	"item-tag-is-slot":"Is equip slot",
 	"item-tag-hide":"Hide tag/slot",
-	"item-search":"Search for item",
+	"item-search":"Search for item (WIP)",
 	"item-search-title":"Search for a term in an item's name, effect or description",
 	"item-search-clear":"Clear the search",
 	"item-search-options":"Advanced search options",

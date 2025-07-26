@@ -300,7 +300,7 @@
 					<div class="itemOptionContainer inline freeform">
 
 						<!-- Recycle / store roll -->
-						<div class="itemOption inline"><label><input type="checkbox" name="attr_optionStoreRoll" value="true"><span>Recycle</span></label>
+						<div class="itemOption inline"><label><input type="checkbox" name="attr_optionStoreRoll" value="true"><span>Recycle (WIP)</span></label>
 							<div class="rollFormat">
 								<div class="rollFormatBlock">
 									<input type="number" class="diceCount noSpinner" name="attr_storeCount" value="0">
@@ -438,7 +438,7 @@
 				</div>
 
 				<!-- Flat Damage Resistance -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionResistFlatDamage" value="true"><span>Flat damage</span></label>
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionResistFlatDamage" value="true"><span>Flat damage (WIP)</span></label>
 					<div class="columnAlign">
 						
 						<!-- Slash -->
@@ -507,20 +507,8 @@
 				</div>
 
 				<!-- Ailment Resistance -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionResistAilments" value="true"><span>Ailments</span></label>
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionResistAilments" value="true"><span>Ailments (WIP)</span></label>
 					<div class="columnAlign" style="margin-top: 3px;">
-
-						<!-- Damage Resist -->
-						<div class="ailmentResistContainer">
-							<div class="rowContainer">
-								<input type="checkbox" class="fade-toggle" name="attr_itemEditDamageResist" value="0" hidden checked>
-								<div class="fade-item">
-									<input type="checkbox" class="swap-toggle" value="true" name="attr_settingLimbusStyle">
-									<div class="swap-item-rev mediumIcon damageResist"></div> <div class="swap-item mediumIcon damageResist-limbus"></div>
-								</div>
-								<input type="number" class="fade-item darkInput" name="attr_itemEditDamageResist" value="0">
-							</div>
-						</div>
 	
 						<!-- Custom Resist -->
 						<div class="ailmentResistContainer">
@@ -601,7 +589,7 @@
 			<div class="itemOptionContainer">
 			
 				<!-- Item uses -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUses" value="true"><span>Uses</span></label>
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUses" value="true"><span>Uses (WIP)</span></label>
 					<div class="itemUseTracker">
 						<input type="checkbox" class="fade-toggle" name="attr_itemEditUsesMax" value="0" hidden checked>
 						<div class="fade-item mediumIcon reusable"></div>
@@ -649,8 +637,8 @@
 
 		
 		<!-- Option: Linked -->
-		<div class="itemOption inline divide"><label><input type="checkbox" name="attr_itemEditOptionLinked" value="true"><span>Linked</span></label>
-			<div class="columnAlign">
+		<div class="itemOption inline divide"><label><input type="checkbox" name="attr_itemEditOptionLinked" value="true"><span>Linked (WIP)</span></label>
+			<div class="columnAlign" style="display: none;">
 				<div class="rowContainer">
 					<input type="checkbox" class="whiteInput" name="attr_itemEditLinkedEquipTogether" value="true" data-i18n-title="item-linked-equiptogether" title="Auto: Equip item with linked item">
 					<input type="text" class="whiteInput" name="attr_itemEditLinkedName" placeholder="Linked name" style="width: 100px;">
@@ -741,7 +729,7 @@
 				</div>
 				
 				<!-- Custom icon -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionIcon" value="true"><span>Icon</span></label>
+				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionIcon" value="true"><span>Icon (WIP)</span></label>
 					<input type="text" class="whiteInput" name="attr_itemEditIconSource" placeholder="Icon source">
 					<!-- Unfinished -->
 				</div>
@@ -763,7 +751,7 @@
 
 
 		<!-- Option: Card -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionCardCombat" value="true"><span>Card</span></label>
+		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionCardCombat" value="true"><span>Card (WIP)</span></label>
 			<!-- Should be hidden when a game settings is disabled -->
 		</div>
 
@@ -2681,7 +2669,7 @@ EGO block end -->
 	<button type="action" id="equipmentButton" name="act_equipment" data-i18n="tabs-equipment">Equipment</button>
 	<button type="action" id="skillsButton" name="act_skills" data-i18n="tabs-skills">Skills</button>
 
-	<input type="checkbox" class="hide-toggle" name="attr_global_editMode" value="0" hidden checked>
+	<!-- <input type="checkbox" class="hide-toggle" name="attr_global_editMode" value="0" hidden checked> -->
 	<button type="action" class="hide-item-rev" id="editButton" name="act_edit" data-i18n="tabs-edit">Editor</button>
 </div>
 
@@ -2715,7 +2703,7 @@ EGO block end -->
 		<div class="searchBar">
 			<label for="itemSearch" class="searchIcon centerIcon search"></label>
 
-			<input type="text" id="itemSearch" class="searchInput" name="attr_itemSearchInput" data-i18n-title="item-search-title" title="Search for a term in an item's name, effect or description" data-i18n-placeholder="item-search" placeholder="Search for item">
+			<input type="text" id="itemSearch" class="searchInput" name="attr_itemSearchInput" data-i18n-title="item-search-title" title="Search for a term in an item's name, effect or description" data-i18n-placeholder="item-search" placeholder="Search for item (WIP)">
 			
 			<button type="action" class="searchClear centerIcon exit" name="act_clearSearchBar" data-i18n-title="item-search-clear" title="Clear the search"></button>
 
@@ -20725,13 +20713,13 @@ async function sheetSetup(ID) {
 	setAttrs({versionNumber: sheetVersion});
 }
 
-// The Combat Toggle setting should be enabled by default
+// All combat options should be enabled by default
 // Implementing this in the HTML code causes issues, so it's manually set here instead
 // TODO: Add a better implementation for this
 on("sheet:opened", () => {
 	getAttrs(["versionNumber"], (values) => {
 		if (values.versionNumber == "0") {
-			setAttrs({"settingCombatToggle":"true"});
+			setAttrs({settingActionTracker:"true", settingLightRegen:"true", settingCombatToggle:"true"});
 		}
 	});
 });
