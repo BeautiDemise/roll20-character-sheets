@@ -1789,25 +1789,12 @@ EGO block end -->
 			</div>
 			
 			<div class="status_effect_value rowContainer">
-				<input type="checkbox" class="hide-toggle" name="attr_ailNextRound" value="true">
+				<input type="checkbox" class="hide-toggle" name="attr_ailNextRound" value="true" checked>
 				<input type="number" class="ailmentCount ailmentCountThisRound hoverSpinner" name="attr_ailCount" min="0" value="0">
 				<input type="number" class="ailmentCount ailmentCountNextRound hoverSpinner hide-item" name="attr_ailCountNextRound" min="0" value="0">
 				<input type="number" class="ailmentCount ailmentCountPause hoverSpinner" name="attr_ailCountPause" min="0" value="0">
 			</div>
 		</div>
-
-		<input type="text" name="attr_ailName" hidden>
-		<input type="text" name="attr_ailTrigger" hidden>
-		<input type="text" name="attr_ailEffectType" hidden>
-		<input type="text" name="attr_ailEffectMode" hidden>
-		<input type="text" name="attr_ailEffectValue" hidden>
-		<input type="text" name="attr_ailDecayMode" hidden>
-		<input type="text" name="attr_ailDecayValue" hidden>
-		<input type="text" name="attr_ailMaxValue" hidden>
-		<input type="text" name="attr_ailCustomReistance" hidden>
-		<input type="text" name="attr_ailMessageSend" hidden>
-		<input type="text" name="attr_ailMessageText" hidden>
-
 	</fieldset>
 	</div>
 	<!-- Repeating ailments end -->
@@ -2145,8 +2132,8 @@ EGO block end -->
 
 		<!-- Resources -->
 		<div class="columnAlign resourceContainer">
-			<input type="checkbox" class="hide-toggle" name="attr_settingActionTracker" value="true" hidden>
-			<input type="checkbox" class="hide-toggle" name="attr_settingLightRegen" value="true" hidden>
+			<input type="checkbox" class="hide-toggle" name="attr_settingActionTracker" value="true" hidden checked>
+			<input type="checkbox" class="hide-toggle" name="attr_settingLightRegen" value="true" hidden checked>
 			<input type="checkbox" class="trackerEditToggle" name="attr_editResourceToggle" value="true" hidden>
 			<div class="hide-item-flex columnAlign">
 
@@ -2161,7 +2148,7 @@ EGO block end -->
 							<label for="actionSelection" class="egoSpecial trackerIcon" data-i18n-title="resource-action" title="Action">
 								<input type="radio" id="actionSelection" name="attr_resourceSelection" value="Action" hidden checked>
 							</label>
-							<input type="checkbox" class="fade-toggle" name="attr_Action_current" value="0" hidden checked>
+							<input type="checkbox" class="fade-toggle" name="attr_Action_current" value="0" hidden>
 							<input type="number" min="0" value="1" class="trackerCurrent hoverSpinner" name="attr_Action_current">
 							<input type="number" min="0" value="1" class="trackerMax noSpinner" name="attr_Action_max">
 							<input type="number" min="0" value="1" class="trackerBase hoverSpinner" name="attr_Action_base">
@@ -2179,12 +2166,12 @@ EGO block end -->
 							<label for="reactionSelection" class="hide-item reaction trackerIcon" data-i18n-title="helper-reaction-universal" title="Universal reaction"></label>
 							<input type="radio" id="reactionSelection" name="attr_resourceSelection" value="Reaction" hidden>
 
-							<input type="checkbox" class="fade-toggle" name="attr_Reaction_current" value="0" hidden checked>
+							<input type="checkbox" class="fade-toggle" name="attr_Reaction_current" value="0" hidden>
 							<input type="number" min="0" value="2" class="hide-item-rev trackerCurrent hoverSpinner" name="attr_Reaction_current">
 							<input type="number" min="0" value="2" class="hide-item-rev trackerMax noSpinner" name="attr_Reaction_max">
 							<input type="number" min="0" value="2" class="hide-item-rev trackerBase hoverSpinner" name="attr_Reaction_base">
 
-							<input type="checkbox" class="fade-toggle" name="attr_Universal_current" value="0" hidden checked>
+							<input type="checkbox" class="fade-toggle" name="attr_Universal_current" value="0" hidden>
 							<input type="number" min="0" value="2" class="hide-item trackerCurrent hoverSpinner" name="attr_Universal_current">
 							<input type="number" min="0" value="2" class="hide-item trackerMax noSpinner" name="attr_Universal_max">
 							<input type="number" min="0" value="2" class="hide-item trackerBase hoverSpinner" name="attr_Universal_base">
@@ -2197,7 +2184,7 @@ EGO block end -->
 						<b data-i18n="helper-light-regen">Light Regen</b>
 						<div class="tracker rowContainer">
 							<button type="action" class="light trackerIcon" name="act_lightClicker" data-i18n-title="helper-light-regen" title="Light regen"></button>
-							<input type="checkbox" class="fade-toggle" name="attr_Light_regen_current" value="0" hidden checked>
+							<input type="checkbox" class="fade-toggle" name="attr_Light_regen_current" value="0" hidden>
 							<input type="number" min="0" value="3" class="trackerCurrent hoverSpinner" name="attr_Light_regen_current">
 							<input type="number" min="0" value="3" class="trackerMax noSpinner LIGHT" name="attr_Light_regen_max">
 							<input type="number" min="0" value="3" class="trackerBase hoverSpinner" name="attr_Light_regen_base">
@@ -2693,10 +2680,10 @@ EGO block end -->
 
 		<!-- Lock Button -->
 		<input type="checkbox" class="switch-toggle" name="attr_syncLockItems" value="true" hidden>
-		<button type="action" class="lockButton largeIcon" id="lock_Items" name="act_lockSection"></button>
+		<button type="action" class="lockButton largeIcon" id="lock_items" name="act_lockSection" data-i18n-title="item-lock" title="Lock items during Apply Default Settings"></button>
 		<div>
 			<input type="checkbox" class="hide-toggle" name="attr_syncStateItems" value="true">
-			<div class="hide-item containIcon"></div>
+			<div class="hide-item syncIcon"></div>
 		</div>
 
 		<!-- Search Bar -->
@@ -2817,7 +2804,7 @@ EGO block end -->
 
 						<!-- Rank and name -->
 						<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank">
-						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="equip-weapon-name" placeholder="Item name">
+						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="equip-weapon-name" placeholder="Weapon name">
 					</div>
 
 					<div class="itemContents rowContainer">
@@ -2911,10 +2898,10 @@ EGO block end -->
 							<!-- Description (Left) -->
 							<div class="itemDescriptionContainer left columnAlign">
 								<input type="checkbox" class="hide-toggle-next" name="attr_leftDescDisplay" value="true" hidden checked>
-								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="weapon-desc" placeholder="Item description."></textarea>
+								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 								<input type="checkbox" class="hide-toggle-next" name="attr_leftEffectDisplay" value="true" hidden>
-								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="weapon-effect" placeholder="Item effects."></textarea>
+								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 							</div>
 						</div>
 						
@@ -3128,10 +3115,10 @@ EGO block end -->
 							<!-- Description (Right) -->
 							<div class="itemDescriptionContainer right columnAlign">
 								<input type="checkbox" class="hide-toggle-next" name="attr_rightDescDisplay" value="true" hidden>
-								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="weapon-desc" placeholder="Item description."></textarea>
+								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 								<input type="checkbox" class="hide-toggle-next" name="attr_rightEffectDisplay" value="true" hidden checked>
-								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="weapon-effect" placeholder="Item effects."></textarea>
+								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 							</div>
 						</div>
 					</div>
@@ -3139,10 +3126,10 @@ EGO block end -->
 					<!-- Description (Bottom) -->
 					<div class="itemDescriptionContainer bottom columnAlign">
 						<input type="checkbox" class="hide-toggle-next" name="attr_bottomDescDisplay" value="true" hidden>
-						<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="weapon-desc" placeholder="Item description."></textarea>
+						<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 						<input type="checkbox" class="hide-toggle-next" name="attr_bottomEffectDisplay" value="true" hidden>
-						<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="weapon-effect" placeholder="Item effects."></textarea>
+						<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 					</div>
 				</div>
 
@@ -3304,10 +3291,10 @@ EGO block end -->
 							<!-- Description (Left) -->
 							<div class="itemDescriptionContainer left columnAlign">
 								<input type="checkbox" class="hide-toggle-next" name="attr_leftDescDisplay" value="true" hidden checked>
-								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="augment-desc" placeholder="Item description."></textarea>
+								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 								<input type="checkbox" class="hide-toggle-next" name="attr_leftEffectDisplay" value="true" hidden>
-								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="augment-effect" placeholder="Item effects."></textarea>
+								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 							</div>
 						</div>
 						
@@ -3512,10 +3499,10 @@ EGO block end -->
 							<!-- Description (Right) -->
 							<div class="itemDescriptionContainer right columnAlign">
 								<input type="checkbox" class="hide-toggle-next" name="attr_rightDescDisplay" value="true" hidden>
-								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="augment-desc" placeholder="Item description."></textarea>
+								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 								<input type="checkbox" class="hide-toggle-next" name="attr_rightEffectDisplay" value="true" hidden checked>
-								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="augment-effect" placeholder="Item effects."></textarea>
+								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 							</div>
 						</div>
 					</div>
@@ -3523,10 +3510,10 @@ EGO block end -->
 					<!-- Description (Bottom) -->
 					<div class="itemDescriptionContainer bottom columnAlign">
 						<input type="checkbox" class="hide-toggle-next" name="attr_bottomDescDisplay" value="true" hidden>
-						<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="augment-desc" placeholder="Item description."></textarea>
+						<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 						<input type="checkbox" class="hide-toggle-next" name="attr_bottomEffectDisplay" value="true" hidden>
-						<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="augment-effect" placeholder="Item effects."></textarea>
+						<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 					</div>
 				</div>
 
@@ -3700,10 +3687,10 @@ EGO block end -->
 							<!-- Description (Left) -->
 							<div class="itemDescriptionContainer left columnAlign">
 								<input type="checkbox" class="hide-toggle-next" name="attr_leftDescDisplay" value="true" hidden checked>
-								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Item description."></textarea>
+								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 								<input type="checkbox" class="hide-toggle-next" name="attr_leftEffectDisplay" value="true" hidden>
-								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Item effects."></textarea>
+								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 							</div>
 						</div>
 						
@@ -3908,10 +3895,10 @@ EGO block end -->
 							<!-- Description (Right) -->
 							<div class="itemDescriptionContainer right columnAlign">
 								<input type="checkbox" class="hide-toggle-next" name="attr_rightDescDisplay" value="true" hidden>
-								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Item description."></textarea>
+								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 								<input type="checkbox" class="hide-toggle-next" name="attr_rightEffectDisplay" value="true" hidden checked>
-								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Item effects."></textarea>
+								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 							</div>
 						</div>
 					</div>
@@ -3919,10 +3906,10 @@ EGO block end -->
 					<!-- Description (Bottom) -->
 					<div class="itemDescriptionContainer bottom columnAlign">
 						<input type="checkbox" class="hide-toggle-next" name="attr_bottomDescDisplay" value="true" hidden>
-						<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Item description."></textarea>
+						<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 						<input type="checkbox" class="hide-toggle-next" name="attr_bottomEffectDisplay" value="true" hidden>
-						<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Item effects."></textarea>
+						<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 					</div>
 				</div>
 
@@ -3989,7 +3976,7 @@ EGO block end -->
 
 						<!-- Rank and name -->
 						<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank">
-						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="outfit-name" placeholder="Item name">
+						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="tool-name" placeholder="Item name">
 
 						<!-- Item uses -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
@@ -4090,10 +4077,10 @@ EGO block end -->
 							<!-- Description (Left) -->
 							<div class="itemDescriptionContainer left columnAlign">
 								<input type="checkbox" class="hide-toggle-next" name="attr_leftDescDisplay" value="true" hidden checked>
-								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Item description."></textarea>
+								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 								<input type="checkbox" class="hide-toggle-next" name="attr_leftEffectDisplay" value="true" hidden>
-								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Item effects."></textarea>
+								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 							</div>
 						</div>
 						
@@ -4298,10 +4285,10 @@ EGO block end -->
 							<!-- Description (Right) -->
 							<div class="itemDescriptionContainer right columnAlign">
 								<input type="checkbox" class="hide-toggle-next" name="attr_rightDescDisplay" value="true" hidden>
-								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Item description."></textarea>
+								<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 								<input type="checkbox" class="hide-toggle-next" name="attr_rightEffectDisplay" value="true" hidden checked>
-								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Item effects."></textarea>
+								<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 							</div>
 						</div>
 					</div>
@@ -4309,10 +4296,10 @@ EGO block end -->
 					<!-- Description (Bottom) -->
 					<div class="itemDescriptionContainer bottom columnAlign">
 						<input type="checkbox" class="hide-toggle-next" name="attr_bottomDescDisplay" value="true" hidden>
-						<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Item description."></textarea>
+						<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 						<input type="checkbox" class="hide-toggle-next" name="attr_bottomEffectDisplay" value="true" hidden>
-						<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Item effects."></textarea>
+						<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 					</div>
 				</div>
 
@@ -4382,7 +4369,7 @@ EGO block end -->
 
 					<!-- Rank and name -->
 					<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank">
-					<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="outfit-name" placeholder="Item name">
+					<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="special-name" placeholder="Item name">
 
 					<!-- Item uses -->
 					<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
@@ -4483,10 +4470,10 @@ EGO block end -->
 						<!-- Description (Left) -->
 						<div class="itemDescriptionContainer left columnAlign">
 							<input type="checkbox" class="hide-toggle-next" name="attr_leftDescDisplay" value="true" hidden checked>
-							<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Item description."></textarea>
+							<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 							<input type="checkbox" class="hide-toggle-next" name="attr_leftEffectDisplay" value="true" hidden>
-							<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Item effects."></textarea>
+							<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 						</div>
 					</div>
 					
@@ -4691,10 +4678,10 @@ EGO block end -->
 						<!-- Description (Right) -->
 						<div class="itemDescriptionContainer right columnAlign">
 							<input type="checkbox" class="hide-toggle-next" name="attr_rightDescDisplay" value="true" hidden>
-							<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Item description."></textarea>
+							<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 							<input type="checkbox" class="hide-toggle-next" name="attr_rightEffectDisplay" value="true" hidden checked>
-							<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Item effects."></textarea>
+							<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 						</div>
 					</div>
 				</div>
@@ -4702,10 +4689,10 @@ EGO block end -->
 				<!-- Description (Bottom) -->
 				<div class="hide-item-rev itemDescriptionContainer bottom columnAlign">
 					<input type="checkbox" class="hide-toggle-next" name="attr_bottomDescDisplay" value="true" hidden checked>
-					<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Item description."></textarea>
+					<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="item-desc" placeholder="Item description."></textarea>
 
 					<input type="checkbox" class="hide-toggle-next" name="attr_bottomEffectDisplay" value="true" hidden>
-					<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Item effects."></textarea>
+					<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="item-effect" placeholder="Item effects."></textarea>
 				</div>
 			</div>
 
@@ -4784,7 +4771,7 @@ EGO block end -->
 
 					<!-- Rank and name -->
 					<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank">
-					<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="outfit-name" placeholder="Item name">
+					<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="skill-name" placeholder="Skill name">
 
 					<!-- Item uses -->
 					<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
@@ -4885,10 +4872,10 @@ EGO block end -->
 						<!-- Description (Left) -->
 						<div class="itemDescriptionContainer left columnAlign">
 							<input type="checkbox" class="hide-toggle-next" name="attr_leftDescDisplay" value="true" hidden checked>
-							<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Item description."></textarea>
+							<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="skill-desc" placeholder="Skill description."></textarea>
 
 							<input type="checkbox" class="hide-toggle-next" name="attr_leftEffectDisplay" value="true" hidden>
-							<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Item effects."></textarea>
+							<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="skill-effect" placeholder="Skill effects."></textarea>
 						</div>
 					</div>
 					
@@ -5093,10 +5080,10 @@ EGO block end -->
 						<!-- Description (Right) -->
 						<div class="itemDescriptionContainer right columnAlign">
 							<input type="checkbox" class="hide-toggle-next" name="attr_rightDescDisplay" value="true" hidden>
-							<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Item description."></textarea>
+							<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="skill-desc" placeholder="Skill description."></textarea>
 
 							<input type="checkbox" class="hide-toggle-next" name="attr_rightEffectDisplay" value="true" hidden checked>
-							<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Item effects."></textarea>
+							<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="skill-effect" placeholder="Skill effects."></textarea>
 						</div>
 					</div>
 				</div>
@@ -5104,10 +5091,10 @@ EGO block end -->
 				<!-- Description (Bottom) -->
 				<div class="itemDescriptionContainer bottom columnAlign">
 					<input type="checkbox" class="hide-toggle-next" name="attr_bottomDescDisplay" value="true" hidden>
-					<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="outfit-desc" placeholder="Item description."></textarea>
+					<textarea spellcheck="false" name="attr_description" class="hide-item itemDescription" data-i18n-placeholder="skill-desc" placeholder="Skill description."></textarea>
 
 					<input type="checkbox" class="hide-toggle-next" name="attr_bottomEffectDisplay" value="true" hidden>
-					<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="outfit-effect" placeholder="Item effects."></textarea>
+					<textarea spellcheck="false" name="attr_effect" class="hide-item itemEffect" data-i18n-placeholder="skill-effect" placeholder="Skill effects."></textarea>
 				</div>
 			</div>
 
@@ -5373,11 +5360,10 @@ EGO block end -->
 <!-- Game Setting Section -->
 <div style="width: 100%;"><h3>
 <input type="checkbox" class="switch-toggle" name="attr_syncLockGame" value="true" hidden>
-<button type="action" class="lockButton largeIcon" id="lock_Game" name="act_lockSection"></button>
-
+<button type="action" class="lockButton largeIcon" id="lock_game" name="act_lockSection" data-i18n-title="editor-lock" title="Lock editor contents during Apply Default Settings"></button>
 <div>
-<input type="checkbox" class="hide-toggle" name="attr_syncStateGame" value="true">
-<div class="hide-item syncIcon"></div>
+	<input type="checkbox" class="hide-toggle" name="attr_syncStateGame" value="true">
+	<div class="hide-item syncIcon"></div>
 </div>
 
 <span data-i18n="editor-gamesettings">Game Settings</span> 
@@ -5699,62 +5685,65 @@ EGO block end -->
 <div>
 <h3>
 <input type="checkbox" class="switch-toggle" name="attr_syncLockAilments" value="true" hidden>
-	<button type="action" class="lockButton largeIcon" id="lock_Ailment" name="act_lockSection"></button>
-
-	<div>
-	<input type="checkbox" class="hide-toggle" name="attr_syncStateAilment" value="true">
+<button type="action" class="lockButton largeIcon" id="lock_ailments" name="act_lockSection" data-i18n-title="editor-lock" title="Lock editor contents during Apply Default Settings"></button>
+<div>
+	<input type="checkbox" class="hide-toggle" name="attr_syncStateAilments" value="true">
 	<div class="hide-item syncIcon"></div>
-	</div>
+</div>
 
 <span data-i18n="editor-customailments">Custom Ailments</span>
 	<label for="hideAilmentSettings" class="arrowholder"><input type="checkbox" class="switch-toggle" id="hideAilmentSettings" name="attr_hideAilmentSettings" value="true" style="display: none;"><div class="arrow"></div></label>
 </h3>
 
 
-<!-- Menu -->
+<!-- Custom ailment editor -->
 <input type="checkbox" class="hide-toggle-rev" name="attr_hideAilmentSettings" value="true" hidden>
-<div class="hide-item-rev" style="width: 100%;">
+<div id="ailmentCustomEditor" class="hide-item-rev">
+	
+	<!-- Editor input -->
 	<textarea spellcheck="false" name="attr_ailmentEditor" data-i18n-placeholder="editor-customailments-textedit" placeholder="Custom Ailments Editor"></textarea>
+	
+	<!-- Editor menu -->
+	<div class="rowContainer">
+		<button type="action" name="act_clearAilment" data-i18n="clear-button" class="btn">Clear</button>
+		<button type="action" name="act_syncAilment" data-i18n="sync-button" class="btn">Sync Data</button>
 
-<div class="rowContainer">
-<button type="action" name="act_clearAilment" data-i18n="clear-button" class="btn">Clear</button>
-<button type="action" name="act_syncAilment" data-i18n="sync-button" class="btn">Sync Data</button>
+		<label for="ailmentCollapse" style="width: fit-content; padding: 0;">
+			<div class="btn rowContainer centerFlex" style="width: 40px;"> <input type="checkbox" id="ailmentCollapse" class="switch-toggle" name="attr_settingCustomCollapse" value="true" style="display: none !important"><div class="smallarrow"></div></div>
+		</label>
 
-<label for="ailmentCollapse" style="width: fit-content; padding: 0;">
-<div class="btn rowContainer centerFlex" style="width: 40px;"> <input type="checkbox" id="ailmentCollapse" class="switch-toggle" name="attr_settingCustomCollapse" value="true" style="display: none !important"><div class="smallarrow"></div></div>
-</label>
+		<button type="action" name="act_defaultRepeating" data-i18n="message-default" class="btn">Default</button>
 
-<button type="action" name="act_defaultRepeating" data-i18n="message-default" class="btn">Default</button>
+		<button type="action" name="act_exportRepeating" data-i18n="message-export" class="btn">Export</button>
+		<select name="attr_ailmentImportMode" class="darkInput exportSelect" style="width: 100px;">
+			<option data-i18n="import-type-replace" value="Replace" selected>Replace</option>
+			<option data-i18n="import-type-add" value="Add">Add</option>
+		</select>
+		<button type="action" name="act_importRepeating" data-i18n="message-import" class="btn">Import</button>
 
-<button type="action" name="act_exportRepeating" data-i18n="message-export" class="btn">Export</button>
-<select name="attr_ailmentImportMode" class="darkInput exportSelect" style="width: 100px;">
-    <option data-i18n="import-type-replace" value="Replace" selected>Replace</option>
-    <option data-i18n="import-type-add" value="Add">Add</option>
-</select>
-<button type="action" name="act_importRepeating" data-i18n="message-import" class="btn">Import</button>
-</div>
-<!-- Menu END -->
-
-
-<!-- Custom ailment settings -->
-<div id="ailmentCustomEditor" class="rowContainer">
-
-<fieldset class="repeating_ailments">
-<button type="action" class="copyButton" name="act_copycustom"></button>
-
-<label class="displayToggle mediumIcon">
-	<input type="checkbox" name="attr_ailDisplay" value="true" hidden checked>
-</label>
-
-<div class="columnAlign">
-<div class="rowContainer settingStyle">
-
-<!-- Icon selector -->
-<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-	<img name="attr_ailIconDisplay" class="skillIcon">
+		<button type="action" class="btn repcontrol_add heal" name="act_addAilment" data-i18n-title="ailments-add" title="Add ailment">Add</button>
 	</div>
-</div>
+	<!-- Editor menu END -->
+
+	<!-- Custom ailment settings -->
+	<div class="rowContainer">
+
+	<fieldset class="repeating_ailments">
+	<button type="action" class="copyButton" name="act_copycustom"></button>
+
+	<label class="displayToggle mediumIcon">
+		<input type="checkbox" name="attr_ailDisplay" value="true" hidden checked>
+	</label>
+
+	<div class="columnAlign">
+	<div class="rowContainer settingStyle">
+
+	<!-- Icon selector -->
+	<div class="ailmentIconSelector rowContainer centerFlex">
+		<div class="icon">
+		<img name="attr_ailIconDisplay" class="skillIcon">
+		</div>
+	</div>
 
 <input type="text" name="attr_ailName" class="transpInput" data-i18n-placeholder="message-ailname-placeholder" placeholder="Ailment Name">
 <input type="number" name="attr_ailCount" hidden>
@@ -8539,7 +8528,7 @@ getSectionIDs(`repeating_global`, idarray => {
 		let input = values.editorInput;
 		let output = values.editorOutput;
 		setAttrs({"editorOutput":input, "editorInput":output});
-		dataExport("All");
+		dataExport("All"); // TODO: Use the new exporter / importer
 		dataImport();
 	}
 
@@ -13318,6 +13307,7 @@ const repDataFormats = {
 			defaults: repDataDefaults.ailment,
 			attrs: {
 				prefix: "ail",
+				ignore: {export: ["count", "count_next_round", "count_pause"]},
 				case: "snake",
 				settings: {
 					prefix: "ail",
@@ -14397,7 +14387,7 @@ class dataNode extends Array {
 								this._attrs[prop] = "option" + camelize(formats.attrs[prop].option);
 							}
 						}
-						else if (!(ignore && is(prop).In(ignore.prop))) {
+						else if (!(ignore && ignore.prop?.includes(prop))) {
 							let prefix = !(ignore && ignore.prefix?.includes(prop)) ? formats.attrs.prefix || "" : "";
 							let suffix = !(ignore && ignore.suffix?.includes(prop)) ? formats.attrs.suffix || "" : "";
 							let key = prop;
@@ -14567,17 +14557,27 @@ class dataNode extends Array {
 					return false; // Repeating section events are easy enough to add manually
 				}
 				else if (opts.export) {
-					let typeIndex = this.index;
+					if (this._formats.attrs.ignore?.export?.includes(prop)) return;
 					
-					if (this.path[1] == "items") { // Items are indexed individually per item type, like "weapons_0"
-						typeIndex = this.root.items.filter(item => { // Finds all items of the same type
-							return (item._attrs[source]?.section == section);
-						}).findIndex(item => { // Finds this item's index amongst all items of the same type
-							return (item.id == this.id);
-						});
+					let prefixArray = [prefix]
+
+					if (opts.export.index !== false) {
+						if (this.path[1] == "items") { // Items are indexed individually per item type, like "weapons_0"
+							prefixArray.unshift(this.root.items.filter(item => { // Finds all items of the same type
+								return (item._attrs[source]?.section == section);
+							}).findIndex(item => { // Finds this item's index amongst all items of the same type
+								return (item.id == this.id);
+							}));
+						} else {
+							prefixArray.unshift(this.index);
+						}
 					}
 
-					prefix = `${section}_${typeIndex}_${prefix}`;
+					if (opts.export.section !== false) {
+						prefixArray.unshift(section);
+					}
+
+					prefix = prefixArray.join("_");
 				} else {
 					prefix = `repeating_${section}_${id}_${prefix}`;
 				}
@@ -14618,7 +14618,7 @@ class dataNode extends Array {
 				this.#output[prop] = newValue;
 
 				// Delete the output value if it matches the immutable value
-				if (this.immutable[prop] === newValue) { // && !(this[prop] instanceof dataNode)
+				if (this.immutable[snakeify(prop)] === newValue) { // && !(this[prop] instanceof dataNode)
 					delete this.#output[prop];
 				}
 
@@ -14821,11 +14821,11 @@ class dataNode extends Array {
 		if (opts.prop) { // For node properties
 			Object.defineProperty(this, opts.prop, {
 				get() {
-					if (this[`_${opts.prop}`] instanceof dataNode && !this._valid[`_${opts.prop}`]?.node) {
+					if (access._getImmutable === true) {
+						access._getImmutable = false;
 						return this[`_${opts.prop}`];
 					}
-					if (access._getImmutable) {
-						access._getImmutable = false;
+					if (this[`_${opts.prop}`] instanceof dataNode && !this._valid[`_${opts.prop}`]?.node) {
 						return this[`_${opts.prop}`];
 					}
 					return this.#output[`_${opts.prop}`] ?? this[`_${opts.prop}`];
@@ -15421,6 +15421,7 @@ class effectNode extends dataNode {
 	}
 	set value(v) {
 		let v_raw = v;
+		if (this.#buffer.name === undefined) this.name = this.#effect[0]; // Ensures the value index has been parsed
 		if (v === undefined || !this.#format.index.value) return this.#buffer.value = false;
 		if ((v = this.#applyMath(v)) === null) return;
 
@@ -15499,6 +15500,7 @@ class effectNode extends dataNode {
 	}
 	set operator(o) {
 		let o_raw = o;
+		if (this.#buffer.name === undefined) this.name = this.#effect[0]; // Ensures the operator index has been parsed
 		if (o === undefined || !this.#format.index.operator) return this.#buffer.operator = false;
 		if ((o = this.#applyMath(o)) === null) return;
 
@@ -15532,6 +15534,7 @@ class effectNode extends dataNode {
 	}
 	set target(t) {
 		let t_raw = t;
+		if (this.#buffer.name === undefined) this.name = this.#effect[0]; // Ensures the target index has been parsed
 		if (t === undefined || !this.#format.index.target) return this.#buffer.target = false;
 		if ((t = this.#applyMath(t)) === null) return;
 
@@ -16306,14 +16309,16 @@ class effectNode extends dataNode {
 					}
 					newValue = node[prop] - value;
 
-					this.#addToButton("Apply ailments", {color:"purple", icon:"icons/lose", chatButton:true}, (clone) => {
-						clone.value = 1;
-					});
+					if (this.options.target) {
+						this.#addToButton("Apply ailments", {color:"purple", icon:"icons/lose", chatButton:true}, (clone) => {
+							clone.value = 1;
 
-					if (clone.#effect.some(e => /^scaling\d*$/i.test(e))) {
-						clone.#effect[clone.#effect.findIndex(e => /^scaling\d*$/i.test(e))] = `Scaling${-this.value * this.var.scaling}`;
-					} else {
-						clone.#effect.push(`Scaling${-this.value * this.var.scaling}`);
+							if (clone.#effect.some(e => /^scaling\d*$/i.test(e))) {
+								clone.#effect[clone.#effect.findIndex(e => /^scaling\d*$/i.test(e))] = `Scaling${-this.value * this.var.scaling}`;
+							} else {
+								clone.#effect.push(`Scaling${-this.value * this.var.scaling}`);
+							}
+						});
 					}
 				}
 			} else {
@@ -17749,7 +17754,17 @@ onAccess(["items", "editor", "modify", "target"], {}, function(info) {
 	}
 });
 
-/* Editor - Add/delete an item, roll format or tag/equip slot */
+/* Editor - Add/delete global variable */
+onAccess("clicked:addVariable remove:repeating_variables", {}, function(info) {
+	let type = info.triggerName.split(":")[0];
+
+	switch (type) {
+		case "remove": access.global.delete(info.sourceAttribute.split("_")[2]); break;
+		default: access.global.add({id:generateAccessID()}); break;
+	}
+});
+
+/* Inventory - Add/delete an item, roll format or tag/equip slot */
 onAccess("clicked:addItem " + itemEvent("remove") + ["rollformats", "tags"].reduce((acc, s) => acc += ` remove:repeating_${s}`, ""), {}, function(info) {
 	let type = info.triggerName.split(":")[0];
 	let section = (info.sourceAttribute || info.htmlAttributes.id).split("_")[1];
@@ -17774,20 +17789,7 @@ onAccess("clicked:addItem " + itemEvent("remove") + ["rollformats", "tags"].redu
 	}
 });
 
-/* Editor - Add/delete global variable */
-onAccess("clicked:addVariable remove:repeating_variables", {}, function(info) {
-	let type = info.triggerName.split(":")[0];
-	
-	if (type == "remove") {
-		console.log("Delete variable");
-		access.global.delete(info.sourceAttribute.split("_")[2]);
-	} else {
-		console.log("Add variable");
-		access.global.add({id:generateAccessID()}); // TODO: Needs translation
-	}
-});
-
-/* Interface - Minimize or maximize an item when double clicking its header */
+/* Inventory - Minimize or maximize an item when double clicking its header */
 var dcTime = new Date();
 var dcHeader = false;
 var configDcTime = 150;
@@ -17809,7 +17811,7 @@ $20(".inventoryContainer .repitem").on("click", (e) => {
 	dcHeader = false;
 });
 
-/* Interface - Change item description layout */
+/* Inventory - Change item description layout */
 onAccess([
 	["items", "add"], // Add new item
 	["items", "N", "rollformats", ["add", "delete"]], // Add or delete rollformat
@@ -17868,7 +17870,7 @@ function recalcItemWeight(item) {
 	}
 }
 
-/* Item - Update tags or equip slots */
+/* Inventory - Update tags or equip slots */
 onAccess([
 	["items", "N", ["tags", "slots"], ["gives", "requires"], "modify", "raw_text"],
 	["items", "N", ["tags", "slots"], ["gives", "requires"], "N", "modify", "N"],
@@ -17958,19 +17960,65 @@ onAccess("clicked:rollChallenge", function(info) {
 	let roll = new dataNode(rollDataFormat);
 
 	roll.type = capitalize(type);
-	roll.count = 2;
+	roll.count = (roll.type == "Speed") ? 1 : 2;
 	roll.max = 6;
-	switch (roll.type) {
-		case "Speed": roll.power = access.character.justice ?? 0; break;
-		default: roll.power = access.character[type] ?? 0; break; // Luck has no stat and always returns 0
-	}
+	roll.power = (roll.type == "Speed") ? access.character.justice : access.character[type] ?? 0; // Luck has no stat and always returns 0
 
 	// Remove any conditional buttons before creating new ones
-	for (const buttonID of access.buttons.repIDs) {
-		access.buttons.delete(buttonID);
+	access.buttons.reset();
+
+	if (roll.type == "Speed") {
+		access._event.trigger(["combat", "start"], {roll, type:"combat start"});
+		access._event.trigger(["round", "start"], {roll, type:"round start", oldval:false, newval:1});
 	}
 
 	executeRolls(roll); // The default stat/luck rolls use no resources
+});
+
+/* State - Toggle combat mode */
+onAccess("clicked:combatToggle", {}, function(info) {
+	access.state.combat = (access.state.combat === false) ? 1 : false;
+
+	// Combat start
+	if (access.state.combat) {
+
+		// Make a speed roll
+		let roll = new dataNode(rollDataFormat);
+		
+		roll.type = "Speed";
+		roll.count = 1; roll.max = 6; roll.power = access.character.justice;
+
+		access.buttons.reset();
+		executeRolls(roll);
+
+		// Reset all resource counts to their base values
+		for (const resource of resourceNames.map(r => r.toLowerCase())) {
+			access.resource[resource].current = access.resource[resource].base;
+		}
+
+		access._event.trigger(["combat", "start"], {roll, type:"combat start"});
+		access._event.trigger(["round", "start"], {roll, type:"round start", oldval:false, newval:1});
+	}
+
+	// Combat end
+	else {
+		access.bar.st = access.bar.st_max; // TODO: Stagger should be configurable (?)
+		// TODO: Add combat end light regen here
+
+		access._event.trigger(["combat", "end"], {
+			type:"combat end", oldval:access.state._combat, newval:false,
+		});
+	}
+
+	/*
+	let [ST, ST_max] = [parseInt(values.ST), parseInt(values.ST_max)]
+	let [Light, Light_max] = [parseInt(values.Light), parseInt(values.Light_max)]
+	let [staggerMode, staggerVal] = [values[`${id}combatEndStaggerMode`], parseFloat(values[`${id}combatEndStaggerVal`])]
+	let [lightBase, lightRank] = [parseFloat(values[`${id}combatEndLightBase`]), values.charRankNum * parseFloat(values[`${id}combatEndLightRankMod`])]
+
+	output.ST = calcStagger(ST, ST_max, staggerVal, staggerMode);
+	output.Light = Math.min(Light + Math.floor(lightBase + lightRank), Light_max);
+	*/
 });
 
 /* Rolls - Item or palette roll */
@@ -18148,7 +18196,7 @@ onAccess(["resource", "N", "modify", "base"], {}, function(info) {
 });
 
 
-/* Clicked: Resource display buttons */
+/* Resources - Display buttons */
 onAccess("clicked:expandtrackers clicked:edittrackers", async function(info) {
 	let button = info.triggerName.includes("edit") ? "edit" : "expand";
 	let toggleAttr = button + "ResourceToggle";
@@ -18616,9 +18664,16 @@ onAccess([["state", "N", "modify", "state"], ["state", "N", "duration", "modify"
 /* Sheet - Trigger sheet update */
 onAccess("clicked:update", {}, function(info) {
 	updateSheet();
+	access._event.trigger(["round", "end"], { // Includes immutable values
+		type:"round end", oldval:access.state._combat, newval:access.state.combat,
+	});
+}, function(info) {
+	access._event.trigger(["round", "start"], { // Excludes immutable values
+		type:"round start", oldval:access.state.combat-1, newval:access.state.combat,
+	});
 });
 function updateSheet(charID) {
-	access._begin("event:round_end", () => {
+	access._begin("event:update", () => {
 		let root = access[charID] || access;
 
 		// Proc all ailments that trigger on round end
@@ -18653,6 +18708,12 @@ function updateSheet(charID) {
 		// - All these durations are disabled by default
 		// - The duration of defeated does not appear in the editor, but can be edited using AutoEffects
 
+		// Reset actions and reactions to their base values
+		// TODO: This should happen on *turn* start when using the CR ruleset
+		for (const resource of resourceNames.map(r => r.toLowerCase())) {
+			if (resource == "Light_regen") continue;
+			root.resource[resource].current = root.resource[resource].base;
+		}
 
 		// Update the combat round and character speed while in combat
 		if (root.state.combat) {
@@ -18803,7 +18864,7 @@ function procAilment(ail, opts={effect:true, decay:true}) {
 	*/
 
 	// Handle ailment message
-	if (!nomessage && ail.message.send && ail.root.type != "target" && (opts.decay || (opts.effect && changes.length))) {
+	if (!nomessage && ail.message.send && ail.root.type != "target" && (opts.effect && changes.length)) {
 		let message = (opts.msg?.prefix || "") + ail.message.text + (opts.msg?.suffix || "");
 		let icon = getIcon(ail.icon, "markdown");
 
@@ -18897,6 +18958,15 @@ function applyEffect(count, prop, mode="=", effect="0", opts={}) {
 	return Math.floor(change);
 }
 
+/* Ailment - Add/delete ailment */
+onAccess("clicked:addAilment remove:repeating_ailments", {}, function(info) {
+	let type = info.triggerName.split(":")[0];
+	
+	switch (type) {
+		case "remove": access.ailments.delete(info.sourceAttribute.split("_")[2]); break;
+		default: access.ailments.add({id:generateAccessID()}); break;
+	}
+});
 
 /* Palette - Sync items to the palette */
 onAccess([
@@ -19094,6 +19164,7 @@ onAccess([
 });
 onAccess([
 	["bar", "modify", "light"],
+	["state", "modify", "combat"],
 	["resource", "modify", "selection"],
 	["resource", "N", "modify", "current"],
 ], {}, function(info) {
@@ -19145,41 +19216,6 @@ function recalcPaletteReq(actionArray, messageArray=[]) {
 /* Palette - Check applied roll requirements */
 // TODO: Implement this
 
-
-/* Action: Toggle combat mode */
-onAccess('clicked:combatToggle', {}, function(info) {
-	access.state.combat = (access.state.combat === false) ? 1 : false;
-
-	// TODO: Reimplement the combat end functionality
-	/*
-	getSectionIDs(`repeating_global`, idarray => {
-	let id = `repeating_global_${idarray[0]}_`;
-
-	getAttrs(["charRankNum", "ST", "ST_max", "Light", "Light_max", `${id}combatEndStaggerMode`, `${id}combatEndStaggerVal`, `${id}combatEndLightBase`, `${id}combatEndLightRankMod`], function(values) {
-		let output = {}
-
-		if (info.htmlAttributes.title == "Begin combat") {
-			output.combatState = "true";
-			rollChallenge("speed");
-		} else {
-			output.combatState = "0";
-
-			let [ST, ST_max] = [parseInt(values.ST), parseInt(values.ST_max)]
-			let [Light, Light_max] = [parseInt(values.Light), parseInt(values.Light_max)]
-			let [staggerMode, staggerVal] = [values[`${id}combatEndStaggerMode`], parseFloat(values[`${id}combatEndStaggerVal`])]
-			let [lightBase, lightRank] = [parseFloat(values[`${id}combatEndLightBase`]), values.charRankNum * parseFloat(values[`${id}combatEndLightRankMod`])]
-
-			output.ST = calcStagger(ST, ST_max, staggerVal, staggerMode);
-			output.Light = Math.min(Light + Math.floor(lightBase + lightRank), Light_max);
-		}
-
-		AutoScriptMain("", "Combat end", "true", "true", {}, ()=>{}, getTranslationByKeyCustom("Combat end", "autoeffect-trigger-combatend"));
-
-		setAttrs(output);
-	});
-	});
-	*/
-});
 
 function calcStagger(ST, ST_max, staggerVal, staggerMode) {
 	log({arguments})
@@ -19408,7 +19444,7 @@ function recalcCustomEvents(item) {
 
 					// Combat state events
 					if (is(type).In("Combat start", "Combat end", "Round start", "Round end")) {
-						eventPath = type.split(" ");
+						eventPath = type.toLowerCase().split(" ");
 					}
 
 					// Roll events
@@ -19585,11 +19621,13 @@ function navPath(path, opts={}, error={}) {
 		let step = (opts.userPath) ? snakeify("" + raw_step) : raw_step; // Also removes any leading underscores
 		if (/^".+"$/.test(step)) step = step.slice(1, -1);
 
-		if (step == "node" && node instanceof dataNode) {
+		if (is(step).In("node", "immutable") && node instanceof dataNode) {
 			return node;
 		}
 		if (node && node[step] === undefined) error.step = i;
 
+		if (node && path[i-1] && snakeify(path[i-1]) == "immutable") node?.immutable;
+		
 		return node?.[step] ?? null;
 	}, opts.start || access);
 
@@ -20152,37 +20190,13 @@ function dataImport(target, prefix, replacestr) {
 }
 
 /* Data Exporter - Repeating Section */
-on("clicked:exportRepeating", function(info) { 
-	dataExportRepeating("ailments");
+on("clicked:exportRepeating", async function(info) { 
+	await accessExport(false, "Ailments", "ailmentEditor");
 });
-function dataExportRepeating(section, target) {
-
-	getSectionIDs(`repeating_${section}`, function(idarray) {
-
-	let attrkey = [];
-	let replaceList = {};
-	let output = target || "editorOutput";
-
-	/* Format key */
-    for(var i=0; i < idarray.length; i++) {
-		repattrkeys[section].forEach(key => {
-			attrkey.push(`repeating_${section}_${idarray[i]}_${key}`);
-			replaceList[`repeating_${section}_${idarray[i]}_${key}`] = `${i}_${key}`;
-		}); 
-    }
-
-	/* Get attributes */
-	getAttrs(attrkey, function(values) {
-
-	/* Import attributes */
-	setAttrs({[output]: packageAttrData(values, replaceList)});
-	});
-	});
-}
 
 /* Data Importer - Repeating Section */
-on("clicked:importRepeating", function(info) {
-	dataImportRepeating("ailments");
+onAccess("clicked:importRepeating", {}, function(info) {
+	accessImport(false, "ailmentEditor", {section:"ailments"});
 });
 function dataImportRepeating(section, override, target) {
 
@@ -20664,7 +20678,7 @@ function convertLegacyAttrs(type, values, sectionIndexes) {
 
 
 /* Legacy setup */
-const sheetVersion = "v1.0 Alpha 26/07";
+const sheetVersion = "v1.0 Alpha 29/07";
 
 // TODO: Work in progress
 async function sheetSetup(ID) {
@@ -20697,8 +20711,7 @@ async function sheetSetup(ID) {
 		let legacyData = await getAttrsByID(ID, Object.keys(legacyAttrConverter.items));
 		// TODO: Also needs other legacy data
 
-		let charID = getActiveCharacterId();
-		accessImport(ID, false, legacyData, {legacy:true});
+		accessImport(ID, false, {data:legacyData, legacy:true});
 	}
 
 	// If the sheet is opened for the first time after an update, display the changelog pop-up
@@ -20727,7 +20740,7 @@ on("sheet:opened", () => {
 
 const importRegExp = /\[`?(\w+)`?,`?\s?([^]*?)`?\]\s*(?=(?:,\s*\[`?\w+`?,`?\s?[^]*`?\])|,?\s*$)/g;
 
-async function accessImport(ID, target, data, opts={}) {
+async function accessImport(ID, target, opts={}) {
 	if (!ID) ID = getActiveCharacterId();
 
 	if (access[ID] instanceof dataNode) {		
@@ -20736,15 +20749,15 @@ async function accessImport(ID, target, data, opts={}) {
 				 : (importSource == "ailmentEditor") ? "ailmentImportMode"
 				 : false; // The global editor has no Add/Replace toggle
 
-		let values = await getAttrsByID(ID, [importMode, importSource]);
+		let values = await getAttrsByID(ID, [importSource, importMode]);
+		let data = opts.data || {}
 
-		let mode = values.importMode;
+		let mode = opts.mode || values[importMode];
 		let sectionIndexes = {}
 		let match;
 		
 		// Parse all import data from the import script
-		if (!data) {
-			data = {}
+		if (!opts.data) {
 			while (match = importRegExp.exec(values[importSource])) {
 				data[match[1].toLowerCase()] = match[2];
 			}
@@ -20753,8 +20766,9 @@ async function accessImport(ID, target, data, opts={}) {
 		// Convert all "section_N_" type data into "repeating_section_-ID_" type data
 		// Generates new IDs for each new section + index and stores the data for later
 		for (const [key, value] of Object.entries(data)) {
-			if (match = key.match(/^([A-Z]+)_(\d+)_(.+)$/i)) {
+			if (match = key.match(/^(?:([A-Z]+)_)?(\d+)_(.+)$/i)) {
 				let [section, index, prop] = match.slice(1, 4);
+				if (opts.section) section = opts.section;
 
 				sectionIndexes[section] ??= {}
 				sectionIndexes[section][index] ??= {id: generateAccessID()}
@@ -20788,8 +20802,8 @@ async function accessImport(ID, target, data, opts={}) {
 					let langOr = getTranslationByKeyCustom(", ", "error-divider-comma");
 					let langAnd = getTranslationByKeyCustom(" and ", "error-divider-and");
 					let langItemTypes = arrayJoinAndOr(itemTypes, langOr, langAnd);
-					let langReplace1 = getTranslationByKeyCustom("Are you certain you want to replace the following item types: ", `query-replace-items-1`);
-					let langReplace2 = getTranslationByKeyCustom(". This action cannot be reversed", `query-replace-items-2`)
+					let langReplace1 = getTranslationByKeyCustom("Are you certain you want to replace all ", `query-replace-items-1`);
+					let langReplace2 = getTranslationByKeyCustom("? This action cannot be reversed", `query-replace-items-2`)
 	
 					let queryResults = await sendQuery(["userConfirmation",
 						langReplace1 + langItemTypes + langReplace2, {
@@ -20797,16 +20811,24 @@ async function accessImport(ID, target, data, opts={}) {
 							[getTranslationByKeyCustom("Yes", "query-yes")]: true,
 						}
 					]);
-	
 					if (!queryResults.userConfirmation) return;
 				}
 
 				for (const item of itemDeleteIDs) {
 					access[ID].items.delete(item.id);
 				}
-				
 				// TODO: May need support for Tags/Slots here in addition to items
 			} else {
+				if (access.ailments.length && !opts.legacy) {
+					let queryResults = await sendQuery(["userConfirmation",
+						getTranslationByKeyCustom("Are you certain you want to replace all ailments? This action cannot be reversed", "query-replace-ailments"), {
+							[getTranslationByKeyCustom("No", "query-no")]: false,
+							[getTranslationByKeyCustom("Yes", "query-yes")]: true,
+						}
+					]);
+					if (!queryResults.userConfirmation) return;
+				}
+
 				access.ailments.reset();
 			}
 		}
@@ -20814,10 +20836,9 @@ async function accessImport(ID, target, data, opts={}) {
 		// Adds new repeating inventory items for every item in the import script (including legacy items)
 		for (const [section, repData] of Object.entries(sectionIndexes)) {
 			for (const repindex in repData) {
-				if (section == "ailments") {
-					// TODO: Implement this, and consider changing over to a switch block
-				} else {
-					access[ID].items.add({id:repData[repindex].id, type:section});
+				switch (section) {
+					case "ailments": access[ID].ailments.add({id:repData[repindex].id});
+					default: access[ID].items.add({id:repData[repindex].id, type:section});
 				}
 			}
 		}
@@ -20852,6 +20873,7 @@ async function accessExport(ID, type, target) {
 
 		for (const type of exportTypes) {
 			let node = access[ID];
+			let opts = {export: {section:true, index:true}}
 
 			switch (type) {
 				case "Weapons": case "Outfits": case "Augments": case "Tools": case "Special": 
@@ -20862,10 +20884,10 @@ async function accessExport(ID, type, target) {
 				case "Distort": continue; // TODO: Implement this
 				case "Settings": node = node.settings.sheet; break;
 				// case "Global": break;
-				// case "Ailments": break;
+				case "Ailments": node = node.ailments; opts.export.section = false; break;
 			}
 
-			Object.assign(data, node.export());
+			Object.assign(data, node.export(opts));
 		}
 			
 		setAttrs({[exportTarget]: Object.entries(data)
@@ -20879,25 +20901,13 @@ async function accessExport(ID, type, target) {
 
 
 /* Action: Lock section from sync */
-on('clicked:lockSection', (info) => {
-
+onAccess("clicked:lockSection", {}, async function(info) {
 	let target = info.htmlAttributes.id.split('_')[1];
-	let attrname = "syncLock" + target;
+	let node = (target == "items") ? access.items
+			 : (target == "game") ? access.settings.game
+			 : access.ailments;
 
-	getAttrs([`${attrname}`], function(values) {
-
-	let synclock = values[`${attrname}`];
-
-	if (synclock != "true") {
-          setAttrs({ [`${attrname}`]:"true" });
-
-	}
-	else {
-	  setAttrs({ [`${attrname}`]:"0" });
-	}
-
-        });
-
+	node.sync_lock = !node.sync_lock;
 });
 
 

@@ -854,7 +854,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 }
 
 /* Custom repcontrols */
-:is(.inventoryContainer, .itemOptionContainer, #inventorySettings, #globalVariables, #ailmentDisplay) {
+:is(.inventoryContainer, .itemOptionContainer, #inventorySettings, #globalVariables, #ailmentCustomEditor) {
     :is(.repcontrol_edit, .repcontrol_add, .repcontrol_del, .repcontrol_move) {
         min-width: 20px;
         margin: 0;
@@ -3405,9 +3405,6 @@ button[type=action].challengeButton::before {
     padding: 5px 0;
     position: relative;
 }
-#ailmentCustomEditor .repcontrol_move, #globalSettings .repcontrol_move {
-    display: none;
-}
 
 .searchBar {
     position: relative;
@@ -3565,11 +3562,15 @@ button[type=action].challengeButton::before {
 #globalSettings .transpInput {
     color: var(--color-light-gray) !important;
 }
+#globalSettings .repcontrol_move {
+    display: none;
+}
 
 
 /* Custom ailments (Editor tab) */
 #ailmentCustomEditor {
-    height: 430px;
+    height: 560px;
+    width: 100%;
 
     .customAilText {
         width: 70px !important;
@@ -3579,8 +3580,13 @@ button[type=action].challengeButton::before {
     .repcontrol { 
         position: absolute;
         top: -38px;
-        right: 0px;
+        right: 5px;
     }
+    .repcontrol_add {
+        position: absolute;
+        right: 37px;
+    }
+
     .repitem { 
         margin: 5px;
         flex-basis: 31.5%;
