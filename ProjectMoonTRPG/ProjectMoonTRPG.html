@@ -2671,7 +2671,7 @@ EGO block end -->
 <div id="inventorySettings" class="sheet-body darkBG contentContainer" hidden>
 	
 	<!-- Test buttons. TODO: Remove these -->
-	<div class="rowContainer"> <!-- style="display: none;" -->
+	<div class="rowContainer" style="display: none;"> <!-- style="display: none;" -->
 		<button type="action" class="darkButton" style="width: 100px; margin-left: 5px;" name="act_testA">Test button A</button> <!-- For testing. Delete later -->
 		<button type="action" class="darkButton" style="width: 100px;" name="act_testB">Test button B</button> <!-- For testing. Delete later -->
 		<button type="action" class="darkButton" style="width: 100px;" name="act_testC">Test button C</button> <!-- For testing. Delete later -->
@@ -5425,9 +5425,9 @@ EGO block end -->
 <div class="settingStyle">
 <div style="width: 100px">
 <b data-i18n="bar-health">Health</b>:</div> <input type="number" name="attr_healthBase" value="30">
-+ (<select type="text" name="attr_healthStat" value="Instinct" style="width: 80px;">
-	<option value="Instinct" data-i18n="stats-instinct">Fortitude</option>
-	<option value="InstinctTemperance" data-i18n="editor-instinct-temperance">(Fortitude + Temperance)/2</option>
++ (<select type="text" name="attr_healthStat" value="Fortitude" style="width: 80px;">
+	<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
+	<option value="FortitudeTemperance" data-i18n="editor-instinct-temperance">(Fortitude + Temperance)/2</option>
 </select> *
 	<input type="number" name="attr_healthStatMod" value="6">
 ) + (
@@ -5453,9 +5453,9 @@ EGO block end -->
 <div class="settingStyle"><div style="width: 100px">
 <b data-i18n="bar-sanity">Sanity</b>:</div> <input type="number" name="attr_sanityBase" value="15">
 + (
-	<select type="text" name="attr_sanityStat" value="Wisdom" style="width: 80px;">
-<option value="Wisdom" data-i18n="stats-wisdom">Prudence</option>
-<option value="WisdomInsight" data-i18n="editor-wisdom-insight">(Prudence + Insight)/2</option>
+	<select type="text" name="attr_sanityStat" value="Prudence" style="width: 80px;">
+<option value="Prudence" data-i18n="stats-wisdom">Prudence</option>
+<option value="PrudenceInsight" data-i18n="editor-wisdom-insight">(Prudence + Insight)/2</option>
 	</select> * 
 	<input type="number" name="attr_sanityStatMod" value="3">
 ) + (
@@ -5486,7 +5486,7 @@ EGO block end -->
 <div><input type="number" name="attr_lightRegenStaggerSelf" value="0"><span data-i18n="editor-lightregen-stagger-self">Self stagger</span>,&nbsp;</div>
 <div><input type="number" name="attr_lightRegenStaggerEnemy" value="0"><span data-i18n="editor-lightregen-stagger-enemy">Enemy stagger</span>,&nbsp;</div>
 <div><input type="number" name="attr_lightRegenDefeatEnemy" value="0"><span data-i18n="ego-active-EnemyDefeat">Enemy defeat</span>,&nbsp;</div>
-<div><input type="number" name="attr_lightRegenRoundEnd" value="0"><span data-i18n="editor-lightregen-round-end">Round end</span></div>
+<div><input type="number" name="attr_lightRegenRoundEnd" value="0"><span data-i18n="autoeffect-trigger-roundend">Round end</span></div>
 </div></div>
 
 <!-- Recover calculation -->
@@ -5507,9 +5507,9 @@ EGO block end -->
 
 <div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
 <b data-i18n="editor-recover-health">Recover Health</b>:</div> <input type="number" name="attr_recoverHPBase" value="8">
-+ (<select type="text" name="attr_healthStat" value="Instinct" style="width: 80px;">
-	<option value="Instinct" data-i18n="stats-instinct">Fortitude</option>
-	<option value="InstinctTemperance" data-i18n="editor-instinct-temperance">(Fortitude + Temperance)/2</option>
++ (<select type="text" name="attr_healthStat" value="Fortitude" style="width: 80px;">
+	<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
+	<option value="FortitudeTemperance" data-i18n="editor-instinct-temperance">(Fortitude + Temperance)/2</option>
 </select>
 * <input type="number" name="attr_recoverHPStatMod" value="2">)
 + (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_recoverHPRankMod" value="2">)
@@ -5517,9 +5517,9 @@ EGO block end -->
 
 <div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
 <b data-i18n="editor-recover-sanity">Recover Sanity</b>:</div> <input type="number" name="attr_recoverSPBase" value="3">
-+ (<select type="text" name="attr_sanityStat" value="Wisdom" style="width: 80px;">
-	<option value="Wisdom" data-i18n="stats-wisdom">Prudence</option>
-	<option value="WisdomInsight" data-i18n="editor-wisdom-insight">(Prudence + Insight)/2</option>
++ (<select type="text" name="attr_sanityStat" value="Prudence" style="width: 80px;">
+	<option value="Prudence" data-i18n="stats-wisdom">Prudence</option>
+	<option value="PrudenceInsight" data-i18n="editor-wisdom-insight">(Prudence + Insight)/2</option>
 </select>
 * <input type="number" name="attr_recoverSPStatMod" value="1">)
 + (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_recoverSPRankMod" value="0">)
@@ -5543,11 +5543,11 @@ EGO block end -->
 <!-- Attack power -->
 <div class="settingStyle">
 	<div style="width: 100px"><b data-i18n="helper-att-power">Att Power</b>:</div>
-	<select type="text" name="attr_attStat" value="Instinct" style="width: 120px;">
-<option value="Instinct" data-i18n="stats-instinct">Fortitude</option>
+	<select type="text" name="attr_attStat" value="Fortitude" style="width: 120px;">
+<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
 <option value="Rank" data-i18n="rank">Rank</option>
-<option value="InstinctRank" data-i18n="editor-instinct-rank">Fortitude + Rank</option>
-<option value="InstinctWisdom" data-i18n="editor-instinct-wisdom">(Fortitude + Prudence)/2</option>
+<option value="FortitudeRank" data-i18n="editor-instinct-rank">Fortitude + Rank</option>
+<option value="FortitudePrudence" data-i18n="editor-instinct-wisdom">(Fortitude + Prudence)/2</option>
 </select>
 + <span data-i18n="ailments-strength">Strength</span> / <span data-i18n="ailments-feeble">Feeble</span>
 </div>
@@ -6521,7 +6521,7 @@ const autoEffectTriggers = [
 	"Challenge", ...statNames, "Speed",									// Stat rolls
 	"Damaged", "DamagedHP", "DamagedST", "DamagedSP",					// Damage
 	"Staggered", "Defeated", "Panic", "Sealed", "Immobile", "Hostile",	// States
-	"Recover", "Permanent"												// Other
+	"Recover", "Refresh", "Permanent"									// Other
 ]
 const triggerOptions = [
 	"First round"
@@ -8363,7 +8363,7 @@ async function recalcGlobal() {
 	let spnew = parseInt(sanityBase + (prudenceVal * sanityStatMod) + (rnum * sanityRankMod));
 	let mixVal = "";
 
-	if (healthStat == "InstinctTemperance") {
+	if (healthStat == "FortitudeTemperance") {
 		mixVal = parseInt((fortitudeVal + temperanceVal)/2);
 		hpnew = parseInt(healthBase + (mixVal * healthStatMod) + (rnum * healthRankMod));
 	}
@@ -8373,7 +8373,7 @@ async function recalcGlobal() {
 		stnew = parseInt(staggerBase + (mixVal * staggerStatMod) + (rnum * staggerRankMod));
 	}
 
-	if (sanityStat == "WisdomInsight") {
+	if (sanityStat == "PrudenceInsight") {
 		mixVal = parseInt((prudenceVal + insightVal)/2);
 		spnew = parseInt(sanityBase + (mixVal * sanityStatMod) + (rnum * sanityRankMod));
 	}
@@ -8388,8 +8388,8 @@ async function recalcGlobal() {
 
 	switch (attStat) {
 		case "Rank": newAtt = rnum; break;
-		case "InstinctRank": newAtt = parseInt(fortitudeVal) + parseInt(rnum); break;
-		case "InstinctWisdom": newAtt = parseInt((fortitudeVal + prudenceVal)/2); break;
+		case "FortitudeRank": newAtt = parseInt(fortitudeVal) + parseInt(rnum); break;
+		case "FortitudePrudence": newAtt = parseInt((fortitudeVal + prudenceVal)/2); break;
 	}
 
 	switch (defStat) {
@@ -8785,6 +8785,14 @@ onAccess('clicked:resetUses', {}, function(info) {
 			item.limited.uses.current = Math.max(item.limited.uses.current, item.limited.uses.max);
 		}
 	}
+
+	access.message.header.title = getTranslationByKeyCustom("Refresh", "autoeffect-trigger-refresh");
+	access.message.header.icon = getIcon("icons/reuse");
+	access.message.header.color.icon = getColor("green");
+
+	access._event.trigger(["refresh"], {
+		type:"refresh", oldval:false, newval:false,
+	});
 });
 
 /* Action: Reset health */
@@ -8841,7 +8849,7 @@ on('clicked:resetGlobal', function() {
 	/* Translation */
 	let langRulename = getTranslationByKeyCustom("Original Rulebook (Default)", "editor-rulename-placeholder") ;
 
-	setAttrs({[`${id}_ruleName`]:langRulename, [`${id}_healthBase`]:"30", [`${id}_healthStat`]:"Instinct", [`${id}_healthStatMod`]:"6", [`${id}_healthRankMod`]:"6", [`${id}_staggerBase`]:"20", [`${id}_staggerStat`]:"Charm", [`${id}_staggerStatMod`]:"4", [`${id}_staggerRankMod`]:"4", [`${id}_sanityBase`]:"15", [`${id}_sanityStat`]:"Wisdom", [`${id}_sanityStatMod`]:"3", [`${id}_sanityRankMod`]:"0", [`${id}_lightBase`]:"3", [`${id}_lightRankMod`]:"1", [`${id}_distortLightBase`]:"5", [`${id}_distortLightRankMod`]:"1", [`${id}_expCalc`]:"8", [`${id}_actionBase`]:"1", [`${id}_actionRankMod`]:"0", [`${id}_reactionBase`]:"2", [`${id}_reactionRankMod`]:"0", [`${id}_actionTradeReaction`]:"0", [`${id}_lightRegenBase`]:"3", [`${id}_lightRegenRankMod`]:"1", [`${id}_lightRegenStatMod`]:"0", [`${id}_lightRegenStaggerSelf`]:"0", [`${id}_lightRegenStaggerEnemy`]:"0", [`${id}_lightRegenDefeatEnemy`]:"0", [`${id}_lightRegenRoundEnd`]:"0", [`${id}_combatEndLightBase`]:"1", [`${id}_combatEndLightRankMod`]:"0", [`${id}_recoverHPBase`]:"8", [`${id}_recoverHPStatMod`]:"2", [`${id}_recoverHPRankMod`]:"2", [`${id}_recoverSPBase`]:"3", [`${id}_recoverSPStatMod`]:"1", [`${id}_recoverSPRankMod`]:"0", [`${id}_recoverStaggerMode`]:"x", [`${id}_recoverStaggerVal`]:"0.5", [`${id}_recoverLightBase`]:"1", [`${id}_recoverLightRankMod`]:"0",	[`${id}_attStat`]:"Instinct", [`${id}_defStat`]:"Temperance", [`${id}_evdStat`]:"Insight", [`${id}_evdAilment`]:"EnduranceDisarm", [`${id}_multiPenalty`]:"-2", [`${id}_multiStyle`]:"n", [`${id}_staggerRecoverPercent`]:"100", [`${id}_staggerRecoverBase`]:"0", [`${id}_staggerDurationMax`]:"1", [`${id}_staggerSanity`]:"5", [`${id}_settingBar1`]:"HP", [`${id}_settingBar2`]:"ST", [`${id}_settingBar3`]:"SP", [`${id}_burnDecayMode`]:"x", [`${id}_burnDecayVal`]:"0.5", [`${id}_burnNextRoundSetting`]:"false", [`${id}_bleedDecayMode`]:"x", [`${id}_bleedDecayVal`]:"0.5", [`${id}_bleedNextRoundSetting`]:"false", [`${id}_smokeDecayMode`]:"+", [`${id}_smokeDecayVal`]:"-1", [`${id}_smokeNextRoundSetting`]:"false", [`${id}_smokeCalculationMode`]:"/", [`${id}_smokeCalculationVal`]:"2", [`${id}_chargeDecayMode`]:"+", [`${id}_chargeDecayVal`]:"0", [`${id}_chargeNextRoundSetting`]:"false", "settingLimbusStyle":"0"});
+	setAttrs({[`${id}_ruleName`]:langRulename, [`${id}_healthBase`]:"30", [`${id}_healthStat`]:"Fortitude", [`${id}_healthStatMod`]:"6", [`${id}_healthRankMod`]:"6", [`${id}_staggerBase`]:"20", [`${id}_staggerStat`]:"Charm", [`${id}_staggerStatMod`]:"4", [`${id}_staggerRankMod`]:"4", [`${id}_sanityBase`]:"15", [`${id}_sanityStat`]:"Prudence", [`${id}_sanityStatMod`]:"3", [`${id}_sanityRankMod`]:"0", [`${id}_lightBase`]:"3", [`${id}_lightRankMod`]:"1", [`${id}_distortLightBase`]:"5", [`${id}_distortLightRankMod`]:"1", [`${id}_expCalc`]:"8", [`${id}_actionBase`]:"1", [`${id}_actionRankMod`]:"0", [`${id}_reactionBase`]:"2", [`${id}_reactionRankMod`]:"0", [`${id}_actionTradeReaction`]:"0", [`${id}_lightRegenBase`]:"3", [`${id}_lightRegenRankMod`]:"1", [`${id}_lightRegenStatMod`]:"0", [`${id}_lightRegenStaggerSelf`]:"0", [`${id}_lightRegenStaggerEnemy`]:"0", [`${id}_lightRegenDefeatEnemy`]:"0", [`${id}_lightRegenRoundEnd`]:"0", [`${id}_combatEndLightBase`]:"1", [`${id}_combatEndLightRankMod`]:"0", [`${id}_recoverHPBase`]:"8", [`${id}_recoverHPStatMod`]:"2", [`${id}_recoverHPRankMod`]:"2", [`${id}_recoverSPBase`]:"3", [`${id}_recoverSPStatMod`]:"1", [`${id}_recoverSPRankMod`]:"0", [`${id}_recoverStaggerMode`]:"x", [`${id}_recoverStaggerVal`]:"0.5", [`${id}_recoverLightBase`]:"1", [`${id}_recoverLightRankMod`]:"0",	[`${id}_attStat`]:"Fortitude", [`${id}_defStat`]:"Temperance", [`${id}_evdStat`]:"Insight", [`${id}_evdAilment`]:"EnduranceDisarm", [`${id}_multiPenalty`]:"-2", [`${id}_multiStyle`]:"n", [`${id}_staggerRecoverPercent`]:"100", [`${id}_staggerRecoverBase`]:"0", [`${id}_staggerDurationMax`]:"1", [`${id}_staggerSanity`]:"5", [`${id}_settingBar1`]:"HP", [`${id}_settingBar2`]:"ST", [`${id}_settingBar3`]:"SP", [`${id}_burnDecayMode`]:"x", [`${id}_burnDecayVal`]:"0.5", [`${id}_burnNextRoundSetting`]:"false", [`${id}_bleedDecayMode`]:"x", [`${id}_bleedDecayVal`]:"0.5", [`${id}_bleedNextRoundSetting`]:"false", [`${id}_smokeDecayMode`]:"+", [`${id}_smokeDecayVal`]:"-1", [`${id}_smokeNextRoundSetting`]:"false", [`${id}_smokeCalculationMode`]:"/", [`${id}_smokeCalculationVal`]:"2", [`${id}_chargeDecayMode`]:"+", [`${id}_chargeDecayVal`]:"0", [`${id}_chargeNextRoundSetting`]:"false", "settingLimbusStyle":"0"});
     });
 });
 
@@ -10290,7 +10298,11 @@ async function sendMessage(rollArray, message) {
 
 	// Set up the message description
 	msgDesc.from = `**From:** ${message.desc.from || message.root.character.name}`;
-	if (message.desc.target) msgDesc.target = `**Target:** ${message.desc.target}`;
+
+	if (message.desc.target || message.root.target?.character) {
+		msgDesc.target = `**Target:** ${message.desc.target || message.root.target.character.name}`;
+	}
+
 	if (message.desc.image) msgDesc.image = getIcon(message.desc.image, "markdown");
 	if (message.desc.text) msgDesc.desc = message.desc.text;
 
@@ -12020,7 +12032,7 @@ on("clicked:shareWeapon", function(info) {
 on("clicked:shareDistort", function(info) {
 
 	/* Get attributes */
-        getAttrs(["distort_name", "distort_summary", "distortDescription", "distortEffect", "distortDescription2", "distortEffect2", "distortWeaponDice1", "distortWeaponDice2", "distortWeaponDice3", "distortDefDice1", "distortDefDice2", "distortDefDice3", "distortEvdDice1", "distortCounter", "distortEvdDice2", "distortEvdDice3", "distortCounter", "distortCounter_max", "obsDesc", "obsEffect", "obsBehavior", "obsTaboon", "obsCounter", "obsWorkAmount", "obsWorkResults", "obsWorkPref", "obsSummary", "obsAppearance", "obsAtmosphere", "obsStory", "settingWhisperRolls", "settingWhisperTarget", "distortWorkBase", "distortResultGood", "distortResultNormal", "distortResultBad", "distortWorkInstinct", "distortWorkWisdom", "distortWorkJustice", "distortWorkCharm", "distortWorkInsight", "distortWorkTemperance", "distort_behavior", "distort_taboo", "distort_atmosphere", "distort_appearance", "distort_story"], function(values) {
+        getAttrs(["distort_name", "distort_summary", "distortDescription", "distortEffect", "distortDescription2", "distortEffect2", "distortWeaponDice1", "distortWeaponDice2", "distortWeaponDice3", "distortDefDice1", "distortDefDice2", "distortDefDice3", "distortEvdDice1", "distortCounter", "distortEvdDice2", "distortEvdDice3", "distortCounter", "distortCounter_max", "obsDesc", "obsEffect", "obsBehavior", "obsTaboon", "obsCounter", "obsWorkAmount", "obsWorkResults", "obsWorkPref", "obsSummary", "obsAppearance", "obsAtmosphere", "obsStory", "settingWhisperRolls", "settingWhisperTarget", "distortWorkBase", "distortResultGood", "distortResultNormal", "distortResultBad", "distortWorkFortitude", "distortWorkPrudence", "distortWorkJustice", "distortWorkCharm", "distortWorkInsight", "distortWorkTemperance", "distort_behavior", "distort_taboo", "distort_atmosphere", "distort_appearance", "distort_story"], function(values) {
 	let name = values.distort_name;
 	let rank = values.charRankBase;
 	let attEffect = values.distortEffect;
@@ -12088,7 +12100,7 @@ on("clicked:shareDistort", function(info) {
 
 	let distortWorkPref = "<div style='text-align: center; width: 30%; float: left; opacity: 30%;'><b>"+ langWorkPref +"</b><br><b style='color: #cc4125;'>?</b> | <b style='color: #d9d9d9;'>?</b> | <b style='color: #46bdc6;'>?</b><br><b style='color: #9c66c6;'>?</b> | <b style='color: #ffe599;'>?</b> | <b style='color: #ac609d;'>?</b></div>";
 	if (values.obsWorkPref == "true") {
-	distortWorkPref = "<div style='text-align: center; width: 30%; float: left;'><b>"+ langWorkPref +"</b><br><b style='color: #cc4125;'>" + values.distortWorkInstinct + "</b> | <b style='color: #d9d9d9;'>"+ values.distortWorkWisdom +"</b> | <b style='color: #46bdc6;'>" + values.distortWorkJustice + "</b><br><b style='color: #9c66c6;'>" + values.distortWorkCharm + "</b> | <b style='color: #ffe599;'>"+ values.distortWorkInsight +"</b> | <b style='color: #ac609d;'>" + values.distortWorkTemperance + "</b></div>";
+	distortWorkPref = "<div style='text-align: center; width: 30%; float: left;'><b>"+ langWorkPref +"</b><br><b style='color: #cc4125;'>" + values.distortWorkFortitude + "</b> | <b style='color: #d9d9d9;'>"+ values.distortWorkWisdom +"</b> | <b style='color: #46bdc6;'>" + values.distortWorkJustice + "</b><br><b style='color: #9c66c6;'>" + values.distortWorkCharm + "</b> | <b style='color: #ffe599;'>"+ values.distortWorkInsight +"</b> | <b style='color: #ac609d;'>" + values.distortWorkTemperance + "</b></div>";
 	}
 
 	let distortWorkAmount = "<div style='text-align: center; width: 30%; float: left; opacity: 30%;'><b>" + langWorkAmount + "</b><br><span style='font-size: 25px;'>?</span></div>";
@@ -17970,11 +17982,11 @@ onAccess("clicked:rollChallenge", function(info) {
 	roll.max = 6;
 	roll.power = (roll.type == "Speed") ? access.character.justice : access.character[type] ?? 0; // Luck has no stat and always returns 0
 
-	access.buttons.reset();
+	clearSheetButtons();
 	executeRolls(roll); // The default stat/luck rolls use no resources
 
 	if (roll.type == "Speed") {
-		access._event.trigger(["combat", "start"], {roll, type:"combat start"});
+		access._event.trigger(["combat", "start"], {roll, type:"combat start", oldval:false, newval:1});
 		access._event.trigger(["round", "start"], {roll, type:"round start", oldval:false, newval:1});
 	}
 });
@@ -17992,7 +18004,7 @@ onAccess("clicked:combatToggle", {}, function(info) {
 		roll.type = "Speed";
 		roll.count = 1; roll.max = 6; roll.power = access.character.justice;
 
-		access.buttons.reset();
+		clearSheetButtons();
 		executeRolls(roll);
 
 		// Reset all resource counts to their base values
@@ -18000,7 +18012,7 @@ onAccess("clicked:combatToggle", {}, function(info) {
 			access.resource[resource].current = access.resource[resource].base;
 		}
 
-		access._event.trigger(["combat", "start"], {roll, type:"combat start"});
+		access._event.trigger(["combat", "start"], {roll, type:"combat start", oldval:false, newval:1});
 		access._event.trigger(["round", "start"], {roll, type:"round start", oldval:false, newval:1});
 	}
 
@@ -18059,7 +18071,7 @@ onAccess(itemEvent("clicked", "item-roll") + " clicked:repeating_palette:palette
 		// TODO: Also add a reference to the currently selected applied roll, if any
 	}
 
-	access.buttons.reset();
+	clearSheetButtons();
 	executeRolls(cleanRolls(rollArray), {use_resource: access.state.combat});
 });
 
@@ -18666,12 +18678,27 @@ onAccess([["state", "N", "modify", "state"], ["state", "N", "duration", "modify"
 
 /* Sheet - Trigger sheet update */
 onAccess("clicked:update", {}, function(info) {
-	access.buttons.reset();
+	clearSheetButtons();
 	updateSheet();
+
+	/*
+	let sections = access.message.sections;
+	let preEventMsgSize = sections.length + (sections[0]?.contents.length || 0);
+	*/
 
 	access._event.trigger(["round", "end"], { // Includes immutable values
 		type:"round end", oldval:access.state._combat, newval:access.state.combat,
 	});
+
+	/*
+	let postEventMsgSize = sections.length + (sections[0]?.contents.length || 0);
+
+	if (preEventMsgSize != postEventMsgSize) {
+		access.message.header.title = getTranslationByKeyCustom("Round end", "autoeffect-trigger-roundend");
+		access.message.header.icon = getIcon("icons/next");
+		access.message.header.color.icon = getColor("yellow");
+	}
+	*/
 }, function(info) {
 	access._event.trigger(["round", "start"], { // Excludes immutable values
 		type:"round start", oldval:Math.max(access.state.combat-1, 0), newval:access.state.combat,
@@ -19241,7 +19268,33 @@ onAccess([
 	recalcPalette([...access.palette, ...access.palette.applied]);
 });
 
+/* Assorted - Recover (short rest) */
+onAccess('clicked:recover', {}, async function(info) { // TODO: Convert this to only use data from access
+	let idarray = await getSectionIDsAsync(`repeating_global`);
+	let id = `repeating_global_${idarray[0]}_`;
 
+	let values = await getAttrsAsync([...statNames, "charRankNum", "ST", "ST_max", "HP", "HP_max", "SP", "SP_max", "Light", "Light_max", `${id}healthStat`, `${id}recoverHPBase`, `${id}recoverHPStatMod`, `${id}recoverHPRankMod`,
+									 `${id}recoverStaggerMode`, `${id}recoverStaggerVal`, `${id}sanityStat`, `${id}recoverSPBase`, `${id}recoverSPStatMod`, `${id}recoverSPRankMod`, `${id}recoverLightBase`, `${id}recoverLightRankMod`]);
+
+	let [rank, hpStatNum, spStatNum] = [parseInt(values.charRankNum), parseInt(values[values[`${id}healthStat`]]), parseInt(values[values[`${id}sanityStat`]])]
+	let [HP, HP_max, hpBase,  HPstat, HPrank] = [parseInt(values.HP), parseInt(values.HP_max), parseFloat(values[`${id}recoverHPBase`]), hpStatNum * parseFloat(values[`${id}recoverHPStatMod`]), rank * parseFloat(values[`${id}recoverHPRankMod`])]
+	let [SP, SP_max, spBase, SPstat, SPrank] = [parseInt(values.SP), parseInt(values.SP_max), parseFloat(values[`${id}recoverSPBase`]), spStatNum * parseFloat(values[`${id}recoverSPStatMod`]), rank * parseFloat(values[`${id}recoverSPRankMod`])]
+	let [Light, Light_max, lightBase, lightRank] = [parseInt(values.Light), parseInt(values.Light_max), parseFloat(values[`${id}recoverLightBase`]), rank * parseFloat(values[`${id}recoverLightRankMod`])]
+	let [ST, ST_max, staggerMode, staggerVal] = [parseInt(values.ST), parseInt(values.ST_max), values[`${id}recoverStaggerMode`], parseFloat(values[`${id}recoverStaggerVal`])]
+
+	access.bar.hp = Math.min(Math.floor(HP + hpBase + HPstat + HPrank), HP_max);
+	access.bar.st = calcStagger(ST, ST_max, staggerVal, staggerMode);
+	access.bar.sp = Math.min(Math.floor(SP + spBase + SPstat + SPrank), SP_max);
+	access.bar.light = Math.min(Math.floor(Light + lightBase + lightRank), Light_max);
+
+	access.message.header.title = getTranslationByKeyCustom("Recover", "autoeffect-trigger-recover");
+	access.message.header.icon = getIcon("icons/heal");
+	access.message.header.color.icon = getColor("green");
+
+	access._event.trigger(["recover"], {
+		type:"recover", oldval:false, newval:false,
+	});
+});
 function calcStagger(ST, ST_max, staggerVal, staggerMode) {
 	log({arguments})
 	switch (staggerMode) {
@@ -19251,32 +19304,16 @@ function calcStagger(ST, ST_max, staggerVal, staggerMode) {
 	}
 }
 
-/* Action: Recover */
-on('clicked:recover', (info) => {
-	getSectionIDs(`repeating_global`, idarray => {
-	let id = `repeating_global_${idarray[0]}_`;
+/* Effects - Combat state trigger message styling */
+onAccess([["combat", "start"], ["combat", "end"], ["round", "start"]], {}, function(info) {
+	let triggerPath = info.path.slice(1);
 
-	getAttrs([...statNames, "charRankNum", "ST", "ST_max", "HP", "HP_max", "SP", "SP_max", "Light", "Light_max", `${id}healthStat`, `${id}recoverHPBase`, `${id}recoverHPStatMod`, `${id}recoverHPRankMod`,
-		`${id}recoverStaggerMode`, `${id}recoverStaggerVal`, `${id}sanityStat`, `${id}recoverSPBase`, `${id}recoverSPStatMod`, `${id}recoverSPRankMod`, `${id}recoverLightBase`, `${id}recoverLightRankMod`], function(values) {
+	// Ensures the "Combat start" header is used for the first round of combat
+	if (triggerPath[0] == "round" && info.newval == 1) return;
 
-		let [rank, hpStatNum, spStatNum] = [parseInt(values.charRankNum), parseInt(values[values[`${id}healthStat`]]), parseInt(values[values[`${id}sanityStat`]])]
-		let [HP, HP_max, hpBase,  HPstat, HPrank] = [parseInt(values.HP), parseInt(values.HP_max), parseFloat(values[`${id}recoverHPBase`]), hpStatNum * parseFloat(values[`${id}recoverHPStatMod`]), rank * parseFloat(values[`${id}recoverHPRankMod`])]
-		let [SP, SP_max, spBase, SPstat, SPrank] = [parseInt(values.SP), parseInt(values.SP_max), parseFloat(values[`${id}recoverSPBase`]), spStatNum * parseFloat(values[`${id}recoverSPStatMod`]), rank * parseFloat(values[`${id}recoverSPRankMod`])]
-		let [Light, Light_max, lightBase, lightRank] = [parseInt(values.Light), parseInt(values.Light_max), parseFloat(values[`${id}recoverLightBase`]), rank * parseFloat(values[`${id}recoverLightRankMod`])]
-		let [ST, ST_max, staggerMode, staggerVal] = [parseInt(values.ST), parseInt(values.ST_max), values[`${id}recoverStaggerMode`], parseFloat(values[`${id}recoverStaggerVal`])]
-
-		let output = {
-			HP: Math.min(Math.floor(HP + hpBase + HPstat + HPrank), HP_max),
-			SP: Math.min(Math.floor(SP + spBase + SPstat + SPrank), SP_max),
-			Light: Math.min(Math.floor(Light + lightBase + lightRank), Light_max),
-			ST: calcStagger(ST, ST_max, staggerVal, staggerMode)
-		}
-
-		AutoScriptMain("", "Recover", "true", "true", {}, ()=>{}, getTranslationByKeyCustom("Recover", "autoeffect-trigger-recover"));
-
-		setAttrs(output);
-	});
-	});
+	access.message.header.title = getTranslationByKeyCustom(capitalize(triggerPath.join(" ")), `autoeffect-trigger-${triggerPath.join("")}`);
+	access.message.header.icon = getIcon(triggerPath[0] == "combat" ? "icons/Speed" : "icons/next");
+	access.message.header.color.icon = getColor("yellow");
 });
 
 /* Settings - Hide Mystery toggle */
@@ -19514,8 +19551,11 @@ function recalcCustomEvents(item) {
 					}
 
 					// Assorted events
-					else if (is(type).In("Recover", "Permanent")) {
-						// TODO: Add support for assorted events
+					else if (type == "Permanent") { // Triggers whenever conditional buttons are cleared. Used to regenerate "permanent" buttons
+						eventPath = ["buttons", "reset"]
+					}
+					else if (is(type).In("Recover", "Refresh")) { // Triggers on Recover (short rest) or Refresh (reload all items)
+						eventPath = [type.toLowerCase()]
 					}
 
 					// Effect events
@@ -19576,10 +19616,6 @@ function deleteCustomEvents(item) {
 }
 
 
-
-
-
-
 /* Executes a conditional button. Hides the button if at least one check fails */
 /* Also hides the button if a Consume check would fail after using the button again */
 onAccess("clicked:repeating_buttons:activate", {}, function(info) {
@@ -19591,8 +19627,7 @@ onAccess("clicked:repeating_buttons:activate", {}, function(info) {
 		effectBlock.add(button.autoscript);
 		
 		// Set up the conditional button chat message
-		access.message.header._title = button.title;
-		access.message.desc.target = access.target?.character?.name || false;
+		access.message.header.title = button.title;
 		
 		if (button.icon) {
 			access.message.header.icon = getIcon(button.icon);
@@ -19605,6 +19640,15 @@ onAccess("clicked:repeating_buttons:activate", {}, function(info) {
 		console.warn("Error: Button has no AutoScript")
 	}
 });
+
+/* Clears all conditional buttons */
+function clearSheetButtons() {
+	access.buttons.reset();
+
+	access._event.trigger(["buttons", "reset"], {
+		node:access.buttons, type:"reset", oldval:false, newval:false,
+	});
+}
 
 
 
@@ -20099,7 +20143,7 @@ const attrkeys = {
 	"special1Name", "special1Rank", "special1Risk", "special1Range", "special1Duration", "special1Description", "special1AutoScript",
 	"special2Name", "special2Rank", "special2Risk", "special2Range", "special2Duration", "special2Description", "special2AutoScript"],
 
-	Distort: ["distort_name", "distortWork", "distortCounter", "distortWorkInstinct", "distortWorkWisdom", "distortWorkJustice", "distortWorkCharm", "distortWorkInsight", "distortWorkTemperance", "distortResultGood", "distortResultNormal", "distortResultBad", "distortWeaponDice1", "distortWeaponDice2", "distortWeaponDice3", "distortDefDice1", "distortDefDice2", "distortDefDice3", "distortEvdDice1", "distortEvdDice2", "distortEvdDice3", "distortDescription", "distortEffect", "distortDescription2", "distortEffect2", "distort_url", "distort_summary", "distort_behavior", "distort_combatnote", "distort_origin", "distort_notes", "distort_taboo", "distort_appearance", "distort_atmosphere", "distort_story"],
+	Distort: ["distort_name", "distortWork", "distortCounter", "distortWorkFortitude", "distortWorkPrudence", "distortWorkJustice", "distortWorkCharm", "distortWorkInsight", "distortWorkTemperance", "distortResultGood", "distortResultNormal", "distortResultBad", "distortWeaponDice1", "distortWeaponDice2", "distortWeaponDice3", "distortDefDice1", "distortDefDice2", "distortDefDice3", "distortEvdDice1", "distortEvdDice2", "distortEvdDice3", "distortDescription", "distortEffect", "distortDescription2", "distortEffect2", "distort_url", "distort_summary", "distort_behavior", "distort_combatnote", "distort_origin", "distort_notes", "distort_taboo", "distort_appearance", "distort_atmosphere", "distort_story"],
 
 	Ego: ["egoName", "egoCondition", "egoType", "egoRank", "egoIdeology", "egoDescription", "egoEffect", "egoWeaponDice1", "egoWeaponDice2", "egoWeaponDice3", "egoWeaponType", "egoWeaponRange", "egoDefDice1", "egoDefDice2", "egoDefDice3", "egoEvdDice1", "egoEvdDice2", "egoEvdDice3", "egoImmune1", "egoImmune2", "egoImmune3", "egoImmune4", "egoImmune5", "egoImmune6", "egoUses", "egoUses_max", "egoUseType", "egoRisk", "egoRange", "egoDuration", "bleedResist_ego", "burnResist_ego", "damageResist_ego", "egoAutoScript"],
 
@@ -20611,6 +20655,14 @@ const legacyAttrConverter = {
 	
 		/* --- Settings --- */
 		"synclock": {ailment: [{key:"syncLockAilments"}]}, // Adds an "s" at the end
+
+		/*
+		attr_healthStat - Instinct / InstinctTemperance  ->  Fortitude / FortitudeTemperance
+		attr_sanityStat - Wisdom / WisdomInsight  ->  Prudence / PrudenceInsight
+		attr_attStat - Instinct / InstinctRank / InstinctWisdom  ->  Fortitude / FortitudeRank / FortitudePrudence
+		attr_distortWorkInstinct  ->  attr_distortWorkFortitude
+		attr_distortWorkWisdom  ->  attr_distortWorkPrudence
+		*/
 	}
 	
 }
