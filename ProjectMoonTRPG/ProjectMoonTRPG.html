@@ -2671,7 +2671,7 @@ EGO block end -->
 <div id="inventorySettings" class="sheet-body darkBG contentContainer" hidden>
 	
 	<!-- Test buttons. TODO: Remove these -->
-	<div class="rowContainer" style="display: none;">
+	<div class="rowContainer"> <!-- style="display: none;" -->
 		<button type="action" class="darkButton" style="width: 100px; margin-left: 5px;" name="act_testA">Test button A</button> <!-- For testing. Delete later -->
 		<button type="action" class="darkButton" style="width: 100px;" name="act_testB">Test button B</button> <!-- For testing. Delete later -->
 		<button type="action" class="darkButton" style="width: 100px;" name="act_testC">Test button C</button> <!-- For testing. Delete later -->
@@ -10131,7 +10131,7 @@ function resourceReq(reqArray, opts={deduct:false, expand:true}) {
 
 			if (access.resource[resource].current < cost) {
 				if (opts.expand && is(resource).In("counter", "block", "evade") && (access.resource[resource].current + access.resource.universal.current) >= cost) {
-					reqArray[i][0] = access.resource[resource].current; // Use up any remaining counter/block/evade reactions
+					reqArray[i][1] = access.resource[resource].current; // Use up any remaining counter/block/evade reactions
 					reqArray.push(["universal", cost - access.resource[resource].current]); // Pay the remaining cost using univeral reactions
 					// TODO: May cause issues if the array already includes an universal reaction cost
 				} else {
