@@ -383,6 +383,7 @@ body, .sheet-body {
         border: 0;
         font-size: 18px;
         font-weight: bold;
+        text-align: center;
         color: var(--color-LIGHT);
         background: transparent;
         text-shadow: 0 2px 12px var(--color-black), 0 2px 20px var(--color-black);
@@ -644,7 +645,7 @@ option:checked { background-color: rgba(0, 0, 0, var(--option-alpha-checked)); }
 }
 
 /* Generic toggle checkboxes */
-.expand-toggle, .hide-toggle, .hide-toggle-rev, .hide-toggle-next, .swap-toggle, .fade-toggle {
+.expand-toggle, .hide-toggle, .hide-toggle-rev, .hide-toggle-next, .hide-toggle-rev-next, .swap-toggle, .fade-toggle {
     display: none !important;
 }
 .expand-toggle + div {
@@ -2017,7 +2018,10 @@ button[type=action].challengeButton::before {
     }
     .paletteRow {
         width: auto;
-        flex-grow: 1;
+
+        &.left {
+            flex-grow: 1;
+        }
     }
 
     /* Displays a shadow for palette actions with multiple rolls or standalone actions */
@@ -2519,7 +2523,6 @@ button[type=action].challengeButton::before {
 /* Item contents */
 .itemContents {
     align-items: stretch;
-    z-index: 20; /* Displays rollformats above the header while minimized */
 
     .darkInput {
         width: 100%;
@@ -2754,9 +2757,6 @@ button[type=action].challengeButton::before {
 :is(.itemNameExpand:checked, .itemMinimized:checked) ~ .itemContainer {
     .name {
         max-width: calc(100% - 70px);
-    }
-    .itemRow.right .contentHeader { /* TODO: Find a better solution that this. This method may cause issues with displaying light costs */
-        z-index: 15;
     }
 }
 

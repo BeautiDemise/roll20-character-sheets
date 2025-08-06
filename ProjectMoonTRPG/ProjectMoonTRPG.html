@@ -2456,6 +2456,12 @@ EGO block end -->
 		<label class="paletteContainer contentContainer">
 			<button type="action" name="act_palette-select" hidden></button>
 
+			<!-- Message overlay -->
+			<input type="checkbox" class="hide-toggle-rev-next" name="attr_message" value="0" hidden checked>
+			<div class="hide-item-rev paletteMessage contentMessage">
+				<span name="attr_message" spellcheck="false"></span>
+			</div>
+
 			<!-- Applied roll header -->
 			<div class="paletteHeader contentHeader">
 				
@@ -2672,7 +2678,7 @@ EGO block end -->
 
 		<input type="text" class="darkInput" name="attr_versionNumber" value="0">
 	</div>
-	<textarea name="attr_dataTransfer" hidden></textarea> <!-- Revealed for testing purposes. Hide this later -->
+	<textarea name="attr_dataTransfer" hidden></textarea>
 	<!-- <span style="color: white">Intermediary:</span><input type="text" name="attr_intermediaryID"> -->
 	<!-- <span style="color: white">Target:</span><input type="text" name="attr_targetID"> -->
 
@@ -6510,7 +6516,7 @@ const conditionalOptions = {
 	"ChatButton":		[...autoEffectOptions.Target, "Inflict", "Give", "FlatDamage"]
 }
 const autoEffectTriggers = [
-	"Combat start", "Round start", "Combat end",						// Turn order
+	"Combat start", "Combat end", "Round start", "Round end",			// Combat state
 	"Offensive", "Defensive", "Block", "Evade",							// Combat rolls
 	"Challenge", ...statNames, "Speed",									// Stat rolls
 	"Damaged", "DamagedHP", "DamagedST", "DamagedSP",					// Damage
@@ -10124,8 +10130,10 @@ function resourceReq(reqArray, opts={deduct:false, expand:true}) {
 			//console.log(`Require ${cost} ${resource}. Current count is ${access.resource[resource].current}`);
 
 			if (access.resource[resource].current < cost) {
-				if (opts.expand && is(resource).In("counter", "block", "evade") && access.resource.universal.current >= cost) {
-					reqArray[i][0] = "universal";
+				if (opts.expand && is(resource).In("counter", "block", "evade") && (access.resource[resource].current + access.resource.universal.current) >= cost) {
+					reqArray[i][0] = access.resource[resource].current; // Use up any remaining counter/block/evade reactions
+					reqArray.push(["universal", cost - access.resource[resource].current]); // Pay the remaining cost using univeral reactions
+					// TODO: May cause issues if the array already includes an universal reaction cost
 				} else {
 					reqFailure[resource] = cost;
 				}
@@ -10210,7 +10218,7 @@ function summarizeRoll(rollDice, opts={adv:0}) {
 
 // Takes in a button dataNode and returns a markdown string for displaying the button in chat messages
 function getButtonMarkdown(button, opts={}) {
-	console.log("getButtonMarkdown", button, button.icon, getIcon(button.icon))
+	//console.log("getButtonMarkdown", button, button.icon, getIcon(button.icon))
 
 	let title = button.title;
 	let target = (button.mode == "select") ? "selected" : button.mode;
@@ -10583,8 +10591,6 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 					// This could be a JQuery event, with the popup anchoring to the top of the clicked element. Once the mouse leaves the element the popup is cleared
 					// This tech could be used all over the sheet to display messages when clicking or hovering over certain elements
 					// Still execute any other rolls currently in access.rolls
-				} else {
-					console.log("Used resources", reqList);
 				}
 			}
 		}
@@ -10811,10 +10817,12 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 
 			if ((ailDamageTypeWhenHit == "Any" || ailDamageTypeWhenHit == damageType) && (ailEffect != "None" && ailEffect != null && count != 0)) {
 
+				/*
 				console.log("Name:", ailName);
 				console.log("Count:", count);
 				console.log("Effect val:", ailEffectVal);
 				console.log("Effect mode:", ailEffectMode);
+				*/
 
 				/* Calculate base attribute change and its polarity */
 				switch (ailEffect) {
@@ -11714,7 +11722,6 @@ function changeIframe(baseUrl="app.roll20.net/editor/", fragment="#", htmlAttr='
 
 		/* Send */
 		startRoll((whisper + " " + template), (results) => {
-			console.log(results)
 			finishRoll(results.rollId, {insert: htmlAttr, script: htmlScript, scriptend: htmlScriptend} );
 		});
 	});
@@ -12698,7 +12705,7 @@ const repDataDefaults = {
 			type: "Skill",
 			rollformats: {
 				_repeating: [
-					{type: "None", mode: "Applied", count: 0, max: 0, power: 0, action: {type: "None", value: 0}, reaction: {type: "None", cost: 0}},
+					{type: "None", mode: "Applied", count: 0, max: 0, power: 0, action: {type: "None", cost: 0}, reaction: {type: "None", cost: 0}},
 				],
 			},
 			limited: {light: {cost: 1}},
@@ -13374,8 +13381,8 @@ const dataFormat = {
 						base: {
 							damage_type: "None",
 							count: 0, max: 0, power: 0, adv: 0,
-							action: {cost: 1},
-							reaction: {cost: 1},
+							action: {type: "Action", cost: 1},
+							reaction: {type: "Reaction", cost: 1},
 							autoscript: "",
 							// TODO: May need to add stored roll data here as well
 						},
@@ -13410,8 +13417,8 @@ const dataFormat = {
 							base: {
 								damage_type: "None",
 								count: 0, max: 0, power: 0, adv: 0,
-								action: {cost: 1},
-								reaction: {cost: 1},
+								action: {type: "Action", cost: 1},
+								reaction: {type: "Reaction", cost: 1},
 								autoscript: "",
 								// TODO: May need to add stored roll data here as well
 							},
@@ -13713,23 +13720,23 @@ const dataFormat = {
 				mystery: {bool:true},
 				message: {false:true, text:true},
 				standalone: {bool:true},
-				uses: {current: {int: {min:0}}},
-				light: {cost: {int: {min:0}}},
+				uses: {
+					current: {int: {min:0}},
+				},
+				light: {
+					cost: {int: {min:0}},
+				},
 				autoscript: {text:true},
 				base: {
-					light: {cost: {int: {min:0}}},
+					light: {
+						cost: {int: {min:0}},
+					},
 					autoscript: {text:true},
 				},
 				rollformats: {
 					_repeating: {
 						...rollDataFormat.valid,
-						base: {
-							_default: {int:true},
-							damage_type: {in: ["None", ...damageTypes, "Choose"], array: {in: damageTypes, min: 1, max: 3}},
-							action: {cost: {int: {min: 0}}},
-							reaction: {cost: {int: {min: 0}}},
-							autoscript: {text:true},
-						},
+						base: rollDataFormat.valid,
 						message: {false:true, text:true},
 					},
 					roll_together: {bool:true},
@@ -13757,13 +13764,7 @@ const dataFormat = {
 					rollformats: {
 						_repeating: {
 							...rollDataFormat.valid,
-							base: {
-								_default: {int:true},
-								damage_type: {in: ["None", ...damageTypes, "Choose"], array: {in: damageTypes, min: 1, max: 3}},
-								action: {cost: {int: {min: 0}}},
-								reaction: {cost: {int: {min: 0}}},
-								autoscript: {text:true},
-							},
+							base: rollDataFormat.valid,
 							message: {false:true, text:true},
 						},
 					},
@@ -13970,8 +13971,8 @@ const dataFormat = {
 								store: {option: "StoreRoll", prefix: "store"},
 								base: {
 									prefix: "baseRoll",
-									action: {prefix: "baseRollAction"},
-									reaction: {prefix: "baseRollReaction"},
+									action: {option: "BaseRollAction", prefix: "baseRollAction"},
+									reaction: {option: "BaseRollReaction", prefix: "baseRollReaction"},
 								},
 							},
 							source: {
@@ -14027,8 +14028,8 @@ const dataFormat = {
 									store: {option: "StoreRoll", prefix: "store"},
 									base: {
 										prefix: "baseRoll",
-										action: {prefix: "baseRollAction"},
-										reaction: {prefix: "baseRollReaction"},
+										action: {option: "BaseRollAction", prefix: "baseRollAction"},
+										reaction: {option: "BaseRollReaction", prefix: "baseRollReaction"},
 									},
 								},
 								source: {
@@ -14186,7 +14187,6 @@ const dataFormat = {
 
 on("clicked:testA", async function(info) {
 	console.log("Clicked button A");
-
 	console.log(access.currentID);
 });
 
@@ -14600,7 +14600,7 @@ class dataNode extends Array {
 		if (!prop.startsWith("_") && !is.ID(prop)) prop = "_" + prop;
 
 		let oldValue = this[snakeify(prop)];
-		if (oldValue instanceof dataNode) oldValue = (oldValue._valueProp) ? oldValue[oldValue._valueProp] : (oldValue.enabled) ? "true" : "0";
+		if (oldValue instanceof dataNode) oldValue = (oldValue._valueProp) ? oldValue[oldValue._valueProp] : oldValue.enabled;
 		
 		//console.log(`(${opts.source || "Code"}) ${prop} ${oldValue} -> ${rawValue}`);
 		if (oldValue !== undefined) {
@@ -15002,14 +15002,14 @@ class dataNode extends Array {
 				if (data[prop] !== undefined) {
 					if (this[prop] instanceof dataNode) {
 						if (data[prop]?.enabled !== undefined) {
-							this[snakeify(prop)] = data[prop].enabled;
+							this.modify(snakeify(prop), data[prop].enabled, opts);
 						}
 						this[prop].paste(data[prop], opts);
 					}
 					else if (this[prop] !== undefined) {
 						let newVal = data[prop];
 
-						if (opts.add && !is(typeof this[prop]).In("object", "boolean")) {
+						if (opts.add && !is(typeof this[prop]).In("object", "boolean") && this._validator(prop, newVal + this[snakeify(prop)]) !== null) {
 							newVal += this[snakeify(prop)];
 						}
 
@@ -15229,12 +15229,12 @@ class effectNode extends dataNode {
 
 			// If the effect is a block, also return any nested effects and an end-tag
 			if (opts.nested && includesSnakeify(autoEffectBlocks, this.#effect[0])) {
-				outputString += this.toString("nested") + "(/" + this.#effect[0] + ")";
+				outputString += this.toString("nested", opts) + "(/End)";
 			}
 		}
 
 		else if (mode == "nested") {
-			outputString += this.reduce((acc, effect) => acc += effect.toString(), "");
+			outputString += this.reduce((acc, effect) => acc += effect.toString("effect", opts), "");
 		}
 
 		else if (mode == "value") {
@@ -15792,7 +15792,7 @@ class effectNode extends dataNode {
 			this._addSubnodes(AutoScript);
 		}
 		else if (is.Array(AutoScript) || !/^\s*$/.test(AutoScript)) {
-			console.log("Adding new effect(s)", this, AutoScript, index);
+			//console.log("Adding new effect(s)", this, AutoScript);
 			access._state = "parsing";
 			
 			if (typeof AutoScript == "string") {
@@ -16031,7 +16031,7 @@ class effectNode extends dataNode {
 		if (this.options.chatButton || opts.chatButton) {
 			button.effects.add(clone);
 		} else {
-			button.autoscript += clone.toString();
+			button.autoscript += clone.toString("effect", {nested:true});
 		}
 	}
 
@@ -16326,10 +16326,11 @@ class effectNode extends dataNode {
 				checkString = "no target";
 			}
 
-			this.#message({old:oldValue, new:newValue});
-
 			this.#local.checkresult = checkResult;
 			this.#local.checkstring = checkString;
+
+			this.#message({old:oldValue, new:newValue});
+
 			if (node) node[prop] = newValue;
 		}
 
@@ -16520,8 +16521,6 @@ class effectNode extends dataNode {
 		let start = access;
 		let prop = snakeify(this.targetPath.at(-1));
 		let op = (this.operator == "=") ? "=" : this.operator.replace("=", "");
-
-		console.log(this, this.target, this.targetPath);
 
 		// Check if the path leads to a variable
 		if (this.targetPath.length == 1 && this.var[prop] !== undefined) {
@@ -16769,7 +16768,9 @@ const accessData = {
 		// Reject all state changes while initializing a character, after an error occurs, or when no action is in the stack
 		if (!v || is(this._state).In("init", "error", false)) return false;
 		
-		console.log("access: setting state to", v);
+		if (this._action_stack[0].state != v) {
+			console.log("access: setting state to", v);
+		}
 		return this._action_stack[0].state = v;
 	},
 
@@ -17144,7 +17145,7 @@ const accessData = {
 				// If a step is an array of steps, register an event for each step
 				if (is.Array(step)) {
 					for (prop of step) {
-						this.register([...path.slice(0, i), prop, ...path.slice(i+1)], eventopts, begin, end, {...opts, i:i, accessFormat:accessFormat, eventNode:eventNode});
+						this.register([...path.slice(0, i), ...(is.Array(prop) ? prop : [prop]), ...path.slice(i+1)], eventopts, begin, end, {...opts, i:i, accessFormat:accessFormat, eventNode:eventNode});
 					}
 					return true;
 				}
@@ -17222,7 +17223,7 @@ const accessData = {
 					step = "N";
 				}
 				else if (!is.ID(step) && /[A-Z\s]/.test(step)) {
-					step = snakeify("" + step); // '"" + ' hinders issues with number values
+					step = snakeify("" + step); // '"" +' hinders issues with number values
 				}
 
 				if (eventNode) {
@@ -17299,6 +17300,7 @@ const accessData = {
 				})
 
 				if (validEvents.length) {
+					if (opts.recalc) info.recalc = opts.recalc; // Avoids infinite loops during recalcs
 					if (opts.eventinfo) Object.assign(info, opts.eventinfo); // Handle custom event info
 					Object.assign(info, {path, charid:path[0]}); // Finalize the event info
 
@@ -17515,6 +17517,7 @@ const accessData = {
 				// Checks equipped items first to use slots
 				for (const item of items.sort((a, b) => +b.equipped - +a.equipped)) {
 					let reqFailure = {}
+					item.message = "";
 
 					for (const target of targets) {
 						let reqNode = item[target].requires;
@@ -17539,21 +17542,22 @@ const accessData = {
 						}
 
 						// Output a message detailing which requirements failed, if any
-						item.message = "0";
 						if (reqFailure[target]) {
-							if (item.message.startsWith("0")) item.message = ""; // This sometimes happens for whatever reason
 							if (item.message != "") item.message += " / "; // Adds a divider between different requirements
 							item.message += `Missing ${target}: ${Object.entries(reqFailure[target]).reduce((acc, [key, value]) => [...acc, `${key} x${value}`], []).join(", ")}`;
 						}
 					}
+
+					// If no requirements exist, or all requirements were fulfilled, disable the item message
+					if (!item.message) item.message = "0";
 				}
 
 				// Assign new tag and slot values
 				for (const tag of tags.map(node => snakeify(node.name))) {
 					if (tags[tag]) {
-						tags[tag].modify("current", tagData[tag]?.current || 0, {eventinfo: {noRecalc:true}});
-						tags[tag].modify("max", tagData[tag]?.max || 0, {eventinfo: {noRecalc:true}});
-						tags[tag].modify("is_slot", tagData[tag]?.is_slot, {eventinfo: {noRecalc:true}});
+						tags[tag].modify("current", tagData[tag]?.current || 0, {recalc:true});
+						tags[tag].modify("max", tagData[tag]?.max || 0, {recalc:true});
+						tags[tag].modify("is_slot", tagData[tag]?.is_slot, {recalc:true});
 					}
 				}
 			}
@@ -17780,11 +17784,9 @@ onAccess("clicked:addItem " + itemEvent("remove") + ["rollformats", "tags"].redu
 	}
 	
 	if (type == "remove") {
-		console.log("Delete", type, section, oldID, node, target);
 		node.delete(oldID);
 	} else {
-		if (section == "rollformats" && node.length >= 5) return;
-		console.log("Add", type, section, newID, node, target);
+		if (section == "rollformats" && node.length >= 5) return; // The item HTML only supports up to 5 rolls
 		node.add({id:newID, type:section});
 	}
 });
@@ -17814,10 +17816,12 @@ $20(".inventoryContainer .repitem").on("click", (e) => {
 /* Inventory - Change item description layout */
 onAccess([
 	["items", "add"], // Add new item
-	["items", "N", "rollformats", ["add", "delete"]], // Add or delete rollformat
-	["items", "N", "ui", "modify", ["weapon", "augment", "special"]], // Enable custom UI
-	["items", "N", "resistances", "base", damageTypes, "modify", "mode"], // Toggle damage resistance between Add/Replace and None
-	["items", "N", "modify", ["rollformats", "resistances"]], ["items", "N", "resistances", "modify", "base"], // Toggle options
+	["items", "N", [
+		["rollformats", ["add", "delete"]], // Add or delete rollformat
+		["ui", "modify", ["weapon", "augment", "special"]], // Enable custom UI
+		["resistances", "base", damageTypes, "modify", "mode"], // Toggle damage resistance between Add/Replace and None
+		["modify", ["rollformats", "resistances"]], ["resistances", "modify", "base"], // Toggle options
+	]],
 ], {}, function(info) {
 	let item = (info.node.id) ? access.items[info.node.id] : info.newval;
 	recalcItemWeight(item);
@@ -17872,16 +17876,18 @@ function recalcItemWeight(item) {
 
 /* Inventory - Update tags or equip slots */
 onAccess([
-	["items", "N", ["tags", "slots"], ["gives", "requires"], "modify", "raw_text"],
-	["items", "N", ["tags", "slots"], ["gives", "requires"], "N", "modify", "N"],
-	["items", "N", ["tags", "slots"], ["gives", "requires"], ["add", "delete"]],
+	["items", "N", ["tags", "slots"], ["gives", "requires"], [
+		"add", "delete", // Add / delete tag
+		["modify", "raw_text"], // Modify tags through the text input
+		["N", "modify", "N"], // Modify tags through the access tree
+	]],
 ], {}, function(info) {
-	if (!info.noRecalc) { // Ignore all events caused by tag recalcs
-		if (info.path[6] == "raw_text") {
-			recalcTagsFromRaw(info.node);
-		} else {
-			recalcTagsFromProps(info.node);
-		}
+	if (info.recalc) return; // Ignore all events caused by tag recalcs
+
+	if (info.path[6] == "raw_text") {
+		recalcTagsFromRaw(info.node);
+	} else {
+		recalcTagsFromProps(info.node);
 	}
 });
 
@@ -17925,12 +17931,12 @@ function recalcTagsFromRaw(node, opts={}) {
 		[tag, value, symbol] = [snakeify(match[1]), Number(match[2] || 1),  match[3]]
 		tags[tag] = value;
 
-		node.add({id:tagID, silent:"hard"}).modify("name", match[1], {silent:"hard", eventinfo: {noRecalc:true}});
+		node.add({id:tagID, silent:"hard"}).modify("name", match[1], {silent:"hard"});
 	}
 
-	// Assign tag values. "noRecalc" ensures no tag recalcs are caused by these events
+	// Assign tag values. "recalc" ensures no tag recalcs are caused by these events
 	for (const tagNode of node) {
-		tagNode.modify("value", tags[snakeify(tagNode.name)] || 0, {...opts, eventinfo: {noRecalc:true}});
+		tagNode.modify("value", tags[snakeify(tagNode.name)] || 0, {...opts, recalc:true});
 	}
 
 	// Recalculate equip requirements if applicable
@@ -17964,15 +17970,13 @@ onAccess("clicked:rollChallenge", function(info) {
 	roll.max = 6;
 	roll.power = (roll.type == "Speed") ? access.character.justice : access.character[type] ?? 0; // Luck has no stat and always returns 0
 
-	// Remove any conditional buttons before creating new ones
 	access.buttons.reset();
+	executeRolls(roll); // The default stat/luck rolls use no resources
 
 	if (roll.type == "Speed") {
 		access._event.trigger(["combat", "start"], {roll, type:"combat start"});
 		access._event.trigger(["round", "start"], {roll, type:"round start", oldval:false, newval:1});
 	}
-
-	executeRolls(roll); // The default stat/luck rolls use no resources
 });
 
 /* State - Toggle combat mode */
@@ -18055,6 +18059,7 @@ onAccess(itemEvent("clicked", "item-roll") + " clicked:repeating_palette:palette
 		// TODO: Also add a reference to the currently selected applied roll, if any
 	}
 
+	access.buttons.reset();
 	executeRolls(cleanRolls(rollArray), {use_resource: access.state.combat});
 });
 
@@ -18161,7 +18166,7 @@ function getStyleData(type, node, opts={expand:true}) {
 
 /* Resources - Recalculate reaction sum */
 onAccess(["resource", ["reaction", "universal", "counter", "block", "evade"], "modify", "N"], {}, function(info) {
-	if (info.noRecalc) return; // Avoids this event triggering itself
+	if (info.recalc) return; // Avoids this event triggering itself
 	let resource = access.resource;
 
 	if (info.path.at(-3) == "reaction") {
@@ -18178,11 +18183,11 @@ onAccess(["resource", ["reaction", "universal", "counter", "block", "evade"], "m
 		}
 		
 		let newSum = resource.reaction[attr] - ["counter", "block", "evade"].reduce((acc, type) => acc += resource[type][attr], 0);
-		resource.universal.modify(attr, newSum, {eventinfo: {noRecalc:"hard"}});
+		resource.universal.modify(attr, newSum, {recalc:true});
 	} else {
 		for (const attr of ["current", "max", "base"]) {
 			let newSum = ["universal", "counter", "block", "evade"].reduce((acc, type) => acc += resource[type][attr], 0);
-			resource.reaction.modify(attr, newSum, {eventinfo: {noRecalc:"hard"}});
+			resource.reaction.modify(attr, newSum, {recalc:true});
 		}
 	}
 });
@@ -18416,10 +18421,8 @@ function applyBinaryClasses(selector, valueArray, opts={}) {
 			let binaryClass = (opts.prefix || "") + className + 2**(base2.length - i - 1) + (opts.suffix || "");
 
 			if (digit == "1") {
-				//console.log(`Add class "${binaryClass}" to ${selector}`);
 				$20(selector).addClass(binaryClass);
 			} else {
-				//console.log(`Remove class "${binaryClass}" from ${selector}`);
 				$20(selector).removeClass(binaryClass);
 			}
 		}
@@ -18560,7 +18563,7 @@ $20(".inventoryContainer .repcontainer").on("mouseenter", (info) => {
 			}
 		});
 	} else {
-		console.warn("Drag and drop with no dragged item");
+		//console.warn("Drag and drop with no dragged item");
 	}
 });
 
@@ -18663,13 +18666,15 @@ onAccess([["state", "N", "modify", "state"], ["state", "N", "duration", "modify"
 
 /* Sheet - Trigger sheet update */
 onAccess("clicked:update", {}, function(info) {
+	access.buttons.reset();
 	updateSheet();
+
 	access._event.trigger(["round", "end"], { // Includes immutable values
 		type:"round end", oldval:access.state._combat, newval:access.state.combat,
 	});
 }, function(info) {
 	access._event.trigger(["round", "start"], { // Excludes immutable values
-		type:"round start", oldval:access.state.combat-1, newval:access.state.combat,
+		type:"round start", oldval:Math.max(access.state.combat-1, 0), newval:access.state.combat,
 	});
 });
 function updateSheet(charID) {
@@ -18681,7 +18686,7 @@ function updateSheet(charID) {
 			if (ail.settings.trigger == "RoundEnd") {
 				procAilment(ail);
 			}
-			else if (ail.settings.roundend.decay) {
+			else if (ail.settings.trigger != "None" && ail.settings.roundend.decay) { // TODO: Make sure this option also appears in the editor for "On Action" ailments
 				procAilment(ail, {decay:true, no_message:true});
 			}
 		}
@@ -18781,7 +18786,7 @@ function procAilment(ail, opts={effect:true, decay:true}) {
 	let results = []; // Needs to be an array to handle effects that affect 2+ props, like "HP+ST"
 	let changes = []; // -:-
 
-	// Process ailment
+	// Process ailment (Only ailments with at least one count can be procced)
 	if (ail.count > 0) {
 
 		// Handle max behaviour
@@ -18834,103 +18839,108 @@ function procAilment(ail, opts={effect:true, decay:true}) {
 				ail.count = newCount;
 			}
 		}
-	}
-
-	/*
-	let THP_Sources = {};
-	if (values.THP_Sources != "" && values.THP_Sources != "{}") {
-		THP_Sources = JSON.parse(values.THP_Sources);
-	}
-	*/
-
-	/*
-	// Temporary bar values
-	let tempBarTarget = "";
-	let tempBar_Sources = {};
-	if (effecttargetinlist == "HP") { tempBarTarget = "THP"; tempBar_Sources = THP_Sources }
-	if (effecttargetinlist == "ST") { tempBarTarget = "TST"; tempBar_Sources = TST_Sources }
 	
-	let tempBarUsed = {}
-	if (change > 0 && length(tempBar_Sources) > 0) {
-		let returnTempBar = applyTempBarDamageAilment(tempBar_Sources, tempBarTarget, change, result, roundEnd);
-		result = returnTempBar.newBar;
-		change = returnTempBar.damage;
-		tempBarUsed = returnTempBar[`${tempBarTarget}Used`];
-	}
-	for (const sourceName in tempBarUsed) {
-		let countUpdate = `(${parseInt(tempBarUsed[sourceName][0] + tempBarUsed[sourceName][1])} -> ${tempBarUsed[sourceName][0]})`;
-		tempBarMessage += styleText(`\n**(${sourceName}: ${tempBarUsed[sourceName][1]} ${countUpdate})**`, "opacity: 50%;");
-	}
-	*/
 
-	// Handle ailment message
-	if (!nomessage && ail.message.send && ail.root.type != "target" && (opts.effect && changes.length)) {
-		let message = (opts.msg?.prefix || "") + ail.message.text + (opts.msg?.suffix || "");
-		let icon = getIcon(ail.icon, "markdown");
-
-		if (changes.length > 1 && changes.every(c => c == changes[0])) changes = [changes[0]];
-		if (results.length > 1 && results.every(r => r == results[0])) results = [results[0]];
-
-		const applyInsert = (match, insert, prefix="**", affix="**") => {
-			message = message.replaceAll(match, prefix + insert + affix);
+		/*
+		let THP_Sources = {};
+		if (values.THP_Sources != "" && values.THP_Sources != "{}") {
+			THP_Sources = JSON.parse(values.THP_Sources);
 		}
+		*/
 
-		// TODO: Missing translations
-		const lang = {
-			Resist: getTranslationByKeyCustom("Resistance: ", "message-resist"),
-			EffectValue: "[EVAL]", // getTranslationByKeyCustom("[EVAL]", "message-match-evalue");
-			DecayValue: "[DVAL]", // getTranslationByKeyCustom("[DVAL]", "message-match-dvalue");
-			Name: "[CHAR]", // getTranslationByKeyCustom("[CHAR]", "message-match-name");
-			Count: "[COUNT]", // getTranslationByKeyCustom("[COUNT]", "message-match-count");
-			AilName: "[AIL]", // getTranslationByKeyCustom("[AIL]", "message-match-ailment");
-			Result: "[RESULT]", // getTranslationByKeyCustom("[RESULT]", "message-match-result");
-			Change: "[DIFF]", // getTranslationByKeyCustom("[DIFF]", "message-match-change");
-		}
-
-		applyInsert(lang.EffectValue, effectVal);
-		applyInsert(lang.DecayValue, decayVal);
-		applyInsert(lang.Name, ail.root.character.name);
-		applyInsert(lang.Count, count);
-		applyInsert(lang.AilName, ail.name);
-		applyInsert(lang.Result, results.join(", "));
-		applyInsert(lang.Change, changes.map(c => Math.abs(c)).join(", "));
-
-		console.log(ail.name, "|| Changes:", changes, "|| Results:", results);
+		/*
+		// Temporary bar values
+		let tempBarTarget = "";
+		let tempBar_Sources = {};
+		if (effecttargetinlist == "HP") { tempBarTarget = "THP"; tempBar_Sources = THP_Sources }
+		if (effecttargetinlist == "ST") { tempBarTarget = "TST"; tempBar_Sources = TST_Sources }
 		
-		if (resist != 0) {
-			message += ` ${styleText(` **(${lang.Resist}${resist})**`, "opacity: 50%;")}`;
+		let tempBarUsed = {}
+		if (change > 0 && length(tempBar_Sources) > 0) {
+			let returnTempBar = applyTempBarDamageAilment(tempBar_Sources, tempBarTarget, change, result, roundEnd);
+			result = returnTempBar.newBar;
+			change = returnTempBar.damage;
+			tempBarUsed = returnTempBar[`${tempBarTarget}Used`];
+		}
+		for (const sourceName in tempBarUsed) {
+			let countUpdate = `(${parseInt(tempBarUsed[sourceName][0] + tempBarUsed[sourceName][1])} -> ${tempBarUsed[sourceName][0]})`;
+			tempBarMessage += styleText(`\n**(${sourceName}: ${tempBarUsed[sourceName][1]} ${countUpdate})**`, "opacity: 50%;");
+		}
+		*/
+
+		// Handle ailment messages
+		if (!nomessage && ail.message.send && ail.root.type != "target" && changes.length) { // TODO: May also need to post messages when an ailment decays without any effects
+			let message = (opts.msg?.prefix || "") + ail.message.text + (opts.msg?.suffix || "");
+			let icon = getIcon(ail.icon, "markdown");
+	
+			if (changes.length > 1 && changes.every(c => c == changes[0])) changes = [changes[0]];
+			if (results.length > 1 && results.every(r => r == results[0])) results = [results[0]];
+	
+			const applyInsert = (match, insert, prefix="**", affix="**") => {
+				message = message.replaceAll(match, prefix + insert + affix);
+			}
+	
+			// TODO: Missing translations
+			const lang = {
+				Resist: getTranslationByKeyCustom("Resistance: ", "message-resist"),
+				EffectValue: "[EVAL]", // getTranslationByKeyCustom("[EVAL]", "message-match-evalue");
+				DecayValue: "[DVAL]", // getTranslationByKeyCustom("[DVAL]", "message-match-dvalue");
+				Name: "[CHAR]", // getTranslationByKeyCustom("[CHAR]", "message-match-name");
+				Count: "[COUNT]", // getTranslationByKeyCustom("[COUNT]", "message-match-count");
+				AilName: "[AIL]", // getTranslationByKeyCustom("[AIL]", "message-match-ailment");
+				Result: "[RESULT]", // getTranslationByKeyCustom("[RESULT]", "message-match-result");
+				Change: "[DIFF]", // getTranslationByKeyCustom("[DIFF]", "message-match-change");
+			}
+	
+			applyInsert(lang.EffectValue, effectVal);
+			applyInsert(lang.DecayValue, decayVal);
+			applyInsert(lang.Name, ail.root.character.name);
+			applyInsert(lang.Count, count);
+			applyInsert(lang.AilName, ail.name);
+			applyInsert(lang.Result, results.join(", "));
+			applyInsert(lang.Change, changes.map(c => Math.abs(c)).join(", "));
+	
+			console.log(ail.name, "|| Changes:", changes, "|| Results:", results);
+			
+			if (resist != 0) {
+				message += ` ${styleText(` **(${lang.Resist}${resist})**`, "opacity: 50%;")}`;
+			}
+	
+			// Output message
+			messageSection(ail.root.message, "", icon + message);
 		}
 
-		// Output message
-		messageSection(ail.root.message, "", icon + message);
-	}
-
-	// Trigger an event so custom events can detect the ailment being procced
-	let eventinfo = {
-		node:ail, type:"proc", effect:opts.effect, decay:opts.decay,
-		oldval:count, newval:ail.count, // Ailment count update
-		oldprop:false, newprop:false, // Property value update
-	}
-
-	// If 2+ properties were modified the info includes an array of each old/new value
-	if (changes.length) {
-		if (changes.length == 1) {
-			eventinfo.newprop = results[0];
-			eventinfo.oldprop = results[0] - changes[0];
-		} else {
-			eventinfo.newprop = results;
-			eventinfo.oldprop = results.map((r, i) => r - changes[i]);
+		// Trigger an event so custom events can detect the ailment being procced
+		let eventinfo = {
+			node:ail, type:"proc", effect:opts.effect, decay:opts.decay,
+			oldval:count, newval:ail.count, // Ailment count update
+			oldprop:false, newprop:false, // Property value update
 		}
-	}
 
-	access._event.trigger([...ail.path, "proc"], eventinfo, {});
+		// If 2+ properties were modified the info includes an array of each old/new value
+		if (changes.length) {
+			if (changes.length == 1) {
+				eventinfo.newprop = results[0];
+				eventinfo.oldprop = results[0] - changes[0];
+			} else {
+				eventinfo.newprop = results;
+				eventinfo.oldprop = results.map((r, i) => r - changes[i]);
+			}
+		}
+
+		access._event.trigger([...ail.path, "proc"], eventinfo, {});
+	}
 }
 
 // Takes in a value and applies an ailment-type effect, ex. "- 2" or "x 0.5"
 // TODO: Consider making this support math strings. "n" would be replaced with the ailments own count
 function applyEffect(count, prop, mode="=", effect="0", opts={}) {
-	let [mod, n] = (is.Float(effect)) ? [effect] : effect.match(/^(-?\d*(?:[,.]\d+)?)?(n)?$/i).slice(1); // Does this work?
+	let [mod, n] = (is.Float(effect)) ? [effect] : effect.match(/^(-?\d*(?:[,.]\d+)?)?(n)?$/i)?.slice(1);
 	let change = 0;
+
+	if (effect == undefined) {
+		effect = [0] // TODO: Temporary solution for an ailment having an invalid effect. This should in the future throw an error
+	}
 	
 	// Prepare modifier
 	mod = (mod == "-") ? -1 : parseFloat(mod);
@@ -18971,27 +18981,29 @@ onAccess("clicked:addAilment remove:repeating_ailments", {}, function(info) {
 /* Palette - Sync items to the palette */
 onAccess([
 	["items", ["add", "delete"]], // Add/delete item
-	["items", "N", "rollformats", ["add", "delete"]], // Add/delete rollformat
-	["items", "N", "modify", "equipped"], // Equip/unequip item
-	["items", "N", "modify", ["name", "type", "autoscript"]], // Change relevant properties
-	["items", "N", "modify", ["mystery", "usable", "limited", "ui", "rollformats"]], // Enable/disable relevant options
-	["items", "N", "limited", "modify", "N"], // Enable/disable item uses or light cost
-	["items", "N", "limited", "light", "modify", "cost"], // Change light cost
-	["items", "N", "limited", "uses", "modify", "current"], // Change current uses
-	["items", "N", "ui", "modify", ["icon", "color"]], // Enable/disable custom icon or color
-	["items", "N", "ui", ["icon", "color"], "modify", "N"], // Change custom icon or color
-	["items", "N", "rollformats", "modify", "roll_together"], // Change roll together setting
-	["items", "N", "rollformats", "N", "modify", "N"], // Change rollformat
-	["items", "N", "rollformats", "N", "N", "modify", "N"], // Change rollformat costs or "store" properties
+	["items", "N", [
+		["rollformats", ["add", "delete"]], // Add/delete rollformat
+		["modify", "equipped"], // Equip/unequip item
+		["modify", ["name", "type", "autoscript"]], // Change relevant properties
+		["modify", ["mystery", "usable", "limited", "ui", "rollformats"]], // Enable/disable relevant options
+		["limited", "modify", "N"], // Enable/disable item uses or light cost
+		["limited", "light", "modify", "cost"], // Change light cost
+		["limited", "uses", "modify", "current"], // Change current uses
+		["ui", "modify", ["icon", "color"]], // Enable/disable custom icon or color
+		["ui", ["icon", "color"], "modify", "N"], // Change custom icon or color
+		["rollformats", "modify", "roll_together"], // Change roll together setting
+		["rollformats", "N", "modify", "N"], // Change rollformat
+		["rollformats", "N", "N", "modify", "N"], // Change rollformat costs or "store" properties
+	]],
 ], {}, function(info) {
-	if (info.noRecalc) return;
+	if (info.recalc) return;
 	let item = (info.type == "add") ? info.newval : (info.type == "delete") ? info.oldval : access.items[info.path[2]];
 	
 	if (item.equipped || info.path.at(-1) == "equipped") {
-		recalcPalette([item]);
+		syncItemsToPalette([item]);
 	}
 });
-function recalcPalette(itemArray) {
+function syncItemsToPalette(itemArray) {
 	for (const item of itemArray) {
 
 		let p = { // Palette elements, if any elements already exist
@@ -19013,40 +19025,41 @@ function recalcPalette(itemArray) {
 			// Check if a palette element should exist
 			if (access.items[item.id] && item.equipped && item.name && paletteCheck) {
 	
-				// Add a new element action if one does not already exist
+				// Add a new palette element if one does not already exist
 				p[type] ??= palette.add();
 	
 				// Sync all relevant item properties to the palette
-				p[type].item = item;
-				p[type].title = item.name;
-				p[type].mystery = item.mystery.enabled;
-				p[type].autoscript = item.autoscript;
-				p[type].uses = (item.limited.enabled && item.limited.uses.enabled);
-				p[type].uses.current = item.limited.uses.current;
-				p[type].light = (item.limited.enabled && item.limited.light.enabled);
-				p[type].light.cost = item.limited.light.cost;
+				p[type].modify("item", item, {recalc:true});
+				p[type].modify("title", item.name, {recalc:true});
+				p[type].modify("mystery", item.mystery.enabled, {recalc:true});
+				p[type].modify("autoscript", item.autoscript, {recalc:true});
+				p[type].modify("uses", (item.limited.enabled && item.limited.uses.enabled), {recalc:true});
+				p[type].uses.modify("current", item.limited.uses.current, {recalc:true});
+				p[type].modify("light", (item.limited.enabled && item.limited.light.enabled), {recalc:true});
+				p[type].light.modify("cost", item.limited.light.cost, {recalc:true});
 	
 				// Sync item styling properties to the palette
-				p[type].icon = (item.ui.enabled && item.ui.icon.enabled) ? "" : ""; // TODO: Needs support
+				p[type].modify("icon", (item.ui.enabled && item.ui.icon.enabled) ? "" : "", {recalc:true}); // TODO: Needs support
 				
 				// Use a custom color if enabled. Otherwise use the default color of the item
 				if (item.ui.enabled && item.ui.color.enabled && item.ui.color.base != "") {
-					p[type].color.base = item.ui.color.base;
+					p[type].color.modify("base", item.ui.color.base, {recalc:true});
 				} else {
 					let style = getStyleData("item", item);
-					p[type].color.base = (p[type].mystery) ? style.mystery ?? style.color : style.color;
+					p[type].color.modify("base", (p[type].mystery) ? style.mystery ?? style.color : style.color, {recalc:true});
 				}
 	
 				// Sync item data only relevant for standalone actions
 				if (type == "action") {
-					p[type].standalone = item.usable.enabled;
-					p[type].base.autoscript = item.autoscript;
-					p[type].base.light.cost = item.limited.light.cost;
+					p[type].modify("standalone", item.usable.enabled, {recalc:true});
+					p[type].base.modify("autoscript", item.autoscript, {recalc:true});
+					p[type].base.modify("light", (item.limited.enabled && item.limited.uses.enabled), {recalc:true});
+					p[type].base.light.modify("cost", item.limited.light.cost, {recalc:true});
 					
-					p[type].color.decoration = (item.ui.enabled && item.ui.color.enabled) ? item.ui.color.decoration : "";
+					p[type].color.modify("decoration", (item.ui.enabled && item.ui.color.enabled) ? item.ui.color.decoration : "", {recalc:true});
 	
-					p[type].rollformats.roll_together = item.rollformats.roll_together;
-					p[type].rollformats = (i[type].length > 0);
+					p[type].rollformats.modify("roll_together", item.rollformats.roll_together, {recalc:true});
+					p[type].modify("rollformats", (i[type].length > 0), {recalc:true});
 				}
 	
 				// Sync any item rollformats to the palette 
@@ -19056,16 +19069,12 @@ function recalcPalette(itemArray) {
 				for (let index = 0; index < i[type].length; index++) {
 					let rollData = i[type][index].copy();
 
-					console.log("Roll:", p[type].rollformats[index], "|| Data:", rollData);
-
-					p[type].rollformats[index].paste(rollData, {modify:true, eventinfo: {noRecalc:true}});
-					p[type].rollformats[index].base.paste(rollData, {modify:true, eventinfo: {noRecalc:true}});
+					p[type].rollformats[index].paste(rollData, {modify:true, recalc:true});
+					p[type].rollformats[index].base.paste(rollData, {modify:true, recalc:true});
 				}
 	
-				// Apply the current applied roll if one is selected
-				if (type == "action") {
-					recalcApplied([p[type]]);
-				}
+				// Handle applied rolls and requirements for each palette element
+				recalcPalette([p[type]]);
 			}
 	
 			// Remove any invalid palette elements
@@ -19076,91 +19085,151 @@ function recalcPalette(itemArray) {
 	}
 }
 
+// Takes in a list of palette elements (standalone or applied)
+// Resets each standalone action to it's base values + any applied values (standalone only)
+// Checks requirements for each palette elements (standalone / applied)
+function recalcPalette(elementArray) {
+	let applied = access.palette.applied[access.palette.applied.selection];
+
+	for (const element of elementArray) {
+		let elementType = (element.path[2] != "applied") ? "standalone" : "applied";
+		let elementMessage = "0";
+
+		if (elementType == "standalone") {
+
+			// Reset all standalone actions and rolls to their base values + any applied values
+			element.modify("light", (applied?.light?.enabled || element?.base?.light.enabled), {recalc:true});
+			element.light.modify("cost", (element?.base?.light.enabled ? element.base.light.cost : 0) + (applied?.light?.cost ?? 0), {recalc:true});
+			element.modify("autoscript", (element?.base?.autoscript ?? "") + (applied?.autoscript ?? ""), {recalc:true});
+		
+			for (const roll of element.rollformats) {
+				let rollMessage = "0";
+				
+				roll.paste(roll.base.copy(), {modify:true, recalc:true});
+		
+				// If an applied roll is selected, add its values to the base values of each standalone roll
+				// Each standalone roll is combined with the *first* valid rollformat of the selected applied roll
+				if (applied) {
+					let appliedRoll = applied.rollformats.find(r => {
+						if (roll.type == "None" || r.type == "None") { // Untyped rolls match with all rolls
+							return true;
+						}
+						else if (roll.type == "Attack" && r.type == "Attack") { // Attacks match with all attacks, except if the rolls have different damage types
+							if (damageTypes.includes(roll.damage_type) && damageTypes.includes(r.damage_type)) {
+								return (roll.damage_type == r.damage_type);
+							}
+							return true;
+						}
+						else { // Other rolls only match with the same type of rolls
+							return (roll.type == r.type);
+						}
+					});
+	
+					// If no valid applied rollformat exists the standalone roll is disabled
+					if (appliedRoll) {
+						let appliedData = appliedRoll.copy();
+	
+						delete appliedData._type; // The roll type of the action is preserved. The damage type can be modified however
+						if (roll.base._damage_type != "None") delete appliedData._damage_type; // The applied damage type is only used if the damage type is unset
+						delete appliedData._base; // TODO: Remove this if you remove base values from applied rolls
+						delete appliedData._message; // Applied messages are only shown over the applied roll itself
+						
+						for (const resource of ["_action", "_reaction"]) {
+							appliedData[resource].enabled &&= roll.base[resource].enabled; // Both rolls most have actions / reactions enabled to be used
+							if (appliedData[resource]._type == "None") delete appliedData[resource]._type; // If the resource type is unset only the cost is applied
+						}
+	
+						roll.paste(appliedData, {modify:true, add:true, recalc:true});
+					} else {
+						rollMessage = "No matching roll"; // TODO: Missing translation
+					}
+				}
+
+				// Handle roll resource costs
+				if (rollMessage == "0" && access.state.combat) { // Resource costs only apply while in combat
+					let resource = access.resource.selection;
+					let reqType = (resource == "Action") ? "action" : "reaction";
+		
+					// Selecting the action tracker disables all rolls without the "action" option enabled. The same applies for the reaction trackers and the "reaction" option
+					if (!roll[reqType].enabled) {
+						rollMessage = `Not ${reqType == "action" ? "an" : "a"} ${capitalize(reqType)}`; // TODO: Missing translation
+					}
+					else if (roll[reqType].type != "None") {
+						let reqResult = resourceReq({[roll[reqType].type]: roll[reqType].cost}, {expand: is(resource).In("Reaction", "Universal")});
+						
+						// Disables all rolls which do not meet their resource requirement
+						if (typeof reqResult == "object") {
+							rollMessage = "Not enough " + (roll[reqType].type == "Light_Regen" ? "Light regen" : `${roll[reqType].type}(s)`); // TODO: Missing translation
+						}
+
+						// When selecting the counter, block or evade trackers, only rolls which have the "reaction" option enabled and uses this specific reaction are enabled
+						// Reactions that use non-standard resources, like a block roll that uses light regen, may still be used by selecting the non-specific reaction tracker
+						if (is(resource).In("Counter", "Block", "Evade") && resource != roll[reqType].type) {
+							rollMessage = `Cannot use ${resource}s`; // TODO: Missing translation
+						}
+					}
+				}
+
+				roll.modify("message", rollMessage, {recalc:true});
+			}
+		}
+
+		// Handle Light costs
+		if (element.light.enabled && element.light.cost > access.bar.light) {
+			elementMessage = "Not enough Light"; // TODO: Missing translation
+		}
+
+		// Handle item uses costs
+		if (element.uses.enabled && !element.uses.current) {
+			elementMessage = "Not enough Uses"; // TODO: Missing translation
+		}
+
+		element.modify("message", elementMessage, {recalc:true});
+
+		// Re-check all standalone roll requirements when the currently selected applied roll is modified
+		if (elementType == "applied" && element.selected) {
+			recalcPalette(access.palette.filter(e => !elementArray.includes(e)));
+		}
+	}
+}
+
 /* Palette - Change applied roll selection */
 onAccess("clicked:repeating_applied:palette-select", {}, function(info) {
 	let node = access.palette.applied[info.triggerName.split("_")[2]];
 	node.selected = !node.selected;
 });
+onAccess(["palette", "applied", "delete"], {}, function(info) {
+	if (info.oldval.selected) { // Detects the selected roll being deleted
+		access.palette.applied.selection = false;
+	};
+});
 onAccess(["palette", "applied", "N", "modify", "selected"], {}, function(info) {
-	if (info.noRecalc) return; // Avoids the event below repeatedly triggering itself through this event
+	if (info.recalc) return; // Avoids the event below repeatedly triggering itself through this event
 	access.palette.applied.selection = (info.newval) ? info.node.id : false;
 });
 onAccess(["palette", "applied", "modify", "selection"], {}, function(info) {
 	for (const node of access.palette.applied) {
-		node.modify("selected", (node.id == info.newval), {eventinfo: {noRecalc:true}});
+		node.modify("selected", (node.id == info.newval), {recalc:true});
 	}
-	recalcApplied(access.palette);
+	recalcPalette(access.palette);
 });
-function recalcApplied(actionArray) {
-	let applied = access.palette.applied[access.palette.applied.selection];
-	let messageArray = []
 
-	for (const action of actionArray) {
-		messageArray.push([]);
-
-		action.modify("light", (applied?.light?.enabled || action.light.enabled), {eventinfo: {noRecalc:true}});
-		action.light.modify("cost", action.base.light.cost + (applied?.light?.cost ?? 0), {eventinfo: {noRecalc:true}});
-		action.autoscript = action.base.autoscript + (applied?.autoscript ?? "");
-
-		for (const actionRoll of action.rollformats) {
-			messageArray.at(-1).push("");
-			actionRoll.paste(actionRoll.base.copy(), {modify:true, eventinfo: {noRecalc:true}});
-
-			// Combines each roll of each action with the *first* valid rollformat of the selected applied roll
-			if (applied) {
-				let appliedRoll = applied.rollformats.find(roll => {
-					if (actionRoll.type == "None" || roll.type == "None") { // Untyped rolls match with all rolls
-						return true;
-					}
-					else if (actionRoll.type == "Attack" && roll.type == "Attack") { // Attacks match with all attacks, except if the rolls have different damage types
-						if (damageTypes.includes(actionRoll.damage_type) && damageTypes.includes(roll.damage_type)) {
-							return (actionRoll.damage_type == roll.damage_type);
-						}
-						return true;
-					}
-					else { // Other rolls only match with the same type of rolls
-						return (actionRoll.type == roll.type);
-					}
-				});
-
-				// If no valid applied rollformat exists the standalone roll is disabled
-				if (appliedRoll) {
-					let appliedData = appliedRoll.copy();
-
-					delete appliedData._type; // The roll type of the action is preserved. The damage type can be modified however
-					delete appliedData._base; // TODO: Remove this if you remove base values from applied rolls
-					delete appliedData._message; // Applied messages are only shown over the applied roll itself
-
-					for (const resource of ["_action", "_reaction"]) {
-						if (!appliedData[resource].enabled) delete appliedData[resource]; // Only enabled resource costs are applied to rolls
-						else if (appliedData[resource].type == "None") delete appliedData[resource].type; // If the resource type is unset only the cost is applied
-					}
-
-					console.log("Roll:", actionRoll, "|| Applied data:", appliedData);
-
-					actionRoll.paste(appliedData, {modify:true, add:true, eventinfo: {noRecalc:true}});
-				} else {
-					messageArray.at(-1)[actionRoll.index] = "No matching roll";
-				}
-			}
-		}
-	}
-
-	// Re-check the requirements of each modified palette element
-	recalcPaletteReq(actionArray, messageArray);
-}
-
-/* Palette - Check standalone roll requirements */
+/* Palette - Check standalone / applied roll requirements */
 onAccess([
 	["palette", "N", "rollformats", "add"],	// Add new rollformat
-	["palette", "N", "modify", ["light", "uses"]], // Enable/disable item uses or light cost
-	["palette", "N", "light", "modify", "cost"], // Change light cost
-	["palette", "N", "uses", "modify", "current"], // Change use count
-	["palette", "N", "rollformats", "N", "modify", ["action", "reaction"]], // Enable/disable resource costs
-	["palette", "N", "rollformats", "N", ["action", "reaction"], "modify", "N"], // Change resource cost
+	["palette", ["N", ["applied", "N"]], [ // Splits the event across both standalone and applied actions
+		["modify", ["light", "uses"]], // Enable/disable item uses or light cost
+		["light", "modify", "cost"], // Change light cost
+		["uses", "modify", "current"], // Change use count
+		["rollformats", "N", "modify", "N"], // Modify rollformat
+		["rollformats", "N", "N", "modify", "N"], // Change rollformat costs or "store" properties
+	]],
 ], {}, function(info) {
-	if (info.noRecalc) return;
-	recalcPaletteReq([access.palette[info.path[2]]]); // TODO: Use recalcApplied() to generate "No matching roll" messages
+	if (info.recalc) return;
+	let type = (info.path[2] != "applied") ? "standalone" : "applied";
+	let element = (info.type == "add") ? info.newval : (type == "standalone") ? access.palette[info.path[2]] : access.palette.applied[info.path[3]];
+
+	recalcPalette([element]);
 });
 onAccess([
 	["bar", "modify", "light"],
@@ -19168,53 +19237,9 @@ onAccess([
 	["resource", "modify", "selection"],
 	["resource", "N", "modify", "current"],
 ], {}, function(info) {
-	if (info.noRecalc) return;
-	recalcPaletteReq(access.palette);
+	if (info.recalc) return;
+	recalcPalette([...access.palette, ...access.palette.applied]);
 });
-function recalcPaletteReq(actionArray, messageArray=[]) {
-	for (const action of actionArray) {
-		let messageOverride = messageArray.shift() ?? [];
-		action.message = ""; // TODO: Also add full palette element messages to the messageArray
-		
-		// Handle Light costs
-		if (action.light.enabled && action.light.cost > access.bar.light) {
-			action.message = "Not enough Light";
-		}
-
-		// Handle item uses costs
-		if (action.uses.enabled && !action.uses.current) {
-			action.message = "Not enough Uses";
-		}
-
-		// Handle resource costs
-		for (const roll of action.rollformats) {
-			roll.message = messageOverride.shift() ?? "";
-
-			// Resource costs only apply while in combat
-			if (access.state.combat) {
-				let resource = access.resource.selection;
-				let reqType = (resource == "Action") ? "action" : "reaction";
-				let reqExpand = is(resource).In("Action", "Reaction");
-				let reqValid = (resource == roll[reqType].type || roll[reqType].type == "Light_Regen" || (resource == "Reaction" && is(roll[reqType].type).In("Counter", "Block", "Evade", "Universal")))
-	
-				if (roll[reqType].enabled && reqValid) {
-					if (roll[reqType].type != "None") {
-						let reqResult = resourceReq({[roll[reqType].type]: roll[reqType].cost}, {expand: reqExpand});
-	
-						if (typeof reqResult == "object") {
-							roll.message = `Not enough ${resource.toLowerCase()}(s)`;
-						}
-					}
-				} else {
-					roll.message = `Cannot use ${resource.toLowerCase()}s`;
-				}
-			}
-		}
-	}
-}
-
-/* Palette - Check applied roll requirements */
-// TODO: Implement this
 
 
 function calcStagger(ST, ST_max, staggerVal, staggerMode) {
@@ -19316,8 +19341,6 @@ function autoScriptToArray(AutoScript, mode="effects", opts={}) {
 
 	// Extract all AutoEffects in the AutoScript
 	while (match = scriptRegExp[mode].exec(AutoScript)) {
-		// console.log("New effect", match)
-
 		if (mode == "triggers") {
 			if (match[2]) {
 				AutoScriptArray.push([
@@ -19331,8 +19354,6 @@ function autoScriptToArray(AutoScript, mode="effects", opts={}) {
 			let effectArray = splitIgnoreBetween(match[1], ",", [["{","}"], ['"']], {includeChars:true, nesting:true}).map(c => c.trim());
 			effectArray[0] = splitIgnoreBetween(effectArray[0], /\s+/g, [["{","}"], ['"']], {includeChars:true});
 			let effectName = snakeify(effectArray[0][0]);
-
-			// console.log(match[0], AutoScriptArray, scriptRegExp[mode].lastIndex);
 			
 			// Handle block end tags
 			if (effectName.startsWith("/") || effectName == "reset") {
@@ -19349,11 +19370,13 @@ function autoScriptToArray(AutoScript, mode="effects", opts={}) {
 					return AutoScriptArray;
 				}
 			}
+
+			// The "Else" AutoEffect is both an end tag for "check"-type effects, and is an effect itself
 			else if (effectName == "else" && !includesSnakeify(["Require", "Consume", "If", "Else"], AutoScriptArray.at(-2)?.[0]?.[0])) {
 				if (!opts.endTags) {
 					access._error.throw("autoeffect", "Parsing Error", match[0], {}, "unexpected-else"); return "";
 				}
-				scriptRegExp[mode].lastIndex -= match[0].length; // Repeats the Else effect outside the block
+				scriptRegExp[mode].lastIndex -= match[0].length; // Makes the Else effect get parsed again outside the block to parse it as an AutoEffect
 				return AutoScriptArray;
 			}
 
@@ -19376,8 +19399,6 @@ function autoScriptToArray(AutoScript, mode="effects", opts={}) {
 			}
 		}
 	}
-
-	// console.log("Final AutoScriptArray:", AutoScriptArray);
 
 	return AutoScriptArray;
 }
@@ -19411,8 +19432,6 @@ function recalcCustomEvents(item) {
 				let eventOpts = {}
 
 				let eventFunc = (eventinfo) => {
-					console.log("FOR TESTING: New event:", eventinfo);
-
 					eventBlock._addVar("event", eventinfo);
 					eventBlock.execute();
 				}
@@ -19460,8 +19479,6 @@ function recalcCustomEvents(item) {
 						
 						eventFunc = (eventinfo, trigger=type) => {
 							let type = eventinfo.node.type;
-
-							console.log("FOR TESTING: Triggered roll event", trigger, type, eventinfo); // TODO: Remove this
 
 							switch (trigger) {
 								case "Offensive": if (type != "Attack") return; break;  // TODO: May not work for multirolls
@@ -19530,13 +19547,10 @@ function recalcCustomEvents(item) {
 
 					onAccess(eventPath, {...eventOpts, custom:true, id:item.id}, eventFunc);
 				} else {
-					console.log(`Throw error: Trigger ${trigger} could not be parsed`);
+					console.warn(`Throw error: Trigger ${trigger} could not be parsed`);
 				}
 			}
 		}
-
-		// TODO: For testing
-		console.log("New event tree:", access._event.tree);
 	}
 }
 function deleteCustomEvents(item) {
@@ -19588,7 +19602,7 @@ onAccess("clicked:repeating_buttons:activate", {}, function(info) {
 		// TODO: Style the chat message
 		// - Use the button title to apply override values from styling rules
 	} else {
-		console.log("Error: Button has no AutoScript")
+		console.warn("Error: Button has no AutoScript")
 	}
 });
 
@@ -20678,7 +20692,7 @@ function convertLegacyAttrs(type, values, sectionIndexes) {
 
 
 /* Legacy setup */
-const sheetVersion = "v1.0 Alpha 29/07";
+const sheetVersion = "v1.0 Alpha 06/08";
 
 // TODO: Work in progress
 async function sheetSetup(ID) {
@@ -21857,7 +21871,6 @@ function parseMath(mathString, opts={}, error={}, vars={}) {
 		if (pathChars.length) {
 			if (is(type).In("dot", "nest_begin")) pathChars.push("");
 			pathChars[pathChars.length-1] += chars;
-			console.log(pathChars);
 		}
 
 		if (path.length > 0) {
@@ -22273,19 +22286,29 @@ function splitIgnoreBetween(string, seperator, chars=['"'], opts={includeChars:f
 		let formatInner = (opts.nesting) ? ".*?" : `[^\\${a}\\${b}]*`;
 		let formatOuter = (opts.includeChars) ? `(\\${a}${formatInner}\\${b})` : `\\${a}(${formatInner})\\${b}`;
 		let between = new RegExp(formatOuter, "g");
-		
-		let ignoreID = generateRowID();
-		ignoreList[ignoreID] = [];
-
-		string = string.replace(between, (i, match) => { ignoreList[ignoreID].push(match); return ignoreID; });
+	
+		string = string.replace(between, (i, match) => {
+			let ignoreID;
+			while (ignoreList[ignoreID = generateRowID()]); // For some reason generateRowID() sometimes generates the same ID twice in a row
+			
+			ignoreList[ignoreID] = match;
+			return ignoreID;
+		});
 	}
 
 	// Split the string
 	string = string.split(seperator);
 
 	// Add back in all ignored text sections
-	for (const [ID, matches] of Object.entries(ignoreList).reverse()) {
-		string = string.map(v => v.replaceAll(ID, () => matches.shift()));
+	while (length(ignoreList)) {
+		for (const ID in ignoreList) {
+			let substringIndex = string.findIndex(v => v.includes(ID));
+
+			if (substringIndex >= 0) {
+				string[substringIndex] = string[substringIndex].replace(ID, ignoreList[ID]);
+				delete ignoreList[ID];
+			}
+		}
 	}
 
 	return string;
