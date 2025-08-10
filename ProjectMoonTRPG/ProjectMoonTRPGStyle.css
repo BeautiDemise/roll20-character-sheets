@@ -1960,6 +1960,7 @@ button[type=action].challengeButton::before {
         .name {
             color: var(--content-text);
             width: 100%;
+            pointer-events: none;
         }
     }
     .paletteMessage {
@@ -2030,14 +2031,20 @@ button[type=action].challengeButton::before {
     }
 
     .rollFormatContainer {
+        flex-grow: 1;
         gap: 2px;
     }
     .rollFormat {
+        height: 100%;
         padding-right: 3px;
     }
     .rollFormatBlock {
         border-radius: 0;
         --rollformat-mystery-height: 24px;
+    }
+    .rollFormatIcon {
+        margin-top: -2px;
+        margin-bottom: -3px;
     }
 
     .actionStandalone {
@@ -2063,11 +2070,10 @@ button[type=action].challengeButton::before {
         flex-wrap: wrap;
     }
     .repitem {
-        min-width: 49%;
+        width: 49%;
         flex-grow: 1;
 
         /* Displays a gray border around non-Mystery palette elements with 100% opacity */
-        box-sizing: border-box;
         border: 1px solid var(--color-light-gray) !important;
         border-radius: 15px;
         overflow: hidden;
@@ -2075,6 +2081,9 @@ button[type=action].challengeButton::before {
         &:has(.mystery-toggle:checked) {
             border: 0 !important;
             border-radius: 0;
+        }
+        &:has(.appliedSelector:checked), &:has(input[name*="optionRollDisplay1"]:checked) {
+            width: 100%;
         }
     }
 
@@ -2087,18 +2096,22 @@ button[type=action].challengeButton::before {
         cursor: pointer;
     }
     .paletteHeader {
-        height: 31px;
         padding: 0 4px 0 2px;
         gap: 2px;
 
         .name {
             height: fit-content;
-            max-height: 100%;
-            padding: 4px;
+            padding: 1px 0;
+            margin-left: 2px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
 
         .rollFormatContainer {
             flex-direction: row;
+            margin: -2px 1px -2px -4px;
         }
     }
 
@@ -2341,18 +2354,48 @@ button[type=action].challengeButton::before {
         margin-top: -2px;
     }
 
+    /* Skills and Special items are displayed in a mosaic grid */
     &.skill, &.special { 
         .repcontainer {
-            display: flex;
-            flex-wrap: wrap;
-            width: 100%;
+            display: grid;
+            grid-auto-flow: dense;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            grid-auto-rows: 2px; /* Each column is 2px tall, with items ranging between 20-80~ columns tall*/
+            column-gap: 10px;
         }
         .repitem {
-            width: calc(50% - 5px);
+            grid-row: span round(down, var(--item-size));
 
-            &:nth-child(2n+1) {
-                margin-right: 10px;
-            }
+            /* Calculates the number of 2px columns needed to hold each item */
+            --item-size: calc(20 + max(var(--item-size-left), var(--item-size-right)));  /* Minimum item height (36px) + gap between items (4px) */
+            
+            /* Item left-side size */
+            --item-size-left-base: 41; /* Effect text field (82px) */
+            --item-size-left: calc(var(--item-size-left-base) + var(--item-size-weapon, 0) + var(--item-size-augment, 0) + var(--item-size-skill, 0) + var(--item-size-special, 0));
+            &:has(input[name*="optionCustomUI"]:checked + .itemCustomUI input[name*="weaponUI"]:checked) { --item-size-weapon: 14; }   /* 28px */
+            &:has(input[name*="optionCustomUI"]:checked + .itemCustomUI input[name*="augmentUI"]:checked) { --item-size-augment: 14; } /* 28px */
+            &:has(input[name*="optionCustomUI"]:checked + .itemCustomUI input[name*="skillUI"]:checked) { --item-size-skill: 14; }     /* 28px */
+            &:has(input[name*="optionCustomUI"]:checked + .itemCustomUI input[name*="specialUI"]:checked) { --item-size-special: 50; } /* 100px */
+            
+            /* Item right-side size */
+            --item-size-right-base: 41; /* Desc text field (82px) */
+            --item-size-right: calc(var(--item-size-right-base) + var(--item-rolls, 0) * 16 + var(--item-res-slash, 0) + var(--item-res-pierce, 0) + var(--item-res-blunt, 0));
+            &:has(input[name*="optionRollDisplay1"]:checked) { --item-rolls: 1; }    /* 32px~ */
+            &:has(input[name*="optionRollDisplay2"]:checked) { --item-rolls: 2; }    /* 32px~ */
+            &:has(input[name*="optionRollDisplay3"]:checked) { --item-rolls: 3; }    /* 32px~ */
+            &:has(input[name*="optionRollDisplay4"]:checked) { --item-rolls: 4; }    /* 32px~ */
+            &:has(input[name*="optionResist"]:checked + div input[name*="optionResistBaseDamage"]:checked + div input[name*="slashBaseMode"]:not(:checked)) { --item-res-slash: 15.5; }   /* 31px~ */
+            &:has(input[name*="optionResist"]:checked + div input[name*="optionResistBaseDamage"]:checked + div input[name*="pierceBaseMode"]:not(:checked)) { --item-res-pierce: 15.5; } /* 31px~ */
+            &:has(input[name*="optionResist"]:checked + div input[name*="optionResistBaseDamage"]:checked + div input[name*="bluntBaseMode"]:not(:checked)) { --item-res-blunt: 15.5; }   /* 31px~ */
+
+            /* Item bottom-side size */
+            &:has(input[name*="bottomEffectDisplay"]:checked) { --item-size-right-base: 39; } /* -5px */
+            &:has(input[name*="bottomDescDisplay"]:checked) { --item-size-left-base: 39; }    /* -5px */
+            &:has(input[name*="leftEffectDisplay"]:checked) { --item-size-right-base: 0; --item-size-left-base: 82; }
+            &:has(input[name*="rightDescDisplay"]:checked) { --item-size-left-base: 0; --item-size-right-base: 82; }
+
+            /* Minimized items always match the minimum item height */
+            &:has(.itemMinimized:checked) { --item-size-left: 0; --item-size-right: 0; }                    
         }
     }
 
@@ -2372,10 +2415,14 @@ button[type=action].challengeButton::before {
         }
     }
 
-    .repitem {
-        margin-bottom: 4px;
+    .repcontainer {
+        display: flex;
+        flex-direction: column;
     }
-
+    .repitem {
+        margin-bottom: 4px; /* Not used by Skills and Special items */
+        &:has(.itemMinimized:checked) { order: 1; } /* Pushes minimized items to the bottom of the section */
+    }
     .repcontrol {
         position: absolute;
         z-index: 25;
@@ -2397,7 +2444,7 @@ button[type=action].challengeButton::before {
 
 /* Inventory tags & equip slots */
 #tagSection {
-    width: calc(100% - 339px);
+    width: calc(70% - 92px); /* Inventory width (100%) - search bar width (30% + 42px margin) - own margin (12px) - edit button (30px + 8px gaps) */
     margin-left: 12px;
     gap: 4px;
 
@@ -2475,7 +2522,7 @@ button[type=action].challengeButton::before {
             --tracker-max-offset: 16px;
             --tracker-base-offset: 16px;
         }
-        :is(.trackerCurrent, .trackerMax) {
+        :is(.trackerIcon, .trackerCurrent, .trackerMax) {
            pointer-events: none;
         }
 
@@ -2750,18 +2797,22 @@ button[type=action].challengeButton::before {
 }
 
 /* Expand the name input when the item is minimized or there are no rollformats */
+/* .itemContainer:has(.equipCheck:not(:checked)):not(:hover) .name { */
 .itemMinimized:checked ~ .itemContainer .name {
     width: calc-size(100%, size - 57.5%);
     transition: width 0s 550ms;
 }
-:is(.itemNameExpand:checked, .itemMinimized:checked) ~ .itemContainer {
-    .name {
-        max-width: calc(100% - 70px);
-    }
+/* .itemNameExpand:checked ~ .itemContainer, .itemContainer:has(.equipCheck:not(:checked)):not(:hover) { */
+:is(.itemNameExpand:checked, .itemMinimized:checked) ~ .itemContainer .name {
+    max-width: calc(100% - 70px);
+    width: auto;
 }
 
 /* Hide all item contents when the item is minimized */
+/* .itemContainer:has(.equipCheck:not(:checked)):not(:hover) { */
 .itemMinimized:checked ~ .itemContainer {
+    /* opacity: 0.5; */
+    
     .itemContents {
         height: 0px;
     }

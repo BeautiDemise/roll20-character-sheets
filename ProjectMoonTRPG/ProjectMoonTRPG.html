@@ -5882,12 +5882,12 @@ EGO block end -->
 			<option data-i18n="bar-sanity" value="SP">Sanity</option>
 			<option data-i18n="bar-health-temp-shorter" value="THP">Temp HP</option>
 			<option data-i18n="bar-stagres-temp-shorter" value="TST">Temp ST</option>
-			<option data-i18n="bar-sanity-temp-shorter" value="TSP">Temp SP</option>
+			<option data-i18n="bar-sanity-temp-shorter" value="TSP">Temp SP (WIP)</option>
 			<option data-i18n="bar-light" value="Light">Light</option>
-			<option data-i18n="dice-count" value="Count">Dice count</option>
-			<option data-i18n="dice-max" value="Max">Dice max</option>
-			<option data-i18n="dice-power" value="Power">Dice power</option>
-			<option data-i18n="helper-text-adv" value="Adv">Advantage</option>
+			<option data-i18n="dice-count" value="Count">Dice count (WIP)</option>
+			<option data-i18n="dice-max" value="Max">Dice max (WIP)</option>
+			<option data-i18n="dice-power" value="Power">Dice power (WIP)</option>
+			<option data-i18n="helper-text-adv" value="Adv">Advantage (WIP)</option>
 			<option data-i18n="distort-counter-full" value="distortCounter">Distortion Counter</option>
 		</select>
 
@@ -8304,7 +8304,7 @@ async function recalcGlobal() {
 	`${id}_lightRegenBase`, `${id}_lightRegenRankMod`, `${id}_lightRegenStatMod`,
 	`${id}_actionBase`, `${id}_actionRankMod`, `${id}_reactionBase`, `${id}_reactionRankMod`, `${id}_actionTradeReaction`]);
 
-	access._begin("event:recalc", () => {
+	access._begin(false, "event:recalc", () => {
 
 	let fortitudeVal = parseInt(values.fortitude);
 	let prudenceVal = parseInt(values.prudence);
@@ -9520,7 +9520,9 @@ getAttrs(["Bleed", "BleedPause", "bleedResist", "bleedResist_ego", "distortState
 /* Alt click: Reveal ailment Pause value */
 /* Ctrl click: Trigger ailment */
 onJQ('clicked:repeating_ailments:ailment-clicker', function (info) {
-	access._begin("action:clicked", () => {
+	let ID = getActiveCharacterId();
+
+	access._begin(ID, "action:clicked", () => {
 		let keyPressed = (info.altKey) ? "alt" : (info.ctrlKey) ? "ctrl" : false;
 	
 		/* Get currect attribute */
@@ -10219,7 +10221,7 @@ function simulateRoll(roll, opts={}) {
 // If 2+ rolls are provided the highest/lowest roll result is returned based on opts.adv (default highest)
 function summarizeRoll(rollDice, opts={adv:0}) {
 	return rollDice.reduce((sumRolls, r) => {
-		let newSum = r.reduce((sumDice, d) => sumDice += d);
+		let newSum = r.reduce((sumDice, d) => sumDice += d, 0);
 		return sumRolls = (sumRolls === null) ? newSum : Math[(opts.adv >= 0) ? "max" : "min"](newSum, sumRolls);
 	}, null);
 }
@@ -10274,13 +10276,11 @@ function getSectionHTML(section, opts={}) {
 }
 
 // Outputs a chat message containing all roll, message and error data in access
-async function sendMessage(rollArray, message) {
-	if (!rollArray) rollArray = access.rolls;
-	if (!message) message = access.message;
-
+async function sendMessage(charID=getActiveCharacterId()) {
+	let rollArray = access[charID].rolls;
+	let message = access[charID].message;
+	
 	let msgID = generateRowID();
-	let charID = getActiveCharacterId();
-
 	let msgHeader = {
 		title: message.header.title || rollArray?.[0]?.type || "",
 		icon: message.header.icon || "", // TODO: Use the roll icon here?
@@ -10571,7 +10571,7 @@ async function sendMessage(rollArray, message) {
 
 /* Executes one or more rolls and posts the results to the chat */
 function executeRolls(rollArray, opts={use_resource:false}) {
-	access._begin("event:roll", () => {
+	access._begin(false, "event:roll", () => {
 		if (rollArray instanceof dataNode && !rollArray[0]) rollArray = [rollArray];
 		let prevLength = access.rolls.length;
 
@@ -10727,7 +10727,7 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 	"baseDamage", "flatDamageHP", "flatDamageST", "damageHelperType",
 	"egoType", "StaggerState", "damageResist"], function(values) {
 
-	access._begin("action:damage", () => { // TODO: Move everything over to using access
+	access._begin(false, "action:damage", () => { // TODO: Move everything over to using access
 
 	let settingLimbusStyle = values.settingLimbusStyle;
 	let whisperrolls = values.settingWhisperRolls;
@@ -12897,7 +12897,7 @@ const repDataFormats = {
 			_key_prop: "name",
 			type: "Effect", rank: 0, name: "", description: "", effect: "",
 			minimized: false,
-			message: "",
+			message: "0",
 			equipped: false,
 			rollformats: {
 				_repeating: {
@@ -13378,7 +13378,7 @@ const dataFormat = {
 					decoration: "",
 				},
 				mystery: false, // If the element uses the standard or mystery display style
-				message: "",
+				message: "0",
 				standalone: false, // If a button should be revealed to use the element standalone without a roll
 				uses: {current: 0},
 				light: {cost: 0},
@@ -13398,7 +13398,7 @@ const dataFormat = {
 							autoscript: "",
 							// TODO: May need to add stored roll data here as well
 						},
-						message: "",
+						message: "0",
 					},
 					roll_together: false, // If the rolls of the element are rolled together or seperately
 				},
@@ -13419,7 +13419,7 @@ const dataFormat = {
 						base: "", // If unset the custom color of the associated item is used if it's set. Otherwise the element is transparent
 					},
 					mystery: false,
-					message: "",
+					message: "0",
 					uses: {current: 0},
 					light: {cost: 0},
 					autoscript: "",
@@ -13434,7 +13434,7 @@ const dataFormat = {
 								autoscript: "",
 								// TODO: May need to add stored roll data here as well
 							},
-							message: "",
+							message: "0",
 						},
 					},
 					
@@ -14205,7 +14205,7 @@ on("clicked:testA", async function(info) {
 on("clicked:testB", function(info) {
 	console.log("Clicked button B");
 
-	access._begin("event:test", function() {
+	access._begin(false, "event:test", function() {
 		let newButton = access.buttons.add();
 		let randomAil = access.ailments[Random.Int(1, 10)];
 		newButton.title = randomAil.name;
@@ -14219,7 +14219,7 @@ on("clicked:testC", function(info) {
 	console.log("Clicked button C");
 
 	/*
-	access._begin("event:test", function() {
+	access._begin(false, "event:test", function() {
 		for (const buttonID of access.buttons.repIDs) {
 			access.buttons.delete(buttonID);
 		}
@@ -14255,7 +14255,7 @@ on("change:datatransfer", function(info) {
 			if (data.targetID != getActiveCharacterId()) {
 				setAttrsByID(data.targetID, {dataTransfer: info.newValue});
 			} else {
-				access._begin("no update", () => {
+				access._begin(false, "no update", () => {
 					console.log(data);
 					setAttrs(data.data);
 				});
@@ -14877,7 +14877,7 @@ class dataNode extends Array {
 			}
 
 			if (this._attrs[repID]) { // Hides deleted rollformats
-				access._output.sheet[this.attr(this.length-1, "sheet")] = "0"; // Hides the last rollformat
+				access._output({[this.attr(this.length-1, "sheet")]: "0"}, this.path[0]); // Hides the last rollformat
 				delete this._attrs[repID]; // Removes the display option for the rollformat
 			}
 
@@ -15166,6 +15166,7 @@ class effectNode extends dataNode {
 		// Validate the effect's target
 		if (this.#format.index.target && /{.*}/.test(this.#effect[this.#format.index.target])) {
 			delete this.#buffer.target;
+			delete this.#buffer.targetPath;
 		}
 		if (this.target === undefined) return false;
 
@@ -15568,11 +15569,11 @@ class effectNode extends dataNode {
 				if (access.resource[this.target] !== undefined) this.#buffer.targetPath = ["resource", this.target, "node"];
 			}
 			if (this.#format.target.includes("#Path")) {
-				if (is.Path(this.target)) this.#buffer.targetPath = pathStringToArray(t); // Preserves capitalization for global variables
+				if (is.Path(snakeify(this.target))) this.#buffer.targetPath = pathStringToArray(t);
 			}
 			if (this.#format.target.includes("#Var")) {
 				this.#buffer.target = t; // Preserves capitalization for global variables
-				this.#buffer.targetPath = true; // Set to make exeVar() not throw an error. Isn't used anywhere 
+				this.#buffer.targetPath = true; // Set to make exeVar() not throw an error. The path isn't used anywhere 
 
 				// Variable names can only consist of letters, digits and undescores, and must contain at least one letter
 				if (!/[a-z]/i.test(this.target) || !/^[\w\d]+$/.test(snakeify(this.target))) { // TODO: Needs support for Japanese/Korean characters
@@ -15804,7 +15805,7 @@ class effectNode extends dataNode {
 			this._addSubnodes(AutoScript);
 		}
 		else if (is.Array(AutoScript) || !/^\s*$/.test(AutoScript)) {
-			//console.log("Adding new effect(s)", this, AutoScript);
+			console.log("Adding new effect(s)", this, AutoScript);
 			access._state = "parsing";
 			
 			if (typeof AutoScript == "string") {
@@ -15821,7 +15822,7 @@ class effectNode extends dataNode {
 
 			if (access._state == "error") {
 				newEffects = []
-				access._action_stack.at(-1).state = "parsing";
+				access._action_stack[0].state = "parsing";
 			}
 		}
 
@@ -15893,6 +15894,9 @@ class effectNode extends dataNode {
 
 	// Executes the effect and any nested effects
 	execute() {
+		let prevID = getActiveCharacterId();
+		setActiveCharacterId(this.path[0]); // Ensures that access.currentID references the character associated with the effect
+
 		if (this.#validate()) {
 			if (access._state == "error") return; // Effects are still validated after an error but do not execute
 
@@ -15980,19 +15984,20 @@ class effectNode extends dataNode {
 			// Only resolves effect and math errors caused by effect.#error(). Code errors are handled by access._process()
 			if (!(this.parent instanceof effectNode)) {
 				if (access._state == "error") {
-					access._action_stack.at(-1).state = "effects";
+					access._action_stack[0].state = "effects";
 					access._backup.load();
 				} else {
 					access._backup.save();
 				}
 			}
+		}
+		else {
+			if (!this.#invalid) this.#error("Execution Error");
+			return this.#invalid = false;
+		}
 
-			return true;
-		}
-		else if (!this.#invalid) {
-			this.#error("Execution Error");
-		}
-		return this.#invalid = false;
+		setActiveCharacterId(prevID);
+		return true;
 	}
 
 	// Adds a copy of this effect to a specific button node
@@ -16530,7 +16535,6 @@ class effectNode extends dataNode {
 	#exeAccess() {
 		let error = {}
 		let path = [...this.targetPath.slice(0, -1), "node"];
-		let start = access;
 		let prop = snakeify(this.targetPath.at(-1));
 		let op = (this.operator == "=") ? "=" : this.operator.replace("=", "");
 
@@ -16539,12 +16543,7 @@ class effectNode extends dataNode {
 			return this.#exeVar();
 		}
 
-		// Allows users to modify properties in other roots
-		if (is.ID(path[0]) && path[0] in access) {
-			start = access[path.shift()];
-		}
-
-		let node = navPath(path, {userPath:true, start:this.var}) ?? navPath(path, {userPath:true, start:start}, error);
+		let node = navPath(path, {userPath:true, start:this.var}) ?? navPath(path, {userPath:true}, error);
 
 		if (node == null) {
 			access._error.throw("math", "Math Error", this.toString(), {
@@ -16692,10 +16691,10 @@ const accessHandler = {
 
 	// Makes access get the data of the current character by default. Can write ex. "access.items" instead of "access[charID].items"
 	// Writing access[anyCharID] overrides this behaviour and allows accessing the data of other characters
-	// Writing access.currentID allows getting all data of the current character, instead of getting a subnode
+	// Writing access.currentID allows getting the root of the current character, instead of getting a subnode
 	// Writing access._initialize() and other built-in access props/methods returns as normal
 	get: function (ac, prop) {
-		if (prop.startsWith("_")) { // Access AutoEffects strip leading spaces and underscores, making built-in props/methods inaccessible to users
+		if (prop.startsWith("_")) { // User-defined paths strip leading spaces and underscores, making built-in props/methods inaccessible to users
 			return ac[prop];
 		}
 		else if (prop == "currentID") {
@@ -16714,10 +16713,10 @@ const accessHandler = {
 		}
 	},
 
-	// Modifies a built-in prop (ex. "access._output"), adds new character data, or modifies existing character data
+	// Modifies a built-in prop (ex. "access._output"), adds a new root, or modifies an existing root
 	// Writing access[charID] = data does the following:
-	//  If access[charID] does not exist, set it to the provided data
-	//  If access[charID] does exist, add the provided data to the current data
+	//  If access[charID] does not exist, add a new root with the provided data
+	//  If access[charID] does exist, add the provided data to the current data in the root
 	set: async function(ac, prop, value) {
 		if (prop.startsWith("_") && prop in ac && typeof ac[prop] != "function") { // Built-in access props accept all values
 			ac[prop] = value;
@@ -16753,11 +16752,38 @@ const accessHandler = {
 // Props beginning with _ are inaccessible to AutoEffects
 const accessData = {
 	
-	// All values that should be applied to the sheet are added to this output object
-	// You can use access._output.sheet.prop = value in place of setAttrs(prop: value)
-	_output: {
-		sheet: {}, 
-		editor: {},
+	// All attribute values that should be applied to a character's sheet are added to this object, sorted by the character's ID
+	_outputs: {},
+
+	// Access data can be output in three ways:
+	// access._output({prop:value, ...}, charID)
+	//  - Works like setAttrsByID(charID, {prop:value, ...})
+	//  - Uses the active character ID if no charID is specified
+	// access._output(node, opts, source)
+	//  - Calls node.output({sheet: {}, editor: {}}, opts) and outputs any returned sheet or editor data 
+	//  - If a specific source is specified only data for that source is output
+	// access._output(charID)
+	//  - Creates a new output object for the character if one does not already exist and returns it
+	//  - Used to support legacy functionality that directly modify an output object
+	_output(data={}, charID=getActiveCharacterId(), source=false) {
+		if (typeof data == "string") {
+			charID = data;
+			data = false;
+		}
+		else if (data instanceof dataNode) {
+			let opts = charID;
+			charID = data.path[0];
+			data = data.output(source ? {[source]: {}} : {sheet: {}, editor: {}}, {...opts, unsorted:true});
+		}
+
+		if (this[charID] instanceof dataNode) {
+			this._outputs[charID] ??= {}
+			if (data) Object.assign(this._outputs[charID], data);
+			return this._outputs[charID];
+		} else {
+			console.warn("Attempted to output data for character not in access:", charID);
+			return false;
+		}
 	},
 
 	// Writing node.immutable.prop returns the value of prop at the start of the current data access, ignoring all changes made since then
@@ -16789,18 +16815,19 @@ const accessData = {
 	// Begins a new action or event
 	// Two callback function one may be provided: one for when an action begins processing, and one for after any resulting values are output to the sheet
 	// Events are executed immediately as part of the current action using their first callback function
-	async _begin(typeState, begin, end) {
+	async _begin(charID, typeState, begin, end) {
 		let [type, state] = typeState.split(":");
-		let charID = getActiveCharacterId();
+		if (!charID) charID = getActiveCharacterId();
 		let stackLength = this._action_stack.length;
 		
 		// Initialize is a special action for adding a character's data to the data access
 		// This usually occurs automatically when opening the character's sheet
 		if (type == "initialize") {
 			if (!this._action_stack.some(a => a.state == "init" && a.charID == charID)) {
-				console.log(`Initializing character ${charID}...`);
-				this._action_stack.unshift({state:"init", charID, begin, after:[end]});
+				let lastInit = this._action_stack.findLastIndex(a => a.state == "init"); // Initialize actions are prioritized before any non-initialize actions
+				this._action_stack.splice(lastInit + 1, 0, {state:"init", charID, begin, after:[end]});
 			}
+			console.log("Action stack:", [...access._action_stack])
 		}
 		else if (type == "action") {
 			if (!this[charID]) { // This is primarily used for targeting where the target's sheet cannot be opened
@@ -16817,8 +16844,13 @@ const accessData = {
 			// Events are usually processed immediately as part of the current action
 			// Events with an "end"/"after" callback only process that callback after access outputs
 			else if (this._state = state) {
+				let prevID = getActiveCharacterId();
+				setActiveCharacterId(charID); // Ensures that access.currentID references the character which triggered the event
+
 				if (typeof begin == "function") await begin();
 				if (typeof end == "function") this._action_stack[0].after.push(end);
+
+				setActiveCharacterId(prevID);
 			}
 		}
 
@@ -16839,7 +16871,8 @@ const accessData = {
 
 				// Execute the access action
 				try {
-					setActiveCharacterId(action.charID);
+					setActiveCharacterId(action.charID); // Ensures that access.currentID references the character which started the action
+
 					if (typeof action.begin == "function") {
 						await action.begin();
 					}
@@ -16878,7 +16911,7 @@ const accessData = {
 			// If any unresolved errors occured during the action, re-initialize the character before the next action
 			if (action.state == "error") {
 				if (length(this._error.errors)) {
-					await sendMessage();
+					await sendMessage(action.charID);
 				}
 
 				// TODO: Also needs to re-initialize any other characters modified during the action
@@ -16893,41 +16926,46 @@ const accessData = {
 	// This includes sheet attributes, sheet buttons, chat messages, chat buttons amd rolls 
 	async _end() {
 		if (this._state) {
+			let prevID = getActiveCharacterId();
 
-			// TODO: Make repeating conditional buttons sync to the sheet
+			for (const charID of Object.keys(this).filter(key => this[key] instanceof dataNode)) {
+				setActiveCharacterId(charID);
 
-			// If at least one roll section exists, add all messages and buttons generated by effects to the first roll section
-			if (this.rolls?.length && this.rolls.some(r => r.message.display)) { // TODO: Make this optional
-				let roll = this.rolls.find(r => r.message.display);
+				// If at least one roll section exists, add all messages and buttons generated by effects to the first roll section
+				if (this.rolls?.length && this.rolls.some(r => r.message.display)) { // TODO: Make this optional
+					let roll = this.rolls.find(r => r.message.display);
 
-				for (const section of [...this.message.sections]) {
-					this.message.sections.delete(section.id);
-					messageSection(roll.message, section.header.title, section.contents.map(c => c.text));
-				}
+					for (const section of [...this.message.sections]) {
+						this.message.sections.delete(section.id);
+						messageSection(roll.message, section.header.title, section.contents.map(c => c.text));
+					}
 
-				for (const button of [...this.message.buttons]) {
-					this.message.buttons.delete(button.id);
-					if (roll.message.buttons[snakeify(button.title)]) {
-						for (const effect of button.effects) {
-							roll.message.buttons[snakeify(button.title)].effects.add(effect);
+					for (const button of [...this.message.buttons]) {
+						this.message.buttons.delete(button.id);
+						if (roll.message.buttons[snakeify(button.title)]) {
+							for (const effect of button.effects) {
+								roll.message.buttons[snakeify(button.title)].effects.add(effect);
+							}
+						} else {
+							roll.message.buttons.add({node:button});
 						}
-					} else {
-						roll.message.buttons.add({node:button});
 					}
 				}
+
+				// Output any message data to the chat
+				if (this.rolls?.length || this.message?.sections?.length || this.message?.buttons?.length || this._state == "error") {
+					await sendMessage();
+				}
+
+				// Clear all message data
+				for (const rollID of this.rolls?.repIDs || []) {
+					this.rolls.delete(rollID); // Cannot use reset() as the node contains stored rolls, adv./disadv. etc.
+				}
+				this.effects?.reset();
+				this.message?.reset();
 			}
 
-			// Output any message data to the chat
-			if (this.rolls?.length || this.message?.sections?.length || this.message?.buttons?.length || this._state == "error") {
-				await sendMessage();
-			}
-
-			// Clear all message data
-			for (const rollID of this.rolls?.repIDs || []) {
-				this.rolls.delete(rollID); // Cannot use reset() as the node contains stored rolls, adv./disadv. etc.
-			}
-			this.effects?.reset();
-			this.message?.reset();
+			setActiveCharacterId(prevID);
 
 			// Apply any output attribute values to the sheet
 			if (this._state != "error") {
@@ -16937,29 +16975,26 @@ const accessData = {
 				// For DMs with loads of tokens, or many different characters, applying every access can be a LOT of work
 				// This could maybe be done using the event counts? These begin with a character id, and every change triggers at least a modify event
 				// If no event count exists that begin with a char id, then that char id can safely be skipped
-				for (const root of Object.values(this).filter(v => v instanceof dataNode)) {
-					root.apply(this._output);
-				}
+				for (const charID of Object.keys(this).filter(key => this[key] instanceof dataNode)) {
+					let attrs = this._output(this[charID], {apply:true, unsorted:true});
+					delete this._outputs[charID];
 
-				let attrs = {...this._output.sheet, ...this._output.editor}
-				this._output = {sheet: {}, editor: {}}
-				
-				if (length(attrs) > 0) {
+					// TODO: If this[charID].type == "target", output data using a chat button
+					// TODO: If using token mode, output all of the token's data and store it as a single attribute in the sheet
 					
-					// TODO: Should later be the charID from this._output[charID]...
-					let charID = this._action_stack[0].charID;
-
-					await setAttrsByID(charID, attrs);
-					console.log("Applied attributes:", attrs);
-					
-					this._event.trigger([charID, "output"], {
-						node:access[charID], type:"output", oldval:false, newval:attrs,
-					});
+					if (attrs && length(attrs) > 0) {
+						await setAttrsByID(charID, attrs);
+						console.log(`Applied attributes (${charID}):`, attrs);
+						
+						this._event.trigger([charID, "output"], {
+							node:access[charID], type:"output", oldval:false, newval:attrs,
+						});
+					}
 				}
 			}
 
 			// Cleanup
-			this._output = {sheet: {}, editor: {}}
+			this._outputs = {}
 			this._event.count = {}
 			this._error.errors = {};
 			this._backup.stack = [];
@@ -16970,7 +17005,9 @@ const accessData = {
 	// Actions and events may only occur for initialized characters
 	_initialize(ID, type="character") {
 		if (is.ID(ID) && !(ID in this)) {
-			this._begin("initialize", async () => {
+			this._begin(ID, "initialize", async () => {
+				console.log(`Initializing character ${ID}...`);
+				
 				let newRoot = new dataNode(dataFormat, false, false, [ID]);
 				access[ID] = newRoot;
 				newRoot._type = type;
@@ -17056,7 +17093,7 @@ const accessData = {
 				if (is.ID(target)) {
 					let rollformats = newRoot.items[target].rollformats;
 					for (const id of rollformats.repIDs) {
-						rollformats[id].output({editor: this._output.editor}, {allProps:true});
+						this._output(rollformats[id], {allProps:true}, "editor");
 					}
 				}
 
@@ -17101,11 +17138,12 @@ const accessData = {
 
 					for (const source in eventkeys) {
 						on(eventkeys[source].join(" "), function(info) {
-							if (access.currentID) {
-								access._begin("event:sync", async () => {
+							let ID = getActiveCharacterId();
+							if (access[ID]) {
+								access._begin(false, "event:sync", async () => {
 									// Attributes like hp_max for some reason do not include their value in the event info
 									info.newValue ??= await getAttr(info.sourceAttribute);
-									access.currentID.input({[source]: {[info.sourceAttribute]: info.newValue}});
+									access[ID].input({[source]: {[info.sourceAttribute]: info.newValue}});
 								});
 							}
 						});
@@ -17193,9 +17231,7 @@ const accessData = {
 			
 			// Add the event to the event tree
 			for (const step of path) {
-				if (!eventNode[step]) {
-					eventNode[step] = {};
-				}
+				eventNode[step] ??= {};
 				eventNode = eventNode[step];
 			}
 
@@ -17226,7 +17262,7 @@ const accessData = {
 				this.count[pathString] = (this.count[pathString] || 0) + 1;
 			}
 
-			// if (info.silent != "hard") console.log("Triggering access event:", path, opts);
+			// if (info.silent != "hard") console.log("Triggering access event:", path, info, opts);
 				
 			for (let i = opts.i || 0; i < path.length; i++) {
 				let step = path[i];
@@ -17316,7 +17352,7 @@ const accessData = {
 					if (opts.eventinfo) Object.assign(info, opts.eventinfo); // Handle custom event info
 					Object.assign(info, {path, charid:path[0]}); // Finalize the event info
 
-					access._begin(`event:${info.type || "event"}`, () => {
+					access._begin(false, `event:${info.type || "event"}`, () => {
 						for (const event of validEvents.filter(event => event.func)) {
 							event.func({...info});
 						}
@@ -17529,7 +17565,7 @@ const accessData = {
 				// Checks equipped items first to use slots
 				for (const item of items.sort((a, b) => +b.equipped - +a.equipped)) {
 					let reqFailure = {}
-					item.message = "";
+					let itemMessage = "";
 
 					for (const target of targets) {
 						let reqNode = item[target].requires;
@@ -17555,13 +17591,13 @@ const accessData = {
 
 						// Output a message detailing which requirements failed, if any
 						if (reqFailure[target]) {
-							if (item.message != "") item.message += " / "; // Adds a divider between different requirements
-							item.message += `Missing ${target}: ${Object.entries(reqFailure[target]).reduce((acc, [key, value]) => [...acc, `${key} x${value}`], []).join(", ")}`;
+							if (itemMessage != "") itemMessage += " / "; // Adds a divider between different requirements
+							itemMessage += `Missing ${target}: ${Object.entries(reqFailure[target]).reduce((acc, [key, value]) => [...acc, `${key} x${value}`], []).join(", ")}`;
 						}
 					}
 
 					// If no requirements exist, or all requirements were fulfilled, disable the item message
-					if (!item.message) item.message = "0";
+					item.message = itemMessage || "0";
 				}
 
 				// Assign new tag and slot values
@@ -17625,7 +17661,7 @@ function onAccess(path, opts={}, begin, end) {
 	// For normal Roll20 event strings. Return info in the Roll20 event info format
 	if (typeof path == "string" && /^(change|clicked|remove|sheet):/.test(path.trim())) {
 		on(path, (info) => {
-			access._begin(`action:${info.triggerName.split(":")[0]}`,
+			access._begin(false, `action:${info.triggerName.split(":")[0]}`,
 				(typeof begin == "function") ? async () => { await begin(info); } : null,
 				(typeof end == "function") ? async () => { await end(info); } : null,
 			);
@@ -17688,17 +17724,17 @@ function itemChangeSection(item, section, opts={}) {
 		}
 
 		// Update any previously output attribute values for the item
-		for (const source in access._output) {
-			for (const [attr, value] of Object.entries(access._output[source])) {
+		if (access._outputs[item.path[0]]) {
+			for (const [attr, value] of Object.entries(access._outputs[item.path[0]])) {
 				if (attr.includes(item.id)) {
-					delete access._output[source][attr];
-					access._output[source][attr.replace(oldSection, newSection)] = value;
+					delete access._outputs[attr];
+					access._outputs[attr.replace(oldSection, newSection)] = value;
 				}
 			}
 		}
 
-		item.output(access._output, {allProps:true});
-		delete access._output.editor["itemedittype"]; // Avoids an infinite loop from the editor field cycling between the old and new value
+		let output = access._output(item, {allProps:true});
+		delete output["itemedittype"]; // Avoids an infinite loop from the editor field cycling between the old and new value
 	
 		removeRepeatingRow(`repeating_${oldSection}_${item.id}`);
 		return true;
@@ -17709,7 +17745,7 @@ function itemChangeSection(item, section, opts={}) {
 /* Editor - Update item editor name */
 onAccess(["items", "N", "modify", "name"], {}, function(info) {
 	if (access.items.editor.target == info.node.id) {
-		access._output.editor.itemEditName = info.newval;
+		access._output({itemEditName: info.newval}, info.path[0]);
 	}
 	// TODO: Also update the AutoScript editor name?
 });
@@ -17763,7 +17799,7 @@ onAccess(["items", "editor", "modify", "target"], {}, function(info) {
 
 		// Output all item properties and options to the editor
 		if (items[info.newval]) {
-			items[info.newval].output({editor: access._output.editor}, {allProps:true});
+			access._output(items[info.newval], {allProps:true}, "editor");
 		} else {
 			console.warn("Throw error: Item editor target set to unknown item id");
 		}
@@ -17815,7 +17851,7 @@ $20(".inventoryContainer .repitem").on("click", (e) => {
 	dcTime = new Date();
 
 	if (dcHeader && dcTime.getTime() - dcTimePrev.getTime() <= configDcTime) {
-		access._begin("action:minimize", () => {
+		access._begin(false, "action:minimize", () => {
 			let dcRepid = e.htmlAttributes["data-reprowid"];
 			access.items[dcRepid].minimized = !access.items[dcRepid].minimized;
 		});
@@ -17851,6 +17887,7 @@ function recalcItemWeight(item) {
 		if (item.ui.enabled) {
 			if (item.ui.weapon) weight++
 			if (item.ui.augment) weight++
+			if (item.ui.skill) weight++
 			if (item.ui.special) weight += 3;
 		}
 	
@@ -17880,7 +17917,7 @@ function recalcItemWeight(item) {
 		
 		for (const dir in text) {
 			for (let type in text[dir]) {
-				access._output.sheet[`repeating_${item._attrs.sheet.section}_${item.id}_${dir + type}Display`] = text[dir][type] ? "true" : "0";
+				access._output({[`repeating_${item._attrs.sheet.section}_${item.id}_${dir + type}Display`]: (text[dir][type]) ? "true" : "0"}, item.path[0]);
 			}
 		}
 	}
@@ -17907,10 +17944,10 @@ onAccess([
 onAccess(["tags", "add"], {}, function(info) {
 	info.newval.current = 1; // Tags/slots without at least 1 current or base value are automatically hidden
 	info.newval.base = 1;
-	updateIcon("tag", info.newval.icon || "icons/question", info.newval.id, access._output.sheet);
+	updateIcon("tag", info.newval.icon || "icons/question", info.newval.id, access._output(info.path[0]));
 });
 onAccess(["tags", "N", "modify", "icon"], {}, function(info) {
-	updateIcon("tag", info.newval, info.node.id, access._output.sheet);
+	updateIcon("tag", info.newval, info.node.id, access._output(info.path[0]));
 });
 
 /* Tags - Equip or unequip item + change tag/slot option */
@@ -18217,9 +18254,9 @@ onAccess(["resource", "N", "modify", "base"], {}, function(info) {
 onAccess("clicked:expandtrackers clicked:edittrackers", async function(info) {
 	let button = info.triggerName.includes("edit") ? "edit" : "expand";
 	let toggleAttr = button + "ResourceToggle";
-	
+
 	let values = await getAttrsAsync(["expandResourceToggle", "editResourceToggle"]);
-	access._output.sheet[toggleAttr] = (values[toggleAttr] == "true") ? "0" : "true";
+	access._output({[toggleAttr]: (values[toggleAttr] == "true") ? "0" : "true"});
 
 	// Changes the selection from the specific reactions to the generic "Reaction" tracker
 	if (access.resource.selection != "Action") {
@@ -18331,7 +18368,7 @@ const custom = {
 		
 			begin(ID, x, y) {
 				if (!this.target) {
-					access._begin("action:drag", () => {
+					access._begin(false, "action:drag", () => {
 						this.prevTarget = false;
 						this.target = ID;
 						this.x = x;
@@ -18359,7 +18396,7 @@ const custom = {
 		
 			end() {
 				if (this.target) {
-					access._begin("event:drag_end", () => {
+					access._begin(false, "event:drag_end", () => {
 						this.prevTarget = this.target;
 						this.target = false;
 						this.x = false;
@@ -18550,7 +18587,7 @@ $20('[class^="drag"]:not(.drag1)').on("mouseenter", (info) => {
 /* Drag - Drop item into an inventory section  */
 $20(".inventoryContainer .repcontainer").on("mouseenter", (info) => {
 	if (!custom.position.drag.target && custom.position.drag.prevTarget) {
-		access._begin("action:drop", () => {
+		access._begin(false, "action:drop", () => {
 			let section = info.htmlAttributes["data-groupname"].split("_")[1];
 			let prevID = custom.position.drag.prevTarget
 			let item = access.items[prevID];
@@ -18705,7 +18742,7 @@ onAccess("clicked:update", {}, function(info) {
 	});
 });
 function updateSheet(charID) {
-	access._begin("event:update", () => {
+	access._begin(charID, "event:update", () => {
 		let root = access[charID] || access;
 
 		// Proc all ailments that trigger on round end
@@ -19026,6 +19063,10 @@ onAccess([
 	if (info.recalc) return;
 	let item = (info.type == "add") ? info.newval : (info.type == "delete") ? info.oldval : access.items[info.path[2]];
 	
+	while (item.parent.id) {
+		item = item.parent;
+	}
+
 	if (item.equipped || info.path.at(-1) == "equipped") {
 		syncItemsToPalette([item]);
 	}
@@ -19255,6 +19296,10 @@ onAccess([
 	if (info.recalc) return;
 	let type = (info.path[2] != "applied") ? "standalone" : "applied";
 	let element = (info.type == "add") ? info.newval : (type == "standalone") ? access.palette[info.path[2]] : access.palette.applied[info.path[3]];
+
+	while (element.parent.id) {
+		element = element.parent;
+	}
 
 	recalcPalette([element]);
 });
@@ -19578,11 +19623,21 @@ function recalcCustomEvents(item) {
 
 				// Register the event
 				if (eventPath && eventFunc) {
-					while (is.ID(eventPath[0])) eventPath.shift(); // Removes any leading ids from user-defined event paths
-					if (typeof eventPath[0] == "string") {		   // Custom events may only affect the character the event originates from
-						eventPath.unshift(item.path[0]);
+
+					// Events by default only trigger for the character the event originates from
+					// Events may optionally begin with a character ID / "N", in which case they may trigger when another sheet / any sheet is updated
+					// No matter which character triggered the event effects inside the event always affect the originating character
+					if (typeof eventPath[0] == "string") {
+						if (!is.ID(eventPath[0]) && snakeify(eventPath[0]) != "n") {
+							eventPath.unshift(item.path[0]);
+						}
 					} else {
-						eventPath.map(path => path.unshift(item.path[0]));
+						eventPath.map(subpath => {
+							if (!is.ID(path[0]) && snakeify(subpath[0]) != "n") {
+								subpath.unshift(item.path[0]);
+							}
+							return path;
+						});
 					}
 
 					onAccess(eventPath, {...eventOpts, custom:true, id:item.id}, eventFunc);
@@ -19610,8 +19665,8 @@ function deleteCustomEvents(item) {
 		}
 	}
 	
-	if (access._event.tree[item.path[0]]) {
-		deleteEventInner(access._event.tree[item.path[0]], item.id);
+	if (access._event.tree) {
+		deleteEventInner(access._event.tree, item.id);
 	}
 }
 
@@ -19676,7 +19731,7 @@ function navPath(path, opts={}, error={}) {
 	if (typeof path == "string") path = pathStringToArray(path);
 
 	let result = path.reduce((node, raw_step, i) => {
-		let step = (opts.userPath) ? snakeify("" + raw_step) : raw_step; // Also removes any leading underscores
+		let step = (opts.userPath && !(i == 0 && raw_step in access && is.ID(raw_step))) ? snakeify("" + raw_step) : raw_step; // Also removes any leading underscores
 		if (/^".+"$/.test(step)) step = step.slice(1, -1);
 
 		if (is(step).In("node", "immutable") && node instanceof dataNode) {
@@ -20554,7 +20609,8 @@ const legacyAttrConverter = {
 			section: "special",
 			index: {min: 1, max: 2},
 			attrs: {
-				name:true, rank:true, description:true, effect:true, autoscript:true,
+				name:true, rank:true, autoscript:true,
+				description: [{key:"effect"}], // The description is used for the old combined text, while the effect is used for the new one
 				range: [{key:"specialRange"}],
 				duration: [{key:"specialDuration"}],
 			},
@@ -20582,7 +20638,7 @@ const legacyAttrConverter = {
 		},
 		"egoskill": { // Same as normal skills except the mystery option is enabled
 			section: "skills",
-			index: {min: 1, max: 6},
+			index: {min: 1, max: 6, offset:6},
 			attrs: {
 				name: [{}, {key:"optionMystery", value:true}], // "name:[{}]" has no key or value override, meaning it works exactly like "name:true"
 				rank: [{}, {key:"optionMystery", value:true}],
@@ -20692,7 +20748,7 @@ on("sheet:opened", function(info) { // TODO: Consider moving this inside access,
 						newAttrData.section = format.section;
 					}
 					if (old_i !== "") {
-						newAttrData.index = old_i - 1;
+						newAttrData.index = old_i - 1 + (format.index?.offset || 0);
 					}
 				}
 			}
@@ -20744,7 +20800,7 @@ function convertLegacyAttrs(type, values, sectionIndexes) {
 
 
 /* Legacy setup */
-const sheetVersion = "v1.0 Alpha 06/08";
+const sheetVersion = "v1.0 Alpha 10/08";
 
 // TODO: Work in progress
 async function sheetSetup(ID) {
@@ -21819,10 +21875,12 @@ const mathOperators = {
 	"Max": {min: 2, max:"any", calc: Math.max, func:true},
 	"Floor": {min: 1, max: 1, calc: Math.floor, func:true},
 	"Ceil": {min: 1, max: 1, calc: Math.ceil, func:true},
-	"Typeof": {min:1, max:1, calc: (a) => typeof a, func:true},
-	"String": {min:1, max:1, calc: (a) => (typeof a == "object") ? JSON.stringify(a) : a.toString(), func:true},
+	"Typeof": {min: 1, max: 1, calc: (a) => typeof a, func:true},
+	"String": {min: 1, max: 1, calc: (a) => (typeof a == "object") ? JSON.stringify(a) : a.toString(), func:true},
 	".includes": {min: 1, max: 2, calc: userFunc.includes, func:true, method:true},
 	".replace": {min: 2, max: 2, calc: userFunc.replace, func:true, method:true},
+	".split": {min: 1, max: 1, calc: (a,b) => a.split(b), func:true, method:true},
+	".join": {min: 1, max: 1, calc: (a,b) => a.join(b), func:true, method:true},
 }
 
 // Assignment operators. Only accessible to users through AutoEffects
@@ -21842,11 +21900,6 @@ function assignmentOperation(obj, prop, op, value) {
 const mathRegExpList = {
 	space: /\s+/, 										// 1: Space characters
 	string: /"[^"]*"|'[^']*'/, 							// 2: Quotes (string values)
-	operator: new RegExp(Object.keys(mathOperators)		// 3: Operators
-		.filter(o => !mathOperators[o].func)
-		.map(o => o.replaceAll("||", "\\|\\|"))
-		.join("|")
-		.replace(/([\?\+\*\/])/g, "\\$1")),
 	func: new RegExp(Object.keys(mathOperators)			// 4: Functions
 		.filter(o => mathOperators[o].func)
 		.map(o => o + "(?=\\()")
@@ -21856,7 +21909,12 @@ const mathRegExpList = {
 	nest_end: /\)|\]/,									// 6: End nesting
 	roll: /d(?=\d+(?:\W|$)|\()/,						// 7: Rolls (random integer values)
 	number: /\d+[\.,]\d+|\d+/,							// 8: Numbers (integer/float values)
-	step: /[\w\d]+/,									// 9: Variables (path steps)
+	step: /[\w\d-]+/,									// 9: Variables (path steps)
+	operator: new RegExp(Object.keys(mathOperators)		// 3: Operators
+		.filter(o => !mathOperators[o].func)
+		.map(o => o.replaceAll("||", "\\|\\|"))
+		.join("|")
+		.replace(/([\?\+\*\/])/g, "\\$1")),
 	dot: /\./,											// 10: Dots (path dividers)
 	comma: /,/, 										// 11: Commas (value seperators)
 }
@@ -21932,7 +21990,7 @@ function parseMath(mathString, opts={}, error={}, vars={}) {
 				}
 			} else {
 				// Checks for a local / global variable first, and if that fails checks for an access tree property
-				let result = navPath(path, {userPath:true, start:opts.var}) ?? navPath(path, {userPath:true, start:opts.root}, error);
+				let result = navPath(path, {userPath:true, start:opts.var}) ?? navPath(path, {start: (path[0] in access) ? access : opts.root, userPath:true}, error);
 
 				console.log("Path", pathArrayToString(path), "returned value", Number(result) || result);
 
