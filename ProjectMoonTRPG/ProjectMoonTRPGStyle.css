@@ -254,7 +254,7 @@ body, .sheet-body {
 
 
 /* ===== Shared sheet styling ===== */
-/* Generic styling for elements that appear all over the sheet */
+/* Generic styling for elements that appear across the sheet */
 
 /* Assorted placeholder text */
 ::placeholder {
@@ -288,7 +288,7 @@ body, .sheet-body {
 }
 
 
-/* Assorted sizing and positioning of sheet elements. Most are self-explanatory */
+/* Assorted sizing and positioning classes for sheet elements. Most are self-explanatory */
 .rowContainer {
     display: flex;
     align-items: flex-start;
@@ -310,15 +310,6 @@ body, .sheet-body {
 .centerFlex {
     align-items: center;
     justify-content: center;
-}
-
-.blocker {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 4;
 }
 .fitContents {
     width: fit-content;
@@ -785,15 +776,6 @@ h3, h4 {
 
 
 /* --- Assorted --- */
-.plainText {
-    width: 8px;  
-    color: var(--color-white);
-    text-align: center;
-    opacity: 70%;
-    font-weight: bold;
-    pointer-events: none;
-}
-
 /* Helper text (hint text that can be toggled off using a setting) */
 .helpers b, .work b {
     font-size: 9pt;
@@ -1520,7 +1502,6 @@ button[type=action].challengeButton::before {
 }
 .ailmentButton {
     background-color: transparent;
-    width: 25px !important;
 }
 .ailmentCount {
     color: var(--color-white);
@@ -1999,7 +1980,7 @@ button[type=action].challengeButton::before {
         .diceMax {
             margin: 0 1px;
         }
-        .plainText {
+        div {
             display: flex;
             justify-content: center;
             width: 5px;
@@ -2026,7 +2007,7 @@ button[type=action].challengeButton::before {
     }
 
     /* Displays a shadow for palette actions with multiple rolls or standalone actions */
-    .paletteContents:has(.rollFormatContainer > input[type="checkbox"]:nth-of-type(2):checked) .paletteHeader {
+    .paletteContents:has(.rollFormatContainer > input[name$="optionRollDisplay1"]:checked) .paletteHeader {
         box-shadow: 0px 1px 6px 3px rgba(0, 0, 0, 0.2);
     }
 
@@ -2082,7 +2063,7 @@ button[type=action].challengeButton::before {
             border: 0 !important;
             border-radius: 0;
         }
-        &:has(.appliedSelector:checked), &:has(input[name*="optionRollDisplay1"]:checked) {
+        &:has(.appliedSelector:checked), &:has(input[name$="optionRollDisplay1"]:checked) {
             width: 100%;
         }
     }
@@ -2223,18 +2204,20 @@ button[type=action].challengeButton::before {
 .rollFormatBlock {
     display: flex;
     height: 100%;
-    justify-content: end;
     width: 90px;
+    justify-content: end;
     align-items: center;
     background-color: rgba(0,0,0,0.2);
     border-radius: 5px;
+    color: var(--color-white);
+    font-weight: bold;
     
     input[type="number"] {
         width: 26px !important;
         background-color: transparent;
-        color: var(--color-white);
-        font-weight: bold;
-        font-size: 12pt; 
+        color: inherit;
+        font-size: 12pt;
+        font-weight: inherit;
 
         &.diceCount {
             width: 23px !important;
@@ -2243,7 +2226,12 @@ button[type=action].challengeButton::before {
         &.diceMax {
             text-align: center !important;
         }
-    }  
+    }
+    div {
+        width: 8px; 
+        opacity: 70%;
+        pointer-events: none;
+    }
 }
 .rollButton {
     height: 25px;
@@ -2372,27 +2360,27 @@ button[type=action].challengeButton::before {
             /* Item left-side size */
             --item-size-left-base: 41; /* Effect text field (82px) */
             --item-size-left: calc(var(--item-size-left-base) + var(--item-size-weapon, 0) + var(--item-size-augment, 0) + var(--item-size-skill, 0) + var(--item-size-special, 0));
-            &:has(input[name*="optionCustomUI"]:checked + .itemCustomUI input[name*="weaponUI"]:checked) { --item-size-weapon: 14; }   /* 28px */
-            &:has(input[name*="optionCustomUI"]:checked + .itemCustomUI input[name*="augmentUI"]:checked) { --item-size-augment: 14; } /* 28px */
-            &:has(input[name*="optionCustomUI"]:checked + .itemCustomUI input[name*="skillUI"]:checked) { --item-size-skill: 14; }     /* 28px */
-            &:has(input[name*="optionCustomUI"]:checked + .itemCustomUI input[name*="specialUI"]:checked) { --item-size-special: 50; } /* 100px */
+            &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="weaponUI"]:checked) { --item-size-weapon: 14; }   /* 28px */
+            &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="augmentUI"]:checked) { --item-size-augment: 14; } /* 28px */
+            &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="skillUI"]:checked) { --item-size-skill: 14; }     /* 28px */
+            &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="specialUI"]:checked) { --item-size-special: 50; } /* 100px */
             
             /* Item right-side size */
             --item-size-right-base: 41; /* Desc text field (82px) */
             --item-size-right: calc(var(--item-size-right-base) + var(--item-rolls, 0) * 16 + var(--item-res-slash, 0) + var(--item-res-pierce, 0) + var(--item-res-blunt, 0));
-            &:has(input[name*="optionRollDisplay1"]:checked) { --item-rolls: 1; }    /* 32px~ */
-            &:has(input[name*="optionRollDisplay2"]:checked) { --item-rolls: 2; }    /* 32px~ */
-            &:has(input[name*="optionRollDisplay3"]:checked) { --item-rolls: 3; }    /* 32px~ */
-            &:has(input[name*="optionRollDisplay4"]:checked) { --item-rolls: 4; }    /* 32px~ */
-            &:has(input[name*="optionResist"]:checked + div input[name*="optionResistBaseDamage"]:checked + div input[name*="slashBaseMode"]:not(:checked)) { --item-res-slash: 15.5; }   /* 31px~ */
-            &:has(input[name*="optionResist"]:checked + div input[name*="optionResistBaseDamage"]:checked + div input[name*="pierceBaseMode"]:not(:checked)) { --item-res-pierce: 15.5; } /* 31px~ */
-            &:has(input[name*="optionResist"]:checked + div input[name*="optionResistBaseDamage"]:checked + div input[name*="bluntBaseMode"]:not(:checked)) { --item-res-blunt: 15.5; }   /* 31px~ */
+            &:has(input[name$="optionRollDisplay1"]:checked) { --item-rolls: 1; }    /* 32px~ */
+            &:has(input[name$="optionRollDisplay2"]:checked) { --item-rolls: 2; }    /* 32px~ */
+            &:has(input[name$="optionRollDisplay3"]:checked) { --item-rolls: 3; }    /* 32px~ */
+            &:has(input[name$="optionRollDisplay4"]:checked) { --item-rolls: 4; }    /* 32px~ */
+            &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="slashBaseMode"]:not(:checked)) { --item-res-slash: 15.5; }   /* 31px~ */
+            &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="pierceBaseMode"]:not(:checked)) { --item-res-pierce: 15.5; } /* 31px~ */
+            &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="bluntBaseMode"]:not(:checked)) { --item-res-blunt: 15.5; }   /* 31px~ */
 
             /* Item bottom-side size */
-            &:has(input[name*="bottomEffectDisplay"]:checked) { --item-size-right-base: 39; } /* -5px */
-            &:has(input[name*="bottomDescDisplay"]:checked) { --item-size-left-base: 39; }    /* -5px */
-            &:has(input[name*="leftEffectDisplay"]:checked) { --item-size-right-base: 0; --item-size-left-base: 82; }
-            &:has(input[name*="rightDescDisplay"]:checked) { --item-size-left-base: 0; --item-size-right-base: 82; }
+            &:has(input[name$="bottomEffectDisplay"]:checked) { --item-size-right-base: 39; } /* -5px */
+            &:has(input[name$="bottomDescDisplay"]:checked) { --item-size-left-base: 39; }    /* -5px */
+            &:has(input[name$="leftEffectDisplay"]:checked) { --item-size-right-base: 0; --item-size-left-base: 82; }
+            &:has(input[name$="rightDescDisplay"]:checked) { --item-size-left-base: 0; --item-size-right-base: 82; }
 
             /* Minimized items always match the minimum item height */
             &:has(.itemMinimized:checked) { --item-size-left: 0; --item-size-right: 0; }                    
@@ -2673,12 +2661,12 @@ button[type=action].challengeButton::before {
 .itemEffect {
     min-height: 80px;
 }
-.itemContainer:has(input[name*="leftEffectDisplay"]:checked) .itemButtons {
+.itemContainer:has(input[name$="leftEffectDisplay"]:checked) .itemButtons {
     left: calc(50% - 91px);
 }
 
 /* Hides the bottom description for items which uses the special UI */
-.itemContainer:has(input[name*="optionCustomUI"]:checked ~ div input[name*="specialUI"]:checked)
+.itemContainer:has(input[name$="optionCustomUI"]:checked ~ div input[name$="specialUI"]:checked)
 .itemDescriptionContainer.bottom .itemDescription {
     display: none !important;
 }
@@ -3218,6 +3206,11 @@ button[type=action].challengeButton::before {
             align-items: center;
             gap: inherit;
             border-radius: 3px;
+
+            div {
+                width: 8px;
+                opacity: 70%;
+            }
         }
         .useCurrent {
             width: 46px !important;
@@ -4879,7 +4872,7 @@ button[type=action].challengeButton::before {
     .rank, .darkInput:not(:is(.share, .edit, .script)) {
         background-color: rgba(256, 256, 256, 0.1) !important;
     }
-    .rollFormatBlock :is(.plainText, input) {
+    .rollFormatBlock {
         color: var(--rollformat-color, var(--color-dark-white));
     }
     #appliedPalette & {
@@ -4899,44 +4892,44 @@ button[type=action].challengeButton::before {
 }
 
 /* Custom colors */
-.red1 {--r1: 1} .red2{--r2: 2} .red4 {--r4: 4} .red8 {--r8: 8} .red16 {--r16: 16} .red32 {--r32: 32} .red64 {--r64: 64} .red128 {--r128: 128}
-._red1 {--_r1: 1}._red2 {--_r2: 2}._red4 {--_r4: 4}._red8 {--_r8: 8}._red16 {--_r16: 16}._red32 {--_r32: 32}._red64 {--_r64: 64}._red128 {--_r128: 128}
-
-.green1 {--g1: 1} .green2 {--g2: 2} .green4 {--g4: 4} .green8 {--g8: 8} .green16 {--g16: 16} .green32 {--g32: 32} .green64 {--g64: 64} .green128 {--g128: 128}
-._green1 {--_g1: 1}._green2 {--_g2: 2}._green4 {--_g4: 4}._green8 {--_g8: 8}._green16 {--_g16: 16}._green32 {--_g32: 32}._green64 {--_g64: 64}._green128 {--_g128: 128}
-
-.blue1 {--b1: 1} .blue2 {--b2: 2} .blue4 {--b4: 4} .blue8 {--b8: 8} .blue16 {--b16: 16} .blue32 {--b32: 32} .blue64 {--b64: 64} .blue128 {--b128: 128}
-._blue1 {--_b1: 1}._blue2 {--_b2: 2}._blue4 {--_b4: 4}._blue8 {--_b8: 8}._blue16 {--_b16: 16}._blue32 {--_b32: 32}._blue64 {--_b64: 64}._blue128 {--_b128: 128}
-
-.customColor {
+.itemContainer, .paletteContainer, .tagContainer, .conditionalButton {
     --custom-color: rgb(
         calc(var(--r1, 0) + var(--r2, 0) + var(--r4, 0) + var(--r8, 0) + var(--r16, 0) + var(--r32, 0) + var(--r64, 0) + var(--r128, 0)),
         calc(var(--g1, 0) + var(--g2, 0) + var(--g4, 0) + var(--g8, 0) + var(--g16, 0) + var(--g32, 0) + var(--g64, 0) + var(--g128, 0)),
         calc(var(--b1, 0) + var(--b2, 0) + var(--b4, 0) + var(--b8, 0) + var(--b16, 0) + var(--b32, 0) + var(--b64, 0) + var(--b128, 0))
     );
+
+    &:has(.customColor[value~=r1])  {--r1:1}   &:has(.customColor[value~=r2])  {--r2:2}   &:has(.customColor[value~=r4])  {--r4:4}   &:has(.customColor[value~=r8])   {--r8:8}
+    &:has(.customColor[value~=r16]) {--r16:16} &:has(.customColor[value~=r32]) {--r32:32} &:has(.customColor[value~=r64]) {--r64:64} &:has(.customColor[value~=r128]) {--r128:128}
+    &:has(.customColor[value~=b1])  {--b1:1}   &:has(.customColor[value~=b2])  {--b2:2}   &:has(.customColor[value~=b4])  {--b4:4}   &:has(.customColor[value~=b8])   {--b8:8}
+    &:has(.customColor[value~=b16]) {--b16:16} &:has(.customColor[value~=b32]) {--b32:32} &:has(.customColor[value~=b64]) {--b64:64} &:has(.customColor[value~=b128]) {--b128:128}
+    &:has(.customColor[value~=g1])  {--g1:1}   &:has(.customColor[value~=g2])  {--g2:2}   &:has(.customColor[value~=g4])  {--g4:4}   &:has(.customColor[value~=g8])   {--g8:8}
+    &:has(.customColor[value~=g16]) {--g16:16} &:has(.customColor[value~=g32]) {--g32:32} &:has(.customColor[value~=g64]) {--g64:64} &:has(.customColor[value~=g128]) {--g128:128}
+}
+.itemContainer {
     --custom-color-alt: rgb(
         calc(var(--_r1, 0) + var(--_r2, 0) + var(--_r4, 0) + var(--_r8, 0) + var(--_r16, 0) + var(--_r32, 0) + var(--_r64, 0) + var(--_r128, 0)),
         calc(var(--_g1, 0) + var(--_g2, 0) + var(--_g4, 0) + var(--_g8, 0) + var(--_g16, 0) + var(--_g32, 0) + var(--_g64, 0) + var(--_g128, 0)),
         calc(var(--_b1, 0) + var(--_b2, 0) + var(--_b4, 0) + var(--_b8, 0) + var(--_b16, 0) + var(--_b32, 0) + var(--_b64, 0) + var(--_b128, 0))
     );
 
-    &:not(.contentContainer, .tracker) {
-        &.background { background-color: var(--custom-color) !important; }
-        &.border { border-color: var(--custom-color) !important; }
-        &.text { color: var(--custom-color) !important; }
-    }
+    &:has(.customDeco[value~=r1])  {--_r1:1}   &:has(.customDeco[value~=r2])  {--_r2:2}   &:has(.customDeco[value~=r4])  {--_r4:4}   &:has(.customDeco[value~=r8])   {--_r8:8}
+    &:has(.customDeco[value~=r16]) {--_r16:16} &:has(.customDeco[value~=r32]) {--_r32:32} &:has(.customDeco[value~=r64]) {--_r64:64} &:has(.customDeco[value~=r128]) {--_r128:128}
+    &:has(.customDeco[value~=b1])  {--_b1:1}   &:has(.customDeco[value~=b2])  {--_b2:2}   &:has(.customDeco[value~=b4])  {--_b4:4}   &:has(.customDeco[value~=b8])   {--_b8:8}
+    &:has(.customDeco[value~=b16]) {--_b16:16} &:has(.customDeco[value~=b32]) {--_b32:32} &:has(.customDeco[value~=b64]) {--_b64:64} &:has(.customDeco[value~=b128]) {--_b128:128}
+    &:has(.customDeco[value~=g1])  {--_g1:1}   &:has(.customDeco[value~=g2])  {--_g2:2}   &:has(.customDeco[value~=g4])  {--_g4:4}   &:has(.customDeco[value~=g8])   {--_g8:8}
+    &:has(.customDeco[value~=g16]) {--_g16:16} &:has(.customDeco[value~=g32]) {--_g32:32} &:has(.customDeco[value~=g64]) {--_g64:64} &:has(.customDeco[value~=g128]) {--_g128:128}
 }
 
-.itemContainer:has(.styleCheck:checked ~ .colorCheck:checked), #combatPalette .contentContainer {
-    &.customColor.background {
-        --content-color: var(--custom-color);
-        --content-mystery: var(--custom-color);
-    }
-    &.customColor.decoration {
-        --content-decoration: var(--custom-color-alt);
-    }
+.itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .customColor[value]:not([value=""])),
+.paletteContainer, .conditionalButton:has(.customColor[value]:not([value=""])) { /* TODO: Is not currently applied to buttons */
+    --content-color: var(--custom-color);
+    --content-mystery: var(--custom-color);
 }
-.tracker.customColor.background {
+.itemContainer:has(.styleCheck:checked ~ .colorCheck:checked ~ .customDeco[value]:not([value=""])) {
+    --content-decoration: var(--custom-color-alt);
+}
+.tagContainer:has(.customColor:not(value="")) .tracker  {
     --tracker-color: var(--custom-color);
 }
 
@@ -4972,13 +4965,13 @@ button[type=action].challengeButton::before {
     color: var(--color-HP) !important;
     height: 30px;
 }
-.egoDiceATK :is(input, .plainText) {
+.egoDiceATK {
     color: var(--color-HP) !important;
 }
-.egoDiceDEF :is(input, .plainText) {
+.egoDiceDEF {
     color: var(--color-SAN) !important;
 }
-.egoDiceEVD :is(input, .plainText) {
+.egoDiceEVD {
     color: var(--color-ego-STGR) !important;
 }
 /* ===== Colors END ===== */
