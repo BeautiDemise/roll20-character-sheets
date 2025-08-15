@@ -2351,39 +2351,51 @@ button[type=action].challengeButton::before {
             grid-auto-rows: 2px; /* Each column is 2px tall, with items ranging between 20-80~ columns tall*/
             column-gap: 10px;
         }
+
+        /* Calculates the number of 2px columns needed to hold each item */
         .repitem {
+            --item-size: calc(20 + max(var(--item-size-left, 0), var(--item-size-right, 0))); /* Minimum header height (36px) + gap between items (4px) */
             grid-row: span round(down, var(--item-size));
+            z-index: 0;
 
-            /* Calculates the number of 2px columns needed to hold each item */
-            --item-size: calc(20 + max(var(--item-size-left), var(--item-size-right)));  /* Minimum item height (36px) + gap between items (4px) */
+            transition: 
+                grid-row 0s 50ms allow-discrete, /* Delays the minimize layout change by 50ms to make the transition slightly smoother without causing issues with maximizing other items */
+                z-index 0s 500ms allow-discrete; /* Makes maximized items appear above minimized items while opening and closing */
             
-            /* Item left-side size */
-            --item-size-left-base: 41; /* Effect text field (82px) */
-            --item-size-left: calc(var(--item-size-left-base) + var(--item-size-weapon, 0) + var(--item-size-augment, 0) + var(--item-size-skill, 0) + var(--item-size-special, 0));
-            &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="weaponUI"]:checked) { --item-size-weapon: 14; }   /* 28px */
-            &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="augmentUI"]:checked) { --item-size-augment: 14; } /* 28px */
-            &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="skillUI"]:checked) { --item-size-skill: 14; }     /* 28px */
-            &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="specialUI"]:checked) { --item-size-special: 50; } /* 100px */
-            
-            /* Item right-side size */
-            --item-size-right-base: 41; /* Desc text field (82px) */
-            --item-size-right: calc(var(--item-size-right-base) + var(--item-rolls, 0) * 16 + var(--item-res-slash, 0) + var(--item-res-pierce, 0) + var(--item-res-blunt, 0));
-            &:has(input[name$="optionRollDisplay1"]:checked) { --item-rolls: 1; }    /* 32px~ */
-            &:has(input[name$="optionRollDisplay2"]:checked) { --item-rolls: 2; }    /* 32px~ */
-            &:has(input[name$="optionRollDisplay3"]:checked) { --item-rolls: 3; }    /* 32px~ */
-            &:has(input[name$="optionRollDisplay4"]:checked) { --item-rolls: 4; }    /* 32px~ */
-            &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="slashBaseMode"]:not(:checked)) { --item-res-slash: 15.5; }   /* 31px~ */
-            &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="pierceBaseMode"]:not(:checked)) { --item-res-pierce: 15.5; } /* 31px~ */
-            &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="bluntBaseMode"]:not(:checked)) { --item-res-blunt: 15.5; }   /* 31px~ */
+            /* Height from item contents. Contents are only revealed for maximizing items */
+            &:has(.equipCheck:checked), &:hover, &:has(:not([type="checkbox"]):focus) {
+                z-index: 1;
+                
+                /* Items begin their maximize animation after being hovered over for 100ms */
+                /* The change of an item's size in the grid layout is delayed by an additional 35-80~ ms based on the size of the item (smaller items have longer delays) */
+                /* This makes the layout change happen roughly when the item expands into the space of the item below itself, giving the illusion that the collision caused the change */
+                transition-delay: max(calc(240ms - var(--item-size) * 1ms), 135ms), 0s; 
 
-            /* Item bottom-side size */
-            &:has(input[name$="bottomEffectDisplay"]:checked) { --item-size-right-base: 39; } /* -5px */
-            &:has(input[name$="bottomDescDisplay"]:checked) { --item-size-left-base: 39; }    /* -5px */
-            &:has(input[name$="leftEffectDisplay"]:checked) { --item-size-right-base: 0; --item-size-left-base: 82; }
-            &:has(input[name$="rightDescDisplay"]:checked) { --item-size-left-base: 0; --item-size-right-base: 82; }
-
-            /* Minimized items always match the minimum item height */
-            &:has(.itemMinimized:checked) { --item-size-left: 0; --item-size-right: 0; }                    
+                /* Item left-side height */
+                --item-size-left-base: 41; /* Minimum effect description height (82px) */
+                --item-size-left: calc(var(--item-size-left-base) + var(--item-size-weapon, 0) + var(--item-size-augment, 0) + var(--item-size-skill, 0) + var(--item-size-special, 0));
+                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="weaponUI"]:checked) { --item-size-weapon: 14; }   /* 28px */
+                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="augmentUI"]:checked) { --item-size-augment: 14; } /* 28px */
+                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="skillUI"]:checked) { --item-size-skill: 14; }     /* 28px */
+                &:has(input[name$="optionCustomUI"]:checked ~ .itemCustomUI input[name$="specialUI"]:checked) { --item-size-special: 50; --item-size-right-base: 0; } /* 100px */
+                
+                /* Item right-side height */
+                --item-size-right-base: 41; /* Minimum description height (82px) */
+                --item-size-right: calc(var(--item-size-right-base) + var(--item-rolls, 0) * 16 + var(--item-res-slash, 0) + var(--item-res-pierce, 0) + var(--item-res-blunt, 0));
+                &:has(input[name$="optionRollDisplay1"]:checked) { --item-rolls: 1; }    /* 32px~ */
+                &:has(input[name$="optionRollDisplay2"]:checked) { --item-rolls: 2; }    /* 32px~ */
+                &:has(input[name$="optionRollDisplay3"]:checked) { --item-rolls: 3; }    /* 32px~ */
+                &:has(input[name$="optionRollDisplay4"]:checked) { --item-rolls: 4; }    /* 32px~ */
+                &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="slashBaseMode"]:not(:checked)) { --item-res-slash: 15.5; }   /* 31px~ */
+                &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="pierceBaseMode"]:not(:checked)) { --item-res-pierce: 15.5; } /* 31px~ */
+                &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="bluntBaseMode"]:not(:checked)) { --item-res-blunt: 15.5; }   /* 31px~ */
+    
+                /* Item bottom-side height */
+                &:has(input[name$="bottomEffectDisplay"]:checked) { --item-size-right-base: 39; } /* -5px */
+                &:has(input[name$="bottomDescDisplay"]:checked) { --item-size-left-base: 39; }    /* -5px */
+                &:has(input[name$="leftEffectDisplay"]:checked) { --item-size-right-base: 0; --item-size-left-base: 82; }
+                &:has(input[name$="rightDescDisplay"]:checked) { --item-size-left-base: 0; --item-size-right-base: 82; }            
+            }
         }
     }
 
@@ -2409,7 +2421,7 @@ button[type=action].challengeButton::before {
     }
     .repitem {
         margin-bottom: 4px; /* Not used by Skills and Special items */
-        &:has(.itemMinimized:checked) { order: 1; } /* Pushes minimized items to the bottom of the section */
+        &:has(.equipCheck:not(:checked)) { order: 1; } /* Pushes unequipped items to the bottom of the section */
     }
     .repcontrol {
         position: absolute;
@@ -2564,16 +2576,15 @@ button[type=action].challengeButton::before {
     }
 }
 .itemHeader {
-    width: calc(100% + 4px);
-    margin-right: -4px;
-    user-select: none; /* Disables selection when double clicking the header */
+    padding-right: 5px;
     z-index: 20;
 
     :is(.equipCheck, .rank, .name) {
         z-index: 25;
     }
     .name {
-        max-width: calc(50% - 60px);
+        width: calc-size(100%, size - 57.5%); /* Matches the header */
+        transition: width 0s 550ms;
         color: var(--content-text);
     }
     .equipCheck {
@@ -2599,7 +2610,7 @@ button[type=action].challengeButton::before {
     &:has(~ .itemHeader .equipCheck:checked) {
         z-index: 15; /* Displays the messages below the header when an item is equipped */
     }
-    input[type="checkbox"]:not(:checked) + & ~ .itemHeader:has(.equipCheck:checked) {
+    input[name="attr_message"]:not(:checked) + & ~ .itemHeader:has(.equipCheck:checked) {
         box-shadow: 0px 2px 20px 0px #060606;
     }
 }
@@ -2666,8 +2677,7 @@ button[type=action].challengeButton::before {
 }
 
 /* Hides the bottom description for items which uses the special UI */
-.itemContainer:has(input[name$="optionCustomUI"]:checked ~ div input[name$="specialUI"]:checked)
-.itemDescriptionContainer.bottom .itemDescription {
+.itemContainer:has(input[name$="optionCustomUI"]:checked ~ div input[name$="specialUI"]:checked) .itemDescriptionContainer.bottom .itemDescription {
     display: none !important;
 }
 
@@ -2709,6 +2719,8 @@ button[type=action].challengeButton::before {
 }
 
 .itemContainer {
+    transition: opacity 300ms 100ms; /* Used for minimizing the item */
+
     .rollFormat {
         justify-content: flex-start;
         height: 26px;
@@ -2785,30 +2797,23 @@ button[type=action].challengeButton::before {
 }
 
 /* Expand the name input when the item is minimized or there are no rollformats */
-/* .itemContainer:has(.equipCheck:not(:checked)):not(:hover) .name { */
-.itemMinimized:checked ~ .itemContainer .name {
-    width: calc-size(100%, size - 57.5%);
-    transition: width 0s 550ms;
-}
-/* .itemNameExpand:checked ~ .itemContainer, .itemContainer:has(.equipCheck:not(:checked)):not(:hover) { */
-:is(.itemNameExpand:checked, .itemMinimized:checked) ~ .itemContainer .name {
-    max-width: calc(100% - 70px);
-    width: auto;
+:is(.itemContainer:has(.equipCheck:not(:checked)):not(:hover):not(:has(:not([type="checkbox"]):focus)),
+.itemContainer:has([name$="optionRollFormats"]:not(:checked))) .name {
+    width: calc-size(100%, size);
 }
 
 /* Hide all item contents when the item is minimized */
-/* .itemContainer:has(.equipCheck:not(:checked)):not(:hover) { */
-.itemMinimized:checked ~ .itemContainer {
-    /* opacity: 0.5; */
+.itemContainer:has(.equipCheck:not(:checked)):not(:hover):not(:has(:not([type="checkbox"]):focus)) {
+    opacity: 0.5;
     
     .itemContents {
         height: 0px;
+        transition-delay: 0s;
     }
     .rollFormatContainer {
         flex-direction: row;
-        justify-content: flex-end;
         width: calc(100% - 30px);
-        transition: width 0s 550ms, position 0s 550ms allow-discrete, flex-direction 0s 550ms allow-discrete;
+        transition-delay: 550ms;
     }
     .rollFormat {
         width: 33px;
@@ -2818,6 +2823,9 @@ button[type=action].challengeButton::before {
     .rollButton, .rollFormatBlock {
         pointer-events: none;
         opacity: 0;
+        transition-delay: 0s;
+    }
+    .rollButton {
         transition: opacity 0s 500ms;
     }
     .itemButtons {
@@ -2826,27 +2834,32 @@ button[type=action].challengeButton::before {
     }
     .itemDescriptionContainer.bottom {
         height: 0px;
+        transition-delay: 0s;
     }
 }
 .itemContents {
     height: calc-size(auto, size);
-    transition: height 500ms;
+    transition: height 500ms 100ms;
     overflow: clip;
     overflow-clip-margin: 36px;
 
     .rollFormat {
         width: fit-content;
         width: calc-size(fit-content, size);
-        transition: width 600ms, padding-top 0s;
+        transition: width 600ms 100ms, padding-top 0s 100ms;
+    }
+    .rollFormatContainer {
+        justify-content: flex-end;
+        transition: width 0s 550ms, flex-direction 0s 100ms allow-discrete;
     }
     .rollFormatBlock {
-        transition: opacity 600ms ease-out;
+        transition: opacity 600ms 100ms ease-out;
     }
 }
 .itemDescriptionContainer.bottom {
     height: calc-size(auto, size);
     min-height: 0px;
-    transition: height 500ms;
+    transition: height 500ms 100ms;
 }
 
 /* Disable the minimize animations for Firefox. They do not work correctly without calc-size() */
@@ -3233,7 +3246,7 @@ button[type=action].challengeButton::before {
     right: 5px;
     gap: 5px;
     z-index: 100; /* Displays the buttons above any item messages */
-    transition: opacity 300ms ease-in, z-index 0s 200ms; /* For minimizing the item */
+    transition: opacity 300ms 100ms ease-in, z-index 0s 200ms; /* For minimizing the item */
 }
 /* ===== Equipment and Skills END ===== */
 
@@ -4156,7 +4169,7 @@ button[type=action].challengeButton::before {
 
 .dragDetector {
     position: fixed;
-    bottom: calc(100vh - var(--offsetY, 0px)); /* Makes items minimize downwards */
+    bottom: calc(100vh - var(--offsetY, 0px)); /* Makes items minimize downwards when their position is fixed */
     left: var(--offsetX, 0px);
     z-index: 1000;
 

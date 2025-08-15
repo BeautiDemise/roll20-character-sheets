@@ -1180,9 +1180,8 @@
 
 	<fieldset class="repeating_effects">
 		
-		<input type="checkbox" class="itemMinimized" name="attr_minimized" value="true" hidden> <!-- Minimize item. Toggled by double clicking an item's header -->
-		<input type="checkbox" class="itemNameExpand" name="attr_optionRollFormats" value="0" hidden> <!-- The item name takes up both rows when there are no rollformats -->
-		<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden> <!-- Option: Mystery -->
+		<!-- Option: Mystery -->
+		<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden>
 
 		<div class="itemContainer contentContainer">
 			
@@ -1211,17 +1210,15 @@
 			</div>
 
 			<!-- Item header -->
-			<div class="itemHeader contentHeader" data-i18n-title="item-minimize" title="Double-click to minimize">
+			<div class="itemHeader contentHeader">
 				<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 				<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 				<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="item-name" placeholder="Item name"> <!-- Name -->
 
 				<!-- Item uses -->
-				<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-				<div class="hide-item">
-					<input type="checkbox" class="hide-toggle-next" name="attr_optionUses" value="true" hidden>
-					<input type="number" class="hide-item itemUses" name="attr_usesCurrent" min="0" value="3">
-				</div>
+				<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+				<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+				<input type="number" class="hide-item-rev itemUses" name="attr_usesCurrent" min="0" value="3">
 			</div>
 
 			<div class="itemContents rowContainer">
@@ -1324,7 +1321,7 @@
 				<div class="itemRow contentRow right columnAlign">
 
 					<!-- Item header contents (Right) -->
-					<div class="rowContainer contentHeader" data-i18n-title="item-minimize" title="Double-click to minimize">
+					<div class="rowContainer contentHeader">
 
 						<!-- Option: Roll together -->
 						<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
@@ -2663,9 +2660,8 @@ EGO block end -->
 
 			<fieldset class="repeating_weapons">
 
-				<input type="checkbox" class="itemMinimized" name="attr_minimized" value="true" hidden> <!-- Minimize item. Toggled by double clicking an item's header -->
-				<input type="checkbox" class="itemNameExpand" name="attr_optionRollFormats" value="0" hidden> <!-- The item name takes up both rows when there are no rollformats -->
-				<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden> <!-- Option: Mystery -->
+				<!-- Option: Mystery -->
+				<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden>
 
 				<div class="itemContainer contentContainer">
 					
@@ -2694,7 +2690,7 @@ EGO block end -->
 					</div>
 
 					<!-- Item header -->
-					<div class="itemHeader contentHeader" data-i18n-title="item-minimize" title="Double-click to minimize">
+					<div class="itemHeader contentHeader">
 						<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 						<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="equip-weapon-name" placeholder="Weapon name"> <!-- Name -->
@@ -2800,7 +2796,7 @@ EGO block end -->
 						<div class="itemRow contentRow right columnAlign">
 
 							<!-- Item header contents (Right) -->
-							<div class="rowContainer contentHeader" data-i18n-title="item-minimize" title="Double-click to minimize">
+							<div class="rowContainer contentHeader">
 
 								<!-- Option: Item cost -->
 								<!-- 
@@ -3011,9 +3007,8 @@ EGO block end -->
 
 			<fieldset class="repeating_augments">
 
-				<input type="checkbox" class="itemMinimized" name="attr_minimized" value="true" hidden> <!-- Minimize item. Toggled by double clicking an item's header -->
-				<input type="checkbox" class="itemNameExpand" name="attr_optionRollFormats" value="0" hidden> <!-- The item name takes up both rows when there are no rollformats -->
-				<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden> <!-- Option: Mystery -->
+				<!-- Option: Mystery -->
+				<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden>
 
 				<div class="itemContainer contentContainer">
 					
@@ -3042,7 +3037,7 @@ EGO block end -->
 					</div>
 
 					<!-- Item header -->
-					<div class="itemHeader contentHeader" data-i18n-title="item-minimize" title="Double-click to minimize">
+					<div class="itemHeader contentHeader">
 						<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 						<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="augment-name" placeholder="Item name"> <!-- Name -->
@@ -3148,7 +3143,7 @@ EGO block end -->
 						<div class="itemRow contentRow right columnAlign">
 
 							<!-- Item header contents (Right) -->
-							<div class="rowContainer contentHeader" data-i18n-title="item-minimize" title="Double-click to minimize">
+							<div class="rowContainer contentHeader">
 
 								<!-- Option: Roll together -->
 								<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
@@ -3355,9 +3350,8 @@ EGO block end -->
 
 			<fieldset class="repeating_outfits">
 
-				<input type="checkbox" class="itemMinimized" name="attr_minimized" value="true" hidden> <!-- Minimize item. Toggled by double clicking an item's header -->
-				<input type="checkbox" class="itemNameExpand" name="attr_optionRollFormats" value="0" hidden> <!-- The item name takes up both rows when there are no rollformats -->
-				<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden> <!-- Option: Mystery -->
+				<!-- Option: Mystery -->
+				<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden>
 
 				<div class="itemContainer contentContainer">
 					
@@ -3386,17 +3380,15 @@ EGO block end -->
 					</div>
 
 					<!-- Item header -->
-					<div class="itemHeader contentHeader" data-i18n-title="item-minimize" title="Double-click to minimize">
+					<div class="itemHeader contentHeader">
 						<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 						<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="outfit-name" placeholder="Item name"> <!-- Name -->
 
 						<!-- Item uses -->
-						<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-						<div class="hide-item">
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionUses" value="true" hidden>
-							<input type="number" class="hide-item itemUses" name="attr_usesCurrent" min="0" value="3">
-						</div>
+						<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+						<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+						<input type="number" class="hide-item-rev itemUses" name="attr_usesCurrent" min="0" value="3">
 					</div>
 
 					<div class="itemContents rowContainer">
@@ -3499,7 +3491,7 @@ EGO block end -->
 						<div class="itemRow contentRow right columnAlign">
 
 							<!-- Item header contents (Right) -->
-							<div class="rowContainer contentHeader" data-i18n-title="item-minimize" title="Double-click to minimize">
+							<div class="rowContainer contentHeader">
 
 								<!-- Option: Roll together -->
 								<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
@@ -3700,9 +3692,8 @@ EGO block end -->
 
 			<fieldset class="repeating_tools">
 
-				<input type="checkbox" class="itemMinimized" name="attr_minimized" value="true" hidden> <!-- Minimize item. Toggled by double clicking an item's header -->
-				<input type="checkbox" class="itemNameExpand" name="attr_optionRollFormats" value="0" hidden> <!-- The item name takes up both rows when there are no rollformats -->
-				<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden> <!-- Option: Mystery -->
+				<!-- Option: Mystery -->
+				<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden>
 
 				<div class="itemContainer contentContainer">
 					
@@ -3731,17 +3722,15 @@ EGO block end -->
 					</div>
 
 					<!-- Item header -->
-					<div class="itemHeader contentHeader" data-i18n-title="item-minimize" title="Double-click to minimize">
+					<div class="itemHeader contentHeader">
 						<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 						<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="tool-name" placeholder="Item name"> <!-- Name -->
 
 						<!-- Item uses -->
-						<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-						<div class="hide-item">
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionUses" value="true" hidden>
-							<input type="number" class="hide-item itemUses" name="attr_usesCurrent" min="0" value="3">
-						</div>
+						<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+						<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+						<input type="number" class="hide-item-rev itemUses" name="attr_usesCurrent" min="0" value="3">
 					</div>
 
 					<div class="itemContents rowContainer">
@@ -3844,7 +3833,7 @@ EGO block end -->
 						<div class="itemRow contentRow right columnAlign">
 
 							<!-- Item header contents (Right) -->
-							<div class="rowContainer contentHeader" data-i18n-title="item-minimize" title="Double-click to minimize">
+							<div class="rowContainer contentHeader">
 
 								<!-- Option: Roll together -->
 								<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
@@ -4048,9 +4037,8 @@ EGO block end -->
 
 		<fieldset class="repeating_special">
 
-			<input type="checkbox" class="itemMinimized" name="attr_minimized" value="true" hidden> <!-- Minimize item. Toggled by double clicking an item's header -->
-			<input type="checkbox" class="itemNameExpand" name="attr_optionRollFormats" value="0" hidden> <!-- The item name takes up both rows when there are no rollformats -->
-			<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden> <!-- Option: Mystery -->
+			<!-- Option: Mystery -->
+			<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden>
 
 			<div class="itemContainer contentContainer">
 				
@@ -4079,17 +4067,15 @@ EGO block end -->
 				</div>
 
 				<!-- Item header -->
-				<div class="itemHeader contentHeader" data-i18n-title="item-minimize" title="Double-click to minimize">
+				<div class="itemHeader contentHeader">
 					<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 					<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 					<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="special-name" placeholder="Item name"> <!-- Name -->
 
 					<!-- Item uses -->
-					<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-					<div class="hide-item">
-						<input type="checkbox" class="hide-toggle-next" name="attr_optionUses" value="true" hidden>
-						<input type="number" class="hide-item itemUses" name="attr_usesCurrent" min="0" value="3">
-					</div>
+					<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+					<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+					<input type="number" class="hide-item-rev itemUses" name="attr_usesCurrent" min="0" value="3">
 				</div>
 
 				<div class="itemContents rowContainer">
@@ -4192,7 +4178,7 @@ EGO block end -->
 					<div class="itemRow contentRow right columnAlign">
 
 						<!-- Item header contents (Right) -->
-						<div class="rowContainer contentHeader" data-i18n-title="item-minimize" title="Double-click to minimize">
+						<div class="rowContainer contentHeader">
 
 							<!-- Option: Roll together -->
 							<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
@@ -4405,9 +4391,8 @@ EGO block end -->
 
 		<fieldset class="repeating_skills">
 
-			<input type="checkbox" class="itemMinimized" name="attr_minimized" value="true" hidden> <!-- Minimize item. Toggled by double clicking an item's header -->
-			<input type="checkbox" class="itemNameExpand" name="attr_optionRollFormats" value="0" hidden> <!-- The item name takes up both rows when there are no rollformats -->
-			<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden> <!-- Option: Mystery -->
+			<!-- Option: Mystery -->
+			<input type="checkbox" class="mystery-toggle" name="attr_optionMystery" value="true" hidden>
 
 			<div class="itemContainer contentContainer">
 				
@@ -4436,17 +4421,15 @@ EGO block end -->
 				</div>
 
 				<!-- Item header -->
-				<div class="itemHeader contentHeader" data-i18n-title="item-minimize" title="Double-click to minimize">
+				<div class="itemHeader contentHeader">
 					<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 					<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 					<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="skill-name" placeholder="Skill name"> <!-- Name -->
 
 					<!-- Item uses -->
-					<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-					<div class="hide-item">
-						<input type="checkbox" class="hide-toggle-next" name="attr_optionUses" value="true" hidden>
-						<input type="number" class="hide-item itemUses" name="attr_usesCurrent" min="0" value="3">
-					</div>
+					<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+					<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+					<input type="number" class="hide-item-rev itemUses" name="attr_usesCurrent" min="0" value="3">
 				</div>
 
 				<div class="itemContents rowContainer">
@@ -4549,7 +4532,7 @@ EGO block end -->
 					<div class="itemRow contentRow right columnAlign">
 
 						<!-- Item header contents (Right) -->
-						<div class="rowContainer contentHeader" data-i18n-title="item-minimize" title="Double-click to minimize">
+						<div class="rowContainer contentHeader">
 
 							<!-- Option: Roll together -->
 							<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
@@ -12314,24 +12297,14 @@ const repDataDefaults = {
 				],
 			},
 			resistances: {
-				base: {
-					slash: {},
-					pierce: {},
-					blunt: {},
-				},
-				ailments: {
-					default: {},
-					custom: {},
-				}
+				base: {slash: {}, pierce: {}, blunt: {}},
+				ailments: {},
 			},
 		},
 		augments: {
 			type: "Augment",
 			resistances: {
-				ailments: {
-					default: {},
-					custom: {},
-				}
+				ailments: {},
 			},
 			ui: {augment: true}
 		},
@@ -12364,9 +12337,9 @@ const repDataDefaults = {
 
 	ailment: {
 		burn: {
-			name: getTranslationByKeyCustom("Burn", "ailments-burn"), icon: "Burn", // TODO: Needs support for Limbus style icons
+			name: getTranslationByKeyCustom("Burn", "ailments-burn"), icon: "Burn",
 			effect: {type: "HP", mode: "+", value: "-n"},
-			decay: {min: 0, mode: "x", value: 0.5}, // TODO: Add [CHAR] to AutoEffect messages
+			decay: {min: 0, mode: "x", value: 0.5},
 			message: {send: true, text: `[CHAR]${getTranslationByKeyCustom(" was burned for ", "message-burn")}[DIFF] ${getTranslationByKeyCustom("damage", "message-damage")}`},
 			settings: {
 				trigger: "RoundEnd",
@@ -12525,7 +12498,7 @@ const repDataFormats = {
 		base: {
 			_key_prop: "name",
 			type: "Effect", rank: 0, name: "", description: "", effect: "",
-			minimized: false,
+			//minimized: false,
 			message: "0",
 			equipped: false,
 			rollformats: {
@@ -12624,7 +12597,7 @@ const repDataFormats = {
 			name: {string:true},
 			description: {text:true},
 			effect: {text:true},
-			minimized: {bool:true},
+			//minimized: {bool:true},
 			message: {text:true},
 			equipped: {bool:true},
 			rollformats: { // Enabled by optionRollFormats
@@ -16735,11 +16708,10 @@ const accessData = {
 					access._recalc.events(ID);
 				}
 
-				// Update any equipment restrictions
-				access._recalc.equip(ID);
-
-				// Reapply the description weights of all items
-				access._recalc.weight(ID);
+				if (type == "character") {
+					access._recalc.equip(ID); // Update any equipment restrictions
+					access._recalc.weight(ID); // Reapply the description weights of all items
+				}
 
 				// Initialization complete!
 				console.log("New access:", access[ID], access);
@@ -17116,7 +17088,9 @@ const accessData = {
 		jquery(IDs) {
 			for (const ID of this.parseIDs(IDs)) {
 				for (const item of access[ID].items) {
-					recalcCustomPosition(item);
+					if (item.ui.position.enabled) {
+						recalcCustomPosition(item);
+					}
 				}
 				// TODO: Add custom positioning for the item editor here
 			}
@@ -17452,6 +17426,7 @@ onAccess("clicked:addItem " + itemEvent("remove") + ["rollformats", "tags"].redu
 });
 
 /* Inventory - Minimize or maximize an item when double clicking its header */
+/*
 var dcTime = new Date();
 var dcHeader = false;
 var configDcTime = 150;
@@ -17472,6 +17447,7 @@ $20(".inventoryContainer .repitem").on("click", (e) => {
 	
 	dcHeader = false;
 });
+*/
 
 /* Inventory - Change item description layout */
 onAccess([
@@ -17688,40 +17664,42 @@ onAccess("clicked:combatToggle", {}, function(info) {
 
 /* Rolls - Item or palette roll */
 onAccess(itemEvent("clicked", "item-roll") + " clicked:repeating_palette:palette-roll", {}, function(info) {
-	let type = (info.triggerName.split("_")[1] != "palette") ? "items" : "palette";
-	let node = access[type][info.triggerName.split("_")[2]];
-	let rollArray = node.rollformats;
-
-	// If the "Roll together" option is enabled all roll formats of the item are rolled
-	// Otherwise only a singular roll format is uses 
-	if (rollArray.roll_together) {
-		if (type == "items") {
-			rollArray = rollArray.filter(roll => roll.mode == "Roll");
+	setTimeout(() => { // Small delay to fix editing a roll format and then directly pressing the roll button not syncing the roll format change before executing the roll
+		let type = (info.triggerName.split("_")[1] != "palette") ? "items" : "palette";
+		let node = access[type][info.triggerName.split("_")[2]];
+		let rollArray = node.rollformats;
+	
+		// If the "Roll together" option is enabled all roll formats of the item are rolled
+		// Otherwise only a singular roll format is uses 
+		if (rollArray.roll_together) {
+			if (type == "items") {
+				rollArray = rollArray.filter(roll => roll.mode == "Roll");
+			}
+			// TODO: Implement roll together for roll formats
+			// Only execute rolls which has no message
+		} else {
+			rollArray = rollArray[parseInt(info.htmlAttributes["data-index"])];
 		}
-		// TODO: Implement roll together for roll formats
-		// Only execute rolls which has no message
-	} else {
-		rollArray = rollArray[parseInt(info.htmlAttributes["data-index"])];
-	}
-
-	// Remove any conditional buttons before creating new ones
-	for (const buttonID of access.buttons.repIDs) {
-		access.buttons.delete(buttonID);
-	}
-
-	// Add any AutoEffects on the item
-	if (node.autoscript != "") {
-		let effectBlock = access.effects.add("(Block)")[0];
-		effectBlock.add(node.autoscript);
-
-		if (type == "items" || node.item) {
-			effectBlock._addVar("item", node.item ?? node); // Saves a reference to the item the AutoEffects originate from
+	
+		// Remove any conditional buttons before creating new ones
+		for (const buttonID of access.buttons.repIDs) {
+			access.buttons.delete(buttonID);
 		}
-		// TODO: Also add a reference to the currently selected applied roll, if any
-	}
-
-	clearSheetButtons();
-	executeRolls(cleanRolls(rollArray), {use_resource: access.state.combat});
+	
+		// Add any AutoEffects on the item
+		if (node.autoscript != "") {
+			let effectBlock = access.effects.add("(Block)")[0];
+			effectBlock.add(node.autoscript);
+	
+			if (type == "items" || node.item) {
+				effectBlock._addVar("item", node.item ?? node); // Saves a reference to the item the AutoEffects originate from
+			}
+			// TODO: Also add a reference to the currently selected applied roll, if any
+		}
+	
+		clearSheetButtons();
+		executeRolls(cleanRolls(rollArray), {use_resource: access.state.combat});
+	}, 100);
 });
 
 // Clones all rollformats in an roll array to avoid the original rollformats being modified
@@ -18034,8 +18012,6 @@ function generateBinaryList(valueArray, opts) {
 function applyBinaryClasses(selector, valueArray, opts={}) {
 	let binaryList = generateBinaryList(valueArray, opts);
 
-	console.log(binaryList);
-
 	for (const [key, base2] of Object.entries(binaryList)) {
 		for (const [i, digit] of Array.from(base2).entries()) {
 			$20(selector)[(digit == "1") ? "addClass" : "removeClass"](key + 2**(base2.length - i - 1));
@@ -18154,12 +18130,12 @@ $20(".inventoryContainer .repcontainer").on("mouseenter", (info) => {
 
 /* State - Detect Staggered / Panicked / Defeated / Hostile */
 onAccess(["bar", "modify", ["hp", "st", "sp"]], {}, function(info) {
-	if (access.settings.sheet.combat.detect_states && info.newval <= 0) { 
+	if (access.settings.sheet.combat.detect_states) { 
 		let state = info.node.root.state;
 		switch (info.path.at(-1)) {
-			case "hp": state.defeat.state = true; break;
-			case "st": state.stagger.state = true; break;
-			case "sp": state.panic.state = true; break;
+			case "hp": state.defeat.state = info.newval <= 0; break;
+			case "st": state.stagger.state = info.newval <= 0; break;
+			case "sp": state.panic.state = info.newval <= 0; break;
 		}
 	}
 });
@@ -18189,7 +18165,8 @@ onAccess([["state", "N", "modify", "state"], ["state", "N", "duration", "modify"
 
 	// Handle state messages
 	let message;
-	let icon = getIcon("ailments/" + capitalize(state), "markdown", false, access.settings.sheet.limbus_style);
+	let iconName = (state == "stagger") ? "FragileStagger" : capitalize(state);
+	let icon = getIcon("ailments/" + iconName, "markdown", false, access.settings.sheet.limbus_style);
 
 	let lang = {
 		stagger: getTranslationByKeyCustom("Staggered", "ailments-stagger-text"),
@@ -18212,11 +18189,11 @@ onAccess([["state", "N", "modify", "state"], ["state", "N", "duration", "modify"
 	// Handle state update messages
 	else if (type == "state") {
 
-		// Defeat only has a message when gaining the state
+		// Defeat has unique state messages
 		if (state == "defeat") {
-			if (info.newval) {
-				message = getTranslationByKeyCustom(" can no longer fight.", "message-defeat");
-			}
+			message = (info.newval)
+				? getTranslationByKeyCustom(" can no longer fight.", "message-defeat1")
+				: getTranslationByKeyCustom(" is back in the fight!", "message-defeat2");
 		}
 
 		// Panic has an unique message when gaining the state
@@ -20350,6 +20327,9 @@ async function sheetSetup(ID) {
 		// TODO: This should later only be done if no ailments have been set in the campaign settings
 		accessDefault("ailments", "Add");
 
+		// TODO: This should later be a part of this function
+		await legacySheetSetup();
+
 		// Initializes any default global setting applied to the sheet
 		// TODO: This should later only happen if the campaign settings includes default global settings
 		recalcGlobal();
@@ -21166,8 +21146,8 @@ getSectionIDs("repeating_global", function(idarray) {
 });
 
 /* Sheet Initialization */
-on("sheet:opened", function() { 
-getSectionIDs("repeating_global", function(idarray) {
+async function legacySheetSetup() {
+	let idarray = await getSectionIDsAsync("repeating_global");
 
 	/* Message Setup */
 	let syncHeader = "";
@@ -21180,23 +21160,24 @@ getSectionIDs("repeating_global", function(idarray) {
 	/* Global Settings Check */
 	let rowid = "";
 	if (idarray.length >= 1) {
-	rowid = idarray[0];
+		rowid = idarray[0];
 	}
 	else if (idarray.length == 0) {
-	rowid = generateRowID();
-	//syncBody += "Initialize game settings. ID: " + rowid + "\n";
-	//syncToggle = "true"; 
-	output[`repeating_global_${rowid}_ruleName`] = "";
+		rowid = generateRowID();
+		//syncBody += "Initialize game settings. ID: " + rowid + "\n";
+		//syncToggle = "true"; 
+		output[`repeating_global_${rowid}_ruleName`] = "";
 	}
 
-    getAttrs(["syncStateGame", "syncStateAilment", "syncLockGame", "syncLockAilments",
+    let values = await getAttrsAsync(["syncStateGame", "syncStateAilment", "syncLockGame", "syncLockAilments",
 	"global_access", "global_editMode", "global_editKey", "global_gameSettingSource", "global_ailmentSettingSource", "global_generalSettingSource", "gameEditor", "ailmentEditor",
 	`repeating_global_${rowid}_editKey`, `repeating_global_${rowid}_gameSettingSource`, `repeating_global_${rowid}_ailmentSettingSource`, `repeating_global_${rowid}_generalSettingSource`,
 	"autoScriptStyling", "autoScriptEditorTarget", "autoScriptEditorInput",
 	"weapon1AutoScript", "weapon2AutoScript", "weapon3AutoScript", "weapon4AutoScript", "augmentAutoScript", "outfitAutoScript",
 	"tool1AutoScript", "tool2AutoScript", "tool3AutoScript", "tool4AutoScript", "special1AutoScript", "special2AutoScript",
 	"skill1AutoScript", "skill2AutoScript", "skill3AutoScript", "skill4AutoScript", "skill5AutoScript", "skill6AutoScript",
-	"egoSkill1AutoScript", "egoSkill2AutoScript", "egoSkill3AutoScript", "egoSkill4AutoScript", "egoSkill5AutoScript", "egoSkill6AutoScript"], function(values) {
+	"egoSkill1AutoScript", "egoSkill2AutoScript", "egoSkill3AutoScript", "egoSkill4AutoScript", "egoSkill5AutoScript", "egoSkill6AutoScript",
+	"versionNumber"]);
 
 	/* Translation prep */
 	let langUpdate = getTranslationByKeyCustom("Update", "pop-update");
@@ -21205,7 +21186,6 @@ getSectionIDs("repeating_global", function(idarray) {
 	let langGeneralSettings = getTranslationByKeyCustom("General Settings", "editor-generalsettings");
 	let langSyncSuccess = getTranslationByKeyCustom("Update synced.", "pop-update-success");
 	let langSyncFail = getTranslationByKeyCustom("Update detected, but section is locked.", "pop-update-fail");
-	
 
 	let lockGame = values.syncLockGame;
 	let syncGame = values.syncStateGame;
@@ -21260,15 +21240,14 @@ getSectionIDs("repeating_global", function(idarray) {
 
 	/* Check: PW updates */ 
 	if (passCompare != passInput && passCompare != "") {
-	output["global_accessCheck"] = "0";
-
+		output["global_accessCheck"] = "0";
 	}
 	else if (passCompare == passInput && passCompare != "") {
-	output["global_accessCheck"] = "true";
+		output["global_accessCheck"] = "true";
 	}
 
 	if (passCompare == "" || passCompare == null) {
-	output["global_accessCheck"] = "true";
+		output["global_accessCheck"] = "true";
 	}
 
 	/* Check: Internal setting updates */
@@ -21298,8 +21277,8 @@ getSectionIDs("repeating_global", function(idarray) {
 	if (ailmentSettings != "" && ailmentSettings != null && updateFlagAilments != "0") {
 		if (ailmentSettings != values.ailmentEditor && lockAilment != "true") {
 
-			setAttrs({"ailmentEditor":ailmentSettings});
-			dataImportRepeating("ailments", "Replace");
+			await setAttrsAsync({"ailmentEditor":ailmentSettings});
+			accessImport(false, "ailmentEditor", {mode:((values.versionNumber != "0") ? "Replace" : "Add"), section:"ailments"}); // TODO: Temp solution
 			output["syncStateAilment"] = "0";
 
 			syncToggle = "true";
@@ -21361,10 +21340,8 @@ getSectionIDs("repeating_global", function(idarray) {
 	output[`popup_messageBody`] = syncBody;
 	output[`popup_display`] = syncToggle;
 
-	setAttrs(output);
-	});
-	});
-});
+	await setAttrsAsync(output);
+}
 /* Sheet initialization - END */
 
 
