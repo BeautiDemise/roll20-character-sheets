@@ -2034,10 +2034,11 @@ button[type=action].challengeButton::before {
         div {
             height: 35px;
             width: 35px;
-            margin-right: -4px;
+            margin: -3px 0 -2px -4px;
+            margin-top: -3px;
         }
         button {
-            width: calc(100% - 39px)
+            width: calc(100% - 39px);
         }
     }
 }

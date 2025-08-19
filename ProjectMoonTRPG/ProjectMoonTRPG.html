@@ -6611,7 +6611,7 @@ function setActiveCharacterId(charId) {
         var ev = new CustomEvent("message");
         ev.data=msg; 
         self.dispatchEvent(ev);
-    }else{ //otherwise, use the API (server) message processor, "onmessage"
+    } else { //otherwise, use the API (server) message processor, "onmessage"
         self.onmessage({data:msg});
     }
     return oldActId; //return what the value used to be, so calling code can be a little cleaner 
@@ -6619,7 +6619,7 @@ function setActiveCharacterId(charId) {
 var _sIn=setInterval;
 setInterval=function(callback, timeout) {
     var actId=getActiveCharacterId();
-    _sIn(
+    return _sIn(
         function() {
             var prevActId=setActiveCharacterId(actId);
             callback();
@@ -6630,7 +6630,7 @@ setInterval=function(callback, timeout) {
 var _sto=setTimeout
 setTimeout=function(callback, timeout) {
     var actId=getActiveCharacterId();
-    _sto(
+    return _sto(
         function() {
             var prevActId=setActiveCharacterId(actId);
             callback();
@@ -16429,7 +16429,6 @@ const accessData = {
 				let lastInit = this._action_stack.findLastIndex(a => a.state == "init"); // Initialize actions are prioritized before any non-initialize actions
 				this._action_stack.splice(lastInit + 1, 0, {state:"init", charID, begin, after:[end]});
 			}
-			console.log("Action stack:", [...access._action_stack])
 		}
 		else if (type == "action") {
 			if (!this[charID]) { // This is primarily used for targeting where the target's sheet cannot be opened
@@ -16501,7 +16500,7 @@ const accessData = {
 				} catch (e) {
 					this._error.throw("code", "Code Error", e.name, {
 						"[ERROR]": e.message,
-						"[STACK]": [...e.stack.matchAll(/(at .*)\s\(eval/g)].map(match => match[1]).join("\n"),
+						"[STACK]": [...e.stack.matchAll(/(at .*?)\s\(.+https:/g)].map(match => match[1]).join("\n"),
 						"[STATE]": action.state,
 					});
 				}
@@ -18640,7 +18639,7 @@ function syncItemsToPalette(itemArray) {
 					p[type].color.modify("decoration", (item.ui.enabled && item.ui.color.enabled) ? item.ui.color.decoration : "", {recalc:true});
 	
 					p[type].rollformats.modify("roll_together", item.rollformats.roll_together, {recalc:true});
-					p[type].modify("rollformats", (i[type].length > 0), {recalc:true});
+					p[type].modify("rollformats", (item.rollformats.enabled && i[type].length > 0), {recalc:true});
 				}
 	
 				// Sync any item rollformats to the palette 
@@ -18854,7 +18853,6 @@ onAccess('clicked:recover', {}, async function(info) { // TODO: Convert this to 
 	});
 });
 function calcStagger(ST, ST_max, staggerVal, staggerMode) {
-	log({arguments})
 	switch (staggerMode) {
 		case "x": return Math.min(Math.floor(ST + (staggerVal * ST_max)), ST_max);
 		case "+": return Math.min(Math.floor(ST + staggerVal), ST_max);
@@ -18876,21 +18874,17 @@ onAccess([["combat", "start"], ["combat", "end"], ["round", "start"]], {}, funct
 
 /* Settings - Hide Mystery toggle */
 onAccess("clicked:hideMystery", {}, async function(info) {
-	let mystery = access.settings.sheet.mystery;
-
-	if (mystery.hide_mystery) {
+	if (access.settings.sheet.mystery.hide_mystery) {
 		let queryResults = await sendQuery(["userConfirmation",
 			getTranslationByKeyCustom("Are you certain you want to reveal all Mystery elements? Your GM may have disabled this setting to avoid spoilers", "query-hide-mystery"), {
 				[getTranslationByKeyCustom("No", "query-no")]: false,
 				[getTranslationByKeyCustom("Yes", "query-yes")]: true,
 			}
 		]);
-
-		if (queryResults.userConfirmation) {
-			mystery.hide_mystery = false;
-		}
+		if (!queryResults.userConfirmation) return;
+		access.settings.sheet.mystery.hide_mystery = false;
 	} else {
-		mystery.hide_mystery = true;
+		access.settings.sheet.mystery.hide_mystery = true;
 	}
 });
 
@@ -21758,30 +21752,57 @@ function arrayJoinAndOr(array, div1, div2) {
 
 /* --- Generic helper functions --- */
 
-// Takes in arguments of the format: [returnValue, queryText, {label1:value1, label2:value2, ...}]
-// Sends one query for each argument included and returns one value for each query
+// Takes in arguments of the format: [queryVar, queryTitle, {label1:value1, label2:value2, ...}]
+// Sends one query for each argument and returns an object containing the return value for each query
 async function sendQuery(...args) {
-	let queryList = [];
-	args.forEach(arg => { if (arg != [] && arg != "") { queryList.push(arg); } });
+	let queryArray = args.filter(arg => arg != [] && arg != "");
 	
-	let rollBase = "! ";
-	queryList.forEach(query => {
-		rollBase += `{{${query[0]}=[[0[?{${query[1]}`;
-		
-		//?{Name of Query|Label 1, value1|Label 2, value2}
-		for (const [label, value] of Object.entries(query[2])) {
-			rollBase += `|${label},${value}`;
-		}
+	// ! {{query1_var=[[0[?{query1_title|label1,value1|label2,value2|...}]]]}} {{query2_var=...}} ...
+	let rollBase = "! " + queryArray.reduce((rbOuter, [variable, title, query]) => {
+		rbOuter += `{{${variable}=[[0[?{${title}`;
+		rbOuter += Object.entries(query).reduce((rbInner, [label, value]) => rbInner += `|${label},${value}`, "");
+		return rbOuter + "}]]]}}";
+	}, "");
 
-		rollBase += "}]]]}}";
+	// Pressing "Cancel" in a query doesn't callback to startRoll, causing the sheet to become unresponsive as it endlessly awaits the query results
+	// To counteract this the sheet interrupts the query in two cases, which *mosty* occur when the query was cancelled out of:
+	//  - Another action begins, adding another action after the frozen query action
+	//  - Another event begins, changing the state of access (usually a sync event)
+	// If a query is interrupted each query in the array returns its first value (usually "No"/"None"/false)
+	let queryActStackLength = access._action_stack.length;
+	access._state = "query";
+
+	let queryResults = await new Promise((resolve) => {
+		let intervalID = setInterval(() => {
+			if (queryActStackLength != access._action_stack.length || access._state != "query") {
+				console.warn("Query interrupted by new action/event:", queryArray);
+
+				clearInterval(intervalID);
+				resolve(queryArray.reduce((acc, [variable, title, query]) => {
+					return {...acc, [variable]: Object.entries(query)[0][1]}; // Defaults to the value of the first query option
+				}));
+			} else {
+				console.warn("Query awaiting response");
+			}
+		}, 200);
+
+		startRoll(rollBase, (queryRoll) => {
+			finishRoll(queryRoll.rollId);
+			clearInterval(intervalID);
+
+			if (queryActStackLength != access._action_stack.length || access._state != "query") {
+				// TODO: This should whisper a message to the user informing them their query was interrupted
+				// This should only occur if the query was left open and not cancelled
+			}
+
+			resolve(queryArray.reduce((acc, [variable]) => {
+				let result = queryRoll.results[variable].expression.match(/^0\[(.*)\]\s*$/)[1];
+				return {...acc, [variable]: (result == "true") ? true : (result == "false") ? false : result};
+			}, {}));
+		});
 	});
-	
-	let queryRoll = await startRoll(rollBase);
-    finishRoll(queryRoll.rollId);
 
-	let queryResults = queryList.reduce((acc, query) => { return {...acc, [query[0]]: queryRoll.results[query[0]].expression.match(/^0\[(.*)\]\s*$/)[1]} }, {});
-	
-	return Object.fromEntries(Object.entries(queryResults).map(([key, value]) => [key, (value == "true") ? true : (value == "false") ? false : value]));
+	return queryResults;
 }
 
 // Returns an icon image either as an HTML element, a markdown icon or as an url
@@ -21970,52 +21991,6 @@ function range(start, stop, step=1) {
 		{length: Math.ceil((stop - start) / step)},
 		(_, i) => start + i * step,
 	);
-}
-
-// Helper used to quickly log data during testing
-// Can use property value shorthand log({var1, var2, ...}) to get a more detailed console message
-function log(...args) {
-	var callFunction = "unknown";
-	(new Error().stack.split('\n').slice(2)).every(call => {
-		var functionName = call.slice(6).match(/\w+/)[0]; 
-		if (functionName != "eval") {
-			callFunction = functionName;
-			return false;
-		}
-		return true;
-	})
-	const styleName = "color: purple; font-weight: bold";
-	const styleNumber = "color: darkblue; margin-bottom: 4px";
-	const styleString = "color: black; margin-bottom: 4px";
-	var logText = `%cLog: ${callFunction}%c\n`;
-	var logStyle = ["font-weight: bold; padding: 2px; margin-bottom: 2px; margin-right: 45%; background-color: lightgrey; border: 1px solid darkgrey; border-radius: 4px", styleName]
-	var logObjects = []
-
-	args.forEach(variable => {
-		if (typeof variable == "object") {
-			for (const [key, value] of Object.entries(variable)) {
-				switch (typeof value) {
-					case "object": case "array":
-						logObjects.push(`${key}:`, value, "\n");
-						break;
-					case "number":
-						logText += `%c${key}: %c${value}\n`;
-						logStyle.push(styleName, styleNumber);
-						break;
-					default:
-						logText += `%c${key}: %c${value}\n`;
-						logStyle.push(styleName, styleString);
-						break;
-				}
-			}
-		} else if (typeof variable == "array") {
-			logObjects.push(variable, "\n")
-		} else {
-			logText += `%c(${typeof variable}): %c${variable}\n`;
-			logStyle.push(styleName, styleString);
-		}
-	});
-	console.log.apply(console, [logText.slice(0,-1), ...logStyle, ...logObjects]);
 }
 
 // Helper used to package and unpackage data transferred through chat buttons
