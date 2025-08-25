@@ -268,16 +268,12 @@ body, .sheet-body {
     color: var(--color-darker-gray);
     opacity: 30%;
 }
-.distortProfile ::placeholder {
-    color: var(--color-lighter-gray) !important;
-}
 #globalSettings ::placeholder {
     color: var(--color-light-gray) !important;
 }
-.searchBar::placeholder {
+.distortProfile ::placeholder, .searchBar::placeholder {
     color: var(--color-lighter-gray) !important;
 }
-
 
 /* Cusomizable names for equipment, skills, mystery ect. */
 .contentName, input[type=text] {
@@ -449,12 +445,12 @@ body, .sheet-body {
 .editorContainer {
     position: fixed;
     z-index: 999;
+    box-shadow: var(--color-black) 0 0 10px;
 }
 .editorScroll {
     padding: 2px 5px 0 5px;
 }
 .editorHeader {
-    position: static;
     display: flex;
     align-items: center;
     background-color: var(--color-dark-gray);
@@ -687,7 +683,7 @@ input.fade-item { opacity: 80%;  --fade-opacity: 40%; }
 .hide-item-rev {
     display: inline-block !important;
 }
-.hide-item-rev:is(.rowContainer, .columnAlign) {
+.hide-item-rev:is(.rowContainer, .columnAlign, .editorOption) {
     display: flex !important;
 }
 .hide-toggle:checked ~ button,
@@ -837,7 +833,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 }
 
 /* Custom repcontrols */
-:is(.inventoryContainer, .itemOptionContainer, #inventorySettings, #globalVariables, #ailmentCustomEditor) {
+:is(.inventoryContainer, .editorOptionContainer, #inventorySettings, #globalVariables, #ailmentCustomEditor) {
     :is(.repcontrol_edit, .repcontrol_add, .repcontrol_del, .repcontrol_move) {
         min-width: 20px;
         margin: 0;
@@ -1946,6 +1942,7 @@ button[type=action].challengeButton::before {
     }
     .paletteMessage {
         z-index: 100;
+        pointer-events: none;
 
         span {
             font-size: 11px;
@@ -2334,7 +2331,8 @@ button[type=action].challengeButton::before {
 .inventoryContainer {
     min-width: 400px;
     background-color: transparent;
-    overflow: visible;
+    border-radius: 5px;
+    overflow: hidden;
 
     &.tool, &.augment {
         margin-top: 6px;
@@ -2892,7 +2890,6 @@ button[type=action].challengeButton::before {
     width: 45%;
     max-height: 80%;
     padding: 0 !important;
-    box-shadow: var(--color-black) 0 0 10px;
 
     & > .editorScroll {
         padding-bottom: 12px;
@@ -2932,18 +2929,18 @@ button[type=action].challengeButton::before {
     }
 
     /* Hides content related to uses for items with no uses ("Usable" is disabled) */
-    .itemHideUses:checked ~ .itemOption .itemUses {
+    .itemHideUses:checked ~ .editorOption .itemUses {
         display: none !important;
     }
 }
 
 /* An item option container displays one or more item options (see below) */
 /* Item options with nested sub-options store these inside a nested item option container */
-.itemOptionContainer {
+.editorOptionContainer {
     display: flex;
     flex-wrap: wrap;
-    padding: 3px 5px 0 5px;
-    gap: 3px;
+    padding: 2px 5px 0 5px;
+    gap: 2px;
     overflow: hidden;
 
     select {
@@ -2956,20 +2953,6 @@ button[type=action].challengeButton::before {
         }
     }
 
-    label {
-        width: fit-content;
-        height: 18px;
-        color: var(--color-white) !important;
-        font-size: 9pt !important;
-        margin-bottom: 0px;
-        cursor: pointer;
-        z-index: 10;
-
-        span {
-            padding: 5px 5px 5px 12px;
-        }
-    }
-
     &.inline {
         padding-right: 0;
     }
@@ -2977,7 +2960,7 @@ button[type=action].challengeButton::before {
 
 /* Item options are toggled on and off using a checkbox. */
 /* Each option contains a number of input elements used to configure the option */
-.itemOption {
+.editorOption {
     position: relative;
     box-sizing: border-box;
     width: calc((100% - 6px)/3); /* Item options display in rows of three with 3px gaps between them */
@@ -3001,6 +2984,20 @@ button[type=action].challengeButton::before {
     .optionText {
         color: var(--color-lighter-gray);
         margin: 1px;
+    }
+
+    label {
+        width: fit-content;
+        height: 18px;
+        color: var(--color-white) !important;
+        font-size: 9pt !important;
+        margin-bottom: 0px;
+        cursor: pointer;
+        z-index: 10;
+
+        span {
+            padding: 5px 5px 5px 12px;
+        }
     }
 
     /* Inline options display their contents in the same line as the option label */ 
@@ -3058,7 +3055,7 @@ button[type=action].challengeButton::before {
     }
 
     /* Nested options show a line connecting them to their parent option */
-    & > .itemOptionContainer {
+    & > .editorOptionContainer {
         padding: 6px 0 0 14px;
 
         &:not(.freeform) {
@@ -3066,8 +3063,8 @@ button[type=action].challengeButton::before {
             flex-wrap: nowrap;
         }
 
-        &:not(.freeform) > .itemOption::before,
-        &.freeform > .itemOption:has(> label input[type="checkbox"]:checked)::before {
+        &:not(.freeform) > .editorOption::before,
+        &.freeform > .editorOption:has(> label input[type="checkbox"]:checked)::before {
             content: "";
             position: absolute;
             width: 11px;
@@ -3082,20 +3079,20 @@ button[type=action].challengeButton::before {
 }
 
 /* Item editor - Repeating section styling */
-.itemOptionContainer {
+.editorOptionContainer {
     .repcontainer {
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-end;
         width: 100%;
-        gap: 3px;
+        gap: 2px;
 
         .inline > label {
             padding-top: 5px;
         }
     }
     .rowContainer {
-        gap: 3px;
+        gap: 2px;
         justify-content: flex-end;
     }
     .fitContents {
@@ -3199,7 +3196,7 @@ button[type=action].challengeButton::before {
     .linkedItemSelector {
         .repcontainer {
             width: 100%;
-            gap: 3px;
+            gap: 2px;
         }
         .repitem {
             width: 40%;
@@ -3397,6 +3394,7 @@ button[type=action].challengeButton::before {
 #settings label {
     color: var(--color-white) !important;
     font-size: 10pt !important;
+    cursor: pointer;
 }
 #settings {
     width: 27px;
@@ -3447,18 +3445,14 @@ button[type=action].challengeButton::before {
 
 
 /* Editor tabs */
-#inventorySettings {
-    box-sizing: border-box;
-    padding-bottom: 0 !important;
-
-    .editorButtonContainer {
-        padding-bottom: 5px;
-    }
-}
 #sheetSettings {
     border-radius: 0;
 }
-#sheetSettings h3, #inventorySettings h3 {
+#inventorySettings {
+    box-sizing: border-box;
+    padding-bottom: 0 !important;
+}
+:is(#sheetSettings, #inventorySettings) h3 {
     background-color: var(--color-gray);
     padding: 5px 0;
     position: relative;
@@ -3563,6 +3557,10 @@ button[type=action].challengeButton::before {
     left: 45px;
     right: 0px; 
     z-index: 1;
+
+    input[type="checkbox"] {
+        display: none;
+    }
 }
 .arrow {
     position: absolute; top: 12px; right: 10px;   
@@ -3617,13 +3615,84 @@ button[type=action].challengeButton::before {
 
 
 /* Game settings (Editor tab) */
+#globalSettings {
+    width: 100%;
+
+    .editorSection {
+        width: min-content;
+        min-width: 31%;
+        margin: 5px;
+        border-radius: 5px;
+        overflow: hidden;
+        color: var(--color-white) !important;
+        flex-grow: 0.5;
+    }
+    .editorOptionContainer {
+        padding: 2px 8px 3px 8px;
+        row-gap: 0;
+        background-color: var(--color-lighter-gray);
+        text-wrap-mode: nowrap;
+    }
+    .editorOption {
+        height: fit-content;
+        min-height: 28px;
+        min-width: min-content;
+        width: 100%;
+        max-width: 100px;
+        padding-left: 5px;
+        justify-content: flex-start;
+        flex-grow: 1;
+        
+        label {
+            position: relative;
+            box-sizing: border-box;
+            height: auto;
+            padding-top: 0;
+            padding-right: 2px;
+            font-size: 13px !important;
+            text-wrap-mode: wrap;
+
+            span {
+                display: inline-block;
+                padding: 3px 2px 0 12px;
+            }
+        }
+        input[type="checkbox"] {
+            top: calc(40% - 5px);
+            left: -8px;
+        }
+        &:has(> label input[type="checkbox"]:checked) {
+            max-width: 100%;
+
+            > label {
+                min-width: 100px;
+            }
+        }
+
+        .rowContainer {
+            width: auto;
+        }
+
+        .editorOptionContainer {
+            padding-left: 16px;
+            padding-bottom: 0;
+        }
+        &:has(.editorOptionContainer) {
+            padding-bottom: 0;
+        }
+        &::before {
+            top: calc(-200px + 6px);
+            left: -16px;
+            border-color: #bbb;
+        }
+    }
+}
 #globalSettings .transpInput {
     color: var(--color-light-gray) !important;
 }
 #globalSettings .repcontrol_move {
     display: none;
 }
-
 
 /* Custom ailments (Editor tab) */
 #ailmentCustomEditor {

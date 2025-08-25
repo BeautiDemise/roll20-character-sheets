@@ -200,7 +200,7 @@
 	
 	<!-- Editor header  -->
 	<div class="editorHeader">
-		<label for="itemInput" data-i18n="item-editor">Item Editor</label>
+		<label data-i18n="item-editor">Item Editor</label>
 		<input type="text" class="editorTarget" name="attr_itemEditName" readonly>
 		<input type="text" name="attr_itemEditorTarget" hidden>
 		
@@ -228,14 +228,14 @@
 	
 	<!-- Editor contents -->
 	<div class="editorScroll darkScroll">
-	<div class="itemOptionContainer freeform">
+	<div class="editorOptionContainer freeform">
 
 		<!-- Hide uses when the "Usable" option is disabled -->
 		<input type="checkbox" class="itemHideUses" name="attr_itemEditOptionLimited" value="0" hidden>
 		<input type="checkbox" class="itemHideUses" name="attr_itemEditOptionUses" value="0" hidden>
 
 		<!-- Option: Roll formats -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionRollFormats" value="true"><span>Roll format</span></label>
+		<div class="editorOption divide"><label><input type="checkbox" name="attr_itemEditOptionRollFormats" value="true"><span>Roll format</span></label>
 			<div class="rollFormatContainer">
 				
 				<!-- Custom add repeating rollformat button -->
@@ -293,10 +293,10 @@
 						<input type="text" name="attr_rollAutoscript" hidden>
 					</div>
 
-					<div class="itemOptionContainer inline freeform">
+					<div class="editorOptionContainer inline freeform">
 
 						<!-- Recycle / store roll -->
-						<div class="itemOption inline"><label><input type="checkbox" name="attr_optionStoreRoll" value="true"><span>Recycle (WIP)</span></label>
+						<div class="editorOption inline"><label><input type="checkbox" name="attr_optionStoreRoll" value="true"><span>Recycle (WIP)</span></label>
 							<div class="rollFormat">
 								<div class="rollFormatBlock"> <!-- Roll block -->
 									<input type="number" class="diceCount noSpinner" name="attr_storeCount" value="0">
@@ -317,7 +317,7 @@
 						</div>
 
 						<!-- Roll action cost -->
-						<div class="itemOption inline"><label><input type="checkbox" name="attr_optionRollAction" value="true"><span>Action</span></label>
+						<div class="editorOption inline"><label><input type="checkbox" name="attr_optionRollAction" value="true"><span>Action</span></label>
 							<div class="rowContainer fitContents">
 								<input type="checkbox" class="fade-toggle" name="attr_rollActionCost" value="0" hidden>
 								<div class="fade-item mediumIcon egoSpecial"></div>
@@ -337,7 +337,7 @@
 						</div>
 
 						<!-- Roll reaction cost -->
-						<div class="itemOption inline"><label><input type="checkbox" name="attr_optionRollReaction" value="true"><span>Reaction</span></label>
+						<div class="editorOption inline"><label><input type="checkbox" name="attr_optionRollReaction" value="true"><span>Reaction</span></label>
 							<div class="rowContainer fitContents">
 								<input type="checkbox" class="fade-toggle" name="attr_rollReactionCost" value="0" hidden checked>
 								<div class="fade-item mediumIcon reaction"></div>
@@ -357,7 +357,7 @@
 						</div>
 
 						<!-- Roll uses cost -->
-						<div class="itemOption itemUses inline"><label><input type="checkbox" name="attr_optionRollUses" value="true"><span>Uses</span></label>
+						<div class="editorOption itemUses inline"><label><input type="checkbox" name="attr_optionRollUses" value="true"><span>Uses</span></label>
 							<div class="rowContainer fitContents">
 								<input type="checkbox" class="fade-toggle" name="attr_rollUsesCost" value="0" hidden checked>
 								<div class="fade-item mediumIcon reusable"></div>
@@ -367,24 +367,24 @@
 
 						<!-- Multiroll -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_rollMode" value="Roll"> <!-- Applied rolls cannot be multirolls -->
-						<div class="itemOption hide-item"><label><input type="checkbox" name="attr_rollMultiroll" value="true"><span>Multiroll</span></label></div>
+						<div class="editorOption hide-item"><label><input type="checkbox" name="attr_rollMultiroll" value="true"><span>Multiroll</span></label></div>
 					</div>
 				</fieldset>
 			</div>
 
 			<!-- Roll all formats together-->
-			<div class="itemOption" style="margin-top: 1px; margin-bottom: -2px;">
+			<div class="editorOption" style="margin-top: 1px; margin-bottom: -3px;">
 				<label><input type="checkbox" name="attr_itemEditRollTogether" value="true"><span>Roll together</span></label>
 			</div>
 		</div>
 
 
 		<!-- Option: Resistances -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionResist" value="true"><span>Resistances</span></label>
-			<div class="itemOptionContainer">
+		<div class="editorOption divide"><label><input type="checkbox" name="attr_itemEditOptionResist" value="true"><span>Resistances</span></label>
+			<div class="editorOptionContainer">
 					
 				<!-- Base Damage Resistance -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionResistBaseDamage" value="true"><span>Base damage</span></label>
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionResistBaseDamage" value="true"><span>Base damage</span></label>
 					<div class="columnAlign">
 						
 						<!-- Slash -->
@@ -432,7 +432,7 @@
 				</div>
 
 				<!-- Flat Damage Resistance -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionResistFlatDamage" value="true"><span>Flat damage (WIP)</span></label>
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionResistFlatDamage" value="true"><span>Flat damage (WIP)</span></label>
 					<div class="columnAlign">
 						
 						<!-- Slash -->
@@ -501,7 +501,7 @@
 				</div>
 
 				<!-- Ailment Resistance -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionResistAilments" value="true"><span>Ailments (WIP)</span></label>
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionResistAilments" value="true"><span>Ailments (WIP)</span></label>
 					<div class="columnAlign" style="margin-top: 3px;">
 	
 						<!-- Custom Resist -->
@@ -523,11 +523,11 @@
 
 
 		<!-- Option: Usable (Tool) -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionUsable" value="true"><span>Usable</span></label>
-			<div class="itemOptionContainer">
+		<div class="editorOption divide"><label><input type="checkbox" name="attr_itemEditOptionUsable" value="true"><span>Usable</span></label>
+			<div class="editorOptionContainer">
 
 				<!-- Usable action cost -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUsableAction" value="true"><span>Action</span></label>
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionUsableAction" value="true"><span>Action</span></label>
 					<div class="rowContainer fitContents">
 						<input type="checkbox" class="fade-toggle" name="attr_itemEditUsableActionCost" value="0" hidden checked>
 						<div class="fade-item mediumIcon egoSpecial"></div>
@@ -547,7 +547,7 @@
 				</div>
 
 				<!-- Usable reaction cost -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUsableReaction" value="true"><span>Reaction</span></label>
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionUsableReaction" value="true"><span>Reaction</span></label>
 					<div class="rowContainer fitContents">
 						<input type="checkbox" class="fade-toggle" name="attr_itemEditUsableReactionCost" value="0" hidden checked>
 						<div class="fade-item mediumIcon reaction"></div>
@@ -567,7 +567,7 @@
 				</div>
 
 				<!-- Usable item uses cost -->
-				<div class="itemOption itemUses inline"><label><input type="checkbox" name="attr_itemEditOptionUsableUses" value="true"><span>Uses</span></label>
+				<div class="editorOption itemUses inline"><label><input type="checkbox" name="attr_itemEditOptionUsableUses" value="true"><span>Uses</span></label>
 					<div class="rowContainer fitContents">
 						<input type="checkbox" class="fade-toggle" name="attr_itemEditUsableUsesCost" value="0" hidden checked>
 						<div class="fade-item mediumIcon reusable"></div>
@@ -579,11 +579,11 @@
 
 
 		<!-- Option: Limited uses -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionLimited" value="true"><span>Limited uses</span></label>
-			<div class="itemOptionContainer">
+		<div class="editorOption divide"><label><input type="checkbox" name="attr_itemEditOptionLimited" value="true"><span>Limited uses</span></label>
+			<div class="editorOptionContainer">
 			
 				<!-- Item uses -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionUses" value="true"><span>Uses (WIP)</span></label>
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionUses" value="true"><span>Uses (WIP)</span></label>
 					<div class="itemUseTracker">
 						<input type="checkbox" class="fade-toggle" name="attr_itemEditUsesMax" value="0" hidden checked>
 						<div class="fade-item mediumIcon reusable"></div>
@@ -605,7 +605,7 @@
 				</div>
 
 				<!-- Light cost -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionLightCost" value="true"><span>Light cost</span></label>
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionLightCost" value="true"><span>Light cost</span></label>
 					<div class="rowContainer fitContents">
 						<input type="checkbox" class="fade-toggle" name="attr_itemEditLightCost" value="0" hidden checked>
 						<div class="fade-item mediumIcon light"></div>
@@ -617,12 +617,12 @@
 
 
 		<!-- Option: Equip Slots -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionEquipSlots" value="true"><span>Equip slots</span></label>
-			<div class="itemOptionContainer" style="gap: 0">
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionGiveSlots" value="true"><span>Gives</span></label>
+		<div class="editorOption divide"><label><input type="checkbox" name="attr_itemEditOptionEquipSlots" value="true"><span>Equip slots</span></label>
+			<div class="editorOptionContainer" style="gap: 0">
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionGiveSlots" value="true"><span>Gives</span></label>
 					<textarea spellcheck="false" class="editorInput whiteInput darkScroll" name="attr_itemEditGiveSlotsRawText" placeholder="Slot N, Slot N, ..."></textarea>
 				</div>
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionRequireSlots" value="true"><span>Requires</span></label>
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionRequireSlots" value="true"><span>Requires</span></label>
 					<textarea spellcheck="false" class="editorInput whiteInput darkScroll" name="attr_itemEditRequireSlotsRawText" placeholder="Slot N, Slot N, ..."></textarea>
 				</div>
 			</div>
@@ -630,7 +630,7 @@
 
 		
 		<!-- Option: Linked -->
-		<div class="itemOption inline divide"><label><input type="checkbox" name="attr_itemEditOptionLinked" value="true"><span>Linked (WIP)</span></label>
+		<div class="editorOption inline divide"><label><input type="checkbox" name="attr_itemEditOptionLinked" value="true"><span>Linked (WIP)</span></label>
 			<div class="columnAlign" style="display: none;">
 				<div class="rowContainer">
 					<input type="checkbox" class="whiteInput" name="attr_itemEditLinkedEquipTogether" value="true" data-i18n-title="item-linked-equiptogether" title="Auto: Equip item with linked item">
@@ -682,12 +682,12 @@
 
 
 		<!-- Option: Tags -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionTags" value="true"><span>Tags</span></label>
-			<div class="itemOptionContainer" style="gap: 0">
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionGiveTags" value="true"><span>Gives</span></label>
+		<div class="editorOption divide"><label><input type="checkbox" name="attr_itemEditOptionTags" value="true"><span>Tags</span></label>
+			<div class="editorOptionContainer" style="gap: 0">
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionGiveTags" value="true"><span>Gives</span></label>
 					<textarea spellcheck="false" class="editorInput whiteInput darkScroll" name="attr_itemEditGiveTagsRawText" placeholder="Tag N, Tag N, ..."></textarea>
 				</div>
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionRequireTags" value="true"><span>Requires</span></label>
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionRequireTags" value="true"><span>Requires</span></label>
 					<textarea spellcheck="false" class="editorInput whiteInput darkScroll" name="attr_itemEditRequireTagsRawText" placeholder="Tag N, Tag N, ..."></textarea>
 				</div>
 			</div>
@@ -695,7 +695,7 @@
 
 
 		<!-- Option: Mystery -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionMystery" value="true"><span>Mystery</span></label>
+		<div class="editorOption divide"><label><input type="checkbox" name="attr_itemEditOptionMystery" value="true"><span>Mystery</span></label>
 			
 			<!-- Unfinished -->
 			<!-- <input type="text" class="whiteInput" name="attr_itemEditMysteryActivation" placeholder="Mystery activation"> -->
@@ -703,11 +703,11 @@
 
 
 		<!-- Option: Custom UI -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionCustomUI" value="true"><span>Custom UI</span></label>
-			<div class="itemOptionContainer freeform">
+		<div class="editorOption divide"><label><input type="checkbox" name="attr_itemEditOptionCustomUI" value="true"><span>Custom UI</span></label>
+			<div class="editorOptionContainer freeform">
 				
 				<!-- Custom colors -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionColor" value="true"><span>Color</span></label>
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionColor" value="true"><span>Color</span></label>
 					<div class="columnAlign">
 						<div class="rowContainer">
 							<span class="optionText">Base</span>
@@ -722,29 +722,29 @@
 				</div>
 				
 				<!-- Custom icon -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionIcon" value="true"><span>Icon (WIP)</span></label>
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionIcon" value="true"><span>Icon (WIP)</span></label>
 					<input type="text" class="whiteInput" name="attr_itemEditIconSource" placeholder="Icon source">
 					<!-- Unfinished -->
 				</div>
 
 				<!-- Custom position -->
-				<div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionPosition" value="true"><span>Position</span></label>
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionPosition" value="true"><span>Position</span></label>
 					<span class="optionText">X</span><input type="number" class="darkInput hoverSpinner" name="attr_itemEditPositionX" value="0">
 					<span class="optionText">Y</span><input type="number" class="darkInput hoverSpinner" name="attr_itemEditPositionY" value="0">
 				</div>
 
 				<!-- Custom UI elements -->
-				<div class="itemOption"><label><input type="checkbox" name="attr_itemEditWeaponUI" value="true"><span>Weapon</span></label></div>
-				<div class="itemOption"><label><input type="checkbox" name="attr_itemEditAugmentUI" value="true"><span>Augment</span></label></div>
-				<div class="itemOption"><label><input type="checkbox" name="attr_itemEditSpecialUI" value="true"><span>Special</span></label></div>
-				<div class="itemOption"><label><input type="checkbox" name="attr_itemEditSkillUI" value="true"><span>Skill</span></label></div>
-				<div class="itemOption"><label><input type="checkbox" name="attr_itemEditHalfUI" value="true"><span>Half (WIP)</span></label></div>
+				<div class="editorOption"><label><input type="checkbox" name="attr_itemEditWeaponUI" value="true"><span>Weapon</span></label></div>
+				<div class="editorOption"><label><input type="checkbox" name="attr_itemEditAugmentUI" value="true"><span>Augment</span></label></div>
+				<div class="editorOption"><label><input type="checkbox" name="attr_itemEditSpecialUI" value="true"><span>Special</span></label></div>
+				<div class="editorOption"><label><input type="checkbox" name="attr_itemEditSkillUI" value="true"><span>Skill</span></label></div>
+				<div class="editorOption"><label><input type="checkbox" name="attr_itemEditHalfUI" value="true"><span>Half (WIP)</span></label></div>
 			</div>
 		</div>
 
 
 		<!-- Option: Card -->
-		<div class="itemOption divide"><label><input type="checkbox" name="attr_itemEditOptionCardCombat" value="true"><span>Card (WIP)</span></label>
+		<div class="editorOption divide"><label><input type="checkbox" name="attr_itemEditOptionCardCombat" value="true"><span>Card (WIP)</span></label>
 			<!-- Should be hidden when a game settings is disabled -->
 		</div>
 
@@ -2562,7 +2562,7 @@ EGO block end -->
 </div>
 
 
-<!-- Item Settings Section. Used for both Equipment and Skills! -->
+<!-- Inventory Settings (Used for both Equipment and Skills) -->
 <div id="inventorySettings" class="sheet-body darkBG contentContainer" hidden>
 	
 	<!-- Test buttons. TODO: Remove these -->
@@ -2577,7 +2577,7 @@ EGO block end -->
 	<!-- <span style="color: white">Intermediary:</span><input type="text" name="attr_intermediaryID"> -->
 	<!-- <span style="color: white">Target:</span><input type="text" name="attr_targetID"> -->
 
-	<h3 class="rowContainer">
+	<h3 class="editorTitle rowContainer">
 
 		<!-- Lock Button -->
 		<input type="checkbox" class="switch-toggle" name="attr_syncLockItems" value="true" hidden>
@@ -2642,7 +2642,7 @@ EGO block end -->
 </div>
 
 
-<!-- Equipment section -->
+<!-- Equipment tab -->
 <div id="equipmentTab" class="sheet-body darkBG">
 <div id="equipmentSection" class="contentBlock">
 
@@ -4376,7 +4376,7 @@ EGO block end -->
 
 
 
-<!-- Skill section -->
+<!-- Skills tab -->
 <div id="skillsTab" class="sheet-body darkBG">
 <div id="skillSection" class="contentBlock">
 
@@ -4728,7 +4728,7 @@ EGO block end -->
 <!-- Skill section END -->
 
 
-<!-- Character Details -->
+<!-- Character Details tab -->
 <div id="detailsTab" class="sheet-body darkBG">
 <div class="contentContainer" id="characterDetails">
 
@@ -4907,15 +4907,12 @@ EGO block end -->
 
 <!-- distortion details end -->
 
-
-
 </div>
 </div>
 </div>
-
 <!-- Details END -->
 
-<!-- Sheet Editor -->
+<!-- Export/Import tab -->
 <div id="exportTab" class="sheet-body darkBG">
 <div class="contentContainer" id="sheetExport">
 	<div class="rowContainer centerFlex">
@@ -4957,361 +4954,483 @@ EGO block end -->
 </div>
 
 
-<!-- Sheet Editor -->
-	<div id="editTab" class="sheet-body darkBG">
-
+<!-- Editor tab -->
+<div id="editTab" class="sheet-body darkBG">
 <input type="text" name="attr_global_editKey" hidden>
-<div class="rowContainer centerFlex">
-<input type="checkbox" class="hide-toggle" name="attr_global_accessCheck" value="0" hidden>
-<div class="hide-item" style="width: 200px; height: 250px; text-align: center;">
-<h4 data-il18n-placeholder="editor-pw">Edit Mode Password</h4>
-<input type="text" class="darkInput" name="attr_global_access">
-</div>
-</div>
+<input type="checkbox" class="hide-toggle hide-toggle-rev" name="attr_global_accessCheck" value="0" hidden>
 
-	<div class="contentContainer" id="sheetSettings">
-
-<input type="checkbox" class="hide-toggle-rev" name="attr_global_accessCheck" value="0" hidden>
-<div class="hide-item-rev rowContainer">
-
-
-<!-- Game Setting Section -->
-<div style="width: 100%;"><h3>
-<input type="checkbox" class="switch-toggle" name="attr_syncLockGame" value="true" hidden>
-<button type="action" class="lockButton largeIcon" id="lock_game" name="act_lockSection" data-i18n-title="editor-lock" title="Lock editor contents during Apply Default Settings"></button>
-<div>
-	<input type="checkbox" class="hide-toggle" name="attr_syncStateGame" value="true">
-	<div class="hide-item syncIcon"></div>
+<!-- Editor password -->
+<div class="hide-item-rev rowContainer centerFlex">
+	<div style="height: 250px; text-align: center;">
+		<h4 data-il18n-placeholder="editor-pw">Edit Mode Password</h4>
+		<input type="text" class="darkInput" name="attr_global_access">
+	</div>
 </div>
 
-<span data-i18n="editor-gamesettings">Game Settings</span> 
+<!-- Editor contents -->
+<div id="sheetSettings" class="hide-item contentContainer">
 
-<label for="hideGameSettings" class="arrowholder"><input type="checkbox" class="switch-toggle" id="hideGameSettings" name="attr_hideGameSettings" value="true" style="display: none;"><div class="arrow"></div></label></h3>
+	<!-- Game Setting header -->
+	<h3 class="editorTitle">
 
-<input type="checkbox" class="hide-toggle-rev" name="attr_hideGameSettings" value="true" hidden>
-<div class="hide-item-rev" style="width: 100%;">
+		<!-- Lock Button -->
+		<input type="checkbox" class="switch-toggle" name="attr_syncLockGame" value="true" hidden>
+		<button type="action" class="lockButton largeIcon" id="lock_game" name="act_lockSection" data-i18n-title="editor-lock" title="Lock editor contents during Apply Default Settings"></button>
+		<div>
+			<input type="checkbox" class="hide-toggle" name="attr_syncStateGame" value="true">
+			<div class="hide-item syncIcon"></div>
+		</div>
 
-<div class="rowContainer centerFlex">
-	<textarea spellcheck="false" name="attr_gameEditor" data-i18n-placeholder="editor-gamesettings-textedit" placeholder="Game Settings output"></textarea>
-</div>
-<div class="rowContainer">
-<button type="action" name="act_resetGlobal" data-i18n="clear-button" class="btn">Clear</button>
-<button type="action" name="act_syncGlobal" data-i18n="sync-button" class="btn">Sync Data</button>
-<button type="action" name="act_exportGlobal" data-i18n="message-export" class="btn">Export</button>
-<button type="action" name="act_importGlobal" data-i18n="message-import" class="btn">Import</button>
-</div>
+		<span data-i18n="editor-gamesettings">Game Settings</span> 
 
+		<!-- Minimize Button -->
+		<label class="arrowholder"><input type="checkbox" class="switch-toggle" name="attr_hideGameSettings" value="true"><div class="arrow"></div></label>
+	</h3>
 
-<!-- Obscured -->
-<div id="globalSettings" class="noRepControls">
-<fieldset class="repeating_global">
-
-<input type="text" name="attr_editKey" hidden>
-<textarea name="attr_gameSettingSource" hidden></textarea>
-<textarea name="attr_ailmentSettingSource" hidden></textarea>
-<textarea name="attr_generalSettingSource" hidden></textarea>
-
-<div class="rowContainer">
-
-<!-- General settings -->
-<div style="text-align: left; padding: 10px;">
-
-<div>
-<div class="settingStyle">
-<div style="width: 100px">
-<b data-i18n="editor-rulename">Ruleset Name</b>:</div> <input type="text" style="input" name="attr_ruleName" data-i18n="editor-rulename-placeholder" value="Original Rulebook (Default)">
-</div>
-
-<!-- Character level -->
-<!-- <div class="itemOption inline"><label><input type="checkbox" name="attr_itemEditOptionLimited" value="true"><span data-i18n="character-level">Level</span></label> -->
+	<!-- Game Setting contents -->
+	<input type="checkbox" class="hide-toggle-rev" name="attr_hideGameSettings" value="true" hidden>
+	<div id="globalSettings" class="hide-item-rev">
+		<textarea spellcheck="false" name="attr_gameEditor" data-i18n-placeholder="editor-gamesettings-textedit" placeholder="Game Settings output"></textarea>
 	
-	<!-- TODO: Reuse the item editor code to make all game settings optional -->
-	<!-- Game settings which are toggled off do not trigger automatic recalcs -->
-	
-	<div class="settingStyle"><div style="width: 100px">
-	<b data-i18n="character-level">Level</b>:</div> <input type="number" name="attr_expCalc" value="8"> <span data-i18n="character-exp">EXP</span>
-	</div>
-<!-- </div> -->
+		<div class="rowContainer" style="margin-bottom: 10px;">
+			<button type="action" name="act_resetGlobal" data-i18n="clear-button" class="btn">Clear</button>
+			<button type="action" name="act_syncGlobal" data-i18n="sync-button" class="btn">Sync Data</button>
+			<button type="action" name="act_exportGlobal" data-i18n="message-export" class="btn">Export</button>
+			<button type="action" name="act_importGlobal" data-i18n="message-import" class="btn">Import</button>
+		</div>
 
-<!-- Character status bars -->
-<div class="settingStyle">
-<div style="width: 100px">
-<b data-i18n="bar-health">Health</b>:</div> <input type="number" name="attr_healthBase" value="30">
-+ (<select type="text" name="attr_healthStat" value="Fortitude" style="width: 80px;">
-	<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
-	<option value="FortitudeTemperance" data-i18n="editor-instinct-temperance">(Fortitude + Temperance)/2</option>
-</select> *
-	<input type="number" name="attr_healthStatMod" value="6">
-) + (
-	<span data-i18n="rank">Rank</span> *
-	<input type="number" name="attr_healthRankMod" value="6">
-)
-</div>
+		<div class="rowContainer" style="flex-wrap: wrap; justify-content: space-evenly; align-items: center;">
 
-<div class="settingStyle"><div style="width: 100px">
-<b data-i18n="bar-stagres">Stagger Res</b>:</div> <input type="number" name="attr_staggerBase" value="20">
-+ (
-	<select type="text" name="attr_staggerStat" value="Charm" style="width: 80px;">
-<option value="Charm" data-i18n="stats-charm">Charm</option>
-<option value="CharmJustice" data-i18n="editor-charm-justice">(Charm + Justice)/2</option>
-	</select> *  
- 	<input type="number" name="attr_staggerStatMod" value="4">
-) + (
-	<span data-i18n="rank">Rank</span> *
-	<input type="number" name="attr_staggerRankMod" value="4">
-)
-</div>
+			<!-- Base stats -->
+			<div class="editorSection">
+				<h3 class="editorTitle">
+					<input type="checkbox" class="switch-toggle" name="attr_syncLockBaseStats" value="true" hidden> <!-- Lock Button -->
+					<button type="action" id="lock_baseStats" class="lockButton largeIcon" name="act_lockSection" data-i18n-title="editor-lock" title="Lock editor contents during Apply Default Settings"></button>
+					<span data-i18n="editor-base-stats">Base stats</span>
+				</h3>
 
-<div class="settingStyle"><div style="width: 100px">
-<b data-i18n="bar-sanity">Sanity</b>:</div> <input type="number" name="attr_sanityBase" value="15">
-+ (
-	<select type="text" name="attr_sanityStat" value="Prudence" style="width: 80px;">
-<option value="Prudence" data-i18n="stats-wisdom">Prudence</option>
-<option value="PrudenceInsight" data-i18n="editor-wisdom-insight">(Prudence + Insight)/2</option>
-	</select> * 
-	<input type="number" name="attr_sanityStatMod" value="3">
-) + (
-	<span data-i18n="rank">Rank</span> *
-	<input type="number" name="attr_sanityRankMod" value="0">
-)
-</div>
+				<div class="editorOptionContainer">
 
-<div class="settingStyle"><div style="width: 100px">
-<b data-i18n="bar-light">Light</b>:</div> <input type="number" name="attr_lightBase" value="3">
- + (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_lightRankMod" value="1">)
-</div>
+					<!-- Character rank & level -->
+					<div class="editorOption inline"><label><input type="checkbox" name="attr_globalEditOptionRank" value="true"><span data-i18n="rank">Rank</span></label>
+						<div class="rowContainer">
+							<input type="number" name="attr_rankBase" value="0">
+							+ (<span data-i18n="heading-stats">Stats</span> / <input type="number" name="attr_rankCalc" value="6">)
+						</div>
+					</div>
+		
+					<div class="editorOption inline"><label><input type="checkbox" name="attr_globalEditOptionLevel" value="true"><span data-i18n="character-level">Level</span></label>
+						<div class="rowContainer">
+							<input type="number" name="attr_expBase" value="0">
+							+ (<span data-i18n="character-exp">EXP</span> / <input type="number" name="attr_expCalc" value="8">)
+						</div>
+					</div>
+		
+					<!-- Character status bars -->
+					<div class="editorOption inline"><label><input type="checkbox" name="attr_globalEditOptionHealth" value="true"><span data-i18n="bar-health">Health</span></label>
+						<div class="rowContainer">
+							<input type="number" name="attr_healthBase" value="72">
+							+ (<select type="text" name="attr_healthStat" value="Fortitude" style="width: 80px;">
+								<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
+								<option value="FortitudeTemperance" data-i18n="editor-instinct-temperance">(Fortitude + Temperance)/2</option>
+								</select>
+								* <input type="number" name="attr_healthStatMod" value="8">)
+							+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_healthRankMod" value="8">)
+						</div>
+					</div>
+		
+					<div class="editorOption inline"><label><input type="checkbox" name="attr_globalEditOptionStaggerRes" value="true"><span data-i18n="bar-stagres">Stagger Res</span></label>
+						<div class="rowContainer">
+							<input type="number" name="attr_staggerBase" value="20">
+							+ (<select type="text" name="attr_staggerStat" value="Charm" style="width: 80px;">
+								<option value="Charm" data-i18n="stats-charm">Charm</option>
+								<option value="CharmJustice" data-i18n="editor-charm-justice">(Charm + Justice)/2</option>
+							</select>
+							* <input type="number" name="attr_staggerStatMod" value="4">)
+							+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_staggerRankMod" value="4">)
+						</div>
+					</div>
+		
+					<div class="editorOption inline"><label><input type="checkbox" name="attr_globalEditOptionSanity" value="true"><span data-i18n="bar-sanity">Sanity</span></label>
+						<div class="rowContainer">
+							<input type="number" name="attr_sanityBase" value="15">
+							+ (<select type="text" name="attr_sanityStat" value="Prudence" style="width: 80px;">
+								<option value="Prudence" data-i18n="stats-wisdom">Prudence</option>
+								<option value="PrudenceInsight" data-i18n="editor-wisdom-insight">(Prudence + Insight)/2</option>
+								</select>
+								* <input type="number" name="attr_sanityStatMod" value="3">
+							) + (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_sanityRankMod" value="0">)
+						</div>
+					</div>
 
-<div class="settingStyle"><div style="width: 100px">
-<b data-i18n="editor-distortlight">Distort Light</b>:</div> <input type="number" name="attr_distortLightBase" value="5">
- + (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_distortLightRankMod" value="1">)
-</div>
+					<div class="editorOption inline"><label><input type="checkbox" name="attr_globalEditOptionLight" value="true"><span data-i18n="bar-light">Light</span></label>
+						<div class="rowContainer">
+							<input type="number" name="attr_lightBase" value="3">
+							+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_lightRankMod" value="1">)
+						</div>
+					</div>
 
-<div class="settingStyle"><div style="width: 100px; height: 28px;">
-<b data-i18n="editor-lightregen-cap">Light regen Cap</b>:</div> <input type="number" name="attr_lightRegenBase" value="3">
- + (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_lightRegenRankMod" value="1">)
- + (<span data-i18n="stats-wisdom">Prudence</span> * <input type="number" name="attr_lightRegenStatMod" value="0">)
-</div>
+					<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideMystery" value="true">
+					<div class="hide-item-rev editorOption inline"><label><input type="checkbox" name="attr_globalEditOptionLightDistort" value="true"><span data-i18n="editor-distortlight">Light (Distort)</span></label>
+						<div class="rowContainer">
+							<input type="number" name="attr_distortLightBase" value="5">
+							+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_distortLightRankMod" value="1">)
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Stagger -->
+			<div class="editorSection">
+				<h3 class="editorTitle">
+					<input type="checkbox" class="switch-toggle" name="attr_syncLockCombatStates" value="true" hidden> <!-- Lock Button -->
+					<button type="action" id="lock_combatStates" class="lockButton largeIcon" name="act_lockSection" data-i18n-title="editor-lock" title="Lock editor contents during Apply Default Settings"></button>
+					<span data-i18n="editor-combat-states">Combat states</span>
+				</h3>
 
-<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
-<b data-i18n="editor-lightregen-sources">Light regen Sources</b>:
-</div><div class="settingStyle" style="flex-wrap: wrap; width: 320px;">
-<div><input type="number" name="attr_lightRegenStaggerSelf" value="0"><span data-i18n="editor-lightregen-stagger-self">Self stagger</span>,&nbsp;</div>
-<div><input type="number" name="attr_lightRegenStaggerEnemy" value="0"><span data-i18n="editor-lightregen-stagger-enemy">Enemy stagger</span>,&nbsp;</div>
-<div><input type="number" name="attr_lightRegenDefeatEnemy" value="0"><span data-i18n="ego-active-EnemyDefeat">Enemy defeat</span>,&nbsp;</div>
-<div><input type="number" name="attr_lightRegenRoundEnd" value="0"><span data-i18n="autoeffect-trigger-roundend">Round end</span></div>
-</div></div>
+				<div class="editorOptionContainer">
 
-<!-- Recover calculation -->
-<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
-<b data-i18n="editor-combat-end-stagger">Combat end Stagger</b>:</div>
-<select name="attr_combatEndStaggerMode" style="width: 40px;">
-	<option value="+" selected>+</option>
-	<option value="x">x</option>
-	<option value="=">=</option>
-</select>
-<input type="text" name="attr_combatEndStaggerVal" style="width: 40px;" value="0">
-</div>
+					<!-- Stagger -->
+					<div class="editorOption"><label><input type="checkbox" name="attr_globalEditOptionStagger" value="true"><span data-i18n="ailments-stagger-title">Stagger</span></label>
+						<div class="editorOptionContainer inline freeform">
 
-<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
-<b data-i18n="editor-combat-end-light">Combat end Light</b>:</div> <input type="number" name="attr_combatEndLightBase" value="0">
-+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_combatEndLightRankMod" value="0">)
-</div>
+							<div class="editorOption inline"><label><input type="checkbox" name="attr_globalEditOptionStaggerRecovery" value="true"><span data-i18n="editor-stg-recovery">Recovery</span></label>
+								<div class="rowContainer">
+									<input type="number" name="attr_staggerRecoveryPercent" min="0" max="100" value="100">%
+									+ <input type="number" name="attr_staggerRecoveryBase" value="0">
+								</div>
+							</div>
+							<div class="editorOption inline"><label><input type="checkbox" name="attr_globalEditOptionStaggerDuration" value="true"><span data-i18n="autoeffect-option-duration">Duration</span></label>
+								<input type="number" name="attr_staggerDuration" value="1">
+							</div>
 
-<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
-<b data-i18n="editor-recover-health">Recover Health</b>:</div> <input type="number" name="attr_recoverHPBase" value="8">
-+ (<select type="text" name="attr_healthStat" value="Fortitude" style="width: 80px;">
-	<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
-	<option value="FortitudeTemperance" data-i18n="editor-instinct-temperance">(Fortitude + Temperance)/2</option>
-</select>
-* <input type="number" name="attr_recoverHPStatMod" value="2">)
-+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_recoverHPRankMod" value="2">)
-</div>
+							<div class="editorOption inline"><label><input type="checkbox" name="attr_globalEditOptionStaggerSPDamage" value="true"><span data-i18n="editor-stg-sanity">SP Damage</span></label>
+								<input type="number" name="attr_staggerSPDamage" value="5">
+							</div>
+						</div>
+					</div>
 
-<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
-<b data-i18n="editor-recover-sanity">Recover Sanity</b>:</div> <input type="number" name="attr_recoverSPBase" value="3">
-+ (<select type="text" name="attr_sanityStat" value="Prudence" style="width: 80px;">
-	<option value="Prudence" data-i18n="stats-wisdom">Prudence</option>
-	<option value="PrudenceInsight" data-i18n="editor-wisdom-insight">(Prudence + Insight)/2</option>
-</select>
-* <input type="number" name="attr_recoverSPStatMod" value="1">)
-+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_recoverSPRankMod" value="0">)
-</div>
+					<!-- Panic -->
+					<div class="editorOption"><label><input type="checkbox" name="attr_globalEditOptionPanic" value="true"><span data-i18n="ailments-panic-title">Panic</span></label>
+						<div class="editorOptionContainer inline freeform">
 
-<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
-<b data-i18n="editor-recover-stagger">Recover Stagger Res</b>:</div>
-<select name="attr_recoverStaggerMode" style="width: 40px;">
-	<option value="+" selected>+</option>
-	<option value="x">x</option>
-	<option value="=">=</option>
-</select>
-<input type="text" name="attr_recoverStaggerVal" style="width: 40px;" value="0">
-</div>
+							<div class="editorOption inline"><label><input type="checkbox" name="attr_globalEditOptionPanicDuration" value="true"><span data-i18n="autoeffect-option-duration">Duration</span></label>
+								<input type="number" name="attr_panicDuration" value="1">
+							</div>
+						</div>
+					</div>
 
-<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
-<b data-i18n="editor-recover-light">Recover Light</b>:</div> <input type="number" name="attr_recoverLightBase" value="1">
-+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_recoverLightRankMod" value="0">)
-</div>
+					<!-- Defeat -->
+					<div class="editorOption"><label><input type="checkbox" name="attr_globalEditOptionDefeat" value="true"><span data-i18n="ailments-defeat-title-alt">Defeat</span></label>
+						<div class="editorOptionContainer inline freeform">
 
-<!-- Attack power -->
-<div class="settingStyle">
-	<div style="width: 100px"><b data-i18n="helper-att-power">Att Power</b>:</div>
-	<select type="text" name="attr_attStat" value="Fortitude" style="width: 120px;">
-<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
-<option value="Rank" data-i18n="rank">Rank</option>
-<option value="FortitudeRank" data-i18n="editor-instinct-rank">Fortitude + Rank</option>
-<option value="FortitudePrudence" data-i18n="editor-instinct-wisdom">(Fortitude + Prudence)/2</option>
-</select>
-+ <span data-i18n="ailments-strength">Strength</span> / <span data-i18n="ailments-feeble">Feeble</span>
-</div>
+							<div class="editorOption inline"><label><input type="checkbox" name="attr_globalEditOptioDefeatDuration" value="true"><span data-i18n="autoeffect-option-duration">Duration</span></label>
+								<input type="number" name="attr_defeatDuration" value="1">
+							</div>
+						</div>
+					</div>
 
-<!-- Defence power -->
-<div class="settingStyle">
-	<div style="width: 100px"><b data-i18n="helper-def-power">Def Power</b>:</div>
-	<select type="text" name="attr_defStat" value="Temperance" style="width: 120px;">
-<option value="Temperance" data-i18n="stats-temperance">Temperance</option>
-<option value="Rank" data-i18n="rank">Rank</option>
-<option value="TemperanceRank" data-i18n="editor-temperance-rank">Temperance + Rank</option>
-<option value="TemperanceCharm" data-i18n="editor-temperance-charm">(Temperance + Charm)/2</option>
-</select>
-+ <span data-i18n="ailments-endurance">Endurance</span> / <span data-i18n="ailments-disarm">Disarm</span>
-</div>
+					<!-- Seal -->
+					<div class="editorOption"><label><input type="checkbox" name="attr_globalEditOptionSeal" value="true"><span data-i18n="ailments-seal-title-alt">Seal</span></label>
+						<div class="editorOptionContainer inline freeform">
 
-<!-- Evade power -->
-<div class="settingStyle">
-	<div style="width: 100px"><b data-i18n="helper-evd-power">Evd Power</b>:</div>
-	<select type="text" name="attr_evdStat" value="Insight" style="width: 120px;">
-<option value="Insight" data-i18n="stats-insight">Insight</option>
-<option value="Rank" data-i18n="rank">Rank</option>
-<option value="InsightRank" data-i18n="editor-insight-rank">Insight + Rank</option>
-<option value="InsightJustice" data-i18n="editor-insight-justice">(Insight + Justice)/2</option>
-	</select>
-	+
-<select type="text" name="attr_evdAilment" class="transpInput" style="width: 135px; text-align: left;">
-<option value="EnduranceDisarm" data-i18n="editor-endurance-disarm">Endurance/Disarm</option>
-<option value="HasteBind" data-i18n="editor-haste-bind">Haste/Bind</option>
-</select>
-</div>
+							<div class="editorOption inline"><label><input type="checkbox" name="attr_globalEditOptioSealDuration" value="true"><span data-i18n="autoeffect-option-duration">Duration</span></label>
+								<input type="number" name="attr_sealDuration" value="1">
+							</div>
+						</div>
+					</div>
 
-<!-- Multihit penalty -->
-<div class="settingStyle"><div style="width: 100px">
-<b data-i18n="editor-multihit-penalty">Multi-hit Penalty</b>:</div> <input type="number" name="attr_multiPenalty" value="-2">
-<select type="text" class="transpInput" name="attr_multiStyle" style="width: 90px;">
-	<option data-i18n="editor-nattacks" value="n" selected>x n Attacks</option>
-	<option data-i18n="editor-flat" value="Flat">Flat</option>
-</select>
-</div>
+					<!-- Immobile -->
+					<div class="editorOption"><label><input type="checkbox" name="attr_globalEditOptionImmobile" value="true"><span data-i18n="ailments-immobile-title-alt">Immobile</span></label>
+						<div class="editorOptionContainer inline freeform">
+
+							<div class="editorOption inline"><label><input type="checkbox" name="attr_globalEditOptioImmobileDuration" value="true"><span data-i18n="autoeffect-option-duration">Duration</span></label>
+								<input type="number" name="attr_immobileDuration" value="1">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Roll modifiers -->
+			<div class="editorSection">
+				<h3 class="editorTitle">
+					<input type="checkbox" class="switch-toggle" name="attr_syncLockRollModifiers" value="true" hidden> <!-- Lock Button -->
+					<button type="action" id="lock_rollModifiers" class="lockButton largeIcon" name="act_lockSection" data-i18n-title="editor-lock" title="Lock editor contents during Apply Default Settings"></button>
+					<span>Roll modifiers</span>
+				</h3>
+
+				<div class="editorOptionContainer">
+
+				</div>
+			</div>
+
+			<!-- Actions -->
+			<div class="editorSection">
+				<h3 class="editorTitle">
+					<input type="checkbox" class="switch-toggle" name="attr_syncLockActions" value="true" hidden> <!-- Lock Button -->
+					<button type="action" id="lock_actions" class="lockButton largeIcon" name="act_lockSection" data-i18n-title="editor-lock" title="Lock editor contents during Apply Default Settings"></button>
+					<span>Actions</span>
+				</h3>
+
+				<div class="editorOptionContainer">
+
+				</div>
+			</div>
+
+			<!-- Light regen -->
+			<div class="editorSection">
+				<h3 class="editorTitle">
+					<input type="checkbox" class="switch-toggle" name="attr_syncLockLightRegen" value="true" hidden> <!-- Lock Button -->
+					<button type="action" id="lock_lightRegen" class="lockButton largeIcon" name="act_lockSection" data-i18n-title="editor-lock" title="Lock editor contents during Apply Default Settings"></button>
+					<span data-i18n="helper-light-regen">Light regen</span>
+				</h3>
+
+				<div class="editorOptionContainer">
+
+				</div>
+			</div>
+
+			<!-- Recover -->
+			<div class="editorSection">
+				<h3 class="editorTitle">
+					<input type="checkbox" class="switch-toggle" name="attr_syncLockRecover" value="true" hidden> <!-- Lock Button -->
+					<button type="action" id="lock_recover" class="lockButton largeIcon" name="act_lockSection" data-i18n-title="editor-lock" title="Lock editor contents during Apply Default Settings"></button>
+					<span data-i18n="autoeffect-trigger-recover">Recover</span>
+				</h3>
+
+				<div class="editorOptionContainer">
+
+				</div>
+			</div>
+
+		</div>
 
 
-<!-- Actions and reactions -->
-<div class="settingStyle"><div style="width: 100px">
-<b data-i18n="editor-actions">Actions</b>:</div> <input type="number" name="attr_actionBase" value="1">
- + (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_actionRankMod" value="0">)
-</div>
 
-<div class="settingStyle"><div style="width: 100px">
-<b data-i18n="editor-reactions">Reactions</b>:</div> <input type="number" name="attr_reactionBase" value="2">
- + (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_reactionRankMod" value="0">)
-</div>
+		<div class="noRepControls">
+		<fieldset class="repeating_global">
 
-<div class="settingStyle"><div style="width: 100px">
-<b data-i18n="editor-use-action-for-reaction">Can use actions for reactions?</b></div>
-<select type="text" class="transpInput" name="attr_actionTradeReaction" style="width: 90px;">
-	<option data-i18n="true" value="true">True</option>
-	<option data-i18n="false" value="0" selected>False</option>
-</select>
-</div>
+		<input type="text" name="attr_editKey" hidden>
+		<textarea name="attr_gameSettingSource" hidden></textarea>
+		<textarea name="attr_ailmentSettingSource" hidden></textarea>
+		<textarea name="attr_generalSettingSource" hidden></textarea>
 
-</div>
-</div>
-<!-- General settings end -->
+		<div class="rowContainer">
 
-<!-- Default ailments -->
-<div class="settingStyle columnAlign centerFlex">
+		<!-- General settings -->
+		<div style="text-align: left; padding: 10px;">
 
-<!-- Stagger -->
-<div class="rowContainer repitemMock" style="width: 250px;">
-	<div class="ailmentIconSelector rowContainer centerFlex">
-	<div class="icon">
-		<!-- TODO: Change this to use the default limbusStyle setting-->
-	<input type="checkbox" class="hide-toggle-rev" value="true" name="attr_iconStyle"><div class="hide-item-rev skillIcon stagger"></div>
-	</div>
-	<div class="icon">
-	<input type="checkbox" class="expand-toggle" value="true" name="attr_iconStyle"><div class="type-image skillIcon stagger-limbus"></div>
-	</div>
-</div>
+		<div>
+		<div class="settingStyle">
+		<div style="width: 100px">
+		<b data-i18n="editor-rulename">Ruleset Name</b>:</div> <input type="text" style="input" name="attr_ruleName" data-i18n="editor-rulename-placeholder" value="Original Rulebook (Default)">
+		</div>
 
-<div class="columnAlign">
-<div class="rowContainer settingStyle"><div style="width: 100px;">
-<b data-i18n="editor-stg-recovery">STG Recovery</b>:</div> <input type="number" name="attr_staggerRecoverPercent" min="0" value="100" style="width:50px;">% + <input type="number" name="attr_staggerRecoverBase" value="0"></div>
+		<div class="settingStyle"><div style="width: 100px; height: 28px;">
+		<b data-i18n="editor-lightregen-cap">Light regen Cap</b>:</div> <input type="number" name="attr_lightRegenBase" value="3">
+		+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_lightRegenRankMod" value="1">)
+		+ (<span data-i18n="stats-wisdom">Prudence</span> * <input type="number" name="attr_lightRegenStatMod" value="0">)
+		</div>
 
-<div class="rowContainer settingStyle"><div style="width: 100px;">
-<b data-i18n="editor-stg-duration">STG Duration</b>:</div> <input type="number" name="attr_staggerDurationMax" value="1"></div>
+		<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
+		<b data-i18n="editor-lightregen-sources">Light regen Sources</b>:
+		</div><div class="settingStyle" style="flex-wrap: wrap; width: 320px;">
+		<div><input type="number" name="attr_lightRegenStaggerSelf" value="0"><span data-i18n="editor-lightregen-stagger-self">Self stagger</span>,&nbsp;</div>
+		<div><input type="number" name="attr_lightRegenStaggerEnemy" value="0"><span data-i18n="editor-lightregen-stagger-enemy">Enemy stagger</span>,&nbsp;</div>
+		<div><input type="number" name="attr_lightRegenDefeatEnemy" value="0"><span data-i18n="ego-active-EnemyDefeat">Enemy defeat</span>,&nbsp;</div>
+		<div><input type="number" name="attr_lightRegenRoundEnd" value="0"><span data-i18n="autoeffect-trigger-roundend">Round end</span></div>
+		</div></div>
 
-<div class="rowContainer settingStyle"><div style="width: 100px;">
-<b data-i18n="editor-stg-sanity">SP Damage</b>:</div> <input type="number" name="attr_staggerSanity" value="5"></div>
-</div>
-</div>
-<!-- Stagger end -->
-
-<!-- Generic token bars -->
-<div class="rowContainer repitemMock" style="width: 300px;">
-	<div class="rowContainer settingStyle">
-		<div style="width: 40px;"><b data-i18n="token-bar1">Bar 1</b>:</div>
-		<select name="attr_settingBar1" class="darkInput" style="width: 56px;">
-			<option data-i18n="bar-health" value="HP" selected>Health</option>
-			<option data-i18n="bar-stagres" value="ST">Stagger Res</option>
-			<option data-i18n="bar-sanity" value="SP">Sanity</option>
-			<option data-i18n="token-bar-none" value="None">None</option>
+		<!-- Recover calculation -->
+		<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
+		<b data-i18n="editor-combat-end-stagger">Combat end Stagger</b>:</div>
+		<select name="attr_combatEndStaggerMode" style="width: 40px;">
+			<option value="+" selected>+</option>
+			<option value="x">x</option>
+			<option value="=">=</option>
 		</select>
-	</div>
-	<div class="rowContainer settingStyle">
-		<div style="width: 40px;"><b data-i18n="token-bar2">Bar 2</b>:</div>
-		<select name="attr_settingBar2" class="darkInput" style="width: 56px;">
-			<option data-i18n="bar-health" value="HP">Health</option>
-			<option data-i18n="bar-stagres" value="ST" selected>Stagger Res</option>
-			<option data-i18n="bar-sanity" value="SP">Sanity</option>
-			<option data-i18n="token-bar-none" value="None">None</option>
+		<input type="text" name="attr_combatEndStaggerVal" style="width: 40px;" value="0">
+		</div>
+
+		<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
+		<b data-i18n="editor-combat-end-light">Combat end Light</b>:</div> <input type="number" name="attr_combatEndLightBase" value="0">
+		+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_combatEndLightRankMod" value="0">)
+		</div>
+
+		<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
+		<b data-i18n="editor-recover-health">Recover Health</b>:</div> <input type="number" name="attr_recoverHPBase" value="8">
+		+ (<select type="text" name="attr_healthStat" value="Fortitude" style="width: 80px;">
+			<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
+			<option value="FortitudeTemperance" data-i18n="editor-instinct-temperance">(Fortitude + Temperance)/2</option>
 		</select>
-	</div>
-	<div class="rowContainer settingStyle">
-		<div style="width: 40px;"><b data-i18n="token-bar3">Bar 3</b>:</div>
-		<select name="attr_settingBar3" class="darkInput" style="width: 56px;">
-			<option data-i18n="bar-health" value="HP">Health</option>
-			<option data-i18n="bar-stagres" value="ST">Stagger Res</option>
-			<option data-i18n="bar-sanity" value="SP" selected>Sanity</option>
-			<option data-i18n="token-bar-none" value="None">None</option>
+		* <input type="number" name="attr_recoverHPStatMod" value="2">)
+		+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_recoverHPRankMod" value="2">)
+		</div>
+
+		<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
+		<b data-i18n="editor-recover-sanity">Recover Sanity</b>:</div> <input type="number" name="attr_recoverSPBase" value="3">
+		+ (<select type="text" name="attr_sanityStat" value="Prudence" style="width: 80px;">
+			<option value="Prudence" data-i18n="stats-wisdom">Prudence</option>
+			<option value="PrudenceInsight" data-i18n="editor-wisdom-insight">(Prudence + Insight)/2</option>
 		</select>
+		* <input type="number" name="attr_recoverSPStatMod" value="1">)
+		+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_recoverSPRankMod" value="0">)
+		</div>
+
+		<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
+		<b data-i18n="editor-recover-stagger">Recover Stagger Res</b>:</div>
+		<select name="attr_recoverStaggerMode" style="width: 40px;">
+			<option value="+" selected>+</option>
+			<option value="x">x</option>
+			<option value="=">=</option>
+		</select>
+		<input type="text" name="attr_recoverStaggerVal" style="width: 40px;" value="0">
+		</div>
+
+		<div class="settingStyle"><div style="min-width: 100px; max-width: 100px;">
+		<b data-i18n="editor-recover-light">Recover Light</b>:</div> <input type="number" name="attr_recoverLightBase" value="1">
+		+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_recoverLightRankMod" value="0">)
+		</div>
+
+		<!-- Attack power -->
+		<div class="settingStyle">
+			<div style="width: 100px"><b data-i18n="helper-att-power">Att Power</b>:</div>
+			<select type="text" name="attr_attStat" value="Fortitude" style="width: 120px;">
+		<option value="Fortitude" data-i18n="stats-instinct">Fortitude</option>
+		<option value="Rank" data-i18n="rank">Rank</option>
+		<option value="FortitudeRank" data-i18n="editor-instinct-rank">Fortitude + Rank</option>
+		<option value="FortitudePrudence" data-i18n="editor-instinct-wisdom">(Fortitude + Prudence)/2</option>
+		</select>
+		+ <span data-i18n="ailments-strength">Strength</span> / <span data-i18n="ailments-feeble">Feeble</span>
+		</div>
+
+		<!-- Defence power -->
+		<div class="settingStyle">
+			<div style="width: 100px"><b data-i18n="helper-def-power">Def Power</b>:</div>
+			<select type="text" name="attr_defStat" value="Temperance" style="width: 120px;">
+		<option value="Temperance" data-i18n="stats-temperance">Temperance</option>
+		<option value="Rank" data-i18n="rank">Rank</option>
+		<option value="TemperanceRank" data-i18n="editor-temperance-rank">Temperance + Rank</option>
+		<option value="TemperanceCharm" data-i18n="editor-temperance-charm">(Temperance + Charm)/2</option>
+		</select>
+		+ <span data-i18n="ailments-endurance">Endurance</span> / <span data-i18n="ailments-disarm">Disarm</span>
+		</div>
+
+		<!-- Evade power -->
+		<div class="settingStyle">
+			<div style="width: 100px"><b data-i18n="helper-evd-power">Evd Power</b>:</div>
+			<select type="text" name="attr_evdStat" value="Insight" style="width: 120px;">
+		<option value="Insight" data-i18n="stats-insight">Insight</option>
+		<option value="Rank" data-i18n="rank">Rank</option>
+		<option value="InsightRank" data-i18n="editor-insight-rank">Insight + Rank</option>
+		<option value="InsightJustice" data-i18n="editor-insight-justice">(Insight + Justice)/2</option>
+			</select>
+			+
+		<select type="text" name="attr_evdAilment" class="transpInput" style="width: 135px; text-align: left;">
+		<option value="EnduranceDisarm" data-i18n="editor-endurance-disarm">Endurance/Disarm</option>
+		<option value="HasteBind" data-i18n="editor-haste-bind">Haste/Bind</option>
+		</select>
+		</div>
+
+		<!-- Multihit penalty -->
+		<div class="settingStyle"><div style="width: 100px">
+		<b data-i18n="editor-multihit-penalty">Multi-hit Penalty</b>:</div> <input type="number" name="attr_multiPenalty" value="-2">
+		<select type="text" class="transpInput" name="attr_multiStyle" style="width: 90px;">
+			<option data-i18n="editor-nattacks" value="n" selected>x n Attacks</option>
+			<option data-i18n="editor-flat" value="Flat">Flat</option>
+		</select>
+		</div>
+
+
+		<!-- Actions and reactions -->
+		<div class="settingStyle"><div style="width: 100px">
+		<b data-i18n="editor-actions">Actions</b>:</div> <input type="number" name="attr_actionBase" value="1">
+		+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_actionRankMod" value="0">)
+		</div>
+
+		<div class="settingStyle"><div style="width: 100px">
+		<b data-i18n="editor-reactions">Reactions</b>:</div> <input type="number" name="attr_reactionBase" value="2">
+		+ (<span data-i18n="rank">Rank</span> * <input type="number" name="attr_reactionRankMod" value="0">)
+		</div>
+
+		<div class="settingStyle"><div style="width: 100px">
+		<b data-i18n="editor-use-action-for-reaction">Can use actions for reactions?</b></div>
+		<select type="text" class="transpInput" name="attr_actionTradeReaction" style="width: 90px;">
+			<option data-i18n="true" value="true">True</option>
+			<option data-i18n="false" value="0" selected>False</option>
+		</select>
+		</div>
+
+		</div>
+		</div>
+		<!-- General settings end -->
+
+		<!-- Default ailments -->
+		<div class="settingStyle columnAlign centerFlex">
+
+		<!-- Generic token bars -->
+		<div class="rowContainer repitemMock" style="width: 300px;">
+			<div class="rowContainer settingStyle">
+				<div style="width: 40px;"><b data-i18n="token-bar1">Bar 1</b>:</div>
+				<select name="attr_settingBar1" class="darkInput" style="width: 56px;">
+					<option data-i18n="bar-health" value="HP" selected>Health</option>
+					<option data-i18n="bar-stagres" value="ST">Stagger Res</option>
+					<option data-i18n="bar-sanity" value="SP">Sanity</option>
+					<option data-i18n="token-bar-none" value="None">None</option>
+				</select>
+			</div>
+			<div class="rowContainer settingStyle">
+				<div style="width: 40px;"><b data-i18n="token-bar2">Bar 2</b>:</div>
+				<select name="attr_settingBar2" class="darkInput" style="width: 56px;">
+					<option data-i18n="bar-health" value="HP">Health</option>
+					<option data-i18n="bar-stagres" value="ST" selected>Stagger Res</option>
+					<option data-i18n="bar-sanity" value="SP">Sanity</option>
+					<option data-i18n="token-bar-none" value="None">None</option>
+				</select>
+			</div>
+			<div class="rowContainer settingStyle">
+				<div style="width: 40px;"><b data-i18n="token-bar3">Bar 3</b>:</div>
+				<select name="attr_settingBar3" class="darkInput" style="width: 56px;">
+					<option data-i18n="bar-health" value="HP">Health</option>
+					<option data-i18n="bar-stagres" value="ST">Stagger Res</option>
+					<option data-i18n="bar-sanity" value="SP" selected>Sanity</option>
+					<option data-i18n="token-bar-none" value="None">None</option>
+				</select>
+			</div>
+		</div>
+		<!-- Generic token bars end -->
+
+		</div>
+
+		</div>
+		<!-- Default Ailments END -->
+
+		</fieldset>
+
 	</div>
-</div>
-<!-- Generic token bars end -->
-
-</div>
-
-</div>
-<!-- Default Ailments END -->
-
-</fieldset>
-</div>
-<!-- Obscured end -->
-
-</div>
-<!-- Game Setting section END -->
+	</div>
+	<!-- Game Setting section END -->
 
 
 
 <!-- Custom Ailment section -->
 <div>
-<h3>
-<input type="checkbox" class="switch-toggle" name="attr_syncLockAilments" value="true" hidden>
-<button type="action" class="lockButton largeIcon" id="lock_ailments" name="act_lockSection" data-i18n-title="editor-lock" title="Lock editor contents during Apply Default Settings"></button>
-<div>
-	<input type="checkbox" class="hide-toggle" name="attr_syncStateAilments" value="true">
-	<div class="hide-item syncIcon"></div>
-</div>
+	<h3 class="editorTitle">
 
-<span data-i18n="editor-customailments">Custom Ailments</span>
-	<label for="hideAilmentSettings" class="arrowholder"><input type="checkbox" class="switch-toggle" id="hideAilmentSettings" name="attr_hideAilmentSettings" value="true" style="display: none;"><div class="arrow"></div></label>
-</h3>
+		<!-- Lock Button -->
+		<input type="checkbox" class="switch-toggle" name="attr_syncLockAilments" value="true" hidden>
+		<button type="action" class="lockButton largeIcon" id="lock_ailments" name="act_lockSection" data-i18n-title="editor-lock" title="Lock editor contents during Apply Default Settings"></button>
+		<div>
+			<input type="checkbox" class="hide-toggle" name="attr_syncStateAilments" value="true">
+			<div class="hide-item syncIcon"></div>
+		</div>
+
+		<span data-i18n="editor-customailments">Custom Ailments</span>
+
+		<!-- Minimize Button -->
+		<label class="arrowholder"><input type="checkbox" class="switch-toggle" name="attr_hideAilmentSettings" value="true"><div class="arrow"></div></label>
+	</h3>
 
 
 <!-- Custom ailment editor -->
@@ -6641,10 +6760,10 @@ setTimeout=function(callback, timeout) {
 function getAttrsAsync(props) {
     var actId=getActiveCharacterId(); //save the current activeCharacterID in case it has changed when the promise runs 
     var prevActId=null;               //local variable defined here, because it needs to be shared across the promise callbacks defined below
-    return new Promise((resolve,reject)=>{
-            prevActId=setActiveCharacterId(actId);  //in case the activeCharacterId has changed, restore it to what we were expecting and save the current value to restore later
-            try{ getAttrs(props,(values)=>{ resolve(values); }); }
-            catch{ reject(); }
+    return new Promise((resolve, reject) => {
+		prevActId=setActiveCharacterId(actId);  //in case the activeCharacterId has changed, restore it to what we were expecting and save the current value to restore later
+		try{ getAttrs(props, (values) => { resolve(values); }); }
+		catch{ reject(); }
     }).finally(()=>{
         setActiveCharacterId(prevActId); //restore activeCharcterId to what it was when the promise first ran
     });
@@ -6652,10 +6771,10 @@ function getAttrsAsync(props) {
 function setAttrsAsync(propObj, opts={}) {
     var actId=getActiveCharacterId();
     var prevActId=null;
-    return new Promise((resolve,reject)=>{
-            prevActId=setActiveCharacterId(actId);
-            try{ setAttrs(propObj,opts,(values)=>{ resolve(values); }); }
-            catch{ reject(); }
+    return new Promise((resolve, reject) => {
+		prevActId=setActiveCharacterId(actId);
+		try{ setAttrs(propObj,opts, (values) => { resolve(values); }); }
+		catch{ reject(); }
     }).finally(()=>{
         setActiveCharacterId(prevActId);
     });
@@ -6663,10 +6782,10 @@ function setAttrsAsync(propObj, opts={}) {
 function getSectionIDsAsync(sectionName) {
     var actId = getActiveCharacterId();
     var prevActId=null;
-    return new Promise((resolve,reject)=>{
-            prevActId = setActiveCharacterId(actId);
-            try{ getSectionIDs(sectionName,(values)=>{ resolve(values); }); }
-            catch{ reject(); }
+    return new Promise((resolve, reject) => {
+		prevActId = setActiveCharacterId(actId);
+		try{ getSectionIDs(sectionName, (values) => { resolve(values); }); }
+		catch{ reject(); }
     }).finally(()=>{
         setActiveCharacterId(prevActId);
     });
@@ -6677,10 +6796,10 @@ function getSectionIDsAsync(sectionName) {
 /* Requires the character_id of the target character. Works for both players and GMs */
 function getAttrsByID(actId, props) {
     var prevActId = null;
-    return new Promise((resolve,reject)=>{
-			prevActId = setActiveCharacterId(actId);
-            try{ getAttrs(props,(values)=>{ resolve(values); }); }
-            catch{ reject(); }
+    return new Promise((resolve, reject) => {
+		prevActId = setActiveCharacterId(actId);
+		try{ getAttrs(props, (values) => { resolve(values); }); }
+		catch{ reject(); }
     }).finally(()=>{
         setActiveCharacterId(prevActId);
     });
@@ -6689,12 +6808,12 @@ function getAttrsByID(actId, props) {
 /* Only functions for owned sheets which have been opened during a play session */
 function setAttrsByID(actId, propObj, opts={}) {
     var prevActId = null;
-    return new Promise((resolve,reject)=>{
-           	prevActId = setActiveCharacterId(actId);
-            try{ setAttrs(propObj,opts,(values)=>{
-					setActiveCharacterId(prevActId);
-					resolve(values); }); }
-            catch{ reject(); }
+    return new Promise((resolve, reject) => {
+		prevActId = setActiveCharacterId(actId);
+		try{ setAttrs(propObj,opts, (values) => {
+				setActiveCharacterId(prevActId);
+				resolve(values); }); }
+		catch{ reject(); }
     }).finally(()=>{
         setActiveCharacterId(prevActId);
     });
@@ -6725,10 +6844,22 @@ async function getSectionIDsOrdered(actId, sectionArray) {
 
 function getSectionIDsByID(actId, sectionName) {
     var prevActId=null;
-    return new Promise((resolve,reject)=>{
-            prevActId = setActiveCharacterId(actId);
-            try{ getSectionIDs(sectionName,(values)=>{ resolve(values); }); }
-            catch{ reject(); }
+    return new Promise((resolve, reject) => {
+		prevActId = setActiveCharacterId(actId);
+		try{ getSectionIDs(sectionName, (values) => { resolve(values); }); }
+		catch{ reject(); }
+    }).finally(()=>{
+        setActiveCharacterId(prevActId);
+    });
+}
+
+/* Adds a delay to the code execution */
+function delay(ms) {
+	var actId = getActiveCharacterId();
+    var prevActId=null;
+    return new Promise(resolve => {
+		prevActId = setActiveCharacterId(actId);
+		setTimeout(resolve, ms);
     }).finally(()=>{
         setActiveCharacterId(prevActId);
     });
@@ -9733,35 +9864,50 @@ function rollCombat(info) { // TODO: Remove this
 
 
 // TODO: Move this to the access resource events
-function resourceReq(reqArray, opts={deduct:false, expand:true}) {
+function resourceReq(reqList, opts={deduct:false, expand:true}) {
 	let reqFailure = {}
 
-	// Ensure the requirements are in array form with snake-case resource names
-	if (is.Object(reqArray)) reqArray = Object.entries(reqArray);
-	reqArray = reqArray.map(([r, c]) => [snakeify(r), c]);
+	// Ensures all requirements are written in snake-case
+	reqList = Object.fromEntries(Object.entries(reqList).map(([r, c]) => [snakeify(r), c]));
 
-	// Find resource or item use requirements that aren't met
-	for (let i = 0; i < reqArray.length; i++) {
-		let [resource, cost] = reqArray[i];
+	// Find resource, light and/or item use requirements that aren't met
+	for (let resource in reqList) {
+		let cost = reqList[resource];
 
-		if (is.ID(resource)) {
-			if (access.items[resource].limited.uses.enabled && access.items[resource].limited.uses.current < cost) {
-				reqFailure[resource] = cost;
+		if (resource == "light") {
+			if (access.bar.light < cost) {
+				reqFailure.light = cost;
+			}
+		} else if (is.ID(resource)) {
+			if (access.items[resource]) {
+				let item = access.items[resource];
+
+				if (item.uses.enabled && item.limited.uses.enabled && item.limited.uses.current < cost) {
+					reqFailure[resource] = cost;
+				}
+			}
+			else if (access.palette[resource] || access.palette.applied[resource]) {
+				let element = access.palette[resource] || access.palette.applied[resource];
+
+				if (element.uses.enabled && element.uses.current < cost) {
+					reqFailure[element?.item.id ?? resource] = cost; // For palette elements associated with an item the missing uses are attributed to the item
+				}
+			} else {
+				console.warn("resourceReq - Unknown item/palette id:", resource, cost);
 			}
 		} else if (resource in access.resource) {
 			//console.log(`Require ${cost} ${resource}. Current count is ${access.resource[resource].current}`);
 
 			if (access.resource[resource].current < cost) {
-				if (opts.expand && is(resource).In("counter", "block", "evade") && (access.resource[resource].current + access.resource.universal.current) >= cost) {
-					reqArray[i][1] = access.resource[resource].current; // Use up any remaining counter/block/evade reactions
-					reqArray.push(["universal", cost - access.resource[resource].current]); // Pay the remaining cost using univeral reactions
-					// TODO: May cause issues if the array already includes an universal reaction cost
+				if (opts.expand && is(resource).In("counter", "block", "evade") && (access.resource[resource].current + access.resource.universal.current - (reqList.universal || 0)) >= cost) {
+					reqList[resource] = access.resource[resource].current; // Use up any remaining counter/block/evade reactions
+					reqList.universal = (reqList.universal || 0) + cost - reqList[resource]; // Pay the remaining cost using univeral reactions
 				} else {
 					reqFailure[resource] = cost;
 				}
 			}
 		} else {
-			console.warn("resourceReq: Unknown resource", resource, cost);
+			console.warn("resourceReq - Unknown resource:", resource, cost);
 		}
 	}
 
@@ -9770,9 +9916,21 @@ function resourceReq(reqArray, opts={deduct:false, expand:true}) {
 		return reqFailure;
 	} else {
 		if (opts.deduct) {
-			for (const [resource, cost] of reqArray) {
-				if (is.ID(resource)) {
-					access.items[resource].limited.uses.current -= cost;
+			for (const [resource, cost] of Object.entries(reqList)) {
+				if (resource == "light") {
+					access.bar.light -= cost;
+				} else if (is.ID(resource)) {
+					if (access.items[resource]) {
+						access.items[resource].limited.uses.current -= cost;
+					}
+					else if (access.palette[resource] || access.palette.applied[resource]) {
+						let element = access.palette[resource] || access.palette.applied[resource];
+						element.uses.current -= cost;
+						
+						if (element.item) { // Also deducts item uses. Uses recalc:true to avoid causing a palette recalc
+							element.item.limited.uses.modify("current", element.item.limited.uses.current - cost, {recalc:true});
+						} 
+					}
 				} else {
 					access.resource[resource].current -= cost;
 				}
@@ -10187,19 +10345,38 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 		if (rollArray instanceof dataNode && !rollArray[0]) rollArray = [rollArray];
 		let prevLength = access.rolls.length;
 
-		// Rolls only use resources while in combat
-		if (opts.use_resource && access.state.combat) {
+		// Check that all required resources, item uses and Light needed for the roll are available
+		// If yes, deduct these resources from the character. If not, cancel the action
+		if (opts.use_resource) {
 			let resource = (access.resource.selection == "Action") ? "action" : "reaction";
 			let reqList = {}
 
-			// Check that all required resources and item uses needed for the roll are available
-			// If yes, deduct these resources from the character. If not, cancel the action
 			for (const roll of rollArray) {
-				if (roll[resource]?.enabled && roll[resource].type != "None") {
+				if (access.state.combat && roll[resource]?.enabled && roll[resource].type != "None") { // Rolls only use resources while in combat
 					reqList[roll[resource].type] = (reqList[roll[resource].type] || 0) + roll[resource].cost;
 				}
-				if (roll.uses?.enabled && roll.orig?.type == "item") {
-					reqList[roll.orig.id] = (reqList[roll.orig.id] || 0) + roll.uses.cost;
+				if (roll.orig instanceof dataNode) {
+					let orig = roll.orig;
+
+					if (orig.path[1] == "items" && orig.limited.enabled) {
+						if (orig.limited.light.enabled) {
+							reqList.light = (reqList.light || 0) + orig.limited.light.cost;
+						}
+						if (orig.limited.uses.enabled && roll.uses.enabled) {
+							reqList[orig.id] = (reqList[orig.id] || 0) + roll.uses.cost;
+						}
+					}
+					else if (orig.path[1] == "palette") {
+						if (orig.light.enabled) {
+							reqList.light = (reqList.light || 0) + orig.light.cost;
+						}
+						if (orig.uses.enabled && roll.uses.enabled) { // Standalone roll uses (also deducts item uses)
+							reqList[orig.id] = (reqList[orig.id] || 0) + roll.uses.cost;
+						}
+						if (access.palette.applied.selection && roll.uses.applied) { // Applied roll uses
+							reqList[access.palette.applied.selection] = (reqList[access.palette.applied.selection] || 0) + roll.uses.applied;
+						}
+					}
 				}
 			}
 
@@ -10207,8 +10384,7 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 				let reqResult = resourceReq(reqList, {deduct:true, expand:true});
 
 				if (typeof reqResult == "object") {
-					console.warn("Attempted to make roll without requisite resources or item uses", reqResult);
-
+					console.warn("Attempted to make a roll without requisite resources or item uses", reqResult);
 					access._state = "cancel";
 
 					return; // TODO: Should here display a popup saying the user lacks x resources to use the item
@@ -10240,14 +10416,22 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 
 		// Add any message data from the originating item or rolls
 		if (prevLength == 0 && access.rolls[0]) {
-			let item = access.items[access.rolls[0]?.orig?.id];
 			let header = access.message.header;
 			let desc = access.message.desc;
-	
-			if (item) {
-				header.title = item.name;
-				header.rank = item.rank;
-				header.light_cost = (item.limited.enabled) ? item.limited.light_cost : false;
+			
+			if (access.rolls[0].orig) {
+				let orig = access.rolls[0].orig;
+				
+				if (orig.path[1] == "items") {
+					header.title = orig.name;
+					header.rank = orig.rank;
+					header.light_cost = (node.limited.enabled) ? orig.limited.light_cost : false;
+				}
+				else if (orig.path[1] == "palette") {
+					header.title = orig.title;
+					header.rank = orig.item?.rank || false; // TODO: Palette elements may need their own rank
+					header.light_cost = (orig.light.enabled) ? orig.light.cost : false;
+				}
 			}
 	
 			// Origin and targeting data
@@ -12098,7 +12282,7 @@ const rollDataFormat = {
 			count: 0, max: 0, power: 0, adv: 0, autoscript: "",
 		},
 		autoscript: "",
-		message: false, // Used in access.rolls
+		message: false, // Used in access.rolls. References the message node for the roll in access.message.rolls. Does nothing in rollformats
 	},
 	
 	valid: {
@@ -12123,6 +12307,25 @@ const rollDataFormat = {
 		autoscript: {text:true},
 		message: {false:true, node:true},
 		_default: {int:true},
+	},
+
+	attrs: {
+		prefix: "roll",
+		ignore: {prop: ["multiroll"]},
+		case: "snake",
+		action: {option: "RollAction", prefix: "rollAction"},
+		reaction: {option: "RollReaction", prefix: "rollReaction"},
+		uses: {option: "RollUses", prefix: "rollUses"},
+		store: {option: "StoreRoll", prefix: "store"},
+		base: { // Only used for palette elements
+			prefix: "baseRoll",
+			ignore: {prop: ["multiroll"]},
+			case: "snake",
+			action: {option: "BaseRollAction", prefix: "baseRollAction"},
+			reaction: {option: "BaseRollReaction", prefix: "baseRollReaction"},
+			uses: {option: "BaseRollUses", prefix: "baseRollUses"},
+			store: {option: "BaseStoreRoll", prefix: "baseStore"},
+		},
 	}
 }
 
@@ -12319,7 +12522,7 @@ const repDataDefaults = {
 			type: "Skill",
 			rollformats: {
 				_repeating: [
-					{type: "None", mode: "Applied", count: 0, max: 0, power: 0, action: {type: "None", cost: 0}, reaction: {type: "None", cost: 0}},
+					{type: "None", mode: "Applied", action: {type: "None", cost: 0}, reaction: {type: "None", cost: 0}},
 				],
 			},
 			limited: {light: {cost: 1}},
@@ -12735,12 +12938,7 @@ const repDataFormats = {
 					_repeating: {
 						attrs: {
 							option: "RollDisplay", 
-							prefix: "roll",
-							case: "snake",
-							action: {option: "RollAction", prefix: "rollAction"},
-							reaction: {option: "RollReaction", prefix: "rollReaction"},
-							uses: {option: "RollUses", prefix: "rollUses"},
-							store: {option: "StoreRoll", prefix: "store"},
+							...rollDataFormat.attrs,
 						},
 						source: {
 							editor: {
@@ -12972,7 +13170,7 @@ const dataFormat = {
 		palette: { // Content that appears in the combat palette
 			_repeating: { // Palette rolls and standalone actions
 				_key_prop: "title",
-				item: false, // Item associated with the palette element, if any
+				item: false, // References the item associated with the palette element, if any
 				title: "",
 				icon: "icons/question",
 				color: {
@@ -12992,13 +13190,10 @@ const dataFormat = {
 				rollformats: {
 					_repeating: {
 						...rollDataFormat.base,
-						base: {
-							damage_type: "None",
-							count: 0, max: 0, power: 0, adv: 0,
-							action: {type: "Action", cost: 1},
-							reaction: {type: "Reaction", cost: 1},
-							autoscript: "",
-							// TODO: May need to add stored roll data here as well
+						uses: {cost: 1, applied: 0}, // Standalone rolls have a second property for tracking uses consumed from an applied skill
+						base: { // Base values of the roll
+							...rollDataFormat.base,
+							uses: {cost: 1, applied: 0},
 						},
 						message: "0",
 					},
@@ -13028,25 +13223,16 @@ const dataFormat = {
 					rollformats: {
 						_repeating: {
 							...rollDataFormat.base,
-							base: {
-								damage_type: "None",
-								count: 0, max: 0, power: 0, adv: 0,
-								action: {type: "Action", cost: 1},
-								reaction: {type: "Reaction", cost: 1},
-								autoscript: "",
-								// TODO: May need to add stored roll data here as well
-							},
+							base: rollDataFormat.base,
 							message: "0",
 						},
 					},
-					
 				},
 			},
 		},
 		rolls: { // Rolls that are part of the current action
 			_repeating: { 
 				...rollDataFormat.base,
-				message: false,
 				effects: { // Roll specific effects
 					_effect: true, 
 				},
@@ -13350,6 +13536,10 @@ const dataFormat = {
 				rollformats: {
 					_repeating: {
 						...rollDataFormat.valid,
+						uses: {
+							...rollDataFormat.valid.uses,
+							applied: {int: {min: 0}},
+						},
 						base: rollDataFormat.valid,
 						message: {false:true, text:true},
 					},
@@ -13382,7 +13572,6 @@ const dataFormat = {
 							message: {false:true, text:true},
 						},
 					},
-					
 				},
 			},
 		},
@@ -13578,16 +13767,7 @@ const dataFormat = {
 						_repeating: {
 							attrs: {
 								option: "RollDisplay",
-								prefix: "roll",
-								case: "snake",
-								action: {option: "RollAction", prefix: "rollAction"},
-								reaction: {option: "RollReaction", prefix: "rollReaction"},
-								store: {option: "StoreRoll", prefix: "store"},
-								base: {
-									prefix: "baseRoll",
-									action: {option: "BaseRollAction", prefix: "baseRollAction"},
-									reaction: {option: "BaseRollReaction", prefix: "baseRollReaction"},
-								},
+								...rollDataFormat.attrs,
 							},
 							source: {
 								sheet: {
@@ -13635,16 +13815,7 @@ const dataFormat = {
 							_repeating: {
 								attrs: {
 									option: "RollDisplay",
-									prefix: "roll",
-									case: "snake",
-									action: {option: "RollAction", prefix: "rollAction"},
-									reaction: {option: "RollReaction", prefix: "rollReaction"},
-									store: {option: "StoreRoll", prefix: "store"},
-									base: {
-										prefix: "baseRoll",
-										action: {option: "BaseRollAction", prefix: "baseRollAction"},
-										reaction: {option: "BaseRollReaction", prefix: "baseRollReaction"},
-									},
+									...rollDataFormat.attrs,
 								},
 								source: {
 									sheet: {
@@ -14176,7 +14347,7 @@ class dataNode extends Array {
 					let prefixArray = [prefix]
 
 					if (opts.export.index !== false) {
-						if (this.path[1] == "items") { // Items are indexed individually per item type, like "weapons_0"
+						if (this.root.items[this.id]) { // Items are indexed individually per item type, like "weapons_0"
 							prefixArray.unshift(this.root.items.filter(item => { // Finds all items of the same type
 								return (item._attrs[source]?.section == section);
 							}).findIndex(item => { // Finds this item's index amongst all items of the same type
@@ -14350,11 +14521,11 @@ class dataNode extends Array {
 				}
 			}
 
-			if (opts.node) {
+			if (opts.node instanceof dataNode) {
 				this.push(opts.node);
-				this.at(-1)._parent = this;
-				this.at(-1)._path = [...this.path, newProp];
-				this._addSubnodes(this.at(-1));
+				opts.node._parent = this;
+				opts.node._path = [...this.path, newProp];
+				this._addSubnodes(opts.node);
 			} else {
 				for (const source of Object.keys(this._rep.source || [])) {
 					repSource[source] = {...this._rep.source[source]};
@@ -14453,7 +14624,7 @@ class dataNode extends Array {
 		if (opts.rep) { // For repeating node ids
 			Object.defineProperty(this, opts.rep, {
 				get() {
-					return this.find(node => node.path.at(-1) == opts.rep);
+					return this.find(node => node?.path.at(-1) == opts.rep);
 				},
 				configurable: true,
 			});
@@ -14462,7 +14633,7 @@ class dataNode extends Array {
 	
 	// Deletes a repeating subnode with a specific id
 	delete(accessor, opts={}) {
-		if (this._rep && this[accessor]) {
+		if (this._rep && this[accessor] instanceof dataNode) {
 			let node = this[accessor];
 			let repID = node.path.at(-1);
 			let repStack = [];
@@ -16570,7 +16741,7 @@ const accessData = {
 
 			// Apply any output attribute values to the sheet
 			if (this._state != "error") {
-				this._state = "output";
+				this._state = "output"; // Initialize actions preserve their "init" state 
 
 				// TODO: Limit this to only the accesses that were involved in the action, ex. by having modify add the access id to a list
 				// For DMs with loads of tokens, or many different characters, applying every access can be a LOT of work
@@ -16579,7 +16750,12 @@ const accessData = {
 				for (const charID of Object.keys(this).filter(key => this[key] instanceof dataNode)) {
 					let attrs = this._output(this[charID], {apply:true, unsorted:true});
 					delete this._outputs[charID];
-
+					
+					// Roll20's code uses JQuery to update the title of a sheet whenever character_name is updated
+					// JQuery causes an error if the sheet dialog is closed during this process which freezes all interactions with the webpage
+					// To avoid this character_name is never output when initializing a character
+					if (this._state == "init") delete attrs.character_name;
+					
 					// TODO: If this[charID].type == "target", output data using a chat button
 					// TODO: If using token mode, output all of the token's data and store it as a single attribute in the sheet
 					
@@ -17562,12 +17738,13 @@ function recalcTagsFromRaw(node, opts={}) {
 
 	// Extract all tag-value pairs from the raw tag text
 	while (match = tagRegExp.exec(node.raw_text)) {
-		let tagID = generateAccessID();
-
 		[tag, value, symbol] = [snakeify(match[1]), Number(match[2] || 1),  match[3]]
+		
+		if (tag && !tags[tag]) {
+			node.add({id:generateAccessID(), silent:"hard"}).modify("name", match[1], {silent:"hard"});
+		}
+		
 		tags[tag] = value;
-
-		node.add({id:tagID, silent:"hard"}).modify("name", match[1], {silent:"hard"});
 	}
 
 	// Assign tag values. "recalc" ensures no tag recalcs are caused by these events
@@ -17608,6 +17785,7 @@ onAccess("clicked:rollChallenge", function(info) {
 
 	clearSheetButtons();
 	executeRolls(roll); // The default stat/luck rolls use no resources
+	access.palette.applied.selection = false;
 
 	if (roll.type == "Speed") {
 		access._event.trigger(["combat", "start"], {roll, type:"combat start", oldval:false, newval:1});
@@ -17618,6 +17796,9 @@ onAccess("clicked:rollChallenge", function(info) {
 /* State - Toggle combat mode */
 onAccess("clicked:combatToggle", {}, function(info) {
 	access.state.combat = (access.state.combat === false) ? 1 : false;
+
+	// Skills should be cleared when entering/leaving combat to avoid them unintentionally appling to initiative rolls or challenge rolls after combat
+	access.palette.applied.selection = false;
 
 	// Combat start
 	if (access.state.combat) {
@@ -17662,43 +17843,44 @@ onAccess("clicked:combatToggle", {}, function(info) {
 });
 
 /* Rolls - Item or palette roll */
-onAccess(itemEvent("clicked", "item-roll") + " clicked:repeating_palette:palette-roll", {}, function(info) {
-	setTimeout(() => { // Small delay to fix editing a roll format and then directly pressing the roll button not syncing the roll format change before executing the roll
-		let type = (info.triggerName.split("_")[1] != "palette") ? "items" : "palette";
-		let node = access[type][info.triggerName.split("_")[2]];
-		let rollArray = node.rollformats;
+onAccess(itemEvent("clicked", "item-roll") + " clicked:repeating_palette:palette-roll", {}, async function(info) {
+	await delay(100); // Small delay to fix editing a rollformat and then directly pressing the roll button not syncing the rollformat change before executing the roll
 	
-		// If the "Roll together" option is enabled all roll formats of the item are rolled
-		// Otherwise only a singular roll format is uses 
-		if (rollArray.roll_together) {
-			if (type == "items") {
-				rollArray = rollArray.filter(roll => roll.mode == "Roll");
-			}
-			// TODO: Implement roll together for roll formats
-			// Only execute rolls which has no message
-		} else {
-			rollArray = rollArray[parseInt(info.htmlAttributes["data-index"])];
+	let type = (info.triggerName.split("_")[1] != "palette") ? "items" : "palette";
+	let node = access[type][info.triggerName.split("_")[2]];
+	let rollArray = node.rollformats;
+
+	// If the "Roll together" option is enabled all roll formats of the item are rolled
+	// Otherwise only a singular roll format is uses 
+	if (rollArray.roll_together) {
+		if (type == "items") {
+			rollArray = rollArray.filter(roll => roll.mode == "Roll");
 		}
-	
-		// Remove any conditional buttons before creating new ones
-		for (const buttonID of access.buttons.repIDs) {
-			access.buttons.delete(buttonID);
+		// TODO: Implement roll together for roll formats
+		// Only execute rolls which has no message
+	} else {
+		rollArray = rollArray[parseInt(info.htmlAttributes["data-index"])];
+	}
+
+	// Remove any conditional buttons before creating new ones
+	for (const buttonID of access.buttons.repIDs) {
+		access.buttons.delete(buttonID);
+	}
+
+	// Add any AutoEffects on the item
+	if (node.autoscript != "") {
+		let effectBlock = access.effects.add("(Block)")[0];
+		effectBlock.add(node.autoscript);
+
+		if (type == "items" || node.item) {
+			effectBlock._addVar("item", node.item ?? node); // Saves a reference to the item the AutoEffects originate from
 		}
-	
-		// Add any AutoEffects on the item
-		if (node.autoscript != "") {
-			let effectBlock = access.effects.add("(Block)")[0];
-			effectBlock.add(node.autoscript);
-	
-			if (type == "items" || node.item) {
-				effectBlock._addVar("item", node.item ?? node); // Saves a reference to the item the AutoEffects originate from
-			}
-			// TODO: Also add a reference to the currently selected applied roll, if any
-		}
-	
-		clearSheetButtons();
-		executeRolls(cleanRolls(rollArray), {use_resource: access.state.combat});
-	}, 100);
+		// TODO: Also add a reference to the currently selected applied roll, if any
+	}
+
+	clearSheetButtons();
+	executeRolls(cleanRolls(rollArray), {use_resource: access.state.combat});
+	if (type == "palette") access.palette.applied.selection = false;
 });
 
 // Clones all rollformats in an roll array to avoid the original rollformats being modified
@@ -17711,8 +17893,8 @@ function cleanRolls(rollArray) {
 function cleanRoll(roll) {
 	let clone = roll.clone();
 
-	if (roll.orig || roll.path[1] == "items") { // Saves the item id in case it's needed later
-		Object.defineProperty(clone, "orig", {value: roll.orig || {type: "item", id: clone.id}});
+	if (roll.orig || is(roll.path[1]).In("items", "palette")) { // Saves a reference to the roll's item/palette element in case it's needed later
+		Object.defineProperty(clone, "orig", {value: roll.orig || roll.root[roll.path[1]][roll.id]});
 	}
 
 	clone._id = generateAccessID();
@@ -17731,8 +17913,8 @@ function cleanRoll(roll) {
 onAccess(["rolls", ["add", "delete"]], {}, function(info) {
 	if (info.type == "add") {
 		let message = access.message.rolls.add({id:info.newval.id});
-		message._roll = info.newval; // Saves a reference to the roll associated with the message
-		info.newval._message = message; // And vice versa for the roll
+		message.roll = info.newval; // Saves a reference to the roll associated with the message
+		info.newval._message = message; // And vice versa for the roll (use _message to avoid issues with palette elements overriding the message prop validator)
 		styleRoll(info.newval);
 	} else {
 		access.message.delete(info.oldval.id);
@@ -17745,7 +17927,7 @@ onAccess(["rolls", "N", "modify", ["type", "damage_type"]], {}, function(info) {
 });
 
 function styleRoll(roll) {
-	if (!roll.message) return false;
+	if (!(roll?.message instanceof dataNode)) return false;
 
 	// TODO: Rework the styling code below into styling rules stored in access
 	// Can be called using styleMessage(message, type, name, roll, item)
@@ -18051,7 +18233,11 @@ onAccess([
 	["items", "N", "ui", "modify", "position"],
 	["items", "N", "ui", "position", "modify", "N"]
 ], {}, (info) => {
-	recalcCustomPosition(access.items[info.node.id]);
+	let root = info.node.root;
+
+	if (root.type == "character" && root.items[info.node.id]) {
+		recalcCustomPosition(root.items[info.node.id]);
+	}
 });
 function recalcCustomPosition(item) {
 	let selector = `.repitem[data-reprowid="${item.id}"]`;
@@ -18544,13 +18730,12 @@ function applyEffect(count, prop, mode="=", effect="0", opts={}) {
 	return Math.floor(change);
 }
 
-/* Ailment - Add/delete ailment */
-onAccess("clicked:addAilment remove:repeating_ailments", {}, function(info) {
-	let type = info.triggerName.split(":")[0];
-	
-	switch (type) {
-		case "remove": access.ailments.delete(info.sourceAttribute.split("_")[2]); break;
-		default: access.ailments.add({id:generateAccessID()}); break;
+/* Ailment - Add/delete/clear ailment */
+onAccess("clicked:addAilment remove:repeating_ailments clicked:clearAilment", {}, function(info) {
+	switch (info.triggerName) {
+		case "clicked:addailment": access.ailments.add({id:generateAccessID()}); break;
+		case "remove:repeating_ailments": access.ailments.delete(info.sourceAttribute.split("_")[2]); break;
+		case "clicked:clearailment": access.ailments.reset(); break;
 	}
 });
 
@@ -18597,13 +18782,13 @@ function syncItemsToPalette(itemArray) {
 		}
 		
 		for (const type in p) {
-			let palette = (type == "action") ? access.palette : access.palette.applied;
+			let palette = (type == "action") ? item.root.palette : item.root.palette.applied;
 	
 			let paletteCheck = (item.rollformats.enabled && i[type].length > 0); // A palette element must have at least one associated item roll...
 			if (type == "action") paletteCheck ||= item.usable.enabled; // ... except for standalone actions, which may have no rolls
 			
 			// Check if a palette element should exist
-			if (access.items[item.id] && item.equipped && item.name && paletteCheck) {
+			if (item.root.items[item.id] && item.equipped && item.name && paletteCheck) {
 	
 				// Add a new palette element if one does not already exist
 				p[type] ??= palette.add();
@@ -18675,11 +18860,10 @@ function recalcPalette(elementArray) {
 		let elementType = (element.path[2] != "applied") ? "standalone" : "applied";
 		let elementMessage = "0";
 
+		// Reset all standalone actions and rolls to their base values + any applied values
 		if (elementType == "standalone") {
-
-			// Reset all standalone actions and rolls to their base values + any applied values
 			element.modify("light", (applied?.light?.enabled || element?.base?.light.enabled), {recalc:true});
-			element.light.modify("cost", (element?.base?.light.enabled ? element.base.light.cost : 0) + (applied?.light?.cost ?? 0), {recalc:true});
+			element.light.modify("cost", (element?.base?.light.enabled ? element.base.light.cost : 0) + (applied?.light?.enabled ? applied.light.cost : 0), {recalc:true});
 			element.modify("autoscript", (element?.base?.autoscript ?? "") + (applied?.autoscript ?? ""), {recalc:true});
 		
 			for (const roll of element.rollformats) {
@@ -18690,18 +18874,18 @@ function recalcPalette(elementArray) {
 				// If an applied roll is selected, add its values to the base values of each standalone roll
 				// Each standalone roll is combined with the *first* valid rollformat of the selected applied roll
 				if (applied) {
-					let appliedRoll = applied.rollformats.find(r => {
-						if (roll.type == "None" || r.type == "None") { // Untyped rolls match with all rolls
+					let appliedRoll = applied.rollformats.find(applied_roll => {
+						if (roll.type == "None" || applied_roll.type == "None") { // Untyped rolls match with all rolls
 							return true;
 						}
-						else if (roll.type == "Attack" && r.type == "Attack") { // Attacks match with all attacks, except if the rolls have different damage types
-							if (damageTypes.includes(roll.damage_type) && damageTypes.includes(r.damage_type)) {
-								return (roll.damage_type == r.damage_type);
+						else if (roll.type == "Attack" && applied_roll.type == "Attack") { // Attacks match with all attacks, except if the rolls have different damage types
+							if (damageTypes.includes(roll.damage_type) && damageTypes.includes(applied_roll.damage_type)) {
+								return (roll.damage_type == applied_roll.damage_type);
 							}
 							return true;
 						}
 						else { // Other rolls only match with the same type of rolls
-							return (roll.type == r.type);
+							return (roll.type == applied_roll.type);
 						}
 					});
 	
@@ -18711,13 +18895,16 @@ function recalcPalette(elementArray) {
 	
 						delete appliedData._type; // The roll type of the action is preserved. The damage type can be modified however
 						if (roll.base._damage_type != "None") delete appliedData._damage_type; // The applied damage type is only used if the damage type is unset
-						delete appliedData._base; // TODO: Remove this if you remove base values from applied rolls
 						delete appliedData._message; // Applied messages are only shown over the applied roll itself
+						delete appliedData._base; // TODO: Remove this if you remove base values from applied rolls
 						
 						for (const resource of ["_action", "_reaction"]) {
 							appliedData[resource].enabled &&= roll.base[resource].enabled; // Both rolls most have actions / reactions enabled to be used
 							if (appliedData[resource]._type == "None") delete appliedData[resource]._type; // If the resource type is unset only the cost is applied
 						}
+
+						delete appliedData._uses._cost; // The use cost of the standalone and applied roll are stored as two seperate properties
+						appliedData._uses._applied = (appliedRoll.uses.enabled) ? appliedRoll.uses.cost : 0;
 	
 						roll.paste(appliedData, {modify:true, add:true, recalc:true});
 					} else {
@@ -18754,13 +18941,11 @@ function recalcPalette(elementArray) {
 			}
 		}
 
-		// Handle Light costs
+		// Handle Light and item use costs
 		if (element.light.enabled && element.light.cost > access.bar.light) {
 			elementMessage = "Not enough Light"; // TODO: Missing translation
 		}
-
-		// Handle item uses costs
-		if (element.uses.enabled && !element.uses.current) {
+		else if ((element.uses.enabled && !element.uses.current) || (applied?.uses.enabled && !applied.uses.current)) {
 			elementMessage = "Not enough Uses"; // TODO: Missing translation
 		}
 
@@ -18772,6 +18957,9 @@ function recalcPalette(elementArray) {
 		}
 	}
 }
+
+
+
 
 /* Palette - Change applied roll selection */
 onAccess("clicked:repeating_applied:palette-select", {}, function(info) {
@@ -19156,24 +19344,21 @@ function recalcCustomEvents(item) {
 	}
 }
 function deleteCustomEvents(item) {
-	function deleteEventInner(eventNode, eventID) {
-		for (const step in eventNode) {
-			if (step == "eventArray") {
-				eventNode[step] = eventNode[step].filter(e => e.id != eventID);
-				if (!eventNode[step].length) {
-					delete eventNode[step];
-				}
-			} else {
-				deleteEventInner(eventNode[step], eventID);
-				if (!length(eventNode[step])) {
-					delete eventNode[step]
-				}
+	deleteEventInner(access._event.tree, item.id);
+}
+function deleteEventInner(eventNode, eventID) {
+	for (const step in eventNode) {
+		if (step == "eventArray") {
+			eventNode[step] = eventNode[step].filter(e => e.id != eventID);
+			if (!eventNode[step].length) {
+				delete eventNode[step];
+			}
+		} else {
+			deleteEventInner(eventNode[step], eventID);
+			if (!length(eventNode[step])) {
+				delete eventNode[step]
 			}
 		}
-	}
-	
-	if (access._event.tree) {
-		deleteEventInner(access._event.tree, item.id);
 	}
 }
 
@@ -20307,7 +20492,7 @@ function convertLegacyAttrs(type, values, sectionIndexes) {
 
 
 /* Legacy setup */
-const sheetVersion = "v1.0 Alpha 11/08";
+const sheetVersion = "v1.0 Alpha 25/08";
 
 // TODO: Work in progress
 async function sheetSetup(ID) {
@@ -20452,7 +20637,7 @@ async function accessImport(ID, target, opts={}) {
 				}
 
 				for (const item of itemDeleteIDs) {
-					access[ID].items.delete(item.id);
+					access[ID].items.delete(item?.id);
 				}
 				// TODO: May need support for Tags/Slots here in addition to items
 			} else {
@@ -21755,6 +21940,7 @@ function arrayJoinAndOr(array, div1, div2) {
 // Takes in arguments of the format: [queryVar, queryTitle, {label1:value1, label2:value2, ...}]
 // Sends one query for each argument and returns an object containing the return value for each query
 async function sendQuery(...args) {
+	let actId = getActiveCharacterId();
 	let queryArray = args.filter(arg => arg != [] && arg != "");
 	
 	// ! {{query1_var=[[0[?{query1_title|label1,value1|label2,value2|...}]]]}} {{query2_var=...}} ...
@@ -21772,7 +21958,7 @@ async function sendQuery(...args) {
 	let queryActStackLength = access._action_stack.length;
 	access._state = "query";
 
-	let queryResults = await new Promise((resolve) => {
+	let queryResults = await new Promise(resolve => {
 		let intervalID = setInterval(() => {
 			if (queryActStackLength != access._action_stack.length || access._state != "query") {
 				console.warn("Query interrupted by new action/event:", queryArray);
@@ -21800,6 +21986,8 @@ async function sendQuery(...args) {
 				return {...acc, [variable]: (result == "true") ? true : (result == "false") ? false : result};
 			}, {}));
 		});
+	}).finally(() => {
+		setActiveCharacterId(actId);
 	});
 
 	return queryResults;
