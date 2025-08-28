@@ -15378,7 +15378,7 @@ class effectNode extends dataNode {
 		if (t === undefined || !this.#format.index.target) return this.#buffer.target = false;
 		if ((t = this.#applyMath(t)) === null) return;
 
-		if (/^?-st$/i.test(t)) t = (t.startsWith("-")) ? "-STG" : "STG"; // Legacy support for the old "ST" bar name
+		if (/^-?st$/i.test(t)) t = (t.startsWith("-")) ? "-STG" : "STG"; // Legacy support for the old "ST" bar name
 		if (/^tst$/i.test(t)) t = "TSTG";
 		this.#buffer.target = t.toLowerCase();
 
