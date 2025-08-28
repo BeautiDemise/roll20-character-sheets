@@ -23,16 +23,14 @@
     - Status ailments
         ○ Combat states
         ○ Custom ailments
-    - Combat options
+    - Combat palette
+        ○ Standalone rolls / actions
+        ○ Skills / applied rolls
         ○ Targeting
         ○ Last defence dice
         ○ Resource tracking
         ○ Combat toggle
         ○ Generic token mode
-    - Combat palette
-        ○ Skill and tool selection
-        ○ Mystery combat palette
-        ○ Weapon uses
     - Equipment and Skills
         ○ Weapons
         ○ Outfits
@@ -195,7 +193,7 @@ body, .sheet-body {
     top: 0px;
     left: 0px;
     width: 100%;
-    z-index: 999;
+    z-index: 1000;
 }
 #messagePop input, #messagePop textarea {
     text-align: center;
@@ -444,7 +442,7 @@ body, .sheet-body {
 }
 .editorContainer {
     position: fixed;
-    z-index: 999;
+    z-index: 500;
     box-shadow: var(--color-black) 0 0 10px;
 }
 .editorScroll {
@@ -597,17 +595,18 @@ img:is([src=""], :not([src])) {
 
 
 /* Dropdowns */
-select:focus { background-color: rgba(0, 0, 0, var(--select-alpha-focus)) !important; }
-option { background-color: rgba(0, 0, 0, var(--option-alpha)); }
-option:checked { background-color: rgba(0, 0, 0, var(--option-alpha-checked)); }
+.darkInput     { --select-alpha-focus: 0.35; --option-alpha: 0.25; --option-alpha-checked: 0.15; }
+.exportSelect  { --select-alpha-focus: 0.30; --option-alpha: 0.20; --option-alpha-checked: 0.10; }
 
-.whiteInput      {--select-alpha-focus: 0.20; --option-alpha: 0.65; --option-alpha-checked: 0.45; }
-.darkInput       {--select-alpha-focus: 0.35; --option-alpha: 0.25; --option-alpha-checked: 0.15; }
-.exportSelect    {--select-alpha-focus: 0.30; --option-alpha: 0.20; --option-alpha-checked: 0.10; }
+#sheetSettings              { --select-alpha-focus: 0.30; --option-alpha: 0.20; --option-alpha-checked: 0.1; }
+#sheetSettings .transpInput { --select-alpha-focus: 0.10; --option-alpha: 0.30; --option-alpha-checked: 0.20; }
+#sheetSettings .whiteInput  { --select-alpha-focus: 0.10; --option-alpha: 0.40; --option-alpha-checked: 0.30; }
+#sheetSettings .darkInput   { --select-alpha-focus: 0.35; --option-alpha: 0.40; --option-alpha-checked: 0.30; }
 
-.settingStyle             {--option-alpha: 0.10; --option-alpha-checked: 0; }
-.settingStyle .whiteInput {--select-alpha-focus: 0.15; --option-alpha: 0.40; --option-alpha-checked: 0.30; }
-.settingStyle .darkInput  {--select-alpha-focus: 0.35; --option-alpha: 0.45; --option-alpha-checked: 0.30; }
+select:focus[class] { background-color: rgba(0, 0, 0, var(--select-alpha-focus, 0.20)) !important; }
+select:focus        { background-color: rgba(255, 255, 255, var(--select-alpha-focus, 0.20)) !important; }
+option              { background-color: rgba(0, 0, 0, var(--option-alpha, 0.65)); }
+option:checked      { background-color: rgba(0, 0, 0, var(--option-alpha-checked, 0.45)); }
 
 .transpInput {
     background-color: rgba(0,0,0,0) !important;
@@ -1373,7 +1372,6 @@ button[type=action].challengeButton::before {
 }
 .damageHelperContainer b {
     display: inline-block;
-    max-width: 80%;
     opacity: 30%;
     font-size: 9pt;
 }
@@ -1398,7 +1396,7 @@ button[type=action].challengeButton::before {
     border-right: 2px solid var(--color-STGR) !important;
     border-bottom: 2px solid var(--color-STGR) !important;
 }
-.flatHPInput, .flatSTInput {
+.flatHPInput, .flatSTGInput {
     text-align: left !important;
     padding-right: 2px;
     padding-left: 8px;
@@ -1406,7 +1404,7 @@ button[type=action].challengeButton::before {
 .flatHPInput {
     border: 2px solid var(--color-HP) !important;
 }
-.flatSTInput {
+.flatSTGInput {
     border: 2px solid var(--color-STGR) !important;
 }
 
@@ -1579,11 +1577,12 @@ button[type=action].challengeButton::before {
 
 
 
-/* ===== Combat options ===== */
+/* ===== Combat palette ===== */
 .combatOptionsContainer {
     flex-wrap: wrap;
 }
 .combatOptionsContainer .helpers {
+    width: auto !important;
     margin-left: 0;
     margin-right: 0;
 }
@@ -1591,7 +1590,8 @@ button[type=action].challengeButton::before {
     display: inline-block;
     margin-bottom: 2px; 
 }
-/* Putting the margin on the hide items ensures the spacing is hidden when different combat options are disabled */
+
+/* Putting the margin on the hide items ensures the spacing is hidden when different combat palette options are disabled */
 .combatOptionsContainer {
     & > .targetDefenceContainer > .hide-item-flex {
         margin-bottom: 5px; 
@@ -1601,323 +1601,6 @@ button[type=action].challengeButton::before {
     }
 }
 
-
-/* Combat options - Targeting and Defence */
-.targetDefenceContainer > .rowContainer {
-    gap: 5px;
-}
-.targetDefenceContainer .tokenName {
-    display: inline-block;
-    width: 100%;
-    height: 12px !important;
-    padding: 0;
-    margin-bottom: 2px; 
-    font-size: 9pt;
-    font-weight: bold;
-    text-align: center;
-    opacity: 30%;
-    color: var(--color-white);
-    background-color: transparent;
-    pointer-events: none;
-}
-.targetDefenceContainer .tokenName::placeholder {
-    opacity: 100% !important;
-}
-.targetDefenceContainer .bars {
-    height: 24px;
-    background-color: var(--color-dark-gray);
-}
-.targetDefenceContainer .bars.bars:not(:first-child) {
-    margin-left: 2px;
-}
-.targetDefenceContainer .Cstat {
-    width: 100% !important;
-    font-size: 12pt;
-    pointer-events: none;
-}
-
-.selectTargetButton, .targetToken {
-    height: 44px; 
-    width: 44px;
-}
-.selectTargetButton {
-    float: left;
-    padding: 3px;
-    border-radius: 5px;
-}
-.selectTargetButton:has(img[src^="http"]) {
-    border-color: rgba(var(--color-rgb-LIGHT), 0.6);
-}
-.selectTargetButton img[src^="http"] ~ .selectTargetIcon {
-    display: none;
-}
-.targetToken {
-    opacity: 0.8;
-}
-.selectTargetIcon {
-    height: 50px; 
-    width: 50px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/target.png');
-}
-
-/* Last defence dice display */
-.defenceDice {
-    height: 52px !important;
-    width: 52px !important;
-    padding: 4px;
-    font-size: 20px;
-    text-shadow: var(--color-black) 0 0 3px, var(--color-black) 0 0 10px;
-    text-align: center;
-    border: 1px var(--color-darker-gray) solid !important;
-    border-radius: 5px;
-    background-color: var(--color-dark-gray) !important;
-    background-size: 45px;
-    background-position: 45% 45%;
-    background-repeat: no-repeat;
-    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png');
-}
-
-
-/* Combat options - Action and Light regen trackers */
-.resourceContainer > .columnAlign {
-    gap: 1px;
-}
-.resourceRow {
-    gap: 4px;
-}
-.resourceButton {
-    height: 18px !important;
-    width: 18px !important;
-    min-width: 18px;
-    padding: 0 !important;
-}
-.tracker {
-    height: 20px;
-    width: auto !important;
-    border-radius: 3px;
-    background-color: var(--color-dark-gray);
-
-    --tracker-color: var(--color-darker-white);
-    --tracker-icon-offset: 6px;
-    --tracker-current-offset: 2px;
-    --tracker-max-offset: 13px;
-    --tracker-base-offset: 8px;
-}
-.tracker :is(.trackerCurrent, .trackerMax, .trackerBase, .trackerIcon) {
-    background-color: transparent;
-    height: 100% !important;
-    padding: 0;
-    color: white;
-    font-weight: bold;
-    font-size: 12pt;
-    appearance: textfield;
-}
-.tracker .trackerCurrent {
-    float: left;
-    width: calc(40% + 4px) !important;
-    padding-left: calc(5% - var(--tracker-current-offset)) !important;
-}
-.tracker .trackerMax {
-    position: absolute;
-    background-color: var(--tracker-color);
-    right: 0;
-    width: calc(55% - var(--tracker-max-offset)) !important;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    text-align: center;
-    color: rgb(0, 0, 0, 0.5);
-}
-.tracker .trackerBase {
-    width: calc(95% - 9px) !important;
-    padding-left: calc(37% - var(--tracker-base-offset));
-}
-.trackerIcon {
-    margin: 0 !important;
-    background-size: 22px;
-    background-position: left;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    padding-right: calc(15% - var(--tracker-icon-offset)) !important;
-}
-.tracker:has(input[type=radio]:checked)::before {
-    content: " ";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid var(--tracker-color);
-    border-radius: 3px;
-    pointer-events: none;
-    z-index: 5;
-}
-.trackerEditToggle:checked + div :is(.trackerCurrent, .trackerMax) {
-    display: none !important;
-}
-.trackerEditToggle:not(:checked) + div .trackerBase {
-    display: none !important;
-}
-.tracker .hide-toggle:not(:checked) ~ label.hide-item {
-    display: none !important;
-}
-
-/* Resource specific tracker styling */
-.resourceContainer {
-    .trackerIcon {
-        width: 20px !important;
-    }
-    .tracker:has(.reaction) { --tracker-color: var(--color-darker-white); }
-    .tracker:has(.egoSpecial) { --tracker-color: var(--color-orange); }
-    .tracker:has(.egoAtt) { --tracker-color: var(--color-red); }
-    .tracker:has(.egoDef) { --tracker-color: var(--color-blue); }
-    .tracker:has(.egoEvd) { --tracker-color: var(--color-STGR); }
-
-    &:has(.hide-toggle-rev-next[name="attr_settingActionTracker"]:checked) .tracker:has(.light) {
-        width: 265px !important;
-    }
-}
-
-
-/* Combat options - Combat toggle */
-.combatToggleContainer {
-    width: auto;
-}
-
-
-/* Generic token mode display */
-.genericTokenContainer {
-    position: fixed;
-    bottom: 0px;
-    left: 0%;
-    width: calc(99% - 14px);
-    z-index: 999;
-    padding: 5px;
-    background-color: #1F1F1F !important;
-}
-#genericTokenModeToggle + .genericTokenContainer {
-    display: none !important;
-}
-#genericTokenModeToggle:checked + .genericTokenContainer {
-    display: flex !important;
-}
-#genericTokenDisplay {
-    resize: vertical;
-    max-height: 450px;
-    min-height: 150px;
-    overflow-y: auto;
-}
-#genericTokenDisplay .repcontainer {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: calc(99% - 64px);
-}
-
-/* Generic token controls */
-.genericTokenSelectButton {
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    height: 20%;
-    width: calc(100% + 2px);
-    background-color: transparent;
-}
-.genericToken_controls {
-    justify-content: space-around;
-    width: 50px;
-    height: 130px;
-    margin: 10px 5px 10px 5px;
-}
-.genericToken_controls button {
-    background-color: transparent;
-}
-
-/* Individual generic tokens */
-.genericToken {
-    height: 130px;
-    width: 120px;
-    margin: 5px;
-}
-.style-toggle:checked + .genericToken {
-    height: 126px;
-    border: 2px solid #666;
-}
-.genericToken .tokenName {
-    background-color: transparent;
-    color: var(--color-lighter-gray);
-    width: 100%;
-    padding: 0;
-    pointer-events: none;
-    overflow: ellipsis;
-}
-.genericToken .bars {
-    width: 100px !important;
-    height: 20px;
-}
-.genericToken .bars:not(:first-child) {
-    margin-top: 2px;
-}
-.genericToken :is(.Cstat, .Mstat, .Tstat) {
-    font-size: 12pt;
-}
-.genericToken .Mstat{
-    width: 33% !important;
-    padding: 4px 2px 4px 2px;
-}
-.genericToken .Tstat {
-    width: auto !important;
-    left: 30px;
-    z-index: 3;
-}
-.tokenAilment, .targetAilment {
-    width: 25px;
-    height: 25px;
-    margin-top: 2px;
-}
-.targetAilment {
-    pointer-events: none;
-}
-:is(.tokenAilment, .targetAilment) img {
-    position: relative;
-    opacity: 90%;
-    left: 0;
-    width: 25px;
-    height: 25px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: 1;
-}
-:is(.tokenAilment, .targetAilment) input[type="number"] {
-    position: relative;
-    top: -25px;
-    left: -2px;
-    background-color: transparent;
-    color: var(--color-white);
-    font-weight: bold;
-    text-shadow: var(--color-black) 0 0 3px, var(--color-black) 0 0 5px, var(--color-black) 0 0 10px;
-    padding-left: 2px;
-    text-align: center;
-    z-index: 2;
-}
-.tokenAilment input[type="number"]:not(:hover):not(:focus) {
-    width: 31px !important;
-}
-.tokenAilment input[type="number"]:focus, .tokenAilment input[type="number"]:hover {
-    width: 3.5em;
-}
-/* ===== Combat options END ===== */
-
-
-
-
-/* ===== Combat palette ===== */
 #combatPalette {
     --content-accent: var(--color-white);
 
@@ -1990,7 +1673,7 @@ button[type=action].challengeButton::before {
     }
 }
 
-/* Action / roll palette */
+/* Combat palette - Standalone rolls / actions */
 #actionPalette {
     .paletteContents, .paletteRow {
         align-items: stretch;
@@ -2040,7 +1723,7 @@ button[type=action].challengeButton::before {
     }
 }
 
-/* Applied palette */
+/* Combat palette - Skills / applied rolls */
 #appliedPalette {
     margin-top: 5px;
 
@@ -2169,6 +1852,317 @@ button[type=action].challengeButton::before {
         background-color: var(--rollformat-color, var(--color-green));
     }
     */
+}
+
+/* Combat palette - Targeting */
+.targetDefenceContainer > .rowContainer {
+    gap: 5px;
+}
+.targetDefenceContainer .tokenName {
+    display: inline-block;
+    width: 100%;
+    height: 12px !important;
+    padding: 0;
+    margin-bottom: 2px; 
+    font-size: 9pt;
+    font-weight: bold;
+    text-align: center;
+    opacity: 30%;
+    color: var(--color-white);
+    background-color: transparent;
+    pointer-events: none;
+}
+.targetDefenceContainer .tokenName::placeholder {
+    opacity: 100% !important;
+}
+.targetDefenceContainer .bars {
+    height: 24px;
+    background-color: var(--color-dark-gray);
+}
+.targetDefenceContainer .bars.bars:not(:first-child) {
+    margin-left: 2px;
+}
+.targetDefenceContainer .Cstat {
+    width: 100% !important;
+    font-size: 12pt;
+    pointer-events: none;
+}
+
+.selectTargetButton, .targetToken {
+    height: 44px; 
+    width: 44px;
+}
+.selectTargetButton {
+    float: left;
+    padding: 3px;
+    border-radius: 5px;
+}
+.selectTargetButton:has(img[src^="http"]) {
+    border-color: rgba(var(--color-rgb-LIGHT), 0.6);
+}
+.selectTargetButton img[src^="http"] ~ .selectTargetIcon {
+    display: none;
+}
+.targetToken {
+    opacity: 0.8;
+}
+.selectTargetIcon {
+    height: 50px; 
+    width: 50px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/target.png');
+}
+
+/* Combat palette - Last defence dice */
+.defenceDice {
+    height: 52px !important;
+    width: 52px !important;
+    padding: 4px;
+    font-size: 20px;
+    text-shadow: var(--color-black) 0 0 3px, var(--color-black) 0 0 10px;
+    text-align: center;
+    border: 1px var(--color-darker-gray) solid !important;
+    border-radius: 5px;
+    background-color: var(--color-dark-gray) !important;
+    background-size: 45px;
+    background-position: 45% 45%;
+    background-repeat: no-repeat;
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png');
+}
+
+
+/* Combat palette - Resource tracking */
+.resourceContainer > .columnAlign {
+    gap: 1px;
+}
+.resourceRow {
+    gap: 4px;
+}
+.resourceButton {
+    height: 18px !important;
+    width: 18px !important;
+    min-width: 18px;
+    padding: 0 !important;
+}
+.tracker {
+    height: 20px;
+    width: auto !important;
+    border-radius: 3px;
+    background-color: var(--color-dark-gray);
+
+    --tracker-color: var(--color-darker-white);
+    --tracker-icon-offset: 6px;
+    --tracker-current-offset: 2px;
+    --tracker-max-offset: 13px;
+    --tracker-base-offset: 8px;
+}
+.tracker :is(.trackerCurrent, .trackerMax, .trackerBase, .trackerIcon) {
+    background-color: transparent;
+    height: 100% !important;
+    padding: 0;
+    color: white;
+    font-weight: bold;
+    font-size: 12pt;
+    appearance: textfield;
+}
+.tracker .trackerCurrent {
+    float: left;
+    width: calc(40% + 4px) !important;
+    padding-left: calc(5% - var(--tracker-current-offset)) !important;
+}
+.tracker .trackerMax {
+    position: absolute;
+    background-color: var(--tracker-color);
+    right: 0;
+    width: calc(55% - var(--tracker-max-offset)) !important;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    text-align: center;
+    color: rgb(0, 0, 0, 0.5);
+}
+.tracker .trackerBase {
+    width: calc(95% - 9px) !important;
+    padding-left: calc(37% - var(--tracker-base-offset));
+}
+.trackerIcon {
+    margin: 0 !important;
+    background-size: 22px;
+    background-position: left;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    padding-right: calc(15% - var(--tracker-icon-offset)) !important;
+}
+.tracker:has(input[type=radio]:checked)::before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--tracker-color);
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 5;
+}
+.trackerEditToggle:checked + div :is(.trackerCurrent, .trackerMax) {
+    display: none !important;
+}
+.trackerEditToggle:not(:checked) + div .trackerBase {
+    display: none !important;
+}
+.tracker .hide-toggle:not(:checked) ~ label.hide-item {
+    display: none !important;
+}
+
+/* Resource specific tracker styling */
+.resourceContainer {
+    .trackerIcon {
+        width: 20px !important;
+    }
+    .tracker:has(.reaction) { --tracker-color: var(--color-darker-white); }
+    .tracker:has(.egoSpecial) { --tracker-color: var(--color-orange); }
+    .tracker:has(.egoAtt) { --tracker-color: var(--color-red); }
+    .tracker:has(.egoDef) { --tracker-color: var(--color-blue); }
+    .tracker:has(.egoEvd) { --tracker-color: var(--color-STGR); }
+
+    &:has(.hide-toggle-rev-next[name="attr_settingActionTracker"]:checked) .tracker:has(.light) {
+        width: 265px !important;
+    }
+}
+
+
+/* Combat palette - Combat toggle */
+.combatToggleContainer {
+    width: auto;
+}
+
+
+/* Generic token mode display */
+.genericTokenContainer {
+    position: fixed;
+    bottom: 0px;
+    left: 0%;
+    width: calc(99% - 14px);
+    z-index: 750;
+    padding: 5px;
+    background-color: #1F1F1F !important;
+}
+#genericTokenModeToggle + .genericTokenContainer {
+    display: none !important;
+}
+#genericTokenModeToggle:checked + .genericTokenContainer {
+    display: flex !important;
+}
+#genericTokenDisplay {
+    resize: vertical;
+    max-height: 450px;
+    min-height: 150px;
+    overflow-y: auto;
+}
+#genericTokenDisplay .repcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: calc(99% - 64px);
+}
+
+/* Generic token controls */
+.genericTokenSelectButton {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    height: 20%;
+    width: calc(100% + 2px);
+    background-color: transparent;
+}
+.genericToken_controls {
+    justify-content: space-around;
+    width: 50px;
+    height: 130px;
+    margin: 10px 5px 10px 5px;
+}
+.genericToken_controls button {
+    background-color: transparent;
+}
+
+/* Individual generic tokens */
+.genericToken {
+    height: 130px;
+    width: 120px;
+    margin: 5px;
+}
+.style-toggle:checked + .genericToken {
+    height: 126px;
+    border: 2px solid #666;
+}
+.genericToken .tokenName {
+    background-color: transparent;
+    color: var(--color-lighter-gray);
+    width: 100%;
+    padding: 0;
+    pointer-events: none;
+    overflow: ellipsis;
+}
+.genericToken .bars {
+    width: 100px !important;
+    height: 20px;
+}
+.genericToken .bars:not(:first-child) {
+    margin-top: 2px;
+}
+.genericToken :is(.Cstat, .Mstat, .Tstat) {
+    font-size: 12pt;
+}
+.genericToken .Mstat{
+    width: 33% !important;
+    padding: 4px 2px 4px 2px;
+}
+.genericToken .Tstat {
+    width: auto !important;
+    left: 30px;
+    z-index: 3;
+}
+.tokenAilment, .targetAilment {
+    width: 25px;
+    height: 25px;
+    margin-top: 2px;
+}
+.targetAilment {
+    pointer-events: none;
+}
+:is(.tokenAilment, .targetAilment) img {
+    position: relative;
+    opacity: 90%;
+    left: 0;
+    width: 25px;
+    height: 25px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+:is(.tokenAilment, .targetAilment) input[type="number"] {
+    position: relative;
+    top: -25px;
+    left: -2px;
+    background-color: transparent;
+    color: var(--color-white);
+    font-weight: bold;
+    text-shadow: var(--color-black) 0 0 3px, var(--color-black) 0 0 5px, var(--color-black) 0 0 10px;
+    padding-left: 2px;
+    text-align: center;
+    z-index: 2;
+}
+.tokenAilment input[type="number"]:not(:hover):not(:focus) {
+    width: 31px !important;
+}
+.tokenAilment input[type="number"]:focus, .tokenAilment input[type="number"]:hover {
+    width: 3.5em;
 }
 /* ===== Combat palette END ===== */
 
@@ -3618,14 +3612,27 @@ button[type=action].challengeButton::before {
 #globalSettings {
     width: 100%;
 
+    .editorContainer {
+        position: relative;
+        flex-wrap: wrap;
+        align-content: stretch;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 10px;
+        gap: 10px;
+        box-shadow: none;
+    }
     .editorSection {
         width: min-content;
         min-width: 31%;
-        margin: 5px;
+        max-width: calc(50% - 5px);
         border-radius: 5px;
         overflow: hidden;
         color: var(--color-white) !important;
-        flex-grow: 0.5;
+        flex-grow: 1;
+    }
+    .editorTitle {
+        background-color: #404040;
     }
     .editorOptionContainer {
         padding: 2px 8px 3px 8px;
@@ -3636,19 +3643,16 @@ button[type=action].challengeButton::before {
     .editorOption {
         height: fit-content;
         min-height: 28px;
-        min-width: min-content;
-        width: 100%;
-        max-width: 100px;
+        min-width: fit-content;
         padding-left: 5px;
         justify-content: flex-start;
-        flex-grow: 1;
         
         label {
             position: relative;
             box-sizing: border-box;
             height: auto;
+            min-width: 100px;
             padding-top: 0;
-            padding-right: 2px;
             font-size: 13px !important;
             text-wrap-mode: wrap;
 
@@ -3656,26 +3660,27 @@ button[type=action].challengeButton::before {
                 display: inline-block;
                 padding: 3px 2px 0 12px;
             }
+            &:has(input[type="checkbox"]:checked):has(~ input[type="text"]) {
+                max-width: 100px;
+            }
         }
         input[type="checkbox"] {
             top: calc(40% - 5px);
             left: -8px;
         }
-        &:has(> label input[type="checkbox"]:checked) {
-            max-width: 100%;
 
-            > label {
-                min-width: 100px;
-            }
+        input[type="text"] {
+            width: 150px;
+            text-align: center;
+            flex-grow: 1;
         }
-
-        .rowContainer {
-            width: auto;
+        select {
+            width: 100%;
+            max-width: none;
         }
 
         .editorOptionContainer {
-            padding-left: 16px;
-            padding-bottom: 0;
+            padding: 2px 0 0 16px;
         }
         &:has(.editorOptionContainer) {
             padding-bottom: 0;
@@ -3686,12 +3691,6 @@ button[type=action].challengeButton::before {
             border-color: #bbb;
         }
     }
-}
-#globalSettings .transpInput {
-    color: var(--color-light-gray) !important;
-}
-#globalSettings .repcontrol_move {
-    display: none;
 }
 
 /* Custom ailments (Editor tab) */
