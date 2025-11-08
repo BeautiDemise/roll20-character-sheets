@@ -4958,7 +4958,7 @@ EGO block end -->
 <!-- Editor tab -->
 <div id="editTab" class="sheet-body darkBG">
 <input type="text" name="attr_global_editKey" hidden>
-<input type="checkbox" class="hide-toggle hide-toggle-rev" name="attr_global_accessCheck" value="0" hidden>
+<input type="checkbox" class="hide-toggle hide-toggle-rev" name="attr_global_accessCheck" value="true" hidden checked>
 
 <!-- Editor password -->
 <div class="hide-item-rev rowContainer centerFlex">
@@ -8563,12 +8563,8 @@ function dataExportGlobal() {
 }
 
 /* Action: Import global settings */
-on('clicked:importGlobal', function() {
-	getSectionIDs(`repeating_global`, idarray => {
-		let id = `repeating_global_${idarray[0]}_`;
-
-	dataImport("gameEditor", id, "global_");
-	});
+onAccess('clicked:importGlobal', {}, async function() {
+	await accessImport(false, "gameEditor");
 });
 
 /* Action: Sync global settings */
@@ -19108,13 +19104,20 @@ onAccess(["palette", "applied", "modify", "selection"], {}, function(info) {
 
 /* Palette - Check standalone / applied roll requirements */
 onAccess([
-	["palette", "N", "rollformats", "add"],	// Add new rollformat
-	["palette", ["N", ["applied", "N"]], [ // Splits the event across both standalone and applied actions
+	["palette", "N", [ // Standalone rolls
+		["rollformats", "add"], // Add new rollformat
 		["base", "modify", ["light", "uses"]], // Enable/disable item uses or light cost
 		["base", "light", "modify", "cost"], // Change light cost
 		["base", "uses", "modify", "current"], // Change use count
 		["rollformats", "N", "base", "modify", "N"], // Modify rollformat
 		["rollformats", "N", "base", "N", "modify", "N"], // Change rollformat costs or "store" properties
+	]],
+	["palette", "applied", "N", [ // Applied rolls
+		["modify", ["light", "uses"]], // Enable/disable item uses or light cost
+		["light", "modify", "cost"], // Change light cost
+		["uses", "modify", "current"], // Change use count
+		["rollformats", "N", "modify", "N"], // Modify rollformat
+		["rollformats", "N", "N", "modify", "N"], // Change rollformat costs or "store" properties
 	]],
 ], {}, function(info) {
 	if (info.recalc) return;
@@ -19672,9 +19675,11 @@ function parseAutoCalcRule(rulePath) {
 		node = node[step];
 	}
 
-	// Expands any stat/bar/distort keywords in the rule into proper access paths
-	return node.calc.replace(/\b(Rank|Level|EXP|Fortitude|Prudence|Justice|Charm|Insight|Temperance)\b/gi, "character.$1")
-					.replace(/\b(HP|HP_max|STG|STG_max|SP|SP_max|Light|Light_max)\b/gi, "bar.$1")
+	// Expands any stat/bar/ailment keywords in the rule into proper access paths
+	return node.calc.replace(/\b(Rank|Level|EXP|Fortitude|Prudence|Justice|Charm|Insight|Temperance)\b/ig, "character.$1")
+					.replace("Instinct", "character.Fortitude").replace("Wisdom", "character.Prudence") // Legacy stat names
+					.replace(/\b(HP|HP_max|STG|STG_max|SP|SP_max|Light|Light_max)\b/ig, "bar.$1")
+					.replaceAll(new RegExp(`(?<=(?:^|[^.]))(${access.ailments.map(ail => `${ail.name}|${snakeify(ail.name)}`).join("|")})\\b`, "ig"), "ailments.$1");
 }
 
 
@@ -20349,7 +20354,7 @@ async function accessDefault(section, override) {
 			// TODO: Need to create a data format that can be pasted into the game settings
 			// You cannot use the default format functionality due to the game settings not being a repeating section
 		}
-		else if (queryResult.rulebook == "community") {
+		else if (queryResults.rulebook == "community") {
 			access.settings.game.reset(); // The community rules are enabled by default
 		}
 	} else {
@@ -20481,9 +20486,41 @@ function packageAttrData(values={}, replaceList={}, dataFormat, repFormat, type=
 /* New import / Export code */
 
 // Used for converting old 0.7.1 import data into new 1.0 import data
-// Attributes may gain a new key and/or value, and may be split into multiple attributes
+// Attributes may gain a new key and/or value, and may be split into multiple attributes (see the example below for further details)
 // Also handles converting old non-repeating inventory data into repeating inventory data
 const legacyAttrConverter = {
+	
+	/*
+	category: { 					// Legacy attributes are sorted into categories, like "items", "global", "ailments", etc.
+
+		// Legacy data is normally structured as attrProp, like outfitName, or attrIndexProp, like weapon1Name
+
+		"old_attr1": { 						// The legacy attribute base goes here (attr in the example above)
+			index: {min:X, max:Y, offset}, 	// (optional) Indexes of the legacy attribute (index in the example above)
+			section: "outfits", 			// (optional) The repeating section of the new attributes. Mostly relevant for repeating items
+			attrs: { 						// Data about how each attibute should be converted
+				"old_prop1": [ 				// The legacy prop goes here (prop in the example above)
+					{						
+						key: "new_prop", 	// (optional) By default new_prop = old_prop. This can be overriden like this
+						value: "new_value",	// (optional) By default new_value = old_value. -:-
+					},
+					{...}, 					// Two or more new attributes can be generated by adding multiple formats in this array
+					{
+						key: (old_value) => ...,	// Alternatively, the key and/or value can be generated by a function
+						value: (old_value) => ...,	// The function should include a single argument, which equals the old attribute value
+					},
+				],
+				"old_prop2":true, 		// Can be used if both the prop and value remain unchanged (ex. "outfitName: "Abc" -> rep_outfits_0_name": "Abc")
+			}
+		},
+
+		"old_attr2": { 					// If the format has no indexes or section, the attrs can be written directly after the attribute base
+			"old_prop1": [...],
+		},
+	}
+	*/
+	
+	
 	items: {
 
 		/* --- Outfit --- */
@@ -20632,45 +20669,40 @@ const legacyAttrConverter = {
 	},
 
 	ailments: {
-
-		/* --- Ailments --- */
 		// TODO: Treat the attributes as non-repeating attributes
 		// - The import parser strips the "ailments_N_" / "N_" prefix from each attribute before comparing, ands adds the prefix to any returned attribute values
 	},
 
-	global: { 
+	// A few game settings have their own coverter in convertLegacyAttrs() due to their formulas combining 2+ legacy attibutes
+	// The numbers for these formulas are based on the original rulebook, which was the default before v1.0
+	global: {
+		"global_rule": {"name": [{key: "gameEditRuleName"}]},
 
-		/* --- Default ailments --- */
-		"repeating_global_$ID_": { // TODO: Remove the ailment settings from global. It's not worth the effort of converting them
-			prefix: "global_",
-			id: "global",
-			attrs: {
-				healthBase:true,
-			},
+		/* --- Combat States --- */
+		"global_stagger": {
+			"durationmax": [{key: "gameEditStaggerDurationCalc"}, {key: "gameEditOptionStaggerDuration", value:true}],
+			"sanity": [{key: "gameEditStaggerSPDamageCalc"}, {key: "gameEditOptionStaggerSPDamage", value:true}],
 		},
 
-
-		"bleed": {
-			prefix: "1_",
-			attrs: {
-				
-			},
+		/* --- Rolls --- */
+		"global_att": {
+			"stat": [
+				{key: "gameEditAttackPowerCalc", value: (v) => `${(v == "InstinctRank") ? "Fortitude + Rank" : (v == "InstinctWisdom") ? "(Fortitude + Prudence)/2" : v} + Strength - Feeble`},
+				{key: "gameEditOptionAttackPower", value:true},
+			]
 		},
-		"smoke": {
-			prefix: "12_",
-			attrs: {
-	
-			},
+		"global_def": {
+			"stat": [
+				{key: "gameEditBlockPowerCalc", value: (v) => `${(v == "TemperanceRank") ? "Temperance + Rank" : (v == "TemperanceCharm") ? "(Temperance + Charm)/2" : v} + Endurance - Disarm`},
+				{key: "gameEditOptionBlockPower", value:true},
+			]
 		},
-		"charge": {
-			prefix: "13_",
-			attrs: {
-	
-			},
+		"global_multi": {
+			"penalty": [{key: "gameEditMultiRollPenaltyCalc"}, {key: "gameEditOptionMultiRollPenalty", value:true}],
+			"style": [{key: "gameEditMultiRollPenaltyStyle", value: (v) => (v == "n") ? "Scaling" : "Flat"}, {key: "gameEditOptionMultiRollPenalty", value:true}],
 		},
 	},
 
-	
 	sort_these_later: {
 		
 		// TODO: Need to convert all instances of "ST" into "STG"
@@ -20727,11 +20759,20 @@ on("sheet:opened", function(info) { // TODO: Consider moving this inside access,
 });
 
 function convertLegacyAttrs(type, values, sectionIndexes) {
-	for (const [old_key, old_value] of Object.entries(values)) {
 
-		// Handle legacy item data
-		if (type == "items" && legacyAttrConverter.items[old_key]) {
-			let convert = legacyAttrConverter.items[old_key];
+	// Global attributes are treated as a non-repeating
+	if (type == "global") {
+		for (const [old_key, old_value] of Object.entries(values)) {
+			if (match = old_key.match(/^(?:repeating_)?global_(?:-[\w\d]+)?_(.+)$/i)) {
+				delete values[old_key];
+				values[`global_${match[1]}`] = old_value;
+			}
+		}
+	}
+
+	for (const [old_key, old_value] of Object.entries(values)) {
+		if (legacyAttrConverter[type][old_key]) {
+			let convert = legacyAttrConverter[type][old_key];
 			let prefix = "";
 
 			if ("section" in convert) {
@@ -20766,11 +20807,66 @@ function convertLegacyAttrs(type, values, sectionIndexes) {
 			}
 		}
 	}
+
+	// Handle global setting formulas that link to 2+ legacy attributes
+	if (type == "global") {
+
+		let gameRules = {
+			health: {base: 30, stat: "Fortitude", statmod: 6, rankmod: 6, formula: "base + (stat * statmod) + (Rank * rankmod)", attr: "hp"},
+			stagger: {base: 20, stat: "Charm", statmod: 4, rankmod: 4, formula: "base + (stat * statmod) + (Rank * rankmod)", attr: "stg"},
+			sanity: {base: 15, stat: "Charm", statmod: 3, rankmod: 0, formula: "base + (stat * statmod) + (Rank * rankmod)", attr: "sp"},
+			light: {base: 3, rankmod: 1, distortbase: 2, formula: "base + (Rank * rankmod) + (Distort ? distortbase)", attr: "light"},
+			staggerrecover: {percent: 100, base: 10, formula: "(percent% * STG_max) + base", attr: "staggerrecovery"},
+			evd: {stat: "Insight", ailment: "Endurance + Disarm", formula: "stat + ailment", attr: "evadepower"},
+		}
+
+		// TODO: Need to get all legacy global settings during the legacy setup
+
+		// Special handling for odd attributes
+		if (values.global_distortlightbase) {
+			gameRules.light.DistortBase = values.global_distortlightbase - (values.global_lightBase || 3);
+			delete values.global_distortlightbase;
+			gameRules.light.update = true;
+		}
+
+		for (const [rule, format] of Object.entries(gameRules)) {
+			for (const prop of Object.keys(gameRules[rule])) {
+				if (prop == "formula") continue;
+				
+				if (values[`global_${rule + prop}`]) {
+					format[prop] = values[`global_${rule + prop}`];
+					delete values[`global_${rule + prop}`]
+					format.update = true;
+
+					// Coverts old StatRank, StatStat and AilAil values
+					if (match = format[prop].match(/InsightRank/)) {
+						format[prop] = `Insight + Rank`;
+					}
+					else if (match = format[prop].match(/(Instinct|Charm|Wisdom)(Temperance|Insight|Justice)/)) {
+						format[prop] = `(${match[1]} - ${match[2]})/2`;
+					}
+					else if (match = format[prop].match(/(Endurance|Haste)(Disarm|Bind)/)) {
+						format[prop] = `${match[1]} - ${match[2]}`;
+					}
+				}
+
+				format.formula = format.formula.replace(prop, format[prop]);
+			}
+
+			if (format.update) {
+				values[`gameeditoption${format.attr}`] = true;
+				values[`gameedit${format.attr}calc`] = format.formula;
+			}
+		}
+
+		// TODO: Handle the old default ailment settings (global_bleeddecaymode etc.)
+		// TODO: Add generic token mode settings
+	}
 }
 
 
 /* Legacy setup */
-const sheetVersion = "v1.0 Alpha 28/08";
+const sheetVersion = "v1.0 Alpha 08/11";
 
 // TODO: Work in progress
 async function sheetSetup(ID) {
@@ -20862,8 +20958,8 @@ async function accessImport(ID, target, opts={}) {
 				data[match[1].toLowerCase()] = match[2];
 			}
 		}
-
-		// Convert all "section_N_" type data into "repeating_section_-ID_" type data
+	
+		// Convert all "section_N_" and "N_" type data into "repeating_section_-ID_" type data
 		// Generates new IDs for each new section + index and stores the data for later
 		for (const [key, value] of Object.entries(data)) {
 			if (match = key.match(/^(?:([A-Z]+)_)?(\d+)_(.+)$/i)) {
@@ -20878,11 +20974,18 @@ async function accessImport(ID, target, opts={}) {
 			}
 		}
 
-		// Convert all legacy item attributes to repeating inventory data
+		// Convert legacy item attributes to repeating inventory data
 		if (importSource == "editorInput") {
 			// TODO: Also handle legacy sheet attributes here, like character_nameBase => character_name
 			convertLegacyAttrs("items", data, sectionIndexes);
 		}
+
+		// Convert legacy global attributes into equations
+		else if (importSource == "gameEditor") {
+			convertLegacyAttrs("global", data, {global: {"0": {id: await getSectionIDsAsync("repeating_global")[0]}}});
+		}
+
+		console.log(`Importing settings from ${importSource}...`, structuredClone(data))
 
 		// TODO: Add a defaults button the the Import/Export tab that resets all items (and tags/slots?)
 		// - The query has a third "Legacy" option which loads the legacy inventory of the sheet
@@ -20901,7 +21004,7 @@ async function accessImport(ID, target, opts={}) {
 				if (itemDeleteIDs.length && !opts.legacy) {
 					let langOr = getTranslationByKeyCustom(", ", "error-divider-comma");
 					let langAnd = getTranslationByKeyCustom(" and ", "error-divider-and");
-					let langItemTypes = arrayJoinAndOr(itemTypes, langOr, langAnd);
+					let langItemTypes = arrayJoinAndOr(itemTypes, langOr, langAnd); // TODO: Needs translation
 					let langReplace1 = getTranslationByKeyCustom("Are you certain you want to replace all ", `query-replace-items-1`);
 					let langReplace2 = getTranslationByKeyCustom("? This action cannot be reversed", `query-replace-items-2`)
 	
@@ -21911,7 +22014,7 @@ var pathChars = []; // Exact characters in the last path. -:-
 
 
 // Executes a math string. Primarily used in AutoEffects
-// May include values from access, global variables and local variables using access path
+// May include values from access, global variables and local variables using access paths
 function parseMath(mathString, opts={}) {
 	let values = []
 	let func_values = []
@@ -22017,17 +22120,6 @@ function parseMath(mathString, opts={}) {
 				}
 			}
 		}
-		if (type == "nest_end") {
-			let nestingBracket = mathNesting.pop();
-
-			if (!nestingBracket) {
-				Object.assign(error, {variant: "unexpected-bracket", "[UNEX]":chars, "[LOCATION]": {index: newIndex, length: 1}}); return null;
-			}
-			else if ((nestingBracket == "(") ? chars != ")" : chars != "]") {
-				Object.assign(error, {variant: "missing-bracket", "[MISSING]":(nestingBracket == "(") ? ")" : "]", "[LOCATION]": {index: newIndex, length: 1}}); return null;
-			}
-			break;
-		}
 
 		// Add new values, operators and functions
 		if (type == "number") {
@@ -22100,6 +22192,19 @@ function parseMath(mathString, opts={}) {
 			} catch (e) {
 				Object.assign(error, {variant: "illegal-operation", "[OP]":op.key + ((op.func) ? "()" : ""), "[VALS]":`[${vals.join(", ")}]`}); return null;
 			}
+		}
+
+		// End nesting
+		if (type == "nest_end") {
+			let nestingBracket = mathNesting.pop();
+
+			if (!nestingBracket) {
+				Object.assign(error, {variant: "unexpected-bracket", "[UNEX]":chars, "[LOCATION]": {index: newIndex, length: 1}}); return null;
+			}
+			else if ((nestingBracket == "(") ? chars != ")" : chars != "]") {
+				Object.assign(error, {variant: "missing-bracket", "[MISSING]":(nestingBracket == "(") ? ")" : "]", "[LOCATION]": {index: newIndex, length: 1}}); return null;
+			}
+			break;
 		}
 
 		// Handle value seperators
