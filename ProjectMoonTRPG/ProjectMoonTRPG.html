@@ -15400,7 +15400,7 @@ class effectNode extends dataNode {
 				this.#buffer.target = t; // Preserves capitalization for global variables
 				this.#buffer.targetPath = true; // Set to make exeVar() not throw an error. The path isn't used anywhere 
 
-				// Variable names can only consist of letters, digits and undescores, and must contain at least one letter
+				// Variable names can only consist of letters, digits and underscores, and must contain at least one letter
 				if (!/[a-z]/i.test(this.target) || !/^[\w\d]+$/.test(snakeify(this.target))) { // TODO: Needs support for Japanese/Korean characters
 					this.#error("Invalid Variable", {}, "format"); return;
 				}
