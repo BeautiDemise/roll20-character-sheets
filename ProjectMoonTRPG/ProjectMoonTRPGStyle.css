@@ -2352,7 +2352,7 @@ button[type=action].challengeButton::before {
             z-index: 0;
 
             transition: 
-                grid-row 0s 50ms allow-discrete, /* Delays the minimize layout change by 50ms to make the transition slightly smoother without causing issues with maximizing other items */
+                grid-row 0s 400ms allow-discrete, /* Delays the minimize layout change to make the transition slightly smoother without causing issues with maximizing other items */
                 z-index 0s 500ms allow-discrete; /* Makes maximized items appear above minimized items while opening and closing */
             
             /* Height from item contents. Contents are only revealed for maximizing items */
@@ -2575,14 +2575,14 @@ button[type=action].challengeButton::before {
     :is(.equipCheck, .rank, .name) {
         z-index: 25;
     }
-    .name {
-        width: calc-size(100%, size - 57.5%); /* Matches the header */
-        transition: width 0s 550ms;
-        color: var(--content-text);
-    }
     .equipCheck {
         min-width: 25px;
         accent-color: var(--content-accent);
+    }
+    .name {
+        width: calc-size(100%, size - 245px); /* Makes space for enabled rollformats */
+        transition: width 0s 550ms;
+        color: var(--content-text);
     }
 
     &::after {
@@ -2619,7 +2619,7 @@ button[type=action].challengeButton::before {
         border-bottom-left-radius: 5px;
         z-index: 20;
 
-        .rollFormatContainer, .itemLight {
+        .rollFormatContainer, .itemLimited {
             margin-top: -36px;
         }
     }
@@ -2732,14 +2732,25 @@ button[type=action].challengeButton::before {
     }
 }
 
-.itemLight {
-    margin-right: -4px; 
-    padding-left: 4px;
+.itemLimited {
+    width: auto;
+    flex-flow: wrap-reverse;
+    justify-content: end;
+    flex-shrink: 10;
+    column-gap: 6px;
+    row-gap: 6px;
+    padding: 5px 5px 5px 3px;
+    margin-right: -4px;
     z-index: 30; /* Avoids the first rollformat clipping into the light input when minimizing an item */
     background-color: var(--content-color);
 
     .lightCostInput {
-        margin: 5px 5px 0 0;
+        margin: 0;
+    }
+    .itemUses {
+        width: 31px !important;
+        margin: -3px -3px -2px -2px !important;
+        text-align: center;
     }
 }
 
@@ -2825,6 +2836,9 @@ button[type=action].challengeButton::before {
         opacity: 0;
         z-index: 20; /* Displays the buttons below the header */
     }
+    .itemLimited {
+        flex-wrap: nowrap;
+    }
     .itemDescriptionContainer.bottom {
         height: 0px;
         transition-delay: 0s;
@@ -2847,6 +2861,9 @@ button[type=action].challengeButton::before {
     }
     .rollFormatBlock {
         transition: opacity 600ms 100ms ease-out;
+    }
+    .itemLimited {
+        transition: flex-wrap 100ms 100ms allow-discrete;
     }
 }
 .itemDescriptionContainer.bottom {
@@ -4271,7 +4288,7 @@ button[type=action].challengeButton::before {
     left: var(--offsetX, 0px);
     top: var(--offsetY, 0px);
     transform: translate(-50%, -50%);
-    z-index: 500;
+    z-index: 400; /* Should not be 500+, as the item would display in front of the item editor */
 }
 .dragTarget {
     pointer-events: none;

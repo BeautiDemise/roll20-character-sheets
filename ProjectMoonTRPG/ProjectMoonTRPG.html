@@ -317,7 +317,7 @@
 						</div>
 
 						<!-- Roll action cost -->
-						<div class="editorOption inline"><label><input type="checkbox" name="attr_optionRollAction" value="true"><span>Action</span></label>
+						<div class="editorOption inline"><label><input type="checkbox" name="attr_optionRollAction" value="true" checked><span>Action</span></label>
 							<div class="rowContainer fitContents">
 								<input type="checkbox" class="fade-toggle" name="attr_rollActionCost" value="0" hidden>
 								<div class="fade-item mediumIcon egoSpecial"></div>
@@ -337,7 +337,7 @@
 						</div>
 
 						<!-- Roll reaction cost -->
-						<div class="editorOption inline"><label><input type="checkbox" name="attr_optionRollReaction" value="true"><span>Reaction</span></label>
+						<div class="editorOption inline"><label><input type="checkbox" name="attr_optionRollReaction" value="true" checked><span>Reaction</span></label>
 							<div class="rowContainer fitContents">
 								<input type="checkbox" class="fade-toggle" name="attr_rollReactionCost" value="0" hidden checked>
 								<div class="fade-item mediumIcon reaction"></div>
@@ -1214,11 +1214,6 @@
 				<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 				<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 				<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="item-name" placeholder="Item name"> <!-- Name -->
-
-				<!-- Item uses -->
-				<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
-				<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
-				<input type="number" class="hide-item-rev itemUses" name="attr_usesCurrent" min="0" value="3">
 			</div>
 
 			<div class="itemContents rowContainer">
@@ -1408,11 +1403,20 @@
 							</div>
 						</div>
 							
-						<!-- Option: Light cost -->
+						<!-- Option: Limited uses -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-						<div class="hide-item itemLight lightCost">
+						<div class="hide-item-flex itemLimited">
+
+							<!-- Option: Item uses -->
+							<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+							<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+							<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
+							
+							<!-- Option: Light cost -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
-							<input type="number" class="hide-item lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+							<div class="hide-item lightCost">
+								<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+							</div>
 						</div>
 					</div>
 
@@ -2799,15 +2803,6 @@ EGO block end -->
 							<!-- Item header contents (Right) -->
 							<div class="rowContainer contentHeader">
 
-								<!-- Option: Item cost -->
-								<!-- 
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-								<div class="hide-item">
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionUses" value="true" hidden>
-									<input type="number" class="hide-item" name="attr_usesCurrent" min="0" value="3">
-								</div>
-								-->
-
 								<!-- Option: Roll together -->
 								<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
 
@@ -2906,11 +2901,20 @@ EGO block end -->
 									</div>
 								</div>
 									
-								<!-- Option: Light cost -->
+								<!-- Option: Limited uses -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-								<div class="hide-item itemLight lightCost">
+								<div class="hide-item-flex itemLimited">
+
+									<!-- Option: Item uses -->
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+									<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
+
+									<!-- Option: Light cost -->
 									<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
-									<input type="number" class="hide-item lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+									<div class="hide-item lightCost">
+										<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+									</div>
 								</div>
 							</div>
 
@@ -3244,11 +3248,20 @@ EGO block end -->
 									</div>
 								</div>
 									
-								<!-- Option: Light cost -->
+								<!-- Option: Limited uses -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-								<div class="hide-item itemLight lightCost">
+								<div class="hide-item-flex itemLimited">
+
+									<!-- Option: Item uses -->
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+									<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
+
+									<!-- Option: Light cost -->
 									<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
-									<input type="number" class="hide-item lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+									<div class="hide-item lightCost">
+										<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+									</div>
 								</div>
 							</div>
 
@@ -3385,11 +3398,6 @@ EGO block end -->
 						<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 						<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="outfit-name" placeholder="Item name"> <!-- Name -->
-
-						<!-- Item uses -->
-						<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
-						<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
-						<input type="number" class="hide-item-rev itemUses" name="attr_usesCurrent" min="0" value="3">
 					</div>
 
 					<div class="itemContents rowContainer">
@@ -3592,11 +3600,20 @@ EGO block end -->
 									</div>
 								</div>
 									
-								<!-- Option: Light cost -->
+								<!-- Option: Limited uses -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-								<div class="hide-item itemLight lightCost">
+								<div class="hide-item-flex itemLimited">
+
+									<!-- Option: Item uses -->
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+									<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
+
+									<!-- Option: Light cost -->
 									<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
-									<input type="number" class="hide-item lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+									<div class="hide-item lightCost">
+										<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+									</div>
 								</div>
 							</div>
 
@@ -3727,11 +3744,6 @@ EGO block end -->
 						<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 						<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="tool-name" placeholder="Item name"> <!-- Name -->
-
-						<!-- Item uses -->
-						<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
-						<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
-						<input type="number" class="hide-item-rev itemUses" name="attr_usesCurrent" min="0" value="3">
 					</div>
 
 					<div class="itemContents rowContainer">
@@ -3934,11 +3946,20 @@ EGO block end -->
 									</div>
 								</div>
 									
-								<!-- Option: Light cost -->
+								<!-- Option: Limited uses -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-								<div class="hide-item itemLight lightCost">
+								<div class="hide-item-flex itemLimited">
+
+									<!-- Option: Item uses -->
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+									<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
+
+									<!-- Option: Light cost -->
 									<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
-									<input type="number" class="hide-item lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+									<div class="hide-item lightCost">
+										<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+									</div>
 								</div>
 							</div>
 
@@ -4072,11 +4093,6 @@ EGO block end -->
 					<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 					<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 					<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="special-name" placeholder="Item name"> <!-- Name -->
-
-					<!-- Item uses -->
-					<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
-					<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
-					<input type="number" class="hide-item-rev itemUses" name="attr_usesCurrent" min="0" value="3">
 				</div>
 
 				<div class="itemContents rowContainer">
@@ -4279,11 +4295,20 @@ EGO block end -->
 								</div>
 							</div>
 								
-							<!-- Option: Light cost -->
+							<!-- Option: Limited uses -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-							<div class="hide-item itemLight lightCost">
+							<div class="hide-item-flex itemLimited">
+
+								<!-- Option: Item uses -->
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+									<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
+
+								<!-- Option: Light cost -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
-								<input type="number" class="hide-item lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+								<div class="hide-item lightCost">
+									<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+								</div>
 							</div>
 						</div>
 
@@ -4426,11 +4451,6 @@ EGO block end -->
 					<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 					<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 					<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="skill-name" placeholder="Skill name"> <!-- Name -->
-
-					<!-- Item uses -->
-					<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
-					<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
-					<input type="number" class="hide-item-rev itemUses" name="attr_usesCurrent" min="0" value="3">
 				</div>
 
 				<div class="itemContents rowContainer">
@@ -4633,11 +4653,20 @@ EGO block end -->
 								</div>
 							</div>
 								
-							<!-- Option: Light cost -->
+							<!-- Option: Limited uses -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-							<div class="hide-item itemLight lightCost">
+							<div class="hide-item-flex itemLimited">
+
+								<!-- Option: Item uses -->
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+									<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
+
+								<!-- Option: Light cost -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
-								<input type="number" class="hide-item lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+								<div class="hide-item lightCost">
+									<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+								</div>
 							</div>
 						</div>
 
@@ -17719,7 +17748,9 @@ onAccess("clicked:addItem " + itemEvent("remove") + ["rollformats", "tags"].redu
 		node.delete(oldID);
 	} else {
 		if (section == "rollformats" && node.length >= 5) return; // The item HTML only supports up to 5 rolls
-		node.add({id:newID, type:section});
+		let rollformat = node.add({id:newID, type:section});
+		rollformat.action.enabled = true;
+		rollformat.reaction.enabled = true;
 	}
 });
 
@@ -21982,7 +22013,7 @@ async function legacySheetSetup() {
 
 /* --- Math functionality --- */
 
-// More complex functions available to users in math
+// More complex functions available to users in math strings
 const userFunc = {
 	includes: (a, b, opts) => {
 		if (is.Object(a) && !(a instanceof dataNode)) {
@@ -22052,17 +22083,17 @@ function assignmentOperation(obj, prop, op, value) {
 const mathRegExpList = {
 	space: /\s+/, 										// 1: Space characters
 	string: /"[^"]*"|'[^']*'/, 							// 2: Quotes (string values)
-	func: new RegExp(Object.keys(mathOperators)			// 4: Functions
+	func: new RegExp(Object.keys(mathOperators)			// 3: Functions
 		.filter(o => mathOperators[o].func)
 		.map(o => o + "(?=\\()")
 		.join("|")
 		.replace(/\./g, "\\.")),
-	nest_begin: /\(|\[/,								// 5: Begin nesting
-	nest_end: /\)|\]/,									// 6: End nesting
-	roll: /d(?=\d+(?:\W|$)|\()/,						// 7: Rolls (random integer values)
-	number: /(?:\d+[\.,]\d+|\d+)%?/,					// 8: Numbers (integer/float values)
-	step: /-?[A-Za-z_]+/,								// 9: Variables (path steps)
-	operator: new RegExp(Object.keys(mathOperators)		// 3: Operators
+	nest_begin: /\(|\[/,								// 4: Begin nesting
+	nest_end: /\)|\]/,									// 5: End nesting
+	roll: /d(?=\d+(?:\W|$)|\()/,						// 6: Rolls (random integer values)
+	number: /(?:\d+[\.,]\d+|\d+)%?/,					// 7: Numbers (integer/float values)
+	step: /-?[A-Za-z_]+/,								// 8: Variables (path steps)
+	operator: new RegExp(Object.keys(mathOperators)		// 9: Operators
 		.filter(o => !mathOperators[o].func)
 		.map(o => o.replaceAll("||", "\\|\\|"))
 		.join("|")
