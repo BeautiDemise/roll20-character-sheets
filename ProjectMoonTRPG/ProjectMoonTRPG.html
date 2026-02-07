@@ -2567,7 +2567,7 @@ EGO block end -->
 <div id="inventorySettings" class="sheet-body darkBG contentContainer" hidden>
 	
 	<!-- Test buttons. TODO: Remove these -->
-	<div class="rowContainer" style="display: none;"> <!-- style="display: none;" -->
+	<div class="rowContainer"> <!-- style="display: none;" -->
 		<button type="action" class="darkButton" style="width: 100px; margin-left: 5px;" name="act_testA">Test button A</button> <!-- For testing. Delete later -->
 		<button type="action" class="darkButton" style="width: 100px;" name="act_testB">Test button B</button> <!-- For testing. Delete later -->
 		<button type="action" class="darkButton" style="width: 100px;" name="act_testC">Test button C</button> <!-- For testing. Delete later -->
@@ -6024,11 +6024,10 @@ EGO block end -->
     </div>
 </rolltemplate>
 
-<!-- Chat message action buttons -->
+<!-- Chat message buttons -->
 <div style="display:none">
 <button type="action" name="act_selectToken"></button>
 <button type="action" name="act_deleteTokenMultiple"></button>
-<button type="action" name="act_chatButtonDamage"></button>
 <button type="action" name="act_chatButtonRoll"></button>
 <button type="action" name="act_chatButton"></button>
 </div>
@@ -7773,7 +7772,7 @@ function unknownTarget(returnMode="false") {
 
 
 
-/* --- Action button functionality --- */
+/* --- Chat button functionality --- */
 
 /* Creates one or more chat buttons and post them to the chat */
 /* Taken in a buttonList of the format: {target1: {name1: {icon, color, data, type}, name2: {...}, ...}, target2: {...}, ...} */
@@ -7819,7 +7818,7 @@ async function createChatButtons(buttonList, opts={reactions:false}) {
 			
 			rollBase += `{{${buttonValues.size}Button${i++}=[${buttonValues.color}](${buttonValues.icon})[${buttonName}](~${buttonTarget}|${buttonValues.transferFunction}||${Data.package(buttonValues.data)})}}`;
 
-			/* If targeting, add targeting update data to the action button */
+			/* If targeting, add targeting update data to the chat button */
 			//if (isGM == "false" && dataList[`targetid${i}`] == targetName) {
 			//	let targetingData = (targetId != "" && targetId) ? addTargeting(charId, targetTokenId, "unpackage") : removeTargeting(charId, "unpackage");
 			//	dataList[`datapackage${i}`] = {...dataList[`datapackage${i}`], ...targetingData};
@@ -7875,39 +7874,7 @@ function generateReactionButtons(targetTokenId="") {
 	}
 }
 
-/* Action button functions */
-on("clicked:chatButtonDamage", async (data) => {
-	getAttrs(["lastDefenceRoll", "targetedBy"], async function(values) {
-		
-		let defenceRoll = parseInt(values.lastDefenceRoll);
-		data = Data.unpackage(data.originalRollId);
-		chatButtonTokenIdHelper(data.targetTokenId, async (tokenId) => {
-
-			/* If the damage type is unset (such as for ranged weapon) query the player for a damage type */
-			if (data.damageTypeOverride == "---") {
-				let queryResults = await sendQuery(["damageTypeOverride",
-					getTranslationByKeyCustom("Select damage type of attack", "query-damage-type"), {
-						[getTranslationByKeyCustom("---", "weapon-type-None")]: "None",
-						[getTranslationByKeyCustom("Slash", "weapon-type-Slash")]: "Slash",
-						[getTranslationByKeyCustom("Pierce", "weapon-type-Pierce")]: "Pierce",
-						[getTranslationByKeyCustom("Blunt", "weapon-type-Blunt")]: "Blunt"
-					}
-				]);
-				data.damageTypeOverride = queryResults.damageTypeOverride;
-			}
-
-			/* If taking Light damage, process it as an Add AutoEffect */
-			if (data.flatLightOverride && data.flatLightOverride != 0) {
-				data.autoScriptOverride = `(Add -${data.flatLightOverride} Light)`;
-			}
-
-			damageHelper({...data, tokenId: tokenId}, defenceRoll);
-
-			//updateTargetedBy(data.announceTargeting, Data.unpackage(values.targetedBy));
-			setAttrs({"lastDefenceRoll": 0});
-		});
-	});
-});
+/* Chat button functions */
 on("clicked:chatButtonRoll", async (data) => {
 	data = Data.unpackage(data.originalRollId);
 	chatButtonTokenIdHelper(data.targetTokenId, (tokenId) => {
@@ -7920,25 +7887,69 @@ on("clicked:chatButtonRoll", async (data) => {
 		rollCombat({htmlAttributes: {id: "autoroll_" + rollType}}); // Still need to use data.reaction to indicate if the roll is an action or a reaction
 	});
 });
-on("clicked:chatButton", async (data) => {
+onAccess("clicked:chatButton", {}, async function(data) {
+	data = Data.unpackage(data.originalRollId);
 
-	// TODO: Convert these to a single function and have a property like type=roll/damage/effect decide what the button does
-	// - Or better yet, just have the button execute everything in the provided data. If there 2 rolls + some damage data it executes those rolls and deals some damage
+	console.log("Detected chat button press", data);
 
-	console.log("Detected chat button press", Data.unpackage(data.originalRollId));
-	return;
+	if (data.damage?.length) {
+		let values = await getAttrsAsync(["lastDefenceRoll", "targetedBy"]); // TODO: Update to use access
+		let defenceRoll = parseInt(values.lastDefenceRoll);
 
-	//getAttrs(["targetedBy"], async function(values) {
-		data = Data.unpackage(data.originalRollId);
-		chatButtonTokenIdHelper(data.targetTokenId, (tokenId) => {
-			AutoScriptMain(data.buttonAutoScript, "None", "false", "true", { tokenId: tokenId }, () => {}, data.buttonName);
-		});
-		//updateTargetedBy(data.announceTargeting, Data.unpackage(values.targetedBy));
-	//});
+		let tokenID = 0;
+		//chatButtonTokenIdHelper(data.targetTokenId, async (tokenID) => {
+
+			// If the damage type is unset (such as for ranged weapon) query the player for a damage type
+			if (data.damage[0].type == "Choose") {
+				let queryResults = await sendQuery(["damageTypeOverride",
+					getTranslationByKeyCustom("Select damage type of attack", "query-damage-type"), {
+						[getTranslationByKeyCustom("---", "weapon-type-None")]: "Untyped",
+						[getTranslationByKeyCustom("Slash", "weapon-type-Slash")]: "Slash",
+						[getTranslationByKeyCustom("Pierce", "weapon-type-Pierce")]: "Pierce",
+						[getTranslationByKeyCustom("Blunt", "weapon-type-Blunt")]: "Blunt"
+					}
+				]);
+				data.damage[0].type = queryResults.damageTypeOverride;
+			}
+
+			// If taking Light damage, process it as an Add AutoEffect
+			if (data.damage[0].bar.includes("Light")) { // TODO: Add this as a feature of the damage helper instead
+				data.autoscript ??= "";
+				data.autoscript += `(Add -${data.damage.value} Light)`;
+			}
+
+			// TODO: Temp conversion to the old override values. Update the damage helper later
+			let overrideList = {
+				damageTypeOverride: data.damage[0].type,
+				BaseDamage: data.damage[0].value,
+				BaseDamageHP: 0, BaseDamageSTG: 0,
+				flatDamageHP: 0, flatDamageSTG: 0, flatDamageSP: 0
+			}
+
+			damageHelper({...overrideList, tokenId: tokenID}, defenceRoll);
+
+			//updateTargetedBy(data.announceTargeting, Data.unpackage(values.targetedBy));
+			setAttrs({"lastDefenceRoll": 0});
+		//});
+	}
+
+	if (data.autoscript) {
+		let effectBlock = access.effects.add("(Block)")[0];
+		effectBlock.add(data.autoscript);
+		return;
+
+		//getAttrs(["targetedBy"], async function(values) {
+			chatButtonTokenIdHelper(data.targetTokenId, (tokenId) => {
+				AutoScriptMain(data.autoscript, "None", "false", "true", { tokenId: tokenId }, () => {}, data.buttonName ?? "Unknown");
+			});
+			//updateTargetedBy(data.announceTargeting, Data.unpackage(values.targetedBy));
+		//});
+	}
+
 });
 
 /* Helper function that gets and returns the selected token's instance if generic token mode is enabled */
-/* If a tokenId is provided by the action button (the enemy is using targeting) no token needs to be selected */
+/* If a tokenId is provided by the chat button (the enemy is using targeting) no token needs to be selected */
 function chatButtonTokenIdHelper(targetTokenId, callback=()=>{}) {
 	getAttrs(["settingGenericTokenMode"], function(values) {
 		if (targetTokenId == "" && values.settingGenericTokenMode == "true") {
@@ -7950,7 +7961,7 @@ function chatButtonTokenIdHelper(targetTokenId, callback=()=>{}) {
 		}
 	});
 }
-/* --- Action button functionality --- */
+/* --- Chat button functionality --- */
 
 
 
@@ -9725,13 +9736,13 @@ function rollCombat(info) { // TODO: Remove this
 			setAttrs({lastDefenceRoll: 0})
 		}
 
-		/* Handle Apply damage action button for attacks */
+		/* Handle the Apply damage chat button for attacks */
 		let damageButtonList = {}
 		let damageAutoScript = "";
 		let buttonTarget = (targetname != "") ? targetname : "selected";
 
 		if (basetype == "Attack") {
-			/* If an "Apply damage" button already exists, add its AutoScript to the action button of the first attack */
+			/* If an "Apply damage" button already exists, add its AutoScript to the chat button of the first attack */
 			if (chatButtonList[buttonTarget] && chatButtonList[buttonTarget]["Apply damage"]) {
 				damageAutoScript = chatButtonList[buttonTarget]["Apply damage"].data.buttonAutoScript;
 				delete chatButtonList[buttonTarget]["Apply damage"]
@@ -9923,28 +9934,36 @@ function summarizeRoll(rollDice, opts={adv:0}) {
 
 // Takes in a button dataNode and returns a markdown string for displaying the button in chat messages
 function getButtonMarkdown(button, opts={}) {
-	//console.log("getButtonMarkdown", button, button.icon, getIcon(button.icon))
+	console.log("getButtonMarkdown", button, button.icon, getIcon(button.icon))
 
 	let title = button.title;
 	let target = (button.mode == "select") ? "selected" : button.mode;
 	let color = (button.color) ? getColor(button.color) : false;
 	let icon = getIcon(button.icon);
 	let size = opts.size || "half"; // Is either "half" or "third"
-
 	let data = {}
-	if (button.effects) data.autoscript = button.effects.toString("nested");
+
+	// Store any button data in text form
+	if (button.effects.length) {
+		data.autoscript = button.effects.toString("nested");
+	}
 	
+	if (button.damage.length) {
+		data.damage = button.damage.map(node => {
+			return node.entries.reduce((acc, [prop, val]) => {
+				acc[snakeify(prop)] = val;
+				return acc;
+			}, {});
+		});
+	}
+
 	// TODO: Add button roll data support
 	// - Is either a set roll, or allows selecting a matching roll from the character
 	// - Is stored in an array of rolls, which are executed in order as one action
 	// - Effects may modify the rolls as normal. Any effects on the rolls are executed
-	
-	// TODO: Add button damage data support
-	// - Consists of an array of damage data
-	// - Each data entry has following properties:
-	//   - bar: "hp", "stg" or "sp", or an array of 2-3 bars
-	//   - damage_type: "blunt", "pierce", "slash". Can also be ex. "Burn" for ailment damage
-	//   - resistance: true/false. Decides if blunt/slash/pierce are base/flat damage
+
+	// TODO: Add button item sharing support
+	// - Consists of an array of item data
 
 	let style = "";
 	if (color) style += `background-color: ${color}; `;
@@ -10002,6 +10021,7 @@ async function sendMessage(charID=getActiveCharacterId()) {
 	if (message.desc.text) msgDesc.desc = message.desc.text;
 
 	// If at least one roll is provided, generate a roll deselect element
+	// TODO: You may want to always create this button to people can minimize messages without rolls
 	if (rollArray.length > 0) {
 		msgSections.push(`<div class="sheet-section-deselect"><div class="sheet-section-toggle" dir" " dir=$[[0.computed]]></div></div>`);
 		msgRolls.push(`{{id=${msgID}}} {{rollX=[[0]]}}`);
@@ -10351,7 +10371,7 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 				if (orig.path[1] == "items") {
 					header.title = orig.name;
 					header.rank = orig.rank;
-					header.light_cost = (node.limited.enabled) ? orig.limited.light_cost : false;
+					header.light_cost = (orig.limited.enabled) ? orig.limited.light_cost : false;
 				}
 				else if (orig.path[1] == "palette") {
 					header.title = orig.title;
@@ -10395,6 +10415,24 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 					let rollBlock = access.effects.add("(Block)")[0];
 					rollBlock._addVar("roll", roll);
 					rollBlock.add(roll.autoscript);
+				}
+
+				// Adds an Apply damage button for attack rolls
+				// TODO: Make this optional
+				// TODO: Add an event that syncs changes to the roll result to the Apply damage button of the roll (if the type and amount matches)
+				if (roll.type == "Attack") {
+					let button = roll.message.buttons.add();
+					let damage = button.damage.add();
+
+					button.title = getTranslationByKeyCustom("Apply damage", "helper-text-applydamage");
+					button.icon = getIcon("icons/damage"); // TODO: This should eventually use styling rules
+					button.color = "red"; 
+					//button.mode = "select"; // TODO: Should apply to a specific character when using Targeting
+
+					damage.type = roll.damage_type;
+					damage.bar = ["HP", "STG"]; // Attacks apply to both HP and STG by default
+					damage.value = roll.result;
+					damage.before_resistance = true;
 				}
 
 				// Trigger an event for each new roll
@@ -10795,10 +10833,10 @@ function damageHelper(overrideList={}, defenceRoll=0) {
 	let damageIcon = "";
 	let damageIconStyling = "style='height: 30px; width: 30px; border-right: 2px solid black;' </div>";
 	switch (damageType) {
-		case "Slash": damageIcon = "<img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/slash.png'" + damageIconStyling; break;
-		case "Pierce": damageIcon = "<img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/pierce.png'" + damageIconStyling; break;
-		case "Blunt": damageIcon = "<img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/blunt.png'" + damageIconStyling; break;
-		case "None": damageIcon = "<img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/question.png'" + damageIconStyling; break;
+		case "Slash": damageIcon = "<img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/icons/slash.png'" + damageIconStyling; break;
+		case "Pierce": damageIcon = "<img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/icons/pierce.png'" + damageIconStyling; break;
+		case "Blunt": damageIcon = "<img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/icons/blunt.png'" + damageIconStyling; break;
+		default: damageIcon = "<img src='https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/icons/question.png'" + damageIconStyling; break;
 	}
 
 	/* Whisper and roll */
@@ -12253,20 +12291,7 @@ const rollDataFormat = {
 	}
 }
 
-const damageDataFormat = {
-	base: {
-		bar: "hp",
-		damage_type: "untyped",
-		before_resistance: false,
-	},
-
-	valid: {
-		bar: {in: barNames, array: {in: barNames}},
-		damage_type: {in: ["Untyped", ...damageTypes]},
-		before_resistance: {bool:true},
-	},			
-}
-
+// Data for tags and equipment slots. Used for the equipment section
 const tagDataFormat = {
 	base: {
 		_key_prop: "name",
@@ -12315,83 +12340,6 @@ const tagDataFormat = {
 	},
 }
 
-const messageDataFormats = {
-	section: {
-		base: {
-			header: { // Can be disabled
-				_value_prop: "title",
-				title: "", // Sections have no title by default
-				icon: "icons/gear",
-				color: {
-					icon: "green",
-					background: "gray",
-					text: "white",
-				},
-				rank: false,
-				light_cost: false,
-			},
-			contents: {
-				_repeating: {
-					_value_prop: "text",
-					text: "", // Can include insert words, icons, etc.
-				},
-			},
-		},
-
-		valid: {
-			header: {
-				title: {string:true},
-				icon: {string:true},
-				color: {
-					background: {empty:true, color:true},
-					text: {empty:true, color:true},
-					icon: {empty:true, color:true},
-				},
-				rank: {false:true, int:true},
-				light_cost: {false:true, int:true},
-			},
-			contents: {
-				_repeating: {
-					text: {string:true},
-				},
-			},
-		},
-	},
-
-	button: {
-		base: {
-			_key_prop: "title",
-			title: "Button", // If an empty string no title is displayed
-			display: true, // If false the button isn't automatically displayed. It can still be used inline
-			mode: "select",
-			icon: "icons/question", // If false no icon is displayed
-			color: "green",
-			effects: {
-				_effect: true,
-			},
-			damage: {
-				_repeating: damageDataFormat.base,
-			},
-		},
-		
-		valid: {
-			title: {string:true},
-			display: {bool:true},
-			mode: {in: ["select", "target"], id:true},
-			icon: {false:true, string:true},
-			color: {empty:true, color:true},
-			effects: {},
-			damage: {
-				_repeating: damageDataFormat.valid,
-			},
-		},
-
-		attrs: { // Only sheet buttons have attributes 
-			effects: {},
-			damage: {},
-		},
-	},
-}
 
 // Includes all default override values for items of a certain type. If a value is not specified here the value in the base format is used
 // All sub-nodes like "rollformats" are optional and begin off disabled by default
@@ -13039,6 +12987,123 @@ const repDataFormats = {
 			decay: {_prefix: "ailDecay"},
 			max: {_prefix: "ailMax"},
 			message: {_prefix: "ailMessage"},
+		},
+	},
+}
+
+
+const damageDataFormat = {
+	base: {
+		type: "Untyped", // Usually a damage type (ex. "Blunt"), but can also be custom damage types (ex. "Poise")
+		bar: "HP", // Can be an array of bars
+		value: 0,
+		icon: "", // A custom icon for the resulting damage message can be provided
+		before_resistance: false, // If multiplicative or flat resistances apply to the damage
+	},
+
+	valid: {
+		type: {string:true},
+		bar: {in: barNames, array: {in: barNames}},
+		value: {int: {min:0}},
+		icon: {string:true},
+		before_resistance: {bool:true},
+	},			
+}
+
+
+const messageDataFormats = {
+	section: {
+		base: {
+			header: { // Can be disabled
+				_value_prop: "title",
+				title: "", // Sections have no title by default
+				icon: "icons/gear",
+				color: {
+					icon: "green",
+					background: "gray",
+					text: "white",
+				},
+				rank: false,
+				light_cost: false,
+			},
+			contents: {
+				_repeating: {
+					_value_prop: "text",
+					text: "", // Can include insert words, icons, etc.
+				},
+			},
+		},
+
+		valid: {
+			header: {
+				title: {string:true},
+				icon: {string:true},
+				color: {
+					background: {empty:true, color:true},
+					text: {empty:true, color:true},
+					icon: {empty:true, color:true},
+				},
+				rank: {false:true, int:true},
+				light_cost: {false:true, int:true},
+			},
+			contents: {
+				_repeating: {
+					text: {string:true},
+				},
+			},
+		},
+	},
+
+	button: {
+		base: {
+			_key_prop: "title",
+			title: "Button", // If an empty string no title is displayed
+			display: true, // If false the button isn't automatically displayed. It can still be used inline
+			mode: "select",
+			icon: "icons/question", // If false no icon is displayed
+			color: "green",
+			effects: { // Effects executed when pressing the button
+				_effect: true,
+			},
+			rolls: { // Rolls made when pressing the button
+				_repeating: {
+					...rollDataFormat.base,
+					mode: "Roll", // Button rolls may be applied, in which case a standalone roll is selected from the sheet
+				},
+			},
+			damage: { // Damage applied when pressing the button
+				_repeating: damageDataFormat.base,
+			},
+			items: { // Items obtained by pressing the button
+				_repeating: repDataFormats.item.base,
+			},
+		},
+		
+		valid: {
+			title: {string:true},
+			display: {bool:true},
+			mode: {in: ["select", "target"], id:true},
+			icon: {false:true, string:true},
+			color: {empty:true, color:true},
+			effects: {},
+			rolls: {
+				_repeating: {
+					...rollDataFormat.valid,
+					mode: {in: ["Roll", "Applied"]},
+				},
+			},
+			damage: {
+				_repeating: damageDataFormat.valid,
+			},
+			items: {
+				_repeating: repDataFormats.item.valid,
+			},
+		},
+
+		attrs: { // Only sheet buttons have attributes 
+			effects: {},
+			rolls: {},
+			damage: {},
 		},
 	},
 }
@@ -13787,6 +13852,7 @@ const dataFormat = {
 				uses: {_option: "Uses", _prefix: "uses"},
 				light: {_option: "LightCost", _prefix: "light"},
 				base: {
+					_prefix: "base",
 					light: {_prefix: "baseLight"},
 				},
 				rollformats: {
@@ -14486,7 +14552,7 @@ class dataNode extends Array {
 			let v = null;
 
 			// Handle specific string values
-			if (type == "in") {
+			if (type == "in" && typeof value != "object") {
 				for (const arg of args) {
 					if (equalsSnakeify(value, arg)) {
 						v = arg; break;
@@ -15599,7 +15665,7 @@ class effectNode extends dataNode {
 			}
 
 			// Handle the "ChatButton" option
-			// The conditional with option is removed. If the conditional is the primary conditional the effect becomes unconditional
+			// The conditional with the option is removed. If the conditional is the primary conditional the effect becomes unconditional
 			if (/#?ChatButton/i.test(this.conditional) && "ChatButton" in this._valid.con_options.full) {
 				this.#buffer.conditional = this.#buffer.conditional.replaceAll(/(#?ChatButton)/ig,"").trim();
 				this.#buffer.options.chatButton = true;
@@ -15831,6 +15897,7 @@ class effectNode extends dataNode {
 		buttonName = this.conditional || buttonName;
 		let clone = this.clone();
 
+		// A function may be provided to apply custom changes to the stored effect
 		if (typeof func == "function") {
 			func(clone);
 		}
@@ -15865,8 +15932,8 @@ class effectNode extends dataNode {
 			button._color = opts.color || this.options.color || "green";
 
 			if (this.options.chatButton || opts.chatButton) {
-				button._display = opts.display ?? this.options.display ?? true;
-				button._mode = this.options.target || "select"; // TODO: This should be "button.mode = ..."
+				button._display = opts.display ?? this.options.display ?? true; // TODO: This should be "button.display = ...", etc.
+				button._mode = (this.root.target.type) ? "target" : "select";  // TODO: Add support for targetting. Use the charID of the target
 			}
 		}
 
@@ -20866,7 +20933,7 @@ function convertLegacyAttrs(type, values, sectionIndexes) {
 
 
 /* Legacy setup */
-const sheetVersion = "v1.0 Alpha 08/11";
+const sheetVersion = "v1.0 Alpha 07/02/26";
 
 // TODO: Work in progress
 async function sheetSetup(ID) {
