@@ -2003,7 +2003,7 @@ EGO block end -->
 				<div class="columnAlign helpers">
 					<b data-i18n="helper-text-selecttarget">Target</b>
 					<button type="action" class="darkButton selectTargetButton" name="act_selectTarget" title="Select target. Double-click button to reset target" data-i18n-title="helper-text-selecttarget-title">
-						<img name="attr_targetToken" class="targetToken">
+						<img name="attr_targetImage" class="targetImage">
 						<input type="text" name="attr_selfToken" hidden>
 						<div class="selectTargetIcon"></div>
 					</button>
@@ -2011,13 +2011,12 @@ EGO block end -->
 	
 				<!-- Target statistics -->
 				<div class="columnAlign helpers">
-					<input type="text" class="helperInput tokenName" name="attr_targetTokenName" value="" style="width: 150px;" placeholder="No target selected" data-i18n-placeholder="helper-text-notarget" readonly="">
-					<input type="text" name="attr_targetName" value="" hidden>
+					<input type="text" class="helperInput tokenName" name="attr_targetName" value="" style="width: 150px;" placeholder="No target selected" data-i18n-placeholder="helper-text-notarget" readonly="">
+					<input type="text" name="attr_targetId" value="" hidden>
 					<input type="text" name="attr_targetTokenId" value="" hidden>
-					<input type="text" name="attr_targetSettings" value="{}" hidden>
 	
-					<input type="text" name="attr_targetedBy" value="{}" hidden>
-					<!-- <input type="text" name="attr_announceTargeting" value="" hidden>
+					<!-- <input type="text" name="attr_targetedBy" value="{}" hidden>
+					<input type="text" name="attr_announceTargeting" value="" hidden>
 					<input type="text" name="attr_testIsGM" value="unset" hidden> -->
 					
 					<!-- Target bars -->
@@ -7529,8 +7528,8 @@ async function changeActiveToken(tokenId, callback=()=>{}) {
 
 
 
-/* --- Select target functionality --- */
-async function getTargetAttrs(attrList, callback=()=>{}) {
+/* --- Targeting functionality --- */
+async function getTargetAttrs(attrList) {
 	
 	let rollBase = "! ";
 	attrList.forEach(attribute => {
@@ -7543,51 +7542,110 @@ async function getTargetAttrs(attrList, callback=()=>{}) {
 	attrList.forEach(attribute => {
 		values[attribute] = targetRoll.results[attribute].expression.match(/^0\[(.*)\]\s*$/)[1];
 	});
+	
 	finishRoll(targetRoll.rollId);
-
-	callback(values);
+	return values;
 }
 
-on('clicked:selectTarget', (info) => {
-	getAttrs(["settingTargeting", "character_id", "character_name", "settingLimbusStyle", "targetId"], function(selfValues) {
-		getTargetAttrs(["character_id", "character_name", "selfToken", "token_name", "token_id",
-			"settingGenericTokenMode", "settingHideBarUpdate", "settingHideDetailsFromTargeting", "settingLimbusStyle"], async function(targetValues) {
+// Gets values from the target character and token used for setting up targeting
+// This should not be an onAccess event, as access._initialize() doesn't play nicely when executed as part of an access action
+on('clicked:selectTarget', async function(info) {
+	let targetValues = await getTargetAttrs(["character_id", "selfToken", "token_id", "token_name"]);
 
-			let targetSettings = {
-				"genericTokenMode": targetValues.settingGenericTokenMode,
-				"hideBarUpdate": targetValues.settingHideBarUpdate,
-				"hideDetailsFromTargeting": targetValues.settingHideDetailsFromTargeting,
-				"settingLimbusStyle": targetValues.settingLimbusStyle
-			}
-			let output = {
-				"targetId": targetValues.character_id,
-				"targetName": targetValues.character_name,
-				"targetToken": targetValues.selfToken,
-				"targetTokenId": targetValues.token_id.replaceAll("_","Ø"),
-				"targetTokenName": targetValues.token_name,
-				"targetSettings": Data.package(targetSettings)
-			}
+	selectTarget(...Object.values(targetValues));
+});
 
-			if (output.targetId.includes("@{target|") || output.targetId == selfValues.character_id) {
-				resetTarget(selfValues.character_id, selfValues.targetId);
+async function selectTarget(targetID, targetImage, tokenID, tokenName) {
+	let selfID = getActiveCharacterId();
+
+	console.log("Selecting target:", arguments)
+
+	// Clear the current target when pressing an element in the sheet while targeting / targeting one's own character
+	if (targetID.startsWith("@{target|") || targetID == selfID) {
+		return access._begin(selfID, "action:targeting", resetTarget);
+	}
+
+	// Initialize a new data tree for the target character
+	let target = await access._initialize(targetID, "target");
+
+	// Ensure the target character was initialized properly
+	if (targetID in access) {
+		access._begin(selfID, "action:targeting", async function() {
+			if (isValidTarget(target)) {
+
+				// Set up local targetting data (the data shown in the targeting display)
+				access.target.target_id = targetID;
+				access.target.target_image = targetImage;
+				
+				if (access.target.settings.sheet.palette.targeting_details) {
+					unknownTarget();
+				}
+				else if (access.target.settings.sheet.general.generic_token_mode) {
+					access.target.target_name = tokenName;
+				} else {
+					access.target.target_name = access.target.character.name;
+				}
 			} else {
-				isValidTarget(selfValues.character_name, selfValues.character_id, output.targetId, output.targetTokenId, targetSettings, (result) => {
-					if (result) {
-						updateTargetAttrLists(selfValues.settingTargeting, selfValues.character_id, output.targetId, output.targetTokenId, targetSettings, selfValues.settingLimbusStyle, (targetAttrs) => {
-							setAttrs({...output, ...targetAttrs});
-							//checkGM(output.targetId, selfValues.character_id, () => {
-							//	setAttrsByID(output.targetId, addTargeting(selfValues.character_id, output.targetTokenId));
-							//	setActiveCharacterId(selfValues.character_id);
-							//});
-						});
-					} else {
-						resetTarget(selfValues.character_id, selfValues.targetId);
-					}
-				});
+				resetTarget();
 			}
 		});
-	}); 
-});
+	} else {
+		console.warn("The target character could not be initialized");
+		// TODO: This message should display in the chat
+	}
+	
+
+	return;
+
+	updateTargetAttrLists(selfValues.settingTargeting, selfValues.character_id, output.targetId, output.targetTokenId, targetSettings, selfValues.settingLimbusStyle, (targetAttrs) => {
+		setAttrs({...output, ...targetAttrs});
+	});
+}
+
+// Checks if a token is an invalid target. Currently happens if Generic token mode is enabled but the token has not been added as an instance
+async function isValidTarget(target) {
+	if (target.settings.sheet.general.generic_token_mode) {
+		if (access.target.token_id != target.token.selection) {
+
+			// TODO: Update this to a modern alert message
+			let alertIcon = getIcon("ailments/Aggro", "markdown", false, true);
+			let alertMessage = getTranslationByKeyCustom("Invalid Target: Token is not a token instance", "message-invalid-target");
+			startRoll((`/w ${target.character.name} &{template:errorMessage} {{icon=${alertIcon}}} {{message=${alertMessage}}}`), (results) => {
+				finishRoll(results.rollId);
+			});
+			return false;
+		}
+	}
+	return true;
+}
+
+function resetTarget() {
+	for (prop in access.target) {
+		prop = snakeify(prop);
+		access.target[prop] = access.target._formats.base[prop];
+	}
+	
+	// TODO: Add these attributes to access
+	let output = {
+		...resetAilmentDisplay("target", 6, "true"),
+		"HP_target":"---",
+		"STG_target":"---",
+		"SP_target":"---"
+	}
+	setAttrs(output);
+}
+function unknownTarget() {
+	access.target.target_name = "?????";
+
+	// TODO: Add these attributes to access
+	let output = {
+		...resetAilmentDisplay("target", 6, "true"),
+		"HP_target":"???",
+		"STG_target":"???",
+		"SP_target":"???"
+	}
+	setAttrs(output);
+}
 
 
 /* Callback if the character is controlled by a GM */
@@ -7659,29 +7717,6 @@ function removeTargeting(charId, package="package") {
 	return targetingData;
 }
 */
-
-/* Checks if a token is an invalid target. Currently happens if genericTokenMode is enabled but the token has not been added as an instance  */
-async function isValidTarget(characterName, charId, targetId, targetTokenId, targetSettings, callback=()=>{}) {
-	if (targetSettings.genericTokenMode == "true") {
-		let values = await getAttrsByID(targetId, [`repeating_tokens_${targetTokenId}_tokenId`]);
-		setActiveCharacterId(charId);
-		
-		if (targetTokenId != values[`repeating_tokens_${targetTokenId}_tokenId`]) {
-			
-			let alertIcon = getIcon("ailments/Aggro", "markdown", false, true);
-			let alertMessage = getTranslationByKeyCustom("Invalid Target: Token is not a token instance", "message-invalid-target");
-			startRoll((`/w ${characterName} &{template:errorMessage} {{icon=${alertIcon}}} {{message=${alertMessage}}}`), (results) => {
-				finishRoll(results.rollId);
-			});
-
-			callback(false);
-		} else {
-			callback(true);
-		}
-	} else {
-		callback(true);
-	}
-}
 
 async function updateTargetAttrLists(settingTargeting, charId, targetId, targetTokenId, targetSettings, settingLimbusStyle, callback=()=>{}) {
 	if (settingTargeting != "0" && targetId != "" && targetId) {
@@ -7758,46 +7793,7 @@ function announceBarChange(targetedBy, charId, tokenId, barName, barVal) {
 		}
 	}
 }*/
-
-function resetTarget(charId, targetId, returnMode="false") {
-	//setAttrsByID(targetId, removeTargeting(charId));
-	//setActiveCharacterId(charId);
-	
-	let output = {
-		...resetAilmentDisplay("target", 6, "true"),
-		"targetId": "",
-		"targetName": "",
-		"targetToken": "",
-		"targetTokenId": "",
-		"targetTokenName": "",
-		"targetSettings": "{}",
-		"HP_target":"---",
-		"STG_target":"---",
-		"SP_target":"---"
-	}
-
-	if (returnMode == "true") {
-		return output;
-	} else {
-		setAttrs(output);
-	}
-}
-function unknownTarget(returnMode="false") {
-	let output = {
-		...resetAilmentDisplay("target", 6, "true"),
-		"targetTokenName": "?????",
-		"HP_target":"???",
-		"STG_target":"???",
-		"SP_target":"???"
-	}
-
-	if (returnMode == "true") {
-		return output;
-	} else {
-		setAttrs(output);
-	}
-}
-/* --- Select target functionality END --- */
+/* --- Targeting functionality END --- */
 
 
 
@@ -8310,11 +8306,8 @@ on("sheet:opened change:character_name", function() {
 /* character_token and character_avatar cannot be retrieved from outside the charactersheet. As such a copy is made which can be retrieved */
 on("sheet:opened", function() {
 	getAttrs(["character_token", "selfToken"], function(values) {
-		let token = values.character_token;
-		let selfToken = values.selfToken;
-
-		if (token != selfToken) {
-			setAttrs({"selfToken": token});
+		if (values.character_token != values.selfToken) {
+			setAttrs({"selfToken": values.character_token});
 		}
 	});
 });
@@ -10042,8 +10035,8 @@ async function sendMessage(charID=getActiveCharacterId()) {
 	// Set up the message description
 	msgDesc.from = `**From:** ${message.desc.from || message.root.character.name}`;
 
-	if (message.desc.target || message.root.target?.character) {
-		msgDesc.target = `**Target:** ${message.desc.target || message.root.target.character.name}`;
+	if (message.desc.target || message.root.target.id) {
+		msgDesc.target = `**Target:** ${message.desc.target || message.root.target.name}`;
 	}
 
 	if (message.desc.image) msgDesc.image = getIcon(message.desc.image, "markdown");
@@ -11577,7 +11570,7 @@ on("clicked:shareAugment", function() {
 on("clicked:shareTool", function(info) {
 
 	/* Get IDs/names */
-        let buttonid = info.htmlAttributes.id.split('_')[1];
+    let buttonid = info.htmlAttributes.id.split('_')[1];
 
 	let name = buttonid + "Name";
 	let type = buttonid + "Type";
@@ -11655,7 +11648,7 @@ on("clicked:shareTool", function(info) {
 on("clicked:shareSpecial", function(info) {
 
 	/* Get IDs/names */
-        let buttonid = info.htmlAttributes.id.split('_')[1];
+    let buttonid = info.htmlAttributes.id.split('_')[1];
 
 	let name = buttonid + "Name";
 	let rank = buttonid + "Rank";
@@ -11754,7 +11747,7 @@ on("clicked:shareSpecial", function(info) {
 on("clicked:shareWeapon", function(info) {
 
 	/* Get IDs/names */
-        let buttonid = info.htmlAttributes.id.split('_')[1];
+    let buttonid = info.htmlAttributes.id.split('_')[1];
 
 	let name = buttonid + "Name";
 	let type = buttonid + "Type";
@@ -12098,7 +12091,7 @@ on("clicked:shareEgo", function(info) {
 on("clicked:shareSkill", function(info) {
 
 	/* Get IDs/names */
-        let buttonid = info.htmlAttributes.id.split('_')[1];
+    let buttonid = info.htmlAttributes.id.split('_')[1];
 	let skillcat = buttonid.split('S')[0];
 
 	let name = buttonid + "Name";
@@ -13501,9 +13494,17 @@ const dataFormat = {
 			taboo: "", behavior: "", story: "", atmosphere: "", appearance: "",
 		},
 		target: {
-			// Stores all data for the target + targeting settings + the targeted token's id
-			// The target access follows the same format as access, making ex. access.target.ailments.Burn work as access.ailments.Burn, but for the target
-			// In reality, access[-abc].target points to access[-def]
+			_proxy: { // Allows writing "access.target.prop" instead of "access[access.target.target_id].prop"
+				get: function (node, prop) {
+					if (!(prop in node) && access[node.target_id]) node = access[node.target_id];
+					let value = Reflect.get(node, prop, node); // Avoids function values treating "this" as the proxy and not the target node
+					return (typeof value === "function") ? value.bind(node) : value;
+				}
+			},
+			target_id: "", // The charID of the target. Used to generate an access tree of the target
+			target_name: "", // Used for the target name display field. May be the targets name, the targeted token's name, or ??? based on the target's settings
+			target_image: "", // A link to a target's default token image
+			token_id: "", // The token id of a targeted token, if Generic token mode is enabled for the target
 		},
 		token: {
 			// Change this to not be a Proxy. Instead make it have id + selection + a number of entries that point to other accesses, like access.target
@@ -13837,7 +13838,12 @@ const dataFormat = {
 			},
 			_default: {string:true},
 		},
-		target: {false:true, node:true},
+		target: {
+			target_id: {string:true},
+			target_name: {string:true},
+			target_image: {string:true},
+			token_id: {string:true},
+		},
 		token: {
 			selection: {false:true, id:true},
 			_default: {node:true},
@@ -14092,7 +14098,11 @@ const dataFormat = {
 				_prefix: "distortWork",
 			},
 		},
-		target: {},
+		target: {
+			_prefix: "target",
+			_case: "snake",
+			_ignore: {prefix: ["target_id", "target_name", "target_image"]},
+		},
 		token: {
 			_prefix: "token", // Used for selection
 		},
@@ -14282,13 +14292,18 @@ class dataNode extends Array {
 					if (value._effect) {
 						this[`_${prop}`] = new effectNode("(Block)", this, [...this._path, prop]);
 					} else {
-						this[`_${prop}`] = new dataNode({
+						let newNode = new dataNode({
 							base: value,
 							valid: formats.valid?.[prop] || false,
 							attrs: formats.attrs?.[prop] || false,
 							source: formats.attrs?.[prop]?._source || formats.source || false,
 							default: formats.default?.[prop] || false,
 						}, this.id, this, [...this._path, prop]);
+
+						// Handle proxies in the format
+						if (value._proxy) newNode = new Proxy(newNode, value._proxy);
+
+						this[`_${prop}`] = newNode;
 					}
 				}
 
@@ -15742,7 +15757,7 @@ class effectNode extends dataNode {
 
 			if (access._state == "error") {
 				newEffects = []
-				access._action_stack[0].state = "parsing";
+				access._action_queue[0].state = "parsing";
 			}
 		}
 
@@ -15904,7 +15919,7 @@ class effectNode extends dataNode {
 			// Only resolves effect and math errors caused by effect.#error(). Code errors are handled by access._process()
 			if (!(this.parent instanceof effectNode)) {
 				if (access._state == "error") {
-					access._action_stack[0].state = "effects";
+					access._action_queue[0].state = "effects";
 					access._backup.load();
 				} else {
 					access._backup.save();
@@ -15962,7 +15977,7 @@ class effectNode extends dataNode {
 
 			if (this.options.chatButton || opts.chatButton) {
 				button._display = opts.display ?? this.options.display ?? true; // TODO: This should be "button.display = ...", etc.
-				button._mode = (this.root.target.type) ? "target" : "select";  // TODO: Add support for targetting. Use the charID of the target
+				button._mode = (this.root.target.id) ? "target" : "select";  // TODO: Add support for targetting. Use the charID of the target
 			}
 		}
 
@@ -16395,7 +16410,8 @@ class effectNode extends dataNode {
 
 
 	#exeDamage() {
-
+		// Cannot use #addToButton, as these effects only provide damage data and not any effects
+		// Copy the code and modify it to handle damage data
 	}
 
 
@@ -16444,12 +16460,14 @@ class effectNode extends dataNode {
 
 
 	#exeRoll() {
-
+		// Delayed until the beta (including ChallengeRoll)
+		// ChallengeRoll can just be a built-in alias for Roll to provide legacy support
 	}
 
 
 	#exeSpeed() {
-
+		// This should preferably still exist for legacy support, but it's very heavily outdated...
+		// Perhaps just add a built-in alias that implements the effect instead. That's a lot easier
 	}
 
 
@@ -16716,21 +16734,21 @@ const accessData = {
 	// - An "event" is any operation caused by an action. Ex. pressing a roll button causes an items.rollformats.N.roll event, a rolls.add event, a number of modify events etc.
 	// A data access always begins with one single action, which then causes any number of events, and finally outputs any updated values back to the sheet or chat
 	// - Two actions may not take place simultaneously. If multiple actions occur simultaneously they are stored in this stack and processed sequentially
-	_action_stack: [],
+	_action_queue: [],
 
 	// Each action has a state which changes as it's processed, reflecting the current event taking place. This can ex. look like "clicked" -> "roll" -> "effects" -> "output"
-	// The state of each action is stored in the action stack. This getter and setter reference the state of the current action being processed from the stack
+	// The state of each action is stored in an action queue. This getter and setter reference the state of the current action being processed from the queue
 	get _state() {
-		return this._action_stack[0]?.state ?? false;
+		return this._action_queue[0]?.state ?? false;
 	},
 	set _state(v) {
 		// Reject all state changes while initializing a character, after an error occurs, or when no action is in the stack
 		if (!v || is(this._state).In("init", "error", false)) return false;
 		
-		if (this._action_stack[0].state != v) {
+		if (this._action_queue[0].state != v) {
 			console.log("access: setting state to", v);
 		}
-		return this._action_stack[0].state = v;
+		return this._action_queue[0].state = v;
 	},
 
 	// Begins a new action or event
@@ -16739,26 +16757,25 @@ const accessData = {
 	async _begin(charID, typeState, begin, end) {
 		let [type, state] = typeState.split(":");
 		if (!charID) charID = getActiveCharacterId();
-		let stackLength = this._action_stack.length;
+		let queueLength = this._action_queue.length;
 		
 		// Initialize is a special action for adding a character's data to the data access
 		// This usually occurs automatically when opening the character's sheet
 		if (type == "initialize") {
-			if (!this._action_stack.some(a => a.state == "init" && a.charID == charID)) {
-				let lastInit = this._action_stack.findLastIndex(a => a.state == "init"); // Initialize actions are prioritized before any non-initialize actions
-				this._action_stack.splice(lastInit + 1, 0, {state:"init", charID, begin, after:[end]});
+			if (!this._action_queue.some(a => a.state == "init" && a.charID == charID)) {
+				let lastInit = this._action_queue.findLastIndex(a => a.state == "init"); // Initialize actions are prioritized before any non-initialize actions
+				this._action_queue.splice(lastInit + 1, 0, {state:"init", charID, begin, after:[end]});
 			}
 		}
 		else if (type == "action") {
-			if (!this[charID]) { // This is primarily used for targeting where the target's sheet cannot be opened
-				this._initialize(charID);
-			}
+			if (!this[charID]) this._initialize(charID); // This is primarily used for targeting where the target's sheet cannot be opened
+
 			console.log(`Beginning action ${state} for ${charID}...`);
-			this._action_stack.push({state, charID, begin, after:[end]});
+			this._action_queue.push({state, charID, begin, after:[end]});
 		}
 		else if (type == "event") {
 			if (!this._state) { // This acts as a failsafe in case an event triggers without an associated action
-				this._action_stack.push({state, charID, begin, after:[end]});
+				this._action_queue.push({state, charID, begin, after:[end]});
 			}
 
 			// Events are usually processed immediately as part of the current action
@@ -16768,13 +16785,13 @@ const accessData = {
 				setActiveCharacterId(charID); // Ensures that access.currentID references the character which triggered the event
 
 				if (typeof begin == "function") await begin();
-				if (typeof end == "function") this._action_stack[0].after.push(end);
+				if (typeof end == "function") this._action_queue[0].after.push(end);
 
 				setActiveCharacterId(prevID);
 			}
 		}
 
-		if (!stackLength) {
+		if (!queueLength) {
 			this._process();
 		}
 	},
@@ -16783,11 +16800,11 @@ const accessData = {
 	// Any properties modified as part of an action is saved in a node's local #output storage instead of immediately being applied (see immutable above)
 	// If an error occurs during an action all output values are discarded and the character is re-initialized from the current data in the sheet
 	async _process() {
-		while (this._action_stack.length) {
-			let action = this._action_stack[0];
+		while (this._action_queue.length) {
+			let action = this._action_queue[0];
 
 			// Reject actions for targets. Actions can use data from targets, but cannot act as targets
-			if (action.state == "init" || this[action.charID] && this[action.charID].type != "target") {
+			if (action.state == "init" || (this[action.charID] && this[action.charID].type != "target")) {
 
 				// Execute the access action
 				try {
@@ -16803,7 +16820,7 @@ const accessData = {
 					}
 					
 					// Output values to the sheet and/or chat
-					if (!this._action_stack.length <= 1) {
+					if (!this._action_queue.length <= 1) {
 						await this._end();
 
 						// Execute parts of the action that happen post-output (optional)
@@ -16814,7 +16831,7 @@ const accessData = {
 							}
 						}
 					} else if (action.after.length) {
-						this._action_stack[1].after.unshift(...action.after);
+						this._action_queue[1].after.unshift(...action.after);
 					}
 				} catch (e) {
 					this._error.throw("code", "Code Error", e.name, {
@@ -16826,7 +16843,7 @@ const accessData = {
 			}
 
 			// Continue to the next action in the stack
-			this._action_stack.shift();
+			this._action_queue.shift();
 
 			// If any unresolved errors occured during the action, re-initialize the character before the next action
 			if (action.state == "error") {
@@ -16836,7 +16853,7 @@ const accessData = {
 
 				// TODO: Also needs to re-initialize any other characters modified during the action
 				delete this[action.charID];
-				await this._initialize(action.charID);
+				this._initialize(action.charID);
 				break;
 			}
 		}
@@ -16929,10 +16946,15 @@ const accessData = {
 	// Adds the data of a new character if it isn't already in the data access
 	// Actions and events may only occur for initialized characters
 	_initialize(ID, type="character") {
-		if (is.ID(ID) && !(ID in this)) {
+		if (!is.ID(ID)) return;
+		if (ID in this) {
+			if (type == "character" && this[ID].type == "target") {
+				this[ID].type = type;
+			}
+		} else {
 			this._begin(ID, "initialize", async () => {
 				console.log(`Initializing character ${ID}...`);
-				
+
 				let newRoot = new dataNode(dataFormat, false, false, [ID]);
 				access[ID] = newRoot;
 				newRoot._type = type;
@@ -17748,9 +17770,12 @@ onAccess("clicked:addItem " + itemEvent("remove") + ["rollformats", "tags"].redu
 		node.delete(oldID);
 	} else {
 		if (section == "rollformats" && node.length >= 5) return; // The item HTML only supports up to 5 rolls
-		let rollformat = node.add({id:newID, type:section});
-		rollformat.action.enabled = true;
-		rollformat.reaction.enabled = true;
+		let newNode = node.add({id:newID, type:section});
+
+		if (section == "rollformats") {
+			newNode.action.enabled = true;
+			newNode.reaction.enabled = true;
+		}
 	}
 });
 
@@ -22460,12 +22485,12 @@ async function sendQuery(...args) {
 	//  - Another action begins, adding another action after the frozen query action
 	//  - Another event begins, changing the state of access (usually a sync event)
 	// If a query is interrupted each query in the array returns its first value (usually "No"/"None"/false)
-	let queryActStackLength = access._action_stack.length;
+	let queryActStackLength = access._action_queue.length;
 	access._state = "query";
 
 	let queryResults = await new Promise(resolve => {
 		let intervalID = setInterval(() => {
-			if (queryActStackLength != access._action_stack.length || access._state != "query") {
+			if (queryActStackLength != access._action_queue.length || access._state != "query") {
 				console.warn("Query interrupted by new action/event:", queryArray);
 
 				clearInterval(intervalID);
@@ -22481,7 +22506,7 @@ async function sendQuery(...args) {
 			finishRoll(queryRoll.rollId);
 			clearInterval(intervalID);
 
-			if (queryActStackLength != access._action_stack.length || access._state != "query") {
+			if (queryActStackLength != access._action_queue.length || access._state != "query") {
 				// TODO: This should whisper a message to the user informing them their query was interrupted
 				// This should only occur if the query was left open and not cancelled
 			}

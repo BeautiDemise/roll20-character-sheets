@@ -437,7 +437,7 @@ body, .sheet-body {
 :is(.shareButton, .editButton, .autoScriptButton, .copyButton, .displayToggle, .lockButton, .inventoryEditButton, .searchClear, .searchOptions):hover {
     background-color: rgba(0, 0, 0, 0.3) !important;
 }
-:is(.rollButton, .challengeButton, .declare, .btn, .selectTargetButton, .defenceDice, .editorControls button, .sectionHeader button:not(:first-child), .darkButton):hover {
+:is(.rollButton, .challengeButton, .declare, .btn, .selectTargetButton, .defenceDice, .editorControls button, .darkButton):hover {
     background-color: var(--color-black) !important;
 }
 .editorContainer {
@@ -1888,7 +1888,7 @@ button[type=action].challengeButton::before {
     pointer-events: none;
 }
 
-.selectTargetButton, .targetToken {
+.selectTargetButton, .targetImage {
     height: 44px; 
     width: 44px;
 }
@@ -1903,7 +1903,7 @@ button[type=action].challengeButton::before {
 .selectTargetButton img[src^="http"] ~ .selectTargetIcon {
     display: none;
 }
-.targetToken {
+.targetImage {
     opacity: 0.8;
 }
 .selectTargetIcon {
@@ -2671,6 +2671,11 @@ button[type=action].challengeButton::before {
 
 /* Hides the bottom description for items which uses the special UI */
 .itemContainer:has(input[name$="optionCustomUI"]:checked ~ div input[name$="specialUI"]:checked) .itemDescriptionContainer.bottom .itemDescription {
+    display: none !important;
+}
+
+/* Hides mystery items while the "Hide: Mystery elements" setting is enabled */
+#menuContainer:has(#hideMystery + input:checked) ~ :is(#equipmentTab, #skillsTab, #sheetWrapper) .inventoryContainer .repitem:has(.mystery-toggle:checked) {
     display: none !important;
 }
 
