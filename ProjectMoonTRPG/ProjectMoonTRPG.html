@@ -1104,8 +1104,8 @@
 			<input type="hidden" name="attr_charRankNum" value="0">
 			<input class="rank transpInput" type="text" name="attr_rank" value="0" placeholder="0" title="Rank" data-i18n-title="rank">
 			
-			<input type="hidden" name="attr_character_name">
-			<input type="text" class="transpInput contentName" id="CharacterName" name="attr_character_nameBase" placeholder="Character Name" data-i18n-placeholder="character-name">
+			<input type="hidden" name="attr_character_nameBase">
+			<input type="text" class="transpInput contentName" id="CharacterName" name="attr_character_name" placeholder="Character Name" data-i18n-placeholder="character-name">
 
 			<div class="rowContainer levelBox">
 				<div class="columnAlign">
@@ -2028,35 +2028,35 @@ EGO block end -->
 	
 					<!-- Target ailments -->
 					<div class="rowContainer">
-						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment1Num" value="0" hidden checked>
+						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment0Count" value="0" hidden checked>
+						<div class="targetAilment hide-item-rev">
+							<img name="attr_targetAilment0Icon" class="valueIcon">
+							<input type="number" name="attr_targetAilment0Count" min="0" value="0">
+						</div>
+						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment1Count" value="0" hidden checked>
 						<div class="targetAilment hide-item-rev">
 							<img name="attr_targetAilment1Icon" class="valueIcon">
-							<input type="number" name="attr_targetAilment1Num" min="0" value="0">
+							<input type="number" name="attr_targetAilment1Count" min="0" value="0">
 						</div>
-						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment2Num" value="0" hidden checked>
+						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment2Count" value="0" hidden checked>
 						<div class="targetAilment hide-item-rev">
 							<img name="attr_targetAilment2Icon" class="valueIcon">
-							<input type="number" name="attr_targetAilment2Num" min="0" value="0">
+							<input type="number" name="attr_targetAilment2Count" min="0" value="0">
 						</div>
-						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment3Num" value="0" hidden checked>
+						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment3Count" value="0" hidden checked>
 						<div class="targetAilment hide-item-rev">
 							<img name="attr_targetAilment3Icon" class="valueIcon">
-							<input type="number" name="attr_targetAilment3Num" min="0" value="0">
+							<input type="number" name="attr_targetAilment3Count" min="0" value="0">
 						</div>
-						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment4Num" value="0" hidden checked>
+						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment4Count" value="0" hidden checked>
 						<div class="targetAilment hide-item-rev">
 							<img name="attr_targetAilment4Icon" class="valueIcon">
-							<input type="number" name="attr_targetAilment4Num" min="0" value="0">
+							<input type="number" name="attr_targetAilment4Count" min="0" value="0">
 						</div>
-						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment5Num" value="0" hidden checked>
+						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment5Count" value="0" hidden checked>
 						<div class="targetAilment hide-item-rev">
 							<img name="attr_targetAilment5Icon" class="valueIcon">
-							<input type="number" name="attr_targetAilment5Num" min="0" value="0">
-						</div>
-						<input type="checkbox" class="hide-toggle-rev" name="attr_targetAilment6Num" value="0" hidden checked>
-						<div class="targetAilment hide-item-rev">
-							<img name="attr_targetAilment6Icon" class="valueIcon">
-							<input type="number" name="attr_targetAilment6Num" min="0" value="0">
+							<input type="number" name="attr_targetAilment5Count" min="0" value="0">
 						</div>
 					</div>
 				</div>
@@ -4776,7 +4776,7 @@ EGO block end -->
 
 	<div class="profileData">
 	<div class="textSection" data-i18n="character-name-text">Name</div>
-	<input class="CharSmallNotes" type="text" name="attr_character_nameBase"></div>
+	<input class="CharSmallNotes" type="text" name="attr_character_name"></div>
 
 	<div class="profileData">
 	<div class="textSection" data-i18n="character-job">Occupation</div>
@@ -7373,8 +7373,9 @@ for (let i = 0; i <= 4; i++) {
 		}
 	});
 }
-function updateAilmentDisplay(ailmentPrefix, ailmentDisplayCount, ailmentList, settingLimbusStyle, returnMode="false") {
+function OLD_updateAilmentDisplay(ailmentPrefix, ailmentDisplayCount, ailmentList, settingLimbusStyle, returnMode="false") {
 	let ailmentDisplayList = [];
+
 	if (length(ailmentList) > 0) {
 		for (var ailmentName in ailmentList) {
 			ailmentDisplayList.push([ailmentName, ailmentList[ailmentName]]);
@@ -7400,7 +7401,7 @@ function updateAilmentDisplay(ailmentPrefix, ailmentDisplayCount, ailmentList, s
 		return resetAilmentDisplay(ailmentPrefix, ailmentDisplayCount, returnMode="false")
 	}
 }
-function resetAilmentDisplay(ailmentPrefix, ailmentDisplayCount, returnMode="false") {
+function OLD_resetAilmentDisplay(ailmentPrefix, ailmentDisplayCount, returnMode="false") {
 	let output = {}
 	for (i = 0; i < ailmentDisplayCount; i++) {
 		output[`${ailmentPrefix}Ailment${i+1}Icon`] = "";
@@ -7413,6 +7414,31 @@ function resetAilmentDisplay(ailmentPrefix, ailmentDisplayCount, returnMode="fal
 		setAttrs(output);
 	}
 }
+
+function updateAilmentDisplay(type, charID=getActiveCharacterId(), opts={}) {
+	let displaySlots = (type == "target") ? 6 : 4;
+	let root = access[charID];
+
+	let ailmentList = opts.ailmentList ?? (type == "target" ? root.target : root).ailments
+		.filter(ail => ail.count > 0)
+		.sort((ail1, ail2) => ail2.count - ail1.count)
+		.slice(0, displaySlots);
+
+	for (index of range(0, displaySlots)) {
+		if (root.type == "token") { // Token ailments
+			// TODO: Implement token ailments
+		}
+		else { // Target ailments
+			let ailDisplay = root.target.display.ailments[index];
+			ailDisplay.count = ailmentList[index]?.count ?? 0;
+			ailDisplay.icon = (ailmentList[index]?.icon) ? getIcon(ailmentList[index].icon, "url", false, root.settings.sheet.ailment.limbus_style) : "";
+		}
+	}
+}
+function resetAilmentDisplay(type, charID=getActiveCharacterId()) {
+	updateAilmentDisplay(type, charID, {ailmentList: []});
+}
+
 
 on('change:settingGenericTokenMode', (info) => { 
 	if (info.newValue == "0") {
@@ -7535,27 +7561,55 @@ async function getTargetAttrs(attrList) {
 	attrList.forEach(attribute => {
 		rollBase += `{{${attribute}=[[0[@{target|${attribute}}]]]}}`;
 	});
-	
-	let targetRoll = await startRoll(rollBase);
-	
-	let values = {}
-	attrList.forEach(attribute => {
-		values[attribute] = targetRoll.results[attribute].expression.match(/^0\[(.*)\]\s*$/)[1];
-	});
-	
-	finishRoll(targetRoll.rollId);
-	return values;
+
+	let targetingActQueueLength = access._action_queue.length;
+
+	// Used if the function is called inside a Roll20 on(event) function
+	if (!targetingActQueueLength) {
+		let targetRoll = await startRoll(rollBase);
+
+		finishRoll(targetRoll.rollId);
+		
+		return attrList.reduce((acc, attribute) => Object.assign(acc, {[attribute]: targetRoll.results[attribute].expression.match(/^0\[(.*)\]\s*$/)[1]}), {});
+	}
+
+	// Used if the function is called inside an onAccess(event) function
+	else {
+		let actId = getActiveCharacterId();
+		access._state = "targeting";
+
+		return await new Promise(resolve => {
+			let intervalID = setInterval(() => {
+				if (targetingActQueueLength != access._action_queue.length || access._state != "targeting") {
+					console.warn("Targeting interrupted by new action/event:", attrList);
+
+					clearInterval(intervalID);
+					resolve(attrList.reduce((acc, attribute) => Object.assign(acc, {[attribute]: `@{target|${attribute}}`}), {}));
+				} else {
+					console.warn("Targeting awaiting response");
+				}
+			}, 200);
+
+			startRoll(rollBase, (targetRoll) => {
+				finishRoll(targetRoll.rollId);
+				clearInterval(intervalID);
+
+				resolve(attrList.reduce((acc, attribute) => Object.assign(acc, {[attribute]: targetRoll.results[attribute].expression.match(/^0\[(.*)\]\s*$/)[1]}), {}));
+			});
+		}).finally(() => {
+			setActiveCharacterId(actId);
+		});
+	}
 }
 
 // Gets values from the target character and token used for setting up targeting
-// This should not be an onAccess event, as access._initialize() doesn't play nicely when executed as part of an access action
-on('clicked:selectTarget', async function(info) {
-	let targetValues = await getTargetAttrs(["character_id", "selfToken", "token_id", "token_name"]);
+onAccess('clicked:selectTarget', async function(info) {
+	let targetValues = await getTargetAttrs(["character_id", "token_id", "token_name", "selfToken"]);
 
 	selectTarget(...Object.values(targetValues));
 });
 
-async function selectTarget(targetID, targetImage, tokenID, tokenName) {
+async function selectTarget(targetID, tokenID, tokenName, targetImage) {
 	let selfID = getActiveCharacterId();
 
 	console.log("Selecting target:", arguments)
@@ -7566,34 +7620,43 @@ async function selectTarget(targetID, targetImage, tokenID, tokenName) {
 	}
 
 	// Initialize a new data tree for the target character
-	let target = await access._initialize(targetID, "target");
+	access._initialize(targetID, "target");
 
-	// Ensure the target character was initialized properly
-	if (targetID in access) {
-		access._begin(selfID, "action:targeting", async function() {
-			if (isValidTarget(target)) {
+	// Runs after the target finishes initializing
+	access._begin(selfID, "action:targeting", async function() {
+		
+		// Ensure the target character was initialized properly
+		if (targetID in access) {
+			access._begin(selfID, "action:targeting", async function() {
+				if (isValidTarget(access[targetID])) {
 
-				// Set up local targetting data (the data shown in the targeting display)
-				access.target.target_id = targetID;
-				access.target.target_image = targetImage;
-				
-				if (access.target.settings.sheet.palette.targeting_details) {
-					unknownTarget();
-				}
-				else if (access.target.settings.sheet.general.generic_token_mode) {
-					access.target.target_name = tokenName;
+					// Set up local targetting data (the data shown in the targeting display)
+					access.target.target_id = targetID;
+					access.target.display.image = targetImage; // Target token image
+					
+					for (bar in access.target.display.bar._attrs) { // Target HP, STG and SP bars
+						access.target.display.bar[bar] = access.target.bar[bar];
+					}
+					
+					if (access.target.settings.sheet.palette.targeting_details) { // Target name
+						unknownTarget();
+					}
+					else if (access.target.settings.sheet.general.generic_token_mode) { // TODO: May not be needed if you target a root with type = "token"
+						access.target.display.name = tokenName;
+					} else {
+						access.target.display.name = access.target.character.name;
+					}
+
+					updateAilmentDisplay("target"); // Target ailments
 				} else {
-					access.target.target_name = access.target.character.name;
+					resetTarget();
 				}
-			} else {
-				resetTarget();
-			}
-		});
-	} else {
-		console.warn("The target character could not be initialized");
-		// TODO: This message should display in the chat
-	}
-	
+			});
+		} else {
+			console.warn("The target character could not be initialized:", arguments);
+			// TODO: This message should display in the chat
+		}
+	});
 
 	return;
 
@@ -7620,31 +7683,22 @@ async function isValidTarget(target) {
 }
 
 function resetTarget() {
-	for (prop in access.target) {
-		prop = snakeify(prop);
-		access.target[prop] = access.target._formats.base[prop];
+	for (node of [access.target, access.target.display, access.target.display.bar]) {
+		for (prop in node._attrs) {
+			node[prop] = node._formats.base[prop];
+		}
 	}
-	
-	// TODO: Add these attributes to access
-	let output = {
-		...resetAilmentDisplay("target", 6, "true"),
-		"HP_target":"---",
-		"STG_target":"---",
-		"SP_target":"---"
-	}
-	setAttrs(output);
+
+	resetAilmentDisplay("target");
 }
 function unknownTarget() {
-	access.target.target_name = "?????";
+	access.target.display.name = "?????";
 
-	// TODO: Add these attributes to access
-	let output = {
-		...resetAilmentDisplay("target", 6, "true"),
-		"HP_target":"???",
-		"STG_target":"???",
-		"SP_target":"???"
+	for (bar of access.target.display.bar._attrs) {
+		access.target.display.bar[bar] = "???";
 	}
-	setAttrs(output);
+
+	resetAilmentDisplay("target");
 }
 
 
@@ -8260,6 +8314,7 @@ getSectionIDs(`repeating_global`, idarray => {
 
 /* Auto: Update Distortion Name */
 on("change:distort_name", function() {
+	// TODO: Make baseName work with access
 	getAttrs(["distort_state", "distort_name", "character_nameBase"], function(values) {
 	let name = values.distort_name;
 	let basename = values.character_nameBase;
@@ -8454,7 +8509,7 @@ function resetAilments(callback=()=>{}) { // TODO: Update to use access
 	let staggerdurationmax = parseInt(values[`${id}_staggerDurationMax`]);
 
 	if (newsan <= "0") {
-	newsan = "1";
+		newsan = "1";
 	}
 
 	setAttrs({"messageOverride":"true"});
@@ -12203,51 +12258,46 @@ for (const tab of ["equipment", "skills", "details", "export", "edit"]) {
 
 
 /* --- Editor functions --- */
-function openEditor(type, newTarget, newTargetName) {
+async function openEditor(type, newTarget, newTargetName) {
 	let editorAttrs = [`${newTarget}`, `${type}EditorTarget`, `${type}EditorInput`];
 
-	getAttrs(editorAttrs, function(values) {
-		let oldTarget = values[`${type}EditorTarget`];
-		let newInput = values[`${newTarget}`];
-		let oldInput = values[`${type}EditorInput`];
-		
-		let output = {
-			[`${type}EditorTarget`]: newTarget,
-			[`${type}EditorTargetOld`]: oldTarget,
-			[`${type}EditorTargetName`]: newTargetName || newTarget,
-			[`${type}Editor_display`]: "true"
-		}
+	let values = await getAttrsAsync(editorAttrs);
+	let oldTarget = values[`${type}EditorTarget`];
+	let newInput = values[`${newTarget}`];
+	let oldInput = values[`${type}EditorInput`];
+	
+	let output = {
+		[`${type}EditorTarget`]: newTarget,
+		[`${type}EditorTargetOld`]: oldTarget,
+		[`${type}EditorTargetName`]: newTargetName || newTarget,
+		[`${type}Editor_display`]: "true"
+	}
 
-		if (type == "item" && newInput != "") {
-			//newInput = JSON.parse(newInput);
-			//output = {...output, ...newInput};
-		} else {
-			output[`${type}EditorInput`] = newInput;
-		}
-		
-		if (oldTarget != "") {
-			output[oldTarget] = oldInput;
-		}
+	if (type == "item" && newInput != "") {
+		//newInput = JSON.parse(newInput);
+		//output = {...output, ...newInput};
+	} else {
+		output[`${type}EditorInput`] = newInput;
+	}
+	
+	if (oldTarget != "") {
+		output[oldTarget] = oldInput;
+	}
 
-		setAttrs(output);
-	});
+	Object.assign(access._output(), output);
 }
 
-function saveEditor(type, callback=()=>{}) {
-	getAttrs([`${type}EditorTarget`, `${type}EditorInput`], function(values) {
-		let editorTarget = values[`${type}EditorTarget`];
-		let editorData = values[`${type}EditorInput`];
+async function saveEditor(type, callback=()=>{}) {
+	let values = await getAttrsAsync([`${type}EditorTarget`, `${type}EditorInput`]);
+	let editorTarget = values[`${type}EditorTarget`];
+	let editorData = values[`${type}EditorInput`];
 
-		/* Save editor data */
-		if (editorTarget != "") {
-			setAttrs({[editorTarget]: editorData});
-			callback();
-		}
-	});
+	/* Save editor data */
+	if (editorTarget) access.input({[editorTarget]: editorData});
 }
 
 function closeEditor(type) {
-	setAttrs({
+	Object.assign(access._output(), {
 		[`${type}Editor_display`]: "0",
 		[`${type}EditorTarget`]: "",
 		[`${type}EditorTargetName`]: ""
@@ -13502,9 +13552,19 @@ const dataFormat = {
 				}
 			},
 			target_id: "", // The charID of the target. Used to generate an access tree of the target
-			target_name: "", // Used for the target name display field. May be the targets name, the targeted token's name, or ??? based on the target's settings
-			target_image: "", // A link to a target's default token image
 			token_id: "", // The token id of a targeted token, if Generic token mode is enabled for the target
+			display: { // Values shown in the targeting display in the sheet
+				name: "", // Used for the target name display field. May be the targets name, the targeted token's name, or ??? based on the target's settings
+				image: "", // A link to a target's default token image
+				ailments: range(0, 6).reduce((acc, num) => { // Target ailments. Ranges from 0-5
+					return Object.assign(acc, {[num]: {count: 0, icon: ""}});
+				}, {}),
+				bar: {
+					hp: "---",
+					stg: "---",
+					sp: "---",
+				},
+			},
 		},
 		token: {
 			// Change this to not be a Proxy. Instead make it have id + selection + a number of entries that point to other accesses, like access.target
@@ -13840,9 +13900,19 @@ const dataFormat = {
 		},
 		target: {
 			target_id: {string:true},
-			target_name: {string:true},
-			target_image: {string:true},
 			token_id: {string:true},
+			display: { 
+				name: {string:true},
+				image: {string:true},
+				ailments: range(0, 6).reduce((acc, num) => {
+					return Object.assign(acc, {count: {int: {min:0}}, icon: {string:true}});
+				}, {}),
+				bar: {
+					hp: {string:true},
+					stg: {string:true},
+					sp: {string:true},
+				},
+			},
 		},
 		token: {
 			selection: {false:true, id:true},
@@ -14101,7 +14171,16 @@ const dataFormat = {
 		target: {
 			_prefix: "target",
 			_case: "snake",
-			_ignore: {prefix: ["target_id", "target_name", "target_image"]},
+			_ignore: {prefix: ["target_id"]},
+			display: {
+				_prefix: "target",
+				ailments: range(0, 6).reduce((acc, num) => {
+					return Object.assign(acc, {[num]: {_prefix: "targetAilment"+num}})
+				}, {}),
+				bar: {
+					_suffix: "_target",
+				},
+			},
 		},
 		token: {
 			_prefix: "token", // Used for selection
@@ -14395,10 +14474,10 @@ class dataNode extends Array {
 
 	// Generates and returns an array of attribute keys for both the editor and sheet
 	// If an event is provided the keys are returned in the event key format
-	attrkeys(opts={}) {
+	attrkeys(output=false, opts={}) {
 		opts = {allProps:true, unsorted:true, ...opts}
-		let attrs = this.access(false, {editor:{}, sheet:{}}, opts);
-		return (opts.unsorted) ? Object.keys(attrs) : {editor: Object.keys(attrs.editor), sheet: Object.keys(attrs.sheet)}
+		let attrs = this.access(false, output || {sheet:{}, editor:{}}, opts);
+		return (opts.unsorted) ? Object.keys(attrs) : Object.keys(attrs).reduce((acc, source) => Object.assign(acc, {[source]: Object.keys(attrs[source])}), {});
 	}
 
 	// Helper method for accessing all properties and subnodes of a node
@@ -14411,6 +14490,10 @@ class dataNode extends Array {
 		if (this._newRep && opts.apply) {
 			opts.allProps = true;
 			delete this._newRep;
+		}
+
+		if (values && !values.sheet && !values.editor) {
+			values = {sheet: values}
 		}
 
 		if (!values || Object.values(values).some(source => length(source) > 0)) {
@@ -16644,7 +16727,9 @@ const accessHandler = {
 				return ac[prop];
 			} else {
 				if (getActiveCharacterId() in ac) {
-					return ac[getActiveCharacterId()][prop];
+					let root = ac[getActiveCharacterId()];
+					let value = Reflect.get(root, prop, root); // Avoids function values treating "this" as the proxy and not the target node
+					return (typeof value === "function") ? value.bind(root) : value;
 				} else {
 					return null;
 				}
@@ -16752,7 +16837,7 @@ const accessData = {
 	},
 
 	// Begins a new action or event
-	// Two callback function one may be provided: one for when an action begins processing, and one for after any resulting values are output to the sheet
+	// Two callback function may be provided: one for when an action begins processing, and one for after any resulting values are output to the sheet
 	// Events are executed immediately as part of the current action using their first callback function
 	async _begin(charID, typeState, begin, end) {
 		let [type, state] = typeState.split(":");
@@ -16792,6 +16877,13 @@ const accessData = {
 		}
 
 		if (!queueLength) {
+
+			// Partially syncs all data from a selected target as the start of all sheet interactions
+			let targetID = this[charID]?.target.target_id;
+			if (targetID && this[targetID]?.type == "target" && ["clicked", "sync"].includes(state)) {
+				await this._sync(targetID);
+			}
+
 			this._process();
 		}
 	},
@@ -16802,9 +16894,10 @@ const accessData = {
 	async _process() {
 		while (this._action_queue.length) {
 			let action = this._action_queue[0];
+			let root = this[action.charID];
 
 			// Reject actions for targets. Actions can use data from targets, but cannot act as targets
-			if (action.state == "init" || (this[action.charID] && this[action.charID].type != "target")) {
+			if (action.state == "init" || (root && root.type != "target")) {
 
 				// Execute the access action
 				try {
@@ -16842,8 +16935,11 @@ const accessData = {
 				}
 			}
 
-			// Continue to the next action in the stack
-			this._action_queue.shift();
+			// Remove the action from the queue
+			// The action may in some cases no longer be at the top of the queue, as init actions are added to the start of the queue
+			// As such .splice() is used instead of .shift()
+			let actionIndex = this._action_queue.indexOf(action);
+			if (actionIndex > -1) this._action_queue.splice(actionIndex, 1);
 
 			// If any unresolved errors occured during the action, re-initialize the character before the next action
 			if (action.state == "error") {
@@ -16915,14 +17011,17 @@ const accessData = {
 				for (const charID of Object.keys(this).filter(key => this[key] instanceof dataNode)) {
 					let attrs = this._output(this[charID], {apply:true, unsorted:true});
 					delete this._outputs[charID];
+
+					// TODO: If this[charID].type == "target", output data using a chat button
+					// For now no data is output for targets
+					if (this[charID].type == "target") continue;
+
+					// TODO: If using token mode, output all of the token's data and store it as a single attribute in the sheet
 					
 					// Roll20's code uses JQuery to update the title of a sheet whenever character_name is updated
 					// JQuery causes an error if the sheet dialog is closed during this process which freezes all interactions with the webpage
 					// To avoid this character_name is never output when initializing a character
 					if (this._state == "init") delete attrs.character_name;
-					
-					// TODO: If this[charID].type == "target", output data using a chat button
-					// TODO: If using token mode, output all of the token's data and store it as a single attribute in the sheet
 					
 					if (attrs && length(attrs) > 0) {
 						await setAttrsByID(charID, attrs);
@@ -16946,7 +17045,7 @@ const accessData = {
 	// Adds the data of a new character if it isn't already in the data access
 	// Actions and events may only occur for initialized characters
 	_initialize(ID, type="character") {
-		if (!is.ID(ID)) return;
+		if (!is.ID(ID)) return null;
 		if (ID in this) {
 			if (type == "character" && this[ID].type == "target") {
 				this[ID].type = type;
@@ -16974,28 +17073,21 @@ const accessData = {
 						default: repNode = newRoot.items;
 					}
 					for (const repid of idArray) {
-						if (repNode) repNode.add({id:repid, type:section, silent:"hard", default:false});
-					}
-				}
+						let newNode = repNode?.add({id:repid, type:section, silent:"hard", default:false});
 
-				// All items and palette elements have at least one rollformat, even when the option is disabled
-				for (const node of [newRoot.items, newRoot.palette, newRoot.palette.applied]) {
-					for (const repNode of node) {
-						if (repNode.rollformats.length == 0) {
-							repNode.rollformats.add({silent:"hard"});
+						// All items and palette elements have at least one rollformat, even when the option is disabled
+						if (newNode?.rollformats && newNode.rollformats.length == 0) {
+							newNode.rollformats.add({silent:"hard"});
 						}
 					}
 				}
 
-				let keys = newRoot.attrkeys({unsorted:false});
+				let keys = newRoot.attrkeys(false, {unsorted:false});
 
 				// Adds in missing rollformat attribute keys (may be missing indexes 1-4. Keys for index 0 are always generated)
 				keys.sheet = keys.sheet.flatMap(key => {
 					if (/[0-9]+$/.test(key)) {
-						if (key.endsWith(0)) {
-							return range(1, 5).reduce((acc, i) => [...acc, key.replace(/0$/, i)], [key]);
-						}
-						return [];
+						return (key.endsWith(0)) ? range(1, 5).reduce((acc, i) => [...acc, key.replace(/0$/, i)], [key]) : [];
 					}
 					return key;
 				});
@@ -17016,11 +17108,13 @@ const accessData = {
 				console.log("Keys", keys);
 				console.log("Values", {sheet: {...values.sheet}, editor: {...values.editor}});
 
-				// Adjusts the number of rollformats to equal to the amount shown in the sheet
+				// Adjusts the number of rollformats to equal the amount shown in the sheet
 				for (const node of [newRoot.items, newRoot.palette, newRoot.palette.applied]) {
 					for (const rolls of node.map(repNode => repNode.rollformats)) {
+						let optionAttr = rolls.attr(0, "sheet").slice(0, -1);
+
 						for (let i = 1; i <= 4; i++) { // Begins at index 1 as the first roll (index 0) is always enabled
-							if (is.True(values.sheet[rolls.attr(0, "sheet").slice(0, -1) + i])) {
+							if (is.True(values.sheet[optionAttr + i])) {
 								if (!rolls[i]) { // Outfits have 2 rolls by default, and do not need to create a second roll
 									rolls.add({silent:"hard"});
 								}
@@ -17035,8 +17129,10 @@ const accessData = {
 				newRoot.input(values, {silent:"hard"});
 
 				// Clear old rollformats from the item editor
-				for (const rollID of repids.rollformats) {
-					removeRepeatingRow(`repeating_rollformats_${rollID}`);
+				if (type == "character") {
+					for (const rollID of repids.rollformats) {
+						removeRepeatingRow(`repeating_rollformats_${rollID}`);
+					}
 				}
 
 				// Add new rollformats to the item editor
@@ -17062,22 +17158,29 @@ const accessData = {
 					access._recalc.weight(ID); // Reapply the description weights of all items
 				}
 
+				// If an initialized character or token has a target selected, also initialize their target
+				if (type != "target" && newRoot.target.target_id) {
+					let target = newRoot.target;
+
+					selectTarget(target.target_id, target.token_id, target.display.name, target.display.image);
+				}
+
 				// Initialization complete!
 				console.log("New access:", access[ID], access);
 				return access[ID];
 			},
 			
 			// Runs after all attributes have been applied to the sheet
-			() => {
+			async () => {
 
 				// Apply any custom color or positioning data
 				if (type == "character") {
 					access._recalc.jquery(ID);
 				}
 
-				// Add Roll20 events for syncing values to access (if they do not already exist)
+				// Add Roll20 events for syncing manual user modification of sheet values to access (if these events do not already exist)
 				if (this._event.keys.length == 0) {
-					let eventkeys = access[ID].attrkeys({event:"change", unsorted:false}); 									// Non-repeating attributes
+					let eventkeys = access[ID].attrkeys(false, {event:"change", unsorted:false}); 							// Non-repeating attributes
 					eventkeys = {
 						sheet: eventkeys.sheet.concat(sheetSections.map(section => `change:repeating_${section}`)), 		// Repeating sheet attributes
 						editor: eventkeys.editor.concat([`change:repeating_rollformats`]),									// Repeating editor attributes
@@ -17088,13 +17191,18 @@ const accessData = {
 
 					for (const source in eventkeys) {
 						on(eventkeys[source].join(" "), function(info) {
-							let ID = getActiveCharacterId();
-							if (access[ID]) {
-								access._begin(false, "event:sync", async () => {
-									// Attributes like hp_max for some reason do not include their value in the event info
-									info.newValue ??= await getAttr(info.sourceAttribute);
-									access[ID].input({[source]: {[info.sourceAttribute]: info.newValue}});
-								});
+
+							// TODO: This breaks any old non-access functionality that uses setAttrs()
+							// This may also break picking up changes from other players... you may have to find a better solution
+							if (info.sourceType == "player") {
+								let ID = getActiveCharacterId();
+
+								if (access[ID] && info.sourceType == "player") {
+									access._begin(false, "action:sync", async () => {
+										info.newValue ??= await getAttr(info.sourceAttribute); // Attributes like hp_max for some reason do not include their value in the event info
+										access[ID].input({[source]: {[info.sourceAttribute]: info.newValue}});
+									});
+								}
 							}
 						});
 					}
@@ -17112,6 +17220,98 @@ const accessData = {
 
 		return access[ID];
 	},
+
+	// Forcefully syncs property data for an initialized character. Triggers events for any modifier values
+	// By default this only syncs values that are highly variable during normal gameplay (Ailments, Bars, Resources, States, Global), including any values from tokens
+	// Optionally a "full" sync may be executed, which also syncs less variable sheet values (Items, Palette, Settings, Speed, Character, Distort, Target, Tags, Slots)
+	// Optionally "rep" may also be enabled to also sync any added/deleted nodes
+	// Both these options take a *LOT* of time, and should only be done in time-insensitive contexts
+	// Primarily used when targeting unowned tokens
+	async _sync(ID, opts={full:false, rep:false}) {
+		if (ID in this) {
+			let root = this[ID];
+			
+			if (opts.rep) {
+				let repids = await getSectionIDsOrdered(ID, [...sheetSections]);
+		
+				let repNode = null;
+				for (const [section, idArray] of Object.entries(repids)) {
+					switch (section) {
+						case "ailments": repNode = root.ailments; break;
+						case "tags": repNode = root.tags; break;
+						case "variables": repNode = root.global; break;
+						case "palette": repNode = root.palette; break;
+						case "applied": repNode = root.palette.applied; break;
+						case "buttons": repNode = root.buttons; break;
+						default: repNode = root.items;
+					}
+					if (repNode) {
+						for (const repid of repNode) {
+							if (idArray.includes(repid)) idArray.splice(idArray.indexOf(repid), 1);
+							else repNode.delete(repid);
+						}
+						for (const repid of idArray) {
+							let newNode = repNode?.add({id:repid, type:section, default:false});
+							
+							if (newNode?.rollformats && newNode.rollformats.length == 0) {
+								newNode.rollformats.add();
+							}
+						}
+					}
+					// TODO: Also need to sort any reordered repitems here
+				}
+			}
+	
+			// TODO: Consider making what data is synced during a partial sync configurable in the sheet
+
+			// TODO: Check if saving all sheet attributes to one field as packaged data and then reading + unpacking that field is faster than reading all fields
+			// Writing the data shouldn't be too expensive, as the access system is optimized to output data in large chunks at the end of an action
+
+			let keys = (opts.full) ? root.attrkeys({sheet: {}}) : {
+				...root.ailments.attrkeys({sheet: {}}),
+				...root.bar.attrkeys({sheet: {}}),
+				...root.resource.attrkeys({sheet: {}}),
+				...root.state.attrkeys({sheet: {}}),
+				...root.global.attrkeys({sheet: {}}),
+				// TODO: Also get these values for any tokens
+				// ...root.token[-abc].attrkeys({sheet: {}}),
+			}
+	
+			// Adds in missing rollformat attribute keys (may be missing indexes 1-4. Keys for index 0 are always generated)
+			if (opts.full) {
+				keys = keys.flatMap(key => {
+					if (/[0-9]+$/.test(key)) {
+						return (key.endsWith(0)) ? range(1, 5).reduce((acc, i) => [...acc, key.replace(/0$/, i)], [key]) : [];
+					}
+					return key;
+				});
+			}
+	
+			let values = await getAttrsByID(ID, keys);
+	
+			// Adjusts the number of rollformats to equal the amount shown in the sheet
+			if (opts.full && opts.rep) {
+				for (const node of [root.items, root.palette, root.palette.applied]) {
+					for (const rolls of node.map(repNode => repNode.rollformats)) {
+						let optionAttr = rolls.attr(0, "sheet").slice(0, -1);
+	
+						for (let i = 1; i <= 4; i++) { // Begins at index 1 as the first roll (index 0) is always enabled
+							if (is.True(values[optionAttr + i])) {
+								if (!rolls[i]) {
+									rolls.add();
+								}
+							} else if (rolls[i]) {
+								rolls.delete(i);
+							}
+						}
+					}
+				}
+			}
+	
+			// Apply retrieved values from the sheet to access
+			root.input(values);
+		}
+	},
 	
 	// Contains methods related to access events
 	_event: {
@@ -17121,7 +17321,7 @@ const accessData = {
 
 		// Registers a new access event. The callback function "begin" is called whenever an event triggers that matches the provided event path
 		// - The step "N" matches with every possible step in the current node. Ex. ["items", "N", ...] matches with an event on any item, or in items.editor
-		// - A step can be an array of steps. Ex. ["items", "N", ["tags", "slots"], ...] matches with items.N.tags or item
+		// - A step can be an array of steps. Ex. ["items", "N", ["tags", "slots"], ...] matches with items.N.tags or items.N.slots
 		register(path, eventopts, begin, end, opts={}) {
 			let accessFormat = opts.accessFormat || dataFormat.base;
 			let eventNode = opts.eventNode || this.tree;
@@ -17181,15 +17381,13 @@ const accessData = {
 			
 			// Add the event to the event tree
 			for (const step of path) {
-				eventNode[step] ??= {};
+				eventNode[step] ??= {}
 				eventNode = eventNode[step];
 			}
 
-			if (eventNode.eventArray) {
-				eventNode.eventArray.push({func:begin, after:end, ...eventopts});
-			} else {
-				eventNode.eventArray = [{func:begin, after:end, ...eventopts}];
-			}
+			eventNode.eventArray ??= []
+			eventNode.eventArray.push({func:begin, after:end, ...eventopts});
+			
 			return true;
 		},
 
@@ -17204,8 +17402,18 @@ const accessData = {
 			if (typeof path == "string") {
 				path = pathStringToArray(path);
 			}
-			if (!opts.accessNode && !is.ID(path[0]) && path[0] != "N") { // root.prop does not add the ID to the path (unlike access.prop which does)
-				path.unshift(getActiveCharacterId());
+
+			if (!opts.accessNode) { // Isn't called by branching triggers
+				if (!is.ID(path[0]) && path[0] != "N") { // If no charID is provided the triggering event is assumed to be for the currently active sheet
+					path.unshift(getActiveCharacterId());
+				}
+				if (path[0] in access) { // Mirrors events on targeted characters for the targeting character
+					for (const charID of Object.keys(access).filter(key => access[key] instanceof dataNode && access[key].target.target_id == path[0])) {
+						setActiveCharacterId(charID);
+						this.trigger([charID, "target", ...path.slice(1)], info, {...opts, accessNode:access}); // Sets accessNode to avoid cascading triggers
+						setActiveCharacterId(path[0]);
+					}
+				}
 			}
 
 			if (!opts.i || opts.countPath) { // Used for opts.max
@@ -19805,6 +20013,31 @@ function parseAutoCalcRule(rulePath) {
 					.replaceAll(new RegExp(`(?<=(?:^|[^.]))(${access.ailments.map(ail => `${ail.name}|${snakeify(ail.name)}`).join("|")})\\b`, "ig"), "ailments.$1");
 }
 
+/* Targeting - Update targeting display */
+onAccess(["target", [
+	["character", "modify", "name"],
+	["bar", "modify", ["hp", "stg", "sp"]],
+	["ailments", [
+		"add",
+		"delete",
+		["N", "modify", ["count", "icon"]],
+	]],
+]], {}, function(info) {
+	let targetSettings = access.target.settings.sheet;
+
+	if (info.path[2] == "bar") {
+		access.target.display.bar[info.path[4]] = info.newval;
+	}
+	else if (info.path[2] == "ailments") {
+		console.log("Update target ailments:", info);
+
+		updateAilmentDisplay("target");	
+	} else {
+		if (targetSettings.palette.targeting_details) return;
+		access.target.display.name = info.newval;
+	}
+});
+
 
 /* --- Access events END --- */
 
@@ -19850,43 +20083,38 @@ function pathStringToArray(pathString) {
 /* --- AutoScript functionality --- */
 
 /* AutoScript editor open button */
-on("clicked:autoScriptEdit" + itemEvent("clicked", "edit-autoscript")
-  + ["roll", "store"].reduce((acc, type) => acc += ` clicked:repeating_rollformats:edit-${type}autoscript`, ""), function(info) {	
-	getAttrs(["autoScriptEditorTargetOld"], function(values) {
-		let target = (info.htmlAttributes.id == "autoScriptReturn") ? values.autoScriptEditorTargetOld
-				   : (info.sourceAttribute?.includes("repeating")) ? info.sourceAttribute.replace("_edit-", "_")
-				   : info.htmlAttributes.id;
+onAccess("clicked:autoScriptEdit" + itemEvent("clicked", "edit-autoscript")
+  + ["roll", "store"].reduce((acc, type) => acc += ` clicked:repeating_rollformats:edit-${type}autoscript`, ""), async function(info) {	
+	
+	let target = (info.htmlAttributes.id == "autoScriptReturn") ? await getAttr("autoScriptEditorTargetOld")
+				: (info.sourceAttribute?.includes("repeating")) ? info.sourceAttribute.replace("_edit-", "_")
+				: info.htmlAttributes.id;
 
-		if (target.includes("repeating")) {
-			let targetNameAttr = (target.includes("rollformats")) ? "itemEditName" : target.replace("_autoscript", "_name");
+	if (target.includes("repeating")) {
+		let targetName = await getAttr((target.includes("rollformats")) ? "itemEditName" : target.replace("_autoscript", "_name"));
 
-			getAttrs([targetNameAttr], function(values) {
-				let targetName = values[targetNameAttr]
-				if (target.endsWith("rollautoscript")) {
-					targetName += ` (${getTranslationByKeyCustom("Roll format", "item-rollformat")})`;
-				}
-				else if (target.endsWith("storeautoscript")) {
-					targetName += ` (${getTranslationByKeyCustom("Recycle", "item-roll-recycle")})`;
-				}
-
-				openEditor("autoScript", target, targetName);
-			});
-		} else {
-			openEditor("autoScript", target);
+		if (target.endsWith("rollautoscript")) {
+			targetName += ` (${getTranslationByKeyCustom("Roll format", "item-rollformat")})`;
 		}
-	});
+		else if (target.endsWith("storeautoscript")) {
+			targetName += ` (${getTranslationByKeyCustom("Recycle", "item-roll-recycle")})`;
+		}
+
+		await openEditor("autoScript", target, targetName);
+	} else {
+		await openEditor("autoScript", target);
+	}
 });
 
 /* AutoScript editor close button */
-on("clicked:closeAutoScriptEdit", function(info) {
-	saveEditor("autoScript", () => {
-		closeEditor("autoScript");
-	});
+onAccess("clicked:closeAutoScriptEdit", async function(info) {
+	await saveEditor("autoScript");
+	await closeEditor("autoScript");
 });
 
 /* AutoScript editor sync changes */
-on("change:autoScriptEditorInput", function(info) {
-	saveEditor("autoScript");
+onAccess("change:autoScriptEditorInput", async function(info) {
+	await saveEditor("autoScript");
 });
 
 /* AutoScript editor reset styling or aliases to default */
@@ -20989,7 +21217,7 @@ function convertLegacyAttrs(type, values, sectionIndexes) {
 
 
 /* Legacy setup */
-const sheetVersion = "v1.0 Alpha 07/02/26";
+const sheetVersion = "v1.0 Alpha 17/02/26";
 
 // TODO: Work in progress
 async function sheetSetup(ID) {
@@ -22485,12 +22713,12 @@ async function sendQuery(...args) {
 	//  - Another action begins, adding another action after the frozen query action
 	//  - Another event begins, changing the state of access (usually a sync event)
 	// If a query is interrupted each query in the array returns its first value (usually "No"/"None"/false)
-	let queryActStackLength = access._action_queue.length;
+	let queryActQueueLength = access._action_queue.length;
 	access._state = "query";
 
-	let queryResults = await new Promise(resolve => {
+	return await new Promise(resolve => {
 		let intervalID = setInterval(() => {
-			if (queryActStackLength != access._action_queue.length || access._state != "query") {
+			if (queryActQueueLength != access._action_queue.length || access._state != "query") {
 				console.warn("Query interrupted by new action/event:", queryArray);
 
 				clearInterval(intervalID);
@@ -22506,7 +22734,7 @@ async function sendQuery(...args) {
 			finishRoll(queryRoll.rollId);
 			clearInterval(intervalID);
 
-			if (queryActStackLength != access._action_queue.length || access._state != "query") {
+			if (queryActQueueLength != access._action_queue.length || access._state != "query") {
 				// TODO: This should whisper a message to the user informing them their query was interrupted
 				// This should only occur if the query was left open and not cancelled
 			}
@@ -22519,8 +22747,6 @@ async function sendQuery(...args) {
 	}).finally(() => {
 		setActiveCharacterId(actId);
 	});
-
-	return queryResults;
 }
 
 // Returns an icon image either as an HTML element, a markdown icon or as an url
