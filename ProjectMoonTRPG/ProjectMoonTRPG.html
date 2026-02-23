@@ -768,47 +768,48 @@
 		<fieldset class="repeating_tokens">
 			<input type="checkbox" class="style-toggle" name="attr_token_selected" value="true" hidden>
 			<div class="contentContainer darkBG genericToken">
+
 				<!-- Selection button -->
 				<input type="checkbox" class="hide-toggle-rev" name="attr_token_selected" value="true" hidden>
 				<button type="action" class="hide-item-rev genericTokenSelectButton" name="act_selectinstance"></button>
 
 				<!-- Token attributes -->
-				<input type="text" class="tokenName" name="attr_tokenName" placeholder="Token Name" data-i18n-placeholder="token-name" readonly>
+				<input type="text" class="tokenName" name="attr_token_name" placeholder="Token Name" data-i18n-placeholder="token-name" readonly>
 				<input type="text" name="attr_tokenId" hidden>
 				<input type="text" name="attr_tokenAilmentList" hidden>
 
 				<!-- Status bars -->
 				<div class="bars">
-					<input class="Cstat HPtext" type="number" name="attr_HP" value="30">
+					<input class="Cstat HPtext" type="number" name="attr_token_HP" value="30">
 					<div>
-						<input type="checkbox" class="hide-toggle" name="attr_HP_token_display" value="true" hidden>
-						<input id="HPbarToken" class="hide-item Tstat HPtext" type="number" name="attr_HP_token" value="">
+						<input type="checkbox" class="hide-toggle" name="attr_token_map_HP_display" value="true" hidden>
+						<input id="HPbarToken" class="hide-item Tstat HPtext" type="number" name="attr_token_map_HP" value="">
 					</div>
-					<input class="Mstat HP" type="text" name="attr_HP_max" value="30">
+					<input class="Mstat HP" type="text" name="attr_token_HP_max" value="30">
 				</div>
 				<div class="bars">
-					<input class="Cstat egoSTGRtext" type="number" name="attr_STG" value="20">
+					<input class="Cstat egoSTGRtext" type="number" name="attr_token_STG" value="20">
 					<div>
-						<input type="checkbox" class="hide-toggle" name="attr_STG_token_display" value="true" hidden>
-						<input id="STGRbarToken" class="hide-item Tstat egoSTGRtext" type="number" name="attr_STG_token" value="">
+						<input type="checkbox" class="hide-toggle" name="attr_token_map_STG_display" value="true" hidden>
+						<input id="STGRbarToken" class="hide-item Tstat egoSTGRtext" type="number" name="attr_token_map_STG" value="">
 					</div>
-					<input class="Mstat egoSTGR" type="text" name="attr_STG_max" value="20">
+					<input class="Mstat egoSTGR" type="text" name="attr_token_STG_max" value="20">
 				</div>
 				<div class="bars">
-					<input type="checkbox" class="hide-toggle-rev" name="attr_distort_state_token" value="true">
+					<input type="checkbox" class="hide-toggle-rev" name="attr_token_distort_state" value="true">
 					<div class="hide-item-rev">
-						<input class="Cstat SANtext" type="number" name="attr_SP" value="15">
+						<input class="Cstat SANtext" type="number" name="attr_token_SP" value="15">
 						<div>
-							<input type="checkbox" class="hide-toggle" name="attr_SP_token_display" value="true" hidden>
-							<input id="SANbarToken" class="hide-item Tstat SANtext" type="number" name="attr_SP_token" value="">
+							<input type="checkbox" class="hide-toggle" name="attr_token_map_SP_display" value="true" hidden>
+							<input id="SANbarToken" class="hide-item Tstat SANtext" type="number" name="attr_token_map_SP" value="">
 						</div>
-						<input class="Mstat SAN" type="text" name="attr_SP_max" value="15">
+						<input class="Mstat SAN" type="text" name="attr_token_SP_max" value="15">
 					</div>
 				</div>
 				<div class="bars">
-					<input class="Cstat LIGHTtext" type="number" name="attr_Light" value="3">
-					<input id="LIGHTbarToken" class="Tstat LIGHTtext" type="number" name="attr_Light_token" value="">
-					<input class="Mstat LIGHT" type="text" name="attr_Light_max" value="3">
+					<input class="Cstat LIGHTtext" type="number" name="attr_token_Light" value="3">
+					<input id="LIGHTbarToken" class="Tstat LIGHTtext" type="number" name="attr_token_map_Light" value="">
+					<input class="Mstat LIGHT" type="text" name="attr_token_Light_max" value="3">
 				</div>
 
 				<!-- Temporary status bars -->
@@ -854,8 +855,7 @@
 		</fieldset>
 
 		<!-- Generic token controls -->
-		<input type="text" name="attr_tokenId_selected" value="" hidden>
-		<input type="text" name="attr_tokenId_suppressUpdate" value="0" hidden>
+		<input type="text" name="attr_tokenID_selection" value="" hidden>
 
 
 		<!-- Theorical way to handle multiple multiple token bars at once
@@ -895,7 +895,7 @@
         <div class="contentContainer hide-item BLACK distortProfile">
 	<div class="contentHeader rowContainer BLACK" style="position: relative;">
 		<div>
-			<input class="rank transpInput" type="text" name="attr_rank" value="0" placeholder="0" title="Rank" data-i18n-title="rank">
+			<input class="rank transpInput" type="text" name="attr_character_rank" value="0" placeholder="0" title="Rank" data-i18n-title="rank">
 		</div>
 
 		<input type="text" class="transpInput contentName" id="DistortionName" name="attr_distort_name" placeholder="Distortion Name" data-i18n-placeholder="distort-name">
@@ -1102,7 +1102,7 @@
 		<div class="contentHeader">
 			<input type="hidden" name="attr_charRankBase" value="0">
 			<input type="hidden" name="attr_charRankNum" value="0">
-			<input class="rank transpInput" type="text" name="attr_rank" value="0" placeholder="0" title="Rank" data-i18n-title="rank">
+			<input class="rank transpInput" type="text" name="attr_character_rank" value="0" placeholder="0" title="Rank" data-i18n-title="rank">
 			
 			<input type="hidden" name="attr_character_nameBase">
 			<input type="text" class="transpInput contentName" id="CharacterName" name="attr_character_name" placeholder="Character Name" data-i18n-placeholder="character-name">
@@ -6103,7 +6103,8 @@ const statNamesFull = [...statNames, "Instinct", "Wisdom"]
 const stateNames = ["PanicState", "StaggerState", "StaggerDuration", "SealState", "ImmobileState", "DefeatState"];
 
 const itemSections = ["weapons", "outfits", "augments", "tools", "skills", "special", "effects"];
-const sheetSections = [...itemSections, "ailments", "tags", "variables", "palette", "applied", "buttons"];
+const sheetSections = [...itemSections, "ailments", "tags", "variables", "palette", "applied", "buttons", "tokens"];
+const editorSections = [...itemSections, "ailments", "rollformats"]
 
 const resourceNames = ["Action", "Reaction", "Universal", "Counter", "Block", "Evade", "Light_Regen"]
 const combatRollNames = ["Attack", "Block", "Evade"]
@@ -7002,7 +7003,7 @@ function stepLoop(charId) {
 }
 
 async function getInitiative(trackerName="") {
-	let selectAttrs = {}
+	let tokenValues = {}
 	let rollBase = `! {{trackerInitiative=[[0[@{tracker|${trackerName}}]]]}}`;
 	let selectRoll = await startRoll(rollBase);
 	let trackerInitiative = selectRoll.results.trackerInitiative.expression.match(/^0\[(.*)\]\s*$/)[1];
@@ -7015,839 +7016,6 @@ on('change:prevRoundInit', (info) => {
 	}
 })
 /* --- Update Loop ends --- */
-
-
-
-/* --- Token interaction functions --- */
-
-/* Select token instance functionality */
-on('clicked:selectToken', async function(info) {
-	getTokenAttrs("selected", "select", "true");
-});
-on('clicked:repeating_tokens:selectinstance', async function(info) {
-	setAttrs({"tokenId_selected":info.sourceAttribute.replace("repeating_tokens_","").replace("_selectinstance","")});
-});
-
-/* Gets the tokenId, tokenName and bar values of a token. Also gets the bar and bar max values from the sheet */
-/* setSelectModes: select (always set selection or bars), false (do not set selection or bars), unset (set if unset)*/
-function getTokenAttrs(target="selected", setSelectMode="false", queryGenericMode="false", callback=()=>{}) {
-	getAttrs(["tokenId_selected", "settingGenericTokenMode"], function(values) {
-		let tokenId_selected = values.tokenId_selected;
-	
-	/* If setting is disabled, ask if it should be enabled. Continue if yes */
-	checkGenericMode(values.settingGenericTokenMode, queryGenericMode, async function(genericModeCheck) {
-		if (genericModeCheck == "false") { return; }
-
-		/* Get selected token attributes */
-		let selectAttrs = {}
-		let rollBase = `! {{token_id=[[0[@{${target}|token_id}]]]}} {{token_name=[[0[@{${target}|token_name}]]]}}
-			{{HP=[[0[@{${target}|HP}]]]}} {{STG=[[0[@{${target}|STG}]]]}} {{SP=[[0[@{${target}|SP}]]]}}
-			{{HP_max=[[0[@{${target}|HP_max}]]]}} {{STG_max=[[0[@{${target}|STG_max}]]]}} {{SP_max=[[0[@{${target}|SP_max}]]]}}
-			{{bar1=[[0[@{${target}|bar1}]]]}} {{bar2=[[0[@{${target}|bar2}]]]}} {{bar3=[[0[@{${target}|bar3}]]]}}`.replaceAll("\n","").replaceAll("\t","");
-		
-		let selectRoll = await startRoll(rollBase);
-		selectAttrs = {
-			tokenName: selectRoll.results.token_name.expression.match(/^0\[(.*)\]\s*$/)[1],
-			tokenId: selectRoll.results.token_id.expression.match(/^0\[(.*)\]\s*$/)[1].replaceAll("_","Ø"),
-			HP: selectRoll.results.HP.expression.match(/^0\[(.*)\]\s*$/)[1],
-			STG: selectRoll.results.STG.expression.match(/^0\[(.*)\]\s*$/)[1],
-			SP: selectRoll.results.SP.expression.match(/^0\[(.*)\]\s*$/)[1],
-			HP_max: selectRoll.results.HP_max.expression.match(/^0\[(.*)\]\s*$/)[1],
-			STG_max: selectRoll.results.STG_max.expression.match(/^0\[(.*)\]\s*$/)[1],
-			SP_max: selectRoll.results.SP_max.expression.match(/^0\[(.*)\]\s*$/)[1],
-			bar1: selectRoll.results.bar1.expression.match(/^0\[(.*)\]\s*$/)[1],
-			bar2: selectRoll.results.bar2.expression.match(/^0\[(.*)\]\s*$/)[1],
-			bar3: selectRoll.results.bar3.expression.match(/^0\[(.*)\]\s*$/)[1]
-		}
-		finishRoll(selectRoll.rollId);
-
-		/* If token instance does not exist, ask if it should be added. Continue if yes */
-		checkTokenInstance(selectAttrs, setSelectMode, async function(addTokenInstance) {
-			if (addTokenInstance == "false") { return; };
-
-		if (setSelectMode == "select" || setSelectMode == "add" || (setSelectMode == "unset" && tokenId_selected == "")) {
-			setAttrs({"tokenId_selected":selectAttrs.tokenId});
-		}
-
-		/* If the token already exists, update its token bar values */
-		getSectionIDs(`repeating_tokens`, async function(idarray) {
-			if (idarray.includes(selectAttrs.tokenId.toLowerCase()) && setSelectMode != "false") {
-				updateToken(selectAttrs, "tokenbars");
-			}
-		});
-
-		callback(selectAttrs);
-	});
-	});
-	});
-}
-
-/* Manipulate token instances functionality */
-on('clicked:addToken', async function(info) {
-	getTokenAttrs("selected", "add", "true", (selectAttrs) => {
-		updateToken(selectAttrs);
-	});
-});
-on('clicked:addTokenMultiple', async function(info) {
-	addTokenMultiple();
-});
-function addTokenMultiple() {
-	getTokenAttrs(`target|Target`, "add", "true", (selectAttrs) => {
-		updateToken(selectAttrs);
-		addTokenMultiple();
-	});
-}
-
-on('clicked:deleteToken', async function(info) {
-	getAttrs(["tokenId_selected"], function(values) {
-		let selectedId = values.tokenId_selected;
-		if (info.htmlAttributes != {}) {
-			if (selectedId != "") {
-				deleteToken(selectedId);
-				setAttrs({"tokenId_selected":""});
-			}
-		} else {
-			getTokenAttrs("selected", "false", "false", (selectAttrs) => {
-				deleteToken(selectAttrs.tokenId);
-				if (selectAttrs.tokenId == selectedId) {
-					setAttrs({"tokenId_selected":""});
-				}
-			});
-		}
-	});
-});
-on('clicked:deleteTokenMultiple', async function(info) {
-	getAttrs(["tokenId_selected"], async function(values) {
-		let selectedId = values.tokenId_selected;
-		deleteTokenMultiple(selectedId);
-	});
-});
-function deleteToken(tokenId) {
-	removeRepeatingRow("repeating_tokens_" + tokenId);
-}
-function deleteTokenMultiple(selectedId) {
-	getTokenAttrs("target|Target", "false", "false", (selectAttrs) => {
-		deleteToken(selectAttrs.tokenId);
-		if (selectAttrs.tokenId == selectedId) {
-			setAttrs({"tokenId_selected":""});
-		};
-		deleteTokenMultiple(selectedId);
-	});
-}
-
-/* On changing the selected token, imports the status bars and ailments of that token */
-on('change:tokenId_selected', (info) => {
-	getAttrs(["tokenId_suppressUpdate", "settingGenericTokenMode"], function(values) {
-		if (values.tokenId_suppressUpdate == "true") {
-			setAttrs({"tokenId_suppressUpdate": "0"});
-		} else {
-			if (values.settingGenericTokenMode == "true") {
-				/* Clears conditional buttons and re-generates any Permanent buttons */
-				resetConditionals();
-				AutoScriptMain("", "Permanent", "true", "true");
-
-				updateSelectedToken(info);
-			}
-		}
-	});
-});
-function updateSelectedToken(info, callback=()=>{}) {
-	let output = {}
-	
-	/* Clear the old selection if there was one */
-	if (info.previousValue && info.newValue) {
-		output = {[`repeating_tokens_${info.previousValue}_token_selected`]:"false"}
-	}
-
-	/* Import values from new selection */
-	if (info.newValue) {
-		let tokenPrefix = `repeating_tokens_${info.newValue}`;
-		let tokenValues = [`${tokenPrefix}_tokenAilmentList`];
-
-		barNames.forEach(bar => {
-			tokenValues.push(`${tokenPrefix}_${bar}`/*, `${tokenPrefix}_${bar}_max`,*/);
-		});
-
-		barNamesTemp.forEach(tempbar => {
-			tokenValues.push(`${tokenPrefix}_token${tempbar}_Sources`);
-		});
-
-		stateNames.forEach(state => {
-			tokenValues.push(`${tokenPrefix}_token${state}`, state);
-		});
-
-		getAttrs([...tokenValues], async function(values) {
-
-			/* Set bars to that of the token instance */
-			barNames.forEach(bar => {
-				output[`${bar}`] = values[`${tokenPrefix}_${bar}`];
-				/*output[`${bar}_max`] = values[`${tokenPrefix}_${bar}_max`];*/
-			});
-
-			barNamesTemp.forEach(tempbar => {
-				/* For temp bar values from ailments, add an override to make sure any ailment list updates do not change the temp bar value */
-				let tempBarSourceRaw = values[`${tokenPrefix}_token${tempbar}_Sources`];
-				let tempBarSource = Data.unpackage(tempBarSourceRaw);
-				for (const [sourceName, sourceVals] of Object.entries(tempBarSource)) {
-					if (sourceName != "AutoEffects") {
-						output[`${sourceName.replace("ailcount","ailTempBarOverride")}`] = sourceVals[0];
-					}
-				}
-				output[`${tempbar}_Sources`] = tempBarSourceRaw;
-			});
-
-			/* If a state changes between token, suppress the change event listener for the state */
-			stateNames.forEach(state => {
-				output[`${state}`] = values[`${tokenPrefix}_token${state}`];
-				if (output[`${state}`] != values[`${state}`]) {
-					output[`${state}SuppressUpdate`] = "true";
-				}
-			});
-
-			/* Sets ailments to those of the token instance. If ailmentList is unset, initialize a new empty ailmentList */
-			let ailmentList = values[`${tokenPrefix}_tokenAilmentList`];
-			if (ailmentList != "") {
-				output = {...output, ...importAilmentList(Data.unpackage(ailmentList), "true")}
-			} else {
-				resetAilments(() => {
-					exportAilmentList({}, function(newAilmentList) {
-						setAttrs({[`${tokenPrefix}_tokenAilmentList`]: Data.package(newAilmentList)});
-					});
-				});
-			}
-
-			/* Set new selection */
-			output[`${tokenPrefix}_token_selected`] = "true";
-			setAttrs(output, {}, () => {
-				callback();
-			});
-		});
-	} else {
-		setAttrs(output);
-	}
-}
-function getSelectedToken(callback=()=>{}) {
-	getAttrs(["tokenId_selected"], function(values) {
-		callback(values.tokenId_selected);
-	});
-}
-
-/* Hides token bar value in display if it matches that of the character sheet */
-barNames.forEach(bar => {
-	on(`change:repeating_tokens:${bar} change:repeating_tokens:${bar}_token`, (info) => {
-		let attr_sheet = `${info.sourceAttribute}`;
-		let attr_token = `${info.sourceAttribute}`;
-		if (info.sourceAttribute.match(/_token/g).length == 2) {
-			attr_sheet = `${info.sourceAttribute.replace(/_token([^_]*)$/, '$1')}`;
-		} else {
-			attr_token = `${info.sourceAttribute}` + "_token";
-		}
-		getAttrs(["settingGenericTokenMode", `${attr_sheet}`, `${attr_token}`], function(values) {
-			if (values.settingGenericTokenMode == "true") {
-				let bar_sheet = values[`${attr_sheet}`];
-				let bar_token = values[`${attr_token}`];
-				setAttrs({[`${attr_token + "_display"}`]:"" + (bar_sheet != bar_token)});
-			}
-		});
-	});
-});
-
-/* Sync: Token Status bars */
-barNames.forEach(bar => {
-	on(`change:${bar} change:repeating_tokens:${bar}`, (info) => {
-		if (info.newValue) {
-			getAttrs(["tokenId_selected", "settingGenericTokenMode", "character_id", "targetedBy"], function(values) {
-				if (values.settingGenericTokenMode == "true") {
-					let selectedId = values.tokenId_selected;
-					if (selectedId != "") {
-						if (barNames.some(bar => bar.toLowerCase() == info.sourceAttribute)) {
-							setAttrs({[`repeating_tokens_${selectedId}_${bar}`]:info.newValue});
-						} else {
-							if (info.sourceAttribute.includes(selectedId.toLowerCase())) {
-								setAttrs({[`${bar}`]:info.newValue});
-							}
-
-							/* Announce instance bar change */
-							//let tokenId = info.sourceAttribute.match(/(-[\w\dø]{19})/)[0];
-							//announceBarChange(Data.unpackage(values.targetedBy), values.character_id, tokenId, `${bar}_target`, info.newValue);
-						}
-					}
-				}
-			});
-		}
-	});
-});
-
-/* Sync: Token Temporary status bars */
-barNamesTemp.forEach(tempBar => {
-	on(`change:${tempBar}_sources`, (info) => {
-		if (info.newValue) {
-			getAttrs(["tokenId_selected", "settingGenericTokenMode"], function(values) {
-				if (values.settingGenericTokenMode == "true") {
-					let selectedId = values.tokenId_selected;
-					if (selectedId != "") {
-						if (barNamesTemp.some(bar => bar.toLowerCase() == info.sourceAttribute.replace("_sources", ""))) {
-							setAttrs({[`repeating_tokens_${selectedId}_token${tempBar}_sources`]:info.newValue});
-						}
-					}
-				}
-			});
-		}
-	});
-});
-
-/* Sync: Token States */
-let stateList = ["panicstate", "staggerstate", "staggerduration", "sealstate", "immobilestate", "defeatstate"];
-stateList.forEach(state => {
-	on(`change:${state}`, (info) => {
-		getAttrs(["tokenId_selected", "settingGenericTokenMode"], function(values) {
-			if (values.settingGenericTokenMode == "true") {
-				let selectedId = values.tokenId_selected;
-				if (selectedId != "") {
-					if (stateList.includes(info.sourceAttribute)) {
-						/* newValue will in some cases not be set when decreasing staggerduration. This ensures the value is properly decreased */
-						if (info.newValue === undefined && info.sourceAttribute == "staggerduration") {
-							info.newValue = parseInt(info.previousValue) - 1;
-						}
-						setAttrs({[`repeating_tokens_${selectedId}_token${state}`]:info.newValue});
-					}
-				}
-			}
-		});
-	});
-});
-
-/* Sync: Token Ailments */
-on(`change:ailmentList`, (info) => {
-	if (info.newValue) {
-		getAttrs(["tokenId_selected", "settingGenericTokenMode", "settingLimbusStyle"], function(values) {
-			if (values.settingGenericTokenMode == "true") {
-				let ailmentList = Data.unpackage(info.newValue);
-				let selectedId = values.tokenId_selected;
-				if (selectedId != "") {
-					setAttrs({
-						[`repeating_tokens_${selectedId}_tokenAilmentList`]: info.newValue,
-						...updateAilmentDisplay(`repeating_tokens_${selectedId}_token`, 4, ailmentList, values.settingLimbusStyle, "true")
-					});
-				}
-			}
-		});
-	}
-});
-for (let i = 0; i <= 4; i++) {
-	on(`change:repeating_tokens:tokenAilment${i}Num`, (info) => {
-		if (info.newValue) {
-			let tokenPrefix = info.sourceAttribute.match(/(repeating_tokens_[^_]+)/g)[0];
-			let tokenIndex = info.sourceAttribute.match(/([\d])num/g)[0].replace("num","");
-			//let tokenId = info.sourceAttribute.match(/(-[\w\dø]{19})/g)[0];
-
-			getAttrs(["tokenId_selected", "settingGenericTokenMode", "settingLimbusStyle", `${tokenPrefix}_tokenAilmentList`,
-				`${tokenPrefix}_tokenAilment${tokenIndex}Name`, `${tokenPrefix}_tokenAilment${tokenIndex}Num`, "character_id", "targetedBy"], function(values) {
-				
-				if (values.settingGenericTokenMode == "true") {
-
-					let selectedId = values.tokenId_selected;
-					let ailmentList = Data.unpackage(values[`${tokenPrefix}_tokenAilmentList`]);
-					let ailmentName = values[`${tokenPrefix}_tokenAilment${tokenIndex}Name`];
-					let ailmentCount = values[`${tokenPrefix}_tokenAilment${tokenIndex}Num`];
-					let output = {}
-	
-					ailmentList[ailmentName][1] = ailmentCount;
-					ailmentList[ailmentName][3] = ailmentCount;
-					output[`${tokenPrefix}_tokenAilmentList`] = Data.package(ailmentList);
-	
-					if (tokenPrefix.includes(selectedId.toLowerCase())) {
-						output["ailmentList"] = Data.package(ailmentList);
-						if (ailmentList[ailmentName][5] != 0) {
-							output[`repeating_ailments_${ailmentList[ailmentName][5]}_ailCount`] = ailmentCount;
-						} else {
-							output[`${ailmentName}`] = ailmentCount;
-						}
-					}
-					setAttrs(output);
-
-					/* Announce instance ailment change */
-					//announceAilmentChange(Data.unpackage(values.targetedBy), values.character_id, tokenId, ailmentList, values.settingLimbusStyle);
-				}
-			});
-		}
-	});
-}
-function OLD_updateAilmentDisplay(ailmentPrefix, ailmentDisplayCount, ailmentList, settingLimbusStyle, returnMode="false") {
-	let ailmentDisplayList = [];
-
-	if (length(ailmentList) > 0) {
-		for (var ailmentName in ailmentList) {
-			ailmentDisplayList.push([ailmentName, ailmentList[ailmentName]]);
-		}
-		ailmentDisplayList.sort(function(ail1, ail2) {
-			return ail1[1][1] - ail2[1][1];
-		});
-		ailmentDisplayList = ailmentDisplayList.slice(ailmentDisplayList.length - ailmentDisplayCount).reverse();
-		
-		let output = {}
-		for (i = 0; i < ailmentDisplayCount; i++) {
-			output[`${ailmentPrefix}Ailment${i+1}Icon`] = getIcon(`ailments/${ailmentDisplayList[i][1][6]}`, "url", false, is.True(settingLimbusStyle));
-			output[`${ailmentPrefix}Ailment${i+1}Num`] = ailmentDisplayList[i][1][1];
-			output[`${ailmentPrefix}Ailment${i+1}Name`] = ailmentDisplayList[i][0];
-		}
-	
-		if (returnMode == "true") {
-			return output;
-		} else {
-			setAttrs(output);
-		}
-	} else {
-		return resetAilmentDisplay(ailmentPrefix, ailmentDisplayCount, returnMode="false")
-	}
-}
-function OLD_resetAilmentDisplay(ailmentPrefix, ailmentDisplayCount, returnMode="false") {
-	let output = {}
-	for (i = 0; i < ailmentDisplayCount; i++) {
-		output[`${ailmentPrefix}Ailment${i+1}Icon`] = "";
-		output[`${ailmentPrefix}Ailment${i+1}Num`] = 0;
-		output[`${ailmentPrefix}Ailment${i+1}Name`] = "";
-	}
-	if (returnMode == "true") {
-		return output;
-	} else {
-		setAttrs(output);
-	}
-}
-
-function updateAilmentDisplay(type, charID=getActiveCharacterId(), opts={}) {
-	let displaySlots = (type == "target") ? 6 : 4;
-	let root = access[charID];
-
-	let ailmentList = opts.ailmentList ?? (type == "target" ? root.target : root).ailments
-		.filter(ail => ail.count > 0)
-		.sort((ail1, ail2) => ail2.count - ail1.count)
-		.slice(0, displaySlots);
-
-	for (index of range(0, displaySlots)) {
-		if (root.type == "token") { // Token ailments
-			// TODO: Implement token ailments
-		}
-		else { // Target ailments
-			let ailDisplay = root.target.display.ailments[index];
-			ailDisplay.count = ailmentList[index]?.count ?? 0;
-			ailDisplay.icon = (ailmentList[index]?.icon) ? getIcon(ailmentList[index].icon, "url", false, root.settings.sheet.ailment.limbus_style) : "";
-		}
-	}
-}
-function resetAilmentDisplay(type, charID=getActiveCharacterId()) {
-	updateAilmentDisplay(type, charID, {ailmentList: []});
-}
-
-
-on('change:settingGenericTokenMode', (info) => { 
-	if (info.newValue == "0") {
-		getSectionIDs(`repeating_tokens`, async function(idarray) {
-			idarray.forEach(tokenId => {
-				removeRepeatingRow("repeating_tokens_" + tokenId);
-			});
-			setAttrs({"tokenId_selected":""});
-		});
-	}
-});
-
-on('change:settingTargeting', (info) => {
-	getAttrs(["character_id", "targetId"], function(values) {
-		if (info.newValue == "0") {
-			setAttrs({...resetTarget(values.character_id, values.targetId, "true"), "lastDefenceRoll": 0});
-		}
-	});
-});
-
-/* Sync: Action number */
-/*
-on(`change:actNum change:repeating_tokens:actNum`, (info) => {});
-*/
-
-
-/* --- Token helper functions --- */
-async function checkGenericMode(genericMode, executeQuery, callback=()=>{}) {
-	if (genericMode != "true" && executeQuery == "true") {
-		let queryResults = await sendQuery(["enableGenericMode",
-			getTranslationByKeyCustom("Generic token mode not enabled for sheet. Enable setting?", "query-enable-generic-mode"), {
-				[getTranslationByKeyCustom("No", "query-no")]: false,
-				[getTranslationByKeyCustom("Yes", "query-yes")]: true,
-			}
-		]);
-		if (queryResults.enableGenericMode) {
-			setAttrs({"settingGenericTokenMode":"true"});
-		}
-		callback(queryResults.enableGenericMode);
-	} else {
-		callback(genericMode);
-	}
-}
-async function checkTokenInstance(selectAttrs, setSelectMode, callback=()=>{}) {
-	getSectionIDs(`repeating_tokens`, async function(idarray) {
-		if (!idarray.includes(selectAttrs.tokenId.toLowerCase()) && setSelectMode == "select") {
-			let queryResults = await sendQuery(["addTokenInstance",
-				getTranslationByKeyCustom("Token does not have a token instance. Add instance?", "query-add-token-instance"), {
-					[getTranslationByKeyCustom("No", "query-no")]: false,
-					[getTranslationByKeyCustom("Yes", "query-yes")]: true,
-				}
-			]);
-			if (queryResults.addTokenInstance) {
-				updateToken(selectAttrs);
-			}
-			callback(queryResults.addTokenInstance)
-		} else {
-			callback("true")
-		}
-	});
-}
-async function updateToken(selectAttrs, mode="full") {
-	getSectionIDs(`repeating_global`, idarray => {
-		let id = `repeating_global_${idarray[0]}`;
-	
-	getAttrs([`${id}_settingBar1`, `${id}_settingBar2`, `${id}_settingBar3`, "HP_max", "STG_max", "SP_max", "Light_max"], function(values) {
-		selectAttrs = {...selectAttrs, barHP: values.HP_max, barSTG: values.STG_max, barSP: values.SP_max}
-		for (let i = 1; i <= 3; i++) {
-			/* Matches token bars to the correct status bars */
-			if (values[`${id}_settingBar${i}`] != "None") { selectAttrs[`bar${values[`${id}_settingBar${i}`]}`] = selectAttrs[`bar${i}`]; }
-		}
-
-		let tokenPrefix = `repeating_tokens_${selectAttrs.tokenId}`;
-		let tokenValues = {
-			[`${tokenPrefix}_tokenName`]:selectAttrs.tokenName,
-			[`${tokenPrefix}_tokenId`]:selectAttrs.tokenId,
-			[`${tokenPrefix}_HP`]:selectAttrs.barHP, [`${tokenPrefix}_HP_max`]:values.HP_max, // Supposed to be selectAttrs.HP_max. Currently bugged and gives the default value (30) and not the calculated value
-			[`${tokenPrefix}_STG`]:selectAttrs.barSTG, [`${tokenPrefix}_STG_max`]:values.STG_max, // Supposed to be selectAttrs.STG_max
-			[`${tokenPrefix}_SP`]:selectAttrs.barSP, [`${tokenPrefix}_SP_max`]:values.SP_max, // Supposed to be selectAttrs.SP_max
-			[`${tokenPrefix}_Light`]:values.Light_max, [`${tokenPrefix}_Light_max`]:values.Light_max,
-		}
-		if (mode == "tokenbars") {
-			tokenValues = {}
-		}
-		tokenValues = {...tokenValues,
-			[`${tokenPrefix}_HP_token`]:selectAttrs.barHP,
-			[`${tokenPrefix}_STG_token`]:selectAttrs.barSTG,
-			[`${tokenPrefix}_SP_token`]:selectAttrs.barSP
-		}
-		setAttrs(tokenValues);
-	});
-	});
-}
-async function changeActiveToken(tokenId, callback=()=>{}) {
-	getAttrs(["settingGenericTokenMode", "tokenId_selected"], function(values) {
-		if (values.settingGenericTokenMode != "true" || tokenId == "" || tokenId == values.tokenId_selected) {
-			callback();
-		} else {
-			/* Makes certain the tokenId update is being suppressed before setting the attribute */
-			setAttrs({"tokenId_suppressUpdate": "true"}, {}, () => {
-				setAttrs({"tokenId_selected": tokenId}, {}, () => {
-					let info = {newValue: tokenId}
-					if (values.tokenId_selected != "") { info.previousValue = values.tokenId_selected; }
-					updateSelectedToken(info, ()=>{
-						callback();
-					});
-				});
-			})
-		}
-	});
-}
-/* --- Token interaction functions end  --- */
-
-
-
-/* --- Targeting functionality --- */
-async function getTargetAttrs(attrList) {
-	
-	let rollBase = "! ";
-	attrList.forEach(attribute => {
-		rollBase += `{{${attribute}=[[0[@{target|${attribute}}]]]}}`;
-	});
-
-	let targetingActQueueLength = access._action_queue.length;
-
-	// Used if the function is called inside a Roll20 on(event) function
-	if (!targetingActQueueLength) {
-		let targetRoll = await startRoll(rollBase);
-
-		finishRoll(targetRoll.rollId);
-		
-		return attrList.reduce((acc, attribute) => Object.assign(acc, {[attribute]: targetRoll.results[attribute].expression.match(/^0\[(.*)\]\s*$/)[1]}), {});
-	}
-
-	// Used if the function is called inside an onAccess(event) function
-	else {
-		let actId = getActiveCharacterId();
-		access._state = "targeting";
-
-		return await new Promise(resolve => {
-			let intervalID = setInterval(() => {
-				if (targetingActQueueLength != access._action_queue.length || access._state != "targeting") {
-					console.warn("Targeting interrupted by new action/event:", attrList);
-
-					clearInterval(intervalID);
-					resolve(attrList.reduce((acc, attribute) => Object.assign(acc, {[attribute]: `@{target|${attribute}}`}), {}));
-				} else {
-					console.warn("Targeting awaiting response");
-				}
-			}, 200);
-
-			startRoll(rollBase, (targetRoll) => {
-				finishRoll(targetRoll.rollId);
-				clearInterval(intervalID);
-
-				resolve(attrList.reduce((acc, attribute) => Object.assign(acc, {[attribute]: targetRoll.results[attribute].expression.match(/^0\[(.*)\]\s*$/)[1]}), {}));
-			});
-		}).finally(() => {
-			setActiveCharacterId(actId);
-		});
-	}
-}
-
-// Gets values from the target character and token used for setting up targeting
-onAccess('clicked:selectTarget', async function(info) {
-	let targetValues = await getTargetAttrs(["character_id", "token_id", "token_name", "selfToken"]);
-
-	selectTarget(...Object.values(targetValues));
-});
-
-async function selectTarget(targetID, tokenID, tokenName, targetImage) {
-	let selfID = getActiveCharacterId();
-
-	console.log("Selecting target:", arguments)
-
-	// Clear the current target when pressing an element in the sheet while targeting / targeting one's own character
-	if (targetID.startsWith("@{target|") || targetID == selfID) {
-		return access._begin(selfID, "action:targeting", resetTarget);
-	}
-
-	// Initialize a new data tree for the target character
-	access._initialize(targetID, "target");
-
-	// Runs after the target finishes initializing
-	access._begin(selfID, "action:targeting", async function() {
-		
-		// Ensure the target character was initialized properly
-		if (targetID in access) {
-			access._begin(selfID, "action:targeting", async function() {
-				if (isValidTarget(access[targetID])) {
-
-					// Set up local targetting data (the data shown in the targeting display)
-					access.target.target_id = targetID;
-					access.target.display.image = targetImage; // Target token image
-					
-					for (bar in access.target.display.bar._attrs) { // Target HP, STG and SP bars
-						access.target.display.bar[bar] = access.target.bar[bar];
-					}
-					
-					if (access.target.settings.sheet.palette.targeting_details) { // Target name
-						unknownTarget();
-					}
-					else if (access.target.settings.sheet.general.generic_token_mode) { // TODO: May not be needed if you target a root with type = "token"
-						access.target.display.name = tokenName;
-					} else {
-						access.target.display.name = access.target.character.name;
-					}
-
-					updateAilmentDisplay("target"); // Target ailments
-				} else {
-					resetTarget();
-				}
-			});
-		} else {
-			console.warn("The target character could not be initialized:", arguments);
-			// TODO: This message should display in the chat
-		}
-	});
-
-	return;
-
-	updateTargetAttrLists(selfValues.settingTargeting, selfValues.character_id, output.targetId, output.targetTokenId, targetSettings, selfValues.settingLimbusStyle, (targetAttrs) => {
-		setAttrs({...output, ...targetAttrs});
-	});
-}
-
-// Checks if a token is an invalid target. Currently happens if Generic token mode is enabled but the token has not been added as an instance
-async function isValidTarget(target) {
-	if (target.settings.sheet.general.generic_token_mode) {
-		if (access.target.token_id != target.token.selection) {
-
-			// TODO: Update this to a modern alert message
-			let alertIcon = getIcon("ailments/Aggro", "markdown", false, true);
-			let alertMessage = getTranslationByKeyCustom("Invalid Target: Token is not a token instance", "message-invalid-target");
-			startRoll((`/w ${target.character.name} &{template:errorMessage} {{icon=${alertIcon}}} {{message=${alertMessage}}}`), (results) => {
-				finishRoll(results.rollId);
-			});
-			return false;
-		}
-	}
-	return true;
-}
-
-function resetTarget() {
-	for (node of [access.target, access.target.display, access.target.display.bar]) {
-		for (prop in node._attrs) {
-			node[prop] = node._formats.base[prop];
-		}
-	}
-
-	resetAilmentDisplay("target");
-}
-function unknownTarget() {
-	access.target.display.name = "?????";
-
-	for (bar of access.target.display.bar._attrs) {
-		access.target.display.bar[bar] = "???";
-	}
-
-	resetAilmentDisplay("target");
-}
-
-
-/* Callback if the character is controlled by a GM */
-/* If isGM is currently unset, executes a test to check if the character is a GM or not */
-/*
-var isGM = "unset";
-on("sheet:opened", function(info) {
-	getAttrs(["targetId", "character_id", "testIsGM"], function(values) {
-		if (values.targetId != "" && values.targetId) {
-			checkGM(values.targetId, values.character_id);
-		}
-		if (values.testIsGM == "unset") {
-			setAttrs({"testIsGM": values.character_id});
-		}
-	});
-})
-async function checkGM(targetId, charId, callback=()=>{}) {
-	if (targetId != "" && targetId != charId) {
-		if (isGM == "unset") {
-			let initialValue = await getAttrsByID(targetId, ["testIsGM"]);
-			let newValue = await setAttrsByID(targetId, {"testIsGM": (initialValue.testIsGM != charId) ? charId : generateRowID()});
-			let finalValue = await getAttrsByID(targetId, ["testIsGM"]);
-			setActiveCharacterId(charId);
-			initialValue = initialValue.testIsGM;
-			finalValue = finalValue.testIsGM;
-			
-			if (initialValue != "unset" && initialValue != finalValue && (initialValue == charId || finalValue == charId)) {
-				isGM = "true";
-				callback();
-			} else {
-				isGM = "false";
-				return;
-			}
-		} else if (isGM == "true") {
-			callback();
-		} else {
-			return;
-		}
-	}
-}
-
-
-/* Field used by other characters to announce they are targeting the character */
-/*on("change:announceTargeting", function(info) {
-	getAttrs(["targetedBy"], function(values) {
-		updateTargetedBy(Data.unpackage(info.newValue), Data.unpackage(values.targetedBy));
-	});
-});
-function updateTargetedBy(input, targetedBy) {
-	
-	if (isGM == "true") {
-		if (input.remove) {
-			delete targetedBy[input.remove];
-		}
-		if (input.add) {
-			targetedBy = {...targetedBy, ...input.add}
-		}
-		setAttrs({"targetedBy": Data.package(targetedBy)});
-	}
-}
-function addTargeting(charId, targetTokenId, package="package") {
-	let targetingData = {"announceTargeting": {"remove": charId, "add": {[`${charId}`]: targetTokenId}}}
-	if (package == "package") { targetingData.announceTargeting = Data.package(targetingData.announceTargeting) }
-	return targetingData;
-}
-function removeTargeting(charId, package="package") {
-	let targetingData = {"announceTargeting": {"remove": charId}}
-	if (package == "package") { targetingData.announceTargeting = Data.package(targetingData.announceTargeting) }
-	return targetingData;
-}
-*/
-
-async function updateTargetAttrLists(settingTargeting, charId, targetId, targetTokenId, targetSettings, settingLimbusStyle, callback=()=>{}) {
-	if (settingTargeting != "0" && targetId != "" && targetId) {
-		
-		let output = {}
-		
-		/* Get target attributes  */
-		let targetPrefix = (targetSettings.genericTokenMode == "true") ? `repeating_tokens_${targetTokenId}_` : "";
-		let targetBarAttrs = barNames.reduce((rows,bar) => [...rows, `${targetPrefix}${bar}`, `${targetPrefix}${bar}_max`], '');
-		let targetAilmentListName = (targetSettings.genericTokenMode == "true") ? `${targetPrefix}tokenAilmentList` : "ailmentList";
-
-		let values = await getAttrsByID(targetId, [...targetBarAttrs, ...statNames, ...resourceNames, ...resourceNames.map(r => r+'_max'), targetAilmentListName]);
-		setActiveCharacterId(charId);
-
-		/* Update target bar lists */
-		let targetBarList = {}
-		let targetBarMaxList = {}
-		let targetBarDamageList = {}
-		barNames.forEach(bar => {
-			let barName = (bar == "light") ? "Light" : bar.toUpperCase();
-			targetBarList[`${barName}`] = parseInt(values[`${targetPrefix}${bar}`]);
-			targetBarMaxList[`${barName}`] = parseInt(values[`${targetPrefix}${bar}_max`]);
-			targetBarDamageList[`-${barName}`] = targetBarMaxList[`${barName}`] - targetBarList[`${barName}`];
-		});
-
-		if (targetSettings.hideDetailsFromTargeting == "true") {
-			output = unknownTarget();
-		} else if (targetSettings.hideBarUpdate == "true") {
-			output = {"HP_target":"???", "STG_target":"???", "SP_target":"???"}
-		} else {
-			output = {"HP_target":targetBarList.HP, "STG_target":targetBarList.STG, "SP_target":targetBarList.SP}
-		}
-
-		/* Update target ailment list */
-		let targetAilmentList = values[targetAilmentListName] || "{}";
-		if (targetAilmentList != "{}") {
-			output = {...output, ...updateAilmentDisplay("target", 6, Data.unpackage(targetAilmentList), settingLimbusStyle, "true")}
-		}
-
-		/* Update target resources. Uses new vars system */
-		let targetResourceVars = resourceNames.reduce((acc, attr) => Object.assign(acc, {[`target${attr}`]:parseInt(values[attr]), [`target${attr}_max`]:parseInt(values[`${attr}_max`])}), {});
-
-		/* Update target stats. Uses new vars system */
-		let targetStatVars = Object.entries(values).filter(attr => statNames.includes(attr[0])).reduce((acc, attr) => Object.assign(acc, {["target"+updateStatName(attr[0])]:parseInt(attr[1])}), {});
-		
-		if (callback != "()=>{}") {
-			callback({...output, targetBarList, targetBarMaxList, targetBarDamageList, targetAilmentList, targetStatVars, targetResourceVars});
-		} else {
-			setAttrs(output);
-		}
-	} else {
-		callback({});
-	}
-}
-
-/*function announceAilmentChange(targetedBy, charId, tokenId, ailmentList, settingLimbusStyle) {
-	if (isGM == "true") {
-		let output = updateAilmentDisplay("target", 6, ailmentList, settingLimbusStyle, "true");
-		for (const [targeterId, targetedTokenId] of Object.entries(targetedBy)) {
-			if (tokenId == 0 || tokenId == targetedTokenId.toLowerCase()) {
-				setAttrsByID(targeterId, output);
-				setActiveCharacterId(charId);
-			}
-		}
-	}
-}
-function announceBarChange(targetedBy, charId, tokenId, barName, barVal) {
-	if (isGM == "true") {
-		for (const [targeterId, targetedTokenId] of Object.entries(targetedBy)) {
-			if (tokenId == 0 || tokenId == targetedTokenId.toLowerCase()) {
-				setAttrsByID(targeterId, {[`${barName}`]: barVal});
-				setActiveCharacterId(charId);
-			}
-		}
-	}
-}*/
-/* --- Targeting functionality END --- */
 
 
 
@@ -8032,8 +7200,8 @@ onAccess("clicked:chatButton", {}, async function(data) {
 function chatButtonTokenIdHelper(targetTokenId, callback=()=>{}) {
 	getAttrs(["settingGenericTokenMode"], function(values) {
 		if (targetTokenId == "" && values.settingGenericTokenMode == "true") {
-			getTokenAttrs("selected", "unset", "false", (selectAttrs) => {
-				callback(selectAttrs.tokenId);
+			getTokenAttrs("selected", "select", "false", (tokenValues) => {
+				callback(tokenValues.tokenId);
 			});
 		} else {
 			callback(targetTokenId);
@@ -9280,10 +8448,9 @@ getAttrs(["Bleed", "BleedPause", "bleedResist", "bleedResist_ego", "distort_stat
 /* Alt click: Reveal ailment Pause value */
 /* Ctrl click: Trigger ailment */
 onJQ('clicked:repeating_ailments:ailment-clicker', function (info) {
-	let ID = getActiveCharacterId();
+	let keyPressed = (info.altKey) ? "alt" : (info.ctrlKey) ? "ctrl" : false;
 
-	access._begin(ID, "action:clicked", () => {
-		let keyPressed = (info.altKey) ? "alt" : (info.ctrlKey) ? "ctrl" : false;
+	access._begin(false, "action:clicked", () => {
 	
 		/* Get currect attribute */
 		let ailID = info.sourceAttribute.split('_')[2].toLowerCase(); // TODO: No longer needed once ailments are added with lowercase ids
@@ -13061,6 +12228,90 @@ const repDataFormats = {
 			message: {_prefix: "ailMessage"},
 		},
 	},
+
+	// Data formats used for access.tokens
+	token: {
+		base: {
+			selected: false,
+			items: {
+				_repeating: {
+					equipped: false,
+				},
+			},
+			ailments: {
+				_repeating: {
+					count: 0,
+					count_next_round: 0,
+				},
+			},
+			bar: {
+				hp: 30, map_hp: 30, hp_max: 30,
+				stg: 20, map_stg: 20, stg_max: 20,
+				sp: 15, map_sp: 15, sp_max: 15,
+				light: 3, light_max: 3,
+			},
+			character: {
+				name: "",
+			},
+		},
+
+		valid: {
+			selected: {bool:true},
+			items: {
+				_repeating: {
+					equipped: {bool:true},
+				},
+			},
+			ailments: {
+				_repeating: {
+					_default: {int: {min:0}},
+				},
+			},
+			bar: {
+				_default: {int:true},
+			},
+			character: {
+				name: {string:true},
+			},
+		},
+
+		attrs: {
+			_source: {
+				editor: {prefix: "token_"}, // Reuses the item editor code. The "editor" is here the sheet, with access.tokens.selection being the "edited" token
+				sheet: {prefix: "token_", type: "id", section: "tokens"},
+			},
+			items: {
+				_repeating: {
+					_source: {
+						editor: {type: "id", section: itemSections},
+						sheet: {type: "index", section: "tokens", package:true},
+					},
+				},
+			},
+			ailments: {
+				_repeating: {
+					_source: {
+						editor: {prefix: "ail", type: "id", section: "ailments"},
+						sheet: {type: "index", section: "tokens", package:true},
+					},
+					_case: "snake",
+				},
+			},
+			bar: {
+				_source: {
+					editor: {},
+					sheet: {prefix: "token_", type: "id", section: "tokens"},
+				},
+				_ignore: {editor: ["map_hp", "map_stg", "map_sp"]},
+			},
+			character: {
+				_source: {
+					editor: {prefix: "character_"},
+					sheet: {prefix: "token_", type: "id", section: "tokens"},
+				},
+			},
+		},
+	}
 }
 
 
@@ -13566,11 +12817,13 @@ const dataFormat = {
 				},
 			},
 		},
-		token: {
+		tokens: {
+			_repeating: repDataFormats.token.base,
+
 			// Change this to not be a Proxy. Instead make it have id + selection + a number of entries that point to other accesses, like access.target
 			// Does not have a format built in format. TokenNodes create a deep copy of dataFormat in repDataFormats which removes base.token
 			//  - If this format has already been created other tokenNodes simple use the existing format
-			//  - There's no need to remove valid.token. Nodes in valid that are not in base are ignored when building a data tree
+			//  - There's no need to remove valid.tokens. Nodes in valid that are not in base are ignored when building a data tree
 
 			// Used for targeting. This should match the id of the targeted token
 			// If generic token mode is disabled for the target the tokenId is set to ""
@@ -13584,7 +12837,7 @@ const dataFormat = {
 			// TODO: Make sure to delete let from tokens
 
 			// When generic token mode is enabled each token gets added to access.token as access.token[tokenID]
-			//  When changing token selection, set access.token.selection = newID, and access.currentID = access.token[newID]
+			//  When changing token selection, set access.tokens.selection = newID, and access.currentID = access.token[newID]
 			//  This should overwrite everything in access with access.token[newID], except access.token
 			//  Afterwards, use output() and add all the values to outputValues
 			//   This does not work for items that only exist on certain tokens. These will be added when changing to the token, but will not be deleted when selecting another token
@@ -13595,7 +12848,7 @@ const dataFormat = {
 			//  Afterwards, do access.currentID = access.token[tokenID] + output() to sync all changes from the current token to the sheet 
 
 			// Make it so access.token works exactly like access, except:
-			//  access.token.prop equals access[charID].token[tokenID].prop
+			//  access.tokens.prop equals access[charID].token[tokenID].prop
 			//  access.token[tokenID].token is deleted
 
 			// access.output() should either ignore token data, or generate repeating attributes for the token bar
@@ -13908,15 +13161,14 @@ const dataFormat = {
 					return Object.assign(acc, {count: {int: {min:0}}, icon: {string:true}});
 				}, {}),
 				bar: {
-					hp: {string:true},
-					stg: {string:true},
-					sp: {string:true},
+					_default: {string:true},
 				},
 			},
 		},
-		token: {
+		tokens: {
+			_repeating: repDataFormats.token.valid,
 			selection: {false:true, id:true},
-			_default: {node:true},
+			//_default: {node:true},
 		},
 		tags: {
 			_repeating: tagDataFormat.valid,
@@ -14114,7 +13366,7 @@ const dataFormat = {
 			},
 		},
 		bar: {
-			_ignore: {prop: ["-hp", "-st", "-sp", "-light"]},
+			_ignore: {prop: ["-hp", "-stg", "-sp", "-light"]},
 		},
 		resource: {
 			_case: "snake",
@@ -14159,7 +13411,7 @@ const dataFormat = {
 		},
 		character: {
 			_prefix: "character_", // TODO: Modify all personalia to have the format character_key
-			_ignore: {prefix: ["rank", "level", "exp", "fortitude", "prudence", "justice", "charm", "insight", "temperance"]},
+			_ignore: {prefix: ["level", "exp", "fortitude", "prudence", "justice", "charm", "insight", "temperance"]},
 		},
 		distort: {
 			_prefix: "distort_", // TODO: Modify all distortion personalia to have the format distort_key
@@ -14182,8 +13434,9 @@ const dataFormat = {
 				},
 			},
 		},
-		token: {
-			_prefix: "token", // Used for selection
+		tokens: {
+			_repeating: repDataFormats.token.attrs,
+			_prefix: "tokenID_", // Used for selection
 		},
 		tags: {
 			_repeating: tagDataFormat.attrs,
@@ -14339,6 +13592,7 @@ class dataNode extends Array {
 		// Add all properties and subnodes of the node
 		if (formats.base) {
 			for (const [prop, value] of Object.entries(formats.base)) {
+				let _prop = `_${prop}`;
 
 				// Configures the format of repeating nodes generated by this node using add()
 				if (prop.startsWith("_")) {
@@ -14369,7 +13623,7 @@ class dataNode extends Array {
 				// Get any subnodes of the node
 				else if (is.Object(value)) {
 					if (value._effect) {
-						this[`_${prop}`] = new effectNode("(Block)", this, [...this._path, prop]);
+						this[_prop] = new effectNode("(Block)", this, [...this._path, prop]);
 					} else {
 						let newNode = new dataNode({
 							base: value,
@@ -14382,21 +13636,21 @@ class dataNode extends Array {
 						// Handle proxies in the format
 						if (value._proxy) newNode = new Proxy(newNode, value._proxy);
 
-						this[`_${prop}`] = newNode;
+						this[_prop] = newNode;
 					}
 				}
 
-				// Get any subnodes that reference other subnodes
+				// Get any subnodes that reference other subnodes using functions
 				else if (typeof value == "function") {
-					this[`_${prop}`] = value(this);
+					this[_prop] = value(this);
 				}
 
 				// Get any properties of the node
 				else {
 					if (formats.default && prop in formats.default) {
-						this[`_${prop}`] = this.#output[`_${prop}`] = formats.default[prop];
+						this[_prop] = this.#output[_prop] = formats.default[prop];
 					} else {
-						this[`_${prop}`] = value;
+						this[_prop] = value;
 					}
 				}
 
@@ -14434,10 +13688,10 @@ class dataNode extends Array {
 				// Get any attribute value validation data
 				if (formats.valid) {
 					if (this[prop] instanceof dataNode) {
-						this._valid[`_${prop}`] = {bool:true};
+						this._valid[_prop] = {bool:true};
 					}
 					else if (formats.valid[prop]) {
-						this._valid[`_${prop}`] = formats.valid[prop];
+						this._valid[_prop] = formats.valid[prop];
 					} 
 					else if (!this._valid._default && !(prop in formats.valid) && !prop.startsWith("_")) {
 						console.warn(`itemNode - valid format: property "${prop}" is not in the format`, formats.valid);
@@ -14480,6 +13734,24 @@ class dataNode extends Array {
 		return (opts.unsorted) ? Object.keys(attrs) : Object.keys(attrs).reduce((acc, source) => Object.assign(acc, {[source]: Object.keys(attrs[source])}), {});
 	}
 
+	// Takes in attribute keys/values from the sheet and/or editor
+	// Returns a matching list of attributes, whose value is the node + prop associated with the attribute, or null if the attribute isn't in the data tree
+	attrlookup(values, opts={}) {
+		let hasSources = is.Object(values) && (values.sheet || values.editor);
+		if (!hasSources) values = {sheet: values} // If no source is provided, assume the attributes are from the sheet
+
+		for (const source in values) {
+			values[source] = (is.Object(values[source]) ? Object.keys(values[source]) : values[source]).reduce((acc, key) => {
+				acc[key.toLowerCase()] = null; // All attributes in access are written in lower case
+				return acc;
+			}, {});
+		}
+
+		opts = {lookup:true, ...opts}
+		let attrInfo = this.access(values, structuredClone(values), opts);
+		return (!hasSources && attrInfo.sheet) ? attrInfo.sheet : attrInfo;
+	}
+
 	// Helper method for accessing all properties and subnodes of a node
 	// Used by input(), output(), apply(), export() and attrkeys()
 	access(values, output, opts={allProps:false, event:false, unsorted:false, apply:false}) {
@@ -14496,9 +13768,11 @@ class dataNode extends Array {
 			values = {sheet: values}
 		}
 
+		let attrSources = (output && length(output) ? Object.keys(output) : ["sheet", "editor"]).filter(s => s in this._attrs && length(this._attrs));
+
 		if (!values || Object.values(values).some(source => length(source) > 0)) {
 			for (let prop of this.keys.map(key => is.Int(key) ? this[key].path.at(-1) : key)) { // Repeating nodes should use their id for their prop
-				for (const source of ["sheet", "editor"].filter(s => s in this._attrs || !length(this._attrs))) {
+				for (const source of attrSources) {
 
 					// Handle applying values
 					if (opts.apply && prop in this.#output) {
@@ -14510,12 +13784,26 @@ class dataNode extends Array {
 					}
 
 					// Ignore sources with no attributes or with no open editor
-					if (source == "editor" && !opts.event && this.root.items.editor.target != this.id) continue;
 					if (!this._attrs[source]) continue;
+					if (source == "editor" && !opts.event) {
+						if (this.path[1] == "items" && this.root.items.editor.target != this.id) continue;
+						if (this.path[1] == "tokens" && this.root.tokens.selection != this.path[2]) continue;
+					}
 
 					// Get the attribute name of the property in the current source
 					let propAttr = this.attr(prop, source, opts);
 					if (!propAttr) continue;
+
+					// Handle attribute lookups
+					if (opts.lookup) {
+						if (propAttr in values[source]) { // Avoids issues with falsey attribute values
+							let attrInfo = output[source][propAttr] = {node:this, prop:snakeify(prop), value:this[snakeify(prop)]}
+							if (attrInfo.value === true) attrInfo.value = "true"; // Matches how these values would be output
+							if (attrInfo.value === false) attrInfo.value = "0";
+							delete values[source][propAttr];
+						}
+						continue;
+					}
 
 					// Handle inputting values
 					if (values?.[source]?.[propAttr] !== undefined) {
@@ -14526,7 +13814,7 @@ class dataNode extends Array {
 					// Handle outputting values
 					if (output?.[source] && (!opts.apply || prop in this.#output || opts.allProps)) {
 						let value = this[prop];
-						
+
 						if (this[prop] instanceof dataNode) {
 							if (this._valid[prop]?.node) {
 								value = pathArrayToString(this[prop].path);
@@ -14548,7 +13836,33 @@ class dataNode extends Array {
 
 				// Recursively access any sub-nodes. Ignore references to nodes in other branches
 				if (this[prop] instanceof dataNode && !this._valid[prop]?.node) {
-					this[prop].access(values, output, {...opts});
+
+					// Handle packaged data
+					if (attrSources.some(source => this[prop]._rep?.source?.[source]?.package) && !opts.event && !opts.lookup) {
+						let packageSources = attrSources.filter(source => this[prop]._rep?.source[source].package);
+						
+						for (const source of packageSources) {
+							let packageAttr = this.attr(prop, source, {package:true, opts});
+
+							// Unpack any data in the input values
+							if (values?.[source]?.[packageAttr]) {
+								let data = Data.unpackage(values[source][packageAttr]);
+								delete values[source][packageAttr];
+								Object.assign(values[source], data);
+							}
+
+							// Recursive access with unpacked data. Saves any output values in a temporary output
+							let packageOutput = this[prop].access(values, (output?.[source] ? {[source]:{}} : false), {...opts, allProps:false, unsorted:false});
+
+							// If at least one value was output (meaning at least one property in the packaged data was modified), output and package all data
+							if (packageOutput[source] && length(packageOutput[source])) {
+								let data = this[prop].access(false, packageOutput, {...opts, allProps:true, unsorted:false});
+								output[source][packageAttr] = Data.package(data[source]);
+							}
+						}
+					} else {
+						this[prop].access(values, output, {...opts});
+					}
 				}
 			}
 			return (opts.unsorted) ? {...(output?.editor ?? {}), ...(output?.sheet ?? {})} : output;
@@ -14566,12 +13880,19 @@ class dataNode extends Array {
 			prop = this[prop].path.at(-1);
 		}
 
-		if (prop in this._attrs) {
+		if (prop in this._attrs || (opts.package && this[prop]._rep?.source?.[source]?.package)) {
+			let ignore = this._formats.attrs._ignore;
+
+			if (ignore) {
+				if (opts.export && ignore.export?.includes(prop)) return false;
+				if (ignore[source]?.includes(prop)) return false;
+			}
+
 			let index = (this._attrs[source]?.type == "index") ? this.index														// Repeating node
 					  : (this._rep?.source?.[source]?.type == "index" && is.Int(this[prop].index)) ? this[prop].index : ""; 	// Nested repeating root
 			let prefix = this._attrs[source]?.prefix ?? "";
 			let suffix = this._attrs[source]?.suffix ?? "";
-			let key = this._attrs[prop];
+			let key = this._attrs[prop] ?? prop;
 
 			if (opts.export && prefix.length && !prefix.endsWith("_")) {
 				key = capitalize(key);
@@ -14580,14 +13901,12 @@ class dataNode extends Array {
 			let section = this._attrs[source]?.section ?? false;
 
 			if (section) {
-				let id = (source == "editor") ? this.path.findLast(step => is.ID(step)) : this.id;
+				let id = (this._attrs[source]?.type == "index") ? this.path.find((step, i) => i != 0 && is.ID(step)) : this.id;
 
 				if (opts.event) {
 					return false; // Repeating section events are better implemented using just "change:repeating_xyz"
 				}
 				else if (opts.export) {
-					if (this._formats.attrs._ignore?.export?.includes(prop)) return;
-					
 					let prefixArray = [prefix]
 
 					if (opts.export.index !== false) {
@@ -14653,8 +13972,12 @@ class dataNode extends Array {
 
 				// If the prop is a key prop, update the node's key prop accessor
 				if (this._keyProp == snakeify(prop) && this.parent._rep) {
-					this.parent._addAccessors({key:newValue});
+					this.parent._addAccessors({node:this, key:newValue});
 				}
+
+				// Adds a new access output, informing access._end() that this character has values that should be output to the sheet
+				// This avoids access[charID].output() being run on access trees with no output data
+				access._outputs[this.path[0]] ??= {}
 
 				// Trigger a new modify event
 				access._event.trigger([...this.path, "modify", snakeify(prop)], {
@@ -14784,7 +14107,7 @@ class dataNode extends Array {
 					}
 
 					// Nested repeating nodes are given a random id
-					if (repSource[source].type == "index") {
+					if (repSource[source].type == "index" && !opts.indexID) { // Tokens have specific index IDs
 						newProp = generateAccessID();
 					}
 				}
@@ -14806,11 +14129,12 @@ class dataNode extends Array {
 			}
 			
 			// Adds an id accessor for the node + a keyProp accessor if the repnode has a keyProp
-			this._addAccessors({rep: newProp, key: (newNode._keyProp) ? newNode[newNode._keyProp] : false});
+			this._addAccessors({node:newNode, rep:newProp, key: (newNode._keyProp) ? newNode[newNode._keyProp] : false});
 
 			// Ensures the new repnode is output during apply()
 			if (opts.backup !== false && opts.default !== false && newNode._formats.default === false) {
 				Object.defineProperty(newNode, "_newRep", {value:true, configurable:true});
+				access._outputs[this.path[0]] ??= {}
 			}
 
 			if (this._rep.attrs._option) { // Adds a display attribute for rollformats
@@ -14836,27 +14160,31 @@ class dataNode extends Array {
 	}
 	_addAccessors(opts={}) {
 		if (opts.key) { // For key properties of repeating nodes
+			opts.node ??= this.find(node => node[node._keyProp] == opts.key);
+			
 			Object.defineProperty(this, snakeify(opts.key), {
 				get() {
-					return this.find(node => node[node._keyProp] == opts.key);
+					return opts.node;
 				},
 				set(v) {
-					this.modify(this.find(node => node[node._keyProp] == opts.key).id, v);
+					this.modify(opts.node, v);
 				},
 				configurable: true,
 			});
 		}
 		if (opts.prop) { // For node properties
+			let _prop = `_${opts.prop}`;
+			
 			Object.defineProperty(this, opts.prop, {
 				get() {
 					if (access._getImmutable === true) {
 						access._getImmutable = false;
-						return this[`_${opts.prop}`];
+						return this[_prop];
 					}
-					if (this[`_${opts.prop}`] instanceof dataNode && !this._valid[`_${opts.prop}`]?.node) {
-						return this[`_${opts.prop}`];
+					if (this[_prop] instanceof dataNode && !this._valid[_prop]?.node) {
+						return this[_prop];
 					}
-					return this.#output[`_${opts.prop}`] ?? this[`_${opts.prop}`];
+					return this.#output[_prop] ?? this[_prop];
 				},
 				set(v) {
 					this.modify(opts.prop, v);
@@ -14865,9 +14193,11 @@ class dataNode extends Array {
 			});
 		}
 		if (opts.rep) { // For repeating node ids
+			opts.node ??= this.find(node => node?.path.at(-1) == opts.rep);
+			
 			Object.defineProperty(this, opts.rep, {
 				get() {
-					return this.find(node => node?.path.at(-1) == opts.rep);
+					return opts.node;
 				},
 				configurable: true,
 			});
@@ -16792,7 +16122,7 @@ const accessData = {
 	_output(data={}, charID=getActiveCharacterId(), source=false) {
 		if (typeof data == "string") {
 			charID = data;
-			data = false;
+			data = {}
 		}
 		else if (data instanceof dataNode) {
 			let opts = charID;
@@ -16800,9 +16130,8 @@ const accessData = {
 			data = data.output(source ? {[source]: {}} : {sheet: {}, editor: {}}, {...opts, unsorted:true});
 		}
 
-		if (this[charID] instanceof dataNode) {
-			this._outputs[charID] ??= {}
-			if (data) Object.assign(this._outputs[charID], data);
+		if (this[charID] instanceof dataNode && length(data)) {
+			Object.assign(this._outputs[charID] ??= {}, data);
 			return this._outputs[charID];
 		} else {
 			console.warn("Attempted to output data for character not in access:", charID);
@@ -16992,7 +16321,7 @@ const accessData = {
 
 				// Clear all message data
 				for (const rollID of this.rolls?.repIDs || []) {
-					this.rolls.delete(rollID); // Cannot use reset() as the node contains stored rolls, adv./disadv. etc.
+					this.rolls.delete(rollID); // Cannot use reset() as the node alse contains non-repeating data (stored rolls, adv./disadv. etc.)
 				}
 				this.effects?.reset();
 				this.message?.reset();
@@ -17001,22 +16330,20 @@ const accessData = {
 			setActiveCharacterId(prevID);
 
 			// Apply any output attribute values to the sheet
-			if (this._state != "error") {
+			if (this._state != "error" && length(this._outputs)) {
 				this._state = "output"; // Initialize actions preserve their "init" state 
 
-				// TODO: Limit this to only the accesses that were involved in the action, ex. by having modify add the access id to a list
-				// For DMs with loads of tokens, or many different characters, applying every access can be a LOT of work
-				// This could maybe be done using the event counts? These begin with a character id, and every change triggers at least a modify event
-				// If no event count exists that begin with a char id, then that char id can safely be skipped
-				for (const charID of Object.keys(this).filter(key => this[key] instanceof dataNode)) {
-					let attrs = this._output(this[charID], {apply:true, unsorted:true});
-					delete this._outputs[charID];
+				// Only outputs values from characters that were modified during an action
+				for (const charID in this._outputs) {
+					if (!this[charID]) continue; // In practice this should never happen, but better safe then sorry
 
 					// TODO: If this[charID].type == "target", output data using a chat button
 					// For now no data is output for targets
 					if (this[charID].type == "target") continue;
 
 					// TODO: If using token mode, output all of the token's data and store it as a single attribute in the sheet
+
+					let attrs = this._output(this[charID], {apply:true, unsorted:true});
 					
 					// Roll20's code uses JQuery to update the title of a sheet whenever character_name is updated
 					// JQuery causes an error if the sheet dialog is closed during this process which freezes all interactions with the webpage
@@ -17070,6 +16397,7 @@ const accessData = {
 						case "palette": repNode = newRoot.palette; break;
 						case "applied": repNode = newRoot.palette.applied; break;
 						case "buttons": repNode = newRoot.buttons; break;
+						case "tokens": repNode = newRoot.tokens; break;
 						default: repNode = newRoot.items;
 					}
 					for (const repid of idArray) {
@@ -17079,6 +16407,18 @@ const accessData = {
 						if (newNode?.rollformats && newNode.rollformats.length == 0) {
 							newNode.rollformats.add({silent:"hard"});
 						}
+					}
+				}
+
+				// Some repeating data also appears in access.tokens
+				for (token of access.tokens) {
+					for (section of itemSections) {
+						for (repid of repids[section]) {
+							token.items.add({id:repid, type:section, silent:"hard", indexID:true});
+						}
+					}
+					for (repid of repids.ailments) {
+						token.ailments.add({id:repid, silent:"hard", indexID:true});
 					}
 				}
 
@@ -17180,30 +16520,29 @@ const accessData = {
 
 				// Add Roll20 events for syncing manual user modification of sheet values to access (if these events do not already exist)
 				if (this._event.keys.length == 0) {
-					let eventkeys = access[ID].attrkeys(false, {event:"change", unsorted:false}); 							// Non-repeating attributes
-					eventkeys = {
-						sheet: eventkeys.sheet.concat(sheetSections.map(section => `change:repeating_${section}`)), 		// Repeating sheet attributes
-						editor: eventkeys.editor.concat([`change:repeating_rollformats`]),									// Repeating editor attributes
-					}
+					let eventkeys = access[ID].attrkeys(false, {event:"change", unsorted:false}); 								// Non-repeating attributes
+					eventkeys.sheet = eventkeys.sheet.concat(sheetSections.map(section => `change:repeating_${section}`)); 		// Repeating sheet attributes
+					eventkeys.editor = eventkeys.editor.concat(editorSections.map(section => `change:repeating_${section}`));	// Repeating editor attributes
+					
 					this._event.keys = eventkeys;
-
 					console.log("Event keys", eventkeys);
-
+					
 					for (const source in eventkeys) {
 						on(eventkeys[source].join(" "), function(info) {
+							if (!access.currentID) return;
 
-							// TODO: This breaks any old non-access functionality that uses setAttrs()
-							// This may also break picking up changes from other players... you may have to find a better solution
-							if (info.sourceType == "player") {
-								let ID = getActiveCharacterId();
+							//console.log(`Sync action for ${source}:`, info);
 
-								if (access[ID] && info.sourceType == "player") {
-									access._begin(false, "action:sync", async () => {
-										info.newValue ??= await getAttr(info.sourceAttribute); // Attributes like hp_max for some reason do not include their value in the event info
-										access[ID].input({[source]: {[info.sourceAttribute]: info.newValue}});
-									});
+							access._begin(false, "action:sync", async () => {
+								let attrInfo = access.attrlookup({[source]:[info.sourceAttribute]})?.[source][info.sourceAttribute];
+								if (!attrInfo) return;
+
+								info.newValue ??= await getAttr(info.sourceAttribute); // Attributes like hp_max for some reason do not always include their value in the event info
+
+								if (info.sourceType == "player" || (info.previousValue !== undefined && info.previousValue != attrInfo.value)) {
+									attrInfo.node.modify(attrInfo.prop, info.newValue);
 								}
-							}
+							});
 						});
 					}
 				}
@@ -17232,7 +16571,7 @@ const accessData = {
 			let root = this[ID];
 			
 			if (opts.rep) {
-				let repids = await getSectionIDsOrdered(ID, [...sheetSections]);
+				let repids = await getSectionIDsOrdered(ID, sheetSections);
 		
 				let repNode = null;
 				for (const [section, idArray] of Object.entries(repids)) {
@@ -17243,6 +16582,7 @@ const accessData = {
 						case "palette": repNode = root.palette; break;
 						case "applied": repNode = root.palette.applied; break;
 						case "buttons": repNode = root.buttons; break;
+						case "tokens": repNode = newRoot.tokens; break;
 						default: repNode = root.items;
 					}
 					if (repNode) {
@@ -19976,7 +19316,7 @@ function autoCalc(rulePath, targetPath, func) {
 					});
 				}
 			} else {
-				console.warn("Auto-calc error - Could not parse math string:", error);
+				console.warn("Auto-calc error - Could not parse math string:", rulePath, autoCalcString, error);
 				return null;
 			}
 		}
@@ -20013,6 +19353,602 @@ function parseAutoCalcRule(rulePath) {
 					.replaceAll(new RegExp(`(?<=(?:^|[^.]))(${access.ailments.map(ail => `${ail.name}|${snakeify(ail.name)}`).join("|")})\\b`, "ig"), "ailments.$1");
 }
 
+
+/* --- Generic token mode --- */
+const tokenAttrsFull = ["token_id", "token_name", "hp", "stg", "sp", "hp_max", "stg_max", "sp_max", "bar1", "bar2", "bar3"];
+
+// Gets the token_ID, token_name and bar values of a token
+// type may be set to "select", "add" or "delete" to better handle interactions with token instances, or false to just retrieve token values
+async function getTokenAttrs(target="selected", type=false, tokenAttrs=tokenAttrsFull) {
+	
+	// If a user tries to interact with a token instance without generic token mode being enabled (via a token macro), ask if the settings should be enabled. Continue if yes
+	if (type && !access.settings.sheet.general.generic_token_mode) {
+		let queryResults = await sendQuery(["enableGenericMode",
+			getTranslationByKeyCustom("Generic token mode is not enabled for the sheet. Enable setting?", "query-enable-generic-mode"), {
+				[getTranslationByKeyCustom("No", "query-no")]: false,
+				[getTranslationByKeyCustom("Yes", "query-yes")]: true,
+			}
+		]);
+		if (queryResults.enableGenericMode) {
+			access.settings.sheet.general.generic_token_mode = true;
+		} else {
+			return null;
+		}
+	}
+
+	// Get selected token attribute values
+	let rollBase = "! ";
+	for (attribute of tokenAttrs) {
+		rollBase += `{{${attribute}=[[0[@{${target}|${attribute}}]]]}}`;
+	}
+	
+	let tokenRoll = await startRoll(rollBase);
+	finishRoll(tokenRoll.rollId);
+
+	let tokenValues = tokenAttrs.reduce((acc, attribute) => Object.assign(acc, {[attribute]: tokenRoll.results[attribute].expression.match(/^0\[(.*)\]\s*$/)[1]}), {});
+	tokenValues.token_id = tokenValues.token_id.toLowerCase();
+
+	// If a token instance does not exist for a selected token, ask if one should be added. Continue if yes
+	if (!access.tokens[tokenValues.token_id]) {
+		if (type == "select") {
+			let queryResults = await sendQuery(["addTokenInstance",
+				getTranslationByKeyCustom("Token does not have a token instance. Add instance?", "query-add-token-instance"), {
+					[getTranslationByKeyCustom("No", "query-no")]: false,
+					[getTranslationByKeyCustom("Yes", "query-yes")]: true,
+				}
+			]);
+			if (queryResults.addTokenInstance) {
+				updateToken(tokenValues);
+			} else {
+				return null;
+			}
+		}
+	} else if (type == "select") { // If the token already exists, update its token bar values
+		updateToken(tokenValues, "bars");
+	}
+
+	// Selects a new token instance if no token is currently selected
+	if (type == "select" || (type == "add" && !access.tokens.selection)) {
+		access.tokens.selection = tokenValues.token_id;
+	}
+
+	return tokenValues;
+}
+
+
+/* Select token functionality */
+onAccess("clicked:repeating_tokens:selectinstance", function(info) {
+	// Cannot use the standard .split("_")[3] method as tokenIDs can include underscores
+	access.tokens.selection = info.sourceAttribute.replace("repeating_tokens_","").replace("_selectinstance","");
+});
+onAccess("clicked:selectToken", {}, async function(info) {
+	await getTokenAttrs("selected", "select");
+});
+
+
+/* Manipulate token instances functionality */
+onAccess("clicked:addToken", {}, async function(info) {
+	let tokenValues = await getTokenAttrs("selected", "add");
+	if (tokenValues) updateToken(tokenValues);
+});
+onAccess("clicked:addTokenMultiple", {}, async function(info) {
+	await addTokenMultiple();
+});
+async function addTokenMultiple() {
+	let tokenValues = await getTokenAttrs("target|Target", "add");
+	if (tokenValues) {
+		updateToken(tokenValues);
+		await addTokenMultiple();
+	}
+}
+
+on('clicked:deleteToken', async function(info) {
+	getAttrs(["tokenId_selected"], function(values) {
+		let selectedId = values.tokenId_selected;
+		if (info.htmlAttributes != {}) {
+			if (selectedId != "") {
+				deleteToken(selectedId);
+				setAttrs({"tokenId_selected":""});
+			}
+		} else {
+			getTokenAttrs("selected", "delete", ["token_id"], (tokenValues) => {
+				deleteToken(tokenValues.tokenId);
+				if (tokenValues.tokenId == selectedId) {
+					setAttrs({"tokenId_selected":""});
+				}
+			});
+		}
+	});
+});
+on("clicked:deleteTokenMultiple", async function(info) {
+	getAttrs(["tokenId_selected"], async function(values) {
+		let selectedId = values.tokenId_selected;
+		deleteTokenMultiple(selectedId);
+	});
+});
+function deleteToken(tokenId) {
+	removeRepeatingRow("repeating_tokens_" + tokenId);
+}
+function deleteTokenMultiple(selectedId) {
+	getTokenAttrs("target|Target", "delete", ["token_id"], (tokenValues) => {
+		deleteToken(tokenValues.tokenId);
+		if (tokenValues.tokenId == selectedId) {
+			setAttrs({"tokenId_selected":""});
+		};
+		deleteTokenMultiple(selectedId);
+	});
+}
+
+
+/* On changing the selected token, imports the status bars and ailments of that token */
+onAccess(["tokens", "N", "modify", "selected"], function (info) {
+	if (info.recalc) return;
+	access.tokens.modify("selection", info.path[2]); // Trigger the event below
+});
+onAccess(["tokens", "modify", "selection"], function (info) {
+	if (info.recalc) return;
+	
+	if (access.tokens[info.newval.toLowerCase()]) {
+		access.tokens[info.newval.toLowerCase()].modify("selected", true, {recalc:true});
+		access.tokens[info.oldval.toLowerCase()]?.modify("selected", false, {recalc:true});
+		
+		/* Clears conditional buttons and re-generates any Permanent buttons */
+		// resetConditionals();
+		// AutoScriptMain("", "Permanent", "true", "true");
+
+		updateSelectedToken(info.newval.toLowerCase());
+	}
+});
+
+
+function updateSelectedToken(newTokenID) {
+	let newTokenValues = access.tokens[newTokenID].output({editor: {}}, {allProps:true, unsorted:true});
+	deleteMultiple(newTokenValues, "name", "selected");
+
+	console.log("New token values:", {...newTokenValues});
+
+	access.input({sheet: newTokenValues}, {silent:"soft"});
+
+
+
+	return;
+
+
+	/* Import values from new selection */
+	if (info.newValue) {
+		let tokenPrefix = `repeating_tokens_${info.newValue}`;
+		let tokenValues = [`${tokenPrefix}_tokenAilmentList`];
+
+		barNamesTemp.forEach(tempbar => {
+			tokenValues.push(`${tokenPrefix}_token${tempbar}_Sources`);
+		});
+
+		stateNames.forEach(state => {
+			tokenValues.push(`${tokenPrefix}_token${state}`, state);
+		});
+
+		getAttrs([...tokenValues], async function(values) {
+
+			barNamesTemp.forEach(tempbar => {
+				/* For temp bar values from ailments, add an override to make sure any ailment list updates do not change the temp bar value */
+				let tempBarSourceRaw = values[`${tokenPrefix}_token${tempbar}_Sources`];
+				let tempBarSource = Data.unpackage(tempBarSourceRaw);
+				for (const [sourceName, sourceVals] of Object.entries(tempBarSource)) {
+					if (sourceName != "AutoEffects") {
+						output[`${sourceName.replace("ailcount","ailTempBarOverride")}`] = sourceVals[0];
+					}
+				}
+				output[`${tempbar}_Sources`] = tempBarSourceRaw;
+			});
+
+			/* If a state changes between token, suppress the change event listener for the state */
+			stateNames.forEach(state => {
+				output[`${state}`] = values[`${tokenPrefix}_token${state}`];
+				if (output[`${state}`] != values[`${state}`]) {
+					output[`${state}SuppressUpdate`] = "true";
+				}
+			});
+
+			/* Sets ailments to those of the token instance. If ailmentList is unset, initialize a new empty ailmentList */
+			let ailmentList = values[`${tokenPrefix}_tokenAilmentList`];
+			if (ailmentList != "") {
+				output = {...output, ...importAilmentList(Data.unpackage(ailmentList), "true")}
+			} else {
+				resetAilments(() => {
+					exportAilmentList({}, function(newAilmentList) {
+						setAttrs({[`${tokenPrefix}_tokenAilmentList`]: Data.package(newAilmentList)});
+					});
+				});
+			}
+
+			/* Set new selection */
+			output[`${tokenPrefix}_token_selected`] = "true";
+			setAttrs(output, {}, () => {
+				callback();
+			});
+		});
+	} else {
+		setAttrs(output);
+	}
+}
+
+/* Hides token bar value in display if it matches that of the character sheet */
+/*
+barNames.forEach(bar => {
+	on(`change:repeating_tokens:${bar} change:repeating_tokens:${bar}_token`, (info) => {
+		let attr_sheet = `${info.sourceAttribute}`;
+		let attr_token = `${info.sourceAttribute}`;
+		if (info.sourceAttribute.match(/_token/g).length == 2) {
+			attr_sheet = `${info.sourceAttribute.replace(/_token([^_]*)$/, '$1')}`;
+		} else {
+			attr_token = `${info.sourceAttribute}` + "_token";
+		}
+		getAttrs(["settingGenericTokenMode", `${attr_sheet}`, `${attr_token}`], function(values) {
+			if (values.settingGenericTokenMode == "true") {
+				let bar_sheet = values[`${attr_sheet}`];
+				let bar_token = values[`${attr_token}`];
+				setAttrs({[`${attr_token + "_display"}`]:"" + (bar_sheet != bar_token)});
+			}
+		});
+	});
+});
+*/
+
+/* Sync: Token Status bars */
+/*
+barNames.forEach(bar => {
+	on(`change:${bar} change:repeating_tokens:${bar}`, (info) => {
+		if (info.newValue) {
+			getAttrs(["tokenId_selected", "settingGenericTokenMode", "character_id", "targetedBy"], function(values) {
+				if (values.settingGenericTokenMode == "true") {
+					let selectedId = values.tokenId_selected;
+					if (selectedId != "") {
+						if (barNames.some(bar => bar.toLowerCase() == info.sourceAttribute)) {
+							setAttrs({[`repeating_tokens_${selectedId}_${bar}`]:info.newValue});
+						} else {
+							if (info.sourceAttribute.includes(selectedId.toLowerCase())) {
+								setAttrs({[`${bar}`]:info.newValue});
+							}
+
+							// Announce instance bar change
+							//let tokenId = info.sourceAttribute.match(/(-[\w\dø]{19})/)[0];
+							//announceBarChange(Data.unpackage(values.targetedBy), values.character_id, tokenId, `${bar}_target`, info.newValue);
+						}
+					}
+				}
+			});
+		}
+	});
+});
+*/
+
+/* Sync: Token Temporary status bars */
+barNamesTemp.forEach(tempBar => {
+	on(`change:${tempBar}_sources`, (info) => {
+		if (info.newValue) {
+			getAttrs(["tokenId_selected", "settingGenericTokenMode"], function(values) {
+				if (values.settingGenericTokenMode == "true") {
+					let selectedId = values.tokenId_selected;
+					if (selectedId != "") {
+						if (barNamesTemp.some(bar => bar.toLowerCase() == info.sourceAttribute.replace("_sources", ""))) {
+							setAttrs({[`repeating_tokens_${selectedId}_token${tempBar}_sources`]:info.newValue});
+						}
+					}
+				}
+			});
+		}
+	});
+});
+
+/* Sync: Token States */
+let stateList = ["panicstate", "staggerstate", "staggerduration", "sealstate", "immobilestate", "defeatstate"];
+stateList.forEach(state => {
+	on(`change:${state}`, (info) => {
+		getAttrs(["tokenId_selected", "settingGenericTokenMode"], function(values) {
+			if (values.settingGenericTokenMode == "true") {
+				let selectedId = values.tokenId_selected;
+				if (selectedId != "") {
+					if (stateList.includes(info.sourceAttribute)) {
+						/* newValue will in some cases not be set when decreasing staggerduration. This ensures the value is properly decreased */
+						if (info.newValue === undefined && info.sourceAttribute == "staggerduration") {
+							info.newValue = parseInt(info.previousValue) - 1;
+						}
+						setAttrs({[`repeating_tokens_${selectedId}_token${state}`]:info.newValue});
+					}
+				}
+			}
+		});
+	});
+});
+
+/* Sync: Token Ailments */
+/*
+on(`change:ailmentList`, (info) => {
+	if (info.newValue) {
+		getAttrs(["tokenId_selected", "settingGenericTokenMode", "settingLimbusStyle"], function(values) {
+			if (values.settingGenericTokenMode == "true") {
+				let ailmentList = Data.unpackage(info.newValue);
+				let selectedId = values.tokenId_selected;
+				if (selectedId != "") {
+					setAttrs({
+						[`repeating_tokens_${selectedId}_tokenAilmentList`]: info.newValue,
+						...updateAilmentDisplay(`repeating_tokens_${selectedId}_token`, 4, ailmentList, values.settingLimbusStyle, "true")
+					});
+				}
+			}
+		});
+	}
+});
+*/
+/*
+for (let i = 0; i <= 4; i++) {
+	on(`change:repeating_tokens:tokenAilment${i}Num`, (info) => {
+		if (info.newValue) {
+			let tokenPrefix = info.sourceAttribute.match(/(repeating_tokens_[^_]+)/g)[0];
+			let tokenIndex = info.sourceAttribute.match(/([\d])num/g)[0].replace("num","");
+			//let tokenId = info.sourceAttribute.match(/(-[\w\dø]{19})/g)[0];
+
+			getAttrs(["tokenId_selected", "settingGenericTokenMode", "settingLimbusStyle", `${tokenPrefix}_tokenAilmentList`,
+				`${tokenPrefix}_tokenAilment${tokenIndex}Name`, `${tokenPrefix}_tokenAilment${tokenIndex}Num`, "character_id", "targetedBy"], function(values) {
+				
+				if (values.settingGenericTokenMode == "true") {
+
+					let selectedId = values.tokenId_selected;
+					let ailmentList = Data.unpackage(values[`${tokenPrefix}_tokenAilmentList`]);
+					let ailmentName = values[`${tokenPrefix}_tokenAilment${tokenIndex}Name`];
+					let ailmentCount = values[`${tokenPrefix}_tokenAilment${tokenIndex}Num`];
+					let output = {}
+	
+					ailmentList[ailmentName][1] = ailmentCount;
+					ailmentList[ailmentName][3] = ailmentCount;
+					output[`${tokenPrefix}_tokenAilmentList`] = Data.package(ailmentList);
+	
+					if (tokenPrefix.includes(selectedId.toLowerCase())) {
+						output["ailmentList"] = Data.package(ailmentList);
+						if (ailmentList[ailmentName][5] != 0) {
+							output[`repeating_ailments_${ailmentList[ailmentName][5]}_ailCount`] = ailmentCount;
+						} else {
+							output[`${ailmentName}`] = ailmentCount;
+						}
+					}
+					setAttrs(output);
+
+					// Announce instance ailment change
+					//announceAilmentChange(Data.unpackage(values.targetedBy), values.character_id, tokenId, ailmentList, values.settingLimbusStyle);
+				}
+			});
+		}
+	});
+}
+*/
+function OLD_updateAilmentDisplay(ailmentPrefix, ailmentDisplayCount, ailmentList, settingLimbusStyle, returnMode="false") {
+	let ailmentDisplayList = [];
+
+	if (length(ailmentList) > 0) {
+		for (var ailmentName in ailmentList) {
+			ailmentDisplayList.push([ailmentName, ailmentList[ailmentName]]);
+		}
+		ailmentDisplayList.sort(function(ail1, ail2) {
+			return ail1[1][1] - ail2[1][1];
+		});
+		ailmentDisplayList = ailmentDisplayList.slice(ailmentDisplayList.length - ailmentDisplayCount).reverse();
+		
+		let output = {}
+		for (i = 0; i < ailmentDisplayCount; i++) {
+			output[`${ailmentPrefix}Ailment${i+1}Icon`] = getIcon(`ailments/${ailmentDisplayList[i][1][6]}`, "url", false, is.True(settingLimbusStyle));
+			output[`${ailmentPrefix}Ailment${i+1}Num`] = ailmentDisplayList[i][1][1];
+			output[`${ailmentPrefix}Ailment${i+1}Name`] = ailmentDisplayList[i][0];
+		}
+	
+		if (returnMode == "true") {
+			return output;
+		} else {
+			setAttrs(output);
+		}
+	} else {
+		return resetAilmentDisplay(ailmentPrefix, ailmentDisplayCount, returnMode="false")
+	}
+}
+function OLD_resetAilmentDisplay(ailmentPrefix, ailmentDisplayCount, returnMode="false") {
+	let output = {}
+	for (i = 0; i < ailmentDisplayCount; i++) {
+		output[`${ailmentPrefix}Ailment${i+1}Icon`] = "";
+		output[`${ailmentPrefix}Ailment${i+1}Num`] = 0;
+		output[`${ailmentPrefix}Ailment${i+1}Name`] = "";
+	}
+	if (returnMode == "true") {
+		return output;
+	} else {
+		setAttrs(output);
+	}
+}
+
+function updateAilmentDisplay(type, charID=getActiveCharacterId(), opts={}) {
+	let displaySlots = (type == "target") ? 6 : 4;
+	let root = access[charID];
+
+	let ailments = opts.ailments ?? (type == "target" ? root.target : root).ailments
+		.filter(ail => ail.count > 0)
+		.sort((ail1, ail2) => ail2.count - ail1.count)
+		.slice(0, displaySlots);
+
+	for (index of range(0, displaySlots)) {
+		if (root.type == "token") { // Token ailments
+			// TODO: Implement token ailments
+		}
+		else { // Target ailments
+			let ailDisplay = root.target.display.ailments[index];
+			ailDisplay.count = ailments[index]?.count ?? 0;
+			ailDisplay.icon = (ailments[index]?.icon) ? getIcon(ailments[index].icon, "url", false, root.settings.sheet.ailment.limbus_style) : "";
+		}
+	}
+}
+function resetAilmentDisplay(type, charID=getActiveCharacterId()) {
+	updateAilmentDisplay(type, charID, {ailments: []});
+}
+
+/* Clear tokens when disabling generic token mode */
+
+// TODO: Update this event
+on('change:settingGenericTokenMode', (info) => { 
+	if (info.newValue == "0") {
+		getSectionIDs(`repeating_tokens`, async function(idarray) {
+			idarray.forEach(tokenId => {
+				removeRepeatingRow("repeating_tokens_" + tokenId);
+			});
+			setAttrs({"tokenId_selected":""});
+		});
+	}
+});
+
+/*
+onAccess(["settings", "sheet", "general", "generic_token_mode"], {}, function(info) {
+
+});
+*/
+
+
+/* Sync: Action number */
+/*
+on(`change:actNum change:repeating_tokens:actNum`, (info) => {});
+*/
+
+
+/* --- Token helper functions --- */
+async function updateToken(tokenValues, mode="full") {
+	let token = access.tokens[tokenValues.token_id] ?? access.tokens.add({id:tokenValues.token_id}); // Add a new token instance if one doesn't already exist
+	
+	console.log("New token:", tokenValues);
+
+	if (mode == "full") {
+		token.name = tokenValues.name;
+
+		for (item of access.items) {
+			token.items.add({id:item.id, type:itemSections.find(sect => sect.includes(section.toLowerCase())), silent:"hard", indexID:true});
+			token.items[item.id].modify("equipped", item.equipped, {silent:"hard"});
+		}
+
+		for (ail of access.ailments) {
+			token.ailments.add({id:ail.id, silent:"hard", indexID:true});
+
+			for (prop of ["count", "count_next_round", "icon"]) {
+				token.ailments[ail.id].modify(prop, ail[prop], {silent:"hard"});
+			}
+		}
+	}
+
+	for (bar of ["hp", "stg", "sp"]) {
+		token.bar[bar] = tokenValues[bar];
+		token.bar[`${bar}_max`] = access.bar[`${bar}_max`]; // Supposed to be tokenValues[`${bar}_max`]. Currently bugged and gives the default value (ex. 30) and not the calculated value
+	}
+	token.bar.light = access.bar.light;
+	token.bar.light_max = access.bar.light_max;
+
+	// TODO: Make this use the token bar settings
+	token.bar.hp_token = tokenValues.bar1;
+	token.bar.stg_token = tokenValues.bar2;
+	token.bar.sp_token = tokenValues.bar3;
+	
+	return;
+
+	getAttrs([`${id}_settingBar1`, `${id}_settingBar2`, `${id}_settingBar3`, "HP_max", "STG_max", "SP_max", "Light_max"], function(values) {
+		tokenValues = {...tokenValues, barHP: values.HP_max, barSTG: values.STG_max, barSP: values.SP_max}
+		for (let i = 1; i <= 3; i++) {
+			/* Matches token bars to the correct status bars */
+			if (values[`${id}_settingBar${i}`] != "None") { tokenValues[`bar${values[`${id}_settingBar${i}`]}`] = tokenValues[`bar${i}`]; }
+		}
+
+		let tokenPrefix = `repeating_tokens_${tokenValues.tokenId}`;
+		let output = {}
+		
+		if (mode == "full") {
+			output = {
+				[`${tokenPrefix}_name`]:tokenValues.tokenName,
+				[`${tokenPrefix}_tokenId`]:tokenValues.tokenId,
+				[`${tokenPrefix}_HP`]:tokenValues.barHP, [`${tokenPrefix}_HP_max`]:values.HP_max, // Supposed to be tokenValues.HP_max. Currently bugged and gives the default value (30) and not the calculated value
+				[`${tokenPrefix}_STG`]:tokenValues.barSTG, [`${tokenPrefix}_STG_max`]:values.STG_max, // Supposed to be tokenValues.STG_max
+				[`${tokenPrefix}_SP`]:tokenValues.barSP, [`${tokenPrefix}_SP_max`]:values.SP_max, // Supposed to be tokenValues.SP_max
+				[`${tokenPrefix}_Light`]:values.Light_max, [`${tokenPrefix}_Light_max`]:values.Light_max,
+			}
+		}
+		output = {...output,
+			[`${tokenPrefix}_HP_token`]:tokenValues.barHP,
+			[`${tokenPrefix}_STG_token`]:tokenValues.barSTG,
+			[`${tokenPrefix}_SP_token`]:tokenValues.barSP
+		}
+		setAttrs(tokenValues);
+	});
+}
+async function changeActiveToken(tokenId, callback=()=>{}) {
+	getAttrs(["settingGenericTokenMode", "tokenId_selected"], function(values) {
+		if (values.settingGenericTokenMode != "true" || tokenId == "" || tokenId == values.tokenId_selected) {
+			callback();
+		} else {
+			/* Makes certain the tokenId update is being suppressed before setting the attribute */
+			setAttrs({"tokenId_suppressUpdate": "true"}, {}, () => {
+				setAttrs({"tokenId_selected": tokenId}, {}, () => {
+					let info = {newValue: tokenId}
+					if (values.tokenId_selected != "") { info.previousValue = values.tokenId_selected; }
+					updateSelectedToken(info, ()=>{
+						callback();
+					});
+				});
+			})
+		}
+	});
+}
+/* --- Generic token mode END --- */
+
+
+
+/* --- Targeting  --- */
+async function getTargetAttrs(attrList) {
+	
+	let rollBase = "! ";
+	attrList.forEach(attribute => {
+		rollBase += `{{${attribute}=[[0[@{target|${attribute}}]]]}}`;
+	});
+
+	let targetingActQueueLength = access._action_queue.length;
+
+	// Used if the function is called inside a Roll20 on(event) function
+	if (!targetingActQueueLength) {
+		let targetRoll = await startRoll(rollBase);
+
+		finishRoll(targetRoll.rollId);
+		
+		return attrList.reduce((acc, attribute) => Object.assign(acc, {[attribute]: targetRoll.results[attribute].expression.match(/^0\[(.*)\]\s*$/)[1]}), {});
+	}
+
+	// Used if the function is called inside an onAccess(event) function
+	else {
+		let actId = getActiveCharacterId();
+		access._state = "targeting";
+
+		return await new Promise(resolve => {
+			let intervalID = setInterval(() => {
+				if (targetingActQueueLength != access._action_queue.length || access._state != "targeting") {
+					console.warn("Targeting interrupted by new action/event:", attrList, {...access._action_queue});
+
+					clearInterval(intervalID);
+					resolve(attrList.reduce((acc, attribute) => Object.assign(acc, {[attribute]: `@{target|${attribute}}`}), {}));
+				} else {
+					console.warn("Targeting awaiting response");
+				}
+			}, 200);
+
+			startRoll(rollBase, (targetRoll) => {
+				finishRoll(targetRoll.rollId);
+				clearInterval(intervalID);
+
+				resolve(attrList.reduce((acc, attribute) => Object.assign(acc, {[attribute]: targetRoll.results[attribute].expression.match(/^0\[(.*)\]\s*$/)[1]}), {}));
+			});
+		}).finally(() => {
+			setActiveCharacterId(actId);
+		});
+	}
+}
+
 /* Targeting - Update targeting display */
 onAccess(["target", [
 	["character", "modify", "name"],
@@ -20029,14 +19965,221 @@ onAccess(["target", [
 		access.target.display.bar[info.path[4]] = info.newval;
 	}
 	else if (info.path[2] == "ailments") {
-		console.log("Update target ailments:", info);
-
 		updateAilmentDisplay("target");	
 	} else {
 		if (targetSettings.palette.targeting_details) return;
 		access.target.display.name = info.newval;
 	}
 });
+
+// Gets values from the target character and token used for setting up targeting
+onAccess('clicked:selectTarget', async function(info) {
+	let targetValues = await getTargetAttrs(["character_id", "token_id", "token_name", "selfToken"]);
+
+	selectTarget(...Object.values(targetValues));
+});
+
+async function selectTarget(targetID, tokenID, tokenName, targetImage) {
+	let selfID = getActiveCharacterId();
+
+	// Clear the current target when pressing an element in the sheet while targeting / targeting one's own character
+	if (targetID.startsWith("@{target|") || targetID == selfID) {
+		return access._begin(selfID, "action:targeting", resetTarget);
+	}
+
+	// Initialize a new data tree for the target character
+	access._initialize(targetID, "target");
+
+	// Runs after the target finishes initializing
+	access._begin(selfID, "action:targeting", async function() {
+		
+		// Ensure the target character was initialized properly
+		access._begin(selfID, "action:targeting", async function() {
+			if (targetID in access) {
+				if (isValidTarget(access[targetID])) {
+
+					// Set up local targetting data (the data shown in the targeting display)
+					access.target.target_id = targetID;
+					access.target.display.image = targetImage; // Target token image
+
+					if (access.target.settings.sheet.palette.targeting_details) { // Hide all targeting details
+						unknownTarget();
+					} else {
+						if (access.target.settings.sheet.damage_helper.hide_bar_update) { // Hide target HP, STG and SP bars
+							unknownTarget("bars");
+						} else {
+							for (bar in access.target.display.bar._attrs) { // Target bars
+								access.target.display.bar[bar] = access.target.bar[bar];
+							}
+						}
+
+						if (access.target.settings.sheet.palette.targeting_details) { // Target name
+						unknownTarget();
+						}
+						else if (access.target.settings.sheet.general.generic_token_mode) { // TODO: May not be needed if you target a root with type = "token"
+							access.target.display.name = tokenName;
+						} else {
+							access.target.display.name = access.target.character.name;
+						}
+
+						updateAilmentDisplay("target"); // Target ailments
+					}
+				} else {
+					resetTarget();
+
+					// TODO: This message should display in the chat
+					console.warn("The target token hasn't been added as a token instance:", arguments);
+				}
+			} else {
+				resetTarget();
+	
+				// TODO: This message should display in the chat
+				console.warn("The target character could not be initialized:", arguments);
+			}
+		});
+	});
+}
+
+// Checks if a token is an invalid target. Currently happens if Generic token mode is enabled but the token has not been added as an instance
+async function isValidTarget(target) {
+	if (target.settings.sheet.general.generic_token_mode) {
+		if (access.target.token_id != target.tokens.selection) {
+
+			// TODO: Update this to a modern alert message
+			let alertIcon = getIcon("ailments/Aggro", "markdown", false, true);
+			let alertMessage = getTranslationByKeyCustom("Invalid Target: Token is not a token instance", "message-invalid-target");
+			startRoll((`/w ${target.character.name} &{template:errorMessage} {{icon=${alertIcon}}} {{message=${alertMessage}}}`), (results) => {
+				finishRoll(results.rollId);
+			});
+			return false;
+		}
+	}
+	return true;
+}
+
+function resetTarget() {
+	for (node of [access.target, access.target.display, access.target.display.bar]) {
+		for (prop in node._attrs) {
+			node[prop] = node._formats.base[prop];
+		}
+	}
+	resetAilmentDisplay("target");
+}
+function unknownTarget(type) {
+	let display = access.target.display;
+
+	if (!type || type == "name") {
+		display.name = "?????";
+	}
+	if (!type || type == "bars") {
+		for (bar in display.bar._attrs) display.bar[bar] = "???";
+	}
+	if (!type || type == "ailments") {
+		resetAilmentDisplay("target");
+	}
+}
+
+/* Disable targeting for the sheet */
+onAccess(["settings", "sheet", "palette", "modify", "targeting"], {}, function(info) {
+	if (!info.newval) resetTarget();
+});
+
+
+/* Callback if the character is controlled by a GM */
+/* If isGM is currently unset, executes a test to check if the character is a GM or not */
+/*
+var isGM = "unset";
+on("sheet:opened", function(info) {
+	getAttrs(["targetId", "character_id", "testIsGM"], function(values) {
+		if (values.targetId != "" && values.targetId) {
+			checkGM(values.targetId, values.character_id);
+		}
+		if (values.testIsGM == "unset") {
+			setAttrs({"testIsGM": values.character_id});
+		}
+	});
+})
+async function checkGM(targetId, charId, callback=()=>{}) {
+	if (targetId != "" && targetId != charId) {
+		if (isGM == "unset") {
+			let initialValue = await getAttrsByID(targetId, ["testIsGM"]);
+			let newValue = await setAttrsByID(targetId, {"testIsGM": (initialValue.testIsGM != charId) ? charId : generateRowID()});
+			let finalValue = await getAttrsByID(targetId, ["testIsGM"]);
+			setActiveCharacterId(charId);
+			initialValue = initialValue.testIsGM;
+			finalValue = finalValue.testIsGM;
+			
+			if (initialValue != "unset" && initialValue != finalValue && (initialValue == charId || finalValue == charId)) {
+				isGM = "true";
+				callback();
+			} else {
+				isGM = "false";
+				return;
+			}
+		} else if (isGM == "true") {
+			callback();
+		} else {
+			return;
+		}
+	}
+}
+
+
+/* Field used by other characters to announce they are targeting the character */
+/*on("change:announceTargeting", function(info) {
+	getAttrs(["targetedBy"], function(values) {
+		updateTargetedBy(Data.unpackage(info.newValue), Data.unpackage(values.targetedBy));
+	});
+});
+function updateTargetedBy(input, targetedBy) {
+	
+	if (isGM == "true") {
+		if (input.remove) {
+			delete targetedBy[input.remove];
+		}
+		if (input.add) {
+			targetedBy = {...targetedBy, ...input.add}
+		}
+		setAttrs({"targetedBy": Data.package(targetedBy)});
+	}
+}
+function addTargeting(charId, targetTokenId, package="package") {
+	let targetingData = {"announceTargeting": {"remove": charId, "add": {[`${charId}`]: targetTokenId}}}
+	if (package == "package") { targetingData.announceTargeting = Data.package(targetingData.announceTargeting) }
+	return targetingData;
+}
+function removeTargeting(charId, package="package") {
+	let targetingData = {"announceTargeting": {"remove": charId}}
+	if (package == "package") { targetingData.announceTargeting = Data.package(targetingData.announceTargeting) }
+	return targetingData;
+}
+*/
+
+
+/*function announceAilmentChange(targetedBy, charId, tokenId, ailmentList, settingLimbusStyle) {
+	if (isGM == "true") {
+		let output = updateAilmentDisplay("target", 6, ailmentList, settingLimbusStyle, "true");
+		for (const [targeterId, targetedTokenId] of Object.entries(targetedBy)) {
+			if (tokenId == 0 || tokenId == targetedTokenId.toLowerCase()) {
+				setAttrsByID(targeterId, output);
+				setActiveCharacterId(charId);
+			}
+		}
+	}
+}
+function announceBarChange(targetedBy, charId, tokenId, barName, barVal) {
+	if (isGM == "true") {
+		for (const [targeterId, targetedTokenId] of Object.entries(targetedBy)) {
+			if (tokenId == 0 || tokenId == targetedTokenId.toLowerCase()) {
+				setAttrsByID(targeterId, {[`${barName}`]: barVal});
+				setActiveCharacterId(charId);
+			}
+		}
+	}
+}*/
+/* --- Targeting END --- */
+
+
 
 
 /* --- Access events END --- */
@@ -20621,8 +20764,8 @@ on("clicked:exportRepeating", async function(info) {
 });
 
 /* Data Importer - Repeating Section */
-onAccess("clicked:importRepeating", {}, function(info) {
-	accessImport(false, "ailmentEditor", {section:"ailments"});
+onAccess("clicked:importRepeating", {}, async function(info) {
+	await accessImport(false, "ailmentEditor", {section:"ailments"});
 });
 function dataImportRepeating(section, override, target) {
 
@@ -21217,7 +21360,7 @@ function convertLegacyAttrs(type, values, sectionIndexes) {
 
 
 /* Legacy setup */
-const sheetVersion = "v1.0 Alpha 17/02/26";
+const sheetVersion = "v1.0 Alpha 23/02/26";
 
 // TODO: Work in progress
 async function sheetSetup(ID) {
@@ -22719,7 +22862,7 @@ async function sendQuery(...args) {
 	return await new Promise(resolve => {
 		let intervalID = setInterval(() => {
 			if (queryActQueueLength != access._action_queue.length || access._state != "query") {
-				console.warn("Query interrupted by new action/event:", queryArray);
+				console.warn("Query interrupted by new action/event:", queryArray, {...access._action_queue});
 
 				clearInterval(intervalID);
 				resolve(queryArray.reduce((acc, [variable, title, query]) => {

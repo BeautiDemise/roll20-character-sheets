@@ -823,7 +823,7 @@
 	"query-ruleset-community":"Community Rules (v3.2)",
 	"query-yes":"Yes",
 	"query-no":"No",
-	"query-enable-generic-mode":"Generic token mode not enabled for sheet. Enable setting?",
+	"query-enable-generic-mode":"Generic token mode is not enabled for the sheet. Enable setting?",
 	"query-add-token-instance":"Token does not have a token instance. Add instance?",
 	"false": "False",
   	"true": "True",

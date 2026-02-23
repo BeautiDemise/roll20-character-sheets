@@ -1180,7 +1180,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     font-size: 16pt; 
     font-weight: bold;
 }
-.Cstat {
+.Cstat, .Tstat {
     width: 125% !important; 
     color: var(--color-darker-gray); 
     background-color: transparent !important; 
