@@ -442,7 +442,7 @@ body, .sheet-body {
 }
 .editorContainer {
     position: fixed;
-    z-index: 500;
+    z-index: 100;
     box-shadow: var(--color-black) 0 0 10px;
 }
 .editorScroll {
@@ -2049,7 +2049,7 @@ button[type=action].challengeButton::before {
     bottom: 0px;
     left: 0%;
     width: calc(99% - 14px);
-    z-index: 750;
+    z-index: 250; /* Puts the token bar below the item editor */
     padding: 5px;
     background-color: #1F1F1F !important;
 }
@@ -2102,11 +2102,12 @@ button[type=action].challengeButton::before {
 }
 .genericToken .tokenName {
     background-color: transparent;
-    color: var(--color-lighter-gray);
+    color: var(--color-darker-white);
+    font-weight: bold;
     width: 100%;
     padding: 0;
     pointer-events: none;
-    overflow: ellipsis;
+    text-overflow: ellipsis;
 }
 .genericToken .bars {
     width: 100px !important;
@@ -2906,6 +2907,7 @@ button[type=action].challengeButton::before {
     width: 45%;
     max-height: 80%;
     padding: 0 !important;
+    z-index: 500; /* Puts the item editor above the AutoScript editor and token bar */
 
     & > .editorScroll {
         padding-bottom: 12px;
@@ -3274,6 +3276,7 @@ button[type=action].challengeButton::before {
     left: 2%;
     width: 95%;
     padding: 5px 7px !important;
+    z-index: 500;
 
     .editorHeader {
         background-color: transparent !important;
@@ -4985,7 +4988,7 @@ button[type=action].challengeButton::before {
 }
 
 /* Standalone rolls in the roll palette only uses seperate colors if the action has 2+ rolls */
-#actionPalette .mystery-toggle:not(:checked) + .contentContainer .rollFormatContainer:has(> input[type="Checkbox"]:nth-of-type(2):checked) .rollFormat {
+#actionPalette .mystery-toggle:not(:checked) + .contentContainer .rollFormatContainer:has(> input[type="Checkbox"]:nth-of-type(1):checked) .rollFormat {
     background-color: var(--rollformat-color, var(--content-color));
 }
 

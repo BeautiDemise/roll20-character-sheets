@@ -583,7 +583,7 @@
 			<div class="editorOptionContainer">
 			
 				<!-- Item uses -->
-				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionUses" value="true"><span>Uses (WIP)</span></label>
+				<div class="editorOption inline"><label><input type="checkbox" name="attr_itemEditOptionUses" value="true"><span>Uses</span></label>
 					<div class="itemUseTracker">
 						<input type="checkbox" class="fade-toggle" name="attr_itemEditUsesMax" value="0" hidden checked>
 						<div class="fade-item mediumIcon reusable"></div>
@@ -1326,8 +1326,7 @@
 						<div class="hide-item-flex rollFormatContainer">
 
 							<!-- Rollformat (1) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden>
-							<div class="hide-item-flex rollFormat">
+							<div class="rollFormat">
 								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
 									<input type="hidden" class="rollType" name="attr_rollType0">
 									<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
@@ -2230,8 +2229,7 @@ EGO block end -->
 					<div class="hide-item-flex rollFormatContainer">
 						
 						<!-- Rollformat (1) -->
-						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden>
-						<div class="hide-item-flex rollFormat">
+						<div class="rollFormat">
 
 							<!-- Roll message overlay -->
 							<input type="checkbox" class="hide-toggle-rev-next" name="attr_rollMessage0" value="0" hidden checked>
@@ -2458,8 +2456,7 @@ EGO block end -->
 					<div class="rollFormatContainer">
 						
 						<!-- Rollformat (1) -->
-						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden>
-						<div class="hide-item-flex rollFormat">
+						<div class="rollFormat">
 							<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
 								<input type="hidden" class="rollType" name="attr_rollType0">
 							<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
@@ -2810,8 +2807,7 @@ EGO block end -->
 								<div class="hide-item-flex rollFormatContainer">
 
 									<!-- Rollformat (1) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
+									<div class="rollFormat">
 										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
 											<input type="hidden" class="rollType" name="attr_rollType0">
 											<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
@@ -3157,8 +3153,7 @@ EGO block end -->
 								<div class="hide-item-flex rollFormatContainer">
 
 									<!-- Rollformat (1) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
+									<div class="rollFormat">
 										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
 											<input type="hidden" class="rollType" name="attr_rollType0">
 											<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
@@ -3509,8 +3504,7 @@ EGO block end -->
 								<div class="hide-item-flex rollFormatContainer">
 
 									<!-- Rollformat (1) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
+									<div class="rollFormat">
 										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
 											<input type="hidden" class="rollType" name="attr_rollType0">
 											<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
@@ -3855,8 +3849,7 @@ EGO block end -->
 								<div class="hide-item-flex rollFormatContainer">
 
 									<!-- Rollformat (1) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
+									<div class="rollFormat">
 										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
 											<input type="hidden" class="rollType" name="attr_rollType0">
 											<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
@@ -4204,8 +4197,7 @@ EGO block end -->
 							<div class="hide-item-flex rollFormatContainer">
 
 								<!-- Rollformat (1) -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden>
-								<div class="hide-item-flex rollFormat">
+								<div class="rollFormat">
 									<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
 										<input type="hidden" class="rollType" name="attr_rollType0">
 										<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
@@ -4562,8 +4554,7 @@ EGO block end -->
 							<div class="hide-item-flex rollFormatContainer">
 
 								<!-- Rollformat (1) -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay0" value="true" hidden>
-								<div class="hide-item-flex rollFormat">
+								<div class="rollFormat">
 									<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
 										<input type="hidden" class="rollType" name="attr_rollType0">
 										<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
@@ -6100,10 +6091,11 @@ const barNamesFull = ["Health", "StagRes", "Sanity", "Light"]
 const barNamesTemp = ["THP", "TSTG"]
 const statNames = ["Fortitude", "Prudence", "Justice", "Charm", "Insight", "Temperance"]
 const statNamesFull = [...statNames, "Instinct", "Wisdom"]
-const stateNames = ["PanicState", "StaggerState", "StaggerDuration", "SealState", "ImmobileState", "DefeatState"];
+const combatStates = ["stagger", "panic", "defeat", "seal", "immobile", "hostile"]
+const combatStatesFull = ["PanicState", "StaggerState", "StaggerDuration", "SealState", "ImmobileState", "DefeatState"]
 
-const itemSections = ["weapons", "outfits", "augments", "tools", "skills", "special", "effects"];
-const sheetSections = [...itemSections, "ailments", "tags", "variables", "palette", "applied", "buttons", "tokens"];
+const itemSections = ["weapons", "outfits", "augments", "tools", "skills", "special", "effects"]
+const sheetSections = [...itemSections, "ailments", "tags", "variables", "palette", "applied", "buttons", "tokens"]
 const editorSections = [...itemSections, "ailments", "rollformats"]
 
 const resourceNames = ["Action", "Reaction", "Universal", "Counter", "Block", "Evade", "Light_Regen"]
@@ -9590,7 +9582,7 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 
 			// If multirolls are enabled, treat rolls with a 2+ dice count as seperate rolls
 			if (roll.multiroll && roll.count > 1) {
-				let multiRollID =  generateRowID();
+				let multiRollID =  generateAccessID();
 				let multiCount = roll.count;
 				roll.modify("count", 1, {silent:"hard"});
 				roll._count = 1;
@@ -11426,9 +11418,7 @@ for (const tab of ["equipment", "skills", "details", "export", "edit"]) {
 
 /* --- Editor functions --- */
 async function openEditor(type, newTarget, newTargetName) {
-	let editorAttrs = [`${newTarget}`, `${type}EditorTarget`, `${type}EditorInput`];
-
-	let values = await getAttrsAsync(editorAttrs);
+	let values = await getAttrsAsync([`${newTarget}`, `${type}EditorTarget`, `${type}EditorInput`]);
 	let oldTarget = values[`${type}EditorTarget`];
 	let newInput = values[`${newTarget}`];
 	let oldInput = values[`${type}EditorInput`];
@@ -11447,14 +11437,14 @@ async function openEditor(type, newTarget, newTargetName) {
 		output[`${type}EditorInput`] = newInput;
 	}
 	
-	if (oldTarget != "") {
+	if (oldTarget != "0") {
 		output[oldTarget] = oldInput;
 	}
 
-	Object.assign(access._output(), output);
+	Object.assign(access._output(getActiveCharacterId()), output);
 }
 
-async function saveEditor(type, callback=()=>{}) {
+async function saveEditor(type) {
 	let values = await getAttrsAsync([`${type}EditorTarget`, `${type}EditorInput`]);
 	let editorTarget = values[`${type}EditorTarget`];
 	let editorData = values[`${type}EditorInput`];
@@ -11464,10 +11454,10 @@ async function saveEditor(type, callback=()=>{}) {
 }
 
 function closeEditor(type) {
-	Object.assign(access._output(), {
+	Object.assign(access._output(getActiveCharacterId()), {
 		[`${type}Editor_display`]: "0",
 		[`${type}EditorTarget`]: "",
-		[`${type}EditorTargetName`]: ""
+		[`${type}EditorTargetName`]: "",
 	});
 }
 /* --- Editor functions END --- */
@@ -11481,35 +11471,22 @@ const rollDataFormat = {
 		action: {type: "Action", cost: 1},
 		reaction: {type: "Reaction", cost: 1},
 		uses: {cost: 1},
-		store: {
-			count: 0, max: 0, power: 0, adv: 0, autoscript: "",
-		},
+		store: {count: 0, max: 0, power: 0, adv: 0, autoscript: ""},
 		autoscript: "",
 		message: false, // Used in access.rolls. References the message node for the roll in access.message.rolls. Does nothing in rollformats
 	},
 	
 	valid: {
+		_default: {int:true},
 		type: {in: ["None", ...combatRollNames, ...statNames], string:true}, // String is used for custom roll types, like "Poise"
 		damage_type: {in: ["None", ...damageTypes, "Choose"], array: {in: damageTypes, min: 1, max: 3}},
 		multiroll: {bool:true, id:true},
-		action: {
-			type: {in: ["None", ...resourceNames]},
-			cost: {int: {min: 0}},
-		},
-		reaction: {
-			type: {in: ["None", ...resourceNames]},
-			cost: {int: {min: 0}},
-		},
-		uses: {
-			_default: {int: {min: 0}}, // Uses default to handle standalone rolls with both a "cost" and "applied" prop (all other cases only have a "cost" prop)
-		},
-		store: {
-			autoscript: {text:true},
-			_default: {int:true},
-		},
+		action: {type: {in: ["None", ...resourceNames]}, cost: {int: {min: 0}}},
+		reaction: {type: {in: ["None", ...resourceNames]}, cost: {int: {min: 0}}},
+		uses: {_default: {int: {min: 0}}},
+		store: {_default: {int:true}, autoscript: {text:true}},
 		autoscript: {text:true},
 		message: {false:true, node:true},
-		_default: {int:true},
 	},
 
 	attrs: {
@@ -11536,20 +11513,20 @@ const tagDataFormat = {
 		_key_prop: "name",
 		_value_prop: "current",
 		name: "",
+		current: 0, max: 0, base: 0,
 		icon: "icons/question",
 		color: "",
 		is_slot: false,
 		display: true,
-		current: 0, max: 0, base: 0,
 	},
 
 	valid: {
+		_default: {int:true},
 		name: {empty:true, propstring:true},
 		icon: {string:true},
 		color: {empty:true, color:true},
 		is_slot: {bool:true},
 		display: {bool:true},
-		_default: {int:true},
 	},
 
 	attrs: {
@@ -11804,111 +11781,97 @@ const repDataFormats = {
 	item: {
 		base: {
 			_key_prop: "name",
-			type: "Effect", rank: 0, name: "", description: "", effect: "",
-			//minimized: false,
-			message: "0",
-			equipped: false,
-			rollformats: {
+			name: "",
+			type: "Effect", // Modifies which inventory section the item appears in + it's default values upon creation
+			rank: 0, description: "", effect: "",
+			equipped: false, // Unequipped items are minimized and do not trigger any custom events (AutoScript trigger blocks)
+			message: "0", // Can be set to a string value to display a message over an item. If set to "0" no message is displayed
+			rollformats: { // Standalone or applied rolls associated with the item. Can have a max of 5
 				_repeating: {
 					...rollDataFormat.base,
 					mode: "Roll",
 				},
 				roll_together: false,
 			},
-			usable: {
-				action: {type: "Action", cost: 1},
+			usable: { // If the item is usable as a standalone *action* (can be used as a tool)
+				action: {type: "Action", cost: 1}, // Any resource costs associated with using the item as an action (not rolls)
 				reaction: {type: "None", cost: 0},
-				uses: {cost: 1},
+				uses: {cost: 1}, // Only applies if the item has limited uses ("Limited" and "Uses" are enabled)
 			},
-			linked: {
+			limited: { // If the item has limited uses or a light cost when used as a standalone or applied *roll*
+				uses: {max: 3, current: 3, recharge: "None"}, // "Recharge" allows selecting a condition where all item uses are automatically restored (short rest, end of combat, etc.)
+				light: {cost: 0},
+			},
+			linked: { // WIP - An item may be linked to another item to only be equipable while that item is equipped
 				itemid: false,
 				equip_together: true,
 			},
-			limited: {
-				uses: {
-					max: 3, current: 3, recharge: "None",
+			resistances: { // TODO: Rename "base" resistance to "multi" or "multiplier" resistance?
+				base: { // Damage multipliers of an item. Usually one of 2.0 (Fatal), 1.5 (Weak), 1.0 (Normal), 0.5 (Endured) and 0.25 (Ineffective)
+					slash: {mode: "Replace", hp: 1, stg: 1}, // If mode = "None", the item doesn't grant HP or STG resistance for a damage type
+					pierce: {mode: "Replace", hp: 1, stg: 1}, // If mode = "Replace", the item's damage resistances replaces other resistances
+					blunt: {mode: "Replace", hp: 1, stg: 1}, // If mode = "Add", the item adds its own resistance values to the currently active "Replace" resistance (can be negative)
 				},
-				light: {
-					cost: 0,
-				},
-			},
-			resistances: {
-				base: {
-					slash: {mode: "Replace", hp: 1, stg: 1},
-					pierce: {mode: "Replace", hp: 1, stg: 1},
-					blunt: {mode: "Replace", hp: 1, stg: 1},
-				},
-				flat: {
-					slash: {mode: "None", hp: 0, stg: 0},
-					pierce: {mode: "None", hp: 0, stg: 0},
+				flat: { // Flat damage mitigation of an item. Apply after the multiplicative damage resistance 
+					slash: {mode: "None", hp: 0, stg: 0}, // Has the same modes as above
+					pierce: {mode: "None", hp: 0, stg: 0}, // Both "Replace" and "Add" can be negative!
 					blunt: {mode: "None", hp: 0, stg: 0},
 				},
-				ailments: {
+				ailments: { // As flat damage mitigation, but against ailment damage.
 					_repeating: {
 						_key_prop: "name",
 						_value_prop: "value",
 						name: "",
 						value: 0,
 					},
-					raw_text: "",
+					raw_text: "", // Ailment resistances are written in text form, like "Burn 2, Bleed 3, Rupture -4"
 				},
-				/*
-				ailments: {
-					default: {Burn: 0, Bleed: 0},
-					custom: {
-						_repeating: {
-							name: "",
-							count: "",
-						}
-					},
+				priority: 0, // WIP - The priority of "Replace" resistances of this item. Ties are resolved by the item's position in the inventory (top to bottom, left to right)
+			},
+			mystery: { // If the item is considered a "Mystery" item. Uses an alternative display style
+				// May in the future have more configuration options!
+			},
+			slots: { // Equip slots that are granted while the item is equipped, or which are required to equip the item
+				gives: tagDataFormat.item.base, // Required slots are "filled" while the item is equipped
+				requires: tagDataFormat.item.base, // For example, a character may have two hand slots. Wielding a 1-handed item "fills" one of these slots until the item is unequipped
+			},
+			tags: { // Like equip slots, but any required tags aren't "filled" and may be used by any number of items
+				gives: tagDataFormat.item.base, // Useful for adding requirements for using certain items and skills, like "E.G.O stage", "Unlock", etc.
+				requires: tagDataFormat.item.base, // May also be used to give Limbus-style traits like "Bloodfiend" or "Fixer" to a character
+			},
+			ui: { // Custom display options for items
+				color: { // The color of the item. Has a set of preset option, but a hex color may alternatively be used for an entierly custom color
+					base: "", // The background color of the item
+					decoration: "", // Adds a small colored accent to the top left corner of an item. Useful for sub-dividing items into for example specific rarities
 				},
-				*/
-			},
-			mystery: {
-				//activation: "None",
-			},
-			slots: {
-				gives: tagDataFormat.item.base,
-				requires: tagDataFormat.item.base,
-			},
-			tags: {
-				gives: tagDataFormat.item.base,
-				requires: tagDataFormat.item.base,
-			},
-			ui: {
-				color: {
-					base: "",
-					decoration: "",
-				},
-				icon: {
+				icon: { // WIP - An icon displayed in the top left corner of an item (under the item's rank)
 					source: "",
 				},
-				position: {
+				position: { // When enabled, the item displays at a static position in the sheet's dialogue box
 					x: 300, // Defaults to the top left corner of the sheet
-					y: 300,
+					y: 300, // May also be enabled by ALT-clicking an item, which drags the item (see customPosition for more details)
 				},
-				weapon: {
+				weapon: { // A damage type and attack range dropdown (configures the damage type of the item's first rollformat, attack range is purely visual)
 					range: "None",
 				},
-				augment: false,
-				special: false,
-				skill: false,
-				half: false,
+				augment: false, // An augment type dropdown (visual only)
+				special: false, // An effect range and duration dropdown (visual only)
+				skill: false, // A skill type dropdown (configures the roll type of the item's first rollformat)
+				half: false, // WIP - Halves the width of the item. Two half-size items display side-by-side
 			},
-			card: {},
-			autoscript: "",
+			card: {}, // WIP - Allows configuring how the item works when Card Combat is enabled
+			autoscript: "", // AutoScripts that apply when the item is used as part of a standalone or applied roll/action. Also supports custom events (AutoScript trigger blocks)
 		},
 	
 		// Includes functions for validating item input values
 		valid: {
+			name: {string:true},
 			type: {in: itemSections.map(section => capitalize(section.replace(/s$/,"")))},
 			rank: {int:true},
-			name: {string:true},
 			description: {text:true},
 			effect: {text:true},
-			//minimized: {bool:true},
-			message: {text:true},
 			equipped: {bool:true},
+			message: {text:true},
 			rollformats: { // Enabled by optionRollFormats
 				_repeating: {
 					...rollDataFormat.valid,
@@ -11935,8 +11898,7 @@ const repDataFormats = {
 			},
 			limited: { // Enabled by optionLimited
 				uses: { // Enabled by optionUses
-					current: {int: {min:0}},
-					max: {int: {min:0}},
+					_default: {int: {min:0}},
 					recharge: {in: ["None", "Refresh", "Recover", "Loaded", "Ammo", "Combat", "Round"]},
 				},
 				light: { // Enabled by optionLightCost
@@ -11945,33 +11907,14 @@ const repDataFormats = {
 			},
 			resistances: { // Enabled by optionResist
 				base: { // Enabled by optionResistBaseDamage
-					slash: {
-						mode: {in: ["None", "Add", "Replace"]},
-						hp: {float:true}, // TODO: Implement this through an event
-						_default: {float:true}, // is.Float(i, (this.mode == "Replace") ? {min:0} : {}),
-					},
-					pierce: {
-						mode: {in: ["None", "Add", "Replace"]},
-						_default: {float:true},
-					},
-					blunt: {
-						mode: {in: ["None", "Add", "Replace"]},
-						_default: {float:true},
-					},
+					slash: {mode: {in: ["None", "Add", "Replace"]}, _default: {float:true}}, // is.Float(i, (this.mode == "Replace") ? {min:0} : {}),
+					pierce: {mode: {in: ["None", "Add", "Replace"]}, _default: {float:true}},
+					blunt: {mode: {in: ["None", "Add", "Replace"]}, _default: {float:true}},
 				},
 				flat: { // Enabled by optionResistFlatDamage
-					slash: {
-						mode: {in: ["None", "Add", "Replace"]},
-						_default: {int:true},
-					},
-					pierce: {
-						mode: {in: ["None", "Add", "Replace"]},
-						_default: {int:true},
-					},
-					blunt: {
-						mode: {in: ["None", "Add", "Replace"]},
-						_default: {int:true},
-					},
+					slash: {mode: {in: ["None", "Add", "Replace"]}, _default: {int:true}},
+					pierce: {mode: {in: ["None", "Add", "Replace"]}, _default: {int:true}},
+					blunt: {mode: {in: ["None", "Add", "Replace"]}, _default: {int:true}},
 				},
 				ailments: { // Enabled by optionResistAilments
 					_repeating: {
@@ -11979,23 +11922,10 @@ const repDataFormats = {
 						value: {int:true},
 					},
 					raw_text: {empty:true, propstring:true},
-					/*
-					default: {
-						Burn: {int:true},
-						Bleed: {int:true},
-					},
-					custom: {
-						ailName: (i, v) => is.Values(v, "ailCustomResistanceNum").Int(i), // Needs some work. Should set key=ailName and value=ailCustomResistanceNum
-						// "*": () => (this?.values?.ailName && is.Int(this?.values?.ailCustomResistanceNum)) ? {values.ailName, values.ailResistanceNum} : false,
-						// Would here try format.valid("*") if format.valid(key) fails. If a validator returns an object o, loop over o keys and values and set this[key] = value
-						// This wouldn't help with updating already existing values however... You could just say that if no validator exists anything goes? 
-					},
-					*/
 				},
+				priority: {int:true},
 			},
-			mystery: { // Enabled by optionMystery
-				//activation: (s) => is(s).In("None", "AlwaysActive", "HalfHealth", "OnStagger", "EnemyDefeat", "AllyDefeat"),
-			},
+			mystery: {}, // Enabled by optionMystery
 			slots: { // Enabled by optionEquipSlots
 				gives: tagDataFormat.item.valid,
 				requires: tagDataFormat.item.valid,
@@ -12016,13 +11946,10 @@ const repDataFormats = {
 					x: {int:true},
 					y: {int:true},
 				},
-				weapon: { // Includes an UI element that is synced to the damage type of the first rollformat
+				weapon: {
 					range: {in: ["None", "Melee", "Ranged"]},
 				},
-				augment: {bool:true},
-				special: {bool:true},
-				skill: {bool:true}, // Includes an UI element that is synced to the roll type of the first rollformat
-				half: {bool:true}, // Ignored when possessing 2+ roll formats, ui.special or damage resistances. This is handled by CSS
+				_default: {bool:true}, // "Half" is ignored when possessing 2+ roll formats, ui.special or damage resistances. This is handled by CSS
 			},
 			card: {}, // Enabled by optionCardCombat
 			autoscript: {text:true},
@@ -12065,6 +11992,7 @@ const repDataFormats = {
 			},
 			resistances: {
 				_option: "Resist",
+				_prefix: "resist",
 				base: {
 					_option: "ResistBaseDamage",
 					slash: {_prefix: "slashBase"},
@@ -12236,6 +12164,7 @@ const repDataFormats = {
 			items: {
 				_repeating: {
 					equipped: false,
+					uses: 3, // Note this is uses.current in access.items
 				},
 			},
 			ailments: {
@@ -12244,14 +12173,42 @@ const repDataFormats = {
 					count_next_round: 0,
 				},
 			},
+			rolls: {
+				whisper: "",
+				difficulty: 0,
+				adv: 0, disadv: 0,
+			},
 			bar: {
-				hp: 30, map_hp: 30, hp_max: 30,
-				stg: 20, map_stg: 20, stg_max: 20,
-				sp: 15, map_sp: 15, sp_max: 15,
+				hp: 30, map_hp: "", hp_max: 30, // map_hp etc. match the token's bar value on the battlemap. This value is updated each time the token is selected
+				stg: 20, map_stg: "", stg_max: 20, // If the value is the same as the token's current bar value the value isn't displayed in the token bar (the value is set to "") 
+				sp: 15, map_sp: "", sp_max: 15,
 				light: 3, light_max: 3,
+			},
+			resource: {
+				selection: "Action",
+				action: {_value_prop: "current", current: 1, max: 1},
+				reaction: {_value_prop: "current", current: 0, max: 0},
+				universal: {_value_prop: "current", current: 2, max: 2},
+				counter: {_value_prop: "current", current: 0, max: 0},
+				block: {_value_prop: "current", current: 0, max: 0},
+				evade: {_value_prop: "current", current: 0, max: 0},
+				light_regen: {_value_prop: "current", current: 3, max: 3},
+			},
+			state: {
+				stagger: {_value_prop: "state", state: false, duration: {_value_prop: "current", current: 1}},
+				panic: {_value_prop: "state", state: false, duration: {_value_prop: "current", current: -1}},
+				defeat: {_value_prop: "state", state: false, duration: {_value_prop: "current", current: -1}},
+				seal: {_value_prop: "state", state: false, duration: {_value_prop: "current", current: -1}},
+				immobile: {_value_prop: "state", state: false, duration: {_value_prop: "current", current: -1}},
+				hostile: {_value_prop: "state", state: false, duration: {_value_prop: "current", current: -1}},
 			},
 			character: {
 				name: "",
+			},
+			target: {
+				target_id: "",
+				token_id: "",
+				image: "", // Other display data can be gathered from access.target. Note this isn't in a display subnode
 			},
 		},
 
@@ -12260,6 +12217,7 @@ const repDataFormats = {
 			items: {
 				_repeating: {
 					equipped: {bool:true},
+					uses: {int: {min:0}},
 				},
 			},
 			ailments: {
@@ -12267,18 +12225,41 @@ const repDataFormats = {
 					_default: {int: {min:0}},
 				},
 			},
+			rolls: {
+				whisper: {string:true},
+				difficulty: {int:true},
+				adv: {int: {min:0}},
+				disadv: {int: {min:0}},
+			},
 			bar: {
 				_default: {int:true},
+				map_hp: {string:true},
+				map_stg: {string:true},
+				map_sp: {string:true},
 			},
+			resource: {
+				selection: {in: resourceNames},
+				...resourceNames.reduce((acc, resource) => {
+					return Object.assign(acc, {[snakeify(resource)]: {_default: {int: {min:0}}}});
+				}, {}),
+			},
+			state: combatStates.reduce((acc, state) => {
+				return Object.assign(acc,  {[state]: {state: {bool:true}, duration: {_default: {int: {min:-1}}}}});
+			}, {}),
 			character: {
 				name: {string:true},
+			},
+			target: {
+				target_id: {string:true},
+				token_id: {string:true},
+				image: {string:true},
 			},
 		},
 
 		attrs: {
 			_source: {
 				editor: {prefix: "token_"}, // Reuses the item editor code. The "editor" is here the sheet, with access.tokens.selection being the "edited" token
-				sheet: {prefix: "token_", type: "id", section: "tokens"},
+				sheet: {prefix: "token_", type: "id", section: "tokens"}, // "sheet" is for the token bar, while "editor" is for the main sheet
 			},
 			items: {
 				_repeating: {
@@ -12286,6 +12267,8 @@ const repDataFormats = {
 						editor: {type: "id", section: itemSections},
 						sheet: {type: "index", section: "tokens", package:true},
 					},
+					_suffix: "current", // For usesCurrent
+					_ignore: {suffix: ["equipped"]},
 				},
 			},
 			ailments: {
@@ -12304,11 +12287,40 @@ const repDataFormats = {
 				},
 				_ignore: {editor: ["map_hp", "map_stg", "map_sp"]},
 			},
+			state: {
+				_source: {
+					editor: {},
+					sheet: {prefix: "token_", type: "id", section: "tokens"},
+				},
+				...combatStates.map(state => snakeify(state)).reduce((acc, state) => {
+					return Object.assign(acc,  {[state]: {_prefix: state, duration: {_prefix: `${state}Duration`}}});
+				}, {}),
+				_suffix: "State",
+			},
+			resource: {
+				_source: {
+					editor: {},
+					sheet: {prefix: "token_", type: "id", section: "tokens"},
+				},
+				_prefix: "resource",
+				...resourceNames.reduce((acc, resource) => {
+					return Object.assign(acc, {[snakeify(resource)]: {_prefix: `${resource}_`}});
+				}, {}),
+			},
 			character: {
 				_source: {
 					editor: {prefix: "character_"},
 					sheet: {prefix: "token_", type: "id", section: "tokens"},
 				},
+			},
+			target: {
+				_source: {
+					editor: {},
+					sheet: {prefix: "token_", type: "id", section: "tokens"},
+				},
+				_prefix: "target",
+				_case: "snake",
+				_ignore: {prefix: ["target_id"]},
 			},
 		},
 	}
@@ -12636,21 +12648,11 @@ const dataFormat = {
 						duration: {calc: "1"},
 						sp_damage: {calc: "5", value: 5},
 					},
-					panic: {
-						duration: {calc: "-1"},
-					},
-					defeat: {
-						duration: {calc: "-1"},
-					},
-					seal: {
-						duration: {calc: "-1"},
-					},
-					immobile: {
-						duration: {calc: "-1"},
-					},
-					hostile: {
-						duration: {calc: "-1"},
-					},
+					panic: {duration: {calc: "-1"}},
+					defeat: {duration: {calc: "-1"}},
+					seal: {duration: {calc: "-1"}},
+					immobile: {duration: {calc: "-1"}},
+					hostile: {duration: {calc: "-1"}},
 				},
 				rolls: {
 					attack: {calc: "Rank", value: 1},
@@ -12712,61 +12714,21 @@ const dataFormat = {
 		},
 		resource: {
 			selection: "Action",
-			action: {
-				_value_prop: "current",
-				current: 1, max: 1, base: 1,
-			},
-			reaction: {
-				_value_prop: "current",
-		
-				current: 0, max: 0, base: 0,
-			},
-			universal: {
-				_value_prop: "current",
-				current: 2, max: 2, base: 2,
-			},
-			counter: {
-				_value_prop: "current",
-				current: 0, max: 0, base: 0,
-			},
-			block: {
-				_value_prop: "current",
-				current: 0, max: 0, base: 0,
-			},
-			evade: {
-				_value_prop: "current",
-				current: 0, max: 0, base: 0,
-			},
-			light_regen: {
-				_value_prop: "current",
-				current: 3, max: 3, base: 3,
-			},
+			action: {_value_prop: "current", current: 1, max: 1, base: 1},
+			reaction: {_value_prop: "current", current: 0, max: 0, base: 0},
+			universal: {_value_prop: "current", current: 2, max: 2, base: 2},
+			counter: {_value_prop: "current", current: 0, max: 0, base: 0},
+			block: {_value_prop: "current", current: 0, max: 0, base: 0},
+			evade: {_value_prop: "current", current: 0, max: 0, base: 0},
+			light_regen: {_value_prop: "current", current: 3, max: 3, base: 3},
 		},
 		state: {
-			stagger: {
-				_value_prop: "state", state: false,
-				duration: {_value_prop: "current", current: 1, max: 1}, // 1 = until the end of the next round
-			},
-			panic: {
-				_value_prop: "state", state: false,
-				duration: {_value_prop: "current", current: -1, max: -1}, // -1 = unlimited duration
-			},
-			defeat: {
-				_value_prop: "state", state: false,
-				duration: {_value_prop: "current", current: -1, max: -1},
-			},
-			seal: {
-				_value_prop: "state", state: false,
-				duration: {_value_prop: "current", current: -1, max: -1},
-			},
-			immobile: {
-				_value_prop: "state", state: false,
-				duration: {_value_prop: "current", current: -1, max: -1},
-			},
-			hostile: {
-				_value_prop: "state", state: false,
-				duration: {_value_prop: "current", current: -1, max: -1},
-			},
+			stagger: {_value_prop: "state", state: false, duration: {_value_prop: "current", current: 1, max: 1}}, // 1 = until the end of the next round
+			panic: {_value_prop: "state", state: false, duration: {_value_prop: "current", current: -1, max: -1}}, // -1 = unlimited duration
+			defeat: {_value_prop: "state", state: false, duration: {_value_prop: "current", current: -1, max: -1}},
+			seal: {_value_prop: "state", state: false, duration: {_value_prop: "current", current: -1, max: -1}},
+			immobile: {_value_prop: "state", state: false, duration: {_value_prop: "current", current: -1, max: -1}},
+			hostile: {_value_prop: "state", state: false, duration: {_value_prop: "current", current: -1, max: -1}},
 			combat: false, // In combat, this matches the current combat round starting at 1
 		},
 		speed: {
@@ -12810,48 +12772,12 @@ const dataFormat = {
 				ailments: range(0, 6).reduce((acc, num) => { // Target ailments. Ranges from 0-5
 					return Object.assign(acc, {[num]: {count: 0, icon: ""}});
 				}, {}),
-				bar: {
-					hp: "---",
-					stg: "---",
-					sp: "---",
-				},
+				bar: {hp: "---", stg: "---", sp: "---"},
 			},
 		},
 		tokens: {
 			_repeating: repDataFormats.token.base,
-
-			// Change this to not be a Proxy. Instead make it have id + selection + a number of entries that point to other accesses, like access.target
-			// Does not have a format built in format. TokenNodes create a deep copy of dataFormat in repDataFormats which removes base.token
-			//  - If this format has already been created other tokenNodes simple use the existing format
-			//  - There's no need to remove valid.tokens. Nodes in valid that are not in base are ignored when building a data tree
-
-			// Used for targeting. This should match the id of the targeted token
-			// If generic token mode is disabled for the target the tokenId is set to ""
-			// Should never be modified on owned tokens, only targeted tokens. The targeting code handles setting this value
-			// id: "", Removed since all itemNodes have a built in id property
-
-			// Used for  When generic token mode is enabled, selection equals the current token id. Otherwise it should be set to ""
-			// Should be used for both owned tokens and targeted tokens
 			selection: "",
-			// This can be edited, which overrides the character's global variables, but not their local variables
-			// TODO: Make sure to delete let from tokens
-
-			// When generic token mode is enabled each token gets added to access.token as access.token[tokenID]
-			//  When changing token selection, set access.tokens.selection = newID, and access.currentID = access.token[newID]
-			//  This should overwrite everything in access with access.token[newID], except access.token
-			//  Afterwards, use output() and add all the values to outputValues
-			//   This does not work for items that only exist on certain tokens. These will be added when changing to the token, but will not be deleted when selecting another token
-			//   This also does not work for ailments that only exist on certain tokens for the same reasons
-			// access.token[tokenID] instances as a deep copy of access[charID], except access[charID].token which is ignored
-			// When disabling generic token mode, delete all props of access.token except id and selection
-			// When using Update, run the function on all entries in access.token instead of on access[charID]
-			//  Afterwards, do access.currentID = access.token[tokenID] + output() to sync all changes from the current token to the sheet 
-
-			// Make it so access.token works exactly like access, except:
-			//  access.tokens.prop equals access[charID].token[tokenID].prop
-			//  access.token[tokenID].token is deleted
-
-			// access.output() should either ignore token data, or generate repeating attributes for the token bar
 		},
 		tags: {
 			_repeating: tagDataFormat.base,
@@ -13084,61 +13010,23 @@ const dataFormat = {
 		},
 		resource: {
 			selection: {in: resourceNames},
-			action: {_default: {int: {min:0}}},
-			reaction: {_default: {int: {min:0}}},
-			universal: {_default: {int: {min:0}}},
-			counter: {_default: {int: {min:0}}},
-			block: {_default: {int: {min:0}}},
-			evade: {_default: {int: {min:0}}},
-			light_regen: {_default: {int: {min:0}}},
+			...resourceNames.reduce((acc, resource) => {
+				return Object.assign(acc, {[snakeify(resource)]: {_default: {int: {min:0}}}});
+			}, {}),
 		},
 		state: {
-			stagger: {
-				state: {bool:true},
-				duration: {_default: {int: {min:-1}}},
-			},
-			panic: {
-				state: {bool:true},
-				duration: {_default: {int: {min:-1}}},
-			},
-			defeat: {
-				state: {bool:true},
-				duration: {_default: {int: {min:-1}}},
-			},
-			seal: {
-				state: {bool:true},
-				duration: {_default: {int: {min:-1}}},
-			},
-			immobile: {
-				state: {bool:true},
-				duration: {_default: {int: {min:-1}}},
-			},
-			hostile: {
-				state: {bool:true},
-				duration: {_default: {int: {min:-1}}},
-			},
+			...combatStates.reduce((acc, state) => {
+				return Object.assign(acc,  {[snakeify(state)]: {state: {bool:true}, duration: {_default: {int: {min:-1}}}}});
+			}, {}),
 			combat: {false:true, int: {min:1}},
 		},
 		speed: {
 			_default: {int:true},
 		},
 		character: {
-			name: {string:true},
-			_default: {int:true},
-			occupation: {string:true}, // Does not allow newlines
-			age: {string:true},
-			height: {string:true},
-			birthplace: {string:true},
-			residence: {string:true},
-			assets: {string:true},
-			ahn: {string:true},
-			url: {string:true},
-			summary: {text:true}, // Allows newlines
-			combat_notes: {text:true},
-			notes: {text:true},
-			description: {text:true},
-			personality: {text:true},
-			background: {text:true},
+			...["rank", "level", "exp", ...statNames].reduce((acc, stat) => Object.assign(acc, {[stat]: {int:true}})),
+			...["summary", "combat_notes", "notes", "description", "personality", "background"].reduce((acc, desc) => Object.assign(acc, {[desc]: {text:true}})), // Allows newlines
+			_default: {string:true}, // Does not allow newlines
 		},
 		distort: {
 			state: {bool:true},
@@ -13168,7 +13056,6 @@ const dataFormat = {
 		tokens: {
 			_repeating: repDataFormats.token.valid,
 			selection: {false:true, id:true},
-			//_default: {node:true},
 		},
 		tags: {
 			_repeating: tagDataFormat.valid,
@@ -13369,41 +13256,15 @@ const dataFormat = {
 			_ignore: {prop: ["-hp", "-stg", "-sp", "-light"]},
 		},
 		resource: {
-			_case: "snake",
-			_prefix: "resource",
-			action: {_prefix: "action_"},
-			reaction: {_prefix: "reaction_"},
-			universal: {_prefix: "universal_"},
-			counter: {_prefix: "counter_"},
-			block: {_prefix: "block_"},
-			evade: {_prefix: "evade_"},
-			light_regen: {_prefix: "light_regen_"},
+			_prefix: "resource", // For resourceSelection
+			...resourceNames.reduce((acc, resource) => { // For ex. "action_current"
+				return Object.assign(acc, {[snakeify(resource)]: {_prefix: `${resource}_`}});
+			}, {}),
 		},
 		state: {
-			stagger: {
-				_prefix: "stagger",
-				duration: {_prefix: "staggerDuration"},
-			},
-			panic: {
-				_prefix: "panic",
-				duration: {_prefix: "panicDuration"},
-			},
-			defeat: {
-				_prefix: "defeat",
-				duration: {_prefix: "defeatDuration"},
-			},
-			seal: {
-				_prefix: "seal",
-				duration: {_prefix: "sealDuration"},
-			},
-			immobile: {
-				_prefix: "immobile",
-				duration: {_prefix: "immobileDuration"},
-			},
-			hostile: {
-				_prefix: "hostile",
-				duration: {_prefix: "hostileDuration"},
-			},
+			...combatStates.map(state => snakeify(state)).reduce((acc, state) => {
+				return Object.assign(acc,  {[state]: {_prefix: state, duration: {_prefix: `${state}Duration`}}});
+			}, {}),
 			_suffix: "State",
 		},
 		speed: {
@@ -13785,7 +13646,7 @@ class dataNode extends Array {
 
 					// Ignore sources with no attributes or with no open editor
 					if (!this._attrs[source]) continue;
-					if (source == "editor" && !opts.event) {
+					if (source == "editor" && !opts.includeEditor) {
 						if (this.path[1] == "items" && this.root.items.editor.target != this.id) continue;
 						if (this.path[1] == "tokens" && this.root.tokens.selection != this.path[2]) continue;
 					}
@@ -13901,7 +13762,7 @@ class dataNode extends Array {
 			let section = this._attrs[source]?.section ?? false;
 
 			if (section) {
-				let id = (this._attrs[source]?.type == "index") ? this.path.find((step, i) => i != 0 && is.ID(step)) : this.id;
+				let id = (source == "editor") ? this.path.findLast(step => is.ID(step)) : this.id;
 
 				if (opts.event) {
 					return false; // Repeating section events are better implemented using just "change:repeating_xyz"
@@ -15341,6 +15202,7 @@ class effectNode extends dataNode {
 		}
 		else {
 			if (!this.#invalid) this.#error("Execution Error");
+			setActiveCharacterId(prevID);
 			return this.#invalid = false;
 		}
 
@@ -16109,6 +15971,11 @@ const accessData = {
 	// All attribute values that should be applied to a character's sheet are added to this object, sorted by the character's ID
 	_outputs: {},
 
+	// Roll20 "change" events may in rare cases occur during the target._sync() function at the end of access._begin()
+	// This function updates the active charID to targetID. This makes these change events treat the target as the character who triggered the event
+	// To avoid this the current charID is saved at the start of sync(). All change events should use this charID while it's set
+	_sync_id: false,
+
 	// Access data can be output in three ways:
 	// access._output({prop:value, ...}, charID)
 	//  - Works like setAttrsByID(charID, {prop:value, ...})
@@ -16130,7 +15997,7 @@ const accessData = {
 			data = data.output(source ? {[source]: {}} : {sheet: {}, editor: {}}, {...opts, unsorted:true});
 		}
 
-		if (this[charID] instanceof dataNode && length(data)) {
+		if (this[charID] instanceof dataNode) {
 			Object.assign(this._outputs[charID] ??= {}, data);
 			return this._outputs[charID];
 		} else {
@@ -16195,8 +16062,7 @@ const accessData = {
 			// Events are usually processed immediately as part of the current action
 			// Events with an "end"/"after" callback only process that callback after access outputs
 			else if (this._state = state) {
-				let prevID = getActiveCharacterId();
-				setActiveCharacterId(charID); // Ensures that access.currentID references the character which triggered the event
+				let prevID = setActiveCharacterId(charID); // Ensures that access.currentID references the character which triggered the event
 
 				if (typeof begin == "function") await begin();
 				if (typeof end == "function") this._action_queue[0].after.push(end);
@@ -16209,7 +16075,7 @@ const accessData = {
 
 			// Partially syncs all data from a selected target as the start of all sheet interactions
 			let targetID = this[charID]?.target.target_id;
-			if (targetID && this[targetID]?.type == "target" && ["clicked", "sync"].includes(state)) {
+			if (targetID && this[targetID]?.type == "target" && ["clicked", "player-sync"].includes(state)) {
 				await this._sync(targetID);
 			}
 
@@ -16242,7 +16108,7 @@ const accessData = {
 					}
 					
 					// Output values to the sheet and/or chat
-					if (!this._action_queue.length <= 1) {
+					if (this._action_queue.length <= 1) {
 						await this._end();
 
 						// Execute parts of the action that happen post-output (optional)
@@ -16288,22 +16154,20 @@ const accessData = {
 	// This includes sheet attributes, sheet buttons, chat messages, chat buttons amd rolls 
 	async _end() {
 		if (this._state) {
-			let prevID = getActiveCharacterId();
-
 			for (const charID of Object.keys(this).filter(key => this[key] instanceof dataNode)) {
-				setActiveCharacterId(charID);
+				let root = this[charID];
 
 				// If at least one roll section exists, add all messages and buttons generated by effects to the first roll section
-				if (this.rolls?.length && this.rolls.some(r => r.message.display)) { // TODO: Make this optional
-					let roll = this.rolls.find(r => r.message.display);
+				if (root.rolls?.length && root.rolls.some(r => r.message.display)) { // TODO: Make this optional
+					let roll = root.rolls.find(r => r.message.display);
 
-					for (const section of [...this.message.sections]) {
-						this.message.sections.delete(section.id);
+					for (const section of [...root.message.sections]) {
+						root.message.sections.delete(section.id);
 						messageSection(roll.message, section.header.title, section.contents.map(c => c.text));
 					}
 
-					for (const button of [...this.message.buttons]) {
-						this.message.buttons.delete(button.id);
+					for (const button of [...root.message.buttons]) {
+						root.message.buttons.delete(button.id);
 						if (roll.message.buttons[snakeify(button.title)]) {
 							for (const effect of button.effects) {
 								roll.message.buttons[snakeify(button.title)].effects.add(effect);
@@ -16315,19 +16179,19 @@ const accessData = {
 				}
 
 				// Output any message data to the chat
-				if (this.rolls?.length || this.message?.sections?.length || this.message?.buttons?.length || this._state == "error") {
+				if (root.rolls?.length || root.message?.sections?.length || root.message?.buttons?.length || root._state == "error") {
+					let prevID = setActiveCharacterId(charID)
 					await sendMessage();
+					setActiveCharacterId(prevID);
 				}
 
 				// Clear all message data
-				for (const rollID of this.rolls?.repIDs || []) {
-					this.rolls.delete(rollID); // Cannot use reset() as the node alse contains non-repeating data (stored rolls, adv./disadv. etc.)
+				for (const rollID of root.rolls?.repIDs || []) {
+					root.rolls.delete(rollID); // Cannot use reset() as the node alse contains non-repeating data (stored rolls, adv./disadv. etc.)
 				}
-				this.effects?.reset();
-				this.message?.reset();
-			}
-
-			setActiveCharacterId(prevID);
+				root.effects?.reset();
+				root.message?.reset();
+			}	
 
 			// Apply any output attribute values to the sheet
 			if (this._state != "error" && length(this._outputs)) {
@@ -16496,13 +16360,13 @@ const accessData = {
 				if (type == "character") {
 					access._recalc.equip(ID); // Update any equipment restrictions
 					access._recalc.weight(ID); // Reapply the description weights of all items
-				}
 
-				// If an initialized character or token has a target selected, also initialize their target
-				if (type != "target" && newRoot.target.target_id) {
-					let target = newRoot.target;
-
-					selectTarget(target.target_id, target.token_id, target.display.name, target.display.image);
+					// If an initialized character or token has a target selected, also initialize their target
+					for (const root of [newRoot, ...newRoot.tokens]) {
+						if (root.target.target_id) {
+							access._initialize(root.target.target_id, "target");
+						}
+					}
 				}
 
 				// Initialization complete!
@@ -16520,26 +16384,30 @@ const accessData = {
 
 				// Add Roll20 events for syncing manual user modification of sheet values to access (if these events do not already exist)
 				if (this._event.keys.length == 0) {
-					let eventkeys = access[ID].attrkeys(false, {event:"change", unsorted:false}); 								// Non-repeating attributes
+					let eventkeys = access[ID].attrkeys(false, {event:"change", unsorted:false, includeEditor:true}); 			// Non-repeating attributes
 					eventkeys.sheet = eventkeys.sheet.concat(sheetSections.map(section => `change:repeating_${section}`)); 		// Repeating sheet attributes
 					eventkeys.editor = eventkeys.editor.concat(editorSections.map(section => `change:repeating_${section}`));	// Repeating editor attributes
 					
 					this._event.keys = eventkeys;
 					console.log("Event keys", eventkeys);
+
+					// TODO: Find duplicate sheet + editor events and combine them into hybrid events
+					// Finds attrInfo for both sources simultaneously, halfing the workload of such events
 					
 					for (const source in eventkeys) {
 						on(eventkeys[source].join(" "), function(info) {
-							if (!access.currentID) return;
+							if (!access.currentID);
 
-							//console.log(`Sync action for ${source}:`, info);
+							let syncType = (info.sourceType == "player") ? "player" : "sheet";
 
-							access._begin(false, "action:sync", async () => {
+							access._begin(access._sync_id, `action:${syncType}-sync`, async () => {
 								let attrInfo = access.attrlookup({[source]:[info.sourceAttribute]})?.[source][info.sourceAttribute];
 								if (!attrInfo) return;
 
 								info.newValue ??= await getAttr(info.sourceAttribute); // Attributes like hp_max for some reason do not always include their value in the event info
+								info.previousValue ??= is.Float(info.newValue) ? "0" : ""; // TODO: Make sure this doesn't cause any issues!
 
-								if (info.sourceType == "player" || (info.previousValue !== undefined && info.previousValue != attrInfo.value)) {
+								if (syncType == "player" || (info.newValue != attrInfo.value && info.previousValue == attrInfo.value)) {
 									attrInfo.node.modify(attrInfo.prop, info.newValue);
 								}
 							});
@@ -16569,6 +16437,7 @@ const accessData = {
 	async _sync(ID, opts={full:false, rep:false}) {
 		if (ID in this) {
 			let root = this[ID];
+			this._sync_id = getActiveCharacterId();
 			
 			if (opts.rep) {
 				let repids = await getSectionIDsOrdered(ID, sheetSections);
@@ -16650,6 +16519,8 @@ const accessData = {
 	
 			// Apply retrieved values from the sheet to access
 			root.input(values);
+
+			this._sync_id = false;
 		}
 	},
 	
@@ -16749,9 +16620,9 @@ const accessData = {
 				}
 				if (path[0] in access) { // Mirrors events on targeted characters for the targeting character
 					for (const charID of Object.keys(access).filter(key => access[key] instanceof dataNode && access[key].target.target_id == path[0])) {
-						setActiveCharacterId(charID);
+						let prevID = setActiveCharacterId(charID);
 						this.trigger([charID, "target", ...path.slice(1)], info, {...opts, accessNode:access}); // Sets accessNode to avoid cascading triggers
-						setActiveCharacterId(path[0]);
+						setActiveCharacterId(prevID);
 					}
 				}
 			}
@@ -17776,9 +17647,9 @@ onAccess(["resource", "N", "modify", "base"], {}, function(info) {
 onAccess("clicked:expandtrackers clicked:edittrackers", async function(info) {
 	let button = info.triggerName.includes("edit") ? "edit" : "expand";
 	let toggleAttr = button + "ResourceToggle";
+	let toggleVal = await getAttr(toggleAttr);
 
-	let values = await getAttrsAsync(["expandResourceToggle", "editResourceToggle"]);
-	access._output({[toggleAttr]: (values[toggleAttr] == "true") ? "0" : "true"});
+	access._output({[toggleAttr]: (toggleVal == "true") ? "0" : "true"});
 
 	// Changes the selection from the specific reactions to the generic "Reaction" tracker
 	if (access.resource.selection != "Action") {
@@ -18092,6 +17963,8 @@ onAccess(["settings", "sheet", "combat", "modify", "detect_states"], {}, functio
 /* State - Update state */
 onAccess([["state", "N", "modify", "state"], ["state", "N", "duration", "modify", "current"]], {}, function(info) {
 	if (info.recalc) return; // Hinders this event from triggering itself
+	if (info.noMessage) return; // Avoids state messages when changing tokens
+
 	let type = (info.path.at(-1) == "current") ? "duration" : "state"; 
 	let state = info.path[2];
 	let node = info.node;
@@ -19381,12 +19254,36 @@ async function getTokenAttrs(target="selected", type=false, tokenAttrs=tokenAttr
 	for (attribute of tokenAttrs) {
 		rollBase += `{{${attribute}=[[0[@{${target}|${attribute}}]]]}}`;
 	}
-	
-	let tokenRoll = await startRoll(rollBase);
-	finishRoll(tokenRoll.rollId);
 
-	let tokenValues = tokenAttrs.reduce((acc, attribute) => Object.assign(acc, {[attribute]: tokenRoll.results[attribute].expression.match(/^0\[(.*)\]\s*$/)[1]}), {});
-	tokenValues.token_id = tokenValues.token_id.toLowerCase();
+	let awaitQueueLength = access._action_queue.length;
+	let actId = getActiveCharacterId();
+	access._state = "await";
+
+	// Handles add/deleteTokensMultiple. Isn't aborted by sheet sync events, which occur after each output
+	let tokenValues = await new Promise(resolve => {
+		let intervalID = setInterval(() => {
+			if (awaitQueueLength != Object.values(access._action_queue).filter(act => act.state != "sheet-sync").length || access._state != "await") {
+				console.warn(`${capitalize(type)} token interrupted by new action/event:`, tokenAttrs, {...access._action_queue});
+
+				clearInterval(intervalID);
+				resolve(null);
+			} else {
+				console.warn(`${capitalize(type)} token awaiting response`);
+			}
+		}, 200);
+
+		startRoll(rollBase, (tokenRoll) => {
+			finishRoll(tokenRoll.rollId);
+			clearInterval(intervalID);
+
+			resolve(tokenAttrs.reduce((acc, attribute) => Object.assign(acc, {[attribute]: tokenRoll.results[attribute].expression.match(/^0\[(.*)\]\s*$/)[1]}), {}));
+		});
+	}).finally(() => {
+		setActiveCharacterId(actId);
+	});
+
+	if (!tokenValues) return;
+	tokenValues.token_id = tokenValues.token_id.toLowerCase().replace("_", "ø"); // Avoids issues with tokenIDs sometimes containing underscores
 
 	// If a token instance does not exist for a selected token, ask if one should be added. Continue if yes
 	if (!access.tokens[tokenValues.token_id]) {
@@ -19403,13 +19300,11 @@ async function getTokenAttrs(target="selected", type=false, tokenAttrs=tokenAttr
 				return null;
 			}
 		}
+		else if (type == "add") { // "add" skips the query
+			updateToken(tokenValues);
+		}
 	} else if (type == "select") { // If the token already exists, update its token bar values
 		updateToken(tokenValues, "bars");
-	}
-
-	// Selects a new token instance if no token is currently selected
-	if (type == "select" || (type == "add" && !access.tokens.selection)) {
-		access.tokens.selection = tokenValues.token_id;
 	}
 
 	return tokenValues;
@@ -19428,55 +19323,39 @@ onAccess("clicked:selectToken", {}, async function(info) {
 
 /* Manipulate token instances functionality */
 onAccess("clicked:addToken", {}, async function(info) {
-	let tokenValues = await getTokenAttrs("selected", "add");
-	if (tokenValues) updateToken(tokenValues);
+	await getTokenAttrs("selected", "add");
 });
 onAccess("clicked:addTokenMultiple", {}, async function(info) {
 	await addTokenMultiple();
 });
 async function addTokenMultiple() {
-	let tokenValues = await getTokenAttrs("target|Target", "add");
-	if (tokenValues) {
-		updateToken(tokenValues);
-		await addTokenMultiple();
+	if (await getTokenAttrs("target|Target", "add")) {
+		access._begin(false, "action:addToken", null, addTokenMultiple); // Outputs after each token is added
 	}
 }
 
-on('clicked:deleteToken', async function(info) {
-	getAttrs(["tokenId_selected"], function(values) {
-		let selectedId = values.tokenId_selected;
-		if (info.htmlAttributes != {}) {
-			if (selectedId != "") {
-				deleteToken(selectedId);
-				setAttrs({"tokenId_selected":""});
-			}
-		} else {
-			getTokenAttrs("selected", "delete", ["token_id"], (tokenValues) => {
-				deleteToken(tokenValues.tokenId);
-				if (tokenValues.tokenId == selectedId) {
-					setAttrs({"tokenId_selected":""});
-				}
-			});
-		}
-	});
+onAccess("clicked:deleteToken", {}, async function(info) {
+	let tokenID = access.tokens.selection;
+
+	if (!tokenID || info.htmlAttributes == {}) { // Occurs when deleteToken is called using a macro
+		tokenID = await getTokenAttrs("selected", "delete", ["token_id"])?.["token_id"];
+	}
+
+	if (tokenID in access.tokens) {
+		access.tokens.delete(tokenID);
+	}
 });
-on("clicked:deleteTokenMultiple", async function(info) {
-	getAttrs(["tokenId_selected"], async function(values) {
-		let selectedId = values.tokenId_selected;
-		deleteTokenMultiple(selectedId);
-	});
+
+onAccess("clicked:deleteTokenMultiple", {}, async function(info) {
+	await deleteTokenMultiple();
 });
-function deleteToken(tokenId) {
-	removeRepeatingRow("repeating_tokens_" + tokenId);
-}
-function deleteTokenMultiple(selectedId) {
-	getTokenAttrs("target|Target", "delete", ["token_id"], (tokenValues) => {
-		deleteToken(tokenValues.tokenId);
-		if (tokenValues.tokenId == selectedId) {
-			setAttrs({"tokenId_selected":""});
-		};
-		deleteTokenMultiple(selectedId);
-	});
+async function deleteTokenMultiple() {
+	let tokenID = await getTokenAttrs("target|Target", "delete", ["token_id"])?.["token_id"].toLowerCase().replace("_","ø");
+
+	if (tokenID) {
+		access.tokens.delete(tokenID);
+		access._begin(false, "action:deleteToken", null, deleteTokenMultiple); // Outputs after each token is deleted
+	}
 }
 
 
@@ -19488,89 +19367,55 @@ onAccess(["tokens", "N", "modify", "selected"], function (info) {
 onAccess(["tokens", "modify", "selection"], function (info) {
 	if (info.recalc) return;
 	
-	if (access.tokens[info.newval.toLowerCase()]) {
-		access.tokens[info.newval.toLowerCase()].modify("selected", true, {recalc:true});
-		access.tokens[info.oldval.toLowerCase()]?.modify("selected", false, {recalc:true});
+	if (access.tokens[info.newval]) {
+		access.tokens[info.newval].modify("selected", true, {recalc:true});
+		access.tokens[info.oldval]?.modify("selected", false, {recalc:true});
 		
 		/* Clears conditional buttons and re-generates any Permanent buttons */
 		// resetConditionals();
 		// AutoScriptMain("", "Permanent", "true", "true");
 
-		updateSelectedToken(info.newval.toLowerCase());
+		updateSelectedToken(info.newval);
 	}
 });
 
-
 function updateSelectedToken(newTokenID) {
-	let newTokenValues = access.tokens[newTokenID].output({editor: {}}, {allProps:true, unsorted:true});
+	let newToken = access.tokens[newTokenID];
+	let newTokenValues = newToken.output({editor: {}}, {allProps:true, unsorted:true});
 	deleteMultiple(newTokenValues, "name", "selected");
 
 	console.log("New token values:", {...newTokenValues});
 
-	access.input({sheet: newTokenValues}, {silent:"soft"});
+	// Targeting needs special handling to properly configure the targeting display
+	updateTargetingDisplay(newToken.target.target_id, newToken.target.token_id, newToken.target.image);
 
+	access.input({sheet: newTokenValues}, {eventinfo: {noMessage:true}});
 
-
-	return;
-
-
-	/* Import values from new selection */
-	if (info.newValue) {
-		let tokenPrefix = `repeating_tokens_${info.newValue}`;
-		let tokenValues = [`${tokenPrefix}_tokenAilmentList`];
-
-		barNamesTemp.forEach(tempbar => {
-			tokenValues.push(`${tokenPrefix}_token${tempbar}_Sources`);
-		});
-
-		stateNames.forEach(state => {
-			tokenValues.push(`${tokenPrefix}_token${state}`, state);
-		});
-
-		getAttrs([...tokenValues], async function(values) {
-
-			barNamesTemp.forEach(tempbar => {
-				/* For temp bar values from ailments, add an override to make sure any ailment list updates do not change the temp bar value */
-				let tempBarSourceRaw = values[`${tokenPrefix}_token${tempbar}_Sources`];
-				let tempBarSource = Data.unpackage(tempBarSourceRaw);
-				for (const [sourceName, sourceVals] of Object.entries(tempBarSource)) {
-					if (sourceName != "AutoEffects") {
-						output[`${sourceName.replace("ailcount","ailTempBarOverride")}`] = sourceVals[0];
-					}
-				}
-				output[`${tempbar}_Sources`] = tempBarSourceRaw;
-			});
-
-			/* If a state changes between token, suppress the change event listener for the state */
-			stateNames.forEach(state => {
-				output[`${state}`] = values[`${tokenPrefix}_token${state}`];
-				if (output[`${state}`] != values[`${state}`]) {
-					output[`${state}SuppressUpdate`] = "true";
-				}
-			});
-
-			/* Sets ailments to those of the token instance. If ailmentList is unset, initialize a new empty ailmentList */
-			let ailmentList = values[`${tokenPrefix}_tokenAilmentList`];
-			if (ailmentList != "") {
-				output = {...output, ...importAilmentList(Data.unpackage(ailmentList), "true")}
-			} else {
-				resetAilments(() => {
-					exportAilmentList({}, function(newAilmentList) {
-						setAttrs({[`${tokenPrefix}_tokenAilmentList`]: Data.package(newAilmentList)});
-					});
-				});
-			}
-
-			/* Set new selection */
-			output[`${tokenPrefix}_token_selected`] = "true";
-			setAttrs(output, {}, () => {
-				callback();
-			});
-		});
-	} else {
-		setAttrs(output);
-	}
+	// TODO: Still missing temp bars
 }
+
+/* When adding or deleting an item or ailment, add/delete its data to/from any existing tokens */
+onAccess([["items", "add"], ["ailments", "add"]], function (info) {
+	for (const token of access.tokens) {
+		if (info.path[1] == "items") {
+			token.items.add({id:info.newval.id, type:itemSections.find(sect => sect.includes(info.newval.type.toLowerCase())), silent:"hard", indexID:true});
+			token.items.modify("equipped", info.newval.equipped, {silent:"hard"});
+			token.items.modify("uses", info.newval.limited.uses.current, {silent:"hard"});
+		}
+		else if (info.path[1] == "ailments") {
+			token.ailments.add({id:info.newval.id, silent:"hard", indexID:true});
+			token.ailments.modify("count", info.newval.count, {silent:"hard"});
+			token.ailments.modify("count_next_round", info.newval.count_next_round, {silent:"hard"});
+		}
+	}
+});
+onAccess([["items", "delete"], ["ailments", "delete"]], function (info) {
+	for (const token of access.tokens) {
+		token[info.path[1]].delete(info.oldval.id);
+	}
+});
+
+
 
 /* Hides token bar value in display if it matches that of the character sheet */
 /*
@@ -19788,66 +19633,61 @@ function resetAilmentDisplay(type, charID=getActiveCharacterId()) {
 }
 
 /* Clear tokens when disabling generic token mode */
-
-// TODO: Update this event
-on('change:settingGenericTokenMode', (info) => { 
-	if (info.newValue == "0") {
-		getSectionIDs(`repeating_tokens`, async function(idarray) {
-			idarray.forEach(tokenId => {
-				removeRepeatingRow("repeating_tokens_" + tokenId);
-			});
-			setAttrs({"tokenId_selected":""});
-		});
+onAccess(["settings", "sheet", "general", "modify", "generic_token_mode"], {}, function(info) {
+	if (info.newval == false) {
+		for (const tokenID of access.tokens.repIDs) {
+			access.tokens.delete(tokenID);
+		}
+	}
+});
+onAccess(["tokens", "delete"], {}, function(info) {
+	if (info.oldval.selected) {
+		access.tokens.selection = false;
 	}
 });
 
-/*
-onAccess(["settings", "sheet", "general", "generic_token_mode"], {}, function(info) {
-
-});
-*/
-
-
-/* Sync: Action number */
-/*
-on(`change:actNum change:repeating_tokens:actNum`, (info) => {});
-*/
 
 
 /* --- Token helper functions --- */
 async function updateToken(tokenValues, mode="full") {
-	let token = access.tokens[tokenValues.token_id] ?? access.tokens.add({id:tokenValues.token_id}); // Add a new token instance if one doesn't already exist
-	
-	console.log("New token:", tokenValues);
+	let token = access.tokens[tokenValues.token_id];
 
-	if (mode == "full") {
-		token.name = tokenValues.name;
+	// Adds a new token instance if one doesn't already exist
+	if (!token) {
+		console.log("New token:", tokenValues);
+		token = access.tokens.add({id:tokenValues.token_id});
 
-		for (item of access.items) {
-			token.items.add({id:item.id, type:itemSections.find(sect => sect.includes(section.toLowerCase())), silent:"hard", indexID:true});
-			token.items[item.id].modify("equipped", item.equipped, {silent:"hard"});
+		// Add in nodes for any repeating data
+		for (const item of access.items) {
+			token.items.add({id:item.id, type:itemSections.find(sect => sect.includes(item.type.toLowerCase())), silent:"hard", indexID:true});
 		}
-
-		for (ail of access.ailments) {
+		for (const ail of access.ailments) {
 			token.ailments.add({id:ail.id, silent:"hard", indexID:true});
-
-			for (prop of ["count", "count_next_round", "icon"]) {
-				token.ailments[ail.id].modify(prop, ail[prop], {silent:"hard"});
-			}
 		}
+
+		// Apply the current value of each synced token attribute in the sheet
+		let tokenKeys = token.attrkeys({editor: {}}, {includeEditor:true});
+
+		let tokenAttrValues = Object.entries(access.attrlookup(tokenKeys)).reduce((acc, [attrkey, data]) => {
+			if (data) acc[attrkey] = data.value;
+			return acc;
+		}, {});
+
+		// TODO: Initialize HP / STG / SP with the token's bar values based on the character's token bar settings
+		// Simply add the values to the attribute data as "hp", "stg" and "sp"
+
+		token.input({editor: tokenAttrValues}, {silent:"hard", includeEditor:true});
+
+		// Selects the token instance if no token is currently selected
+		access.tokens.selection ||= token.id;
 	}
 
-	for (bar of ["hp", "stg", "sp"]) {
-		token.bar[bar] = tokenValues[bar];
-		token.bar[`${bar}_max`] = access.bar[`${bar}_max`]; // Supposed to be tokenValues[`${bar}_max`]. Currently bugged and gives the default value (ex. 30) and not the calculated value
-	}
-	token.bar.light = access.bar.light;
-	token.bar.light_max = access.bar.light_max;
+	// Apply any override data from getTokenAttrs()
 
 	// TODO: Make this use the token bar settings
-	token.bar.hp_token = tokenValues.bar1;
-	token.bar.stg_token = tokenValues.bar2;
-	token.bar.sp_token = tokenValues.bar3;
+	token.bar.map_hp = tokenValues.bar1;
+	token.bar.map_stg = tokenValues.bar2;
+	token.bar.map_sp = tokenValues.bar3;
 	
 	return;
 
@@ -19909,10 +19749,10 @@ async function getTargetAttrs(attrList) {
 		rollBase += `{{${attribute}=[[0[@{target|${attribute}}]]]}}`;
 	});
 
-	let targetingActQueueLength = access._action_queue.length;
+	let awaitQueueLength = access._action_queue.length;
 
 	// Used if the function is called inside a Roll20 on(event) function
-	if (!targetingActQueueLength) {
+	if (!awaitQueueLength) {
 		let targetRoll = await startRoll(rollBase);
 
 		finishRoll(targetRoll.rollId);
@@ -19923,11 +19763,11 @@ async function getTargetAttrs(attrList) {
 	// Used if the function is called inside an onAccess(event) function
 	else {
 		let actId = getActiveCharacterId();
-		access._state = "targeting";
+		access._state = "await";
 
 		return await new Promise(resolve => {
 			let intervalID = setInterval(() => {
-				if (targetingActQueueLength != access._action_queue.length || access._state != "targeting") {
+				if (awaitQueueLength != access._action_queue.length || access._state != "await") {
 					console.warn("Targeting interrupted by new action/event:", attrList, {...access._action_queue});
 
 					clearInterval(intervalID);
@@ -19949,37 +19789,14 @@ async function getTargetAttrs(attrList) {
 	}
 }
 
-/* Targeting - Update targeting display */
-onAccess(["target", [
-	["character", "modify", "name"],
-	["bar", "modify", ["hp", "stg", "sp"]],
-	["ailments", [
-		"add",
-		"delete",
-		["N", "modify", ["count", "icon"]],
-	]],
-]], {}, function(info) {
-	let targetSettings = access.target.settings.sheet;
-
-	if (info.path[2] == "bar") {
-		access.target.display.bar[info.path[4]] = info.newval;
-	}
-	else if (info.path[2] == "ailments") {
-		updateAilmentDisplay("target");	
-	} else {
-		if (targetSettings.palette.targeting_details) return;
-		access.target.display.name = info.newval;
-	}
-});
-
 // Gets values from the target character and token used for setting up targeting
 onAccess('clicked:selectTarget', async function(info) {
-	let targetValues = await getTargetAttrs(["character_id", "token_id", "token_name", "selfToken"]);
+	let targetValues = await getTargetAttrs(["character_id", "token_id", "selfToken"]);
 
 	selectTarget(...Object.values(targetValues));
 });
 
-async function selectTarget(targetID, tokenID, tokenName, targetImage) {
+async function selectTarget(targetID, tokenID, targetImage) {
 	let selfID = getActiveCharacterId();
 
 	// Clear the current target when pressing an element in the sheet while targeting / targeting one's own character
@@ -19991,53 +19808,50 @@ async function selectTarget(targetID, tokenID, tokenName, targetImage) {
 	access._initialize(targetID, "target");
 
 	// Runs after the target finishes initializing
-	access._begin(selfID, "action:targeting", async function() {
-		
-		// Ensure the target character was initialized properly
-		access._begin(selfID, "action:targeting", async function() {
-			if (targetID in access) {
-				if (isValidTarget(access[targetID])) {
-
-					// Set up local targetting data (the data shown in the targeting display)
-					access.target.target_id = targetID;
-					access.target.display.image = targetImage; // Target token image
-
-					if (access.target.settings.sheet.palette.targeting_details) { // Hide all targeting details
-						unknownTarget();
-					} else {
-						if (access.target.settings.sheet.damage_helper.hide_bar_update) { // Hide target HP, STG and SP bars
-							unknownTarget("bars");
-						} else {
-							for (bar in access.target.display.bar._attrs) { // Target bars
-								access.target.display.bar[bar] = access.target.bar[bar];
-							}
-						}
-
-						if (access.target.settings.sheet.palette.targeting_details) { // Target name
-						unknownTarget();
-						}
-						else if (access.target.settings.sheet.general.generic_token_mode) { // TODO: May not be needed if you target a root with type = "token"
-							access.target.display.name = tokenName;
-						} else {
-							access.target.display.name = access.target.character.name;
-						}
-
-						updateAilmentDisplay("target"); // Target ailments
-					}
-				} else {
-					resetTarget();
-
-					// TODO: This message should display in the chat
-					console.warn("The target token hasn't been added as a token instance:", arguments);
-				}
-			} else {
-				resetTarget();
-	
-				// TODO: This message should display in the chat
-				console.warn("The target character could not be initialized:", arguments);
-			}
-		});
+	access._begin(selfID, "action:targeting", function() {
+		updateTargetingDisplay(targetID, tokenID, targetImage);
 	});
+}
+
+function updateTargetingDisplay(targetID, tokenID, targetImage) {
+	if (!is.ID(targetID)) return resetTarget();
+
+	// Ensures the target character was initialized properly
+	if (!access[targetID]) {
+		console.warn("The target character could not be initialized:", arguments); // TODO: This message should display in the chat
+		return resetTarget();
+	}
+	if (!isValidTarget(access[targetID])) {
+		console.warn("The target token hasn't been added as a token instance:", arguments); // TODO: This message should display in the chat
+		return resetTarget();
+	}
+
+	// Set up local targetting data (the data shown in the targeting display)
+	access.target.target_id = targetID;
+	access.target.display.image = targetImage; // Target token image
+
+	if (access.target.settings.sheet.palette.targeting_details) { // Hide all targeting details
+		unknownTarget();
+	} else {
+		if (access.target.settings.sheet.damage_helper.hide_bar_update) { // Hide target HP, STG and SP bars
+			unknownTarget("bars");
+		} else {
+			for (bar in access.target.display.bar._attrs) { // Target bars
+				access.target.display.bar[bar] = access.target.bar[bar];
+			}
+		}
+
+		if (access.target.settings.sheet.palette.targeting_details) { // Target name
+			unknownTarget();
+		}
+		else if (access.target.settings.sheet.general.generic_token_mode) {
+			access.target.display.name = access.target.tokens?.find(token => token.selected)?.character.name ?? access.target.character.name;
+		} else {
+			access.target.display.name = access.target.character.name;
+		}
+
+		updateAilmentDisplay("target"); // Target ailments
+	}
 }
 
 // Checks if a token is an invalid target. Currently happens if Generic token mode is enabled but the token has not been added as an instance
@@ -20078,6 +19892,28 @@ function unknownTarget(type) {
 		resetAilmentDisplay("target");
 	}
 }
+
+/* Targeting - Update targeting display */
+// Only handles changes to an existing target. When changing to a new target, use updateTargetingDisplay()
+onAccess(["target", [
+	["character", "modify", "name"],
+	["bar", "modify", ["hp", "stg", "sp"]],
+	["ailments", [
+		"add",
+		"delete",
+		["N", "modify", ["count", "icon"]],
+	]],
+]], {}, function(info) {
+	let targetSettings = access.target.settings.sheet;
+
+	switch (info.path[2]) {
+		case "bar": access.target.display.bar[info.path[4]] = info.newval; break;
+		case "ailments": updateAilmentDisplay("target"); break;
+		case "character":
+			if (targetSettings.palette.targeting_details) return;
+			access.target.display.name = info.newval;
+	}
+});
 
 /* Disable targeting for the sheet */
 onAccess(["settings", "sheet", "palette", "modify", "targeting"], {}, function(info) {
@@ -20806,7 +20642,7 @@ function dataImportRepeating(section, override, target) {
 			/* Registering a new item */
 			if (!indexIds[attrid]) {
 
-				indexIds[attrid] = generateRowID();
+				indexIds[attrid] = generateAccessID();
 
 				if (section == "ailments") {
 					output[`repeating_${section}_${indexIds[attrid]}_ailCollapse`] = collapseSetting;
@@ -20816,7 +20652,7 @@ function dataImportRepeating(section, override, target) {
 		});
 	} else {
 		if (section == "ailments" && mode != "Add") {
-			output[`repeating_${section}_${generateRowID()}_ailCollapse`] = collapseSetting;
+			output[`repeating_${section}_${generateAccessID()}_ailCollapse`] = collapseSetting;
 		}
 	}
 
@@ -21364,7 +21200,7 @@ const sheetVersion = "v1.0 Alpha 23/02/26";
 
 // TODO: Work in progress
 async function sheetSetup(ID) {
-	let version = (await getAttrsByID(ID, ["versionNumber"])).versionNumber;
+	let version = (await getAttrByID(ID, "versionNumber"));
 
 	// If the sheet has never been opened, convert all legacy data in the sheet
 	if (version == "0") {
@@ -21549,7 +21385,7 @@ async function accessExport(ID, type, target) {
 	if (!ID) ID = getActiveCharacterId();
 
 	if (access[ID] instanceof dataNode) {
-		let exportTypes = type || (await getAttrsByID(ID, ["exportType"])).exportType;
+		let exportTypes = type || (await getAttrByID(ID, "exportType"));
 		let exportTarget = target || "editorOutput";
 		let data = {}
 
@@ -21633,7 +21469,7 @@ on('clicked:repeating_ailments:copycustom', (info) => {
 	const rowid = info.sourceAttribute.split('_')[2];
 
     getAttrs([...ailmentAttrs.map(attr => `repeating_ailments_${rowid}_${attr}`)], function(values) {
-	let newrowid = generateRowID();
+	let newrowid = generateAccessID();
 	let newrowattrs = Object.fromEntries(Object.entries(values).map(attr => [attr[0].replace(rowid, newrowid), attr[1]]));
 	newrowattrs[`repeating_ailments_${newrowid}_ailName`] += ` (${getTranslationByKeyCustom("Copy", "message-copy")})`;
 
@@ -22224,7 +22060,7 @@ async function legacySheetSetup() {
 		rowid = idarray[0];
 	}
 	else if (idarray.length == 0) {
-		rowid = generateRowID();
+		rowid = generateAccessID();
 		//syncBody += "Initialize game settings. ID: " + rowid + "\n";
 		//syncToggle = "true"; 
 		output[`repeating_global_${rowid}_ruleName`] = "";
@@ -22856,12 +22692,12 @@ async function sendQuery(...args) {
 	//  - Another action begins, adding another action after the frozen query action
 	//  - Another event begins, changing the state of access (usually a sync event)
 	// If a query is interrupted each query in the array returns its first value (usually "No"/"None"/false)
-	let queryActQueueLength = access._action_queue.length;
-	access._state = "query";
+	let awaitQueueLength = access._action_queue.length;
+	access._state = "await";
 
 	return await new Promise(resolve => {
 		let intervalID = setInterval(() => {
-			if (queryActQueueLength != access._action_queue.length || access._state != "query") {
+			if (awaitQueueLength != access._action_queue.length || access._state != "await") {
 				console.warn("Query interrupted by new action/event:", queryArray, {...access._action_queue});
 
 				clearInterval(intervalID);
@@ -22877,7 +22713,7 @@ async function sendQuery(...args) {
 			finishRoll(queryRoll.rollId);
 			clearInterval(intervalID);
 
-			if (queryActQueueLength != access._action_queue.length || access._state != "query") {
+			if (awaitQueueLength != access._action_queue.length || access._state != "await") {
 				// TODO: This should whisper a message to the user informing them their query was interrupted
 				// This should only occur if the query was left open and not cancelled
 			}
