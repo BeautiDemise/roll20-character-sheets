@@ -594,7 +594,7 @@ img:is([src=""], :not([src])) {
 }
 
 
-/* Dropdowns */
+/* Generic dropdowns */
 .darkInput     { --select-alpha-focus: 0.35; --option-alpha: 0.25; --option-alpha-checked: 0.15; }
 .exportSelect  { --select-alpha-focus: 0.30; --option-alpha: 0.20; --option-alpha-checked: 0.10; }
 
@@ -603,10 +603,12 @@ img:is([src=""], :not([src])) {
 #sheetSettings .whiteInput  { --select-alpha-focus: 0.10; --option-alpha: 0.40; --option-alpha-checked: 0.30; }
 #sheetSettings .darkInput   { --select-alpha-focus: 0.35; --option-alpha: 0.40; --option-alpha-checked: 0.30; }
 
-select:focus[class] { background-color: rgba(0, 0, 0, var(--select-alpha-focus, 0.20)) !important; }
-select:focus        { background-color: rgba(255, 255, 255, var(--select-alpha-focus, 0.20)) !important; }
-option              { background-color: rgba(0, 0, 0, var(--option-alpha, 0.65)); }
-option:checked      { background-color: rgba(0, 0, 0, var(--option-alpha-checked, 0.45)); }
+select:focus[class],
+.customSelect:has(.select-toggle:active),
+.customSelect:focus-within { background-color: rgba(0, 0, 0, var(--select-alpha-focus, 0.20)) !important; }
+select:focus               { background-color: rgba(255, 255, 255, var(--select-alpha-focus, 0.20)) !important; }
+option                     { background-color: rgba(0, 0, 0, var(--option-alpha, 0.65)); }
+option:checked             { background-color: rgba(0, 0, 0, var(--option-alpha-checked, 0.45)); }
 
 .transpInput {
     background-color: rgba(0,0,0,0) !important;
@@ -623,6 +625,56 @@ option:checked      { background-color: rgba(0, 0, 0, var(--option-alpha-checked
     color: var(--color-off-white);
     font-weight: bold;
 }
+
+/* A dropdown menu with custom contents */
+label.customSelect {
+    min-height: 28px;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    text-align: center;
+    border-radius: 3px;
+
+    /* Avoids issues with dark mode changing the default label color */
+    &.transpInput, &.darkInput {  color: var(--color-white) !important; }
+    &.whiteInput {  color: var(--color-off-white) !important; }
+
+    /* Adds a dropdown arrow roughly matching the default Chrome dropdown arrow */
+    /* TODO: May need to be re-colored to the text color of the dropdown, and a different arrow may be needed for Firefox browsers */
+    .selectTitle {
+        display: inline-block;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 5px 2px;
+        background-image: url("https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/icons/arrowDown.png");
+        background-repeat: no-repeat;
+        background-size: 13px;
+        background-position: right;
+        background-origin: content-box;
+    }
+
+    /* The menu is opened like any other dropdown, but remains open while interacting with content inside the menu */
+    &:focus-within .selectContents, &:has(.select-toggle:active) .selectContents {
+        display: block;
+    }
+
+    /* TODO: Update this to dynamically match the base dropdown color (it currently only matches whiteInputs in the editor tab) */
+    .selectContents {
+        position: absolute;
+        display: none;
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #777777;
+        background-color: #898989;
+        z-index: 1000;
+    }
+}
+.select-toggle {
+    position: absolute;
+    height: 0 !important;
+    width: 0 !important;
+}
+
 
 /* Generic checkboxes */
 .largeCheck {
@@ -695,7 +747,7 @@ input.fade-item { opacity: 80%;  --fade-opacity: 40%; }
 .hide-toggle:checked ~ .hide-item-flex, .hide-toggle-next:checked + .hide-item-flex {
     display: flex !important;
 }
-div:has(> .hide-container-toggle:checked) { display: none; }
+div:has(> .hide-container-toggle:checked) { display: none !important; }
 
 /* H3 is used for sections on the main character sheet. H4 is used for headers in the Editor tab */
 h3, h4 {
@@ -2070,6 +2122,9 @@ button[type=action].challengeButton::before {
     flex-wrap: wrap;
     max-width: calc(99% - 64px);
 }
+.charsheet:has(#genericTokenModeToggle:checked) { /* Ensures content at the bottom of the sheet isn't covered up by the token bar */
+    padding-bottom: 165px;
+}
 
 /* Generic token controls */
 .genericTokenSelectButton {
@@ -2088,6 +2143,7 @@ button[type=action].challengeButton::before {
 }
 .genericToken_controls button {
     background-color: transparent;
+    line-height: 14px;
 }
 
 /* Individual generic tokens */
@@ -3720,14 +3776,16 @@ button[type=action].challengeButton::before {
 
 /* Custom ailments (Editor tab) */
 #ailmentCustomEditor {
-    height: 560px;
     width: 100%;
 
-    .customAilText {
-        width: 70px !important;
-        text-align: left;
-        font-weight: bold;
+    :is(.repcontainerMock, .repcontainer)  {
+        display: flex;
+        flex-wrap: wrap;
+        max-height: 430px;
+        overflow: auto;
+        padding: 0 0 12px 16px;
     }
+
     .repcontrol { 
         position: absolute;
         top: -38px;
@@ -3753,6 +3811,12 @@ button[type=action].challengeButton::before {
             margin-bottom: 0px;
         }
     }
+
+    .customAilText {
+        min-width: 59px !important;
+        text-align: left;
+        font-weight: bold;
+    }
 }
 .repitemMock {
     margin: 2px;
@@ -3772,12 +3836,13 @@ button[type=action].challengeButton::before {
 .repIconMock .columnAlign .rowContainer {
     align-items: flex-end !important;
 }
-#ailmentCustomEditor :is(.repcontainerMock, .repcontainer)  {
-    display: flex;
-    flex-wrap: wrap;
-    max-height: 430px;
-    overflow: auto;
-    padding-left: 16px;
+
+.ailTriggerContainer {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    justify-items: center;
+    grid-gap: 4px;
+    padding: 5px;
 }
 
 

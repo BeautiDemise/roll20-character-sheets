@@ -307,8 +307,8 @@
 
 							<select name="attr_storeAdv" class="darkInput centerIcon advSelect">
 								<option value="0" data-i18n="item-none">---</option>
-								<option value="Advantage" data-i18n="helper-text-adv">Advantage</option>
-								<option value="Disadvantage" data-i18n="helper-text-disadv">Disadvantage</option>
+								<option value="1" data-i18n="helper-text-adv">Advantage</option>
+								<option value="-1" data-i18n="helper-text-disadv">Disadvantage</option>
 							</select>
 
 							<!-- Recycle AutoScript -->
@@ -1718,7 +1718,7 @@ EGO block end -->
 	<!-- Repeating ailments -->
 	<div id="ailmentDisplay" class="noRepControls">
 	<fieldset class="repeating_ailments">
-		<input type="checkbox" class="hide-container-toggle" name="attr_ailDisplay" hidden value="0">
+		<input type="checkbox" class="hide-container-toggle" name="attr_ailDisplay" value="0" hidden>
 		<div class="rowContainer">
 			<input type="checkbox" class="fade-toggle" name="attr_ailCount" value="0" hidden checked>
 			
@@ -5412,9 +5412,9 @@ EGO block end -->
 	<div class="rowContainer">
 
 	<fieldset class="repeating_ailments">
-	<button type="action" class="copyButton" name="act_copycustom"></button>
+	<button type="action" class="copyButton" name="act_copycustom" data-i18n-title="ailments-copy" title="Copy ailment"></button>
 
-	<label class="displayToggle mediumIcon">
+	<label class="displayToggle mediumIcon" data-i18n-title="ailments-hide" title="Hide ailment">
 		<input type="checkbox" name="attr_ailDisplay" value="true" hidden checked>
 	</label>
 
@@ -5447,15 +5447,62 @@ EGO block end -->
 
 <!-- Ailment trigger -->
 <div class="rowContainer settingStyle">
-<div class="customAilText">
-<span data-i18n="message-trigger">Trigger</span>:
+	<div class="customAilText">
+		<span data-i18n="message-trigger">Trigger</span>:
+	</div>
+	<select name="attr_ailTrigger" class="whiteInput" style="width: 210px;">
+		<option data-i18n="message-none" value="None" selected>None</option>
+		<option data-i18n="trigger-roundend" value="RoundEnd">Round End</option>
+		<option data-i18n="trigger-onaction" value="OnAction">On Action</option>
+		<option data-i18n="trigger-whenhit" value="WhenHit">When Hit</option>
+	</select>
 </div>
-  <select name="attr_ailTrigger" class="whiteInput" style="width: 210px;">
-    <option data-i18n="message-none" value="None" selected>None</option>
-    <option data-i18n="trigger-roundend" value="RoundEnd">Round End</option>
-    <option data-i18n="trigger-onaction" value="OnAction">On Action</option>
-	<option data-i18n="trigger-whenhit" value="WhenHit">When Hit</option>
-  </select>
+
+<div class="rowContainer settingStyle">
+	
+	<label class="customSelect whiteInput">
+		<input type="checkbox" class="select-toggle">
+		<span class="selectTitle" data-i18n="message-trigger">Trigger</span>
+		<div class="selectContents">
+			<div class="ailTriggerContainer">
+				<span data-i18n="message-effect" style="grid-column: 2;">Effect</span>
+				<span data-i18n="message-decay">Decay</span>
+
+				<span data-i18n="trigger-roundend">Round End</span>
+				<input type="checkbox" name="attr_ailTriggerRoundEndEffect" value="true">
+				<input type="checkbox" name="attr_ailTriggerRoundEndDecay" value="true">
+
+				<span data-i18n="trigger-whenhit">When Hit</span>
+				<input type="checkbox" name="attr_ailTriggerWhenHitEffect" value="true">
+				<input type="checkbox" name="attr_ailTriggerWhenHitDecay" value="true">
+
+				<span data-i18n="skill-type-Attack">Attack</span>
+				<input type="checkbox" name="attr_ailTriggerAttackEffect" value="true">
+				<input type="checkbox" name="attr_ailTriggerAttackDecay" value="true">
+
+				<span data-i18n="skill-type-Block">Block</span>
+				<input type="checkbox" name="attr_ailTriggerBlockEffect" value="true">
+				<input type="checkbox" name="attr_ailTriggerBlockDecay" value="true">
+
+				<span data-i18n="skill-type-Evade">Evade</span>
+				<input type="checkbox" name="attr_ailTriggerEvadeEffect" value="true">
+				<input type="checkbox" name="attr_ailTriggerEvadeDecay" value="true">
+
+				<span data-i18n="stats-speed">Speed</span>
+				<input type="checkbox" name="attr_ailTriggerSpeedEffect" value="true">
+				<input type="checkbox" name="attr_ailTriggerSpeedDecay" value="true">
+
+				<span data-i18n="trigger-onaction">On Action</span>
+				<input type="checkbox" name="attr_ailTriggerOnActionEffect" value="true">
+				<input type="checkbox" name="attr_ailTriggerOnActionDecay" value="true">
+
+				<span data-i18n="trigger-roll-stat">Stat Roll</span>
+				<input type="checkbox" name="attr_ailTriggerStatEffect" value="true">
+				<input type="checkbox" name="attr_ailTriggerStatDecay" value="true">
+			</div>
+		</div>
+	</label>
+
 </div>
 
 <!-- Ailment next turn setting -->
@@ -21448,19 +21495,6 @@ onAccess("clicked:lockSection", {}, async function(info) {
 			 : access.ailments;
 
 	node.sync_lock = !node.sync_lock;
-});
-
-
-/* Action: Custom ailment display toggle */
-on('clicked:repeating_ailments:displaycustom', (info) => {
-	const rowid = info.sourceAttribute.split('_')[2];
-
-    getAttrs([`repeating_ailments_${rowid}_ailDisplay`], function(values) {
-	let currentval = values[`repeating_ailments_${rowid}_ailDisplay`];
-	let newval = (currentval == "0") ? "true" : "0";
-
-          setAttrs({ [`repeating_ailments_${rowid}_ailDisplay`]:newval });
-        });
 });
 
 
