@@ -1,127 +1,119 @@
 <div id="menuContainer">
 
-<div id="credits">
-	<div class="creditIcon"></div> 
-
-	<div class="creditText">
-		<span data-i18n="credits0"><b>Project Moon TRPG</b><br> is a fan-made system based on the games of Project Moon.</span><br><br>
-		<b><span data-i18n="credits1">Sheet base:</span></b> @ChungMu35<br>
-		<b><span data-i18n="credits2">Game system:</span></b> @helloing0119<br>
-		<b><span data-i18n="credits3">Translations:</span></b> @punibird<br>
-		<b><span data-i18n="credits6">Editing:</span></b> @punibird, BeautifulDemise (Discord)<br>
-		<b><span data-i18n="credits4">Supported by:</span></b> Project Moon Tabletop Discord<br><br>
-		<b>Discord:</b> <input type="text" class="darkInput" value="https://discord.gg/AJBnUV5tbVt"><br>
-		<b><span data-i18n="credits5">System:</span></b> <input type="text" class="darkInput" value="https://drive.google.com/drive/u/2/folders/15nMYLz0sB5xWUiSOG4oN6IsteRJjpdZk"><br>
-		<b><span data-i18n="credits7">Version:</span></b> <span name="attr_versionNumber" value="0"></span>
+	<div id="credits">
+		<div class="creditIcon"></div> 
+		<div class="creditText">
+			<span data-i18n="credits0"><b>Project Moon TRPG</b><br> is a fan-made system based on the games of Project Moon.</span><br><br>
+			<b><span data-i18n="credits1">Sheet base:</span></b> @ChungMu35<br>
+			<b><span data-i18n="credits2">Game system:</span></b> @helloing0119<br>
+			<b><span data-i18n="credits3">Translations:</span></b> @punibird<br>
+			<b><span data-i18n="credits6">Editing:</span></b> @punibird, BeautifulDemise (Discord)<br>
+			<b><span data-i18n="credits4">Supported by:</span></b> Project Moon Tabletop Discord<br><br>
+			<b><span data-i18n="credits8">Discord:</span></b> <input type="text" class="darkInput" value="https://discord.gg/AJBnUV5tbVt"><br>
+			<b><span data-i18n="credits5">System:</span></b> <input type="text" class="darkInput" style="width: 300px;" value="https://drive.google.com/drive/u/2/folders/15nMYLz0sB5xWUiSOG4oN6IsteRJjpdZk"><br>
+			<b><span data-i18n="credits7">Version:</span></b> <span name="attr_versionNumber" value="0"></span>
+		</div>
 	</div>
 
-	<br>
-</div>
+	<div id="settings">
+		<div class="settingsIcon mediumIcon centerIcon option"></div>
 
-<div id="settings">
-<div class="settingsIcon centerIcon option"></div>
-
-	<div class="rowContainer">
-		<div class="settingsText">
-			<span class="settingsTitle" data-i18n="settings-general">General Settings</span>
-		
-			<input type="text" name="attr_messageOverride" value="0" hidden>
+		<div class="rowContainer">
+			<div class="settingsText">
+				<span class="settingsTitle" data-i18n="settings-general">General Settings</span>
+			
+				<input type="text" name="attr_messageOverride" value="0" hidden>
+					
+				<label><input type="checkbox" name="attr_settingGenericTokenMode" value="true"><span data-i18n="settings-generictokenmode">Sheet: Generic token mode</span></label>
+			
+				<label><input type="checkbox" name="attr_settingHideHelperText" value="true"><span data-i18n="settings-hidehelpertext">Hide: Helper text</span></label>
+			
+				<label><input type="checkbox" name="attr_settingHideUses" value="true"><span data-i18n="settings-hideuses">Hide: Uses in messages</span></label>
+			
 				
-			<label><input type="checkbox" name="attr_settingGenericTokenMode" value="true"><span data-i18n="settings-generictokenmode">Sheet: Generic token mode</span></label>
-		
-			<label><input type="checkbox" name="attr_settingHideHelperText" value="true"><span data-i18n="settings-hidehelpertext">Hide: Helper text</span></label>
-		
-			<label><input type="checkbox" name="attr_settingHideUses" value="true"><span data-i18n="settings-hideuses">Hide: Uses in messages</span></label>
-		
+				<span class="settingsTitle" data-i18n="settings-combat">Combat Settings</span>
+
+				<label for="LoopEnabled"><input type="checkbox" id="LoopEnabled" name="attr_settingAutoUpdate" value="true"><span data-i18n="settings-autoupdate">Auto: Update on Round end</span></label>
+				<input type="checkbox" name="attr_loopEnabled" value="true" hidden>
+				<input type="number" name="attr_configLoopDelay" value="10000" hidden>
+				<input type="number" name="attr_configUpdateDelay" value="1000" hidden>
+				<input type="text" name="attr_configTrackerItemName" value="Round end" hidden>
+
+				<label><input type="checkbox" name="attr_settingDetectStates" value="true" checked><span data-i18n="settings-detect">Auto: Detect combat states</span></label>
 			
-			<span class="settingsTitle" data-i18n="settings-combat">Combat Settings</span>
-
-			<label for="LoopEnabled"><input type="checkbox" id="LoopEnabled" name="attr_settingAutoUpdate" value="true"><span data-i18n="settings-autoupdate">Auto: Update on Round end</span></label>
-			<input type="checkbox" name="attr_loopEnabled" value="true" hidden>
-			<input type="number" name="attr_configLoopDelay" value="10000" hidden>
-			<input type="number" name="attr_configUpdateDelay" value="1000" hidden>
-			<input type="text" name="attr_configTrackerItemName" value="Round end" hidden>
-
-			<label><input type="checkbox" name="attr_settingDetectStates" value="true" checked><span data-i18n="settings-detect">Auto: Detect combat states</span></label>
-		
-			<label><input type="checkbox" name="attr_settingUpdateTurn" value="true"><span data-i18n="settings-turnupdate">Auto: Update Turn Order</span></label>
+				<label><input type="checkbox" name="attr_settingUpdateTurn" value="true"><span data-i18n="settings-turnupdate">Auto: Update Turn Order</span></label>
+				
+				<label><input type="checkbox" name="attr_settingMultihitUses" value="true"><span data-i18n="settings-multihituses">Spend Uses per Multi-hit</span></label>
 			
-			<label><input type="checkbox" name="attr_settingMultihitUses" value="true"><span data-i18n="settings-multihituses">Spend Uses per Multi-hit</span></label>
-		
-			<label><input type="checkbox" name="attr_settingMultihitNoDebuff" value="true"><span data-i18n="settings-multihitfull">No Power debuff on Multi-hit</span></label>
+				<label><input type="checkbox" name="attr_settingMultihitNoDebuff" value="true"><span data-i18n="settings-multihitfull">No Power debuff on Multi-hit</span></label>
 
 
-			<span class="settingsTitle" data-i18n="settings-palette">Palette Settings</span>
-			
-			<label><input type="checkbox" name="attr_settingTargeting" value="true" checked><span data-i18n="settings-targeting">Auto: Targeting</span></label>
+				<span class="settingsTitle" data-i18n="settings-palette">Palette Settings</span>
+				
+				<label><input type="checkbox" name="attr_settingTargeting" value="true" checked><span data-i18n="settings-targeting">Auto: Targeting</span></label>
 
-			<label><input type="checkbox" name="attr_settingLastDefenceRoll" value="true" checked><span data-i18n="settings-lastdefenceroll">Auto: Last Defence roll</span></label>
+				<label><input type="checkbox" name="attr_settingLastDefenceRoll" value="true" checked><span data-i18n="settings-lastdefenceroll">Auto: Last Defence roll</span></label>
 
-			<label><input type="checkbox" name="attr_settingActionTracker" value="true" checked><span data-i18n="settings-action-tracking">Auto: Action tracking</span></label>
-			
-			<label><input type="checkbox" name="attr_settingLightRegen" value="true" checked><span data-i18n="settings-lightregen">Auto: Light regen</span></label>
+				<label><input type="checkbox" name="attr_settingActionTracker" value="true" checked><span data-i18n="settings-action-tracking">Auto: Action tracking</span></label>
+				
+				<label><input type="checkbox" name="attr_settingLightRegen" value="true" checked><span data-i18n="settings-lightregen">Auto: Light regen</span></label>
 
-			<label><input type="checkbox" name="attr_settingCombatToggle" value="true" checked><span data-i18n="settings-combattoggle">Auto: Combat toggle</span></label>
+				<label><input type="checkbox" name="attr_settingCombatToggle" value="true" checked><span data-i18n="settings-combattoggle">Auto: Combat toggle</span></label>
 
-			<label><input type="checkbox" name="attr_settingTargetingDetails" value="true"><span data-i18n="settings-hidedetailsfromtargeting">Hide: Details from targeting</span></label>
+				<label><input type="checkbox" name="attr_settingTargetingDetails" value="true"><span data-i18n="settings-hidedetailsfromtargeting">Hide: Details from targeting</span></label>
+			</div>
+
+			<div class="settingsText" style="padding-left: 10px;">
+				<span class="settingsTitle" data-i18n="settings-ailments">Ailment Settings</span>
+
+				<label><input type="checkbox" name="attr_settingMuteMessage" value="true"><span data-i18n="settings-mute">Mute ailment messages</span></label>
+
+				<label><input type="checkbox" name="attr_settingLimbusStyle" value="true"><span data-i18n="settings-limbusstyle">Limbus style ailment icons</span></label>
+
+				<label><input type="checkbox" name="attr_settingHideNextRound" value="true"><span data-i18n="settings-hidenextturn">Hide: Next round input </span></label>
+
+
+				<span class="settingsTitle" data-i18n="settings-damage-helper">Damage Helper Settings</span>
+
+				<label><input type="checkbox" name="attr_settingApplyDamage" value="true" checked><span data-i18n="settings-autoapplydamage">Auto: Apply damage taken</span></label>
+
+				<label><input type="checkbox" name="attr_settingHideBarUpdate" value="true"><span data-i18n="settings-hidebarupdate">Hide: Status bar update </span></label>
+
+
+				<span class="settingsTitle" data-i18n="settings-autoeffects">AutoEffect Settings</span>
+
+				<label><input type="checkbox" name="attr_settingHideConditionalReminder" value="true"><span data-i18n="settings-hideconditionalreminder">Hide: Conditional button reminder</span></label>
+
+				<label><input type="checkbox" name="attr_settingHideChatButtons" value="true"><span data-i18n="settings-hidechatbuttons">Hide: Chat buttons</span></label>
+				
+				<label><input type="checkbox" name="attr_settingHideBaseEffects" value="true"><span data-i18n="settings-hidebaseeffect">Hide: Base effects</span></label>
+
+
+				<span class="settingsTitle" data-i18n="settings-mystery">Mystery Settings</span>
+
+				<label for="hideMystery">
+					<button type="action" id="hideMystery" name="act_hideMystery" hidden></button>
+					<input type="checkbox" name="attr_settingHideMystery" style="pointer-events: none;" value="true">
+					<span data-i18n="settings-hidemystery">Hide: Mystery elements</span>
+				</label>
+				<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideMystery" value="true">
+				
+				<label class="hide-item-rev"><input type="checkbox" name="attr_settingDistortSave" value="true"><span data-i18n="settings-distortsave">Auto: Save/Load on Distort</span></label>
+				
+			</div>
 		</div>
 
-		<div class="settingsText" style="padding-left: 10px;">
-			<span class="settingsTitle" data-i18n="settings-ailments">Ailment Settings</span>
-
-			<label><input type="checkbox" name="attr_settingMuteMessage" value="true"><span data-i18n="settings-mute">Mute ailment messages</span></label>
-
-			<label><input type="checkbox" name="attr_settingLimbusStyle" value="true"><span data-i18n="settings-limbusstyle">Limbus style ailment icons</span></label>
-
-			<label><input type="checkbox" name="attr_settingHideNextRound" value="true"><span data-i18n="settings-hidenextturn">Hide: Next round input </span></label>
-
-
-			<span class="settingsTitle" data-i18n="settings-damage-helper">Damage Helper Settings</span>
-
-			<label><input type="checkbox" name="attr_settingApplyDamage" value="true" checked><span data-i18n="settings-autoapplydamage">Auto: Apply damage taken</span></label>
-
-			<label><input type="checkbox" name="attr_settingHideBarUpdate" value="true"><span data-i18n="settings-hidebarupdate">Hide: Status bar update </span></label>
-
-
-			<span class="settingsTitle" data-i18n="settings-autoeffects">AutoEffect Settings</span>
-
-			<label><input type="checkbox" name="attr_settingHideConditionalReminder" value="true"><span data-i18n="settings-hideconditionalreminder">Hide: Conditional button reminder</span></label>
-
-			<label><input type="checkbox" name="attr_settingHideChatButtons" value="true"><span data-i18n="settings-hidechatbuttons">Hide: Chat buttons</span></label>
-			
-			<label><input type="checkbox" name="attr_settingHideBaseEffects" value="true"><span data-i18n="settings-hidebaseeffect">Hide: Base effects</span></label>
-
-
-			<span class="settingsTitle" data-i18n="settings-mystery">Mystery Settings</span>
-
-			<label for="hideMystery">
-				<button type="action" id="hideMystery" name="act_hideMystery" hidden></button>
-				<input type="checkbox" name="attr_settingHideMystery" style="pointer-events: none;" value="true">
-				<span data-i18n="settings-hidemystery">Hide: Mystery elements</span>
-			</label>
-			<input type="checkbox" class="hide-toggle-rev" name="attr_settingHideMystery" value="true">
-			
-			<label class="hide-item-rev"><input type="checkbox" name="attr_settingDistortSave" value="true"><span data-i18n="settings-distortsave">Auto: Save/Load on Distort</span></label>
-			
-		</div>
 	</div>
-
 </div>
-</div>
-<br>
 
-<div class="player">
-	<div><span data-i18n="assessed">Assessed by: </span></div>
+<div id="player" class="rowContainer">
+	<span data-i18n="assessed">Assessed by: </span>
 	<input type="text" placeholder="Player name" id="playerName" name="attr_player_name" data-i18n-placeholder="playername">
 </div>
 
-<div id="logo">
-	<img src="https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/PMTRPGLogo.png" title="Project Moon TRPG">
-</div>
+<img id="logo" src="https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/PMTRPGLogo.png" title="Project Moon TRPG">
 
-<div class="rowContainer centerFlex">    
-	<div id="sheetTitle"><span data-i18n="sheet-title">Background Investigation and Combat Ability Report</span></div>
-</div>
+<span id="sheetTitle" data-i18n="sheet-title">Background Investigation and Combat Ability Report</span>
 
 <!-- Drag event detector -->
 <div class="dragDetector hide-item">
@@ -788,12 +780,12 @@
 					<input class="Mstat HP" type="text" name="attr_token_HP_max" value="30">
 				</div>
 				<div class="bars">
-					<input class="Cstat egoSTGRtext" type="number" name="attr_token_STG" value="20">
+					<input class="Cstat egoSTGtext" type="number" name="attr_token_STG" value="20">
 					<div>
 						<input type="checkbox" class="hide-toggle" name="attr_token_map_STG_display" value="true" hidden>
-						<input id="STGRbarToken" class="hide-item Tstat egoSTGRtext" type="number" name="attr_token_map_STG" value="">
+						<input id="STGbarToken" class="hide-item Tstat egoSTGtext" type="number" name="attr_token_map_STG" value="">
 					</div>
-					<input class="Mstat egoSTGR" type="text" name="attr_token_STG_max" value="20">
+					<input class="Mstat egoSTG" type="text" name="attr_token_STG_max" value="20">
 				</div>
 				<div class="bars">
 					<input type="checkbox" class="hide-toggle-rev" name="attr_token_distort_state" value="true">
@@ -855,7 +847,7 @@
 		</fieldset>
 
 		<!-- Generic token controls -->
-		<input type="text" name="attr_tokenID_selection" value="" hidden>
+		<input type="text" name="attr_tokenID_selection" value="0" hidden>
 
 
 		<!-- Theorical way to handle multiple multiple token bars at once
@@ -1214,6 +1206,105 @@
 				<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 				<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 				<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="item-name" placeholder="Item name"> <!-- Name -->
+
+				<!-- Option: Rollformats -->
+				<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
+				<div class="hide-item-flex rollFormatContainer">
+
+					<!-- Option: Roll together -->
+					<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
+					
+					<!-- Rollformat (1) -->
+					<div class="rollFormat">
+						<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+							<input type="hidden" class="rollType" name="attr_rollType0">
+							<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
+						</div>
+
+						<div class="rollFormatBlock"> <!-- Roll block -->
+							<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="0">
+							<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="0">
+							<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
+						</div>
+						
+						<!-- Effect roll buttons only appear in the roll palette -->
+					</div>
+
+					<!-- Rollformat (2) -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden>
+					<div class="hide-item-flex rollFormat">
+						<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+							<input type="hidden" class="rollType" name="attr_rollType1">
+							<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
+						</div>
+
+						<div class="rollFormatBlock"> <!-- Roll block -->
+							<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="1">
+							<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="12">
+							<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
+						</div>
+					</div>
+
+					<!-- Rollformat (3) -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden>
+					<div class="hide-item-flex rollFormat">
+						<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+							<input type="hidden" class="rollType" name="attr_rollType2">
+							<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
+						</div>
+
+						<div class="rollFormatBlock"> <!-- Roll block -->
+							<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
+							<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
+							<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
+						</div>
+					</div>
+
+					<!-- Rollformat (4) -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden>
+					<div class="hide-item-flex rollFormat">
+						<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+							<input type="hidden" class="rollType" name="attr_rollType3">
+							<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
+						</div>
+
+						<div class="rollFormatBlock"> <!-- Roll block -->
+							<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
+							<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
+							<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
+						</div>
+					</div>
+
+					<!-- Rollformat (5) -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden>
+					<div class="hide-item-flex rollFormat">
+						<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+							<input type="hidden" class="rollType" name="attr_rollType4">
+							<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
+						</div>
+
+						<div class="rollFormatBlock"> <!-- Roll block -->
+							<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
+							<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
+							<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
+						</div>
+					</div>
+				</div>
+					
+				<!-- Option: Limited uses -->
+				<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
+				<div class="hide-item-flex itemLimited">
+
+					<!-- Option: Item uses -->
+					<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+					<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
+					
+					<!-- Option: Light cost -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
+					<div class="hide-item lightCost">
+						<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+					</div>
+				</div>
 			</div>
 
 			<div class="itemContents rowContainer">
@@ -1318,118 +1409,32 @@
 					<!-- Item header contents (Right) -->
 					<div class="rowContainer contentHeader">
 
-						<!-- Option: Roll together -->
-						<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
-
-						<!-- Option: Rollformats -->
+						<!-- Used to adjust the size of the rollformat part of the item header  -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
-						<div class="hide-item-flex rollFormatContainer">
-
-							<!-- Rollformat (1) -->
-							<div class="rollFormat">
-								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-									<input type="hidden" class="rollType" name="attr_rollType0">
-									<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
-								</div>
-
-								<div class="rollFormatBlock"> <!-- Roll block -->
-									<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="0">
-									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="0">
-									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
-								</div>
-								
-								<!-- Effect roll buttons only appear in the roll palette -->
+						<div class="hide-item-flex rollFormatBlocker">
+							<div class="columnAlign">
+								<input type="checkbox" name="attr_optionRollDisplay1" value="0" checked>
+								<input type="checkbox" name="attr_optionRollDisplay2" value="0" checked>
+								<input type="checkbox" name="attr_optionRollDisplay3" value="0" checked>
+								<input type="checkbox" name="attr_optionRollDisplay4" value="0" checked>
 							</div>
-
-							<!-- Rollformat (2) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden>
-							<div class="hide-item-flex rollFormat">
-								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-									<input type="hidden" class="rollType" name="attr_rollType1">
-									<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
-								</div>
-
-								<div class="rollFormatBlock"> <!-- Roll block -->
-									<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="1">
-									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="12">
-									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
-								</div>
-							</div>
-
-							<!-- Rollformat (3) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden>
-							<div class="hide-item-flex rollFormat">
-								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-									<input type="hidden" class="rollType" name="attr_rollType2">
-									<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
-								</div>
-
-								<div class="rollFormatBlock"> <!-- Roll block -->
-									<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
-									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
-									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
-								</div>
-							</div>
-
-							<!-- Rollformat (4) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden>
-							<div class="hide-item-flex rollFormat">
-								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-									<input type="hidden" class="rollType" name="attr_rollType3">
-									<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
-								</div>
-
-								<div class="rollFormatBlock"> <!-- Roll block -->
-									<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
-									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
-									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
-								</div>
-							</div>
-
-							<!-- Rollformat (5) -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden>
-							<div class="hide-item-flex rollFormat">
-								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-									<input type="hidden" class="rollType" name="attr_rollType4">
-									<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
-								</div>
-
-								<div class="rollFormatBlock"> <!-- Roll block -->
-									<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
-									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
-									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
-								</div>
-							</div>
-						</div>
-							
-						<!-- Option: Limited uses -->
-						<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-						<div class="hide-item-flex itemLimited">
-
-							<!-- Option: Item uses -->
-							<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+							<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked >
 							<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
-							<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
-							
-							<!-- Option: Light cost -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
-							<div class="hide-item lightCost">
-								<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
-							</div>
+							<input type="checkbox" class="hide-item-rev" name="attr_optionLightCost" value="0" checked>
 						</div>
 					</div>
 
 					<!-- Option: Resistances -->
 					<input type="checkbox" class="hide-toggle-next" name="attr_optionResist" value="true" hidden>
-					<div class="hide-item itemResist">
+					<div class="hide-item itemResistContainer">
 
 						<!-- Option: Damage resistances -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionResistBaseDamage" value="true" hidden>
-						<div class="hide-item itemResistDamage">
+						<div class="hide-item-grid itemResistDamage">
 
 							<!-- Slash -->
 							<input type="checkbox" class="hide-toggle-rev-next" name="attr_slashBaseMode" value="None" hidden>
-							<div class="hide-item-rev rowContainer centerFlex">
+							<div class="hide-item-rev itemResRow">
 								<select class="itemResMode" name="attr_slashBaseMode" hidden>
 									<option value="None">---</option>
 									<option value="Replace" selected>Replace</option>
@@ -1444,7 +1449,7 @@
 
 							<!-- Pierce -->
 							<input type="checkbox" class="hide-toggle-rev-next" name="attr_pierceBaseMode" value="None" hidden>
-							<div class="hide-item-rev rowContainer centerFlex">
+							<div class="hide-item-rev itemResRow">
 								<select class="itemResMode" name="attr_pierceBaseMode" hidden>
 									<option value="None">---</option>
 									<option value="Replace" selected>Replace</option>
@@ -1459,7 +1464,7 @@
 
 							<!-- Blunt -->
 							<input type="checkbox" class="hide-toggle-rev-next" name="attr_bluntBaseMode" value="None" hidden>
-							<div class="hide-item-rev rowContainer centerFlex">
+							<div class="hide-item-rev itemResRow">
 								<select class="itemResMode" name="attr_bluntBaseMode" hidden>
 									<option value="None">---</option>
 									<option value="Replace" selected>Replace</option>
@@ -1549,11 +1554,11 @@ EGO block end -->
 	</div>
 </div>
 
-<div class="banner egoSTGRtext"><span data-i18n="bar-stagres">Stagger Res</span>
+<div class="banner egoSTGtext"><span data-i18n="bar-stagres">Stagger Res</span>
 	<div class="rowContainer centerFlex bars">
 		<input type="checkbox" class="style-toggle-rev" name="attr_TSTG_Sources" value="{}" hidden>
-		<input id="STGRbar" class="Cstat egoSTGRtext" type="number" name="attr_STG" value="20">
-		<input class="Mstat egoSTGR" type="text" name="attr_STG_max" value="20">
+		<input id="STGbar" class="Cstat egoSTGtext" type="number" name="attr_STG" value="20">
+		<input class="Mstat egoSTG" type="text" name="attr_STG_max" value="20">
 	</div>
 </div>
 
@@ -1591,34 +1596,39 @@ EGO block end -->
 <div class="contentContainer darkBG">
 	<input type="checkbox" class="helperText" name="attr_settingHideHelperText" value="true" hidden>
 	<div class="rowContainer damageHelperContainer helperTextContainer">
-		<div class="columnAlign damageHelperType">
-			<input type="radio" id="damageHelperNone" name="attr_damageHelperType" value="None" checked>
+		<div class="damageHelperType">
+			<input type="radio" name="attr_damageHelperType" value="None" hidden checked>
 
-			<input type="radio" id="damageHelperSlash" name="attr_damageHelperType" value="Slash">
-			<label for="damageHelperSlash" class="type-image typeIcon slash" data-i18n-title="weapon-type-Slash" title="Slash"></label>
+			<label class="largeIcon slash" data-i18n-title="weapon-type-Slash" title="Slash">
+				<input type="radio" name="attr_damageHelperType" value="Slash" hidden>
+			</label>
 
-			<input type="radio" id="damageHelperPierce" name="attr_damageHelperType" value="Pierce">
-			<label for="damageHelperPierce" class="type-image typeIcon pierce" data-i18n-title="weapon-type-Pierce" title="Pierce"></label>
+			<label class="largeIcon pierce" data-i18n-title="weapon-type-Pierce" title="Pierce">
+				<input type="radio" name="attr_damageHelperType" value="Pierce" hidden>
+			</label>
 
-			<input type="radio" id="damageHelperBlunt" name="attr_damageHelperType" value="Blunt">
-			<label for="damageHelperBlunt" class="type-image typeIcon blunt" data-i18n-title="weapon-type-Blunt" title="Blunt"></label>
+			<label class="largeIcon blunt" data-i18n-title="weapon-type-Blunt" title="Blunt">
+				<input type="radio" name="attr_damageHelperType" value="Blunt" hidden>
+			</label>
 		</div>
 
-		<div class="columnAlign baseDamage helpers">
-			<b data-i18n="helper-text-basedamage">Base Damage</b>
-			<input type="number" class="whiteInput baseDamageInput" name="attr_baseDamage" value="0" min="0" data-i18n-title="helper-text-basedamage" title="Base damage">
-		</div>
-		<div class="columnAlign flatDamage helpers">
-			<b data-i18n="helper-text-flatdamagehp">Flat HP DMG</b>
-			<input type="number" class="whiteInput flatHPInput hoverSpinner" name="attr_flatDamageHP" value="0" data-i18n-title="helper-text-flatdamagehp" title="Flat HP DMG">
-		</div>
-		<div class="columnAlign flatDamage helpers">
-			<b data-i18n="helper-text-flatdamagest">Flat STG DMG</b>
-			<input type="number" class="whiteInput flatSTGInput hoverSpinner" name="attr_flatDamageSTG" value="0" data-i18n-title="helper-text-flatdamagest" title="Flat STG DMG">
-		</div>
-		<div class="columnAlign applyDamage helpers">
-			<b data-i18n="helper-text-applydamage">Apply damage</b>
-			<button type="action" class="applyDamageInput" name="act_applyDamage" data-i18n-title="helper-text-applydamage" title="Apply damage"></button>
+		<div class="damageHelperDamage">
+			<div class="baseDamage helpers">
+				<b data-i18n="helper-text-basedamage">Base Damage</b>
+				<input type="number" class="whiteInput baseDamageInput" name="attr_baseDamage" value="0" min="0" data-i18n-title="helper-text-basedamage" title="Base damage">
+			</div>
+			<div class="flatDamage helpers">
+				<b data-i18n="helper-text-flatdamagehp">Flat HP DMG</b>
+				<input type="number" class="whiteInput flatHPInput hoverSpinner" name="attr_flatDamageHP" value="0" data-i18n-title="helper-text-flatdamagehp" title="Flat HP DMG">
+			</div>
+			<div class="flatDamage helpers">
+				<b data-i18n="helper-text-flatdamagest">Flat STG DMG</b>
+				<input type="number" class="whiteInput flatSTGInput hoverSpinner" name="attr_flatDamageSTG" value="0" data-i18n-title="helper-text-flatdamagest" title="Flat STG DMG">
+			</div>
+			<div class="applyDamage helpers">
+				<b data-i18n="helper-text-applydamage">Apply damage</b>
+				<button type="action" class="darkButton containIcon damage" name="act_applyDamage" data-i18n-title="helper-text-applydamage" title="Apply damage"></button>
+			</div>
 		</div>
 	</div>
 	<input type="text" name="attr_THP_Sources" value="{}" hidden>
@@ -1902,7 +1912,7 @@ EGO block end -->
 
 		<div class="sideDice columnAlign helpers">
 			<b data-i18n="helper-text-difficulty">Difficulty</b>
-			<input type="number" class="whiteInput difficultyInput" name="attr_difficulty" value="0" data-i18n-title="helper-text-difficulty" title="Difficulty">
+			<input type="number" class="whiteInput difficultyInput" name="attr_power" value="0" data-i18n-title="helper-text-difficulty" title="Difficulty">
 		</div>
 
 		<div class="columnAlign centerFlex helpers">
@@ -1930,7 +1940,7 @@ EGO block end -->
 
 				<input type="text" name="attr_evdPositive" value="0" hidden>
 				<input type="text" name="attr_evdNegative" value="0" hidden>
-				<input type="text" class="power STGRtext darkInput" name="attr_powerEVD" value="@{evdPower}+@{evdPositive}-@{evdNegative}" data-i18n-title="helper-evd-power" title="Evd Power" disabled="true">
+				<input type="text" class="power STGtext darkInput" name="attr_powerEVD" value="@{evdPower}+@{evdPositive}-@{evdNegative}" data-i18n-title="helper-evd-power" title="Evd Power" disabled="true">
 			</div>
 		</div>
 		-->
@@ -2021,7 +2031,7 @@ EGO block end -->
 					<!-- Target bars -->
 					<div class="rowContainer" style="width: 150px;">
 						<div class="bars"><input class="Cstat HPtext noSpinner" type="text" name="attr_HP_target" value="---"></div>
-						<div class="bars"><input class="Cstat egoSTGRtext noSpinner" type="text" name="attr_STG_target" value="---"></div>
+						<div class="bars"><input class="Cstat egoSTGtext noSpinner" type="text" name="attr_STG_target" value="---"></div>
 						<div class="bars"><input class="Cstat SANtext noSpinner" type="text" name="attr_SP_target" value="---"></div>
 					</div>
 	
@@ -2221,12 +2231,12 @@ EGO block end -->
 				<!-- Palette contents (Right) -->
 				<div class="paletteRow contentRow right columnAlign">
 
-					<!-- Option: Roll together -->
-					<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
-
 					<!-- Option: Rollformats -->
 					<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
 					<div class="hide-item-flex rollFormatContainer">
+
+						<!-- Option: Roll together -->
+						<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
 						
 						<!-- Rollformat (1) -->
 						<div class="rollFormat">
@@ -2695,6 +2705,118 @@ EGO block end -->
 						<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 						<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="equip-weapon-name" placeholder="Weapon name"> <!-- Name -->
+
+						<!-- Option: Rollformats -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
+						<div class="hide-item-flex rollFormatContainer">
+
+							<!-- Option: Roll together -->
+							<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
+
+							<!-- Rollformat (1) -->
+							<div class="rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType0">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="1">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="10">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (2) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType1">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (3) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType2">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (4) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType3">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (5) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType4">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
+							</div>
+						</div>
+							
+						<!-- Option: Limited uses -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
+						<div class="hide-item-flex itemLimited">
+
+							<!-- Option: Item uses -->
+							<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+							<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
+
+							<!-- Option: Light cost -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
+							<div class="hide-item lightCost">
+								<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+							</div>
+						</div>
 					</div>
 
 					<div class="itemContents rowContainer">
@@ -2799,131 +2921,32 @@ EGO block end -->
 							<!-- Item header contents (Right) -->
 							<div class="rowContainer contentHeader">
 
-								<!-- Option: Roll together -->
-								<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
-
-								<!-- Option: Rollformats -->
+								<!-- Used to adjust the size of the rollformat part of the item header  -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
-								<div class="hide-item-flex rollFormatContainer">
-
-									<!-- Rollformat (1) -->
-									<div class="rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType0">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="1">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="10">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+								<div class="hide-item-flex rollFormatBlocker">
+									<div class="columnAlign">
+										<input type="checkbox" name="attr_optionRollDisplay1" value="0" checked>
+										<input type="checkbox" name="attr_optionRollDisplay2" value="0" checked>
+										<input type="checkbox" name="attr_optionRollDisplay3" value="0" checked>
+										<input type="checkbox" name="attr_optionRollDisplay4" value="0" checked>
 									</div>
-
-									<!-- Rollformat (2) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType1">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
-									</div>
-
-									<!-- Rollformat (3) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType2">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
-									</div>
-
-									<!-- Rollformat (4) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType3">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
-									</div>
-
-									<!-- Rollformat (5) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType4">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
-									</div>
-								</div>
-									
-								<!-- Option: Limited uses -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-								<div class="hide-item-flex itemLimited">
-
-									<!-- Option: Item uses -->
-									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked >
 									<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
-									<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
-
-									<!-- Option: Light cost -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
-									<div class="hide-item lightCost">
-										<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
-									</div>
+									<input type="checkbox" class="hide-item-rev" name="attr_optionLightCost" value="0" checked>
 								</div>
 							</div>
 
 							<!-- Option: Resistances -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionResist" value="true" hidden>
-							<div class="hide-item itemResist">
+							<div class="hide-item itemResistContainer">
 
 								<!-- Option: Damage resistances -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionResistBaseDamage" value="true" hidden>
-								<div class="hide-item itemResistDamage">
+								<div class="hide-item-grid itemResistDamage">
 
 									<!-- Slash -->
 									<input type="checkbox" class="hide-toggle-rev-next" name="attr_slashBaseMode" value="None" hidden>
-									<div class="hide-item-rev rowContainer centerFlex">
+									<div class="hide-item-rev itemResRow">
 										<select class="itemResMode" name="attr_slashBaseMode" hidden>
 											<option value="None">---</option>
 											<option value="Replace" selected>Replace</option>
@@ -2938,7 +2961,7 @@ EGO block end -->
 
 									<!-- Pierce -->
 									<input type="checkbox" class="hide-toggle-rev-next" name="attr_pierceBaseMode" value="None" hidden>
-									<div class="hide-item-rev rowContainer centerFlex">
+									<div class="hide-item-rev itemResRow">
 										<select class="itemResMode" name="attr_pierceBaseMode" hidden>
 											<option value="None">---</option>
 											<option value="Replace" selected>Replace</option>
@@ -2953,7 +2976,7 @@ EGO block end -->
 
 									<!-- Blunt -->
 									<input type="checkbox" class="hide-toggle-rev-next" name="attr_bluntBaseMode" value="None" hidden>
-									<div class="hide-item-rev rowContainer centerFlex">
+									<div class="hide-item-rev itemResRow">
 										<select class="itemResMode" name="attr_bluntBaseMode" hidden>
 											<option value="None">---</option>
 											<option value="Replace" selected>Replace</option>
@@ -3041,6 +3064,118 @@ EGO block end -->
 						<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 						<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="augment-name" placeholder="Item name"> <!-- Name -->
+
+						<!-- Option: Rollformats -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
+						<div class="hide-item-flex rollFormatContainer">
+
+							<!-- Option: Roll together -->
+							<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
+
+							<!-- Rollformat (1) -->
+							<div class="rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType0">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (2) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType1">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (3) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType2">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (4) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType3">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (5) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType4">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
+							</div>
+						</div>
+									
+						<!-- Option: Limited uses -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
+						<div class="hide-item-flex itemLimited">
+
+							<!-- Option: Item uses -->
+							<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+							<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
+
+							<!-- Option: Light cost -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
+							<div class="hide-item lightCost">
+								<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+							</div>
+						</div>
 					</div>
 
 					<div class="itemContents rowContainer">
@@ -3145,131 +3280,32 @@ EGO block end -->
 							<!-- Item header contents (Right) -->
 							<div class="rowContainer contentHeader">
 
-								<!-- Option: Roll together -->
-								<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
-
-								<!-- Option: Rollformats -->
+								<!-- Used to adjust the size of the rollformat part of the item header  -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
-								<div class="hide-item-flex rollFormatContainer">
-
-									<!-- Rollformat (1) -->
-									<div class="rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType0">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+								<div class="hide-item-flex rollFormatBlocker">
+									<div class="columnAlign">
+										<input type="checkbox" name="attr_optionRollDisplay1" value="0" checked>
+										<input type="checkbox" name="attr_optionRollDisplay2" value="0" checked>
+										<input type="checkbox" name="attr_optionRollDisplay3" value="0" checked>
+										<input type="checkbox" name="attr_optionRollDisplay4" value="0" checked>
 									</div>
-
-									<!-- Rollformat (2) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType1">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
-									</div>
-
-									<!-- Rollformat (3) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType2">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
-									</div>
-
-									<!-- Rollformat (4) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType3">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
-									</div>
-
-									<!-- Rollformat (5) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType4">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
-									</div>
-								</div>
-									
-								<!-- Option: Limited uses -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-								<div class="hide-item-flex itemLimited">
-
-									<!-- Option: Item uses -->
-									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked >
 									<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
-									<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
-
-									<!-- Option: Light cost -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
-									<div class="hide-item lightCost">
-										<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
-									</div>
+									<input type="checkbox" class="hide-item-rev" name="attr_optionLightCost" value="0" checked>
 								</div>
 							</div>
 
 							<!-- Option: Resistances -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionResist" value="true" hidden>
-							<div class="hide-item itemResist">
+							<div class="hide-item itemResistContainer">
 
 								<!-- Option: Damage resistances -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionResistBaseDamage" value="true" hidden>
-								<div class="hide-item itemResistDamage">
+								<div class="hide-item-grid itemResistDamage">
 
 									<!-- Slash -->
 									<input type="checkbox" class="hide-toggle-rev-next" name="attr_slashBaseMode" value="None" hidden>
-									<div class="hide-item-rev rowContainer centerFlex">
+									<div class="hide-item-rev itemResRow">
 										<select class="itemResMode" name="attr_slashBaseMode" hidden>
 											<option value="None">---</option>
 											<option value="Replace" selected>Replace</option>
@@ -3284,7 +3320,7 @@ EGO block end -->
 
 									<!-- Pierce -->
 									<input type="checkbox" class="hide-toggle-rev-next" name="attr_pierceBaseMode" value="None" hidden>
-									<div class="hide-item-rev rowContainer centerFlex">
+									<div class="hide-item-rev itemResRow">
 										<select class="itemResMode" name="attr_pierceBaseMode" hidden>
 											<option value="None">---</option>
 											<option value="Replace" selected>Replace</option>
@@ -3299,7 +3335,7 @@ EGO block end -->
 
 									<!-- Blunt -->
 									<input type="checkbox" class="hide-toggle-rev-next" name="attr_bluntBaseMode" value="None" hidden>
-									<div class="hide-item-rev rowContainer centerFlex">
+									<div class="hide-item-rev itemResRow">
 										<select class="itemResMode" name="attr_bluntBaseMode" hidden>
 											<option value="None">---</option>
 											<option value="Replace" selected>Replace</option>
@@ -3392,6 +3428,118 @@ EGO block end -->
 						<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 						<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="outfit-name" placeholder="Item name"> <!-- Name -->
+
+						<!-- Option: Rollformats -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
+						<div class="hide-item-flex rollFormatContainer">
+
+							<!-- Option: Roll together -->
+							<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
+
+							<!-- Rollformat (1) -->
+							<div class="rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType0">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="1">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="10">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (2) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType1">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="1">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="12">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (3) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType2">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (4) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType3">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (5) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType4">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
+							</div>
+						</div>
+							
+						<!-- Option: Limited uses -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
+						<div class="hide-item-flex itemLimited">
+
+							<!-- Option: Item uses -->
+							<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+							<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
+
+							<!-- Option: Light cost -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
+							<div class="hide-item lightCost">
+								<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+							</div>
+						</div>
 					</div>
 
 					<div class="itemContents rowContainer">
@@ -3496,131 +3644,32 @@ EGO block end -->
 							<!-- Item header contents (Right) -->
 							<div class="rowContainer contentHeader">
 
-								<!-- Option: Roll together -->
-								<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
-
-								<!-- Option: Rollformats -->
+								<!-- Used to adjust the size of the rollformat part of the item header  -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
-								<div class="hide-item-flex rollFormatContainer">
-
-									<!-- Rollformat (1) -->
-									<div class="rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType0">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="1">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="10">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+								<div class="hide-item-flex rollFormatBlocker">
+									<div class="columnAlign">
+										<input type="checkbox" name="attr_optionRollDisplay1" value="0" checked>
+										<input type="checkbox" name="attr_optionRollDisplay2" value="0" checked>
+										<input type="checkbox" name="attr_optionRollDisplay3" value="0" checked>
+										<input type="checkbox" name="attr_optionRollDisplay4" value="0" checked>
 									</div>
-
-									<!-- Rollformat (2) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType1">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="1">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="12">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
-									</div>
-
-									<!-- Rollformat (3) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType2">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
-									</div>
-
-									<!-- Rollformat (4) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType3">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
-									</div>
-
-									<!-- Rollformat (5) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType4">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
-									</div>
-								</div>
-									
-								<!-- Option: Limited uses -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-								<div class="hide-item-flex itemLimited">
-
-									<!-- Option: Item uses -->
-									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked >
 									<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
-									<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
-
-									<!-- Option: Light cost -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
-									<div class="hide-item lightCost">
-										<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
-									</div>
+									<input type="checkbox" class="hide-item-rev" name="attr_optionLightCost" value="0" checked>
 								</div>
 							</div>
 
 							<!-- Option: Resistances -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionResist" value="true" hidden>
-							<div class="hide-item itemResist">
+							<div class="hide-item itemResistContainer">
 
 								<!-- Option: Damage resistances -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionResistBaseDamage" value="true" hidden>
-								<div class="hide-item itemResistDamage">
+								<div class="hide-item-grid itemResistDamage">
 
 									<!-- Slash -->
 									<input type="checkbox" class="hide-toggle-rev-next" name="attr_slashBaseMode" value="None" hidden>
-									<div class="hide-item-rev rowContainer centerFlex">
+									<div class="hide-item-rev itemResRow">
 										<select class="itemResMode" name="attr_slashBaseMode" hidden>
 											<option value="None">---</option>
 											<option value="Replace" selected>Replace</option>
@@ -3635,7 +3684,7 @@ EGO block end -->
 
 									<!-- Pierce -->
 									<input type="checkbox" class="hide-toggle-rev-next" name="attr_pierceBaseMode" value="None" hidden>
-									<div class="hide-item-rev rowContainer centerFlex">
+									<div class="hide-item-rev itemResRow">
 										<select class="itemResMode" name="attr_pierceBaseMode" hidden>
 											<option value="None">---</option>
 											<option value="Replace" selected>Replace</option>
@@ -3650,7 +3699,7 @@ EGO block end -->
 
 									<!-- Blunt -->
 									<input type="checkbox" class="hide-toggle-rev-next" name="attr_bluntBaseMode" value="None" hidden>
-									<div class="hide-item-rev rowContainer centerFlex">
+									<div class="hide-item-rev itemResRow">
 										<select class="itemResMode" name="attr_bluntBaseMode" hidden>
 											<option value="None">---</option>
 											<option value="Replace" selected>Replace</option>
@@ -3737,6 +3786,118 @@ EGO block end -->
 						<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 						<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 						<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="tool-name" placeholder="Item name"> <!-- Name -->
+
+						<!-- Option: Rollformats -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
+						<div class="hide-item-flex rollFormatContainer">
+
+							<!-- Option: Roll together -->
+							<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
+
+							<!-- Rollformat (1) -->
+							<div class="rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType0">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (2) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType1">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (3) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType2">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (4) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType3">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
+							</div>
+
+							<!-- Rollformat (5) -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden>
+							<div class="hide-item-flex rollFormat">
+								<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+									<input type="hidden" class="rollType" name="attr_rollType4">
+									<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
+								</div>
+
+								<div class="rollFormatBlock"> <!-- Roll block -->
+									<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
+									<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
+									<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
+								</div>
+
+								<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden checked> <!-- Roll button -->
+								<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
+							</div>
+						</div>
+							
+						<!-- Option: Limited uses -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
+						<div class="hide-item-flex itemLimited">
+
+							<!-- Option: Item uses -->
+							<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+							<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
+
+							<!-- Option: Light cost -->
+							<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
+							<div class="hide-item lightCost">
+								<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+							</div>
+						</div>
 					</div>
 
 					<div class="itemContents rowContainer">
@@ -3841,131 +4002,32 @@ EGO block end -->
 							<!-- Item header contents (Right) -->
 							<div class="rowContainer contentHeader">
 
-								<!-- Option: Roll together -->
-								<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
-
-								<!-- Option: Rollformats -->
+								<!-- Used to adjust the size of the rollformat part of the item header  -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
-								<div class="hide-item-flex rollFormatContainer">
-
-									<!-- Rollformat (1) -->
-									<div class="rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType0">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+								<div class="hide-item-flex rollFormatBlocker">
+									<div class="columnAlign">
+										<input type="checkbox" name="attr_optionRollDisplay1" value="0" checked>
+										<input type="checkbox" name="attr_optionRollDisplay2" value="0" checked>
+										<input type="checkbox" name="attr_optionRollDisplay3" value="0" checked>
+										<input type="checkbox" name="attr_optionRollDisplay4" value="0" checked>
 									</div>
-
-									<!-- Rollformat (2) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType1">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
-									</div>
-
-									<!-- Rollformat (3) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType2">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
-									</div>
-
-									<!-- Rollformat (4) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType3">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
-									</div>
-
-									<!-- Rollformat (5) -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden>
-									<div class="hide-item-flex rollFormat">
-										<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-											<input type="hidden" class="rollType" name="attr_rollType4">
-											<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
-										</div>
-
-										<div class="rollFormatBlock"> <!-- Roll block -->
-											<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
-											<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
-											<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
-										</div>
-
-										<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden checked> <!-- Roll button -->
-										<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
-									</div>
-								</div>
-									
-								<!-- Option: Limited uses -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-								<div class="hide-item-flex itemLimited">
-
-									<!-- Option: Item uses -->
-									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
+									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked >
 									<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
-									<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
-
-									<!-- Option: Light cost -->
-									<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
-									<div class="hide-item lightCost">
-										<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
-									</div>
+									<input type="checkbox" class="hide-item-rev" name="attr_optionLightCost" value="0" checked>
 								</div>
 							</div>
 
 							<!-- Option: Resistances -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionResist" value="true" hidden>
-							<div class="hide-item itemResist">
+							<div class="hide-item itemResistContainer">
 
 								<!-- Option: Damage resistances -->
 								<input type="checkbox" class="hide-toggle-next" name="attr_optionResistBaseDamage" value="true" hidden>
-								<div class="hide-item itemResistDamage">
+								<div class="hide-item-grid itemResistDamage">
 
 									<!-- Slash -->
 									<input type="checkbox" class="hide-toggle-rev-next" name="attr_slashBaseMode" value="None" hidden>
-									<div class="hide-item-rev rowContainer centerFlex">
+									<div class="hide-item-rev itemResRow">
 										<select class="itemResMode" name="attr_slashBaseMode" hidden>
 											<option value="None">---</option>
 											<option value="Replace" selected>Replace</option>
@@ -3980,7 +4042,7 @@ EGO block end -->
 
 									<!-- Pierce -->
 									<input type="checkbox" class="hide-toggle-rev-next" name="attr_pierceBaseMode" value="None" hidden>
-									<div class="hide-item-rev rowContainer centerFlex">
+									<div class="hide-item-rev itemResRow">
 										<select class="itemResMode" name="attr_pierceBaseMode" hidden>
 											<option value="None">---</option>
 											<option value="Replace" selected>Replace</option>
@@ -3995,7 +4057,7 @@ EGO block end -->
 
 									<!-- Blunt -->
 									<input type="checkbox" class="hide-toggle-rev-next" name="attr_bluntBaseMode" value="None" hidden>
-									<div class="hide-item-rev rowContainer centerFlex">
+									<div class="hide-item-rev itemResRow">
 										<select class="itemResMode" name="attr_bluntBaseMode" hidden>
 											<option value="None">---</option>
 											<option value="Replace" selected>Replace</option>
@@ -4085,6 +4147,118 @@ EGO block end -->
 					<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 					<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 					<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="special-name" placeholder="Item name"> <!-- Name -->
+
+					<!-- Option: Rollformats -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
+					<div class="hide-item-flex rollFormatContainer">
+						
+						<!-- Option: Roll together -->
+						<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
+
+						<!-- Rollformat (1) -->
+						<div class="rollFormat">
+							<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+								<input type="hidden" class="rollType" name="attr_rollType0">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
+							</div>
+
+							<div class="rollFormatBlock"> <!-- Roll block -->
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="0">
+								<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="0">
+								<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
+							</div>
+
+							<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden checked> <!-- Roll button -->
+							<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+						</div>
+
+						<!-- Rollformat (2) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden>
+						<div class="hide-item-flex rollFormat">
+							<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+								<input type="hidden" class="rollType" name="attr_rollType1">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
+							</div>
+
+							<div class="rollFormatBlock"> <!-- Roll block -->
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="0">
+								<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="0">
+								<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
+							</div>
+
+							<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden checked> <!-- Roll button -->
+							<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
+						</div>
+
+						<!-- Rollformat (3) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden>
+						<div class="hide-item-flex rollFormat">
+							<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+								<input type="hidden" class="rollType" name="attr_rollType2">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
+							</div>
+
+							<div class="rollFormatBlock"> <!-- Roll block -->
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
+								<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
+								<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
+							</div>
+
+							<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden checked> <!-- Roll button -->
+							<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
+						</div>
+
+						<!-- Rollformat (4) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden>
+						<div class="hide-item-flex rollFormat">
+							<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+								<input type="hidden" class="rollType" name="attr_rollType3">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
+							</div>
+
+							<div class="rollFormatBlock"> <!-- Roll block -->
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
+								<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
+								<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
+							</div>
+
+							<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden checked> <!-- Roll button -->
+							<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
+						</div>
+
+						<!-- Rollformat (5) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden>
+						<div class="hide-item-flex rollFormat">
+							<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+								<input type="hidden" class="rollType" name="attr_rollType4">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
+							</div>
+
+							<div class="rollFormatBlock"> <!-- Roll block -->
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
+								<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
+								<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
+							</div>
+
+							<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden checked> <!-- Roll button -->
+							<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
+						</div>
+					</div>
+						
+					<!-- Option: Limited uses -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
+					<div class="hide-item-flex itemLimited">
+
+						<!-- Option: Item uses -->
+						<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+						<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
+
+						<!-- Option: Light cost -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
+						<div class="hide-item lightCost">
+							<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+						</div>
+					</div>
 				</div>
 
 				<div class="itemContents rowContainer">
@@ -4188,132 +4362,33 @@ EGO block end -->
 
 						<!-- Item header contents (Right) -->
 						<div class="rowContainer contentHeader">
-
-							<!-- Option: Roll together -->
-							<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
-
-							<!-- Option: Rollformats -->
+							
+							<!-- Used to adjust the size of the rollformat part of the item header  -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
-							<div class="hide-item-flex rollFormatContainer">
-
-								<!-- Rollformat (1) -->
-								<div class="rollFormat">
-									<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-										<input type="hidden" class="rollType" name="attr_rollType0">
-										<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
-									</div>
-
-									<div class="rollFormatBlock"> <!-- Roll block -->
-										<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="0">
-										<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="0">
-										<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
-									</div>
-
-									<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden checked> <!-- Roll button -->
-									<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+							<div class="hide-item-flex rollFormatBlocker">
+								<div class="columnAlign">
+									<input type="checkbox" name="attr_optionRollDisplay1" value="0" checked>
+									<input type="checkbox" name="attr_optionRollDisplay2" value="0" checked>
+									<input type="checkbox" name="attr_optionRollDisplay3" value="0" checked>
+									<input type="checkbox" name="attr_optionRollDisplay4" value="0" checked>
 								</div>
-
-								<!-- Rollformat (2) -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden>
-								<div class="hide-item-flex rollFormat">
-									<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-										<input type="hidden" class="rollType" name="attr_rollType1">
-										<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
-									</div>
-
-									<div class="rollFormatBlock"> <!-- Roll block -->
-										<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="0">
-										<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="0">
-										<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
-									</div>
-
-									<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden checked> <!-- Roll button -->
-									<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
-								</div>
-
-								<!-- Rollformat (3) -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden>
-								<div class="hide-item-flex rollFormat">
-									<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-										<input type="hidden" class="rollType" name="attr_rollType2">
-										<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
-									</div>
-
-									<div class="rollFormatBlock"> <!-- Roll block -->
-										<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
-										<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
-										<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
-									</div>
-
-									<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden checked> <!-- Roll button -->
-									<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
-								</div>
-
-								<!-- Rollformat (4) -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden>
-								<div class="hide-item-flex rollFormat">
-									<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-										<input type="hidden" class="rollType" name="attr_rollType3">
-										<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
-									</div>
-
-									<div class="rollFormatBlock"> <!-- Roll block -->
-										<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
-										<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
-										<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
-									</div>
-
-									<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden checked> <!-- Roll button -->
-									<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
-								</div>
-
-								<!-- Rollformat (5) -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden>
-								<div class="hide-item-flex rollFormat">
-									<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-										<input type="hidden" class="rollType" name="attr_rollType4">
-										<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
-									</div>
-
-									<div class="rollFormatBlock"> <!-- Roll block -->
-										<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
-										<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
-										<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
-									</div>
-
-									<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden checked> <!-- Roll button -->
-									<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
-								</div>
-							</div>
-								
-							<!-- Option: Limited uses -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-							<div class="hide-item-flex itemLimited">
-
-								<!-- Option: Item uses -->
-									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
-									<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
-									<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
-
-								<!-- Option: Light cost -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
-								<div class="hide-item lightCost">
-									<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
-								</div>
+								<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked >
+								<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+								<input type="checkbox" class="hide-item-rev" name="attr_optionLightCost" value="0" checked>
 							</div>
 						</div>
 
 						<!-- Option: Resistances -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionResist" value="true" hidden>
-						<div class="hide-item itemResist">
+						<div class="hide-item itemResistContainer">
 
 							<!-- Option: Damage resistances -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionResistBaseDamage" value="true" hidden>
-							<div class="hide-item itemResistDamage">
+							<div class="hide-item-grid itemResistDamage">
 
 								<!-- Slash -->
 								<input type="checkbox" class="hide-toggle-rev-next" name="attr_slashBaseMode" value="None" hidden>
-								<div class="hide-item-rev rowContainer centerFlex">
+								<div class="hide-item-rev itemResRow">
 									<select class="itemResMode" name="attr_slashBaseMode" hidden>
 										<option value="None">---</option>
 										<option value="Replace" selected>Replace</option>
@@ -4328,7 +4403,7 @@ EGO block end -->
 
 								<!-- Pierce -->
 								<input type="checkbox" class="hide-toggle-rev-next" name="attr_pierceBaseMode" value="None" hidden>
-								<div class="hide-item-rev rowContainer centerFlex">
+								<div class="hide-item-rev itemResRow">
 									<select class="itemResMode" name="attr_pierceBaseMode" hidden>
 										<option value="None">---</option>
 										<option value="Replace" selected>Replace</option>
@@ -4343,7 +4418,7 @@ EGO block end -->
 
 								<!-- Blunt -->
 								<input type="checkbox" class="hide-toggle-rev-next" name="attr_bluntBaseMode" value="None" hidden>
-								<div class="hide-item-rev rowContainer centerFlex">
+								<div class="hide-item-rev itemResRow">
 									<select class="itemResMode" name="attr_bluntBaseMode" hidden>
 										<option value="None">---</option>
 										<option value="Replace" selected>Replace</option>
@@ -4442,6 +4517,118 @@ EGO block end -->
 					<input type="checkbox" class="largeCheck equipCheck" name="attr_equipped" value="true" data-i18n-title="item-equip" title="Equip"> <!-- Equip checkbox -->
 					<input type="text" class="rank" name="attr_rank" placeholder="0" data-i18n-title="rank" title="Rank"> <!-- Rank -->
 					<input type="text" class="name transpInput" name="attr_name" data-i18n-placeholder="skill-name" placeholder="Skill name"> <!-- Name -->
+
+					<!-- Option: Rollformats -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
+					<div class="hide-item-flex rollFormatContainer">
+						
+						<!-- Option: Roll together -->
+						<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
+
+						<!-- Rollformat (1) -->
+						<div class="rollFormat">
+							<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+								<input type="hidden" class="rollType" name="attr_rollType0">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
+							</div>
+
+							<div class="rollFormatBlock"> <!-- Roll block -->
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="0">
+								<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="0">
+								<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
+							</div>
+
+							<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden checked> <!-- Roll button -->
+							<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+						</div>
+
+						<!-- Rollformat (2) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden>
+						<div class="hide-item-flex rollFormat">
+							<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+								<input type="hidden" class="rollType" name="attr_rollType1">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
+							</div>
+
+							<div class="rollFormatBlock"> <!-- Roll block -->
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="0">
+								<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="0">
+								<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
+							</div>
+
+							<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden checked> <!-- Roll button -->
+							<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
+						</div>
+
+						<!-- Rollformat (3) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden>
+						<div class="hide-item-flex rollFormat">
+							<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+								<input type="hidden" class="rollType" name="attr_rollType2">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
+							</div>
+
+							<div class="rollFormatBlock"> <!-- Roll block -->
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
+								<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
+								<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
+							</div>
+
+							<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden checked> <!-- Roll button -->
+							<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
+						</div>
+
+						<!-- Rollformat (4) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden>
+						<div class="hide-item-flex rollFormat">
+							<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+								<input type="hidden" class="rollType" name="attr_rollType3">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
+							</div>
+
+							<div class="rollFormatBlock"> <!-- Roll block -->
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
+								<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
+								<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
+							</div>
+
+							<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden checked> <!-- Roll button -->
+							<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
+						</div>
+
+						<!-- Rollformat (5) -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden>
+						<div class="hide-item-flex rollFormat">
+							<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
+								<input type="hidden" class="rollType" name="attr_rollType4">
+								<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
+							</div>
+
+							<div class="rollFormatBlock"> <!-- Roll block -->
+								<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
+								<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
+								<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
+							</div>
+
+							<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden checked> <!-- Roll button -->
+							<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
+						</div>
+					</div>
+						
+					<!-- Option: Limited uses -->
+					<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
+					<div class="hide-item-flex itemLimited">
+
+						<!-- Option: Item uses -->
+						<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+						<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
+
+						<!-- Option: Light cost -->
+						<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
+						<div class="hide-item lightCost">
+							<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
+						</div>
+					</div>
 				</div>
 
 				<div class="itemContents rowContainer">
@@ -4545,132 +4732,33 @@ EGO block end -->
 
 						<!-- Item header contents (Right) -->
 						<div class="rowContainer contentHeader">
-
-							<!-- Option: Roll together -->
-							<input type="checkbox" class="rollTogether" name="attr_rollTogether" value="true" hidden>
-
-							<!-- Option: Rollformats -->
+							
+							<!-- Used to adjust the size of the rollformat part of the item header  -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionRollFormats" value="true" hidden>
-							<div class="hide-item-flex rollFormatContainer">
-
-								<!-- Rollformat (1) -->
-								<div class="rollFormat">
-									<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-										<input type="hidden" class="rollType" name="attr_rollType0">
-										<input type="hidden" class="rollDamageType" name="attr_rollDamageType0">
-									</div>
-
-									<div class="rollFormatBlock"> <!-- Roll block -->
-										<input type="number" class="diceCount noSpinner" name="attr_rollCount0" min="0" value="0">
-										<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax0" value="0">
-										<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower0" value="0">
-									</div>
-
-									<input type="checkbox" class="hide-toggle-next" name="attr_rollMode0" value="Roll" hidden checked> <!-- Roll button -->
-									<button type="action" class="hide-item rollButton centerIcon" data-index="0" name="act_item-roll"></button>
+							<div class="hide-item-flex rollFormatBlocker">
+								<div class="columnAlign">
+									<input type="checkbox" name="attr_optionRollDisplay1" value="0" checked>
+									<input type="checkbox" name="attr_optionRollDisplay2" value="0" checked>
+									<input type="checkbox" name="attr_optionRollDisplay3" value="0" checked>
+									<input type="checkbox" name="attr_optionRollDisplay4" value="0" checked>
 								</div>
-
-								<!-- Rollformat (2) -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay1" value="true" hidden>
-								<div class="hide-item-flex rollFormat">
-									<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-										<input type="hidden" class="rollType" name="attr_rollType1">
-										<input type="hidden" class="rollDamageType" name="attr_rollDamageType1">
-									</div>
-
-									<div class="rollFormatBlock"> <!-- Roll block -->
-										<input type="number" class="diceCount noSpinner" name="attr_rollCount1" min="0" value="0">
-										<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax1" value="0">
-										<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower1" value="0">
-									</div>
-
-									<input type="checkbox" class="hide-toggle-next" name="attr_rollMode1" value="Roll" hidden checked> <!-- Roll button -->
-									<button type="action" class="hide-item rollButton centerIcon" data-index="1" name="act_item-roll"></button>
-								</div>
-
-								<!-- Rollformat (3) -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay2" value="true" hidden>
-								<div class="hide-item-flex rollFormat">
-									<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-										<input type="hidden" class="rollType" name="attr_rollType2">
-										<input type="hidden" class="rollDamageType" name="attr_rollDamageType2">
-									</div>
-
-									<div class="rollFormatBlock"> <!-- Roll block -->
-										<input type="number" class="diceCount noSpinner" name="attr_rollCount2" min="0" value="0">
-										<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax2" value="0">
-										<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower2" value="0">
-									</div>
-
-									<input type="checkbox" class="hide-toggle-next" name="attr_rollMode2" value="Roll" hidden checked> <!-- Roll button -->
-									<button type="action" class="hide-item rollButton centerIcon" data-index="2" name="act_item-roll"></button>
-								</div>
-
-								<!-- Rollformat (4) -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay3" value="true" hidden>
-								<div class="hide-item-flex rollFormat">
-									<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-										<input type="hidden" class="rollType" name="attr_rollType3">
-										<input type="hidden" class="rollDamageType" name="attr_rollDamageType3">
-									</div>
-
-									<div class="rollFormatBlock"> <!-- Roll block -->
-										<input type="number" class="diceCount noSpinner" name="attr_rollCount3" min="0" value="0">
-										<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax3" value="0">
-										<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower3" value="0">
-									</div>
-
-									<input type="checkbox" class="hide-toggle-next" name="attr_rollMode3" value="Roll" hidden checked> <!-- Roll button -->
-									<button type="action" class="hide-item rollButton centerIcon" data-index="3" name="act_item-roll"></button>
-								</div>
-
-								<!-- Rollformat (5) -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionRollDisplay4" value="true" hidden>
-								<div class="hide-item-flex rollFormat">
-									<div class="rollFormatIcon centerIcon"> <!-- Roll icon -->
-										<input type="hidden" class="rollType" name="attr_rollType4">
-										<input type="hidden" class="rollDamageType" name="attr_rollDamageType4">
-									</div>
-
-									<div class="rollFormatBlock"> <!-- Roll block -->
-										<input type="number" class="diceCount noSpinner" name="attr_rollCount4" min="0" value="0">
-										<div>D</div><input type="number" class="diceMax noSpinner" name="attr_rollMax4" value="0">
-										<div>+</div><input type="number" class="dicePower noSpinner" name="attr_rollPower4" value="0">
-									</div>
-
-									<input type="checkbox" class="hide-toggle-next" name="attr_rollMode4" value="Roll" hidden checked> <!-- Roll button -->
-									<button type="action" class="hide-item rollButton centerIcon" data-index="4" name="act_item-roll"></button>
-								</div>
-							</div>
-								
-							<!-- Option: Limited uses -->
-							<input type="checkbox" class="hide-toggle-next" name="attr_optionLimited" value="true" hidden>
-							<div class="hide-item-flex itemLimited">
-
-								<!-- Option: Item uses -->
-									<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked>
-									<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
-									<input type="number" class="hide-item-rev itemUses transpInput noSpinner largeIcon reusable" name="attr_usesCurrent" min="0" value="3">
-
-								<!-- Option: Light cost -->
-								<input type="checkbox" class="hide-toggle-next" name="attr_optionLightCost" value="true" hidden>
-								<div class="hide-item lightCost">
-									<input type="number" class="lightCostInput noSpinner" name="attr_lightCost" min="0" value="0" data-i18n-title="skill-light-cost" title="Light cost">
-								</div>
+								<input type="checkbox" class="hide-toggle-rev" name="attr_optionLimited" value="0" hidden checked >
+								<input type="checkbox" class="hide-toggle-rev" name="attr_optionUses" value="0" hidden checked>
+								<input type="checkbox" class="hide-item-rev" name="attr_optionLightCost" value="0" checked>
 							</div>
 						</div>
 
 						<!-- Option: Resistances -->
 						<input type="checkbox" class="hide-toggle-next" name="attr_optionResist" value="true" hidden>
-						<div class="hide-item itemResist">
+						<div class="hide-item itemResistContainer">
 
 							<!-- Option: Damage resistances -->
 							<input type="checkbox" class="hide-toggle-next" name="attr_optionResistBaseDamage" value="true" hidden>
-							<div class="hide-item itemResistDamage">
+							<div class="hide-item-grid itemResistDamage">
 
 								<!-- Slash -->
 								<input type="checkbox" class="hide-toggle-rev-next" name="attr_slashBaseMode" value="None" hidden>
-								<div class="hide-item-rev rowContainer centerFlex">
+								<div class="hide-item-rev itemResRow">
 									<select class="itemResMode" name="attr_slashBaseMode" hidden>
 										<option value="None">---</option>
 										<option value="Replace" selected>Replace</option>
@@ -4685,7 +4773,7 @@ EGO block end -->
 
 								<!-- Pierce -->
 								<input type="checkbox" class="hide-toggle-rev-next" name="attr_pierceBaseMode" value="None" hidden>
-								<div class="hide-item-rev rowContainer centerFlex">
+								<div class="hide-item-rev itemResRow">
 									<select class="itemResMode" name="attr_pierceBaseMode" hidden>
 										<option value="None">---</option>
 										<option value="Replace" selected>Replace</option>
@@ -4700,7 +4788,7 @@ EGO block end -->
 
 								<!-- Blunt -->
 								<input type="checkbox" class="hide-toggle-rev-next" name="attr_bluntBaseMode" value="None" hidden>
-								<div class="hide-item-rev rowContainer centerFlex">
+								<div class="hide-item-rev itemResRow">
 									<select class="itemResMode" name="attr_bluntBaseMode" hidden>
 										<option value="None">---</option>
 										<option value="Replace" selected>Replace</option>
@@ -5174,12 +5262,36 @@ EGO block end -->
 					<!-- The calculation is ignored when only a single roll is made (the penalty is set to a static value of 0) -->
 					<!-- DiceCount recalculates the penalty automatically and modifies all previous roll results by the difference in value -->
 					<div class="editorOption inline"><label><input type="checkbox" name="attr_gameEditOptionMultirollPenalty" value="true" checked><span data-i18n="editor-multihit-penalty">Multiroll Penalty</span></label>
-						<input type="text" name="attr_gameEditMultirollPenaltyCalc" value="-2"> <!-- (N-1) * -2 -->
+						<input type="text" name="attr_gameEditMultirollPenaltyCalc" value="-2" style="width:80px"> <!-- (N-1) * -2 -->
 						<select type="text" class="transpInput" name="attr_gameEditMultirollPenaltyStyle" style="width:90px">
 							<option data-i18n="editor-nattacks" value="Scaling">* n Rolls</option>
 							<option data-i18n="editor-flat" value="Flat" selected>Flat</option>
 						</select>
 					</div>
+				</div>
+			</div>
+
+			<!-- Action tracking (Only revealed while action tracking is enabled) -->
+			<input type="checkbox" class="hide-toggle-next" name="attr_settingActionTracker" value="true">
+			<div class="hide-item editorSection">
+				<h3 class="editorTitle">
+					<input type="checkbox" class="switch-toggle" name="attr_syncLockActionTracker" value="true" hidden> <!-- Lock Button -->
+					<button type="action" id="lock_actionTracker" class="lockButton largeIcon" name="act_lockSection" data-i18n-title="editor-lock" title="Lock editor contents during Apply Default Settings"></button>
+					<span>Action tracking</span>
+				</h3>
+
+				<div class="editorOptionContainer">
+
+					<!-- These calculations cannot grant less that 1 action and 0 reactions -->
+					<div class="editorOption inline"><label><input type="checkbox" name="attr_gameEditOptionActions" value="true" checked><span data-i18n="editor-actions">Actions</span></label>
+						<input type="text" name="attr_gameEditActionsCalc" value="1 + ((Rank - 1) / 2)">
+					</div>
+
+					<div class="editorOption inline"><label><input type="checkbox" name="attr_gameEditOptionReactions" value="true" checked><span data-i18n="editor-reactions">Reactions</span></label>
+						<input type="text" name="attr_gameEditReactionsCalc" value="Rank">
+					</div>
+
+					<div class="editorOption inline"><label><input type="checkbox" name="attr_gameEditTradeActions" value="true"><span data-i18n="editor-use-action-for-reaction">Can use actions for reactions?</span></label></div>
 				</div>
 			</div>
 
@@ -5238,30 +5350,6 @@ EGO block end -->
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-
-			<!-- Action tracking (Only revealed while action tracking is enabled) -->
-			<input type="checkbox" class="hide-toggle-next" name="attr_settingActionTracker" value="true">
-			<div class="hide-item editorSection">
-				<h3 class="editorTitle">
-					<input type="checkbox" class="switch-toggle" name="attr_syncLockActionTracker" value="true" hidden> <!-- Lock Button -->
-					<button type="action" id="lock_actionTracker" class="lockButton largeIcon" name="act_lockSection" data-i18n-title="editor-lock" title="Lock editor contents during Apply Default Settings"></button>
-					<span>Action tracking</span>
-				</h3>
-
-				<div class="editorOptionContainer">
-
-					<!-- These calculations cannot grant less that 1 action and 0 reactions -->
-					<div class="editorOption inline"><label><input type="checkbox" name="attr_gameEditOptionActions" value="true" checked><span data-i18n="editor-actions">Actions</span></label>
-						<input type="text" name="attr_gameEditActionsCalc" value="1 + ((Rank - 1) / 2)">
-					</div>
-
-					<div class="editorOption inline"><label><input type="checkbox" name="attr_gameEditOptionReactions" value="true" checked><span data-i18n="editor-reactions">Reactions</span></label>
-						<input type="text" name="attr_gameEditReactionsCalc" value="Rank">
-					</div>
-
-					<div class="editorOption inline"><label><input type="checkbox" name="attr_gameEditTradeActions" value="true"><span data-i18n="editor-use-action-for-reaction">Can use actions for reactions?</span></label></div>
 				</div>
 			</div>
 
@@ -5422,11 +5510,7 @@ EGO block end -->
 	<div class="rowContainer settingStyle">
 
 	<!-- Icon selector -->
-	<div class="ailmentIconSelector rowContainer centerFlex">
-		<div class="icon">
-		<img name="attr_ailIconDisplay" class="skillIcon">
-		</div>
-	</div>
+	<img name="attr_ailIconDisplay" class="mediumIcon">
 
 <input type="text" name="attr_ailName" class="transpInput" data-i18n-placeholder="message-ailname-placeholder" placeholder="Ailment Name">
 <input type="number" name="attr_ailCount" hidden>
@@ -5499,6 +5583,26 @@ EGO block end -->
 				<span data-i18n="trigger-roll-stat">Stat Roll</span>
 				<input type="checkbox" name="attr_ailTriggerStatEffect" value="true">
 				<input type="checkbox" name="attr_ailTriggerStatDecay" value="true">
+
+				<span data-i18n="stats-wisdom">Prudence</span>
+				<input type="checkbox" name="attr_ailTriggerPrudenceEffect" value="true">
+				<input type="checkbox" name="attr_ailTriggerPrudenceDecay" value="true">
+
+				<span data-i18n="stats-justice">Justice</span>
+				<input type="checkbox" name="attr_ailTriggerJusticeEffect" value="true">
+				<input type="checkbox" name="attr_ailTriggerJusticeDecay" value="true">
+
+				<span data-i18n="stats-charm">Charm</span>
+				<input type="checkbox" name="attr_ailTriggerCharmEffect" value="true">
+				<input type="checkbox" name="attr_ailTriggerCharmDecay" value="true">
+
+				<span data-i18n="stats-insight">Insight</span>
+				<input type="checkbox" name="attr_ailTriggerInsightEffect" value="true">
+				<input type="checkbox" name="attr_ailTriggerInsightDecay" value="true">
+
+				<span data-i18n="stats-temperance">Temperance</span>
+				<input type="checkbox" name="attr_ailTriggerTemperanceEffect" value="true">
+				<input type="checkbox" name="attr_ailTriggerTemperanceDecay" value="true">
 			</div>
 		</div>
 	</label>
@@ -7943,7 +8047,7 @@ on('clicked:resetHelpers', function() {
 	let newadvNum = values.Fortune;
 	let newdisadvNum = values.Paralysis;
 
-	setAttrs({"baseSpeed":"0", "Difficulty":"0", "advNum":newadvNum, "disadvNum":newdisadvNum, "advState":"0", "baseLuckNum":"0"});
+	setAttrs({"baseSpeed":"0", "power":"0", "advNum":newadvNum, "disadvNum":newdisadvNum, "advState":"0", "baseLuckNum":"0"});
  	});
 });
 
@@ -8605,8 +8709,8 @@ function rollCombat(info) { // TODO: Remove this
 	let toolselect = values.toolselect;
 
     getAttrs(["egoActiveState", "settingHideBaseEffect", "settingTargeting", "settingWhisperRolls", "settingWhisperTarget", "settingMultihitFull",
-	`${id}_multiPenalty`, `${id}_multiStyle`, "targetName", "targetId", "targetTokenId", "character_name", "advState", "difficulty", "Light",
-	"difficulty", "Bleed", "Endurance", "Disarm", "Strength", "Feeble", "evdPositive", "evdNegative", "advNum", "disadvNum", "Fortune", "Paralysis", "attPower", "defPower", "evdPower",
+	`${id}_multiPenalty`, `${id}_multiStyle`, "targetName", "targetId", "targetTokenId", "character_name", "advState", "power", "Light",
+	"power", "Bleed", "Endurance", "Disarm", "Strength", "Feeble", "evdPositive", "evdNegative", "advNum", "disadvNum", "Fortune", "Paralysis", "attPower", "defPower", "evdPower",
 	"selectName", "selectLight", "selectType", "selectDice1", "selectDice2", "selectDice3", "selectEffect",
 	"distortWeaponDice1", "distortWeaponDice2", "distortWeaponDice3", "distortDefDice1", "distortDefDice2", "distortDefDice3", "distortEvdDice1", "distortEvdDice2", "distortEvdDice3", "distortEffect", "distortEffect2", "settingMultihitUses", "settingHideUses",
 	`${name}`, `${type}`, `${range}`, `${effect}`, `${diceA}`, `${diceB}`, `${diceC}`, `${uses}`, `${usesmax}`, `${usetype}`,
@@ -12222,7 +12326,7 @@ const repDataFormats = {
 			},
 			rolls: {
 				whisper: "",
-				difficulty: 0,
+				count: 0, max: 0, power: 0,
 				adv: 0, disadv: 0,
 			},
 			bar: {
@@ -12273,8 +12377,8 @@ const repDataFormats = {
 				},
 			},
 			rolls: {
+				_default: {int:true},
 				whisper: {string:true},
-				difficulty: {int:true},
 				adv: {int: {min:0}},
 				disadv: {int: {min:0}},
 			},
@@ -12579,9 +12683,12 @@ const dataFormat = {
 				},
 			},
 			whisper: "",
-			difficulty: 0,
+			count: 0, max: 0, power: 0, // power is what's displayed in the "Difficulty" UI element
 			adv: 0, // advNum in the sheet
 			disadv: 0, // disadvNum in the sheet
+			...[...combatRollNames, "speed", ...statNames].reduce((acc, stat) => {
+				return Object.assign(acc, {[snakeify(stat)]: {count: 0, max: 0, power: 0, adv: 0}});
+			}, {}),
 		},
 		effects: { // Effects that are part of the current action
 			_effect: true, 
@@ -12782,6 +12889,9 @@ const dataFormat = {
 			_value_prop: "base",
 			base: 0, this_round: 0, next_round: 0,
 		},
+		player: {
+			name: "", // The player name input at the top of the sheet
+		},
 		character: {
 			name: "", rank: 0, level: 0, exp: 0,
 			fortitude: 0, prudence: 0, justice: 0,
@@ -12824,7 +12934,7 @@ const dataFormat = {
 		},
 		tokens: {
 			_repeating: repDataFormats.token.base,
-			selection: "",
+			selection: false,
 		},
 		tags: {
 			_repeating: tagDataFormat.base,
@@ -12921,10 +13031,13 @@ const dataFormat = {
 		},
 		rolls: {
 			_repeating: rollDataFormat.valid,
+			_default: {int:true},
 			whisper: {string:true},
-			difficulty: {int:true},
 			adv: {int: {min:0}},
 			disadv: {int: {min:0}},
+			...[...combatRollNames, "speed", ...statNames].reduce((acc, stat) => {
+				return Object.assign(acc, {[snakeify(stat)]: {_default: {int:true}}});
+			}, {}),
 		},
 		effects: {},
 		buttons: {
@@ -13070,6 +13183,9 @@ const dataFormat = {
 		speed: {
 			_default: {int:true},
 		},
+		player: {
+			name: {string:true},
+		},
 		character: {
 			...["rank", "level", "exp", ...statNames].reduce((acc, stat) => Object.assign(acc, {[stat]: {int:true}})),
 			...["summary", "combat_notes", "notes", "description", "personality", "background"].reduce((acc, desc) => Object.assign(acc, {[desc]: {text:true}})), // Allows newlines
@@ -13186,6 +13302,10 @@ const dataFormat = {
 		},
 		rolls: {
 			_repeating: {}, // Generic rolls have no associated attributes in the sheet
+			...[...combatRollNames, "speed", ...statNames].reduce((acc, stat) => {
+				stat = snakeify(stat);
+				return Object.assign(acc, {[stat]: {_prefix: stat}});
+			}, {}),
 		},
 		effects: {
 			_repeating: {},
@@ -13316,6 +13436,9 @@ const dataFormat = {
 		},
 		speed: {
 			_suffix: "_speed",
+		},
+		player: {
+			_prefix: "player_",
 		},
 		character: {
 			_prefix: "character_", // TODO: Modify all personalia to have the format character_key
@@ -18618,8 +18741,8 @@ function recalcPalette(elementArray) {
 				}
 
 				// Handle dice power from sheet difficulty
-				if (roll.root.rolls.difficulty) {
-					Object.defineProperty(roll, "difficulty", {writable:true, value:roll.root.rolls.difficulty}); // Stores the modifier in case it's needed later
+				if (roll.root.rolls.power) {
+					Object.defineProperty(roll, "difficulty", {writable:true, value:roll.root.rolls.power}); // Stores the modifier in case it's needed later
 					roll.modify("power", roll.power + roll.difficulty, {recalc:true});
 				}
 
@@ -18734,14 +18857,14 @@ onAccess([
 /* Palette - Update roll power from stats / difficulty / game settings */
 onAccess([
 	["character", "modify", statNames],
-	["rolls", "modify", "difficulty"],
+	["rolls", "modify", "power"],
 	["settings", "game", "rolls", "modify", combatRollNames],
 	["settings", "game", "rolls", combatRollNames, "modify", "value"],
 ], {}, function (info) {
 	let type = (info.path[2] == "game") ? (info.path[4] == "modify") ? info.path[5] : info.path[4] : info.path[3];
 	let elementArray = access.palette;
 
-	if (type != "difficulty") elementArray = elementArray.filter(element => element.rollformats.some(roll => roll.type.toLowerCase() == type));
+	if (type != "power") elementArray = elementArray.filter(element => element.rollformats.some(roll => roll.type.toLowerCase() == type));
 
 	recalcPalette(elementArray);
 });
@@ -19361,7 +19484,7 @@ async function getTokenAttrs(target="selected", type=false, tokenAttrs=tokenAttr
 /* Select token functionality */
 onAccess("clicked:repeating_tokens:selectinstance", function(info) {
 	// Cannot use the standard .split("_")[3] method as tokenIDs can include underscores
-	access.tokens.selection = info.sourceAttribute.replace("repeating_tokens_","").replace("_selectinstance","");
+	access.tokens.selection = info.sourceAttribute.replace("repeating_tokens_","").replace("_selectinstance","") || false;
 });
 onAccess("clicked:selectToken", {}, async function(info) {
 	await getTokenAttrs("selected", "select");
@@ -21243,7 +21366,7 @@ function convertLegacyAttrs(type, values, sectionIndexes) {
 
 
 /* Legacy setup */
-const sheetVersion = "v1.0 Alpha 23/02/26";
+const sheetVersion = "v1.0 Alpha 08/03/26";
 
 // TODO: Work in progress
 async function sheetSetup(ID) {

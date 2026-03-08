@@ -89,7 +89,7 @@
 /* ===== Sheet base ===== */
 #sheetWrapper {
     width: 100%;
-    margin-top: 70px;
+    margin-top: 75px;
     margin-bottom: 30px;
 }
 .sheetform {
@@ -114,7 +114,7 @@ body, .sheet-body {
     font-size: 15pt;
     height: 20px;
     position: absolute;
-    top: 0;
+    top: 22px;
     left: 180px;
     min-width: 600px;
 }
@@ -182,9 +182,24 @@ body, .sheet-body {
 
 
 /* Player name field */
-.player { position: absolute; top: 40px; left: 203px; z-index: 4; text-align: left; display: flex; align-items: flex-start; justify-content: flex-start; height: 25px; opacity: 50%; }
-.player div { color: var(--color-LIGHT); font-weight: bolder; height: 25px; display: flex; align-items: center; justify-content: center; }
-#playerName { background-color: transparent; text-decoration-line: underline; text-decoration-color: var(--color-LIGHT); color: var(--color-LIGHT); }
+#player {
+    position: absolute;
+    align-items: baseline;
+    top: 40px;
+    left: 203px;
+    text-align: left;
+    opacity: 50%;
+    color: var(--color-LIGHT);
+
+    span {
+        font-weight: bolder;
+    }
+    #playerName {
+        background-color: transparent;
+        color: inherit;
+        text-decoration: underline var(--color-LIGHT); /* TODO: This isn't needed for Chrome browsers. Check if it's needed in Firefox. If not it can be deleted */
+    }
+}
 
 
 /* Popup messages, Used by many functions across the sheet to display alerts to the player */
@@ -310,9 +325,9 @@ body, .sheet-body {
 }
 
 #TopContainer { display: flex; width: 100%; gap: 15px; text-align: center; }
-#TopColumnL { position: relative; min-width: 265px; float: left; }
+#TopColumnL { position: relative; width: 265px; float: left; }
 #TopColumnM { min-width: 260px; flex-grow: 1; }
-#TopColumnR { min-width: 275px; float: right; }
+#TopColumnR { width: 275px; float: right; }
 
 .columnContent { min-width: 180px; position: relative;}
 
@@ -381,8 +396,6 @@ body, .sheet-body {
 .rank, .characterLevel, .workAmount, .workPref .workPref, .disadvCounter, .advCounter, .lightCostInput {
     height: 25px !important;
     width: 25px;
-    margin-left: 5px;
-    margin-right: 5px;
     text-align: center;
     font-weight: bold;
     color: var(--color-white);
@@ -533,18 +546,18 @@ body, .sheet-body {
 textarea, input {
     outline: none;
 }
-input[type="number"] {
+input[type=number] {
     border-style: none;
     vertical-align: middle;
     background-color: var(--color-dark-white);
 }
-input[type="text"] {
+input[type=text] {
     border-style: none;
     outline-style: none;
     vertical-align: middle;
     background-color: var(--color-dark-white);
 }
-input[type="checkbox"] {
+input[type=checkbox] {
     width: 21px;
     height: 21px;
     text-align: center;
@@ -727,27 +740,34 @@ input.fade-item { opacity: 80%;  --fade-opacity: 40%; }
 .swap-toggle:checked ~ .swap-item {
     display: inline-block !important;
 }
-.hide-item, .hide-item-flex {
+
+.hide-item, .hide-item-flex, .hide-item-grid, .hide-item-contents {
     width: 100%;
     display: none !important;
 }
-.hide-item-rev {
-    display: inline-block !important;
-}
-.hide-item-rev:is(.rowContainer, .columnAlign, .editorOption) {
-    display: flex !important;
-}
+
+div:has(> .hide-container-toggle:checked),
 .hide-toggle:checked ~ button,
 .hide-toggle-rev:checked ~ .hide-item-rev, .hide-toggle-rev-next:checked + .hide-item-rev {
     display: none !important;
 }
-.hide-toggle:checked ~ .hide-item, .hide-toggle-next:checked + .hide-item {
+
+.hide-toggle:checked ~ .hide-item, .hide-toggle-next:checked + .hide-item { /* .hide-item-rev */
     display: inline-block !important;
 }
+
+/* .hide-item-rev:is(.rowContainer, .columnAlign, .editorOption), */
 .hide-toggle:checked ~ .hide-item-flex, .hide-toggle-next:checked + .hide-item-flex {
     display: flex !important;
 }
-div:has(> .hide-container-toggle:checked) { display: none !important; }
+
+.hide-toggle:checked ~ .hide-item-grid, .hide-toggle-next:checked + .hide-item-grid {
+    display: grid !important;
+}
+.hide-toggle:checked ~ .hide-item-contents, .hide-toggle-next:checked + .hide-item-contents {
+    display: contents !important;
+}
+
 
 /* H3 is used for sections on the main character sheet. H4 is used for headers in the Editor tab */
 h3, h4 {
@@ -825,6 +845,7 @@ h3, h4 {
 /* --- Assorted --- */
 /* Helper text (hint text that can be toggled off using a setting) */
 .helpers b, .work b {
+    color: var(--color-white);
     font-size: 9pt;
     opacity: 30%;
 }
@@ -1218,8 +1239,7 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
 .banner {
     text-align: left;
     font-weight: bold;
-    min-width: 100px;
-    width: 40%;
+    min-width: 105px;
     height: 50px;
     padding: 5px;
     color: var(--color-white);
@@ -1312,12 +1332,16 @@ textarea::-webkit-outer-spin-button, textarea::-webkit-inner-spin-button {
     height: 60px;
 }
 
-#FortitudeStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Fortitude.png'); }
-#PrudenceStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Prudence.png'); }
-#JusticeStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Justice.png'); }
-#CharmStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Charm.png'); }
-#InsightStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Insight.png'); }
-#TemperanceStat { background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Temperance.png'); }
+#FortitudeStat, #PrudenceStat, #JusticeStat,
+#CharmStat, #InsightStat, #TemperanceStat {
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), var(--stat-icon);
+}
+#FortitudeStat { --stat-icon: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Fortitude.png'); }
+#PrudenceStat { --stat-icon: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v1.0/ProjectMoonTRPG/imagesResized/stats/Prudence.png'); }
+#JusticeStat { --stat-icon: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Justice.png'); }
+#CharmStat { --stat-icon: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Charm.png'); }
+#InsightStat { --stat-icon: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Insight.png'); }
+#TemperanceStat { --stat-icon: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Temperance.png'); }
 
 .statInput {
 	position: absolute;
@@ -1420,102 +1444,105 @@ button[type=action].challengeButton::before {
 /* ===== Damage helper ===== */
 .damageHelperContainer {
     align-items: center;
-    gap: 1%;
+    gap: 3px;
+
+    .damageHelperType {
+        display: grid;
+        grid-auto-columns: 1fr;
+        margin: -2px 0;
+
+        label {
+            margin: 0px;
+            opacity: 30%;
+            cursor: pointer;
+        
+            &:hover {
+                opacity: 60%;
+            }
+            &:has(input[type=radio]:checked) {
+                opacity: 100%;
+                pointer-events: none;
+            }
+        }
+
+        &:has(input:not([value="None"]):checked) ~ .damageHelperDamage .applyDamage button {
+            opacity: 100%;
+            pointer-events: auto;
+        }
+    }
+
+    .damageHelperDamage {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: 4fr 3fr 3fr 1fr;
+        grid-template-rows: max-content auto;
+        align-items: center;
+        margin: 0 calc(1% - 2px);
+        row-gap: 3px;
+        column-gap: 2%;
+
+        div {
+            display: contents;
+        }
+
+        input[type=number] {
+            width: 100% !important;
+            height: 50px !important;
+            text-align: center;
+            font-size: 16pt;
+            font-weight: bold;
+            opacity: 80%;
+        }
+    }
 }
-.damageHelperContainer b {
-    display: inline-block;
-    opacity: 30%;
-    font-size: 9pt;
-}
-.damageHelperContainer input[type=number] {
-    width: 100% !important;
-    height: 50px !important;
-    text-align: center;
-    font-size: 16pt;
-    font-weight: bold;
-    opacity: 80%;
-    margin-top: 3px !important;
-}
-.baseDamage, .flatDamage, .applyDamage {
-    width: 55px;
-}
-.baseDamage { flex-grow: 10; }
-.flatDamage { flex-grow: 5; }
 
 .baseDamage input {
     border-top: 2px solid var(--color-HP) !important;
     border-left: 2px solid var(--color-HP) !important;
-    border-right: 2px solid var(--color-STGR) !important;
-    border-bottom: 2px solid var(--color-STGR) !important;
+    border-right: 2px solid var(--color-STG) !important;
+    border-bottom: 2px solid var(--color-STG) !important;
 }
-.flatHPInput, .flatSTGInput {
+.flatDamage input {
     text-align: left !important;
     padding-right: 2px;
     padding-left: 8px;
+}
+.flatDamage b {
+    min-width: 50px; /* Makes "Flat STG DMG" display better */
 }
 .flatHPInput {
     border: 2px solid var(--color-HP) !important;
 }
 .flatSTGInput {
-    border: 2px solid var(--color-STGR) !important;
+    border: 2px solid var(--color-STG) !important;
 }
 
-.damageHelperType input[type=radio] {
-    display: none;
-}
-.damageHelperType label {
-    height: 30px;
-    width: 30px;
-    margin: 0px;
-    padding: 0px;
-    opacity: 30%;
-}
-.damageHelperType input[type=radio]:not(:checked) + label:hover {
-    opacity: 60% !important;
-    cursor: pointer;
-}
-.damageHelperType input[type=radio]:checked + label {
-    opacity: 100%;
-}
+
+
+
 /* When no damage type is selected, the apply damage button should be unuseable */
-.applyDamageInput {
-    opacity: 60%;
-    cursor: default;
+.applyDamage button {
     height: 50px; 
-    min-width: 50px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    margin-top: 2px; 
-    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/damage.png');
+    width: 42px;
     border-radius: 5px;
-    background-color: var(--color-dark-gray) !important;
-    border: 1px var(--color-darker-gray) solid;
+    opacity: 60%;
     pointer-events: none;
 }
-.damageHelperType:has(input:checked:not([value="None"])) ~ .applyDamage .applyDamageInput {
-    opacity: 100%;
-    pointer-events: auto;
-}
-.damageHelperType:has(input:checked:not([value="None"])) ~ .applyDamage .applyDamageInput:hover {
-    background-color: var(--color-black) !important;
-    cursor: pointer;
-}
 
-.helperText:checked ~ .helperTextContainer .helpers :is(b, .helperInput) {
-    display: none !important;
-}
-.helperText:checked ~ .damageHelperContainer.helperTextContainer :is(.slash, .pierce) {
-    margin-left: -3px;
-    margin-right: 28px;
-}
-.helperText:checked ~ .damageHelperContainer.helperTextContainer .blunt {
-    position: absolute;
-    top: 0px;
-    left: 25px;
-}
-.helperText:checked ~ .damageHelperContainer.helperTextContainer .flatDamage {
-    margin-left: 1px !important;
+
+#menuContainer:has(#settings input[name$="settingHideHelperText"]:checked) ~ #sheetWrapper .helperTextContainer {
+    .helpers :is(b, .helperInput) {
+        display: none !important;
+    }
+
+    .damageHelperType {
+        grid-auto-flow: column;
+        grid-template-rows: repeat(2, 1fr);
+        margin: -2px -2px -2px -3px;
+    }
+    .damageHelperDamage {
+        grid-template-rows: none;
+    }
 }
 /* ===== Damage helper END ===== */
 
@@ -1635,8 +1662,8 @@ button[type=action].challengeButton::before {
 }
 .combatOptionsContainer .helpers {
     width: auto !important;
-    margin-left: 0;
-    margin-right: 0;
+    /* margin-left: 0; */
+    /* margin-right: 0; */
 }
 .combatOptionsContainer b {
     display: inline-block;
@@ -1667,11 +1694,15 @@ button[type=action].challengeButton::before {
     }
     .paletteHeader {
         height: auto;
+        width: 100%;
+        padding-right: 4px;
         z-index: 30;
 
         .name {
             color: var(--content-text);
             width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
             pointer-events: none;
         }
     }
@@ -1734,6 +1765,7 @@ button[type=action].challengeButton::before {
         width: auto;
 
         &.left {
+            width: 50%;
             flex-grow: 1;
         }
     }
@@ -1746,18 +1778,19 @@ button[type=action].challengeButton::before {
     .rollFormatContainer {
         flex-grow: 1;
         gap: 2px;
-    }
-    .rollFormat {
-        height: 100%;
-        padding-right: 3px;
-    }
-    .rollFormatBlock {
-        border-radius: 0;
-        --rollformat-mystery-height: 24px;
-    }
-    .rollFormatIcon {
-        margin-top: -2px;
-        margin-bottom: -3px;
+
+        .rollFormat {
+            height: 100%;
+            padding-right: 3px;
+        }
+        .rollFormatBlock {
+            border-radius: 0;
+            --rollformat-mystery-height: 24px;
+        }
+        .rollFormatIcon {
+            margin-top: -2px;
+            margin-bottom: -3px;
+        }
     }
 
     .actionStandalone {
@@ -1816,7 +1849,7 @@ button[type=action].challengeButton::before {
         .name {
             height: fit-content;
             padding: 1px 0;
-            margin-left: 2px;
+            margin: 0 auto 0 2px;
             overflow: hidden;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -1874,19 +1907,16 @@ button[type=action].challengeButton::before {
     /* Palette rollformats */
     .rollFormatContainer {
         margin: -1px 3px 0 -1px;
-    }
-    .rollFormatBlock {
-        height: 28px;
-        --rollformat-mystery-height: 26px;
+
+        .rollFormatBlock {
+            height: 28px;
+            --rollformat-mystery-height: 26px;
+        }
     }
 
     /* Other palette UI elements */
     .lightCost {
         margin-left: 2px;
-
-        .lightCostInput {
-            margin: 0;
-        }
     }
     .useCounter {
         margin-right: -2px;
@@ -2081,7 +2111,7 @@ button[type=action].challengeButton::before {
     .tracker:has(.egoSpecial) { --tracker-color: var(--color-orange); }
     .tracker:has(.egoAtt) { --tracker-color: var(--color-red); }
     .tracker:has(.egoDef) { --tracker-color: var(--color-blue); }
-    .tracker:has(.egoEvd) { --tracker-color: var(--color-STGR); }
+    .tracker:has(.egoEvd) { --tracker-color: var(--color-STG); }
 
     &:has(.hide-toggle-rev-next[name="attr_settingActionTracker"]:checked) .tracker:has(.light) {
         width: 265px !important;
@@ -2100,7 +2130,7 @@ button[type=action].challengeButton::before {
     position: fixed;
     bottom: 0px;
     left: 0%;
-    width: calc(99% - 14px);
+    width: calc(100% - 10px);
     z-index: 250; /* Puts the token bar below the item editor */
     padding: 5px;
     background-color: #1F1F1F !important;
@@ -2203,7 +2233,7 @@ button[type=action].challengeButton::before {
     background-repeat: no-repeat;
     z-index: 1;
 }
-:is(.tokenAilment, .targetAilment) input[type="number"] {
+:is(.tokenAilment, .targetAilment) input[type=number] {
     position: relative;
     top: -25px;
     left: -2px;
@@ -2215,10 +2245,10 @@ button[type=action].challengeButton::before {
     text-align: center;
     z-index: 2;
 }
-.tokenAilment input[type="number"]:not(:hover):not(:focus) {
+.tokenAilment input[type=number]:not(:hover):not(:focus) {
     width: 31px !important;
 }
-.tokenAilment input[type="number"]:focus, .tokenAilment input[type="number"]:hover {
+.tokenAilment input[type=number]:focus, .tokenAilment input[type=number]:hover {
     width: 3.5em;
 }
 /* ===== Combat palette END ===== */
@@ -2235,66 +2265,67 @@ button[type=action].challengeButton::before {
     align-items: flex-end;
     height: fit-content;
     z-index: 25;
-}
-.rollFormat {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    height: 26px;
-    width: 100%;
-    gap: 5px;
-}
-.rollFormatIcon {
-    height: 35px;
-    min-width: 35px; /* min-width to not collapse when an item is minimized */
-    margin-right: -4px;
-}
-.rollFormatBlock {
-    display: flex;
-    height: 100%;
-    width: 90px;
-    justify-content: end;
-    align-items: center;
-    background-color: rgba(0,0,0,0.2);
-    border-radius: 5px;
-    color: var(--color-white);
-    font-weight: bold;
-    
-    input[type="number"] {
-        width: 26px !important;
-        background-color: transparent;
-        color: inherit;
-        font-size: 12pt;
-        font-weight: inherit;
 
-        &.diceCount {
-            width: 23px !important;
-            text-align: right !important;
+    .rollFormat {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: 26px;
+        width: 100%;
+        gap: 5px;
+    }
+    .rollFormatIcon {
+        height: 35px;
+        min-width: 35px; /* min-width to not collapse when an item is minimized */
+        margin-right: -4px;
+    }
+    .rollFormatBlock {
+        display: flex;
+        height: 100%;
+        width: 90px;
+        justify-content: end;
+        align-items: center;
+        background-color: rgba(0,0,0,0.2);
+        border-radius: 5px;
+        color: var(--color-white);
+        font-weight: bold;
+        
+        input[type=number] {
+            width: 26px !important;
+            background-color: transparent;
+            color: inherit;
+            font-size: 12pt;
+            font-weight: inherit;
+    
+            &.diceCount {
+                width: 23px !important;
+                text-align: right !important;
+            }
+            &.diceMax {
+                text-align: center !important;
+            }
         }
-        &.diceMax {
-            text-align: center !important;
+        div {
+            width: 8px; 
+            opacity: 70%;
+            pointer-events: none;
         }
     }
-    div {
-        width: 8px; 
-        opacity: 70%;
-        pointer-events: none;
+    .rollButton {
+        height: 25px;
+        width: 25px;
+        min-width: 25px;
+        border: 1px solid var(--color-black);
+        border-radius: 5px;
+        box-sizing: border-box;
+        background-image: url(https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/buttondice.png);
+        background-color: var(--color-gray);
     }
-}
-.rollButton {
-    height: 25px;
-    width: 25px;
-    min-width: 25px;
-    border: 1px solid var(--color-black);
-    border-radius: 5px;
-    box-sizing: border-box;
-    background-image: url(https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/buttondice.png);
-    background-color: var(--color-gray);
 }
 
 /* When rolling all formats together, only display one roll button */
-.rollTogether:checked ~ .rollFormatContainer .rollFormat:nth-of-type(n+2) .rollButton {
+.rollFormatContainer .rollTogether:checked ~ .rollFormat:nth-of-type(n+2) .rollButton {
     visibility: hidden;
 }
 
@@ -2318,12 +2349,6 @@ button[type=action].challengeButton::before {
 .iconHolder img { /* TODO: Delete */
     height: 35px;
     width: 35px;
-}
-.type-image {
-    text-align: center;
-}
-.icon .type-image {
-    opacity: 0;
 }
 
 
@@ -2383,7 +2408,7 @@ button[type=action].challengeButton::before {
     min-width: 400px;
     background-color: transparent;
     border-radius: 5px;
-    overflow: hidden;
+    overflow: visible;
 
     &.tool, &.augment {
         margin-top: 6px;
@@ -2393,58 +2418,56 @@ button[type=action].challengeButton::before {
     }
 
     /* Skills and Special items are displayed in a mosaic grid */
+    /* The mosaic layout is updated whenever an item is equipped or unequipped */
     &.skill, &.special { 
         .repcontainer {
             display: grid;
             grid-auto-flow: dense;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            grid-auto-rows: 2px; /* Each column is 2px tall, with items ranging between 20-80~ columns tall*/
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-auto-rows: 2px; /* Each row is 2px tall, with items ranging between 20-80~ rows tall */
             column-gap: 10px;
         }
 
-        /* Calculates the number of 2px columns needed to hold each item */
         .repitem {
-            --item-size: calc(20 + max(var(--item-size-left, 0), var(--item-size-right, 0))); /* Minimum header height (36px) + gap between items (4px) */
-            grid-row: span round(down, var(--item-size));
             z-index: 0;
+            transition: z-index 0s 150ms allow-discrete;
 
-            transition: 
-                grid-row 0s 400ms allow-discrete, /* Delays the minimize layout change to make the transition slightly smoother without causing issues with maximizing other items */
-                z-index 0s 500ms allow-discrete; /* Makes maximized items appear above minimized items while opening and closing */
+            /* Makes maximized items display above other items */
+            &:has(:not(.equipCheck):focus) { z-index: 2; }
+            &:hover { z-index: 3; }                                                    /* Maximized items that are hovered over are given priority */
+            .itemContainer:hover { box-shadow: 0px 1px 6px 3px rgba(0, 0, 0, 0.2); } /* Helps differentiate overlapping maximized items */
+
+            /* Calculates the number of 2px rows needed to hold each item */
+            --item-size: calc(40 + max(var(--item-size-left, 0), var(--item-size-right, 0))); /* Minimum header height (36px) + gap between items (4px) */
+            grid-row: span round(down, var(--item-size) / 2);                                 /* Divides by 2 to convert from pixels to an amount of 2px rows */
             
-            /* Height from item contents. Contents are only revealed for maximizing items */
-            &:has(.equipCheck:checked), &:hover, &:has(:not([type="checkbox"]):focus) {
-                z-index: 1;
+            /* Height from item contents */
+            &:has(.equipCheck:checked) {
                 
-                /* Items begin their maximize animation after being hovered over for 100ms */
-                /* The change of an item's size in the grid layout is delayed by an additional 35-80~ ms based on the size of the item (smaller items have longer delays) */
-                /* This makes the layout change happen roughly when the item expands into the space of the item below itself, giving the illusion that the collision caused the change */
-                transition-delay: max(calc(240ms - var(--item-size) * 1ms), 135ms), 0s; 
-
                 /* Item left-side height */
-                --item-size-left-base: 41; /* Minimum effect description height (82px) */
+                --item-size-left-base: 82; /* Minimum effect description height */
                 --item-size-left: calc(var(--item-size-left-base) + var(--item-size-weapon, 0) + var(--item-size-augment, 0) + var(--item-size-skill, 0) + var(--item-size-special, 0));
-                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="weaponUI"]:checked) { --item-size-weapon: 14; }   /* 28px */
-                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="augmentUI"]:checked) { --item-size-augment: 14; } /* 28px */
-                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="skillUI"]:checked) { --item-size-skill: 14; }     /* 28px */
-                &:has(input[name$="optionCustomUI"]:checked ~ .itemCustomUI input[name$="specialUI"]:checked) { --item-size-special: 50; --item-size-right-base: 0; } /* 100px */
+                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="weaponUI"]:checked) { --item-size-weapon: 28; }
+                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="augmentUI"]:checked) { --item-size-augment: 28; }
+                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="skillUI"]:checked) { --item-size-skill: 28; }
+                &:has(input[name$="optionCustomUI"]:checked ~ .itemCustomUI input[name$="specialUI"]:checked) { --item-size-special: 100; --item-size-right-base: 0; }
                 
                 /* Item right-side height */
-                --item-size-right-base: 41; /* Minimum description height (82px) */
-                --item-size-right: calc(var(--item-size-right-base) + var(--item-rolls, 0) * 16 + var(--item-res-slash, 0) + var(--item-res-pierce, 0) + var(--item-res-blunt, 0));
-                &:has(input[name$="optionRollDisplay1"]:checked) { --item-rolls: 1; }    /* 32px~ */
-                &:has(input[name$="optionRollDisplay2"]:checked) { --item-rolls: 2; }    /* 32px~ */
-                &:has(input[name$="optionRollDisplay3"]:checked) { --item-rolls: 3; }    /* 32px~ */
-                &:has(input[name$="optionRollDisplay4"]:checked) { --item-rolls: 4; }    /* 32px~ */
-                &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="slashBaseMode"]:not(:checked)) { --item-res-slash: 15.5; }   /* 31px~ */
-                &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="pierceBaseMode"]:not(:checked)) { --item-res-pierce: 15.5; } /* 31px~ */
-                &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="bluntBaseMode"]:not(:checked)) { --item-res-blunt: 15.5; }   /* 31px~ */
+                --item-size-right-base: 82; /* Minimum description height (82px) */
+                --item-size-right: calc(var(--item-size-right-base) + var(--item-rolls, 0) * 31 + var(--item-res-slash, 0) + var(--item-res-pierce, 0) + var(--item-res-blunt, 0));
+                &:has(.itemHeader input[name$="optionRollDisplay1"]:checked) { --item-rolls: 1; }
+                &:has(.itemHeader input[name$="optionRollDisplay2"]:checked) { --item-rolls: 2; }
+                &:has(.itemHeader input[name$="optionRollDisplay3"]:checked) { --item-rolls: 3; }
+                &:has(.itemHeader input[name$="optionRollDisplay4"]:checked) { --item-rolls: 4; }
+                &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="slashBaseMode"]:not(:checked)) { --item-res-slash: 31; }
+                &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="pierceBaseMode"]:not(:checked)) { --item-res-pierce: 31; }
+                &:has(input[name$="optionResist"]:checked + div input[name$="optionResistBaseDamage"]:checked + div input[name$="bluntBaseMode"]:not(:checked)) { --item-res-blunt: 31; }
     
                 /* Item bottom-side height */
-                &:has(input[name$="bottomEffectDisplay"]:checked) { --item-size-right-base: 39; } /* -5px */
-                &:has(input[name$="bottomDescDisplay"]:checked) { --item-size-left-base: 39; }    /* -5px */
+                &:has(input[name$="bottomEffectDisplay"]:checked) { --item-size-right-base: 77; } /* -5px */
+                &:has(input[name$="bottomDescDisplay"]:checked) { --item-size-left-base: 77; }    /* -5px */
                 &:has(input[name$="leftEffectDisplay"]:checked) { --item-size-right-base: 0; --item-size-left-base: 82; }
-                &:has(input[name$="rightDescDisplay"]:checked) { --item-size-left-base: 0; --item-size-right-base: 82; }            
+                &:has(input[name$="rightDescDisplay"]:checked) { --item-size-left-base: 0; --item-size-right-base: 82; }
             }
         }
     }
@@ -2454,15 +2477,6 @@ button[type=action].challengeButton::before {
         margin-left: 0;
         margin-right: 0;
         margin-bottom: 0;
-
-        .itemRes {
-            width: 30px;
-            padding-left: 4px;
-
-            input[list] {
-                width: 20px;
-            }
-        }
     }
 
     .repcontainer {
@@ -2541,7 +2555,7 @@ button[type=action].challengeButton::before {
                 display: block !important;
             }
         }
-        .repitem:has(.displayToggle input[type="checkbox"]:not(:checked)) {
+        .repitem:has(.displayToggle input[type=checkbox]:not(:checked)) {
             display: none !important;
         }
     }
@@ -2609,7 +2623,7 @@ button[type=action].challengeButton::before {
             margin: 0;
             margin-left: -2px;
 
-            &:has(input[type="checkbox"]:checked) {
+            &:has(input[type=checkbox]:checked) {
                 opacity: 90%;
             }
         }
@@ -2627,18 +2641,19 @@ button[type=action].challengeButton::before {
 }
 .itemHeader {
     padding-right: 5px;
-    z-index: 20;
+    z-index: 25;
+    gap: 5px;
 
-    :is(.equipCheck, .rank, .name) {
-        z-index: 25;
-    }
     .equipCheck {
         min-width: 25px;
         accent-color: var(--content-accent);
+        z-index: 25;
     }
     .name {
-        width: calc-size(100%, size - 245px); /* Makes space for enabled rollformats */
-        transition: width 0s 550ms;
+        height: 25px !important;
+        width: 75%;
+        margin-left: -3px;
+        flex-grow: 1;
         color: var(--content-text);
     }
 
@@ -2651,6 +2666,53 @@ button[type=action].challengeButton::before {
         left: 0px;
         transform: rotate(45deg);
         background-color: var(--content-decoration);
+    }
+
+    .rollFormatContainer {
+        align-self: start;
+        width: auto;
+        margin-top: 1px;
+        row-gap: 5px;
+        transition: flex-direction 0s 100ms allow-discrete;
+
+        .rollFormat {
+            justify-content: flex-start;
+            height: 26px;
+            width: calc-size(fit-content, size);
+            overflow: visible;
+            transition: width 600ms 100ms, padding-top 0s 100ms;
+    
+            &:has(~ input[type=checkbox]:checked) { /* TODO: What does this do again? */
+                display: flex !important;
+            }
+        }
+        .rollFormatBlock {
+            height: 24px;
+            transition: opacity 600ms 100ms ease-out;
+        }
+    }
+
+    .itemLimited {
+        align-self: start;
+        justify-content: end;
+        flex-wrap: wrap;
+        gap: 6px;
+        flex-shrink: 10;
+        width: auto;
+        padding: 2px 5px 0 0;
+        margin: 0 -5px 0 -1px;
+        z-index: 25; /* Avoids the first rollformat clipping into the light input when minimizing an item */
+        background-color: var(--content-color);
+        transition: flex-wrap 0s 100ms allow-discrete;
+
+        .lightCost {
+            margin-left: 1px;
+        }
+        .itemUses {
+            width: 31px !important;
+            margin: -3px -3px -2px -2px !important;
+            text-align: center;
+        }
     }
 }
 
@@ -2675,10 +2737,6 @@ button[type=action].challengeButton::before {
         padding: 0 4px;
         border-bottom-left-radius: 5px;
         z-index: 20;
-
-        .rollFormatContainer, .itemLimited {
-            margin-top: -36px;
-        }
     }
 }
 
@@ -2744,7 +2802,7 @@ button[type=action].challengeButton::before {
     background-color: var(--content-color);
     z-index: 10;
 
-    &:has(input[type="checkbox"]:checked) {
+    &:has(input[type=checkbox]:checked) {
         padding: 0 4px;
     }
 }
@@ -2774,66 +2832,35 @@ button[type=action].challengeButton::before {
 }
 
 .itemContainer {
-    transition: opacity 300ms 100ms; /* Used for minimizing the item */
-
-    .rollFormat {
-        justify-content: flex-start;
-        height: 26px;
-        padding: 5px 1px 5px 0;
-        overflow: visible;
-
-        &:has(~ input[type="checkbox"]:checked) { /* TODO: What does this do again? */
-            display: flex !important;
-        }
-    }
-    .rollFormat:nth-child(n+3) {
-        padding-top: 0;
-    }
-    .rollFormatBlock {
-        height: 24px;
-    }
-}
-
-.itemLimited {
     width: auto;
-    flex-flow: wrap-reverse;
-    justify-content: end;
-    flex-shrink: 10;
-    column-gap: 6px;
-    row-gap: 6px;
-    padding: 5px 5px 5px 3px;
-    margin-right: -4px;
-    z-index: 30; /* Avoids the first rollformat clipping into the light input when minimizing an item */
-    background-color: var(--content-color);
-
-    .lightCostInput {
-        margin: 0;
-    }
-    .itemUses {
-        width: 31px !important;
-        margin: -3px -3px -2px -2px !important;
-        text-align: center;
-    }
+    transition:
+        opacity 300ms 100ms, /* Used for minimizing the item */
+        box-shadow 300ms 100ms; /* Used in mosaic grid inventory sections */
 }
-
-.itemResist {
+.itemResistContainer {
     margin-top: 1px;
     margin-bottom: -3px;
 }
 .itemResistDamage {
-    padding: 0 3px;
+    grid-template-columns: 2fr 3fr 3fr 2fr;
+    justify-items: center;
     box-sizing: border-box;
+    padding: 0 1px 1px;
+
+    .itemResRow {
+        display: contents;
+    }
 
     .itemRes {
         display: flex;
-        justify-content: center;
         align-items: center;
         appearance: none;
-        background-color: var(--color-dark-white);
-        height: 28px;
-        width: 50px;
+        box-sizing: border-box;
+        height: 30px;
+        min-width: 40px;
         margin: 0;
-        padding: 0 5px 0 0;
+        padding: 0 calc(15% - 4px);
+        background-color: var(--color-dark-white);
         border: 1px solid var(--color-inventory);
         font-weight: 400;
         font-size: 14px;
@@ -2842,7 +2869,7 @@ button[type=action].challengeButton::before {
         input[list] {
             padding: 0 0 0 1px;
             height: 100%;
-            width: 28px;
+            width: 100%;
 
             /* Disables the datalist dropdown arrow */
             &::-webkit-calendar-picker-indicator {
@@ -2858,14 +2885,8 @@ button[type=action].challengeButton::before {
     }
 
     .largeIcon {
-        margin: auto;
+        width: 21px !important;
     }
-}
-
-/* Expand the name input when the item is minimized or there are no rollformats */
-:is(.itemContainer:has(.equipCheck:not(:checked)):not(:hover):not(:has(:not([type="checkbox"]):focus)),
-.itemContainer:has([name$="optionRollFormats"]:not(:checked))) .name {
-    width: calc-size(100%, size);
 }
 
 /* Hide all item contents when the item is minimized */
@@ -2878,12 +2899,10 @@ button[type=action].challengeButton::before {
     }
     .rollFormatContainer {
         flex-direction: row;
-        width: calc(100% - 30px);
         transition-delay: 550ms;
     }
     .rollFormat {
         width: 33px;
-        padding-top: 5px;
         transition-delay: 0s, 500ms;
     }
     .rollButton, .rollFormatBlock {
@@ -2900,6 +2919,7 @@ button[type=action].challengeButton::before {
     }
     .itemLimited {
         flex-wrap: nowrap;
+        transition-delay: 550ms;
     }
     .itemDescriptionContainer.bottom {
         height: 0px;
@@ -2912,20 +2932,13 @@ button[type=action].challengeButton::before {
     overflow: clip;
     overflow-clip-margin: 36px;
 
-    .rollFormat {
-        width: fit-content;
-        width: calc-size(fit-content, size);
-        transition: width 600ms 100ms, padding-top 0s 100ms;
-    }
-    .rollFormatContainer {
-        justify-content: flex-end;
-        transition: width 0s 550ms, flex-direction 0s 100ms allow-discrete;
-    }
-    .rollFormatBlock {
-        transition: opacity 600ms 100ms ease-out;
-    }
-    .itemLimited {
-        transition: flex-wrap 100ms 100ms allow-discrete;
+    .rollFormatBlocker input[type=checkbox] {
+        height: 31px;
+        opacity: 0;
+
+        &:checked {
+            display: none;
+        }
     }
 }
 .itemDescriptionContainer.bottom {
@@ -3042,7 +3055,7 @@ button[type=action].challengeButton::before {
     padding: 4px 0 5px 8px;
     order: 10;
 
-    & > label input[type="checkbox"] {
+    & > label input[type=checkbox] {
         position: absolute;
         width: 18px;
         left: 0;
@@ -3100,7 +3113,7 @@ button[type=action].challengeButton::before {
     }
 
     /* Expand the option and move it to the top of the container when checked */
-    &:has(> label input[type="checkbox"]:checked) {
+    &:has(> label input[type=checkbox]:checked) {
         width: 100%;
         height: auto;
         order: 0;
@@ -3122,7 +3135,7 @@ button[type=action].challengeButton::before {
     }
     
     /* Minimize the option and hide its contents when not checked */
-    &:has(> label input[type="checkbox"]:not(:checked)) {
+    &:has(> label input[type=checkbox]:not(:checked)) {
         & > :not(label) {
             display: none;
         }
@@ -3138,7 +3151,7 @@ button[type=action].challengeButton::before {
         }
 
         &:not(.freeform) > .editorOption::before,
-        &.freeform > .editorOption:has(> label input[type="checkbox"]:checked)::before {
+        &.freeform > .editorOption:has(> label input[type=checkbox]:checked)::before {
             content: "";
             position: absolute;
             width: 11px;
@@ -3260,7 +3273,7 @@ button[type=action].challengeButton::before {
         .repcontainer { gap: 0 !important; }
         .rowContainer { width: auto; }
 
-        input[type="number"] {
+        input[type=number] {
             width: 52px !important;
             margin-right: 6px;
         }
@@ -3392,7 +3405,7 @@ button[type=action].challengeButton::before {
         width: calc(100% / 6);
         padding: 0 2px 3px;
 
-        input[type="text"] {
+        input[type=text] {
             width: 100%;
         }
     }
@@ -3466,56 +3479,63 @@ button[type=action].challengeButton::before {
 
 /* ===== Settings ===== */
 /* General setting (displayed by hovering over cogwheel in top-right corner) */
-#settings label {
-    color: var(--color-white) !important;
-    font-size: 10pt !important;
-    cursor: pointer;
-}
 #settings {
-    width: 27px;
-    height: 27px;
     position: absolute;
     top: 2px;
     right: 0px;
+    min-width: 27px;
+    min-height: 27px;
     background-color: rgba(0,0,0,0);
-    border-radius: 5px;
+    border-radius: 5px 15px 5px 5px;
     border: 1px transparent solid;
     overflow: hidden;
     color: var(--color-LIGHT);
     font-weight: bold;
     z-index: 150;
-}
-#settings:hover {
-    height: auto;
-    width: 530px;
-    border: 1px var(--color-LIGHT) solid;
-    border-radius: 5px 15px 5px 5px;
-    background-color: rgba(0,0,0,0.8);
-}
-.settingsIcon {
-    position: absolute;
-    z-index: 5;
-    top:0;
-    right: 0;
-    width: 25px;
-    height: 25px;
-    border-radius: 100px;
-    border: 1px var(--color-LIGHT) solid;
-}
-.settingsText {
-    width: 220px;
-    padding: 35px;
-    padding-bottom: 25px;
-}
-.settingsText input[type="checkbox"] {
-    position: absolute;
-}
-.settingsText span:not(.settingsTitle) {
-    position: relative;
-    left: 21px;
-}
-.settingsTitle {
-    line-height: 1.8em;
+
+    &:hover {
+        border: 1px var(--color-LIGHT) solid;
+        background-color: rgba(0,0,0,0.8);
+
+        .settingsText {
+            display: block;
+        }
+    }
+
+    .settingsIcon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-radius: 100px;
+        border: 1px solid var(--color-LIGHT);
+    }
+
+    .settingsText {
+        display: none;
+        width: 220px;
+        padding: 35px;
+        padding-bottom: 25px;
+
+        .settingsTitle {
+            line-height: 2em;
+        }
+
+        label {
+            color: var(--color-white) !important;
+            font-size: 10pt !important;
+            cursor: pointer;
+            box-sizing: border-box;
+
+            input[type=checkbox] {
+                position: absolute;
+                margin-top: 1px;
+            }
+            span {
+                position: relative;
+                left: 21px;
+            }
+        }
+    }
 }
 
 
@@ -3599,7 +3619,7 @@ button[type=action].challengeButton::before {
     background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view-hide.png');
     opacity: 50%;
 
-    input[type="checkbox"] {
+    input[type=checkbox] {
         display: none;
     }
 }
@@ -3633,33 +3653,29 @@ button[type=action].challengeButton::before {
     right: 0px; 
     z-index: 1;
 
-    input[type="checkbox"] {
+    input[type=checkbox] {
         display: none;
     }
 }
-.arrow {
-    position: absolute; top: 12px; right: 10px;   
+.arrow, .smallarrow {
     width: 0px; 
-    height: 0px; 
+    height: 0px;
     border-bottom: none;
+    opacity: 50%;
+}
+.arrow {
+    position: absolute; top: 12px; right: 10px;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
     border-top: 14px solid var(--color-white);
-    opacity: 50%;
 }
 .smallarrow {
-    width: 0px; 
-    height: 0px; 
-    border-bottom: none;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     border-top: 12px solid var(--color-white);
-    opacity: 50%;
 }
 .switch-toggle:checked ~ .arrow {
-    position: absolute; top: 10px; right: 13px;  
-    width: 0px; 
-    height: 0px; 
+    top: 10px; right: 13px;  
     border-left: none;
     border-top: 8px solid transparent;
     border-bottom: 8px solid transparent;
@@ -3669,15 +3685,13 @@ button[type=action].challengeButton::before {
 .switch-toggle:checked ~ .smallarrow {
     margin-bottom: 2px;
     margin-right: 2px;
-    width: 0px; 
-    height: 0px; 
     border-left: none;
     border-top: 6px solid transparent;
     border-bottom: 6px solid transparent;
     border-right: 12px solid var(--color-white);
     opacity: 100%;
 }
-.displayToggle:has(input[type="checkbox"]:checked) {
+.displayToggle:has(input[type=checkbox]:checked) {
     background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view.png');
 }
 .switch-toggle:checked + .lockButton {
@@ -3695,22 +3709,17 @@ button[type=action].challengeButton::before {
 
     .editorContainer {
         position: relative;
-        flex-wrap: wrap;
-        align-content: stretch;
-        align-items: center;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(330px, auto));
         box-sizing: border-box;
         padding: 10px;
         gap: 10px;
         box-shadow: none;
     }
     .editorSection {
-        width: min-content;
-        min-width: 31%;
-        max-width: calc(50% - 5px);
         border-radius: 5px;
         overflow: hidden;
         color: var(--color-white) !important;
-        flex-grow: 1;
     }
     .editorTitle {
         background-color: #404040;
@@ -3741,16 +3750,16 @@ button[type=action].challengeButton::before {
                 display: inline-block;
                 padding: 3px 2px 0 12px;
             }
-            &:has(input[type="checkbox"]:checked):has(~ input[type="text"]) {
+            &:has(input[type=checkbox]:checked):has(~ input[type=text]) {
                 max-width: 100px;
             }
         }
-        input[type="checkbox"] {
+        input[type=checkbox] {
             top: calc(40% - 5px);
             left: -8px;
         }
 
-        input[type="text"] {
+        input[type=text] {
             width: 150px;
             text-align: center;
             flex-grow: 1;
@@ -3803,7 +3812,7 @@ button[type=action].challengeButton::before {
         padding: 5px;
         border-radius: 5px;
         background-color: var(--color-lighter-gray);
-        overflow: hidden;
+        /* overflow: hidden; */
 
         textarea {
             width: 205px;
@@ -3817,24 +3826,6 @@ button[type=action].challengeButton::before {
         text-align: left;
         font-weight: bold;
     }
-}
-.repitemMock {
-    margin: 2px;
-    width: 160px;
-    padding: 5px;
-    border-radius: 5px;
-    background-color: var(--color-lighter-gray);
-    overflow: hidden;
-}
-.repitemMock .settingStyle select {
-    padding-left: 3px; padding-right: 3px;
-}
-.repitemMock .settingStyle div:has(b) {
-    text-align: right;
-    padding-right: 4px;
-}
-.repIconMock .columnAlign .rowContainer {
-    align-items: flex-end !important;
 }
 
 .ailTriggerContainer {
@@ -3970,7 +3961,7 @@ button[type=action].challengeButton::before {
     display: none;
 }
 .sheet-rolltemplate-damagecalculation .userscript-hpCalculationContainer div:first-child { color: var(--color-HP); background-color: var(--color-darker-gray); }
-.sheet-rolltemplate-damagecalculation .userscript-stCalculationContainer div:first-child { color: var(--color-ego-STGR); background-color: var(--color-darker-gray); }
+.sheet-rolltemplate-damagecalculation .userscript-stCalculationContainer div:first-child { color: var(--color-ego-STG); background-color: var(--color-darker-gray); }
 .sheet-rolltemplate-damagecalculation .userscript-spCalculationContainer div:first-child { color: var(--color-SAN); background-color: var(--color-darker-gray); }
 
 
@@ -4102,7 +4093,6 @@ button[type=action].challengeButton::before {
 
 
 
-
 /* --- New chat buttons CSS --- */
 
 /* General button styling */
@@ -4165,12 +4155,6 @@ button[type=action].challengeButton::before {
 
 .sheet-rolltemplate-customRoll .sheet-button-half { width: calc(50% - 2px); }
 .sheet-rolltemplate-customRoll .sheet-button-third { width: calc(33.33% - 3px); }
-
-
-
-
-
-
 
 
 
@@ -4298,18 +4282,11 @@ button[type=action].challengeButton::before {
     border-radius: 4px;
     pointer-events: none;
     z-index: 2;
-}
-.loopEnabledToggle:not(:checked) ~ .autoUpdateIndicator {
-    display: none;
-}
-.loopEnabledToggle:checked ~ .autoUpdateIndicator {
-    border: 4px solid var(--color-STGR);
-}
-.loopEnabledToggle:checked + .loopSearchingToggle:checked ~ .autoUpdateIndicator {
-    border: 4px solid var(--color-light-green);
-}
-.loopEnabledToggle:checked ~ .loopStandbyToggle:checked + .autoUpdateIndicator {
-    border: 4px solid var(--color-HP);
+
+    .loopEnabledToggle:not(:checked) ~ &                          { display: none; }
+    .loopEnabledToggle:checked ~ &                                { border: 4px solid var(--color-STG); }
+    .loopEnabledToggle:checked + .loopSearchingToggle:checked ~ & { border: 4px solid var(--color-light-green); }
+    .loopEnabledToggle:checked ~ .loopStandbyToggle:checked + &   { border: 4px solid var(--color-HP); }
 }
 
 /* Custom positioning */
@@ -4553,6 +4530,7 @@ button[type=action].challengeButton::before {
     height: 26px;
     width: 26px;
 }
+
 /* Inline button styling */
 .sheet-rolltemplate-customRoll .sheet-section-contents  {
     border: 1px solid #555;
@@ -4583,7 +4561,7 @@ button[type=action].challengeButton::before {
     pointer-events: none;
 }
 
-/* Hopefully you can find a better solution than this hard coding */
+/* Hopefully you can find a better solution than hard coding this */
 .sheet-rolltemplate-customRoll:has(input[id^=sheet-roll0]:checked) label[for^=sheet-roll0],
 .sheet-rolltemplate-customRoll:has(input[id^=sheet-roll1]:checked) label[for^=sheet-roll1],
 .sheet-rolltemplate-customRoll:has(input[id^=sheet-roll2]:checked) label[for^=sheet-roll2],
@@ -4640,8 +4618,6 @@ button[type=action].challengeButton::before {
         vertical-align: middle;
     }
 }
-
-
 
 
 
@@ -4731,30 +4707,12 @@ button[type=action].challengeButton::before {
     height: 42px;
     font-size: 35px;
 }
-
-
 /* ===== Assorted END ===== */
 
 
 
 
 /* ===== Icons ===== */
-.skillIcon, .typeIcon, .resistIcon {
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.resistIcon {
-    width: 30px;
-    height: 30px;
-}
-.typeIcon {
-    width: 35px;
-    height: 35px;
-}
-.egoSkills .skillIcon, .egoContainer .typeIcon {
-    background-color: var(--color-black);
-}
 
 /* Action Icons */
 .Att { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Attack.png'); }
@@ -4902,6 +4860,7 @@ button[type=action].challengeButton::before {
 .next { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/next.png'); }
 .luck { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/fortunewhite.png'); }
 .speed { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Speed.png'); }
+.damage { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/damage.png'); }
 .whisper { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/whisper.png'); }
 .exit { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/exit.png'); }
 .option { background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/gear.png'); }
@@ -4929,7 +4888,7 @@ button[type=action].challengeButton::before {
 
 /* ===== Colors ===== */
 .charsheet,
-.sheet-rolltemplate-message,
+.sheet-rolltemplate-message, /* These colors can be used both in the sheet and in any chat messages */
 .sheet-rolltemplate-errorMessage,
 .sheet-rolltemplate-damagecalculation,
 .sheet-rolltemplate-autoeffect,
@@ -4956,8 +4915,8 @@ button[type=action].challengeButton::before {
     --color-light-orange: #eda353;
     --color-inventory: #c3c3c3;
     --color-HP: #cc4125;
-    --color-STGR: #dbb748;
-    --color-ego-STGR: #f1c232;
+    --color-STG: #dbb748;
+    --color-ego-STG: #f1c232;
     --color-SAN: #6d9eeb;
     --color-LIGHT: #fee2b0;
     --color-rgb-LIGHT: 254, 226, 176;
@@ -4977,10 +4936,10 @@ button[type=action].challengeButton::before {
 .HP { background-color: var(--color-HP) !important; }
 .HPtext, .fortitude, .counterText { color: var(--color-HP) !important; }
 
-.STGR { background-color: var(--color-STGR) !important; }
-.STGRtext { color: var(--color-STGR)!important; }
-.egoSTGR { background-color: var(--color-ego-STGR) !important; }
-.egoSTGRtext { color: var(--color-ego-STGR) !important; }
+.STG { background-color: var(--color-STG) !important; }
+.STGtext { color: var(--color-STG)!important; }
+.egoSTG { background-color: var(--color-ego-STG) !important; }
+.egoSTGtext { color: var(--color-ego-STG) !important; }
 
 .SAN { background-color: var(--color-SAN) !important; }
 .SANtext { color: var(--color-SAN) !important; }
@@ -5021,7 +4980,7 @@ button[type=action].challengeButton::before {
 .rollFormat {
     &:has(.rollType[value="Attack"]) { --rollformat-color: var(--color-red); }
     &:has(.rollType[value="Block"]) { --rollformat-color: var(--color-blue); }
-    &:has(.rollType[value="Evade"]) { --rollformat-color: var(--color-STGR); }
+    &:has(.rollType[value="Evade"]) { --rollformat-color: var(--color-STG); }
     &:has(.rollType[value="Fortitude"]) { --rollformat-color: var(--color-HP); }
     &:has(.rollType[value="Prudence"]) { --rollformat-color: var(--color-prudence); }
     &:has(.rollType[value="Justice"]) { --rollformat-color: var(--color-justice); }
@@ -5032,7 +4991,7 @@ button[type=action].challengeButton::before {
 .mystery-toggle:checked + .contentContainer .rollFormat {
     &:has(.rollType[value="Attack"]) { --rollformat-color: var(--color-HP) !important; }
     &:has(.rollType[value="Block"]) { --rollformat-color: var(--color-SAN) !important; }
-    &:has(.rollType[value="Evade"]) { --rollformat-color: var(--color-ego-STGR) !important; }
+    &:has(.rollType[value="Evade"]) { --rollformat-color: var(--color-ego-STG) !important; }
 }
 
 /* Change colors for mystery items and palette elements */
@@ -5053,8 +5012,8 @@ button[type=action].challengeButton::before {
 }
 
 /* Standalone rolls in the roll palette only uses seperate colors if the action has 2+ rolls */
-#actionPalette .mystery-toggle:not(:checked) + .contentContainer .rollFormatContainer:has(> input[type="Checkbox"]:nth-of-type(1):checked) .rollFormat {
-    background-color: var(--rollformat-color, var(--content-color));
+#actionPalette .mystery-toggle:not(:checked) + .contentContainer .rollFormatContainer:has(> input[name$="optionRollDisplay1"]:checked) .rollFormat {
+    --content-color: var(--rollformat-color);
 }
 
 /* Displays a coloured border around mystery roll formats. This style is always used for effect items */
@@ -5078,7 +5037,7 @@ button[type=action].challengeButton::before {
     &:has(.customColor[value~=g1])  {--g1:1}   &:has(.customColor[value~=g2])  {--g2:2}   &:has(.customColor[value~=g4])  {--g4:4}   &:has(.customColor[value~=g8])   {--g8:8}
     &:has(.customColor[value~=g16]) {--g16:16} &:has(.customColor[value~=g32]) {--g32:32} &:has(.customColor[value~=g64]) {--g64:64} &:has(.customColor[value~=g128]) {--g128:128}
 }
-.itemContainer {
+.itemContainer { /* Used for item accents (top left corner decoration) */
     --custom-color-alt: rgb(
         calc(var(--_r1, 0) + var(--_r2, 0) + var(--_r4, 0) + var(--_r8, 0) + var(--_r16, 0) + var(--_r32, 0) + var(--_r64, 0) + var(--_r128, 0)),
         calc(var(--_g1, 0) + var(--_g2, 0) + var(--_g4, 0) + var(--_g8, 0) + var(--_g16, 0) + var(--_g32, 0) + var(--_g64, 0) + var(--_g128, 0)),
@@ -5105,22 +5064,11 @@ button[type=action].challengeButton::before {
     --tracker-color: var(--custom-color);
 }
 
-/* TODO: This is depreciated. Remove it later */
-.conditioalButtonColorSelection[value="blue"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="blue"])  { background-color: var(--color-blue); }
-.conditioalButtonColorSelection[value="yellow"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="yellow"])  { background-color: var(--color-STGR); }
-.conditioalButtonColorSelection[value="orange"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="orange"]) { background-color: var(--color-orange); }
-.conditioalButtonColorSelection[value="red"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="red"]) { background-color: var(--color-red); }
-.conditioalButtonColorSelection[value="purple"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="purple"])  { background-color: var(--color-purple); }
-.conditioalButtonColorSelection[value="green"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="green"])  { background-color: var(--color-green); }
-.conditioalButtonColorSelection[value="black"]:checked ~ .conditioalButtonColor,
-.sheet-rolltemplate-chatbuttons .sheet-button:has(img[alt*="black"])  { background-color: var(--color-black); }
-
+.egoDiceATK {
+    border: 1px var(--color-HP) solid;
+    color: var(--color-HP) !important;
+    height: 30px;
+}
 .egoDiceDEF {
     border: 1px var(--color-SAN) solid;
     color: var(--color-SAN) !important;
@@ -5128,22 +5076,8 @@ button[type=action].challengeButton::before {
     margin-right: 10px !important;
 }
 .egoDiceEVD {
-    border: 1px var(--color-ego-STGR) solid;
-    color: var(--color-ego-STGR) !important;
+    border: 1px var(--color-ego-STG) solid;
+    color: var(--color-ego-STG) !important;
     height: 30px;
-}
-.egoDiceATK {
-    border: 1px var(--color-HP) solid;
-    color: var(--color-HP) !important;
-    height: 30px;
-}
-.egoDiceATK {
-    color: var(--color-HP) !important;
-}
-.egoDiceDEF {
-    color: var(--color-SAN) !important;
-}
-.egoDiceEVD {
-    color: var(--color-ego-STGR) !important;
 }
 /* ===== Colors END ===== */
