@@ -1999,10 +1999,9 @@ EGO block end -->
 	<div class="contentContainer darkBG">
 
 	<!-- When the Combat toggle is used, hide most combat palette elements while outside of combat -->
-	<input type="checkbox" class="hide-toggle" name="attr_settingCombatToggle" value="0" hidden>
 	<input type="checkbox" class="hide-toggle-rev" name="attr_combatState" value="0" hidden checked>
 	<input type="checkbox" class="helperText" name="attr_settingHideHelperText" value="true" hidden>
-	<div class="hide-item hide-item-rev rowContainer combatOptionsContainer helperTextContainer">
+	<div class="hide-item-rev rowContainer combatOptionsContainer helperTextContainer">
 			
 		<div class="rowContainer targetDefenceContainer">
 			
@@ -5531,58 +5530,251 @@ EGO block end -->
 
 <!-- Ailment trigger -->
 <div class="rowContainer settingStyle">
-	<div class="customAilText">
-		<span data-i18n="message-trigger">Trigger</span>:
-	</div>
-	<select name="attr_ailTrigger" class="whiteInput" style="width: 210px;">
-		<option data-i18n="message-none" value="None" selected>None</option>
-		<option data-i18n="trigger-roundend" value="RoundEnd">Round End</option>
-		<option data-i18n="trigger-onaction" value="OnAction">On Action</option>
-		<option data-i18n="trigger-whenhit" value="WhenHit">When Hit</option>
-	</select>
-</div>
-
-<div class="rowContainer settingStyle">
 	
 	<label class="customSelect whiteInput">
 		<input type="checkbox" class="select-toggle">
-		<span class="selectTitle" data-i18n="message-trigger">Trigger</span>
+		<span class="selectTitle" data-i18n="message-trigger">Triggers</span>
 		<div class="selectContents">
 			<div class="ailTriggerContainer">
-				<span data-i18n="message-effect" style="grid-column: 2;">Effect</span>
+				<span data-i18n="message-effect" style="grid-column: 2">Effect</span>
 				<span data-i18n="message-decay">Decay</span>
 
+				<!-- Round end -->
 				<span data-i18n="trigger-roundend">Round End</span>
-				<input type="checkbox" name="attr_ailTriggerRoundEndEffect" value="true">
-				<input type="checkbox" name="attr_ailTriggerRoundEndDecay" value="true">
 
-				<span data-i18n="trigger-whenhit">When Hit</span>
-				<input type="checkbox" name="attr_ailTriggerWhenHitEffect" value="true">
-				<input type="checkbox" name="attr_ailTriggerWhenHitDecay" value="true">
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerRoundEndEffect" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerRoundEndEffectMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerRoundEndEffectMode" data-i18n-title="ailments-trigger-effect-mode" title="Override effect mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
 
-				<span data-i18n="skill-type-Attack">Attack</span>
-				<input type="checkbox" name="attr_ailTriggerAttackEffect" value="true">
-				<input type="checkbox" name="attr_ailTriggerAttackDecay" value="true">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerRoundEndEffectValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerRoundEndEffectValue" data-i18n-title="ailments-trigger-effect-value" title="Override effect value">
+					</div>
+				</div>
 
-				<span data-i18n="skill-type-Block">Block</span>
-				<input type="checkbox" name="attr_ailTriggerBlockEffect" value="true">
-				<input type="checkbox" name="attr_ailTriggerBlockDecay" value="true">
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerRoundEndDecay" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerRoundEndDecayMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerRoundEndDecayMode" data-i18n-title="ailments-trigger-decay-mode" title="Override decay mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
 
-				<span data-i18n="skill-type-Evade">Evade</span>
-				<input type="checkbox" name="attr_ailTriggerEvadeEffect" value="true">
-				<input type="checkbox" name="attr_ailTriggerEvadeDecay" value="true">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerRoundEndDecayValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerRoundEndDecayValue" data-i18n-title="ailments-trigger-decay-value" title="Override decay value">
+					</div>
+				</div>
 
-				<span data-i18n="stats-speed">Speed</span>
-				<input type="checkbox" name="attr_ailTriggerSpeedEffect" value="true">
-				<input type="checkbox" name="attr_ailTriggerSpeedDecay" value="true">
-
+				<!-- On action -->
 				<span data-i18n="trigger-onaction">On Action</span>
-				<input type="checkbox" name="attr_ailTriggerOnActionEffect" value="true">
-				<input type="checkbox" name="attr_ailTriggerOnActionDecay" value="true">
 
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerOnActionEffect" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerOnActionEffectMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerOnActionEffectMode" data-i18n-title="ailments-trigger-effect-mode" title="Override effect mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
+
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerOnActionEffectValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerOnActionEffectValue" data-i18n-title="ailments-trigger-effect-value" title="Override effect value">
+					</div>
+				</div>
+
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerOnActionDecay" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerOnActionDecayMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerOnActionDecayMode" data-i18n-title="ailments-trigger-decay-mode" title="Override decay mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
+
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerOnActionDecayValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerOnActionDecayValue" data-i18n-title="ailments-trigger-decay-value" title="Override decay value">
+					</div>
+				</div>
+
+				<!-- When hit -->
+				<span data-i18n="trigger-whenhit">When Hit</span>
+
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerWhenHitEffect" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerWhenHitEffectMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerWhenHitEffectMode" data-i18n-title="ailments-trigger-effect-mode" title="Override effect mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
+
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerWhenHitEffectValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerWhenHitEffectValue" data-i18n-title="ailments-trigger-effect-value" title="Override effect value">
+					</div>
+				</div>
+
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerWhenHitDecay" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerWhenHitDecayMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerWhenHitDecayMode" data-i18n-title="ailments-trigger-decay-mode" title="Override decay mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
+
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerWhenHitDecayValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerWhenHitDecayValue" data-i18n-title="ailments-trigger-decay-value" title="Override decay value">
+					</div>
+				</div>
+
+				<!-- Attack roll -->
+				<span data-i18n="skill-type-Attack">Attack</span>
+
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerAttackEffect" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerAttackEffectMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerAttackEffectMode" data-i18n-title="ailments-trigger-effect-mode" title="Override effect mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
+
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerAttackEffectValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerAttackEffectValue" data-i18n-title="ailments-trigger-effect-value" title="Override effect value">
+					</div>
+				</div>
+
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerAttackDecay" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerAttackDecayMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerAttackDecayMode" data-i18n-title="ailments-trigger-decay-mode" title="Override decay mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
+
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerAttackDecayValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerAttackDecayValue" data-i18n-title="ailments-trigger-decay-value" title="Override decay value">
+					</div>
+				</div>
+
+				<!-- Block roll -->
+				<span data-i18n="skill-type-Block">Block</span>
+
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerBlockEffect" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerBlockEffectMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerBlockEffectMode" data-i18n-title="ailments-trigger-effect-mode" title="Override effect mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
+
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerBlockEffectValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerBlockEffectValue" data-i18n-title="ailments-trigger-effect-value" title="Override effect value">
+					</div>
+				</div>
+
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerBlockDecay" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerBlockDecayMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerBlockDecayMode" data-i18n-title="ailments-trigger-decay-mode" title="Override decay mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
+
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerBlockDecayValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerBlockDecayValue" data-i18n-title="ailments-trigger-decay-value" title="Override decay value">
+					</div>
+				</div>
+
+				<!-- Evade roll -->
+				<span data-i18n="skill-type-Evade">Evade</span>
+
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerEvadeEffect" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerEvadeEffectMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerEvadeEffectMode" data-i18n-title="ailments-trigger-effect-mode" title="Override effect mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
+
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerEvadeEffectValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerEvadeEffectValue" data-i18n-title="ailments-trigger-effect-value" title="Override effect value">
+					</div>
+				</div>
+
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerEvadeDecay" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerEvadeDecayMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerEvadeDecayMode" data-i18n-title="ailments-trigger-decay-mode" title="Override decay mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
+
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerEvadeDecayValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerEvadeDecayValue" data-i18n-title="ailments-trigger-decay-value" title="Override decay value">
+					</div>
+				</div>
+
+				<!-- Speed roll -->
+				<span data-i18n="stats-speed">Speed</span>
+
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerSpeedEffect" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerSpeedEffectMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerSpeedEffectMode" data-i18n-title="ailments-trigger-effect-mode" title="Override effect mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
+
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerSpeedEffectValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerSpeedEffectValue" data-i18n-title="ailments-trigger-effect-value" title="Override effect value">
+					</div>
+				</div>
+
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerSpeedDecay" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerSpeedDecayMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerSpeedDecayMode" data-i18n-title="ailments-trigger-decay-mode" title="Override decay mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
+
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerSpeedDecayValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerSpeedDecayValue" data-i18n-title="ailments-trigger-decay-value" title="Override decay value">
+					</div>
+				</div>
+
+				<!-- Stat roll -->
 				<span data-i18n="trigger-roll-stat">Stat Roll</span>
-				<input type="checkbox" name="attr_ailTriggerStatEffect" value="true">
-				<input type="checkbox" name="attr_ailTriggerStatDecay" value="true">
+
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerStatEffect" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerStatEffectMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerStatEffectMode" data-i18n-title="ailments-trigger-effect-mode" title="Override effect mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
+
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerStatEffectValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerStatEffectValue" data-i18n-title="ailments-trigger-effect-value" title="Override effect value">
+					</div>
+				</div>
+				
+				<div class="rowContainer">
+					<input type="checkbox" name="attr_ailOptionTriggerStatDecay" value="true" data-i18n-title="ailments-trigger" title="Enable trigger">
+					<div class="rowContainer">
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerStatDecayMode" value="" hidden checked>
+						<select class="fade-item darkInput" name="attr_ailTriggerStatDecayMode" data-i18n-title="ailments-trigger-decay-mode" title="Override decay mode">
+							<option value="" selected></option> <option value="+">+</option> <option value="x">x</option> <option value="=">=</option>
+						</select>
+
+						<input type="checkbox" class="fade-toggle-next" name="attr_ailTriggerStatDecayValue" value="" hidden checked>
+						<input type="text" class="fade-item" name="attr_ailTriggerStatDecayValue" data-i18n-title="ailments-trigger-decay-value" title="Override decay value">
+					</div>
+				</div>
+
+				<!--
+				<span data-i18n="stats-wisdom">Fortitude</span>
+				<input type="checkbox" name="attr_ailTriggerFortitudeEffect" value="true">
+				<input type="checkbox" name="attr_ailTriggerFortitudeDecay" value="true">
 
 				<span data-i18n="stats-wisdom">Prudence</span>
 				<input type="checkbox" name="attr_ailTriggerPrudenceEffect" value="true">
@@ -5603,6 +5795,7 @@ EGO block end -->
 				<span data-i18n="stats-temperance">Temperance</span>
 				<input type="checkbox" name="attr_ailTriggerTemperanceEffect" value="true">
 				<input type="checkbox" name="attr_ailTriggerTemperanceDecay" value="true">
+				-->
 			</div>
 		</div>
 	</label>
@@ -5621,68 +5814,59 @@ EGO block end -->
 </div>
 
 <!-- When hit settings -->
-<input type="checkbox" class="hide-toggle-next" name="attr_ailTrigger" value="WhenHit" hidden checked>
-<div class="hide-item columnAlign">
-
-<!-- When hit trigger damage type -->
-<div class="rowContainer settingStyle">
-	<div class="customAilText" style="width: 135px !important;">
-		<span data-i18n="message-hit-trigger-damage-type">Trigger dmg type</span>:
+<div class="columnAlign">
+	<input type="checkbox" class="hide-toggle" name="attr_ailOptionTriggerWhenHitDecay" value="true" hidden checked>
+	<input type="checkbox" class="hide-toggle" name="attr_ailOptionTriggerWhenHitEffect" value="true" hidden checked>
+	
+	<!-- When hit trigger damage type -->
+	<div class="hide-item-flex rowContainer settingStyle">
+		<div class="customAilText" style="width: 135px !important;">
+			<span data-i18n="message-hit-trigger-damage-type">Trigger dmg type</span>:
+		</div>
+		<select name="attr_ailDamageTypeWhenHit" class="whiteInput" style="width: 105px">
+			<option data-i18n="when-hit-damage-any" value="Any" selected>Any</option>
+			<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
+			<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
+			<option data-i18n="weapon-type-Blunt" value="Blunt">Blunt</option>
+		</select>
 	</div>
-	<select name="attr_ailDamageTypeWhenHit" class="whiteInput" style="width: 105px">
-		<option data-i18n="when-hit-damage-any" value="Any" selected>Any</option>
-		<option data-i18n="weapon-type-Slash" value="Slash">Slash</option>
-		<option data-i18n="weapon-type-Pierce" value="Pierce">Pierce</option>
-		<option data-i18n="weapon-type-Blunt" value="Blunt">Blunt</option>
-	</select>
-</div>
 
-<!-- When hit resistance mode -->
-<div class="rowContainer settingStyle">
-	<div class="customAilText" style="width: 135px !important;">
-		<span data-i18n="when-hit-mode-beforeResistance">Before resistance</span>:
+	<!-- When hit resistance mode -->
+	<div class="hide-item-flex rowContainer settingStyle"> <!-- TODO: Only needs to be revealed if WhenHitEffect is enabled -->
+		<div class="customAilText" style="width: 135px !important;">
+			<span data-i18n="when-hit-mode-beforeResistance">Before resistance</span>:
+		</div>
+		<select name="attr_ailBeforeResistanceWhenHit" class="whiteInput" style="width: 105px">
+			<option data-i18n="true" value="true" selected>True</option>
+			<option data-i18n="false" value="0">False</option>
+		</select>
 	</div>
-	<select name="attr_ailBeforeResistanceWhenHit" class="whiteInput" style="width: 105px">
-		<option data-i18n="true" value="true" selected>True</option>
-		<option data-i18n="false" value="0">False</option>
-	</select>
-</div>
 
-<!-- When hit decay settings -->
-<div class="rowContainer settingStyle">
-	<div class="customAilText" style="width: 135px !important;">
-		<span data-i18n="message-hit-decaywhenhit">Decay when hit</span>:
+	<!-- When hit positive mode -->
+	<div class="hide-item">
+		<input type="checkbox" class="hide-toggle-rev" name="attr_ailBeforeResistanceWhenHit" value="before">
+		<div class="hide-item-rev rowContainer settingStyle">
+			<div class="customAilText" style="width: 135px !important;">
+				<span data-i18n="message-positive-type">Positive type</span>:
+			</div>
+			<select name="attr_ailPositiveType" class="whiteInput" style="width: 105px">
+				<option data-i18n="positive-type-regen" value="Regen" selected>Regen</option>
+				<option data-i18n="positive-type-reduction" value="Reduction">Reduction</option>
+			</select>
+		</div>
 	</div>
-	<select name="attr_ailDecayWhenHit" class="whiteInput" style="width: 105px">
-		<option data-i18n="true" value="true" selected>True</option>
-		<option data-i18n="false" value="0">False</option>
-	</select>
-</div>
-
-<div class="rowContainer settingStyle">
-	<div class="customAilText" style="width: 135px !important;">
-		<span data-i18n="message-hit-decayroundend">Decay round end</span>:
-	</div>
-	<select name="attr_ailDecayRoundEnd" class="whiteInput" style="width: 105px">
-		<option data-i18n="true" value="true" selected>True</option>
-		<option data-i18n="false" value="0">False</option>
-	</select>
 </div>
 
-<!-- When hit positive mode -->
-<input type="checkbox" class="hide-toggle-rev" name="attr_ailEffectValue" value="-n">
-<input type="checkbox" class="hide-toggle-rev" name="attr_ailBeforeResistanceWhenHit" value="before">
-<div class="rowContainer settingStyle hide-item-rev">
+<!-- Roll effect settings -->
+<div class="ailRollSettings rowContainer settingStyle">
 	<div class="customAilText" style="width: 135px !important;">
-		<span data-i18n="message-positive-type">Positive type</span>:
+		<span data-i18n-title="ailments-multiroll">Multiroll handling</span>:
 	</div>
-	<select name="attr_ailPositiveType" class="whiteInput" style="width: 105px">
-		<option data-i18n="positive-type-regen" value="Regen" selected>Regen</option>
-		<option data-i18n="positive-type-reduction" value="Reduction">Reduction</option>
+	<select name="attr_ailMultirollHandling" class="whiteInput" style="width: 105px" data-i18n-title="ailments-multiroll-desc" title="Combined: Triggers the ailment effect + decay once per multiroll. Roll effects apply to all rolls of the multiroll. Individual: Triggers the ailment effect + decay for each individual roll of a multiroll. Stops triggering if the ailment count reaches 0. Roll effects only apply to affected rolls">
+		<option data-i18n="ailments-combined" value="Combined" selected>Combined</option>
+		<option data-i18n="ailments-individual" value="Individual">Individual</option>
 	</select>
 </div>
-</div>
-<!-- When hit settings END -->
 
 <!-- Ailment custom resistance -->
 <div class="rowContainer settingStyle">
@@ -5732,25 +5916,25 @@ EGO block end -->
 		</div>
 
 <!-- Ailment decay -->
-		<div class="rowContainer settingStyle">
-		
-		<div class="customAilText">
-		<span data-i18n="message-decay">Decay</span>:
-		</div>
-		
-		  <select name="attr_ailDecayMin" class="whiteInput" style="width: 105px">
-			<option data-i18n="decay-min-1" value="1" selected>Count (Min: 1)</option>
-			<option data-i18n="decay-min-0" value="0">Count (Min: 0)</option>
-		  </select>
-		
-		  <select name="attr_ailDecayMode" class="darkInput" style="width: 40px;">
-			<option value="+">+</option>
-			<option value="x">x</option>
-			<option value="=" selected>=</option>
-		  </select>
-		
-		 <input type="text" name="attr_ailDecayValue" style="width: 40px;" value="0">
+<div class="rowContainer settingStyle">
+	
+	<div class="customAilText">
+	<span data-i18n="message-decay">Decay</span>:
 	</div>
+	
+		<select name="attr_ailDecayMin" class="whiteInput" style="width: 105px">
+		<option data-i18n="decay-min-1" value="1" selected>Count (Min: 1)</option>
+		<option data-i18n="decay-min-0" value="0">Count (Min: 0)</option>
+		</select>
+	
+		<select name="attr_ailDecayMode" class="darkInput" style="width: 40px;">
+		<option value="+">+</option>
+		<option value="x">x</option>
+		<option value="=" selected>=</option>
+		</select>
+	
+		<input type="text" name="attr_ailDecayValue" style="width: 40px;" value="0">
+</div>
 
 <!-- Ailment max value -->
 <input type="checkbox" class="fade-toggle-next" name="attr_ailMaxValue" value="0" hidden checked>
@@ -6235,6 +6419,10 @@ const ailmentAttrs = [
 	"ailDamageTypeWhenHit", "ailBeforeResistanceWhenHit", "ailDecayWhenHit", "ailDecayRoundEnd", "ailPositiveType", // When Hit settings
 	"ailCustomResistance", "ailCustomResistanceNum", "ailCustomResistanceNumEgo", // Custom resistance
 	"ailMaxValue", "ailMaxMode", "ailMessageSend", "ailMessageText", "ailCollapse" // Other
+]
+const ailmentTriggers = [
+	"Round end", "On action", "When hit", // Conditions
+	"Attack", "Block", "Evade", "Speed", "Stat", // Rolls
 ]
 
 const barNames = ["HP", "STG", "SP", "Light"]
@@ -7038,7 +7226,7 @@ class checkVal {
 
 	/* Sheet specific data */
 	static ID(s, opts={}) { return typeof(s) == "string" && (opts.strict ? /^-[\w-]{19}$/ : /^-.{19}$/).test(s); } // Checks if a Roll20-style id is valid
-	static Effect(v, opts={}) { return /^(?:-?(?:\d+(?:[,.]\d+)?)?n)|(?:-?\d+(?:[,.]\d+)?)$/.test("" + v); } // Check for ailment effects like "0", "-n" and "6n"
+	static Effect(v, opts={}) { return /^(?:-?(?:\d+(?:[,.]\d+)?)?n|-?\d+(?:[,.]\d+)?)$/.test("" + v); } // Check for ailment effects like "0", "-n" and "6n"
 	static Path(p, opts={}) { return /^(?:([^\s\.\[\]]+|(?:\[.+?\]))\.?)+$/.test(p); }
 
 	static Hex(s) { return /^#?[0-9a-f]{6}$/i.test(s); }
@@ -9675,8 +9863,8 @@ async function sendMessage(charID=getActiveCharacterId()) {
 /* Executes one or more rolls and posts the results to the chat */
 function executeRolls(rollArray, opts={use_resource:false}) {
 	access._begin(false, "event:roll", () => {
-		if (rollArray instanceof dataNode && !rollArray[0]) rollArray = [rollArray];
-		let prevLength = access.rolls.length;
+		if (rollArray instanceof dataNode && !rollArray[0]) rollArray = [rollArray]; // Handles executing single rolls from the data tree, ex. executeRolls(access.items[0].rollformats[0])
+		let prevLength = access.rolls.length; // Used for setting up message data from items
 
 		// Check that all required resources, item uses and Light needed for the roll are available
 		// If yes, deduct these resources from the character. If not, cancel the action
@@ -9728,22 +9916,63 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 			}
 		}
 
+		// If multirolls are enabled, treat rolls with a 2+ dice count as seperate rolls
+		if (rollArray.some(roll => roll.multiroll && roll.count > 1)) {
+			rollArray = rollArray.flatMap(roll => {
+				if (roll.multiroll && roll.count > 1) {
+					let multiRollID =  generateAccessID();
+					let multiCount = roll.count;
+					roll.modify("count", 1, {silent:"hard"});
+					roll._count = 1;
+
+					let multiRollArray = [];
+					for (let i = 0; i < multiCount; i++) {
+						let newRoll = cleanRoll(roll);
+						newRoll._multiroll = multiRollID; // Multirolls are given an ID for handling the DiceCount AutoEffect
+						multiRollArray.push(newRoll);
+					}
+					return multiRollArray;
+				}
+				return roll;
+			});
+		}
+		
 		// Add the new roll(s) to access.rolls
 		for (const roll of rollArray) {
+			access.rolls.add({node:roll, index:opts.index});
+		}
 
-			// If multirolls are enabled, treat rolls with a 2+ dice count as seperate rolls
-			if (roll.multiroll && roll.count > 1) {
-				let multiRollID =  generateAccessID();
-				let multiCount = roll.count;
-				roll.modify("count", 1, {silent:"hard"});
-				roll._count = 1;
+		// Proc any status ailments that trigger off of combat or stat rolls
+		if (!opts.ignore_ailments) {
+			for (const ail of access.ailments.filter(ail => ["attack", "block", "evade", "stat"].some(key => ail.trigger[key].effect.enabled || ail.trigger[key].decay.enabled))) {
 
-				for (let i = 0; i < multiCount; i++) {
-					let newRoll = access.rolls.add({node:cleanRoll(roll), index:opts.index});
-					newRoll._multiroll = multiRollID; // Multirolls are given an ID for handling the DiceCount AutoEffect
+				// Handles ailments with "Combined" multiroll handling, which trigger their effect + decay once for each roll action
+				// Ailments with "Individual" multiroll handling triggers their effect + decay for each individual roll
+				let ailPrevTriggers = {}
+				
+				for (const roll of rollArray) {
+					let rollType = is(roll.type).In(statNames) ? "stat" : snakeify(roll.type);
+					let trigger = ail.trigger[rollType];
+
+					let procOpts = {
+						trigger:trigger,
+						effect:trigger?.effect.enabled,
+						decay:trigger?.decay.enabled,
+						nodes: [roll],
+					}
+
+					if (ail.settings.multiroll_handling == "Combined") {
+						if (ailPrevTriggers[trigger]) continue;
+						ailPrevTriggers[trigger] = true;
+
+						// Roll ailments apply their effect before the roll (to ex. access.rolls.attack.power). As such only decay needs to be processed
+						if (is(ail.effect.type).In("Count", "Max", "Power", "Adv")) procOpts.effect = false;
+					}
+
+					if (procOpts.effect || procOpts.decay) {
+						procAilment(ail, procOpts);
+					}
 				}
-			} else {
-				access.rolls.add({node:roll, index:opts.index});
 			}
 		}
 
@@ -9772,61 +10001,42 @@ function executeRolls(rollArray, opts={use_resource:false}) {
 			desc.target = access.target?.character?.name || false;
 		}
 
-		// Apply any status ailments that affect rolls
-		if (true) {
-			// Paralysis and Fortune increase/decrease roll.adv by 1, applying once per roll until depleted
-			// Strength, Endurance, etc. apply to all rolls of a matching type
-
-			// For this you'll need the following ailment effects:
-			// - Dice power
-			// - Dice advantage
-			// - You may as well throw in DiceMax and DiceCount while you're at it
-			
-			// These effects decay on Round end / On action / When hit, but do not apply any effects except during rolls
-
-			// You'll also need the following settings:
-			// - If the ailment decays when applied, and if the effect is capped by the decay (for Paralysis/Fortune)
-			// - If the ailment applies to a specific type of roll. "Difficulty" now matches a dice power effect with no roll type
-		}
-
 		// Simulate all new rolls and save the resulting value
-		for (const roll of access.rolls) {
-			if (prevLength <= roll.index) {
-				simulateRoll(roll, {updateRoll:true});
+		for (const roll of rollArray) {
+			simulateRoll(roll, {updateRoll:true});
 
-				console.log(`Simulating roll: ${roll.type} - ${roll.count}d${roll.max}+(${roll.power}) ${roll.adv || ""}`);
-				console.log("Result:", roll.result, roll.result_dice);
+			console.log(`Simulating roll: ${roll.type} - ${roll.count}d${roll.max}+(${roll.power}) ${roll.adv || ""}`);
+			console.log("Result:", roll.result, roll.result_dice);
 
-				// Add any AutoEffects from any new rolls
-				if (!/^\s$/.test(roll.autoeffect)) {
-					let rollBlock = access.effects.add("(Block)")[0];
-					rollBlock._addVar("roll", roll);
-					rollBlock.add(roll.autoscript);
-				}
-
-				// Adds an Apply damage button for attack rolls
-				// TODO: Make this optional
-				// TODO: Add an event that syncs changes to the roll result to the Apply damage button of the roll (if the type and amount matches)
-				if (roll.type == "Attack") {
-					let button = roll.message.buttons.add();
-					let damage = button.damage.add();
-
-					button.title = getTranslationByKeyCustom("Apply damage", "helper-text-applydamage");
-					button.icon = getIcon("icons/damage"); // TODO: This should eventually use styling rules
-					button.color = "red"; 
-					//button.mode = "select"; // TODO: Should apply to a specific character when using Targeting
-
-					damage.type = roll.damage_type;
-					damage.bar = ["HP", "STG"]; // Attacks apply to both HP and STG by default
-					damage.value = roll.result;
-					damage.before_resistance = true;
-				}
-
-				// Trigger an event for each new roll
-				access._event.trigger([...roll.path, "roll"], {
-					node:roll, type:"roll", oldval:false, newval:roll.result,
-				}, {});
+			// Add any AutoEffects from any new rolls
+			if (!/^\s$/.test(roll.autoeffect)) {
+				let rollBlock = access.effects.add("(Block)")[0];
+				rollBlock._addVar("roll", roll);
+				rollBlock.add(roll.autoscript);
 			}
+
+			// Adds an Apply damage button for attack rolls
+			// TODO: Make this optional
+			// TODO: Add an event that syncs changes to the roll result to the Apply damage button of the roll (if the type and amount matches)
+			if (roll.type == "Attack") {
+				let button = roll.message.buttons.add();
+				let damage = button.damage.add();
+
+				button.title = getTranslationByKeyCustom("Apply damage", "helper-text-applydamage");
+				button.icon = getIcon("icons/damage"); // TODO: This should eventually use styling rules
+				button.color = "red"; 
+				//button.mode = "select"; // TODO: Should apply to a specific character when using Targeting
+
+				damage.type = roll.damage_type;
+				damage.bar = ["HP", "STG"]; // Attacks apply to both HP and STG by default
+				damage.value = roll.result;
+				damage.before_resistance = true;
+			}
+
+			// Trigger an event for each new roll
+			access._event.trigger([...roll.path, "roll"], {
+				node:roll, type:"roll", oldval:false, newval:roll.result,
+			}, {});
 		}
 
 		console.log("Rolls:", access.rolls, "|| Message:", access.message);
@@ -12217,20 +12427,21 @@ const repDataFormats = {
 			count_next_round: 0,
 			count_pause: 0,
 			icon: "",
+			trigger: {
+				...ailmentTriggers.reduce((acc, trigger) => {
+					return Object.assign(acc, {[snakeify(trigger)]: {effect: {mode: "+", value: ""}, decay: {mode: "=", value: ""}}});
+				}, {}),
+			},
 			settings: {
 				display: true,
-				trigger: "None",
 				next_round: true,
 				custom_resistance: false,
-				whenhit: {
+				when_hit: { // TODO: Consider moving these into trigger.when_hit
 					damage_type: "Any",
-					decay: true,
 					before_resistance: false,
 					positive_type: "Regen",
 				},
-				roundend: {
-					decay: true,
-				}
+				multiroll_handling: "Combined",
 			},
 			effect: {
 				type: "None",
@@ -12256,18 +12467,20 @@ const repDataFormats = {
 			_default: {int: {min:0}},
 			name: {string:true},
 			icon: {string:true},
+			trigger: {
+				...ailmentTriggers.reduce((acc, trigger) => {
+					let ailValid = {mode: {in: ["", "+", "x", "="]}, value: {empty:true, effect:true}};
+					return Object.assign(acc, {[snakeify(trigger)]: {effect: ailValid, decay: ailValid}});
+				}, {}),
+			},
 			settings: {
 				_default: {bool:true},
-				trigger: {in: ["None", "RoundEnd", "OnAction", "WhenHit"]},
 				whenhit: {
 					damage_type: {in: ["Any", "Slash", "Pierce", "Blunt"]},
-					decay: {bool:true},
 					before_resistance: {bool:true},
 					positive_type: {in: ["Regen", "Reduction"]},
 				},
-				roundend: {
-					decay: {bool:true},
-				}
+				multiroll_handling: {in: ["Combined", "Individual"]},
 			},
 			effect: {
 				type: {in: ["None", "HP", "STG", "HP+STG", "THP", "TSTG", "SP", "Light", "Count", "Max", "Power", "Adv", "DistortCounter"]},
@@ -12291,20 +12504,26 @@ const repDataFormats = {
 
 		attrs: {
 			_defaults: repDataDefaults.ailment,
-			_source: {sheet: {type: "id", section: "ailments"}},
-			_prefix: "ail",
+			_source: {sheet: {prefix: "ail", type: "id", section: "ailments"}},
 			_ignore: {export: ["count", "count_next_round", "count_pause"]},
 			_case: "snake",
-			settings: {
-				_prefix: "ail",
-				_case: "snake",
-				whenhit: {_prefix: "ail", _suffix: "WhenHit", _case: "snake"},
-				roundend: {_prefix: "ail", _suffix: "RoundEnd"},
+			trigger: {
+				...ailmentTriggers.reduce((acc, trigger) => {
+					let prefixBase = `Trigger${camelize(trigger)}`;
+					return Object.assign(acc, {[snakeify(trigger)]: {
+						effect: {_option: `${prefixBase}Effect`, _prefix: `${prefixBase}Effect`},
+						decay: {_option: `${prefixBase}Decay`, _prefix: `${prefixBase}Decay`}}
+					});
+				}, {}),
 			},
-			effect: {_prefix: "ailEffect"},
-			decay: {_prefix: "ailDecay"},
-			max: {_prefix: "ailMax"},
-			message: {_prefix: "ailMessage"},
+			settings: {
+				_case: "snake",
+				when_hit: {_suffix: "WhenHit", _case: "snake"},
+			},
+			effect: {_prefix: "Effect"},
+			decay: {_prefix: "Decay"},
+			max: {_prefix: "Max"},
+			message: {_prefix: "Message"},
 		},
 	},
 
@@ -12326,8 +12545,12 @@ const repDataFormats = {
 			},
 			rolls: {
 				whisper: "",
-				count: 0, max: 0, power: 0,
-				adv: 0, disadv: 0,
+				count: 0, max: 0, power: 0, adv: 0, disadv: 0,
+				/*
+				...[...combatRollNames, "speed", ...statNames].reduce((acc, stat) => {
+					return Object.assign(acc, {[snakeify(stat)]: {count: 0, max: 0, power: 0, adv: 0}});
+				}, {}),
+				*/
 			},
 			bar: {
 				hp: 30, map_hp: "", hp_max: 30, // map_hp etc. match the token's bar value on the battlemap. This value is updated each time the token is selected
@@ -12381,6 +12604,11 @@ const repDataFormats = {
 				whisper: {string:true},
 				adv: {int: {min:0}},
 				disadv: {int: {min:0}},
+				/*
+				...[...combatRollNames, "speed", ...statNames].reduce((acc, stat) => {
+					return Object.assign(acc, {[snakeify(stat)]: {_default: {int:true}}});
+				}, {}),
+				*/
 			},
 			bar: {
 				_default: {int:true},
@@ -12430,6 +12658,18 @@ const repDataFormats = {
 					},
 					_case: "snake",
 				},
+			},
+			rolls: {
+				_source: {
+					editor: {},
+					sheet: {prefix: "token_", type: "id", section: "tokens"},
+				},
+				/*
+				...[...combatRollNames, "speed", ...statNames].reduce((acc, stat) => {
+					stat = snakeify(stat);
+					return Object.assign(acc, {[stat]: {_prefix: stat}});
+				}, {}),
+				*/
 			},
 			bar: {
 				_source: {
@@ -12812,11 +13052,7 @@ const dataFormat = {
 					attack: {calc: "Rank", value: 1},
 					block: {calc: "Temperance", value: 0},
 					evade: {calc: "Insight", value: 0},
-					multiroll_penalty: {
-						calc: "-2",
-						style: "Flat",
-						value: -2
-					},
+					multiroll_penalty: {calc: "-2", style: "Flat", value: -2},
 				},
 				recovery: {
 					hp: {calc: "25 + (Fortitude * 3) + (Rank * 3)", value: 28},
@@ -13494,7 +13730,11 @@ const dataFormat = {
 
 on("clicked:testA", async function(info) {
 	console.log("Clicked button A");
-	console.log(access.currentID);
+	
+	access._begin(false, "event:test", function() {
+		access.ailments.burn.trigger.round_end.decay = true;
+		console.log(access.ailments.burn.trigger);
+	});
 });
 
 on("clicked:testB", function(info) {
@@ -14485,6 +14725,7 @@ class dataNode extends Array {
 				this[prop] = this._formats.base[snakeify(prop)];
 			}
 		}
+		this.#output = {}
 	}
 }
 
@@ -15875,7 +16116,8 @@ class effectNode extends dataNode {
 				let langTarget = getTranslationByKeyCustom("[TARGET]", "autoeffect-match-target");
 				msgData = {prefix: langProc.replace(langTarget, `**${node.name}**: `)}
 			}
-			procAilment(node, {effect:true, decay:true, msg: msgData || {}});
+			procAilment(node, {effect:true, decay:true, msg: msgData || {}}); // TODO: Add two options for only proccing effect or decay (the effect defaults to both)
+			// TODO: Also consider adding options to simulate a type of trigger, like #WhenHit and #RoundEnd. By default the default effect/decay is used 
 		}
 		if (!msgData) {
 			this.#message();
@@ -17610,6 +17852,13 @@ onAccess("clicked:combatToggle", {}, function(info) {
 	*/
 });
 
+/* State - Enable combat mode when disabling the combat toggle (The user is always considered to be in combat) */
+onAccess(["settings", "sheet", "palette", "modify", "combat_toggle"], {}, async function(info) {
+	if (!info.newval) {
+		access.state.combat = 1;
+	}
+});
+
 /* Rolls - Item or palette roll */
 onAccess(itemEvent("clicked", "item-roll") + " clicked:repeating_palette:palette-roll", {}, async function(info) {
 	await delay(100); // Small delay to fix editing a rollformat and then directly pressing the roll button not syncing the rollformat change before executing the roll
@@ -17683,7 +17932,7 @@ function cleanRoll(roll) {
 	if (roll.orig || is(roll.path[1]).In("items", "palette")) { // Saves a reference to the roll's item/palette element in case it's needed later
 		Object.defineProperty(clone, "orig", {value: roll.orig || roll.root[roll.path[1]][roll.id]});
 	}
-	for (const prop of ["difficulty", "stat_power", "multiroll_penalty"]) { // Copies over any saved roll modifiers
+	for (const prop of ["difficulty", "game_power", "multiroll_penalty"]) { // Copies over any saved roll modifiers
 		if (roll[prop]) {
 			Object.defineProperty(clone, prop, {writable:true, value:roll[prop]});
 		}
@@ -17829,6 +18078,7 @@ onAccess("clicked:expandtrackers clicked:edittrackers", async function(info) {
 
 /* Roll - Modify roll values */
 onAccess(["rolls", "N", "modify", ["count", "max", "power", "adv"]], {}, function(info) {
+	if (!is.ID(info.path[2])) return; // Ensures this event only triggers for repeating rolls like access.rolls.-abc.power, and not ex. access.rolls.attack.power
 	let roll = info.node;
 	let prop = info.path.at(-1);
 	let value = info.newval - info.oldval;
@@ -18254,11 +18504,14 @@ function updateSheet(charID) {
 
 		// Proc all ailments that trigger on round end
 		for (const ail of root.ailments) {
-			if (ail.settings.trigger == "RoundEnd") {
-				procAilment(ail);
+			let procOpts = {
+				trigger: "round_end",
+				effect: ail.trigger.round_end.effect.enabled,
+				decay: ail.trigger.round_end.decay.enabled,
 			}
-			else if (ail.settings.trigger != "None" && ail.settings.roundend.decay) { // TODO: Make sure this option also appears in the editor for "On Action" ailments
-				procAilment(ail, {decay:true, no_message:true});
+
+			if (procOpts.effect || procOpts.decay) {
+				procAilment(ail, procOpts);
 			}
 		}
 
@@ -18305,7 +18558,7 @@ function updateSheet(charID) {
 }
 
 /* Ailment - Proc ailment */
-function procAilment(ail, opts={effect:true, decay:true}) {
+function procAilment(ail, opts={trigger:false, effect:true, decay:true}) {
 	let nomessage = opts.no_message; // values.settingMuteMessage;
 	// let burnimmune = values.settingBurnImmune;
 	// let hiddenroll = values.settingWhisperRolls;
@@ -18337,12 +18590,14 @@ function procAilment(ail, opts={effect:true, decay:true}) {
 	// This makes it MUCH clearer what this option actually does
 	// - It also opens up options like effects that only proc on a specific count, or only proc above x count
 
-	let effectType = ail.effect.type;
-	let effectMode = ail.effect.mode;
-	let effectVal = ail.effect.value;
+	let trigger = opts.trigger ? ail.trigger[opts.trigger] : false;
 
-	let decayMode = ail.decay.mode;
-	let decayVal = ail.decay.value;
+	let effectType = ail.effect.type;
+	let effectMode = trigger?.effect.mode || ail.effect.mode; // Is falsy if a) no trigger is provided, or b) the mode is an empty string (strings like "0" are truthy)
+	let effectVal = trigger?.effect.value || ail.effect.value;
+
+	let decayMode = trigger?.decay.mode || ail.decay.mode;
+	let decayVal = trigger?.decay.value || ail.decay.value;
 	let decayMin = ail.decay.min ?? 0;
 
 	let maxType = ail.max.type;
@@ -18379,20 +18634,21 @@ function procAilment(ail, opts={effect:true, decay:true}) {
 
 		// Handle effects
 		if (opts.effect && ail.type != "None") {
-			let node, propArray = [];
+			let nodeArray = [], propArray = [];
 			
 			switch (effectType) {
-				case "HP": case "STG": case "SP": case "Light": node = access.bar; propArray = [effectType.toLowerCase()]; break;
-				case "HP+STG": node = access.bar; propArray = ["hp", "stg"]; break;
+				case "HP": case "STG": case "SP": case "Light": nodeArray = [access.bar]; propArray = [effectType.toLowerCase()]; break;
+				case "HP+STG": nodeArray = [access.bar]; propArray = ["hp", "stg"]; break;
 				case "THP": case "TSTG": break; // TODO: Needs support
-				case "DistortCounter": break; // TODO: Needs support
-				// Count, Max, Power and Adv have no effect on proc, only decay
+				case "Count": case "Max": case "Power": case "Adv": nodeArray = opts.nodes ?? []; propArray = [effectType.toLowerCase()]; break;
 			}
 
-			for (const prop of propArray) {
-				changes.push(applyEffect(ail.count, node[prop], effectMode, effectVal));
-				results.push(Math.abs(node[prop] + changes.at(-1)));
-				node[prop] = results.at(-1);
+			for (const node of nodeArray) {
+				for (const prop of propArray) {
+					changes.push(applyEffect(ail.count, node[prop], effectMode, effectVal));
+					results.push(Math.abs(node[prop] + changes.at(-1)));
+					node[prop] = results.at(-1);
+				}
 			}
 		}
 
@@ -18509,12 +18765,10 @@ function applyEffect(count, prop, mode="=", effect="0", opts={}) {
 	let [mod, n] = (is.Float(effect)) ? [effect] : effect.match(/^(-?\d*(?:[,.]\d+)?)?(n)?$/i)?.slice(1);
 	let change = 0;
 
-	if (effect == undefined) {
-		effect = [0] // TODO: Temporary solution for an ailment having an invalid effect. This should in the future throw an error
-	}
+	if (effect == undefined) effect = [0] // TODO: Temporary solution for an ailment having an invalid effect. This should in the future throw an error
 	
 	// Prepare modifier
-	mod = (mod == "-") ? -1 : parseFloat(mod);
+	mod = (mod == "-") ? -1 : (mod == undefined) ? 1 : parseFloat(mod);
 	if (n) mod = mod * count;
 	if (!prop) prop = count;
 
@@ -18722,21 +18976,28 @@ function recalcPalette(elementArray) {
 					}
 				}
 
-				// Handle dice power from character stats
+				// Handle dice count / max / power / advantage from game rules and ailments
 				if (roll.type != "None") {
-					let statPower = 0;
+					let rollType = roll.type.toLowerCase();
+					let game = {}, ail = roll.root.rolls[rollType];
 					
 					if (is(roll.type).In(combatRollNames)) {
-						if (rollSettings[roll.type.toLowerCase()].enabled) {
-							statPower = rollSettings[roll.type.toLowerCase()].value;
+						if (rollSettings[rollType].enabled) {
+							game.power = rollSettings[rollType].value;
 						}
 					} else {
-						statPower = roll.root.character[roll.type.toLowerCase()];
+						game.power = roll.root.character[rollType];
 					}
 
-					if (statPower !== 0) {
-						Object.defineProperty(roll, "stat_power", {writable:true, statPower}); // Stores the modifier in case it's needed later
-						roll.modify("power", roll.power + statPower, {recalc:true});
+					if (game.power) {
+						Object.defineProperty(roll, "game_power", {writable:true, value:game.power}); // Stores the modifier in case it's needed later
+						roll.modify("power", roll.power + game.power, {recalc:true});
+					}
+					for (const prop of ["count", "max", "power", "adv"]) {
+						if (ail[prop]) {
+							Object.defineProperty(roll, `ail_${prop}`, {writable:true, value:ail[prop]}); // Stores the modifier in case it's needed later
+							roll.modify(prop, roll[prop] + ail[prop], {recalc:true});
+						}
 					}
 				}
 
@@ -18868,6 +19129,65 @@ onAccess([
 
 	recalcPalette(elementArray);
 });
+
+/* Palette - Update roll count / max / power / advantage from ailments */
+onAccess([
+	["ailments", "N", [
+		["modify", "count"],
+		["trigger", ["attack", "block", "evade", "stat"], [
+			["modify", "effect"],
+			["effect", "modify", "N"],
+		]],
+		["settings", "modify", "multiroll_handling"],
+		["effect", "modify", "N"],
+	]],
+], {}, function(info) {
+	// If modifying a specific trigger condition, only recalc that trigger. Otherwise recalc all triggers of the modified ailment
+	let triggerArray = (info.path[3] == "trigger") ? [info.path[4]] : ["attack", "block", "evade", "stat"].filter(trigger => access.ailments[info.path[2]].trigger[trigger].effect.enabled);
+	
+	let elementArray = access.palette.filter(element => element.rollformats.some(roll => {
+		return is(roll.type.toLowerCase()).In(triggerArray) || (triggerArray.includes("stat") && is(roll.type).In(statNames));
+	}));
+
+	console.log("Detect recalc roll mod event:", info, triggerArray);
+
+	recalcAilRollModifiers(triggerArray)
+	recalcPalette(elementArray);
+});
+
+// Recalculates roll modifiers from ailments in ex. access.rolls.attack
+// Ailments cannot modify the universal roll modifiers like access.rolls.power
+function recalcAilRollModifiers(triggerArray=["attack", "block", "evade", "stat"]) {
+
+	// Reset all current roll modifiers from ailments
+	for (const trigger of triggerArray) {
+		if (trigger == "stat") {
+			for (const stat of statNames.map(stat => stat.toLowerCase())) {
+				access.rolls[stat].reset();
+			}
+		} else {
+			access.rolls[trigger].reset();
+		}
+	}
+
+	// Apply any roll modifiers from ailments
+	for (const ail of access.ailments.filter(ail => ail.count > 0 && is(ail.effect.type).In("Count", "Max", "Power", "Adv"))) {
+		if (ail.settings.multiroll_handling == "Individual") continue; // Ailments with "Individual" multiroll handling are processed in executeRolls()
+
+		for (const trigger of triggerArray.filter(key => ail.trigger[key].effect.enabled)) {
+			let effectTypes = (trigger == "stat") ? statNames.map(stat => stat.toLowerCase()) : [ail.effect.type.toLowerCase()];
+			let effectMode = ail.trigger[trigger].effect.mode || ail.effect.mode; // Is falsy if the mode is an empty string (strings like "0" are truthy)
+			let effectVal = ail.trigger[trigger].effect.value || ail.effect.value;
+
+			for (const effectType of effectTypes) {
+				access.rolls[trigger][effectType] += applyEffect(ail.count, access.rolls[trigger][effectType], effectMode, effectVal);
+			}
+		}
+	}
+}
+
+
+
 
 /* Assorted - Recover (short rest) */
 onAccess('clicked:recover', {}, async function(info) { // TODO: Convert this to only use data from access
@@ -19847,9 +20167,6 @@ async function updateToken(tokenValues, mode="full") {
 		// Simply add the values to the attribute data as "hp", "stg" and "sp"
 
 		token.input({editor: tokenAttrValues}, {silent:"hard", includeEditor:true});
-
-		// Selects the token instance if no token is currently selected
-		access.tokens.selection ||= token.id;
 	}
 
 	// Apply any override data from getTokenAttrs()
@@ -19858,6 +20175,9 @@ async function updateToken(tokenValues, mode="full") {
 	token.bar.map_hp = tokenValues.bar1;
 	token.bar.map_stg = tokenValues.bar2;
 	token.bar.map_sp = tokenValues.bar3;
+
+	// Selects the token instance
+	access.tokens.selection = token.id;
 	
 	return;
 
@@ -22959,9 +23279,9 @@ function replaceLast(string, match, replace) {
 
 // Converts a string to camelCase
 function camelize(s) {
-	return s.replace(/^[\s_]+/g, "")            // Remove leading spaces and underscores
-		    .replace(/(_[a-z])/g, ($1) => {     // Replace a_bc with aBc
-		return $1.toUpperCase().replace("_", "");
+	return s.replace(/^[\s_]+/g, "") 						// Remove leading spaces and underscores
+		    .replace(/(?:\s|_)([a-z])/g, (match, $1) => {	// Replace a bc and a_bc with aBc
+		return $1.toUpperCase();
 	});
 };
 

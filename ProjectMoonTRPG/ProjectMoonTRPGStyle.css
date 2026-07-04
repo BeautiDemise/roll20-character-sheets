@@ -664,6 +664,7 @@ label.customSelect {
         background-size: 13px;
         background-position: right;
         background-origin: content-box;
+        line-height: 18px;
     }
 
     /* The menu is opened like any other dropdown, but remains open while interacting with content inside the menu */
@@ -679,7 +680,7 @@ label.customSelect {
         box-sizing: border-box;
         border: 1px solid #777777;
         background-color: #898989;
-        z-index: 1000;
+        z-index: 200; /* Displays the menu above most content except the token bar and autoscript / item editors */
     }
 }
 .select-toggle {
@@ -696,7 +697,7 @@ label.customSelect {
 }
 
 /* Generic toggle checkboxes */
-.expand-toggle, .hide-toggle, .hide-toggle-rev, .hide-toggle-next, .hide-toggle-rev-next, .swap-toggle, .fade-toggle {
+.expand-toggle, .hide-toggle, .hide-toggle-rev, .hide-toggle-next, .hide-toggle-rev-next, .swap-toggle, .fade-toggle, .fade-toggle-next {
     display: none !important;
 }
 .expand-toggle + div {
@@ -1699,7 +1700,7 @@ button[type=action].challengeButton::before {
         z-index: 30;
 
         .name {
-            color: var(--content-text);
+            color: var(--content-text, contrast-color(rgb(from var(--content-color) calc(r - 68) calc(g - 68) calc(b - 68)))); /* Ensures the text remain legible for all custom colors */
             width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -2439,7 +2440,7 @@ button[type=action].challengeButton::before {
 
             /* Calculates the number of 2px rows needed to hold each item */
             --item-size: calc(40 + max(var(--item-size-left, 0), var(--item-size-right, 0))); /* Minimum header height (36px) + gap between items (4px) */
-            grid-row: span round(down, var(--item-size) / 2);                                 /* Divides by 2 to convert from pixels to an amount of 2px rows */
+            grid-row: span round(down, calc(var(--item-size) / 2));                           /* Divides by 2 to convert from pixels to an amount of 2px rows */
             
             /* Height from item contents */
             &:has(.equipCheck:checked) {
@@ -2447,14 +2448,14 @@ button[type=action].challengeButton::before {
                 /* Item left-side height */
                 --item-size-left-base: 82; /* Minimum effect description height */
                 --item-size-left: calc(var(--item-size-left-base) + var(--item-size-weapon, 0) + var(--item-size-augment, 0) + var(--item-size-skill, 0) + var(--item-size-special, 0));
-                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="weaponUI"]:checked) { --item-size-weapon: 28; }
-                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="augmentUI"]:checked) { --item-size-augment: 28; }
-                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="skillUI"]:checked) { --item-size-skill: 28; }
-                &:has(input[name$="optionCustomUI"]:checked ~ .itemCustomUI input[name$="specialUI"]:checked) { --item-size-special: 100; --item-size-right-base: 0; }
+                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="optionWeaponUI"]:checked) { --item-size-weapon: 26; }
+                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="augmentUI"]:checked) { --item-size-augment: 26; }
+                &:has(input[name$="optionCustomUI"]:checked + .itemCustomUI input[name$="skillUI"]:checked) { --item-size-skill: 26; }
+                &:has(input[name$="optionCustomUI"]:checked ~ div           input[name$="specialUI"]:checked) { --item-size-special: 100; }
                 
                 /* Item right-side height */
                 --item-size-right-base: 82; /* Minimum description height (82px) */
-                --item-size-right: calc(var(--item-size-right-base) + var(--item-rolls, 0) * 31 + var(--item-res-slash, 0) + var(--item-res-pierce, 0) + var(--item-res-blunt, 0));
+                --item-size-right: calc(var(--item-size-right-base) + (var(--item-rolls, 0) * 31) - 1 + var(--item-res-slash, 0) + var(--item-res-pierce, 0) + var(--item-res-blunt, 0));
                 &:has(.itemHeader input[name$="optionRollDisplay1"]:checked) { --item-rolls: 1; }
                 &:has(.itemHeader input[name$="optionRollDisplay2"]:checked) { --item-rolls: 2; }
                 &:has(.itemHeader input[name$="optionRollDisplay3"]:checked) { --item-rolls: 3; }
@@ -2466,8 +2467,8 @@ button[type=action].challengeButton::before {
                 /* Item bottom-side height */
                 &:has(input[name$="bottomEffectDisplay"]:checked) { --item-size-right-base: 77; } /* -5px */
                 &:has(input[name$="bottomDescDisplay"]:checked) { --item-size-left-base: 77; }    /* -5px */
-                &:has(input[name$="leftEffectDisplay"]:checked) { --item-size-right-base: 0; --item-size-left-base: 82; }
-                &:has(input[name$="rightDescDisplay"]:checked) { --item-size-left-base: 0; --item-size-right-base: 82; }
+                &:has(input[name$="leftEffectDisplay"]:checked) { --item-size-right-base: 0; --item-size-left-base: 164; }
+                &:has(input[name$="rightDescDisplay"]:checked) { --item-size-left-base: 0; --item-size-right-base: 164; }
             }
         }
     }
@@ -2654,7 +2655,7 @@ button[type=action].challengeButton::before {
         width: 75%;
         margin-left: -3px;
         flex-grow: 1;
-        color: var(--content-text);
+        color: var(--content-text, contrast-color(rgb(from var(--content-color) calc(r - 68) calc(g - 68) calc(b - 68)))); /* Ensures the text remain legible for all custom colors */
     }
 
     &::after {
@@ -2890,7 +2891,7 @@ button[type=action].challengeButton::before {
 }
 
 /* Hide all item contents when the item is minimized */
-.itemContainer:has(.equipCheck:not(:checked)):not(:hover):not(:has(:not([type="checkbox"]):focus)) {
+.itemContainer:has(.equipCheck:not(:checked)):not(:hover):not(:has(:not([type=checkbox]):focus)) {
     opacity: 0.5;
     
     .itemContents {
@@ -2932,12 +2933,16 @@ button[type=action].challengeButton::before {
     overflow: clip;
     overflow-clip-margin: 36px;
 
-    .rollFormatBlocker input[type=checkbox] {
-        height: 31px;
-        opacity: 0;
+    .rollFormatBlocker {
+        margin-top: -1px;
 
-        &:checked {
-            display: none;
+        input[type=checkbox] {
+            height: 31px;
+            opacity: 0;
+    
+            &:checked {
+                display: none;
+            }
         }
     }
 }
@@ -3819,7 +3824,19 @@ button[type=action].challengeButton::before {
             height: 37px;
             margin-bottom: 0px;
         }
+
+        .ailRollSettings {
+            display: none;
+        }
+        
+        /* The ailment roll settings are only shown for ailments with at least one non-Speed roll trigger enabled */
+        /* :has(select[name$=EffectType] :is(option[value=Count]:checked, option[value=Max]:checked, option[value=Power]:checked, option[value=Adv]:checked)) */
+        &:has(input[type=checkbox][name*=OptionTriggerAttack]:checked, input[type=checkbox][name*=OptionTriggerBlock]:checked,
+        input[type=checkbox][name*=OptionTriggerEvade]:checked, input[type=checkbox][name*=OptionTriggerStat]:checked) .ailRollSettings {
+            display: flex !important;
+        }
     }
+
 
     .customAilText {
         min-width: 59px !important;
@@ -3830,12 +3847,38 @@ button[type=action].challengeButton::before {
 
 .ailTriggerContainer {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: auto auto auto;
+    grid-auto-rows: minmax(15px, auto);
+    align-items: center;
     justify-items: center;
     grid-gap: 4px;
     padding: 5px;
-}
 
+    input[type=checkbox][name^=attr_ailOption]:not(:checked) + .rowContainer { /* Hides the override values of disabled triggers */
+        display: none !important;
+    }
+
+    > .rowContainer {
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+    }
+    select {
+        width: 18px;
+        height: 20px;
+        padding: 0;
+        line-height: 0;
+        -moz-appearance: none; /* Disables the dropdown arrow */
+        -webkit-appearance: none;
+    }
+    input[type="text"] {
+        width: 30px;
+        height: 20px;
+    }
+    .fade-item {
+        --fade-opacity: 30%;
+    }
+}
 
 /* Import/export tab */
 .declare {
@@ -4963,7 +5006,6 @@ button[type=action].challengeButton::before {
     --content-color: var(--color-dark-gray);
     --content-accent: #191919;
     --content-background: var(--color-inventory);
-    --content-text: var(--color-white);
     --content-mystery: var(--color-white);
     --content-decoration: transparent;
 }
